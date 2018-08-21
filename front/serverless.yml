@@ -1,0 +1,125 @@
+service: "dailyidea-serverless" # Edit service name
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${env:STAGE}
+  region: ${env:AWS_REGION, 'us-east-1'} # Edit region name
+  domainName: ${env:DOMAIN_NAME, 'beta.tenantreport.net'}
+#  certificateName: '*.tenantreport.net' # TODO https://github.com/serverless/serverless/issues/4959
+#  allowedOrigin: '*.tenantreport.net'
+  bucketName: dailyidea-serverless-${env:STAGE}
+  environment:
+    NODE_ENV: production
+    GRAPHQL_URL: ${env:API_URL, 'http://localhost:8000/'}
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 'lambda:InvokeFunction'
+        - lambda:ListAliases
+        - lambda:ListFunctions
+      Resource: "*"
+
+package:
+  individually: true
+
+functions:
+  nuxtRenderer:
+    handler: handler.render
+    memorySize: ${env:LAMBDA_MEMORY, '128'}
+    timeout: 30
+    package:
+      exclude:
+        - src/**
+        - tests/**
+        - .nuxt/dist/*.js.map
+        - node_modules/.cache/**
+
+      include:
+        - src/modules/**
+        - src/static/**
+        - serverless.yml
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
+
+resources:
+  Resources:
+    AssetsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.bucketName} # Specify a new bucket name for client assets
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders:
+                - "*"
+              AllowedMethods:
+                - GET
+              AllowedOrigins:
+                - ${self:provider.allowedOrigin}
+    AssetsBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: AssetsBucket
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            -
+              Action:
+                - s3:GetObject
+              Effect: Allow
+              Resource:
+                Fn::Join:
+                  - ""
+                  -
+                    - "arn:aws:s3:::"
+                    -
+                      Ref: AssetsBucket
+                    - "/*"
+              Principal:
+                Service: "s3.amazonaws.com"
+
+plugins:
+  - serverless-offline
+  - serverless-s3-sync
+  - serverless-domain-manager
+
+custom:
+  serverless-offline:
+    port: 4001
+  myStage: ${self:provider.stage}
+  s3Sync:
+    - bucketName: ${self:provider.bucketName} # Retype the bucket name specified above
+      localDir: .nuxt/dist
+      acl: public-read
+      params: # optional
+        - "*.js":
+            CacheControl: 'public, max-age=31536000'
+        - "img/*.*":
+            CacheControl: 'public, max-age=31536000'
+        - "fonts/*.*":
+            CacheControl: 'public, max-age=31536000'
+        - "icons/*.*":
+            CacheControl: 'public, max-age=31536000'
+        - "*.css":
+            CacheControl: 'public, max-age=31536000'
+        - "*.map":
+            ACL: private
+        - "vue-ssr-client-manifest.json":
+            ACL: private
+        - "server-bundle.json":
+            ACL: private
+
+  customDomain:
+    domainName: ${self:provider.domainName} # Specify a new domain name to be created
+    stage: ${self:provider.stage}
+    certificateName: ${self:provider.certificateName} # Enter the Certificate name with that domain
+    createRoute53Record: false
+

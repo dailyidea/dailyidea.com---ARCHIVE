@@ -1,0 +1,73 @@
+service: 'dailyidea-mail-processing'
+
+custom:
+  serverless-offline:
+    port: 4000
+  webpackIncludeModules: true
+  dynamodb:
+    start:
+      port: 8001
+      inMemory: true
+      migrate: true
+
+functions:
+  createChatMessage:
+    handler: mailparser.handler
+
+plugins:
+  - serverless-webpack
+  - serverless-dynamodb-local
+  - serverless-offline
+
+provider:
+  name: 'aws'
+  runtime: 'nodejs8.10'
+  stage: 'dev'
+  region: 'us-east-1'
+  environment:
+    MESSAGES_TABLE: ${self:custom.tableName}
+    AWS_DEPLOY_REGION: ${self:provider.region}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - { "Fn::GetAtt": ["DialyIdeasDynamoDBTable", "Arn" ] }
+        - { "Fn::Join": [ "/", [
+            { "Fn::GetAtt": ["DialyIdeasDynamoDBTable", "Arn" ] }, "index", "userIndex"
+          ]]}
+
+resources:
+  Resources:
+    IdeasTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: ideaId
+            AttributeType: S
+          - AttributeName: content
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: ideaId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userIndex
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'ideas'
