@@ -1,7 +1,5 @@
 const pkg = require('./package')
 
-const nodeExternals = require('webpack-node-externals')
-
 module.exports = {
   mode: 'universal',
 
@@ -63,13 +61,8 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-      if (ctx.isServer) {
-        config.externals = [
-          nodeExternals({
-            whitelist: [/^vuetify/]
-          })
-        ]
-      }
-    }
+
+    },
+    transpile: [/^vuetify/]
   }
 }
