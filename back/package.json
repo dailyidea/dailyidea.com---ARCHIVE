@@ -9,14 +9,15 @@
   "license": "MIT",
   "devDependencies": {
     "jest": "23.5.0",
-    "serverless-offline": "3.25.8",
+    "serverless-offline": "3.25.11",
     "serverless-webpack": "5.2.0",
-    "webpack": "4.16.5",
-    "webpack-node-externals": "1.7.2"
+    "serverless-dynamodb-local": "0.2.33",
+    "webpack": "4.16.5"
   },
   "dependencies": {
-    "aws-sdk": "2.296.0",
-    "mailparser": "2.3.2",
+    "aws-sdk": "2.310.0",
+    "@aws/dynamodb-data-mapper": "0.7.3",
+    "mailparser": "2.3.4",
     "uuid": "3.3.2"
   }
 }
