@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "mailparser.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "x": "node --experimental-modules mailparser.mjs"
   },
   "author": "",
   "license": "MIT",
@@ -16,7 +17,9 @@
   },
   "dependencies": {
     "aws-sdk": "2.310.0",
+    "dynamoose": "0.8.7",
     "@aws/dynamodb-data-mapper": "0.7.3",
+    "@aws/dynamodb-data-mapper-annotations": "0.7.3",
     "mailparser": "2.3.4",
     "uuid": "3.3.2"
   }

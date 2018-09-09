@@ -15,7 +15,7 @@ functions:
     handler: mailparser.handler
 
 plugins:
-  - serverless-webpack
+  - serverless-babel-plugin
   - serverless-dynamodb-local
   - serverless-offline
 

@@ -15,7 +15,11 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
+      }
     ]
   },
 
@@ -27,22 +31,17 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [
-    'vuetify/src/stylus/main.styl'
-  ],
+  css: ['vuetify/src/stylus/main.styl'],
 
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [
-    '@/plugins/vuetify'
-  ],
+  plugins: ['@/plugins/vuetify'],
 
   /*
   ** Nuxt.js modules
   */
-  modules: [
-  ],
+  modules: [],
 
   /*
   ** Build configuration
@@ -61,7 +60,6 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-
     },
     transpile: [/^vuetify/]
   }

@@ -50,6 +50,8 @@ functions:
           cors: true
 
 resources:
+  - ${file(resources/cognito-user-pool.yml)}
+  - ${file(resources/cognito-identity-pool.yml)}
   Resources:
     AssetsBucket:
       Type: AWS::S3::Bucket
@@ -90,6 +92,7 @@ plugins:
   - serverless-offline
   - serverless-s3-sync
   - serverless-domain-manager
+  - serverless-prune-plugin
 
 custom:
   serverless-offline:
@@ -111,10 +114,6 @@ custom:
         - "*.css":
             CacheControl: 'public, max-age=31536000'
         - "*.map":
-            ACL: private
-        - "vue-ssr-client-manifest.json":
-            ACL: private
-        - "server-bundle.json":
             ACL: private
 
   customDomain:
