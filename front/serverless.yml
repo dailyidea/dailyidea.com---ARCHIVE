@@ -5,7 +5,7 @@ provider:
   runtime: nodejs8.10
   stage: ${env:STAGE}
   region: ${env:AWS_REGION, 'us-east-1'} # Edit region name
-  domainName: ${env:DOMAIN_NAME, 'beta.tenantreport.net'}
+#  domainName: ${env:DOMAIN_NAME, 'beta.tenantreport.net'}
 #  certificateName: '*.tenantreport.net' # TODO https://github.com/serverless/serverless/issues/4959
 #  allowedOrigin: '*.tenantreport.net'
   bucketName: dailyidea-serverless-${env:STAGE}
@@ -20,9 +20,6 @@ provider:
         - lambda:ListFunctions
       Resource: "*"
 
-package:
-  individually: true
-
 functions:
   nuxtRenderer:
     handler: handler.render
@@ -32,7 +29,7 @@ functions:
       exclude:
         - src/**
         - tests/**
-        - .nuxt/dist/*.js.map
+        - .nuxt/dist/client/*.js.map
         - node_modules/.cache/**
 
       include:
@@ -52,41 +49,7 @@ functions:
 resources:
   - ${file(resources/cognito-user-pool.yml)}
   - ${file(resources/cognito-identity-pool.yml)}
-  Resources:
-    AssetsBucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: ${self:provider.bucketName} # Specify a new bucket name for client assets
-        CorsConfiguration:
-          CorsRules:
-            - AllowedHeaders:
-                - "*"
-              AllowedMethods:
-                - GET
-              AllowedOrigins:
-                - ${self:provider.allowedOrigin}
-    AssetsBucketPolicy:
-      Type: AWS::S3::BucketPolicy
-      Properties:
-        Bucket:
-          Ref: AssetsBucket
-        PolicyDocument:
-          Version: "2012-10-17"
-          Statement:
-            -
-              Action:
-                - s3:GetObject
-              Effect: Allow
-              Resource:
-                Fn::Join:
-                  - ""
-                  -
-                    - "arn:aws:s3:::"
-                    -
-                      Ref: AssetsBucket
-                    - "/*"
-              Principal:
-                Service: "s3.amazonaws.com"
+  - ${file(resources/s3.yml)}
 
 plugins:
   - serverless-offline

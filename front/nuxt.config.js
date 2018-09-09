@@ -1,4 +1,6 @@
 const pkg = require('./package')
+const { VuetifyProgressiveModule } = require('vuetify-loader')
+const resolve = dir => require('path').join(__dirname, dir)
 
 module.exports = {
   mode: 'universal',
@@ -31,7 +33,7 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: ['vuetify/src/stylus/main.styl'],
+  css: ['~/assets/style/app.styl'],
 
   /*
   ** Plugins to load before mounting the App
@@ -50,6 +52,19 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
+    babel: {
+      plugins: [
+        [
+          'transform-imports',
+          {
+            vuetify: {
+              transform: 'vuetify/es5/components/${member}',
+              preventFullImport: true
+            }
+          }
+        ]
+      ]
+    },
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
@@ -60,6 +75,44 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
+
+      const urlLoader = config.module.rules.find(r => r.test.test('test.gif'))
+      urlLoader.oneOf = []
+      urlLoader.oneOf.push({
+        test: /\.(png|jpe?g|gif)$/,
+        resourceQuery: /vuetify-preload/,
+        use: [
+          'vuetify-loader/progressive-loader',
+          {
+            loader: 'url-loader',
+            options: { limit: 8000 }
+          }
+        ]
+      })
+      urlLoader.oneOf.push(urlLoader.use[0])
+      delete urlLoader.use
+
+      const stylLoader = config.module.rules.find(r => r.test.test('app.styl'))
+      stylLoader.oneOf.forEach(one => {
+        one.use &&
+          one.use.push({
+            loader: 'vuetify-loader',
+            options: {
+              theme: resolve('./assets/style/theme.styl')
+            }
+          })
+      })
+
+      const vueLoader = config.module.rules.find(r => r.loader === 'vue-loader')
+      vueLoader.options.compilerOptions = {}
+      vueLoader.options.compilerOptions['modules'] = [VuetifyProgressiveModule]
+      vueLoader.options.transformAssetUrls = Object.assign(
+        {},
+        vueLoader.options.transformAssetUrls,
+        {
+          'v-card-media': 'src'
+        }
+      )
     },
     transpile: [/^vuetify/]
   }

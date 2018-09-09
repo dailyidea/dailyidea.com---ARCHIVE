@@ -1,19 +1,13 @@
 // todo https://github.com/nuxt/nuxt.js/issues/3626
-const { Nuxt } = require('nuxt-edge/dist/nuxt-start')
+const { Nuxt } = require('nuxt-start-edge')
+
 const serverless = require('serverless-http')
-const express = require('express')
+
 const nuxtConfig = require('./nuxt.config')
-//const thundraWarmup = require('@thundra/warmup')
-//const optionalCallback = () => console.log('Warming up...')
-//const thundraWarmupWrapper = thundraWarmup(optionalCallback)
+const thundra = require('@thundra/core')({ apiKey: process.env.thundra_apiKey })
 
 const config = { dev: false, ...nuxtConfig }
 const nuxt = new Nuxt(config)
-
-const app = express()
-app.use(nuxt.render)
-
-const handler = serverless(app)
 
 function checkAndHandleWarmupRequest(event, callback) {
   // Check whether it is empty request which is used as default warmup request
@@ -67,11 +61,22 @@ function checkAndHandleWarmupRequest(event, callback) {
   }
 }
 
-exports.render = function(event, context, callback) {
+let handler = undefined
+
+exports.render = thundra(function(event, context, callback) {
   /** Immediate response for WarmUP plugin */
   if (checkAndHandleWarmupRequest(event, callback)) {
     console.log('WarmUP - Lambda is warm!')
     return callback(null, 'Lambda is warm!')
   }
-  return handler(event, context, callback)
-}
+  if (!handler) {
+    nuxt.ready().then(() => {
+      handler = serverless(nuxt.render, {
+        callbackWaitsForEmptyEventLoop: false
+      })
+      return handler(event, context, callback)
+    })
+  } else {
+    return handler(event, context, callback)
+  }
+})
