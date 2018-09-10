@@ -1,9 +1,9 @@
 Resources:
-  CognitoUserPool:
+  CognitoUserPoolDaily:
     Type: AWS::Cognito::UserPool
     Properties:
       # Generate a name based on the stage
-      UserPoolName: ${self:custom.stage}--dailyidea-user-pool
+      UserPoolName: ${self:provider.stage}DailyIdeaUserPool
       # Set email as an alias
       UsernameAttributes:
         - email
@@ -14,9 +14,9 @@ Resources:
     Type: AWS::Cognito::UserPoolClient
     Properties:
       # Generate an app client name based on the stage
-      ClientName: ${self:custom.stage}-user-pool-client
+      ClientName: ${self:provider.stage}DailyIdeaUserPoolClient
       UserPoolId:
-        Ref: CognitoUserPool
+        Ref: CognitoUserPoolDaily
       ExplicitAuthFlows:
         - ADMIN_NO_SRP_AUTH
       GenerateSecret: false
@@ -25,8 +25,11 @@ Resources:
 Outputs:
   UserPoolId:
     Value:
-      Ref: CognitoUserPool
-
+      Ref: CognitoUserPoolDaily
+    Export:
+      Name: "CognitoUserPool::Id"
   UserPoolClientId:
     Value:
       Ref: CognitoUserPoolClient
+    Export:
+      Name: "CognitoUserPoolClient::Id"

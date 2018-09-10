@@ -6,14 +6,17 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build",
+    "build": "nuxt build --analyze",
+    "xx": "npx sls --version",
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
-    "precommit": "npm run lint"
-  },
+    "precommit": "npm run lint",
+    "sls:deploy-dev": "env-cmd ./conf/dev.env npx nuxt build && env-cmd ./conf/dev.env npx sls deploy"
+ },
   "dependencies": {
     "vuetify": "1.2.3",
+    "@nuxtjs/dotenv": "1.1.1",
     "nuxt-start-edge": "latest",
     "@vuetify/vuex-cognito-module": "0.2.0",
     "vuetify-loader": "0.2.0"
@@ -35,6 +38,7 @@
     "eslint-plugin-standard": "4.0.0",
     "nuxt-edge": "latest",
     "serverless": "1.30.3",
+    "env-cmd": "8.0.2",
     "serverless-domain-manager": "2.6.0",
     "serverless-offline": "3.25.11",
     "serverless-prune-plugin": "1.3.1",

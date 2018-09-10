@@ -1,4 +1,5 @@
-const pkg = require('./package')
+require('dotenv').config()
+
 const { VuetifyProgressiveModule } = require('vuetify-loader')
 const resolve = dir => require('path').join(__dirname, dir)
 
@@ -9,11 +10,11 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: 'Daily Idea',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { hid: 'description', name: 'description', content: 'Daily Idea' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -38,12 +39,15 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: ['@/plugins/vuetify'],
+  plugins: [
+    '@/plugins/vuetify',
+    '@/plugins/vuex-cognito'
+  ],
 
   /*
   ** Nuxt.js modules
   */
-  modules: [],
+  modules: ['@nuxtjs/dotenv'],
 
   /*
   ** Build configuration

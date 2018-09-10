@@ -6,6 +6,10 @@ import {
   VNavigationDrawer,
   VFooter,
   VToolbar,
+  VBtn,
+  VGrid,
+  VForm,
+  VTextField,
   transitions
 } from 'vuetify'
 import { Ripple } from 'vuetify/es5/directives'
@@ -15,6 +19,10 @@ Vue.use(Vuetify, {
     VApp,
     VNavigationDrawer,
     VFooter,
+    VBtn,
+    VGrid,
+    VForm,
+    VTextField,
     VToolbar,
     transitions
   },
