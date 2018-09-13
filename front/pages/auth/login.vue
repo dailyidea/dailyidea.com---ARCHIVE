@@ -17,7 +17,6 @@
         </v-flex>
       </v-layout>
       <v-btn @click="login">Login</v-btn>
-
     </v-container>
   </v-form>
 </template>
@@ -28,6 +27,7 @@ export default {
     username: '',
     password: ''
   }),
+  mounted() {},
   methods: {
     async login() {
       await this.$store.dispatch('cognito/signInUser', {

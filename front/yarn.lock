@@ -2558,7 +2558,7 @@ cssnano@^3.10.0:
     postcss-value-parser "^3.2.3"
     postcss-zindex "^2.0.1"
 
-cssnano@^4.0.5:
+cssnano@^4.0.5, cssnano@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/cssnano/-/cssnano-4.1.0.tgz#682c37b84b9b7df616450a5a8dc9269b9bd10734"
   dependencies:
@@ -2834,6 +2834,10 @@ dot-prop@^4.1.0, dot-prop@^4.1.1:
 dotenv@^5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-5.0.1.tgz#a5317459bd3d79ab88cff6e44057a6a3fbb1fcef"
+
+dotprop@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/dotprop/-/dotprop-1.0.2.tgz#0559e898156f3dddb6be62794e5d6ef30eceb705"
 
 download@^5.0.2:
   version "5.0.3"
@@ -4683,6 +4687,13 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
+last-call-webpack-plugin@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/last-call-webpack-plugin/-/last-call-webpack-plugin-3.0.0.tgz#9742df0e10e3cf46e5c0381c2de90d3a7a2d7555"
+  dependencies:
+    lodash "^4.17.5"
+    webpack-sources "^1.1.0"
+
 latest-version@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/latest-version/-/latest-version-3.1.0.tgz#a205383fea322b33b5ae3b18abee0dc2f356ee15"
@@ -5197,16 +5208,16 @@ no-case@^2.2.0:
   dependencies:
     lower-case "^1.1.1"
 
+node-fetch@2.2.0, node-fetch@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.2.0.tgz#4ee79bde909262f9775f731e3656d0db55ced5b5"
+
 node-fetch@^1.0.1, node-fetch@^1.6.0:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
   dependencies:
     encoding "^0.1.11"
     is-stream "^1.0.1"
-
-node-fetch@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.2.0.tgz#4ee79bde909262f9775f731e3656d0db55ced5b5"
 
 node-libs-browser@^2.0.0:
   version "2.1.0"
@@ -5351,9 +5362,9 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
-nuxt-edge@latest:
-  version "2.0.0-25603961.baaf67d"
-  resolved "https://registry.yarnpkg.com/nuxt-edge/-/nuxt-edge-2.0.0-25603961.baaf67d.tgz#e30edd38782148f7113e192df75ad2c86afd204c"
+nuxt-edge@2.0.0-25609473.c77fa47:
+  version "2.0.0-25609473.c77fa47"
+  resolved "https://registry.yarnpkg.com/nuxt-edge/-/nuxt-edge-2.0.0-25609473.c77fa47.tgz#f1afd104a4190f0410dd55934b6fd725c6b63bcd"
   dependencies:
     "@babel/core" "^7.0.0"
     "@babel/polyfill" "^7.0.0"
@@ -5388,6 +5399,7 @@ nuxt-edge@latest:
     memory-fs "^0.4.1"
     mini-css-extract-plugin "^0.4.2"
     minimist "^1.2.0"
+    optimize-css-assets-webpack-plugin "^5.0.1"
     pify "^4.0.0"
     postcss "^6.0.22"
     postcss-import "^11.1.0"
@@ -5421,9 +5433,9 @@ nuxt-edge@latest:
     webpack-node-externals "^1.7.2"
     webpackbar "^2.6.3"
 
-nuxt-start-edge@latest:
-  version "2.0.0-25607354.1e02195"
-  resolved "https://registry.yarnpkg.com/nuxt-start-edge/-/nuxt-start-edge-2.0.0-25607354.1e02195.tgz#1d2c53e64ba4ef957719548d770b0bfa9756c038"
+nuxt-start-edge@2.0.0-25609473.c77fa47:
+  version "2.0.0-25609473.c77fa47"
+  resolved "https://registry.yarnpkg.com/nuxt-start-edge/-/nuxt-start-edge-2.0.0-25609473.c77fa47.tgz#0b9cfb9a9c66476396570e7ea7b56b94d8b5fda3"
   dependencies:
     "@nuxtjs/youch" "^4.2.3"
     chalk "^2.4.1"
@@ -5450,6 +5462,13 @@ nuxt-start-edge@latest:
     vue-router "^3.0.1"
     vue-server-renderer "^2.5.17"
     vuex "^3.0.1"
+
+nuxt-universal-storage@0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/nuxt-universal-storage/-/nuxt-universal-storage-0.1.4.tgz#fd0a6f852366d66659c8609e4bdde3d202f002e2"
+  dependencies:
+    cookie "^0.3.1"
+    dotprop "^1.0.2"
 
 object-assign@^4, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
@@ -5534,6 +5553,13 @@ opn@^5.3.0:
   resolved "https://registry.yarnpkg.com/opn/-/opn-5.3.0.tgz#64871565c863875f052cfdf53d3e3cb5adb53b1c"
   dependencies:
     is-wsl "^1.1.0"
+
+optimize-css-assets-webpack-plugin@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/optimize-css-assets-webpack-plugin/-/optimize-css-assets-webpack-plugin-5.0.1.tgz#9eb500711d35165b45e7fd60ba2df40cb3eb9159"
+  dependencies:
+    cssnano "^4.1.0"
+    last-call-webpack-plugin "^3.0.0"
 
 optionator@^0.8.2:
   version "0.8.2"

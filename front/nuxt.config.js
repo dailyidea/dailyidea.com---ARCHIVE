@@ -41,13 +41,13 @@ module.exports = {
   */
   plugins: [
     '@/plugins/vuetify',
-    '@/plugins/vuex-cognito'
+    '@/plugins/vuex-cognito',
   ],
 
   /*
   ** Nuxt.js modules
   */
-  modules: ['@nuxtjs/dotenv'],
+  modules: ['@nuxtjs/dotenv', 'nuxt-universal-storage'],
 
   /*
   ** Build configuration
@@ -107,12 +107,12 @@ module.exports = {
           })
       })
 
-      const vueLoader = config.module.rules.find(r => r.loader === 'vue-loader')
-      vueLoader.options.compilerOptions = {}
-      vueLoader.options.compilerOptions['modules'] = [VuetifyProgressiveModule]
-      vueLoader.options.transformAssetUrls = Object.assign(
+      const vueLoader = ctx.loaders.vue
+      vueLoader.compilerOptions = {}
+      vueLoader.compilerOptions['modules'] = [VuetifyProgressiveModule]
+      vueLoader.transformAssetUrls = Object.assign(
         {},
-        vueLoader.options.transformAssetUrls,
+        vueLoader.transformAssetUrls,
         {
           'v-card-media': 'src'
         }

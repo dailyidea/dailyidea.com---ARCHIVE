@@ -17,7 +17,9 @@
   "dependencies": {
     "vuetify": "1.2.3",
     "@nuxtjs/dotenv": "1.1.1",
-    "nuxt-start-edge": "latest",
+    "node-fetch": "2.2.0",
+    "nuxt-start-edge": "2.0.0-25609473.c77fa47",
+    "nuxt-universal-storage": "0.1.4",
     "@vuetify/vuex-cognito-module": "0.2.0",
     "vuetify-loader": "0.2.0"
   },
@@ -36,7 +38,7 @@
     "eslint-plugin-prettier": "2.6.2",
     "eslint-plugin-promise": "4.0.1",
     "eslint-plugin-standard": "4.0.0",
-    "nuxt-edge": "latest",
+    "nuxt-edge": "2.0.0-25609473.c77fa47",
     "serverless": "1.30.3",
     "env-cmd": "8.0.2",
     "serverless-domain-manager": "2.6.0",
