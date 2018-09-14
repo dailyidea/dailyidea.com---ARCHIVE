@@ -1,0 +1,15 @@
+{
+  "name": "serverless-dailyidea-backend",
+  "version": "1.0.0",
+  "main": "mailparser.js",
+  "scripts": {
+    "test": "jest",
+    "x": "node --experimental-modules mailparser.mjs"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless-offline": "3.25.12",
+    "serverless-dynamodb-local": "0.2.33"
+  }
+}

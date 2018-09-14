@@ -21,12 +21,6 @@ provider:
       Resource: "*"
 
 functions:
-  preSignUp:
-    handler: presignup.handler
-    events:
-      - cognitoUserPool:
-          pool: Daily
-          trigger: PreSignUp
   nuxtRenderer:
     handler: handler.render
     memorySize: ${env:LAMBDA_MEMORY, '128'}
@@ -53,8 +47,6 @@ functions:
           cors: true
 
 resources:
-  - ${file(resources/cognito-user-pool.yml)}
-  - ${file(resources/cognito-identity-pool.yml)}
   - ${file(resources/s3.yml)}
 
 plugins:
@@ -75,7 +67,7 @@ custom:
         - "*.js":
             CacheControl: 'public, max-age=31536000'
         - "img/*.*":
-            CacheControl: 'public, max-age=31536000'
+            CacheControl: ё
         - "fonts/*.*":
             CacheControl: 'public, max-age=31536000'
         - "icons/*.*":

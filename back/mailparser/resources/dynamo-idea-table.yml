@@ -1,0 +1,28 @@
+Resources:
+    IdeasTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: ideaId
+            AttributeType: S
+          - AttributeName: content
+            AttributeType: S
+          - AttributeName: title
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: ideaId
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'ideas'

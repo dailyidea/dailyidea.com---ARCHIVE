@@ -1,0 +1,32 @@
+ Resources:
+   UserTable:
+        Type: AWS::DynamoDB::Table
+        Properties:
+          AttributeDefinitions:
+            - AttributeName: userId
+              AttributeType: S
+#            - AttributeName: sortKey
+#              AttributeType: S
+            - AttributeName: email
+              AttributeType: S
+            - AttributeName: createdDate
+              AttributeType: S
+            - AttributeName: firstLogin
+              AttributeType: BOOL
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+          GlobalSecondaryIndexes:
+            - IndexName: emailIndex
+              KeySchema:
+                - AttributeName: email
+                  KeyType: HASH
+              Projection:
+                ProjectionType: ALL
+              ProvisionedThroughput:
+                ReadCapacityUnits: 1
+                WriteCapacityUnits: 1
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+          TableName: ${self:custom.usersTableName}
