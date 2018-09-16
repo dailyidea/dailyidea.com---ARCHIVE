@@ -5,10 +5,6 @@ Resources:
         AttributeDefinitions:
           - AttributeName: ideaId
             AttributeType: S
-          - AttributeName: content
-            AttributeType: S
-          - AttributeName: title
-            AttributeType: S
           - AttributeName: userId
             AttributeType: S
         KeySchema:
@@ -16,12 +12,6 @@ Resources:
             KeyType: HASH
           - AttributeName: ideaId
             KeyType: RANGE
-        GlobalSecondaryIndexes:
-            Projection:
-              ProjectionType: ALL
-            ProvisionedThroughput:
-              ReadCapacityUnits: 1
-              WriteCapacityUnits: 1
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1

@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "mailparser.js",
   "scripts": {
-    "test": "jest",
-    "x": "node --experimental-modules mailparser.mjs"
+    "sls": "sls"
   },
   "author": "",
   "license": "MIT",
@@ -13,6 +12,8 @@
   },
   "devDependencies": {
     "serverless-offline": "3.25.12",
+    "serverless": "1.31.0",
+    "serverless-localstack": "0.3.0",
     "serverless-dynamodb-local": "0.2.33"
   }
 }

@@ -3,25 +3,40 @@ service: 'dailyidea-mail-processing'
 custom:
   serverless-offline:
     port: 4000
-  dynamodb:
-    start:
-      port: 8001
-      inMemory: true
-      migrate: true
+#  dynamodb:
+#    start:
+#      port: 8001
+#      inMemory: true
+#      migrate: true
+  localstack:
+    host: http://localhost
+    debug: true
+    stages:
+      - local
+    endpoints:
+      S3: http://localhost:4572
+      DynamoDB: http://localhost:4570
+      CloudFormation: http://localhost:4581
+      Elasticsearch: http://localhost:4571
+      ES: http://localhost:4578
+      SNS: http://localhost:4575
+      SQS: http://localhost:4576
+      Lambda: http://localhost:4574
+      Kinesis: http://localhost:4568
 
 functions:
   parseIncomingMail:
     handler: mailparser.handler
 
 plugins:
-  - serverless-babel-plugin
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-localstack
 
 provider:
   name: 'aws'
   runtime: 'nodejs8.10'
-  stage: ${env:STAGE, 'dev'}
+  stage: ${env:STAGE, 'local'}
   region: ${env:AWS_REGION, 'us-east-1'}
   environment:
     AWS_DEPLOY_REGION: ${self:provider.region}
@@ -44,48 +59,5 @@ provider:
           ]]}
 
 resources:
-  - ${file(resources/dynamo-user-table.yml)}
-  Resources:
-    CustomUserOnboardingRole:
-      Type: AWS::IAM::Role
-      Properties:
-        RoleName: CustomUserOnboardingRole
-        AssumeRolePolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Principal:
-                Service:
-                  - lambda.amazonaws.com
-              Action: sts:AssumeRole
-        Policies:
-          - PolicyName: CustomCloudWatchLogsPolicy
-            PolicyDocument:
-              Version: '2012-10-17'
-              Statement:
-                - Effect: Allow
-                  Action:
-                    - logs:CreateLogGroup
-                    - logs:CreateLogStream
-                    - logs:PutLogEvents
-                  Resource:
-                    - 'Fn::Join':
-                        - ':'
-                        - - 'arn:aws:logs'
-                          - Ref: 'AWS::Region'
-                          - Ref: 'AWS::AccountId'
-                          - 'log-group:/aws/lambda/*:*:*'
-          - PolicyName: CustomUserOnboardingPolicy
-            PolicyDocument:
-              Version: '2012-10-17'
-              Statement:
-                - Effect: Allow
-                  Action:
-                    - dynamodb:PutItem
-                  Resource:
-                    - 'Fn::Join':
-                        - ':'
-                        - - 'arn:aws:dynamodb'
-                          - Ref: 'AWS::Region'
-                          - Ref: 'AWS::AccountId'
-                          - 'table/${self:custom.usersTableName}'
+  - ${file(resources/dynamo-idea-table.yml)}
+
