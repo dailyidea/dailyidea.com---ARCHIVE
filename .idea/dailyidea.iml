@@ -3,8 +3,8 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/back/users" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/back/mailparser" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/back/mailparser/venv" />
+      <sourceFolder url="file://$MODULE_DIR$/back/mail-processing" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/back/mail-processing/venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.6 (dailyidea)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

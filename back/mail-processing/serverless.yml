@@ -26,7 +26,7 @@ custom:
 
 functions:
   parseIncomingMail:
-    handler: mailparser.handler
+    handler: endpoint.endpoint
 
 plugins:
   - serverless-dynamodb-local
