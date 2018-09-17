@@ -9,7 +9,7 @@ custom:
 #      inMemory: true
 #      migrate: true
   domainName: ${env:DOMAIN_NAME, 'dailidea.net'}
-  mailBucket: ${env:BUCKET_NAME, 'dailidea-ses'}
+  mailBucket: ${env:SES_BUCKET_NAME, 'dailidea-ses'}
   localstack:
     host: http://localhost
     debug: true
@@ -42,6 +42,8 @@ provider:
   region: ${env:AWS_REGION, 'us-east-1'}
   environment:
     AWS_DEPLOY_REGION: ${self:provider.region}
+    SES_S3_BUCKET_NAME: ${self:custom.mailBucket}
+    SES_AWS_REGION: ${self:provider.region}
   iamRoleStatements:
     - Effect: Allow
       Action:

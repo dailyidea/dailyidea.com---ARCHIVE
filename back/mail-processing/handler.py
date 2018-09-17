@@ -1,26 +1,50 @@
+import os
 import uuid
 from datetime import datetime
 
+import boto3
 import mailparser
+
 from models import IdeaModel, UserModel
 
+AWS_REGION = os.environ['SES_AWS_REGION']
+SES_S3_BUCKET_NAME = os.environ['SES_S3_BUCKET_NAME']
 
-def endpoint(event, context):
-    mail = mailparser.parse_from_string(event.content)
-    from_email = mail.from_
+s3 = boto3.client('s3')
+ses = boto3.client('ses', region_name=AWS_REGION)
+
+
+def processIncomingMail(parsed_email):
+    from_email = parsed_email.from_
     found_users = UserModel.emailIndex.query(from_email[0][1])
     user = None
     for found_user in found_users:
         user = found_user
     if not user:
         # TOdo process email from user that dont registered
-        context.fail()
+        return
+
+    idea = IdeaModel(str(uuid.uuid4()), user.userId)
+    idea.content = parsed_email.body
+    idea.title = parsed_email.subject
+    idea.createdDate = datetime.now()
+    idea.save()
+
+
+def endpoint(event, context):
+    if 'ses' not in event['Records'][0]:
+        print('this was not an SES event.  event["Records"][0]["ses"] not found')
+        return
+    ses_notification = event['Records'][0]['ses']
+    mail_message_id = ses_notification['mail']['messageId']
+    print(f"Message Id received: {mail_message_id}")
+
     try:
-        idea = IdeaModel(str(uuid.uuid4()), user.userId)
-        idea.content = mail.body
-        idea.title = mail.subject
-        idea.createdDate = datetime.now()
-        idea.save()
-        context.succeed()
+        data = s3.get_object(Bucket=SES_S3_BUCKET_NAME, Key=mail_message_id)
+        raw_email = data['Body'].read()
+        parsed_email = mailparser.parse_from_string(raw_email.decode('utf-8'))
+        processIncomingMail(parsed_email)
     except Exception as e:
-        context.fail(e)
+        print(e)
+        raise e
+    context.succeed()
