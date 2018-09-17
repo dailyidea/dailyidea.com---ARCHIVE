@@ -8,6 +8,8 @@ custom:
 #      port: 8001
 #      inMemory: true
 #      migrate: true
+  domainName: ${env:DOMAIN_NAME, 'dailidea.net'}
+  mailBucket: ${env:BUCKET_NAME, 'dailidea-ses'}
   localstack:
     host: http://localhost
     debug: true
@@ -25,7 +27,7 @@ custom:
       Kinesis: http://localhost:4568
 
 functions:
-  parseIncomingMail:
+  processIncomingMail:
     handler: endpoint.endpoint
 
 plugins:
@@ -49,8 +51,10 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
+        - s3:GetObject
       Resource:
         - { "Fn::GetAtt": ["IdeasTable", "Arn" ] }
+        - { "Fn::GetAtt": ["SesEmailStorageS3Bucket", "Arn" ] }
         - { "Fn::Join": [ "/", [
             { "Fn::GetAtt": ["IdeasTable", "Arn" ] }, "index", "userIndex"
           ]]}

@@ -1,0 +1,69 @@
+Conditions:
+  CreateNewSesRuleset: !Equals [!Ref ExistingSesRulesetName, '']
+
+Resources:
+  DailyIdeaSesReceiverRuleSet:
+    Type: AWS::SES::ReceiptRuleSet
+    # Only create if ExistingSesRulesetName is empty
+    Condition: CreateNewSesRuleset
+    Properties:
+      RuleSetName: DailyIdeaSesReceiverRuleSet
+
+  DailyIdeaSesReceiverRule:
+    Type: AWS::SES::ReceiptRule
+    Properties:
+      # determine whether to use existing or newly created rule set.
+      # https://amzn.to/2NGKRVl
+      RuleSetName: !If [CreateNewSesRuleset, !Ref DailyIdeaSesReceiverRuleSet, !Ref ExistingSesRulesetName]
+      Rule:
+        Name: ReceiptRule
+        Recipients:
+          -  Ref: ${self:custom.domainName}
+        Actions:
+        - S3Action:
+            BucketName:
+              - Ref: SesEmailStorageS3Bucket
+        - LambdaAction:
+            FunctionArn:
+              Fn::GetAtt:
+                - ProcessIncomingMailLambdaFunction
+                - Arn
+
+  SesEmailStorageS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: ${self:custom.mailBucket}-${self.custom.stage}
+    DeletionPolicy: Retain
+    Description: S3 bucket to hold SES received emails
+  SampleBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: SesEmailStorageS3Bucket
+      PolicyDocument:
+        Statement:
+        - Action:
+          - "s3:PutObject"
+          Effect: "Allow"
+          Resource:
+            Fn::Join:
+              - ""
+              - - "arn:aws:s3:::"
+                - Ref: SesEmailStorageS3Bucket
+                - "/*"
+          Principal:
+            Service:
+              ses.amazonaws.com
+          Condition:
+            StringEquals:
+              aws:Referer:
+                - Ref: AWS::AccountId
+
+  # define what AWS resources can invoke the SesReceivedEmailProcessorLambda
+  LambdaResourcePolicy:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        - Ref: ProcessIncomingMailLambdaFunction
+      Principal: ses.amazonaws.com
+      Action: lambda:InvokeFunction
