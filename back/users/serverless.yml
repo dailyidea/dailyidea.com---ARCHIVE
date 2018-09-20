@@ -1,7 +1,13 @@
 service: syncService
 
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${env:STAGE, 'local'}
+  region: ${env:AWS_REGION, 'us-east-1'}
+
 custom:
-  usersTableName: users
+  usersTableName: dailydiea-users-${self:provider.stage}
   localstack:
     host: http://localhost
     debug: true
@@ -17,12 +23,6 @@ custom:
       SQS: http://localhost:4576
       Lambda: http://localhost:4574
       Kinesis: http://localhost:4568
-
-provider:
-  name: aws
-  runtime: nodejs8.10
-  stage: ${env:STAGE, 'local'}
-  region: ${env:AWS_REGION, 'us-east-1'}
 
 functions:
   preSignUp:

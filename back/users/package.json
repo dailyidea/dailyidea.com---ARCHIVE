@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "mailparser.js",
   "scripts": {
-    "sls": "sls"
+    "sls": "sls",
+    "sls:deploy-dev": "npx sls deploy --stage dev"
   },
   "author": "",
   "license": "MIT",
