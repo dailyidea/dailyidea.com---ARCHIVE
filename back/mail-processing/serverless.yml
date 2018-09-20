@@ -34,6 +34,7 @@ plugins:
   - serverless-dynamodb-local
   - serverless-offline
   - serverless-localstack
+  - serverless-prune-plugin
 
 provider:
   name: 'aws'

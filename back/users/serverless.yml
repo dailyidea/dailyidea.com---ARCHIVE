@@ -45,6 +45,7 @@ functions:
 plugins:
   - serverless-localstack
   - serverless-offline
+  - serverless-prune-plugin
 
 resources:
   - ${file(resources/dynamo-user-table.yml)}
