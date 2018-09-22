@@ -1,6 +1,6 @@
 export const actions = {
-  async nuxtServerInit() {
-    // await ctx.dispatch('cognito/fetchSession', { root: true })
+  async nuxtServerInit(ctx) {
+    await ctx.dispatch('cognito/fetchSession', { root: true })
   }
 }
 
