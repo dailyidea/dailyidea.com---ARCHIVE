@@ -36,5 +36,4 @@ export default ctx => {
     },
     'cognito'
   )
-  store.dispatch('cognito/fetchSession')
 }
