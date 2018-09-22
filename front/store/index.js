@@ -1,6 +1,10 @@
 export const actions = {
   async nuxtServerInit(ctx) {
-    await ctx.dispatch('cognito/fetchSession', { root: true })
+    try {
+      await ctx.dispatch('cognito/fetchSession', { root: true })
+    } catch (e) {
+      // no user logged in
+    }
   }
 }
 
