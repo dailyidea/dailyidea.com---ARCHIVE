@@ -1,6 +1,7 @@
 service: 'dailyidea-mail-processing'
 
 custom:
+  ideasTableName: dailydiea-ideas-${self:provider.stage}
   serverless-offline:
     port: 4000
 #  dynamodb:
@@ -8,8 +9,8 @@ custom:
 #      port: 8001
 #      inMemory: true
 #      migrate: true
-  domainName: ${env:DOMAIN_NAME, 'dailidea.net'}
-  mailBucket: ${env:SES_BUCKET_NAME, 'dailidea-ses'}
+  #domainName: ${env:DOMAIN_NAME, 'dailidea.net'}
+  mailBucket: dailidea-ses-${env:STAGE}
   localstack:
     host: http://localhost
     debug: true
