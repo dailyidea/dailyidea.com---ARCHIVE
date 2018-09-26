@@ -9,7 +9,7 @@ IDEAS_TABLE_NAME = os.environ['IDEAS_TABLE_NAME']
 
 class IdeaModel(Model):
     class Meta:
-        table_name = USERS_TABLE_NAME
+        table_name = IDEAS_TABLE_NAME
         # host = "http://localhost:4569"
 
     ideaId = UnicodeAttribute(hash_key=True)
@@ -18,8 +18,10 @@ class IdeaModel(Model):
     userId = UnicodeAttribute(range_key=True)
     createdDate = UTCDateTimeAttribute(null=True)
 
+
 class UserEmailIndex(GlobalSecondaryIndex):
     class Meta:
+        index_name = 'emailIndex'
         read_capacity_units = 2
         write_capacity_units = 1
         projection = AllProjection()
@@ -28,7 +30,7 @@ class UserEmailIndex(GlobalSecondaryIndex):
 
 class UserModel(Model):
     class Meta:
-        table_name = IDEAS_TABLE_NAME
+        table_name = USERS_TABLE_NAME
         # host = "http://localhost:4569"
 
     userId = UnicodeAttribute(hash_key=True)

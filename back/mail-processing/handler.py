@@ -47,4 +47,3 @@ def endpoint(event, context):
     except Exception as e:
         print(e)
         raise e
-    context.succeed()

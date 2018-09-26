@@ -6,8 +6,8 @@ package:
     - venv/**
 
 custom:
-  ideasTableName: dailydiea-ideas-${self:provider.stage}
-  usersTableName: dailydiea-users-${self:provider.stage}
+  ideasTableName: dailyidea-ideas-${self:provider.stage}
+  usersTableName: dailyidea-users-${self:provider.stage}
   serverless-offline:
     port: 4000
 #  dynamodb:
@@ -70,18 +70,18 @@ provider:
         - dynamodb:DescribeTable
       Resource:
         - { "Fn::GetAtt": ["IdeasTable", "Arn" ] }
-        - { "Fn::Join": [ "/", [
-            { "Fn::GetAtt": ["IdeasTable", "Arn" ] }, "index", "userIndex"
-          ]]}
-        - { "Fn::Join": [ "/", [
-            { "Fn::GetAtt": ["IdeasTable", "Arn" ] }, "index", "ideaIndex"
-          ]]}
         - 'Fn::Join':
             - ':'
             - - 'arn:aws:dynamodb'
               - Ref: 'AWS::Region'
               - Ref: 'AWS::AccountId'
               - 'table/${self:custom.usersTableName}'
+        - 'Fn::Join':
+            - ':'
+            - - 'arn:aws:dynamodb'
+              - Ref: 'AWS::Region'
+              - Ref: 'AWS::AccountId'
+              - 'table/${self:custom.usersTableName}/index/emailIndex'
     - Effect: Allow
       Action:
         - s3:GetObject

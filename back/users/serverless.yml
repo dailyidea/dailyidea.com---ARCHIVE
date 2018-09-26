@@ -7,7 +7,7 @@ provider:
   region: ${env:AWS_REGION, 'us-east-1'}
 
 custom:
-  usersTableName: dailydiea-users-${self:provider.stage}
+  usersTableName: dailyidea-users-${self:provider.stage}
   localstack:
     host: http://localhost
     debug: true
