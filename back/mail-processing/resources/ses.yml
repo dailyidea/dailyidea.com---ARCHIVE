@@ -1,11 +1,12 @@
-Conditions:
-  CreateNewSesRuleset: !Equals [!Ref ExistingSesRulesetName, '']
+#Conditions:
+#  CreateNewSesRuleset: !Equals [!Ref ExistingSesRulesetName, '']
+
 
 Resources:
   DailyIdeaSesReceiverRuleSet:
     Type: AWS::SES::ReceiptRuleSet
     # Only create if ExistingSesRulesetName is empty
-    Condition: CreateNewSesRuleset
+    #Condition: CreateNewSesRuleset
     Properties:
       RuleSetName: DailyIdeaSesReceiverRuleSet
 
@@ -14,15 +15,18 @@ Resources:
     Properties:
       # determine whether to use existing or newly created rule set.
       # https://amzn.to/2NGKRVl
-      RuleSetName: !If [CreateNewSesRuleset, !Ref DailyIdeaSesReceiverRuleSet, !Ref ExistingSesRulesetName]
+      # RuleSetName: !If [CreateNewSesRuleset, !Ref DailyIdeaSesReceiverRuleSet, !Ref ExistingSesRulesetName]
+      RuleSetName:
+        Ref: DailyIdeaSesReceiverRuleSet
       Rule:
         Name: ReceiptRule
         Recipients:
-          -  Ref: ${self:custom.domainName}
+          - ${self:custom.ideasMailBox}@${self:custom.domainName}
+        Enabled: true
         Actions:
         - S3Action:
             BucketName:
-              - Ref: SesEmailStorageS3Bucket
+              Ref: SesEmailStorageS3Bucket
         - LambdaAction:
             FunctionArn:
               Fn::GetAtt:
@@ -32,7 +36,7 @@ Resources:
   SesEmailStorageS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: ${self:custom.mailBucket}-${self.custom.stage}
+      BucketName: ${self:custom.mailBucket}
     DeletionPolicy: Retain
     Description: S3 bucket to hold SES received emails
   SampleBucketPolicy:
@@ -64,6 +68,8 @@ Resources:
     Type: AWS::Lambda::Permission
     Properties:
       FunctionName:
-        - Ref: ProcessIncomingMailLambdaFunction
+        Fn::GetAtt:
+          - ProcessIncomingMailLambdaFunction
+          - Arn
       Principal: ses.amazonaws.com
       Action: lambda:InvokeFunction

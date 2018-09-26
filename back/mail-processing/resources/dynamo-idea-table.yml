@@ -15,4 +15,4 @@ Resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: $(self:custom.ideasTableName}
+        TableName: ${self:custom.ideasTableName}

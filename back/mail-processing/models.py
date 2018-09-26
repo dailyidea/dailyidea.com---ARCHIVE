@@ -1,12 +1,16 @@
+import os
 from pynamodb.attributes import BooleanAttribute, UnicodeAttribute, UTCDateTimeAttribute
 from pynamodb.indexes import GlobalSecondaryIndex, AllProjection
 from pynamodb.models import Model
 
+USERS_TABLE_NAME = os.environ['USERS_TABLE_NAME']
+IDEAS_TABLE_NAME = os.environ['IDEAS_TABLE_NAME']
+
 
 class IdeaModel(Model):
     class Meta:
-        table_name = "ideas"
-        host = "http://localhost:4569"
+        table_name = USERS_TABLE_NAME
+        # host = "http://localhost:4569"
 
     ideaId = UnicodeAttribute(hash_key=True)
     content = UnicodeAttribute(null=True)
@@ -24,8 +28,8 @@ class UserEmailIndex(GlobalSecondaryIndex):
 
 class UserModel(Model):
     class Meta:
-        table_name = "users"
-        host = "http://localhost:4569"
+        table_name = IDEAS_TABLE_NAME
+        # host = "http://localhost:4569"
 
     userId = UnicodeAttribute(hash_key=True)
     email = UnicodeAttribute(null=True)

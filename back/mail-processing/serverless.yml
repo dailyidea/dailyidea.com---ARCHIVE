@@ -1,7 +1,13 @@
 service: 'dailyidea-mail-processing'
 
+package:
+  exclude:
+    - node_modules/**
+    - venv/**
+
 custom:
   ideasTableName: dailydiea-ideas-${self:provider.stage}
+  usersTableName: dailydiea-users-${self:provider.stage}
   serverless-offline:
     port: 4000
 #  dynamodb:
@@ -9,8 +15,9 @@ custom:
 #      port: 8001
 #      inMemory: true
 #      migrate: true
-  #domainName: ${env:DOMAIN_NAME, 'dailidea.net'}
-  mailBucket: dailidea-ses-${env:STAGE}
+  domainName: ${env:DOMAIN_NAME, 'dailyidea.com'}
+  mailBucket: dailyidea-ses-${env:STAGE}
+  ideasMailBox: ${env:IDEAS_MAILBOX, 'ideas-dev'}
   localstack:
     host: http://localhost
     debug: true
@@ -26,26 +33,31 @@ custom:
       SQS: http://localhost:4576
       Lambda: http://localhost:4574
       Kinesis: http://localhost:4568
+  pythonRequirements:
+    dockerizePip: non-linux
 
 functions:
   processIncomingMail:
-    handler: endpoint.endpoint
+    handler: handler.endpoint
 
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
   - serverless-localstack
   - serverless-prune-plugin
+  - serverless-python-requirements
 
 provider:
   name: 'aws'
-  runtime: 'nodejs8.10'
+  runtime: 'python3.6'
   stage: ${env:STAGE, 'local'}
   region: ${env:AWS_REGION, 'us-east-1'}
   environment:
     AWS_DEPLOY_REGION: ${self:provider.region}
     SES_S3_BUCKET_NAME: ${self:custom.mailBucket}
     SES_AWS_REGION: ${self:provider.region}
+    USERS_TABLE_NAME: ${self:custom.usersTableName}
+    IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -55,17 +67,33 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-        - s3:GetObject
+        - dynamodb:DescribeTable
       Resource:
         - { "Fn::GetAtt": ["IdeasTable", "Arn" ] }
-        - { "Fn::GetAtt": ["SesEmailStorageS3Bucket", "Arn" ] }
         - { "Fn::Join": [ "/", [
             { "Fn::GetAtt": ["IdeasTable", "Arn" ] }, "index", "userIndex"
           ]]}
         - { "Fn::Join": [ "/", [
             { "Fn::GetAtt": ["IdeasTable", "Arn" ] }, "index", "ideaIndex"
           ]]}
-
+        - 'Fn::Join':
+            - ':'
+            - - 'arn:aws:dynamodb'
+              - Ref: 'AWS::Region'
+              - Ref: 'AWS::AccountId'
+              - 'table/${self:custom.usersTableName}'
+    - Effect: Allow
+      Action:
+        - s3:GetObject
+      Resource:
+        Fn::Join:
+          - ""
+          -
+            - "arn:aws:s3:::"
+            -
+              Ref: SesEmailStorageS3Bucket
+            - "/*"
 resources:
   - ${file(resources/dynamo-idea-table.yml)}
+  - ${file(resources/ses.yml)}
 
