@@ -25,7 +25,8 @@ def processIncomingMail(parsed_email):
         return
 
     idea = IdeaModel(str(uuid.uuid4()), user.userId)
-    idea.content = parsed_email.body
+    idea.content = (parsed_email.text_plain and parsed_email.text_plain[0]) or \
+                   (parsed_email.text_html and parsed_email.text_html[0])
     idea.title = parsed_email.subject
     idea.createdDate = datetime.now()
     idea.save()
