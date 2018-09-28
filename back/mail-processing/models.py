@@ -35,6 +35,8 @@ class UserModel(Model):
 
     userId = UnicodeAttribute(hash_key=True)
     email = UnicodeAttribute(null=True)
+    ideasMailSchedule = UnicodeAttribute(null=True, default="1,2,3,4,5,6,7")
+    lastRequestedIdeaDate = UTCDateTimeAttribute(null=True)
     # sortKey = UnicodeAttribute(range_key=True)
     createdDate = UTCDateTimeAttribute(null=True)
     firstLogin = BooleanAttribute(null=True)
