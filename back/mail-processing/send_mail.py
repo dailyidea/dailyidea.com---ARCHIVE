@@ -1,16 +1,18 @@
 import os
 import boto3
 from botocore.exceptions import ClientError
-from datetime import datetime
+from datetime import date
 from models import IdeaModel, UserModel
 # Replace sender@example.com with your "From" address.
 # This address must be verified with Amazon SES.
-SENDER = "Sender Name <sender@example.com>"
 
 
-AWS_REGION = '1' or os.environ['SES_AWS_REGION']
+AWS_REGION = os.environ['SES_AWS_REGION']
+MAILBOX_ADDR = os.environ['MAILBOX_ADDR']
 
-SUBJECT = f"Daily Idea for {datetime.now().isoformat()}"
+SENDER = f"Daily Idea <{MAILBOX_ADDR}>"
+
+SUBJECT = f"Daily Idea for {date.today().isoformat()}"
 
 BODY_TEXT = ("Reply to this mail with your daily idea. TODO PROPER TEXT"
              )
@@ -66,7 +68,7 @@ def notify_user(recepient):
 
 
 def endpoint(event, context):
-    today = datetime.today().weekday()
+    today = date.today().weekday()
     for user in UserModel.scan():
         if str(today) in user.ideasMailSchedule:
             notify_user(user.email)

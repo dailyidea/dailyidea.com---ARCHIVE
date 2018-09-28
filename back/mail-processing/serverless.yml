@@ -40,7 +40,7 @@ functions:
   processIncomingMail:
     handler: handler.endpoint
   requestIdeasMail:
-    handler: handler.endpoint
+    handler: send_mail.endpoint
     events:
       - schedule:
           rate: cron(0 12 * * ? *)
@@ -61,6 +61,7 @@ provider:
   environment:
     AWS_DEPLOY_REGION: ${self:provider.region}
     SES_S3_BUCKET_NAME: ${self:custom.mailBucket}
+    MAILBOX_ADDR: ${self:custom.mailBucket}@${self:custom.domainName}
     SES_AWS_REGION: ${self:provider.region}
     USERS_TABLE_NAME: ${self:custom.usersTableName}
     IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
@@ -99,6 +100,10 @@ provider:
             -
               Ref: SesEmailStorageS3Bucket
             - "/*"
+    - Effect: Allow
+      Action:
+        - ses:SendEmail
+      Resource: "*"
 resources:
   - ${file(resources/dynamo-idea-table.yml)}
   - ${file(resources/ses.yml)}
