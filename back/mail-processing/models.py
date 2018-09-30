@@ -17,6 +17,7 @@ class IdeaModel(Model):
     title = UnicodeAttribute(null=True)
     userId = UnicodeAttribute(range_key=True)
     createdDate = UTCDateTimeAttribute(null=True)
+    ideaDate = UnicodeAttribute(null=True)
 
 
 class UserEmailIndex(GlobalSecondaryIndex):
