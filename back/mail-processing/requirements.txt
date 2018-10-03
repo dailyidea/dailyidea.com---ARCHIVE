@@ -1,3 +1,3 @@
-pynamodb
-mail-parser
-boto3
+pynamodb==3.3.1
+mail-parser==3.5.1
+boto3==1.9.16

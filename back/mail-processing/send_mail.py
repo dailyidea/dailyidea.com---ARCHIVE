@@ -1,78 +1,40 @@
 import os
-import boto3
-from botocore.exceptions import ClientError
 from datetime import date
-from models import IdeaModel, UserModel
-# Replace sender@example.com with your "From" address.
-# This address must be verified with Amazon SES.
 
+from mail_sender import send_mail_to_user
+from models import UserModel
 
 AWS_REGION = os.environ['SES_AWS_REGION']
 MAILBOX_ADDR = os.environ['MAILBOX_ADDR']
 
 SENDER = f"Daily Idea <{MAILBOX_ADDR}>"
 
-SUBJECT = f"Daily Idea for {date.today().isoformat()}"
+SUBJECT = f"[Daily Idea] Idea for {date.today().strftime('%a %b %d %Y')}"
 
-BODY_TEXT = ("Reply to this mail with your daily idea. TODO PROPER TEXT"
+BODY_TEXT = ("""
+What's your idea for today?
+Reminder: Don't be concerned with having amazing ideas every day! It can be silly, bad, half baked, or even a repeat. It's more important to do your best to submit something every day. Over time, forcing yourself to write down lots of ideas will turn you into an idea machine! You can always add on to your past ideas or edit them later.
+To submit your idea, just respond to this email. The first line of your response will be the title of your idea. The rest of it will be turned into a summary of your idea. (Here's an example).
+"""
              )
 
 BODY_HTML = """<html>
 <head></head>
 <body>
-  <p> Reply to this mail with your daily idea. TODO PROPER TEXT</p>
+  
+<strong>What's your idea for today?</strong>
+    <p>Reminder: Don't be concerned with having amazing ideas every day! It can be silly, bad, half baked, or even a repeat. It's more important to do your best to submit something every day. Over time, forcing yourself to write down lots of ideas will turn you into an idea machine! You can always add on to your past ideas or edit them later.</p>
+    <p>To submit your idea, just respond to this email. The first line of your response will be the title of your idea. The rest of it will be turned into a summary of your idea. (Here's an example).</p>
 </body>
 </html>
 """
-
-
-def notify_user(recepient):
-    # Create a new SES resource and specify a region.
-    client = boto3.client('ses', region_name=AWS_REGION)
-
-    # Try to send the email.
-    try:
-        # Provide the contents of the email.
-        response = client.send_email(
-            Destination={
-                'ToAddresses': [
-                    recepient,
-                ],
-            },
-            Message={
-                'Body': {
-                    'Html': {
-                        'Charset': 'UTF-8',
-                        'Data': BODY_HTML,
-                    },
-                    'Text': {
-                        'Charset': 'UTF-8',
-                        'Data': BODY_TEXT,
-                    },
-                },
-                'Subject': {
-                    'Charset': 'UTF-8',
-                    'Data': SUBJECT,
-                },
-            },
-            Source=SENDER,
-            # If you are not using a configuration set, comment or delete the
-            # following line
-        )
-    # Display an error if something goes wrong.
-    except ClientError as e:
-        print(e.response['Error']['Message'])
-    else:
-        print("Email sent! Message ID:"),
-        print(response['MessageId'])
 
 
 def endpoint(event, context):
     today = date.today().weekday()
     for user in UserModel.scan():
         if str(today) in user.ideasMailSchedule:
-            notify_user(user.email)
-            # print(user.email)
+            send_mail_to_user(user.email, SUBJECT, BODY_TEXT, BODY_TEXT)
 #
 # if __name__ == '__main__':
 #     endpoint('1','2')

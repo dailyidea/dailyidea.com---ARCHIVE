@@ -5,6 +5,7 @@ from datetime import datetime
 import boto3
 import mailparser
 
+from mail_sender import send_mail_to_user
 from models import IdeaModel, UserModel
 
 AWS_REGION = os.environ['SES_AWS_REGION']
@@ -46,6 +47,7 @@ def endpoint(event, context):
         raw_email = data['Body'].read()
         parsed_email = mailparser.parse_from_string(raw_email.decode('utf-8'))
         processIncomingMail(parsed_email)
+        send_mail_to_user(parsed_email.from_, parsed_email.subject, '', '')
     except Exception as e:
         print(e)
         raise e
