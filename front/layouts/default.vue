@@ -14,8 +14,8 @@
       </template>
     </v-toolbar>
     <v-content>
-      <v-container pa-0>
-        <v-layout justify-center align-center>
+      <v-container pa-0 justify-center align-center>
+        <v-layout>
           <v-flex>
             <nuxt />
           </v-flex>
