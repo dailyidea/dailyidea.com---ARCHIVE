@@ -3,17 +3,18 @@
     <v-container>
       <v-layout row>
         <v-flex>
-          <p class="dash-trailing">Login.</p>
+          <p class="dash-trailing">Get Started With A Free Account.</p>
         </v-flex>
       </v-layout>
       <v-layout row>
         <v-flex>
-          <v-text-field v-model="username" label="username" />
+          <p>To log in to your email account, enter the email address for your account below.</p>
+          <p>You'll get an email that contains a login link that will automatically log you in to the site.</p>
         </v-flex>
       </v-layout>
       <v-layout row>
         <v-flex>
-          <v-text-field v-model="password" label="password" />
+          <v-text-field v-model="email" label="Your Email Address" />
         </v-flex>
       </v-layout>
       <v-btn @click="login">Login</v-btn>
@@ -24,10 +25,8 @@
 <script>
 export default {
   data: () => ({
-    username: '',
-    password: ''
+    email: ''
   }),
-  mounted() {},
   methods: {
     async login() {
       await this.$store.dispatch('cognito/signInUser', {
