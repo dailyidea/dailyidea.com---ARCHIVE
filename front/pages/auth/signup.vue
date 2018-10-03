@@ -3,7 +3,7 @@
     <v-container>
       <v-layout row>
         <v-flex>
-          <p class="dash-trailing">Signup.</p>
+          <p class="dash-trailing">Get Started With A Free Account.</p>
         </v-flex>
       </v-layout>
       <v-layout row>

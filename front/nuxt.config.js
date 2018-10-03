@@ -1,6 +1,8 @@
 require('dotenv').config()
 
 const { VuetifyProgressiveModule } = require('vuetify-loader')
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+
 const resolve = dir => require('path').join(__dirname, dir)
 
 module.exports = {
@@ -56,19 +58,7 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
-    babel: {
-      plugins: [
-        [
-          'transform-imports',
-          {
-            vuetify: {
-              transform: 'vuetify/es5/components/${member}',
-              preventFullImport: true
-            }
-          }
-        ]
-      ]
-    },
+    plugins: [new VuetifyLoaderPlugin()],
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
@@ -95,17 +85,6 @@ module.exports = {
       })
       urlLoader.oneOf.push(urlLoader.use[0])
       delete urlLoader.use
-
-      const stylLoader = config.module.rules.find(r => r.test.test('app.styl'))
-      stylLoader.oneOf.forEach(one => {
-        one.use &&
-          one.use.push({
-            loader: 'vuetify-loader',
-            options: {
-              theme: resolve('./assets/style/theme.styl')
-            }
-          })
-      })
 
       const vueLoader = ctx.loaders.vue
       vueLoader.compilerOptions = {}

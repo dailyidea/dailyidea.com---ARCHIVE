@@ -1,14 +1,11 @@
 <template>
   <v-card>
+    <v-card-title>Daily Idea</v-card-title>
     <v-card-text>
-      <template v-if="!$store.getters['cognito/isLoggedIn']">
-        <nuxt-link :to="{name :'auth-login'}">Login</nuxt-link>
-        <br>
-        <nuxt-link :to="{name :'auth-signup'}">Signup</nuxt-link>
-      </template>
-      <template v-else>
-        <a @click="logout">Logout</a>
-      </template>
+      <p>Every day, log an idea.</p>
+      <p>A project idea, a startup idea, a work idea.</p>
+      <p>You'll get an email in your inbox reminding you to submit an idea. Just respond to it and we'll  save it for you.</p>
+      <v-btn>Sign Up</v-btn>
     </v-card-text>
   </v-card>
 </template>

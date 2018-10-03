@@ -24,7 +24,6 @@ export default ctx => {
     }
   }
 
-  // TODO https://github.com/vuetifyjs/vuex-cognito-module/pull/4
   attachCognitoModule(
     store,
     {

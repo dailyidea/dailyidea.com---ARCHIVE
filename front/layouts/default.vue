@@ -23,7 +23,7 @@
       </v-container>
     </v-content>
     <v-footer app>
-      <span>&copy; 2017</span>
+      <span>Dailyidea &copy; 2018</span>
     </v-footer>
   </v-app>
 </template>
