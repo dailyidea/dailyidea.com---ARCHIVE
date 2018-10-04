@@ -18,7 +18,7 @@
           <li>Just try to do 3 days in a row to see how you like it!</li>
         </ul>
         <p>You should be receiving your first daily idea reminder email now. Try responding to it to see how it works.</p>
-        <p>Here's a quick guide on how to respond to emails: <a href="TODO">Guide for how to respond to emails</a></p>
+        <p>Here's a quick guide on how to respond to emails: <nuxt-link :to="{name:'email-guide'}">Guide for how to respond to emails</nuxt-link></p>
       </v-flex>
     </v-layout>
   </v-container>
