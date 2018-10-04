@@ -8,10 +8,10 @@
       small
     >
       <v-layout justify-space-between>
+        <v-flex xs5>{{ idea.date | dayjs('format', 'YYYY-MM-DD') }}</v-flex>
         <v-flex xs7>
-          {{ idea.title }}
+          <nuxt-link :to="{ name:'ideas-uid-ideadId', params: {uid:$route.params.uid, ideadId: idea.id} }">{{ idea.title }}</nuxt-link>
         </v-flex>
-        <v-flex xs5 text-xs-right>{{ idea.date | dayjs('format', 'YYYY-MM-DD') }}</v-flex>
       </v-layout>
     </v-timeline-item>
   </v-timeline>
