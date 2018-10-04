@@ -44,6 +44,7 @@ module.exports = {
   plugins: [
     '@/plugins/vuetify',
     '@/plugins/vuex-cognito',
+    '@/plugins/dayjs'
   ],
 
   /*
