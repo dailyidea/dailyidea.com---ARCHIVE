@@ -3049,7 +3049,7 @@ date-now@^0.1.4:
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
   integrity sha1-6vQ5/U1ISK105cx9vvIAZyueNFs=
 
-dayjs@^1.5.24:
+dayjs@^1.7.7:
   version "1.7.7"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.7.7.tgz#8df20f78ac2476e3f5348ef49f8f22ebc3016370"
   integrity sha512-Qlkiu0NNDpYwhk0syK4ImvAl/5YnsEMkvC2O123INviGeOA3Q8s5VyVkZzmN5SC7Wv9bb1+rfwO+uSqtHB4UWw==
@@ -6006,6 +6006,11 @@ nan@^2.9.2:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.11.0.tgz#574e360e4d954ab16966ec102c0c049fd961a099"
   integrity sha512-F4miItu2rGnV2ySkXOQoA8FKz/SR2Q2sWP0sbTxNxz/tuokeC8WxOhPMcwi0qIyGtVn/rrSeLbvVkznqCdwYnw==
+
+nanoid@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-1.2.6.tgz#5b9427cabf41f5df1fc371b14c969ffcd3b095aa"
+  integrity sha512-um9vXiM407BaRbBNa0aKPzFBSD2fDbVmmA9TzCWWlxZvEBzTbixM7ss6GDS4G/cNMYeZSNFx5SzAgWoG1uHU9g==
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -9527,13 +9532,6 @@ vm-browserify@0.0.4:
   integrity sha1-XX6kW7755Kb/ZflUOOCofDV9WnM=
   dependencies:
     indexof "0.0.1"
-
-vue-dayjs@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/vue-dayjs/-/vue-dayjs-1.0.2.tgz#0fb3fc072d0ec8edf0f2bc0ba51a0b3a03a8dc45"
-  integrity sha512-rYvbpjZ6ZZ2MyQPpyltQmPBqd4+2RRfcFZb5/Fa6VsmBCmeSXTl6RHrHSOY72y5NJOrrxTpBg6VnP556gNSU7w==
-  dependencies:
-    dayjs "^1.5.24"
 
 vue-eslint-parser@^3.2.1:
   version "3.2.2"

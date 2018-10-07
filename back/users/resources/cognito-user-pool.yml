@@ -9,6 +9,19 @@ Resources:
         - email
       AutoVerifiedAttributes:
         - email
+      EmailVerificationMessage: "<strong>Hi! Welcome to Daily Idea.</strong><br/>
+                                 To complete your signup, just click this button to confirm your email address:<br/>
+                                 Alternatively visit this url in a browser: {####}<br/>
+                                 We're excited to be with you on your journey as you start logging your ideas every day!<br/>
+                                 --Daily Idea"
+      EmailVerificationSubject: "[Daily Idea] Please confirm your email address :)"
+      Policies:
+          PasswordPolicy:
+            MinimumLength: 8
+            RequireLowercase: false
+            RequireNumbers: false
+            RequireSymbols: false
+            RequireUppercase: false
 
   CognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient

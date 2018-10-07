@@ -25,12 +25,12 @@ custom:
       Kinesis: http://localhost:4568
 
 functions:
-  preSignUp:
-    handler: presignup.handler
-    events:
-      - cognitoUserPool:
-          pool: Daily
-          trigger: PreSignUp
+#  preSignUp:
+#    handler: presignup.handler
+#    events:
+#      - cognitoUserPool:
+#          pool: Daily
+#          trigger: PreSignUp
   userToDynamoDB:
     handler: cognitoToDDB.handler
     role: CustomUserOnboardingRole
