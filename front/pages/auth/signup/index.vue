@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import nanoid from 'nanoid'
 export default {
   data: () => ({
     email: ''
@@ -30,8 +31,8 @@ export default {
   methods: {
     async signup() {
       await this.$store.dispatch('cognito/registerUser', {
-        username: this.username,
-        password: this.password
+        username: this.email,
+        password: nanoid()
       })
     }
   }
