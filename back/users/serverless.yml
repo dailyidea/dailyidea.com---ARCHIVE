@@ -5,6 +5,7 @@ provider:
   runtime: nodejs8.10
   stage: ${env:STAGE, 'local'}
   region: ${env:AWS_REGION, 'us-east-1'}
+  domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
 
 custom:
   usersTableName: dailyidea-users-${self:provider.stage}
@@ -25,12 +26,14 @@ custom:
       Kinesis: http://localhost:4568
 
 functions:
-#  preSignUp:
-#    handler: presignup.handler
-#    events:
-#      - cognitoUserPool:
-#          pool: Daily
-#          trigger: PreSignUp
+  customMessage:
+    handler: customMessage.handler
+    events:
+      - cognitoUserPool:
+          pool: Daily
+          trigger: CustomMessage
+    environment:
+      DOMAIN_NAME: ${self:provider.domainName}
   userToDynamoDB:
     handler: cognitoToDDB.handler
     role: CustomUserOnboardingRole

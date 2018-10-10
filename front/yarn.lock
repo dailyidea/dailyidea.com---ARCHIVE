@@ -1825,6 +1825,11 @@ bluebird@^3.1.1, bluebird@^3.4.7, bluebird@^3.5.0, bluebird@^3.5.1:
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.2.tgz#1be0908e054a751754549c270489c1505d4ab15a"
   integrity sha512-dhHTWMI7kMx5whMQntl7Vr9C6BvV10lFXDAasnqnrMYhXVCzzk6IO9Fo2L75jXHT07WrOngL1WDXOp+yYS91Yg==
 
+blueimp-gallery@^2.33.0:
+  version "2.33.0"
+  resolved "https://registry.yarnpkg.com/blueimp-gallery/-/blueimp-gallery-2.33.0.tgz#f897912a1bbf65be904454d5990be6155799dd45"
+  integrity sha512-gz++nODmcJkENLXizdazy4z4EqoJCXyOisrH6M/fR3JE507yO+tPgoEsRCBggGwMAmQsu6kWACfldlq7RIa+Lg==
+
 bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   version "4.11.8"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
@@ -9544,6 +9549,13 @@ vue-eslint-parser@^3.2.1:
     espree "^4.0.0"
     esquery "^1.0.1"
     lodash "^4.17.10"
+
+vue-gallery@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/vue-gallery/-/vue-gallery-1.4.2.tgz#c3037c734e3e0d18455e57829ccd3fd18e82dc31"
+  integrity sha512-90821Dv/Iip7MdMAqIR2nxD5dMG/lMdLwssBfTY+3c8WyRNFnrXxQhp7UnJuFZZDPbtGccQPTZza6lZjvwa4/Q==
+  dependencies:
+    blueimp-gallery "^2.33.0"
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.0"

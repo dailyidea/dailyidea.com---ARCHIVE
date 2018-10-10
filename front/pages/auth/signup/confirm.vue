@@ -3,19 +3,21 @@
     <v-layout row>
       <v-flex>
         <p class="title">Daily Idea</p>
-        <p class="title">Invalid Confirmation Link!</p>
       </v-flex>
     </v-layout>
     <v-layout row>
       <v-flex>
-        <p>This confirmation link is not valid</p>
+        <p>{{ error }}</p>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 <script>
 export default {
-  async fetch({ store, route, redirect }) {
+  data: () => ({
+    error: 'This confirmation link is not valid'
+  }),
+  async asyncData({ store, route, redirect }) {
     const code = route.query.code
     const username = route.query.username
     try {
@@ -25,7 +27,9 @@ export default {
       })
       redirect({ name: 'auth-signup-confirmation' })
     } catch (e) {
-      // pass
+      return {
+        error: e.message
+      }
     }
   }
 }
