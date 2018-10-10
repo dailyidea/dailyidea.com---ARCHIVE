@@ -8,8 +8,7 @@
       </v-layout>
       <v-layout row>
         <v-flex>
-          <p>To sign up, just enter your email address.</p>
-          <p>We'll send you an email to confirm that the email address is yours. After that, you'll get a daily email reminder to submit your daily idea.</p>
+          <p>Resend Confirmation Email TODO TEXT.</p>
         </v-flex>
       </v-layout>
       <v-layout row>
@@ -17,8 +16,7 @@
           <v-text-field v-model="email" label="Your Email Address" />
         </v-flex>
       </v-layout>
-      <v-btn @click="signup">Signup</v-btn>
-      <nuxt-link :to="{name: 'auth-signup-resend'}">Resend Confirmation Email</nuxt-link>
+      <v-btn @click="signup">Resend Confirmation Email</v-btn>
     </v-container>
   </v-form>
 </template>
@@ -31,9 +29,8 @@ export default {
   }),
   methods: {
     async signup() {
-      await this.$store.dispatch('cognito/registerUser', {
-        username: this.email,
-        password: nanoid()
+      await this.$store.dispatch('cognito/resendConfirmation', {
+        username: this.email
       })
     }
   }

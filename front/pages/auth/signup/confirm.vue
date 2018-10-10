@@ -8,6 +8,7 @@
     <v-layout row>
       <v-flex>
         <p>{{ error }}</p>
+        <nuxt-link :to="{name: 'auth-signup-resend'}">Resend Confirmation Email</nuxt-link>
       </v-flex>
     </v-layout>
   </v-container>
