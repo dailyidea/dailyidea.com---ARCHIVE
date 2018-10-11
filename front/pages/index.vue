@@ -16,6 +16,9 @@
 
 <script>
 export default {
+  fetch() {
+    console.log('fuck')
+  },
   methods: {
     logout() {
       this.$store.dispatch('cognito/signOut')

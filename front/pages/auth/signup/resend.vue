@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import nanoid from 'nanoid'
 export default {
   data: () => ({
     email: ''

@@ -6,9 +6,15 @@ provider:
   stage: ${env:STAGE, 'local'}
   region: ${env:AWS_REGION, 'us-east-1'}
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ses:SendEmail
+      Resource: "*"
 
 custom:
   usersTableName: dailyidea-users-${self:provider.stage}
+  ideasMailBox: ${env:IDEAS_MAILBOX, 'ideas-dev'}
   localstack:
     host: http://localhost
     debug: true
@@ -26,8 +32,37 @@ custom:
       Kinesis: http://localhost:4568
 
 functions:
+  defineAuthChallenge:
+    handler: src/defineAuthChallenge.handler
+    events:
+      - cognitoUserPool:
+          pool: Daily
+          trigger: DefineAuthChallenge
+    environment:
+      SES_REGION: ${self:provider.region}
+  createAuthChallenge:
+    handler: src/createAuthChallenge.handler
+    events:
+      - cognitoUserPool:
+          pool: Daily
+          trigger: CreateAuthChallenge
+    environment:
+      DOMAIN_NAME: ${self:provider.domainName}
+      SES_REGION: ${self:provider.region}
+      SOURCE_EMAIL: ${self:custom.ideasMailBox}@${self:provider.domainName}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - ses:SendEmail
+        Resource: "*"
+  verifyAuthChallenge:
+    handler: src/verifyAuthChallenge.handler
+    events:
+      - cognitoUserPool:
+          pool: Daily
+          trigger: VerifyAuthChallengeResponse
   customMessage:
-    handler: customMessage.handler
+    handler: src/customMessage.handler
     events:
       - cognitoUserPool:
           pool: Daily
@@ -35,7 +70,7 @@ functions:
     environment:
       DOMAIN_NAME: ${self:provider.domainName}
   userToDynamoDB:
-    handler: cognitoToDDB.handler
+    handler: src/cognitoToDDB.handler
     role: CustomUserOnboardingRole
     events:
       - cognitoUserPool:

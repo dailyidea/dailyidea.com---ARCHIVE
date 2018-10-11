@@ -30,8 +30,7 @@ export default {
   methods: {
     async login() {
       await this.$store.dispatch('cognito/signInUser', {
-        username: this.username,
-        password: this.password
+        username: this.email
       })
     }
   }
