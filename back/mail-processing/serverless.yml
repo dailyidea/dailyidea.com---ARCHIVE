@@ -61,7 +61,7 @@ provider:
   environment:
     AWS_DEPLOY_REGION: ${self:provider.region}
     SES_S3_BUCKET_NAME: ${self:custom.mailBucket}
-    MAILBOX_ADDR: ${self:custom.mailBucket}@${self:custom.domainName}
+    MAILBOX_ADDR: ${self:custom.ideasMailBox}@${self:custom.domainName}
     DOMAIN_NAME: ${self:custom.domainName}
     SES_AWS_REGION: ${self:provider.region}
     USERS_TABLE_NAME: ${self:custom.usersTableName}
