@@ -3,15 +3,11 @@ import os
 import boto3
 from botocore.exceptions import ClientError
 
-
-# Replace sender@example.com with your "From" address.
-# This address must be verified with Amazon SES.
-
-
 AWS_REGION = os.environ['SES_AWS_REGION']
 MAILBOX_ADDR = os.environ['MAILBOX_ADDR']
 
 SENDER = f"Daily Idea <{MAILBOX_ADDR}>"
+
 
 def send_mail_to_user(recepient, subject, body_text, body_html ):
     client = boto3.client('ses', region_name=AWS_REGION)

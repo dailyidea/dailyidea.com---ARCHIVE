@@ -30,7 +30,8 @@ def processIncomingMail(parsed_email):
                    (parsed_email.text_html and parsed_email.text_html[0])
     idea.title = parsed_email.subject
     idea.createdDate = datetime.now()
-    # idea.ideaDate = datetime.now()  TODO parse idea date from somehwere
+    idea_date_str = parsed_email.subject.split('[Daily Idea] Idea for ', 1)[1]
+    idea.ideaDate = datetime.strptime(idea_date_str, '%a %b %d %Y')
     idea.save()
 
 
