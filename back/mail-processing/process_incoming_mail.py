@@ -10,6 +10,7 @@ from utils.models import IdeaModel, UserModel
 
 AWS_REGION = os.environ['SES_AWS_REGION']
 SES_S3_BUCKET_NAME = os.environ['SES_S3_BUCKET_NAME']
+MAILBOX_ADDR = os.environ['MAILBOX_ADDR']
 
 s3 = boto3.client('s3')
 ses = boto3.client('ses', region_name=AWS_REGION)
@@ -42,7 +43,12 @@ def processIncomingMail(parsed_email):
     idea = IdeaModel(str(uuid.uuid4()), user.userId)
     content_parsed =  (parsed_email.text_plain and parsed_email.text_plain[0]) or \
                    (parsed_email.text_html and parsed_email.text_html[0])
-    idea.content = "\n".join(content_parsed.splitlines()[1:])
+    content_lines = []
+    for line in content_parsed.splitlines()[1:]:
+        if MAILBOX_ADDR in line:
+            break
+        content_lines.append(line)
+    idea.content = "\n".join(content_lines)
     idea.title = content_parsed.splitlines()[0]
     idea.createdDate = datetime.now()
     idea_date_str = parsed_email.subject.split('[Daily Idea] Idea for ', 1)[1]
