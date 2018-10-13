@@ -5,8 +5,8 @@ from datetime import datetime
 import boto3
 import mailparser
 
-from mail_sender import send_mail_to_user
-from models import IdeaModel, UserModel
+from utils.mail_sender import send_mail_to_user
+from utils.models import IdeaModel, UserModel
 
 AWS_REGION = os.environ['SES_AWS_REGION']
 SES_S3_BUCKET_NAME = os.environ['SES_S3_BUCKET_NAME']
@@ -14,12 +14,19 @@ SES_S3_BUCKET_NAME = os.environ['SES_S3_BUCKET_NAME']
 s3 = boto3.client('s3')
 ses = boto3.client('ses', region_name=AWS_REGION)
 
-def get_confirm_mail_text(ideadId):
-    return (f"""
+def get_confirm_mail_text(idea):
+    return f"""
 Great work! Just letting you know we got your idea!
-Here's a link for you to view it online: https://{os.environ['DOMAIN_NAME']}/ideas/{ideadId}
+Here's a link for you to view it online: https://{os.environ['DOMAIN_NAME']}/ideas/{idea.ideaId}
 You can always add on to it or edit it later by logging in.
-""")
+---------------------
+Title: {idea.title}
+Detail:
+{idea.content}
+---------------------
+View all your previous ideas [here](login link).
+
+"""
 
 
 def processIncomingMail(parsed_email):
@@ -35,7 +42,7 @@ def processIncomingMail(parsed_email):
     idea = IdeaModel(str(uuid.uuid4()), user.userId)
     content_parsed =  (parsed_email.text_plain and parsed_email.text_plain[0]) or \
                    (parsed_email.text_html and parsed_email.text_html[0])
-    idea.content = content_parsed.splitlines()[1:]
+    idea.content = "\n".join(content_parsed.splitlines()[1:])
     idea.title = content_parsed.splitlines()[0]
     idea.createdDate = datetime.now()
     idea_date_str = parsed_email.subject.split('[Daily Idea] Idea for ', 1)[1]
@@ -57,7 +64,7 @@ def endpoint(event, context):
         raw_email = data['Body'].read()
         parsed_email = mailparser.parse_from_string(raw_email.decode('utf-8'))
         idea = processIncomingMail(parsed_email)
-        send_mail_to_user(parsed_email.from_, f"Re: {parsed_email.subject}", get_confirm_mail_text(idea.ideaId), None)
+        send_mail_to_user(parsed_email.from_[0][1], f"Re: {parsed_email.subject}", get_confirm_mail_text(idea), None)
     except Exception as e:
         print(e)
         raise e

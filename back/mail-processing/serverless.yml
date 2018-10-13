@@ -38,9 +38,9 @@ custom:
 
 functions:
   processIncomingMail:
-    handler: handler.endpoint
+    handler: process_incoming_mail.endpoint
   requestIdeasMail:
-    handler: send_mail.endpoint
+    handler: request_daily_idea.endpoint
     events:
       - schedule:
           rate: cron(0 12 * * ? *)
