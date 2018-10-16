@@ -50,6 +50,6 @@ def endpoint(event, context):
             ideas_total = IdeaModel.scan(IdeaModel.userId == user.userId)
             send_mail_to_user(user.email, SUBJECT,
                               getBodyText(user, ideas_last_week, len(list(ideas_total))), '')
-
-if __name__ == "__main__":
-    endpoint(1, 1)
+#
+# if __name__ == "__main__":
+#     endpoint(1, 1)
