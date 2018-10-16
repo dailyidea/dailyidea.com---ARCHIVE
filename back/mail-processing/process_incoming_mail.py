@@ -11,6 +11,7 @@ from utils.models import IdeaModel, UserModel
 AWS_REGION = os.environ['SES_AWS_REGION']
 SES_S3_BUCKET_NAME = os.environ['SES_S3_BUCKET_NAME']
 MAILBOX_ADDR = os.environ['MAILBOX_ADDR']
+BASE_SITE_URL = f"https://{os.environ['DOMAIN_NAME']}/"
 
 s3 = boto3.client('s3')
 ses = boto3.client('ses', region_name=AWS_REGION)
@@ -18,7 +19,7 @@ ses = boto3.client('ses', region_name=AWS_REGION)
 def get_confirm_mail_text(idea):
     return f"""
 Great work! Just letting you know we got your idea!
-Here's a link for you to view it online: https://{os.environ['DOMAIN_NAME']}/ideas/{idea.ideaId}
+Here's a link for you to view it online: {BASE_SITE_URL}ideas/{idea.ideaId}
 You can always add on to it or edit it later by logging in.
 ---------------------
 Title: {idea.title}
