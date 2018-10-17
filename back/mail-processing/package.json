@@ -4,11 +4,12 @@
   "main": "mailparser.js",
   "scripts": {
     "test": "jest",
-    "sls:deploy-dev": "npx sls deploy --stage dev"
+    "sls:deploy-dev": "cross-env STAGE=dev npx sls deploy"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "cross-env": "5.2.0",
     "serverless-offline": "3.25.12",
     "serverless": "1.32.0",
     "serverless-localstack": "0.3.0",
