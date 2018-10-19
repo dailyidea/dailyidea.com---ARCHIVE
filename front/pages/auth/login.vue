@@ -29,9 +29,11 @@ export default {
   }),
   methods: {
     async login() {
-      await this.$store.dispatch('cognito/signInUser', {
+      const user = await this.$store.dispatch('cognito/signInUser', {
         username: this.email
       })
+      this.$storage.setUniversal('username', user.username)
+      this.$storage.setUniversal('amplifySession', user.Session)
     }
   }
 }
