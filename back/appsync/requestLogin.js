@@ -1,7 +1,10 @@
 const AWS = require('aws-sdk')
+const jwt = require('jsonwebtoken')
 
-const generateToken = function () {
-  return Math.random().toString(36).substring(7)
+const generateToken = function (email) {
+  return jwt.sign({
+    email: email
+  }, process.env.SECRET_TOKEN, { expiresIn: '1h' })
 }
 
 const sendEmail = function (email, token, event, context) {
@@ -43,14 +46,7 @@ If you did not request this, you can ignore this email! The only way anybody can
   })
 }
 
-exports.setupOtpChallenge = function (email, event, context) {
-  const token = generateToken()
-  console.log(token)
-  sendEmail(email, token, event, context)
-
-  event.response.publicChallengeParameters = {}
-  event.response.privateChallengeParameters = {}
-  event.response.privateChallengeParameters.answer = token
-  event.response.challengeMetadata = 'OTP_CHALLENGE'
+exports.handler = (event, context, callback) => {
+  const token = generateToken(event.email)
+  sendEmail(event.email, token, event, context)
 }
-

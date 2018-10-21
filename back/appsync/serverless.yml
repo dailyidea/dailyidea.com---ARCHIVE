@@ -1,4 +1,4 @@
-service: serverless-graphql-appsync-dynamo
+service: dailyidea-appsync-backend
 
 provider:
   name: aws
@@ -16,7 +16,9 @@ custom:
   cogintoUserPoolId: ${env:COGNITO_POOL_ID}
   usersTableName: dailyidea-users-${self:provider.stage}
   ideasTableName: dailyidea-ideas-${self:provider.stage}
-
+  ideasMailBox: ${env:IDEAS_MAILBOX, 'ideas-dev'}
+  secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
+  domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
   appSync:
     # name:  # defaults to api
     # apiId # only required for update-appsync
@@ -30,23 +32,18 @@ custom:
       - dataSource: Ideas
         type: Query
         field: getIdea
-        request: "getUserInfo-request-mapping-template.txt"
-        response: "getUserInfo-response-mapping-template.txt"
+        request: "getIdea-request-mapping-template.txt"
+        response: "getIdea-response-mapping-template.txt"
       - dataSource: Ideas
         type: Query
         field: ideas
-        request: "getUserInfo-request-mapping-template.txt"
-        response: "getUserInfo-response-mapping-template.txt"
+        request: "ideas-request-mapping-template.txt"
+        response: "ideas-response-mapping-template.txt"
       - dataSource: Users
         type: Query
         field: meInfo
         request: "meInfo-request-mapping-template.txt"
         response: "meInfo-response-mapping-template.txt"
-      - dataSource: Users
-        type: Mutation
-        field: updateUserInfo
-        request: "updateUserInfo-request-mapping-template.txt"
-        response: "updateUserInfo-response-mapping-template.txt"
     # schema: # defaults schema.graphql
     serviceRole: "AppSyncServiceRole"
     dataSources:
@@ -55,50 +52,56 @@ custom:
         description: 'Users table'
         config:
           tableName: ${self:custom.usersTableName}
-          serviceRoleArn:
-            - 'Fn::Join':
-                - ':'
-                - - 'arn:aws:iam'
-                  - Ref: 'AWS::Region'
-                  - Ref: 'AWS::AccountId'
-                  - 'role/Dynamo-${self:custom.appSync.serviceRole}'
+          serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
       - type: AMAZON_DYNAMODB
         name: Ideas
         description: 'Ideas table'
         config:
           tableName: ${self:custom.ideasTableName}
-          serviceRoleArn:
-            - 'Fn::Join':
-                - ':'
-                - - 'arn:aws:iam'
-                  - Ref: 'AWS::Region'
-                  - Ref: 'AWS::AccountId'
-                  - 'role/Dynamo-${self:custom.appSync.serviceRole}'
+          serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
+      - type: AWS_LAMBDA
+        name: 'request-link'
+        description: 'Lambda DataSource'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [requestLogin, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
+#            - 'Fn::Join':
+#                - ':'
+#                - - 'arn:aws:iam'
+#                  - Ref: 'AWS::Region'
+#                  - Ref: 'AWS::AccountId'
+#                  - 'role/Dynamo-${self:custom.appSync.serviceRole}'
+
+functions:
+  requestLogin:
+    handler: requestLogin.handler
+    environment:
+      DOMAIN_NAME: ${self:provider.domainName}
+      SES_REGION: ${self:provider.region}
+      SOURCE_EMAIL: ${self:custom.ideasMailBox}@${self:custom.domainName}
+      SECRET_TOKEN: ${self:custom.secretToken}
 
 resources:
   Resources:
     AppSyncServiceRole:
       Type: "AWS::IAM::Role"
       Properties:
-        RoleName: "Dynamo-AppSyncServiceRole"
+        RoleName: "Dynamo-Lambda-AppSyncServiceRole"
         AssumeRolePolicyDocument:
           Version: "2012-10-17"
           Statement:
-            -
-              Effect: "Allow"
+            - Effect: "Allow"
               Principal:
                 Service:
                   - "appsync.amazonaws.com"
               Action:
                 - "sts:AssumeRole"
         Policies:
-          -
-            PolicyName: "Dynamo-AppSyncServiceRole-Policy"
+          - PolicyName: "Dynamo-AppSyncServiceRole-Policy"
             PolicyDocument:
               Version: "2012-10-17"
               Statement:
-                -
-                  Effect: "Allow"
+                - Effect: "Allow"
                   Action:
                     - "dynamodb:Query"
                     - "dynamodb:BatchWriteItem"
@@ -132,3 +135,17 @@ resources:
                           - Ref: 'AWS::Region'
                           - Ref: 'AWS::AccountId'
                           - 'table/${self:custom.ideasTableName}/*'
+          - PolicyName: "Lambda-AppSyncServiceRole-Policy"
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: "Allow"
+                  Action:
+                    - "lambda:invokeFunction"
+                  Resource:
+                    - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-requestLogin"
+                    - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-requestLogin:*"
+                - Effect: Allow
+                  Action:
+                    - ses:SendEmail
+                  Resource: "*"

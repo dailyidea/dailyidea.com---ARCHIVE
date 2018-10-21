@@ -9,7 +9,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.337.0"
+    "aws-sdk": "^2.337.0",
+    "jsonwebtoken": "^8.3.0"
   },
   "devDependencies": {
     "serverless-offline": "3.25.12",

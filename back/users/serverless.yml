@@ -15,6 +15,7 @@ provider:
 custom:
   usersTableName: dailyidea-users-${self:provider.stage}
   ideasMailBox: ${env:IDEAS_MAILBOX, 'ideas-dev'}
+  secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
   localstack:
     host: http://localhost
     debug: true
@@ -46,10 +47,6 @@ functions:
       - cognitoUserPool:
           pool: Daily
           trigger: CreateAuthChallenge
-    environment:
-      DOMAIN_NAME: ${self:provider.domainName}
-      SES_REGION: ${self:provider.region}
-      SOURCE_EMAIL: ${self:custom.ideasMailBox}@${self:provider.domainName}
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -61,6 +58,8 @@ functions:
       - cognitoUserPool:
           pool: Daily
           trigger: VerifyAuthChallengeResponse
+    environment:
+      SECRET_TOKEN: ${self:custom.secretToken}
   customMessage:
     handler: src/customMessage.handler
     events:
