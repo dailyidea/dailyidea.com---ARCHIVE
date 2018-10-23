@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 exports.handler = (event, context, callback) => {
-    if (event.request.privateChallengeParameters.answer == event.request.challengeAnswer) {
+    if (jwt.verify(event.request.challengeAnswer, process.env.SECRET_TOKEN)) {
         event.response.answerCorrect = true;
     } else {
         event.response.answerCorrect = false;
