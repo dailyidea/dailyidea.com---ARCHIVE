@@ -58,13 +58,17 @@ custom:
           tableName: ${self:custom.ideasTableName}
           serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
       - type: AWS_LAMBDA
-        name: 'request-link'
+        name: RequestLink
         description: 'Lambda DataSource'
         config:
           lambdaFunctionArn:
-            'Fn::GetAtt': [requestLogin, Arn]
+            Fn::GetAtt:
+              - RequestLoginLambdaFunction
+              - Arn
           serviceRoleArn:
-            'Fn::GetAtt': [AppSyncServiceRole, Arn]
+            Fn::GetAtt:
+              - AppSyncServiceRole
+              - Arn
 #            - 'Fn::Join':
 #                - ':'
 #                - - 'arn:aws:iam'
