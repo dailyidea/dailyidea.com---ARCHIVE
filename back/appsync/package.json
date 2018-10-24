@@ -1,28 +1,23 @@
 {
-  "name": "serverless-graphql",
-  "version": "0.0.0",
+  "name": "dailyidea-backend-appsync",
+  "version": "0.0.1",
   "private": true,
   "repository": {
-    "type": "git",
-    "url": "git@github.com:serverless/serverless-graphql.git"
+    "type": "git"
   },
   "scripts": {
-    "dynamodb-generate-seed-data": "cd seed-data && node create_seed_data.js",
-    "dynamodb-insert-seed-data-prod":
-      "cd seed-data && node insert_seed_data_prod.js",
-    "start":
-      "yarn dynamodb-generate-seed-data && serverless dynamodb install && serverless offline start",
-    "deploy-prod":
-      "yarn dynamodb-generate-seed-data && serverless --stage=production deploy && yarn dynamodb-insert-seed-data-prod",
-    "deploy-appsync": "serverless deploy-appsync",
-    "update-appsync": "serverless update-appsync",
-    "delete-appsync": "serverless delete-appsync"
+    "start": "yarn dynamodb-generate-seed-data && serverless dynamodb install && serverless offline start",
+    "sls:deploy-dev": "env-cmd ./env/dev.env sls deploy",
+    "deploy-appsync": "sls deploy-appsync",
+    "update-appsync": "sls update-appsync",
+    "delete-appsync": "sls delete-appsync"
   },
   "dependencies": {
-    "aws-sdk": "^2.176.0",
+    "aws-sdk": "^2.340.0",
     "babel-polyfill": "^6.26.0",
     "bluebird": "^3.5.1",
-    "serverless-appsync-plugin": "^0.0.5",
+    "jsonwebtoken": "^8.3.0",
+    "serverless-appsync-plugin": "^1.0.5",
     "serverless-dynamodb-client": "^0.0.2"
   },
   "devDependencies": {
@@ -36,6 +31,7 @@
     "imports-loader": "^0.7.1",
     "jest": "^21.2.1",
     "jsonfile": "^4.0.0",
+    "serverless": "^1.32.0",
     "serverless-dynamodb-local": "^0.2.26",
     "serverless-offline": "^3.15.3",
     "serverless-webpack": "^4.1.0",

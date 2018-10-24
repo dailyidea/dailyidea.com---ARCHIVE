@@ -5,6 +5,7 @@ provider:
   runtime: nodejs8.10
   stage: ${env:STAGE, 'local'}
   region: ${env:AWS_REGION, 'us-east-1'}
+  domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
 
 
 plugins:
@@ -12,13 +13,11 @@ plugins:
   - serverless-appsync-plugin
 
 custom:
-  accountId: ${env:AWS_ACCOUNT_ID}
   cogintoUserPoolId: ${env:COGNITO_POOL_ID}
   usersTableName: dailyidea-users-${self:provider.stage}
   ideasTableName: dailyidea-ideas-${self:provider.stage}
   ideasMailBox: ${env:IDEAS_MAILBOX, 'ideas-dev'}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
-  domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
   appSync:
     # name:  # defaults to api
     # apiId # only required for update-appsync
@@ -63,8 +62,10 @@ custom:
         name: 'request-link'
         description: 'Lambda DataSource'
         config:
-          lambdaFunctionArn: { Fn::GetAtt: [requestLogin, Arn] }
-          serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
+          lambdaFunctionArn:
+            'Fn::GetAtt': [requestLogin, Arn]
+          serviceRoleArn:
+            'Fn::GetAtt': [AppSyncServiceRole, Arn]
 #            - 'Fn::Join':
 #                - ':'
 #                - - 'arn:aws:iam'
@@ -78,7 +79,7 @@ functions:
     environment:
       DOMAIN_NAME: ${self:provider.domainName}
       SES_REGION: ${self:provider.region}
-      SOURCE_EMAIL: ${self:custom.ideasMailBox}@${self:custom.domainName}
+      SOURCE_EMAIL: ${self:custom.ideasMailBox}@${self:provider.domainName}
       SECRET_TOKEN: ${self:custom.secretToken}
 
 resources:

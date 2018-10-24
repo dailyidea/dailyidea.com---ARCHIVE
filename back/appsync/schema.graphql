@@ -1,10 +1,9 @@
-type Mutation {
-}
+#type Mutation {
+#}
 
 type Query {
 	meInfo: User!
-	ideas(handle: String!): User!
-
+	ideas: IdeaConnection
 	getIdea(ideadId: String!): Idea!
 }
 
@@ -33,5 +32,5 @@ type  IdeaConnection {
 
 schema {
 	query: Query
-	mutation: Mutation
+#	mutation: Mutation
 }
