@@ -20,7 +20,6 @@ custom:
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
   appSync:
     # name:  # defaults to api
-    # apiId # only required for update-appsync
     authenticationType: AMAZON_COGNITO_USER_POOLS # API_KEY is also supported
     userPoolConfig:
       awsRegion: ${self:provider.region}
