@@ -2,8 +2,9 @@ require('dotenv').config()
 
 const { VuetifyProgressiveModule } = require('vuetify-loader')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+const path = require('path')
 
-const resolve = dir => require('path').join(__dirname, dir)
+const resolve = dir => path.join(__dirname, dir)
 
 module.exports = {
   mode: 'universal',
@@ -60,6 +61,8 @@ module.exports = {
     ** You can extend webpack config here
     */
     plugins: [new VuetifyLoaderPlugin()],
+    transpile: ['vuetify/lib'],
+
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
@@ -67,7 +70,7 @@ module.exports = {
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          exclude: /(node_modules)/
+          include: path.join(__dirname)
         })
       }
 
@@ -98,6 +101,5 @@ module.exports = {
         }
       )
     },
-    transpile: [/^vuetify/]
   }
 }

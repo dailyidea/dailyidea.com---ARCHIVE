@@ -33,6 +33,9 @@ export default (ctx, inject) => {
       identityPoolId: process.env.COGNITO_IDENTITY_POOL_ID,
       userPoolWebClientId: process.env.COGNITO_POOL_WEB_CLIENT_ID,
       region: process.env.AWS_REGION,
+      aws_appsync_graphqlEndpoint: process.env.APPSYNC_ENDPOINT,
+      aws_appsync_region: process.env.AWS_REGION,
+      aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
       storage: amplifyStorage
     },
     'cognito'
