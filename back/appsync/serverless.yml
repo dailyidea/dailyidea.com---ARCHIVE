@@ -7,7 +7,6 @@ provider:
   region: ${env:AWS_REGION, 'us-east-1'}
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
 
-
 plugins:
   - serverless-offline
   - serverless-appsync-plugin
@@ -24,6 +23,7 @@ custom:
     userPoolConfig:
       awsRegion: ${self:provider.region}
       defaultAction: ALLOW
+      defaultEffect: ALLOW
       userPoolId: ${self:custom.cogintoUserPoolId}
     # mappingTemplatesLocation: # defaults to mapping-templates
     mappingTemplates:
@@ -42,6 +42,11 @@ custom:
         field: meInfo
         request: "meInfo-request-mapping-template.txt"
         response: "meInfo-response-mapping-template.txt"
+#      - dataSource: RequestLink
+#        type: Mutation
+#        field: requestLogin
+#        request: "requestLogin-request-mapping-template.txt"
+#        response: "requestLogin-response-mapping-template.txt"
     # schema: # defaults schema.graphql
     serviceRole: "AppSyncServiceRole"
     dataSources:
@@ -57,33 +62,19 @@ custom:
         config:
           tableName: ${self:custom.ideasTableName}
           serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
-      - type: AWS_LAMBDA
-        name: RequestLink
-        description: 'Lambda DataSource'
-        config:
-          lambdaFunctionArn:
-            Fn::GetAtt:
-              - RequestLoginLambdaFunction
-              - Arn
-          serviceRoleArn:
-            Fn::GetAtt:
-              - AppSyncServiceRole
-              - Arn
-#            - 'Fn::Join':
-#                - ':'
-#                - - 'arn:aws:iam'
-#                  - Ref: 'AWS::Region'
-#                  - Ref: 'AWS::AccountId'
-#                  - 'role/Dynamo-${self:custom.appSync.serviceRole}'
+#      - type: AWS_LAMBDA
+#        name: RequestLink
+#        description: 'Lambda DataSource'
+#        config:
+#          lambdaFunctionArn:
+#            Fn::GetAtt:
+#              - RequestLoginLambdaFunction
+#              - Arn
+#          serviceRoleArn:
+#            Fn::GetAtt:
+#              - AppSyncServiceRole
+#              - Arn
 
-functions:
-  requestLogin:
-    handler: requestLogin.handler
-    environment:
-      DOMAIN_NAME: ${self:provider.domainName}
-      SES_REGION: ${self:provider.region}
-      SOURCE_EMAIL: ${self:custom.ideasMailBox}@${self:provider.domainName}
-      SECRET_TOKEN: ${self:custom.secretToken}
 
 resources:
   Resources:

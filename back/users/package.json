@@ -4,12 +4,13 @@
   "main": "mailparser.js",
   "scripts": {
     "sls": "sls",
-    "sls:deploy-dev": "npx sls deploy --stage dev"
+    "sls:deploy-dev": "serverless deploy --stage dev"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.337.0",
+    "middy": "^0.19.2",
     "jsonwebtoken": "^8.3.0"
   },
   "devDependencies": {

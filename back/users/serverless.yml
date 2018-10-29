@@ -1,4 +1,4 @@
-service: syncService
+service: dailyidea-users-service
 
 provider:
   name: aws
@@ -33,6 +33,18 @@ custom:
       Kinesis: http://localhost:4568
 
 functions:
+  requestLogin:
+    handler: src/requestLogin.handler
+    environment:
+      DOMAIN_NAME: ${self:provider.domainName}
+      SES_REGION: ${self:provider.region}
+      SOURCE_EMAIL: ${self:custom.ideasMailBox}@${self:provider.domainName}
+      SECRET_TOKEN: ${self:custom.secretToken}
+    events:
+      - http:
+          path: requestLogin
+          method: post
+          cors: true
   defineAuthChallenge:
     handler: src/defineAuthChallenge.handler
     events:

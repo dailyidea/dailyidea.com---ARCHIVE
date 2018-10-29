@@ -1,4 +1,7 @@
 #type Mutation {
+#	requestLogin(
+#	    email: String!
+#	): Result!
 #}
 
 type Query {
@@ -22,8 +25,13 @@ type User {
 	user_id: String!
 	email: String!
 	ideas(limit: Int!, nextToken: String): IdeaConnection
-
 }
+
+type Result {
+	error: String
+	ok: Boolean
+}
+
 
 type  IdeaConnection {
 	items: [Idea!]!

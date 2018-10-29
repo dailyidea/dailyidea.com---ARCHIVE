@@ -23,17 +23,28 @@
 </template>
 
 <script>
+import API from '@aws-amplify/api'
+
 export default {
   data: () => ({
     email: ''
   }),
   methods: {
     async login() {
-      const user = await this.$store.dispatch('cognito/signInUser', {
-        username: this.email
-      })
-      this.$storage.setUniversal('username', user.username)
-      this.$storage.setUniversal('amplifySession', user.Session)
+      try {
+        const response = API.post('RequestLogin', '', {
+          body: { email: this.email }
+        })
+        console.log(response)
+      } catch (e) {
+        console.log(e)
+      }
+
+      // const user = await this.$store.dispatch('cognito/signInUser', {
+      //   username: this.email
+      // })
+      // this.$storage.setUniversal('username', user.username)
+      // this.$storage.setUniversal('amplifySession', user.Session)
     }
   }
 }

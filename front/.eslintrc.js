@@ -25,7 +25,9 @@ module.exports = {
 
   // add your custom rules here
   rules: {
-    'prettier/prettier': 'error'
+    'prettier/prettier': 'error',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+
   },
 
   globals: {}
