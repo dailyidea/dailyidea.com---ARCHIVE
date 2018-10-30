@@ -1,6 +1,7 @@
-
-
-exports.handler = function (event, context) {
-  // fake create auth challenge. actuall challenge created by appsync lambda
+exports.handler = function (event, context, callback) {
+  event.response.publicChallengeParameters = {}
+  event.response.privateChallengeParameters = {}
+  event.response.privateChallengeParameters.challenge = 'OTP_CHALLENGE'
+  callback(null, event)
 }
 

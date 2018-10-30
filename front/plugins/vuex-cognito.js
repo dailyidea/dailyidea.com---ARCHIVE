@@ -53,5 +53,7 @@ export default (ctx, inject) => {
     ]
   }
 
+  inject('amplifyApi', API)
+
   Amplify.API.configure(aws_config)
 }
