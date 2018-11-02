@@ -1,7 +1,6 @@
 require('dotenv').config()
 
 const { VuetifyProgressiveModule } = require('vuetify-loader')
-const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 const path = require('path')
 
 const resolve = dir => path.join(__dirname, dir)
@@ -60,7 +59,7 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
-    plugins: [new VuetifyLoaderPlugin()],
+    plugins: [new (require('vuetify-loader/lib/plugin'))()],
     transpile: ['vuetify/lib'],
 
     extend(config, ctx) {

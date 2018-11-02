@@ -26,7 +26,6 @@
     "nuxt-universal-storage": "0.1.4",
     "vue-notifications": "0.9.0",
     "vuetify": "1.3.3",
-    "vuetify-loader": "1.0.5"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "0.0.1",
@@ -49,6 +48,7 @@
     "eslint-plugin-vue": "5.0.0-beta.3",
     "eslint-plugin-you-dont-need-lodash-underscore": "6.4.0",
     "nuxt-edge": "2.3.0-25674828.106141f",
+    "vuetify-loader": "1.0.5",
     "prettier": "1.14.2",
     "serverless": "1.32.0",
     "serverless-domain-manager": "2.6.0",
@@ -57,5 +57,5 @@
     "serverless-s3-sync": "1.6.1",
     "stylus": "0.54.5",
     "stylus-loader": "3.0.2"
-  }
+  },
 }
