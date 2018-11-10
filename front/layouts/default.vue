@@ -21,6 +21,7 @@
           </v-flex>
         </v-layout>
       </v-container>
+      <vue-snotify />
     </v-content>
     <v-footer app>
       <span>Dailyidea &copy; 2018</span>

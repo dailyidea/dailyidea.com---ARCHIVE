@@ -1,9 +1,8 @@
 require('dotenv').config()
-
-const { VuetifyProgressiveModule } = require('vuetify-loader')
 const path = require('path')
+// const { VuetifyProgressiveModule } = require('vuetify-loader')
 
-const resolve = dir => path.join(__dirname, dir)
+// const resolve = dir => path.join(__dirname, dir)
 
 module.exports = {
   mode: 'universal',
@@ -36,7 +35,7 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: ['~/assets/style/app.styl'],
+  css: ['~/assets/style/app.styl', 'vue-snotify/styles/material.css'],
 
   /*
   ** Plugins to load before mounting the App
@@ -44,6 +43,7 @@ module.exports = {
   plugins: [
     '@/plugins/vuetify',
     '@/plugins/vuex-cognito',
+    '@/plugins/notifications',
     '@/plugins/dayjs'
   ],
 
@@ -61,7 +61,8 @@ module.exports = {
     */
     plugins: [new (require('vuetify-loader/lib/plugin'))()],
     transpile: ['vuetify/lib'],
-
+    cache: true,
+    // modern: true,
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
@@ -73,32 +74,32 @@ module.exports = {
         })
       }
 
-      const urlLoader = config.module.rules.find(r => r.test.test('test.gif'))
-      urlLoader.oneOf = []
-      urlLoader.oneOf.push({
-        test: /\.(png|jpe?g|gif)$/,
-        resourceQuery: /vuetify-preload/,
-        use: [
-          'vuetify-loader/progressive-loader',
-          {
-            loader: 'url-loader',
-            options: { limit: 8000 }
-          }
-        ]
-      })
-      urlLoader.oneOf.push(urlLoader.use[0])
-      delete urlLoader.use
+      // const urlLoader = config.module.rules.find(r => r.test.test('test.gif'))
+      // urlLoader.oneOf = []
+      // urlLoader.oneOf.push({
+      //   test: /\.(png|jpe?g|gif)$/,
+      //   resourceQuery: /vuetify-preload/,
+      //   use: [
+      //     'vuetify-loader/progressive-loader',
+      //     {
+      //       loader: 'url-loader',
+      //       options: { limit: 8000 }
+      //     }
+      //   ]
+      // })
+      // urlLoader.oneOf.push(urlLoader.use[0])
+      // delete urlLoader.use
 
-      const vueLoader = ctx.loaders.vue
-      vueLoader.compilerOptions = {}
-      vueLoader.compilerOptions['modules'] = [VuetifyProgressiveModule]
-      vueLoader.transformAssetUrls = Object.assign(
-        {},
-        vueLoader.transformAssetUrls,
-        {
-          'v-card-media': 'src'
-        }
-      )
-    },
+      // const vueLoader = ctx.loaders.vue
+      // vueLoader.compilerOptions = {}
+      // vueLoader.compilerOptions['modules'] = [VuetifyProgressiveModule]
+      // vueLoader.transformAssetUrls = Object.assign(
+      //   {},
+      //   vueLoader.transformAssetUrls,
+      //   {
+      //     'v-card-media': 'src'
+      //   }
+      // )
+    }
   }
 }
