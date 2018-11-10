@@ -10,6 +10,10 @@ const generateToken = function (email) {
   }, process.env.SECRET_TOKEN, { expiresIn: '1h' })
 }
 
+// AWS.config.update({
+//   region: process.env.DYNAMO_REGION
+// })
+
 const sendEmail = function (email, token, context) {
   const ses = new AWS.SES({
     region: process.env.SES_REGION
@@ -51,14 +55,44 @@ If you did not request this, you can ignore this email! The only way anybody can
 
 // This is your common handler, no way different than what you are used to do every day
 // in AWS Lambda
-const sendMail = (event, context, callback) => {
+const sendMail = async (event, context, callback) => {
   const { email } = event.body
   console.log('generating log token', email)
-  const token = generateToken(email)
-  sendEmail(email, token, context)
-  return callback(null, {
-    body: JSON.stringify({ result: 'success' })
-  })
+  const docClient = new AWS.DynamoDB.DocumentClient()
+
+  try {
+    const result = await docClient.query({
+      TableName: process.env.TABLE_NAME,
+      IndexName: 'emailIndex',
+      KeyConditionExpression: 'email = :email',
+      ExpressionAttributeValues: {
+        ':email': email
+      }
+    }).promise()
+    console.log(result)
+
+    if (result.Count === 0) {
+      console.log('Not Found', email)
+      callback(null, {
+        statusCode: 400,
+        body: JSON.stringify({ result: 'error', 'message': 'Email not found' })
+      })
+    } else {
+      console.log('Found', email)
+      const token = generateToken(email)
+      sendEmail(email, token, context)
+      callback(null, {
+        body: JSON.stringify({ result: 'success' })
+      })
+    }
+
+  } catch (e) {
+    console.log('error', e)
+    callback(null, {
+      statusCode: 500,
+      body: JSON.stringify({ result: 'error', 'message': 'Internal Server Error' })
+    })
+  }
 }
 
 const handler = middy(sendMail)

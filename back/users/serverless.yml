@@ -35,11 +35,14 @@ custom:
 functions:
   requestLogin:
     handler: src/requestLogin.handler
+    role: CustomUserOnboardingRole
     environment:
       DOMAIN_NAME: ${self:provider.domainName}
       SES_REGION: ${self:provider.region}
+      DYNAMO_REGION: ${self:provider.region}
       SOURCE_EMAIL: ${self:custom.ideasMailBox}@${self:provider.domainName}
       SECRET_TOKEN: ${self:custom.secretToken}
+      TABLE_NAME: ${self:custom.usersTableName}
     events:
       - http:
           path: requestLogin

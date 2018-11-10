@@ -67,6 +67,7 @@ Resources:
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
+                    - dynamodb:Query
                   Resource:
                     - 'Fn::Join':
                       - ':'
@@ -75,3 +76,10 @@ Resources:
                         - Ref: 'AWS::Region'
                         - Ref: 'AWS::AccountId'
                         - 'table/${self:custom.usersTableName}'
+                    - 'Fn::Join':
+                      - ':'
+                      -
+                        - 'arn:aws:dynamodb'
+                        - Ref: 'AWS::Region'
+                        - Ref: 'AWS::AccountId'
+                        - 'table/${self:custom.usersTableName}/*'
