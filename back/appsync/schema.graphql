@@ -7,7 +7,7 @@
 type Query {
 	meInfo: User!
 	ideas: IdeaConnection
-	getIdea(ideadId: String!): Idea!
+	getIdea(ideaId: String!): Idea!
 }
 
 

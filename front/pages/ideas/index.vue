@@ -10,7 +10,7 @@
       <v-layout justify-space-between>
         <v-flex xs5>{{ idea.ideaDate | dayjs('format', 'YYYY-MM-DD') }}</v-flex>
         <v-flex xs7>
-          <nuxt-link :to="{ name:'ideas-ideadId', params: {ideadId: idea.ideaId} }">{{ idea.title }}
+          <nuxt-link :to="{ name:'ideas-ideaId', params: {ideaId: idea.ideaId} }">{{ idea.title }}
           </nuxt-link>
         </v-flex>
       </v-layout>
