@@ -69,7 +69,6 @@ const sendMail = async (event, context, callback) => {
         ':email': email
       }
     }).promise()
-    console.log(result)
 
     if (result.Count === 0) {
       console.log('Not Found', email)

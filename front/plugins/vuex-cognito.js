@@ -41,6 +41,7 @@ export default (ctx, inject) => {
   )
 
   Amplify.register(API)
+
   const aws_config = {
     aws_appsync_graphqlEndpoint: process.env.APPSYNC_ENDPOINT,
     aws_appsync_region: process.env.AWS_REGION,

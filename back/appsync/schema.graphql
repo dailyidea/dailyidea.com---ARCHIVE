@@ -12,12 +12,12 @@ type Query {
 
 
 type Idea {
-	idea_id: String!
+	ideaId: String!
 	content: String
 	title: String
-	user_id: String
-	created_date: String
-	idea_date: String
+	userId: String
+	createdDate: String
+	ideaDate: String
 }
 
 

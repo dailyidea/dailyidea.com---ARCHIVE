@@ -2,10 +2,10 @@
     "version": "2017-02-28",
     "operation": "Query",
     "query": {
-        "expression": "handle = :handle",
+        "expression": "userId = :handle",
         "expressionValues": {
             ":handle": {
-                "S": #if($context.source.handle) "$context.source.handle" #else "${context.identity.username}" #end
+                "S": "${context.identity.username}"
             }
         }
     },
