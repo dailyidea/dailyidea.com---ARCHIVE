@@ -14,13 +14,14 @@
   </v-container>
 </template>
 <script>
+import { getErrorMessage } from '~/utils'
+
 export default {
   data: () => ({
     error: 'This confirmation link is not valid'
   }),
   async asyncData({ store, route, redirect }) {
-    const code = route.query.code
-    const username = route.query.username
+    const { code, username } = route.query
     try {
       await store.dispatch('cognito/confirmUser', {
         username,
@@ -29,7 +30,7 @@ export default {
       redirect({ name: 'auth-signup-confirmation' })
     } catch (e) {
       return {
-        error: e.message
+        error: getErrorMessage(e)
       }
     }
   }

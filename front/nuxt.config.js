@@ -44,7 +44,9 @@ module.exports = {
     '@/plugins/vuetify',
     '@/plugins/vuex-cognito',
     '@/plugins/notifications',
-    '@/plugins/dayjs'
+    '@/plugins/dayjs',
+    '@/plugins/vee-validate',
+    '@/plugins/mixins'
   ],
 
   /*

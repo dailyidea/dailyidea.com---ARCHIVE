@@ -2,7 +2,9 @@
   <v-app>
     <v-toolbar app flat absolute>
       <v-toolbar-title class="blue--text subheading">
-        <strong class="pl-3">Daily Idea</strong>
+        <nuxt-link :to="{ name: 'index' }">
+          <strong class="pl-3">Daily Idea</strong>
+        </nuxt-link>
       </v-toolbar-title>
       <v-spacer />
       <template v-if="!$store.getters['cognito/isLoggedIn']">

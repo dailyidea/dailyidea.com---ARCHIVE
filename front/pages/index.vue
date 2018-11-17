@@ -16,6 +16,11 @@
 
 <script>
 export default {
+  fetch({ store, redirect }) {
+    if (store.getters['cognito/isLoggedIn']) {
+      redirect({ name: 'ideas' })
+    }
+  },
   methods: {
     logout() {
       this.$store.dispatch('cognito/signOut')
