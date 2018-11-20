@@ -12,7 +12,7 @@ BASE_SITE_URL = f"https://{os.environ['DOMAIN_NAME']}/"
 
 SENDER = f"Daily Idea <{MAILBOX_ADDR}>"
 
-SUBJECT = f"[Daily Idea] Idea for {date.today().strftime('%a %b %d %Y')}"
+SUBJECT = f"[Daily Idea] Weekly Digest"
 
 
 def getBodyText(user, ideas_last_week, num_ideas):
