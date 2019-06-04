@@ -7,13 +7,14 @@
     </v-layout>
     <v-layout row>
       <v-flex>
-        <p>by <nuxt-link :to="{ name: 'ideas'}">{{ user.email }}</nuxt-link></p>
+        <p>
+          by <nuxt-link :to="{ name: 'ideas' }">{{ user.email }}</nuxt-link>
+        </p>
         <p class="idea-content">{{ idea.content }}</p>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
-
 
 <script>
 import { graphqlOperation } from '@aws-amplify/api'

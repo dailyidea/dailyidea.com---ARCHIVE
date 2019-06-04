@@ -8,8 +8,8 @@
       </v-toolbar-title>
       <v-spacer />
       <template v-if="!$store.getters['cognito/isLoggedIn']">
-        <nuxt-link :to="{name :'auth-login'}">Login</nuxt-link>
-        <nuxt-link :to="{name :'auth-signup'}" class="pl-3">Signup</nuxt-link>
+        <nuxt-link :to="{ name: 'auth-login' }">Login</nuxt-link>
+        <nuxt-link :to="{ name: 'auth-signup' }" class="pl-3">Signup</nuxt-link>
       </template>
       <template v-else>
         <a @click="logout">Logout</a>

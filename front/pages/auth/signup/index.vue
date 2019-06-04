@@ -10,7 +10,11 @@
         <v-layout row>
           <v-flex>
             <p>To sign up, just enter your email address.</p>
-            <p>We'll send you an email to confirm that the email address is yours. After that, you'll get a daily email reminder to submit your daily idea.</p>
+            <p>
+              We'll send you an email to confirm that the email address is
+              yours. After that, you'll get a daily email reminder to submit
+              your daily idea.
+            </p>
           </v-flex>
         </v-layout>
         <v-layout row>
@@ -22,7 +26,9 @@
           <v-btn block @click="signup">Signup</v-btn>
         </v-layout>
         <v-layout row justify-center>
-          <nuxt-link :to="{name: 'auth-signup-resend'}">Resend Confirmation Email</nuxt-link>
+          <nuxt-link :to="{ name: 'auth-signup-resend' }"
+            >Resend Confirmation Email</nuxt-link
+          >
         </v-layout>
       </template>
       <template v-else>
@@ -35,7 +41,6 @@
     </v-container>
   </v-form>
 </template>
-
 
 <script>
 import nanoid from 'nanoid'
