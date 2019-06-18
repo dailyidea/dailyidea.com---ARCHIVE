@@ -1,32 +1,31 @@
-import attachCognitoModule from '@vuetify/vuex-cognito-module'
-import fetch from 'node-fetch'
 import Amplify from '@aws-amplify/core'
 import API from '@aws-amplify/api'
-global.fetch = global.fetch || fetch
+import attachCognitoModule from '~/module/vuex-cognito-module.esm.js'
+
 
 export default (ctx, inject) => {
   const store = ctx.store
 
   class AmplifyStorage {
+    static syncPromise = null
     // set item with the key
-    setItem(key, value) {
+    static setItem(key, value) {
       return ctx.app.$storage.setUniversal(key, value)
     }
     // get item with the key
-    getItem(key) {
+    static getItem(key) {
       return ctx.app.$storage.getUniversal(key)
     }
     // remove item with the key
-    removeItem(key) {
+    static removeItem(key) {
       return ctx.app.$storage.removeUniversal(key)
     }
     // clear out the storage
-    clear() {
+    static clear() {
       // console.log('clear')
     }
   }
-  const amplifyStorage = new AmplifyStorage()
-  inject('amplifyStorage', amplifyStorage)
+  inject('amplifyStorage', AmplifyStorage)
 
   attachCognitoModule(
     store,
@@ -35,7 +34,7 @@ export default (ctx, inject) => {
       identityPoolId: process.env.COGNITO_IDENTITY_POOL_ID,
       userPoolWebClientId: process.env.COGNITO_POOL_WEB_CLIENT_ID,
       region: process.env.AWS_REGION,
-      storage: amplifyStorage
+      storage: AmplifyStorage
     },
     'cognito'
   )

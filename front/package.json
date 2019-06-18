@@ -11,7 +11,9 @@
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
     "precommit": "npm run lint",
-    "sls:deploy-dev": "env-cmd ./conf/dev.env npx nuxt build && env-cmd ./conf/dev.env npx sls deploy"
+    "sls:deploy-dev": "env-cmd -f ./conf/dev.env serverless deploy",
+    "sls": "env-cmd -f ./conf/dev.env serverless",
+    "sls:remove-dev": "env-cmd -f ./conf/dev.env serverless remove"
   },
   "dependencies": {
     "@aws-amplify/api": "1.0.35",
@@ -27,7 +29,9 @@
     "vue-notifications": "1.0.0",
     "vue-snotify": "3.2.1",
     "vuetify": "1.5.14",
-    "spdy": "4.0.0",
+    "uri-js": "4.2.2",
+    "@babel/runtime": "7.4.5",
+    "serverless-http": "2.0.2",
     "vee-validate": "2.2.9"
   },
   "devDependencies": {

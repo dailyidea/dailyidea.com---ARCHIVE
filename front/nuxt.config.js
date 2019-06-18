@@ -8,8 +8,8 @@ module.exports = {
   mode: 'universal',
 
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
     title: 'Daily Idea',
     meta: [
@@ -26,20 +26,22 @@ module.exports = {
       }
     ]
   },
-
+  // router: {
+  //   base: '/dev/'
+  // },
   /*
-  ** Customize the progress-bar color
-  */
+   ** Customize the progress-bar color
+   */
   loading: { color: '#FFFFFF' },
 
   /*
-  ** Global CSS
-  */
+   ** Global CSS
+   */
   css: ['~/assets/style/app.styl', 'vue-snotify/styles/material.css'],
 
   /*
-  ** Plugins to load before mounting the App
-  */
+   ** Plugins to load before mounting the App
+   */
   plugins: [
     '@/plugins/vuetify',
     '@/plugins/vuex-cognito',
@@ -50,22 +52,25 @@ module.exports = {
   ],
 
   /*
-  ** Nuxt.js modules
-  */
+   ** Nuxt.js modules
+   */
   modules: ['@nuxtjs/dotenv', 'nuxt-universal-storage'],
 
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     /*
-    ** You can extend webpack config here
-    */
-    plugins: [new (require('vuetify-loader/lib/plugin'))()],
+     ** You can extend webpack config here
+     */
+    publicPath: process.env.S3_DOMAIN
+      ? `https://${process.env.S3_DOMAIN}/`
+      : undefined,
     transpile: ['vuetify/lib'],
     cache: true,
     // modern: true,
     extend(config, ctx) {
+      config.plugins.push(new (require('vuetify-loader/lib/plugin'))())
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
