@@ -2,7 +2,6 @@ import Amplify from '@aws-amplify/core'
 import API from '@aws-amplify/api'
 import attachCognitoModule from '~/module/vuex-cognito-module.esm.js'
 
-
 export default (ctx, inject) => {
   const store = ctx.store
 

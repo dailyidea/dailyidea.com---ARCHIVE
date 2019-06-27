@@ -15,7 +15,7 @@ custom:
 #      port: 8001
 #      inMemory: true
 #      migrate: true
-  domainName: ${env:DOMAIN_NAME, 'dailyidea.com'}
+  domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
   mailBucket: dailyidea-ses-${env:STAGE}
   ideasMailBox: ${env:IDEAS_MAILBOX, 'ideas-dev'}
   localstack:

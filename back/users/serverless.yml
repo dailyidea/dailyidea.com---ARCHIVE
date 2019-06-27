@@ -3,7 +3,7 @@ service: dailyidea-users-service
 provider:
   name: aws
   runtime: nodejs8.10
-  stage: ${env:STAGE, 'local'}
+  stage: ${env:STAGE, 'dev'}
   region: ${env:AWS_REGION, 'us-east-1'}
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
   iamRoleStatements:
