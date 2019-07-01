@@ -12,10 +12,10 @@ class IdeaModel(Model):
         table_name = IDEAS_TABLE_NAME
         # host = "http://localhost:4569"
 
-    ideaId = UnicodeAttribute(hash_key=True)
+    ideaId = UnicodeAttribute(range_key=True)
+    userId = UnicodeAttribute(hash_key=True)
     content = UnicodeAttribute(null=True)
     title = UnicodeAttribute(null=True)
-    userId = UnicodeAttribute(range_key=True)
     createdDate = UTCDateTimeAttribute(null=True)
     ideaDate = UTCDateTimeAttribute(null=True)
 

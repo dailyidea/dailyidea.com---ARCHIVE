@@ -41,7 +41,7 @@ def processIncomingMail(parsed_email):
         # TOdo process email from user that dont registered
         return
 
-    idea = IdeaModel(str(uuid.uuid4()), user.userId)
+    idea = IdeaModel(user.userId, str(uuid.uuid4()))
     content_parsed =  (parsed_email.text_plain and parsed_email.text_plain[0]) or \
                    (parsed_email.text_html and parsed_email.text_html[0])
     content_lines = []
