@@ -1,21 +1,20 @@
 <template>
-  <v-container>
-    <v-layout row>
-      <v-flex
-        ><p>Every day, log an idea.</p>
-        <p>A project idea, a startup idea, a work idea.</p>
-        <p>
-          You'll get an email in your inbox reminding you to submit an idea.
-          Just respond to it and we'll save it for you.
-        </p></v-flex
-      >
-    </v-layout>
-    <v-layout row>
-      <v-flex>
-        <v-btn :to="{ name: 'auth-signup' }">Sign Up</v-btn>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <div id="homePage">
+    <div id="firstSection">
+      <v-layout row wrap>
+        <v-flex xs12>
+          <v-card dark color="primary">
+            <v-card-text class="px-0">12</v-card-text>
+          </v-card>
+        </v-flex>
+        <v-flex v-for="i in 2" :key="`6${i}`" xs6>
+          <v-card dark color="secondary">
+            <v-card-text class="px-0">6</v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -28,7 +27,23 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch('cognito/signOut')
+    },
+
+    login() {
+      return true
     }
   }
 }
 </script>
+
+<style lang="scss">
+#homePage {
+  background: red;
+
+  #firstSection {
+    background: red;
+    width: 100%;
+    height: 100vh;
+  }
+}
+</style>
