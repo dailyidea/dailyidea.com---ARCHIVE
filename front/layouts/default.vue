@@ -16,13 +16,11 @@
       </template>
     </v-toolbar>
     <v-content>
-      <v-container pa-0 justify-center align-center>
-        <v-layout>
-          <v-flex>
-            <nuxt />
-          </v-flex>
-        </v-layout>
-      </v-container>
+      <v-layout>
+        <v-flex>
+          <nuxt />
+        </v-flex>
+      </v-layout>
       <vue-snotify />
     </v-content>
     <v-footer app>
