@@ -99,6 +99,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+front/ngrok.exe
 
 # TypeScript v1 declaration files
 typings/
