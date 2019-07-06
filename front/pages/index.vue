@@ -3,12 +3,22 @@
     <!-- First Section -->
     <div class="firstSection">
       <!-- Desktop - Hero Message & Signup Button -->
-
-      <v-layout class="desktopHero" fluid grid-list-md hidden-sm-and-down row>
+      <v-layout
+        class="desktopHero"
+        fluid
+        grid-list-md
+        hidden-sm-and-down
+        row
+        :style="{
+          'background-image':
+            'url(' + require('~/assets/images/home/yellow_background.png') + ')'
+        }"
+      >
         <v-flex hidden-sm-and-down md7 lg6>
           <div class="heroTitle">
-            Your Idea
-            <br />Could Be Huge!
+            Your Idea Could
+            <br />
+            Be Huge!
           </div>
           <div class="heroSubtitle">That is, if you don't forget it!</div>
           <div class="heroDescription">
@@ -19,26 +29,23 @@
 
           <!-- Signup Button -->
           <v-btn large class="signupButton" color="primary">Sign up Now</v-btn>
-        </v-flex>
 
-        <!-- Mobile Only Hero -->
-        <v-flex hidden-md-and-up md6 lg5 offset-md1 offset-lg2>
-          <div class="heroTitle">
-            Your Idea
-            <br />Could Be Huge!
-          </div>
-          <div class="heroSubtitle">That is, if you don't forget it!</div>
-          <div class="heroDescription">
-            Submitting an idea every day is as simple as sending an email. We
-            will store your ideas for you, so you can share them with your
-            friends and conquer the world!
-          </div>
-          <v-btn large class="signupButton" color="primary">Sign up Now</v-btn>
+          <!-- Lamp Image -->
+          <img class="lampImg" src="~/assets/images/home/white_lamp.png" />
         </v-flex>
       </v-layout>
 
       <!-- Mobile - Hero Message & Signup Button -->
-      <v-layout class="mobileHero" hidden-md-and-up>
+      <v-layout
+        class="mobileHero"
+        hidden-md-and-up
+        :style="{
+          'background-image':
+            'url(' +
+            require('~/assets/images/home/yellow_background_mobile.png') +
+            ')'
+        }"
+      >
         <div class="heroTitle">
           Your Idea
           <br />Could Be Huge!
@@ -50,61 +57,82 @@
           conquer the world!
         </div>
         <!-- Signup Button -->
-        <v-btn medium class="signupButton" color="primary">Sign up Now</v-btn>
+        <v-btn large class="signupButton" color="primary">Sign up Now</v-btn>
+
+        <img class="lampImg" src="~/assets/images/home/white_lamp.png" />
       </v-layout>
 
       <!-- Desktop Reviews -->
-      <v-layout
-        hidden-sm-and-down
-        fluid
-        grid-list-md
-        xs12
-        class="desktopReviews"
-        row
-      >
-        <v-flex md4 lg4>
-          <v-card color="white" class="review">
-            Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-            officia deserunt
+      <div>
+        <v-layout
+          class="desktopReviews"
+          :style="{
+            'background-image':
+              'url(' +
+              require('~/assets/images/home/purple_background.png') +
+              ')'
+          }"
+          hidden-sm-and-down
+          fluid
+          grid-list-md
+          xs12
+          row
+        >
+          <v-flex md4 lg4>
+            <v-card color="white" class="review">
+              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
+              officia deserunt
 
-            <!-- User Icon -->
-            <div class="reviewerInfo">
-              <v-icon class="userIcon">fa-user-circle</v-icon>
-              by Name Surname
-              <div class="reviewTime">1h ago</div>
-            </div>
-          </v-card>
-        </v-flex>
-        <v-flex md4 lg4>
-          <v-card color="white" class="review">
-            Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-            officia deserunt
+              <!-- User Icon -->
+              <div class="reviewerInfo">
+                <v-icon class="userIcon">fa-user-circle</v-icon>
+                by Name Surname
+                <div class="reviewTime">1h ago</div>
+              </div>
+            </v-card>
+          </v-flex>
+          <v-flex md4 lg4>
+            <v-card color="white" class="review">
+              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
+              officia deserunt
 
-            <!-- User Icon -->
-            <div class="reviewerInfo">
-              <v-icon class="userIcon">fa-user-circle</v-icon>
-              by Name Surname
-              <div class="reviewTime">1h ago</div>
-            </div>
-          </v-card>
-        </v-flex>
-        <v-flex md4 lg4>
-          <v-card color="white" class="review">
-            Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-            officia deserunt
+              <!-- User Icon -->
+              <div class="reviewerInfo">
+                <v-icon class="userIcon">fa-user-circle</v-icon>
+                by Name Surname
+                <div class="reviewTime">1h ago</div>
+              </div>
+            </v-card>
+          </v-flex>
+          <v-flex md4 lg4 style="position: relative;">
+            <img class="person2Img" src="~/assets/images/home/person_2.png" />
+            <img class="person3Img" src="~/assets/images/home/person_3.png" />
+            <v-card color="white" class="review">
+              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
+              officia deserunt
 
-            <!-- User Icon -->
-            <div class="reviewerInfo">
-              <v-icon class="userIcon">fa-user-circle</v-icon>
-              by Name Surname
-              <div class="reviewTime">1h ago</div>
-            </div>
-          </v-card>
-        </v-flex>
-      </v-layout>
+              <!-- User Icon -->
+              <div class="reviewerInfo">
+                <v-icon class="userIcon">fa-user-circle</v-icon>
+                by Name Surname
+                <div class="reviewTime">1h ago</div>
+              </div>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </div>
 
       <!-- Mobile Reviews -->
-      <v-layout hidden-md-and-up>
+      <v-layout
+        class="mobileReviews"
+        hidden-md-and-up
+        :style="{
+          'background-image':
+            'url(' +
+            require('~/assets/images/home/purple_background_mobile.png') +
+            ')'
+        }"
+      >
         <v-carousel
           interval="600000"
           hide-controls
@@ -156,6 +184,8 @@
             </div>
           </v-carousel-item>
         </v-carousel>
+
+        <img class="heroImg" src="~/assets/images/home/person_2_mobile.png" />
       </v-layout>
     </div>
 
@@ -165,13 +195,19 @@
       <v-container class="desktopView" hidden-sm-and-down>
         <v-layout row wrap>
           <!-- Left side image -->
-          <v-flex xs7>
-            &nbsp;
+          <v-flex class="leftImageSection" xs6>
+            <img
+              class="img1"
+              src="~/assets/images/home/person_with_phone.png"
+            />
+            <img class="img2" src="~/assets/images/home/mail_work.png" />
+            <img class="img3" src="~/assets/images/home/lady_with_phone.png" />
           </v-flex>
           <!-- Right side description -->
-          <v-flex xs5 md5>
+          <v-flex class="rightSideDescription" xs5 md6>
             <div class="ttle">How it works</div>
             <div class="subTitle">Oh, it's easy!</div>
+            <img class="dotsImg" src="~/assets/images/home/dots.png" />
             <div class="description">
               We'll send you an email every day with a reminder for you to
               submit an idea. Just hit reply, and you'll never again.
@@ -184,45 +220,44 @@
       <!-- Mobile View -->
       <v-container class="mobileView" grid-list-md hidden-md-and-up>
         <div class="ttle">How it works</div>
-        <div class="subTitle">Oh, it's easy!</div>
+        <div class="subTitle">
+          Oh, it's easy!
+          <img class="dotsImg" src="~/assets/images/home/dots.png" />
+        </div>
         <div class="description">
           We'll send you an email every day with a reminder for you to submit an
           idea. Just hit reply, and you'll never again.
         </div>
+
+        <div style="text-align: center;">
+          <img
+            class="ladyMobile"
+            src="~/assets/images/home/lady_with_phone.png"
+          />
+          <img class="img2" src="~/assets/images/home/mail_work_mobile.png" />
+          <img class="img3" src="~/assets/images/home/person_with_phone.png" />
+        </div>
         <v-btn class="buttn" outline>More</v-btn>
       </v-container>
-    </div>
 
-    <!-- Footer -->
-    <div class="homeFooter">
-      <v-layout row wrap>
-        <v-flex md10 lg10 hidden-sm-and-down> &nbsp;</v-flex>
-        <v-flex md2 lg2>
-          <i class="fab fa-instagram"></i>
-          <i class="fab fa-twitter"></i>
-          <i class="fab fa-facebook-f"></i>
-        </v-flex>
-      </v-layout>
+      <!-- Footer -->
+      <div class="homeFooter">
+        <v-layout row wrap>
+          <v-flex md10 lg10 hidden-sm-and-down> &nbsp;</v-flex>
+          <v-flex md2 lg2>
+            <i class="fab fa-instagram"></i>
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-facebook-f"></i>
+          </v-flex>
+        </v-layout>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  fetch({ store, redirect }) {
-    if (store.getters['cognito/isLoggedIn']) {
-      redirect({ name: 'ideas' })
-    }
-  },
-  methods: {
-    logout() {
-      this.$store.dispatch('cognito/signOut')
-    },
-
-    login() {
-      return true
-    }
-  }
+  methods: {}
 }
 </script>
 
@@ -232,89 +267,172 @@ export default {
     width: 100%;
     min-height: 100vh;
     text-align: left;
-    background: #ffc61e;
-    padding-bottom: 8vh;
+    background: #ebe7ed;
 
     .desktopHero {
       padding-left: 11.5%;
+      background-size: cover;
+      background-position-y: -20px;
+
       .heroTitle {
-        font-size: 4vw;
-        line-height: 4.5vw;
         padding-top: 7vh;
-        font-weight: bold;
+
+        font-size: 75px;
+        font-weight: 600;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.2;
+        letter-spacing: normal;
+        text-align: left;
+        color: #18141c;
       }
 
       .heroSubtitle {
-        font-size: 1.6vw;
-        color: black;
-        font-weight: bold;
         margin-top: 3vh;
         padding-left: 5px;
+
+        font-family: QuatroSlab;
+        font-size: 30px;
+        font-weight: 600;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 0.73;
+        letter-spacing: normal;
+        text-align: left;
+        color: #18141c;
       }
 
       .heroDescription {
         padding-left: 5px;
-        color: white;
-        font-size: 1.2vw;
-        padding-top: 2vh;
-        width: 60%;
+        padding-top: 4vh;
+        width: 63%;
+
+        font-family: Quatro;
+        font-size: 20px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.5;
+        letter-spacing: normal;
         text-align: left;
-        letter-spacing: 1px;
-        // font-weight: lighter;
+        color: #ffffff;
       }
 
       .signupButton {
         width: 220px;
         font-size: 13px;
-        margin-top: 7vh;
+        margin-top: 8.5vh;
+        margin-bottom: 2vh;
+      }
+
+      .lampImg {
+        position: absolute;
+        right: 21%;
+        top: 3vh;
+        height: 190px;
       }
     }
 
     .mobileHero {
       display: block;
-      width: 85%;
+      width: 100%;
+      padding-left: 7%;
+      padding-right: 7%;
+      padding-bottom: 1vh;
       margin: auto;
+      background-size: cover;
+      background-position-x: 90%;
+      background-position-y: 0px;
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: hidden;
+
       .heroTitle {
-        font-size: 40px;
         width: 70%;
-        line-height: 40px;
-        letter-spacing: 1px;
-        padding-top: 7vh;
-        font-weight: bold;
+        padding-top: 11vh;
         display: block;
+
+        font-family: QuatroSlab;
+        font-size: 50px;
+        font-weight: 600;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        text-align: left;
+        color: #18141c;
       }
 
       .heroSubtitle {
-        font-size: 14px;
-        color: black;
-        font-weight: bold;
-        margin-top: 20px;
+        margin-top: 3vh;
         padding-left: 5px;
+
+        font-family: QuatroSlab;
+        font-size: 14px;
+        font-weight: 600;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.57;
+        letter-spacing: normal;
+        text-align: left;
+        color: #18141c;
       }
 
       .heroDescription {
         padding-left: 5px;
-        color: white;
-        font-size: 14px;
-        padding-top: 16px;
+        padding-top: 3vh;
         width: 54%;
         text-align: left;
-        letter-spacing: 1px;
-        // font-weight: lighter;
+
+        font-family: Quatro;
+        font-size: 14px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.57;
+        letter-spacing: normal;
+        text-align: left;
+        color: #ffffff;
       }
 
       .signupButton {
-        width: 120px;
+        width: 150px;
         font-size: 13px;
         margin-top: 40px;
+      }
+
+      .lampImg {
+        position: absolute;
+        right: -2%;
+        top: 3vh;
+        height: 170px;
       }
     }
 
     .desktopReviews {
       padding-left: 10px;
-      width: 80%;
+      width: 100%;
+      padding-left: 10%;
+      padding-right: 10%;
       margin: auto;
       margin-top: 7vh;
+      padding-bottom: 10vh;
+      background-size: cover;
+      background-position-y: 30px;
+
+      .person2Img {
+        position: absolute;
+        margin-top: -300px;
+        right: 163px;
+        height: 450px;
+      }
+
+      .person3Img {
+        position: absolute;
+        right: -34px;
+        margin-top: -342px;
+        height: 480px;
+      }
 
       .review {
         max-width: 400px !important;
@@ -342,53 +460,71 @@ export default {
       }
     }
 
-    .mobileReviewCrousel {
-      // border: 1px solid red;
-      width: 90%;
-      margin: auto;
-      max-height: 33vh;
-      background: white;
-      margin-top: 25px;
-      padding-bottom: 10px;
+    .mobileReviews {
+      padding-bottom: 7vh;
+      background-size: cover;
+      background-position-y: 10vh;
+      position: relative;
 
-      .v-carousel__controls {
+      .heroImg {
+        position: absolute;
+        right: 0px;
+        // top: -38vh;
+        top: -300px;
+        // height: 71vh;
+        width: 45%;
+        z-index: 0;
+      }
+      .mobileReviewCrousel {
+        // border: 1px solid red;
+        width: 90%;
+        margin: auto;
+        max-height: 33vh;
         background: white;
-        padding-bottom: 5vh !important;
-        padding-top: 4vh !important;
+        margin-top: 25px;
+        padding-bottom: 10px;
+        z-index: 10;
 
-        .v-icon {
-          color: #777 !important;
-          font-size: 11px !important;
-        }
-
-        .v-btn--active {
-          background-color: white !important;
+        .v-carousel__controls {
+          background: white;
+          padding-bottom: 5vh !important;
+          padding-top: 4vh !important;
 
           .v-icon {
-            color: #ffc61e !important;
+            color: #777 !important;
+            font-size: 11px !important;
+          }
+
+          .v-btn--active {
+            background-color: white !important;
+
+            .v-icon {
+              color: #ffc61e !important;
+            }
           }
         }
-      }
 
-      .review {
-        padding: 25px 23px;
-        font-size: 18px;
-        margin: auto;
+        .review {
+          padding: 32px 32px;
+          padding-bottom: 0px;
+          font-size: 18px;
+          margin: auto;
 
-        .reviewerInfo {
-          font-size: px;
-          color: #777;
-          line-height: 30px;
-          margin-top: 20px;
+          .reviewerInfo {
+            font-size: px;
+            color: #777;
+            line-height: 30px;
+            margin-top: 20px;
 
-          .userIcon {
-            color: #35124e;
-            font-size: 25px;
-            line-height: 20px;
-            margin-right: 10px;
-          }
-          .reviewTime {
-            float: right;
+            .userIcon {
+              color: #35124e;
+              font-size: 25px;
+              line-height: 20px;
+              margin-right: 10px;
+            }
+            .reviewTime {
+              float: right;
+            }
           }
         }
       }
@@ -397,81 +533,140 @@ export default {
 
   .secondSection {
     text-align: left;
-    padding-top: 5vh;
+    padding-top: 0vh;
+    overflow: hidden;
+    position: relative;
 
     .desktopView {
-      .ttle {
-        color: #ffc61e;
-        font-style: italic;
-        font-size: 2vw;
-        line-height: 2.3vw;
+      .leftImageSection {
+        display: flex; // make us of Flexbox
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        .img1 {
+          position: absolute;
+          overflow: hidden;
+          height: 100vh;
+          top: 1vh;
+          left: -4%;
+        }
+        .img2 {
+          width: 70%;
+        }
+
+        .img3 {
+          position: absolute;
+          overflow: hidden;
+          height: 60vh;
+          top: 5vh;
+          right: 13%;
+        }
       }
 
-      .subTitle {
-        font-size: 3vw;
-      }
+      .rightSideDescription {
+        padding-top: 7vh;
+        .ttle {
+          color: #ffc61e;
+          font-style: italic;
+          font-size: 2vw;
+          line-height: 2.3vw;
+        }
 
-      .description {
-        width: 80%;
-        padding-top: 3vh;
-        font-size: 1.2vw;
-        line-height: 2.2vw;
-        letter-spacing: 1px;
-        padding-left: 5px;
-      }
-    }
+        .subTitle {
+          font-size: 4vw;
+        }
 
-    .desktopView {
-      .ttle {
-        color: #ffc61e;
-        font-style: italic;
-        font-size: 2vw;
-        line-height: 2.3vw;
-      }
-
-      .subTitle {
-        font-size: 4vw;
-      }
-      .description {
-        width: 80%;
-        padding-top: 4vh;
-        font-size: 1.3vw;
-        padding-left: 5px;
-        color: #aca7ae;
-      }
-      .buttn {
-        margin-top: 7vh;
-        margin-bottom: 5vh;
+        .dotsImg {
+          margin-top: 2vh;
+          height: 10px;
+        }
+        .description {
+          width: 80%;
+          padding-top: 4vh;
+          font-size: 1.3vw;
+          padding-left: 5px;
+          color: #aca7ae;
+        }
+        .buttn {
+          margin-top: 7vh;
+          margin-bottom: 5vh;
+        }
       }
     }
 
     .mobileView {
-      padding-left: 8%;
+      padding: 6vh 8% 0vh 10%;
+      position: relative;
+      overflow: hidden;
 
       .ttle {
-        color: #ffc61e;
+        font-family: QuatroSlab;
+        font-size: 14px;
+        font-weight: normal;
         font-style: italic;
-        font-size: 4vw;
-        line-height: 4vw;
+        font-stretch: normal;
+        line-height: 1.57;
+        letter-spacing: 0.42px;
+        text-align: left;
+        color: #ffbd27;
       }
 
       .subTitle {
         font-size: 9vw;
+        margin-top: 2vh;
+        position: relative;
+        .dotsImg {
+          position: absolute;
+          right: 4%;
+          top: 22px;
+          width: 60px;
+        }
       }
+
       .description {
         width: 70%;
         padding-top: 3vh;
-        font-size: 4vw;
         padding-left: 5px;
-        color: #aca7ae;
+
+        font-family: Quatro;
+        font-size: 12px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.83;
+        letter-spacing: normal;
+        text-align: left;
+        color: #827c85;
       }
 
       .buttn {
-        margin-top: 30vh;
+        // margin-top: 30vh;
+      }
+
+      .ladyMobile {
+        position: absolute;
+        bottom: 13vh;
+        left: 23px;
+        height: 263px;
+      }
+
+      .img2 {
+        width: 70%;
+        margin: auto;
+      }
+
+      .img3 {
+        position: absolute;
+        height: 670px;
+        right: -65px;
+        bottom: -250px;
       }
     }
 
     .buttn {
+      margin-top: 8vh;
+      margin-bottom: 4vh;
       color: #3a1852 !important;
       border: 2px solid #cbc4cf !important;
     }

@@ -2,8 +2,9 @@
   <v-app id="app">
     <v-toolbar class="toolBar" app flat absolute>
       <v-toolbar-title class="blue--text subheading">
-        <nuxt-link :to="{ name: 'index' }">
-          <strong class="pl-3">Daily Idea</strong>
+        <nuxt-link class="logoLink" :to="{ name: 'index' }">
+          <img class="logoIcon" src="~/assets/images/logo_icon.png" />
+          <img class="logoIcon logoText" src="~/assets/images/logo_text.png" />
         </nuxt-link>
       </v-toolbar-title>
       <v-spacer />
@@ -60,6 +61,19 @@ export default {
       text-decoration: none !important;
       font-size: 15px !important;
       margin-left: 17px;
+    }
+
+    .logoLink {
+      text-decoration: none;
+
+      .logoIcon {
+        height: 24px;
+      }
+
+      .logoText {
+        margin-top: 4px;
+        height: 19px;
+      }
     }
   }
 }
