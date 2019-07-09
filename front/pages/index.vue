@@ -196,10 +196,7 @@
         <v-layout row wrap>
           <!-- Left side image -->
           <v-flex class="leftImageSection" xs6>
-            <img
-              class="img1"
-              src="~/assets/images/home/person_with_phone.png"
-            />
+            <img class="img1" src="~/assets/images/person_with_phone.png" />
             <img class="img2" src="~/assets/images/home/mail_work.png" />
             <img class="img3" src="~/assets/images/home/lady_with_phone.png" />
           </v-flex>
@@ -235,7 +232,7 @@
             src="~/assets/images/home/lady_with_phone.png"
           />
           <img class="img2" src="~/assets/images/home/mail_work_mobile.png" />
-          <img class="img3" src="~/assets/images/home/person_with_phone.png" />
+          <img class="img3" src="~/assets/images/person_with_phone.png" />
         </div>
         <v-btn class="buttn" outline>More</v-btn>
       </v-container>
@@ -278,6 +275,7 @@ export default {
         padding-top: 7vh;
 
         font-size: 75px;
+        font-family: QuatroLight;
         font-weight: 600;
         font-style: normal;
         font-stretch: normal;
@@ -291,8 +289,8 @@ export default {
         margin-top: 3vh;
         padding-left: 5px;
 
-        font-family: QuatroSlab;
-        font-size: 30px;
+        font-family: QuatroLight;
+        font-size: 25px;
         font-weight: 600;
         font-style: normal;
         font-stretch: normal;
@@ -307,7 +305,7 @@ export default {
         padding-top: 4vh;
         width: 63%;
 
-        font-family: Quatro;
+        // font-family: QuatroLight;
         font-size: 20px;
         font-weight: normal;
         font-style: normal;

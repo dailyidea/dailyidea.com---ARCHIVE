@@ -1,7 +1,48 @@
 <template>
-  <v-form>
-    <v-container>
-      <v-layout row>
+  <div id="signupPage">
+    <v-layout row>
+      <v-flex hidden-sm-and-down>1 </v-flex>
+
+      <!-- Register Div -->
+      <v-flex class="registerDiv">
+        <img class="logoIcon" src="~/assets/images/signup/dark_gray_lamp.png" />
+        <br />
+        <img class="logoText" src="~/assets/images/logo_text.png" />
+
+        <!-- Email Input Box -->
+        <v-text-field
+          class="emailInput"
+          single-line
+          flat
+          label="Enter email"
+          prepend-inner-icon="email"
+        ></v-text-field>
+
+        <!-- Continue Button -->
+        <v-btn large class="continueBtn">Continue</v-btn>
+
+        <!-- Social Login Icons -->
+        <div class="socialIconContainer">
+          <v-btn small outline fab color="primary">
+            <v-icon>fab fa-facebook-f</v-icon>
+          </v-btn>
+          <v-btn small outline fab color="primary">
+            <v-icon>fab fa-twitter</v-icon>
+          </v-btn>
+          <v-btn small outline fab color="primary">
+            <v-icon>fab fa-google-plus-g</v-icon>
+          </v-btn>
+        </div>
+
+        <div class="loginDiv">
+          <div class="loginTitle">Alreay have an account?</div>
+          <v-btn large class="loginBtn" color="primary">LOGIN</v-btn>
+        </div>
+      </v-flex>
+
+      <v-flex hidden-sm-and-down>1 </v-flex>
+    </v-layout>
+    <!-- <v-layout row>
         <v-flex>
           <p class="dash-trailing">Get Started With A Free Account.</p>
         </v-flex>
@@ -37,9 +78,8 @@
             <p>Confirmation email was sent to email.</p>
           </v-flex>
         </v-layout>
-      </template>
-    </v-container>
-  </v-form>
+      </template> -->
+  </div>
 </template>
 
 <script>
@@ -70,3 +110,75 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+#signupPage {
+  // border: 1px solid red;
+  height: 90vh;
+  overflow: hidden;
+  background: white;
+
+  .registerDiv {
+    // border: 1px solid red;
+    text-align: center;
+    padding-top: 7vh;
+
+    .logoIcon {
+      width: 70px;
+    }
+
+    .logoText {
+      width: 200px;
+    }
+
+    .emailInput {
+      margin-top: 7vh !important;
+      .v-input__prepend-inner {
+        padding-right: 15px;
+      }
+    }
+
+    .emailInput {
+      width: 70%;
+      margin: auto;
+      max-width: 400px;
+    }
+
+    .continueBtn {
+      border-radius: 4px;
+      background-image: linear-gradient(to left, #ffdf01, #ffb92d);
+      color: white;
+      width: 70%;
+      max-width: 400px;
+      letter-spacing: 1px;
+    }
+
+    .socialIconContainer {
+      margin-top: 6vh;
+      button {
+        border: 1px solid #ebe7ed;
+      }
+    }
+
+    .loginDiv {
+      margin-top: 5vh;
+      .loginTitle {
+        font-size: 14px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.57;
+        letter-spacing: normal;
+        text-align: center;
+        color: #c8c7c7;
+      }
+      .loginBtn {
+        width: 70%;
+        max-width: 400px;
+        border-radius: 4px;
+        letter-spacing: 1px;
+      }
+    }
+  }
+}
+</style>
