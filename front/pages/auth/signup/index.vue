@@ -1,7 +1,12 @@
 <template>
   <div id="signupPage">
     <v-layout row>
-      <v-flex hidden-sm-and-down>1 </v-flex>
+      <v-flex class="lefgImgContainer" hidden-sm-and-down>
+        <img
+          class="imgPersonWithPhone"
+          src="~/assets/images/person_with_phone.png"
+        />
+      </v-flex>
 
       <!-- Register Div -->
       <v-flex class="registerDiv">
@@ -11,6 +16,7 @@
 
         <!-- Email Input Box -->
         <v-text-field
+          v-model="email"
           class="emailInput"
           single-line
           flat
@@ -19,7 +25,7 @@
         ></v-text-field>
 
         <!-- Continue Button -->
-        <v-btn large class="continueBtn">Continue</v-btn>
+        <v-btn large class="continueBtn" @click="signup">Continue</v-btn>
 
         <!-- Social Login Icons -->
         <div class="socialIconContainer">
@@ -40,8 +46,27 @@
         </div>
       </v-flex>
 
-      <v-flex hidden-sm-and-down>1 </v-flex>
+      <v-flex class="rightImgContainer" hidden-sm-and-down>
+        <img
+          class="imgLightGrayLamp"
+          src="~/assets/images/signup/light_gray_lamp.png"
+        />
+        <img
+          class="imgPersonWithPhone"
+          src="~/assets/images/signup/lady_with_phone.png"
+        />
+      </v-flex>
     </v-layout>
+
+    <!-- Fixed Footer -->
+    <v-layout
+      hidden-sm-and-down
+      class="fixedFooter"
+      :style="{
+        'background-image':
+          'url(' + require('~/assets/images/signup/footer_background.png') + ')'
+      }"
+    ></v-layout>
     <!-- <v-layout row>
         <v-flex>
           <p class="dash-trailing">Get Started With A Free Account.</p>
@@ -118,10 +143,42 @@ export default {
   overflow: hidden;
   background: white;
 
+  .lefgImgContainer {
+    position: relative;
+    z-index: 10;
+    .imgPersonWithPhone {
+      height: 65vh;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
+  .rightImgContainer {
+    position: relative;
+    z-index: 10;
+
+    .imgLightGrayLamp {
+      height: 50vh;
+      position: absolute;
+      left: 10%;
+      top: 0;
+    }
+
+    .imgPersonWithPhone {
+      height: 65vh;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+    }
+  }
+
   .registerDiv {
     // border: 1px solid red;
     text-align: center;
-    padding-top: 7vh;
+    padding-top: 4vh;
+    z-index: 10;
+    height: 85vh;
 
     .logoIcon {
       width: 70px;
@@ -179,6 +236,19 @@ export default {
         letter-spacing: 1px;
       }
     }
+  }
+
+  .fixedFooter {
+    height: 30vh;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    // border: 1px solid red;
+
+    background-size: cover;
+    // background-position-y: 30px;
   }
 }
 </style>
