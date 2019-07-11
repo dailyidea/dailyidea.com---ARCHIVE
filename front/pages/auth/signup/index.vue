@@ -40,6 +40,7 @@
           </v-btn>
         </div>
 
+        <!-- Login div at bottom -->
         <div class="loginDiv">
           <div class="loginTitle">Alreay have an account?</div>
           <v-btn large class="loginBtn" color="primary">LOGIN</v-btn>
@@ -137,12 +138,14 @@ export default {
 </script>
 
 <style lang="scss">
+@import './assets/style/variables.scss';
+
 #signupPage {
   // border: 1px solid red;
   height: 90vh;
   overflow: hidden;
   background: white;
-
+  overflow: hidden;
   .lefgImgContainer {
     position: relative;
     z-index: 10;
@@ -179,9 +182,20 @@ export default {
     padding-top: 4vh;
     z-index: 10;
     height: 85vh;
+    overflow: hidden;
+
+    @media #{$small-screen} {
+      padding-top: 10vh;
+    }
 
     .logoIcon {
       width: 70px;
+      @media #{$small-screen} {
+        // padding-top: 30vh;
+        // background: red !important;
+        height: 15vh !important;
+        width: auto !important;
+      }
     }
 
     .logoText {
@@ -199,6 +213,11 @@ export default {
       width: 70%;
       margin: auto;
       max-width: 400px;
+
+      @media #{$medium-screen} {
+        max-width: none;
+        width: 80%;
+      }
     }
 
     .continueBtn {
@@ -206,8 +225,13 @@ export default {
       background-image: linear-gradient(to left, #ffdf01, #ffb92d);
       color: white;
       width: 70%;
-      max-width: 400px;
+
       letter-spacing: 1px;
+
+      @media #{$medium-screen} {
+        max-width: none;
+        width: 80%;
+      }
     }
 
     .socialIconContainer {
@@ -234,6 +258,32 @@ export default {
         max-width: 400px;
         border-radius: 4px;
         letter-spacing: 1px;
+      }
+    }
+
+    @media #{$small-screen} {
+      .loginDiv {
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+
+        .logoIcon {
+          height: 26vh !important;
+        }
+
+        .logoText {
+          width: 200px;
+        }
+
+        .loginBtn {
+          width: 100%;
+          max-width: none;
+          margin: 0px;
+          border-radius: 0px;
+          margin-top: 10px;
+          height: 64px;
+          letter-spacing: 2px;
+        }
       }
     }
   }
