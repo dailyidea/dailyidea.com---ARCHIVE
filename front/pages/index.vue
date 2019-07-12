@@ -31,7 +31,7 @@
           <v-btn large class="signupButton" color="primary">Sign up Now</v-btn>
 
           <!-- Lamp Image -->
-          <img class="lampImg" src="~/assets/images/home/white_lamp.png" />
+          <img class="lampImg" src="~/assets/images/white_lamp.png" />
         </v-flex>
       </v-layout>
 
@@ -59,7 +59,7 @@
         <!-- Signup Button -->
         <v-btn large class="signupButton" color="primary">Sign up Now</v-btn>
 
-        <img class="lampImg" src="~/assets/images/home/white_lamp.png" />
+        <img class="lampImg" src="~/assets/images/white_lamp.png" />
       </v-layout>
 
       <!-- Desktop Reviews -->

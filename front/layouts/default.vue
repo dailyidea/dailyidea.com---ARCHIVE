@@ -20,7 +20,7 @@
         <a @click="logout">Logout</a>
       </template>
     </v-toolbar>
-    <v-content>
+    <v-content class="nuxtContainer">
       <v-layout>
         <v-flex>
           <nuxt />
