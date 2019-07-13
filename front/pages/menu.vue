@@ -1,5 +1,5 @@
 <template>
-  <div id="signupSuccessPage">
+  <div id="menuPage">
     <MenuComponent></MenuComponent>
   </div>
 </template>
