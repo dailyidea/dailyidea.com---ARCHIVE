@@ -1,12 +1,12 @@
 <template>
-  <v-layout id="profilePage">
+  <v-layout id="ideaDetailPage">
 
-    <img class="backgroundLamp" src="~/assets/images/profile/background_lamp.png" />
+    <!-- <img class="backgroundLamp" src="~/assets/images/profile/background_lamp.png" /> -->
 
     <!-- Headers -->
     <div class="pageHeader">
       <v-layout hidden-sm-and-down>
-        <desktopHeader></desktopHeader>
+        <desktopHeader style="border-bottom: 1px solid #ebe7ed;"></desktopHeader>
       </v-layout>
       <v-layout class="mobileHeader" row hidden-md-and-up>
         <v-flex xs2 sm2>
@@ -25,47 +25,24 @@
       <!-- Left Side -->
       <v-flex xs12 sm12 md5 lg5 xl5 class="profileDetails">
         <div class="sectionHeader">
-          <span class="userIcon">
-            <v-icon>fas fa-user</v-icon>
-          </span>
-          <div class="userName">Bob Smith</div>
-          <v-btn class="followBtn" color="primary">FOLLOW</v-btn>
+          <v-icon>fas fa-ellipsis-v</v-icon>
         </div>
 
-        <!-- Mobile - Profile Description -->
-        <v-layout class="profileDescription" hidden-md-and-up>
-          Hi! My name is Bob, I’m a creative geek from San Francisco, CA. I
-          enjoy creating eye candy solutions for web and mobile apps. Contact me
-          at bob@mail.com
-        </v-layout>
+        <div class="ideaTitle">
+          Title lorem ipsum dolor sit amet conset
+          adipiscing elit
+        </div>
 
-        <!-- 3 Boxes -->
-        <v-layout class="boxContainer" row>
-          <v-flex xs4 sm4 md4 lg4 xl4>
-            <div class="box first">
-              <div class="number">140</div>
-              <div class="text">Ideas</div>
-            </div>
-          </v-flex>
-          <v-flex xs4 sm4 md4 lg4 xl4>
-            <div class="box">
-              <div class="number">24k</div>
-              <div class="text">Followers</div>
-            </div>
-          </v-flex>
-          <v-flex xs4 sm4 md4 lg4 xl4>
-            <div class="box last">
-              <div class="number">1,980</div>
-              <div class="text">Following</div>
-            </div>
-          </v-flex>
-        </v-layout>
+        <div class="metadata">
+          <span>Bob Smith</span>
+          <span class="timing">1h ago</span>
+        </div>
 
-        <!-- Desktop - Profile Description -->
-        <v-layout class="profileDescription" hidden-sm-and-down>
-          Hi! My name is Bob, I’m a creative geek from San Francisco, CA. I
-          enjoy creating eye candy solutions for web and mobile apps. Contact me
-          at bob@mail.com
+        <!-- Description -->
+        <v-layout class="ideaDescription">
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui.
+          <br /><br />
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim. Excepteur sint occaecat cupidatat non provident.
         </v-layout>
 
         <div class="tagsContainer">
@@ -80,7 +57,7 @@
 
       <!-- Right Side -->
       <v-flex class="rightSideComments" xs12 sm12 md7 lg7 xl7>
-        <div class="commentItem" v-for="i in 6" :key="i">
+        <div class="commentItem" v-for="i in 60" :key="i">
           <div class="commentText">
             Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor
             sit amet consecteturdfd
@@ -131,14 +108,16 @@ export default {
     padding-top: 0px !important;
   }
 }
-#profilePage {
-  padding-top: 95px;
-  background: white;
-  min-height: 100vh;
+
+#ideaDetailPage {
+  padding-top: 65px;
+  background: #ebe7ed;
   padding-bottom: 2vh;
   display: block;
   width: 100%;
   overflow-x: hidden;
+  height: 100vh;
+  overflow-y: hidden;
 
   @media #{$small-screen} {
     padding-top: 0vh;
@@ -146,10 +125,10 @@ export default {
 
   .pageHeader {
     // border: 1px solid red;
-    padding: 25px 15px;
     width: 100%;
 
     .mobileHeader {
+      padding: 25px 15px;
       .text {
         text-align: center;
         margin-top: 2px;
@@ -173,112 +152,68 @@ export default {
   }
 
   .profileDetails {
-    padding: 20px;
-    padding-right: 1%;
-    padding-left: 3%;
+    padding: 25px;
+    background: white;
+    overflow: auto;
 
     @media #{$small-screen} {
       padding-right: 5%;
       padding-left: 5%;
     }
+
     .sectionHeader {
-      // border: 1px solid red;
-      .userName {
-        margin-left: 20px;
-        padding-top: 5px;
-        display: inline-block;
-
-        font-size: 20px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.5;
-        letter-spacing: normal;
-        text-align: left;
-        color: #18141c;
-      }
-
-      .userIcon {
-        background: #ebe7ed;
-        padding: 13px 15px;
-        border-radius: 50%;
-        i {
-          font-size: 15px !important;
-          line-height: 16px !important;
-          color: #35124e !important;
-        }
-      }
-
-      .followBtn {
-        float: right;
-        margin: 0px;
+      text-align: right;
+      i {
+        font-size: 13px;
       }
     }
 
-    .boxContainer {
-      width: 100%;
-      margin: auto;
-      margin-top: 25px;
+    .ideaTitle {
+      padding-top: 20px;
 
-      .box {
-        border-radius: 4px;
-        border: solid 1px rgba(187, 187, 187, 0.38);
-        padding: 10px;
-        margin: 10px;
+      font-size: 45px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.11;
+      letter-spacing: normal;
+      text-align: left;
+      color: #18141c;
+    }
 
-        @media #{$small-screen} {
-          margin: 10px 5px;
-        }
+    .metadata {
+      padding-top: 20px;
+      padding-left: 20px;
 
-        .number {
-          color: $primary-color;
-          font-weight: bold;
+      font-size: 12px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.83;
+      letter-spacing: normal;
+      text-align: left;
+      color: #b5b5b5;
 
-          font-size: 16px;
-          font-weight: bold;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: 1.55;
-          letter-spacing: normal;
-          text-align: left;
-          color: #35124e;
-        }
-        .text {
-          font-size: 16px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: 1.55;
-          letter-spacing: normal;
-          text-align: left;
-          color: #c0b7c5;
-        }
-      }
-
-      .first {
-        margin-left: 0px !important;
-      }
-
-      .last {
-        margin-right: 0px !important;
+      .timing {
+        padding-left: 30%;
       }
     }
 
-    .profileDescription {
+    .ideaDescription {
       margin-top: 20px;
 
       @media #{$small-screen} {
         padding-top: 20px;
       }
 
-      font-size: 14px;
+      font-size: 15px;
       font-weight: normal;
       font-style: normal;
       font-stretch: normal;
-      line-height: 1.56;
+      line-height: 1.5;
       letter-spacing: normal;
       text-align: left;
-      color: #827c85;
+      color: #18141c;
     }
 
     .tagsContainer {
@@ -294,6 +229,9 @@ export default {
   .rightSideComments {
     padding-right: 3%;
     padding-left: 2%;
+
+    height: 90vh;
+    overflow: auto;
 
     @media #{$small-screen} {
       padding-right: 0%;
