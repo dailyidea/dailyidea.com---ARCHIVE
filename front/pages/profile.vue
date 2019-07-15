@@ -1,5 +1,5 @@
 <template>
-  <v-layout id="profilePage">
+  <v-layout id="ideaListPage">
 
     <img class="backgroundLamp" src="~/assets/images/profile/background_lamp.png" />
 
@@ -91,7 +91,7 @@
               609
             </div>
             <div class="downs">
-              <img class="logoIcon" src="~/assets/images/profile/comments.png" />
+              <img class="logoIcon" src="~/assets/images/comments.png" />
               120
             </div>
             <div class="timing">
@@ -131,7 +131,7 @@ export default {
     padding-top: 0px !important;
   }
 }
-#profilePage {
+#ideaListPage {
   padding-top: 95px;
   background: white;
   min-height: 100vh;
