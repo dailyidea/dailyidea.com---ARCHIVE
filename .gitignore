@@ -18,6 +18,9 @@
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 
+# remove mac file metadata
+*.DS_Store
+
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries

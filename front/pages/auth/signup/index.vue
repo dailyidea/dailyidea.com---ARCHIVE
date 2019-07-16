@@ -1,6 +1,13 @@
 <template>
   <div id="signupPage">
     <v-layout row>
+      <!-- Back button -->
+      <nuxt-link class="userLink" :to="{ path: '/' }">
+        <v-btn class="backBtn" flat icon color="primary">
+          <v-icon>fas fa-arrow-left</v-icon>
+        </v-btn>
+      </nuxt-link>
+
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
         <img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
       </v-flex>
@@ -12,7 +19,14 @@
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
         <!-- Email Input Box -->
-        <v-text-field v-model="email" class="emailInput" single-line flat label="Enter email" prepend-inner-icon="email"></v-text-field>
+        <v-text-field
+          v-model="email"
+          class="emailInput"
+          single-line
+          flat
+          label="Enter email"
+          prepend-inner-icon="email"
+        ></v-text-field>
 
         <!-- Continue Button -->
         <v-btn large class="continueBtn" @click="signup">Continue</v-btn>
@@ -44,10 +58,14 @@
     </v-layout>
 
     <!-- Fixed Footer -->
-    <v-layout hidden-sm-and-down class="fixedFooter" :style="{
+    <v-layout
+      hidden-sm-and-down
+      class="fixedFooter"
+      :style="{
         'background-image':
           'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"></v-layout>
+      }"
+    ></v-layout>
   </div>
 </template>
 
@@ -80,7 +98,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import './assets/style/variables.scss';
 
 #signupPage {
@@ -89,6 +107,18 @@ export default {
   overflow: hidden;
   background: white;
   overflow: hidden;
+  // border: 1px solid red;
+
+  .backBtn {
+    color: $primary-color;
+    position: absolute;
+    padding: 25px;
+
+    i {
+      font-size: 16px;
+    }
+  }
+
   .lefgImgContainer {
     position: relative;
     z-index: 10;

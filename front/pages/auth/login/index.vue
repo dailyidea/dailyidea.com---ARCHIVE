@@ -1,5 +1,10 @@
 <template>
   <div id="loginPage">
+    <!-- Back button -->
+    <v-btn class="backBtn" flat icon color="primary">
+      <v-icon>fas fa-arrow-left</v-icon>
+    </v-btn>
+
     <v-layout row>
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
         <img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
@@ -79,7 +84,7 @@
 </template>
 
 <script>
-import ValidateTextField from '../../components/ValidateTextField'
+import ValidateTextField from '../../../components/ValidateTextField'
 import ActionValidate from '~/mixins/validatable'
 import { getErrorMessage } from '~/utils'
 
@@ -115,7 +120,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import './assets/style/variables.scss';
 
 #loginPage {
@@ -124,6 +129,16 @@ export default {
   overflow: hidden;
   background: white;
   overflow: hidden;
+
+  .backBtn {
+    color: $primary-color;
+    position: absolute;
+    padding: 25px;
+    i {
+      font-size: 16px;
+    }
+  }
+
   .lefgImgContainer {
     position: relative;
     z-index: 10;

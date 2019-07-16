@@ -17,8 +17,7 @@
         <v-flex hidden-sm-and-down md7 lg6>
           <div class="heroTitle">
             Your Idea Could
-            <br />
-            Be Huge!
+            <br />Be Huge!
           </div>
           <div class="heroSubtitle">That is, if you don't forget it!</div>
           <div class="heroDescription">
@@ -57,7 +56,9 @@
           conquer the world!
         </div>
         <!-- Signup Button -->
-        <v-btn large class="signupButton" color="primary">Sign up Now</v-btn>
+        <nuxt-link :to="{ name: 'auth-signup' }">
+          <v-btn large class="signupButton" color="primary">Sign up Now</v-btn>
+        </nuxt-link>
 
         <img class="lampImg" src="~/assets/images/white_lamp.png" />
       </v-layout>
@@ -82,11 +83,9 @@
             <v-card color="white" class="review">
               Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
               officia deserunt
-
               <!-- User Icon -->
               <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>
-                by Name Surname
+                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
                 <div class="reviewTime">1h ago</div>
               </div>
             </v-card>
@@ -95,11 +94,9 @@
             <v-card color="white" class="review">
               Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
               officia deserunt
-
               <!-- User Icon -->
               <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>
-                by Name Surname
+                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
                 <div class="reviewTime">1h ago</div>
               </div>
             </v-card>
@@ -110,11 +107,9 @@
             <v-card color="white" class="review">
               Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
               officia deserunt
-
               <!-- User Icon -->
               <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>
-                by Name Surname
+                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
                 <div class="reviewTime">1h ago</div>
               </div>
             </v-card>
@@ -142,44 +137,36 @@
           <v-carousel-item class="review">
             Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
             officia deserunt
-
             <!-- User Icon -->
             <div class="reviewerInfo">
-              <v-icon class="userIcon">fa-user-circle</v-icon>
-              by Name Surname
+              <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
               <div class="reviewTime">1h ago</div>
             </div>
           </v-carousel-item>
           <v-carousel-item class="review">
             Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
             officia deserunt
-
             <!-- User Icon -->
             <div class="reviewerInfo">
-              <v-icon class="userIcon">fa-user-circle</v-icon>
-              by Name Surname
+              <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
               <div class="reviewTime">1h ago</div>
             </div>
           </v-carousel-item>
           <v-carousel-item class="review">
             Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
             officia deserunt
-
             <!-- User Icon -->
             <div class="reviewerInfo">
-              <v-icon class="userIcon">fa-user-circle</v-icon>
-              by Name Surname
+              <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
               <div class="reviewTime">1h ago</div>
             </div>
           </v-carousel-item>
           <v-carousel-item class="review">
             Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
             officia deserunt
-
             <!-- User Icon -->
             <div class="reviewerInfo">
-              <v-icon class="userIcon">fa-user-circle</v-icon>
-              by Name Surname
+              <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
               <div class="reviewTime">1h ago</div>
             </div>
           </v-carousel-item>
@@ -227,10 +214,7 @@
         </div>
 
         <div style="text-align: center;">
-          <img
-            class="ladyMobile"
-            src="~/assets/images/home/lady_with_phone.png"
-          />
+          <img class="ladyMobile" src="~/assets/images/home/lady_with_phone.png" />
           <img class="img2" src="~/assets/images/home/mail_work_mobile.png" />
           <img class="img3" src="~/assets/images/person_with_phone.png" />
         </div>
@@ -240,7 +224,7 @@
       <!-- Footer -->
       <div class="homeFooter">
         <v-layout row wrap>
-          <v-flex md10 lg10 hidden-sm-and-down> &nbsp;</v-flex>
+          <v-flex md10 lg10 hidden-sm-and-down>&nbsp;</v-flex>
           <v-flex md2 lg2>
             <i class="fab fa-instagram"></i>
             <i class="fab fa-twitter"></i>

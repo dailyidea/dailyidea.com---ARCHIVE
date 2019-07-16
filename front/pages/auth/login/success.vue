@@ -1,5 +1,5 @@
 <template>
-  <div id="signupSuccessPage">
+  <div id="loginSuccessPage">
     <!-- Back button -->
     <v-btn class="backBtn" flat icon color="primary">
       <v-icon>fas fa-arrow-left</v-icon>
@@ -23,7 +23,7 @@
         <!-- Hero Description -->
         <div class="heroDescription">
           We've sent you an email confirmation link at ericzliu@gmail.com.
-          Click the link to confirm your address and get started!
+          Click the link to get started!
         </div>
 
         <!-- Continue Button -->
@@ -93,7 +93,7 @@ export default {
 <style lang="scss">
 @import './assets/style/variables.scss';
 
-#signupSuccessPage {
+#loginSuccessPage {
   // border: 1px solid red;
   height: 90vh;
   overflow: hidden;
