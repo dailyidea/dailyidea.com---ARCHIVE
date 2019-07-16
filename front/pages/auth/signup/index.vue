@@ -2,11 +2,10 @@
   <div id="signupPage">
     <v-layout row>
       <!-- Back button -->
-      <nuxt-link class="userLink" :to="{ path: '/' }">
-        <v-btn class="backBtn" flat icon color="primary">
-          <v-icon>fas fa-arrow-left</v-icon>
-        </v-btn>
-      </nuxt-link>
+
+      <v-btn class="backBtn" flat icon color="primary" to="/">
+        <v-icon>fas fa-arrow-left</v-icon>
+      </v-btn>
 
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
         <img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
@@ -47,7 +46,7 @@
         <!-- Login div at bottom -->
         <div class="loginDiv">
           <div class="loginTitle">Alreay have an account?</div>
-          <v-btn large class="loginBtn" color="primary">LOGIN</v-btn>
+          <v-btn large class="loginBtn" color="primary" to="/auth/login">LOGIN</v-btn>
         </div>
       </v-flex>
 
@@ -113,7 +112,7 @@ export default {
     color: $primary-color;
     position: absolute;
     padding: 25px;
-
+    z-index: 5000;
     i {
       font-size: 16px;
     }

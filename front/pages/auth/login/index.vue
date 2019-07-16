@@ -1,7 +1,7 @@
 <template>
   <div id="loginPage">
     <!-- Back button -->
-    <v-btn class="backBtn" flat icon color="primary">
+    <v-btn class="backBtn" flat icon color="primary" to="/">
       <v-icon>fas fa-arrow-left</v-icon>
     </v-btn>
 
@@ -61,7 +61,7 @@
         <!-- Login div at bottom -->
         <div class="loginDiv">
           <div class="loginTitle">Haven't created account yet?</div>
-          <v-btn large class="loginBtn" color="primary">REgister Now</v-btn>
+          <v-btn large class="loginBtn" color="primary" to="/auth/signup">REgister Now</v-btn>
         </div>
       </v-flex>
 

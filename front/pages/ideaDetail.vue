@@ -1,6 +1,5 @@
 <template>
   <v-layout id="ideaDetailPage">
-
     <!-- <img class="backgroundLamp" src="~/assets/images/profile/background_lamp.png" /> -->
 
     <!-- Headers -->
@@ -12,9 +11,7 @@
         <v-flex xs2 sm2>
           <v-icon class="icons">fas fa-arrow-left</v-icon>
         </v-flex>
-        <v-flex xs8 sm8 class="text">
-          BOB'S PROFILE
-        </v-flex>
+        <v-flex xs8 sm8 class="text">BOB'S PROFILE</v-flex>
         <v-flex xs2 sm2 class="rightSide">
           <v-icon class="icons">fas fa-cog</v-icon>
         </v-flex>
@@ -25,7 +22,8 @@
       <!-- Left Side -->
       <v-flex xs12 sm12 md5 lg5 xl5 class="profileDetails">
         <div class="sectionHeader">
-          <v-icon>fas fa-ellipsis-v</v-icon>
+          <v-icon class="backBtn">fas fa-arrow-left</v-icon>
+          <v-icon class="menu">fas fa-ellipsis-v</v-icon>
         </div>
 
         <div class="ideaTitle">
@@ -41,8 +39,8 @@
         <!-- Description -->
         <v-layout class="ideaDescription">
           Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui.
-          <br /><br />
-          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim. Excepteur sint occaecat cupidatat non provident.
+          <br />
+          <br />Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim. Excepteur sint occaecat cupidatat non provident.
         </v-layout>
 
         <div class="tagsContainer">
@@ -71,13 +69,17 @@
               <img class="logoIcon" src="~/assets/images/comments.png" />
               120
             </div>
-            <div class="timing">
-              1h ago
-            </div>
+            <div class="timing">1h ago</div>
           </div>
         </div>
       </v-flex>
     </v-layout>
+
+    <!-- Foter with textbox -->
+    <div class="pageFooter">
+      <v-text-field class="newCommentInput" flat solo label="Say something..." large></v-text-field>
+      <v-icon class="sendBtn">fas fa-arrow-right</v-icon>
+    </div>
   </v-layout>
 </template>
 <script>
@@ -152,9 +154,11 @@ export default {
   }
 
   .profileDetails {
-    padding: 25px;
+    padding: 20px;
+    // padding-top: 5px;
     background: white;
     overflow: auto;
+    // border: 1px solid red;
 
     @media #{$small-screen} {
       padding-right: 5%;
@@ -162,9 +166,16 @@ export default {
     }
 
     .sectionHeader {
-      text-align: right;
-      i {
-        font-size: 13px;
+      .backBtn {
+        color: $primary-color;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .menu {
+        float: right;
+        padding-top: 3px;
+        font-size: 16px;
+        cursor: pointer;
       }
     }
 
@@ -310,17 +321,38 @@ export default {
     }
   }
 
-  .backgroundLamp {
-    position: absolute;
-    width: 350px;
-    margin-top: 40vh;
-    left: 17%;
-    @media #{$small-screen} {
-      top: 100px;
-      margin-top: 0vh;
-      left: -48%;
-      width: 100%;
-      height: 60vh;
+  .pageFooter {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    background: white;
+    z-index: 100;
+
+    height: 68px;
+    padding-top: 10px;
+    padding-left: 10px;
+    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 -10px 10px 0 rgba(228, 228, 228, 0.73);
+    background-color: #ffffff;
+
+    .newCommentInput {
+      .v-input__slot {
+        margin-bottom: 0px;
+      }
+
+      .v-text-field__details {
+        display: none;
+      }
+    }
+
+    .sendBtn {
+      position: absolute;
+      top: 24px;
+      right: 19px;
+      font-size: 21px;
+      color: #d4bb10;
     }
   }
 }

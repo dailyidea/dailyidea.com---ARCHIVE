@@ -27,7 +27,12 @@
           </div>
 
           <!-- Signup Button -->
-          <v-btn large class="signupButton" color="primary">Sign up Now</v-btn>
+          <v-btn
+            large
+            class="signupButton"
+            :to="{ name: 'auth-signup' }"
+            color="primary"
+          >Sign up Now</v-btn>
 
           <!-- Lamp Image -->
           <img class="lampImg" src="~/assets/images/white_lamp.png" />
@@ -55,10 +60,9 @@
           store your ideas for you, so you can share them with your friends and
           conquer the world!
         </div>
+
         <!-- Signup Button -->
-        <nuxt-link :to="{ name: 'auth-signup' }">
-          <v-btn large class="signupButton" color="primary">Sign up Now</v-btn>
-        </nuxt-link>
+        <v-btn large class="signupButton" :to="{ name: 'auth-signup' }" color="primary">Sign up Now</v-btn>
 
         <img class="lampImg" src="~/assets/images/white_lamp.png" />
       </v-layout>
