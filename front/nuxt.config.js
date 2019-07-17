@@ -56,6 +56,12 @@ module.exports = {
    */
   modules: ['@nuxtjs/dotenv', 'nuxt-universal-storage'],
 
+  render: {
+    bundleRenderer: {
+      runInNewContext: false
+    }
+  },
+
   /*
    ** Build configuration
    */

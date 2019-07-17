@@ -1,7 +1,6 @@
 <template>
   <v-layout id="profilePage">
-
-    <img class="backgroundLamp" src="~/assets/images/profile/background_lamp.png" />
+    <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
     <!-- Headers -->
     <div class="pageHeader">
@@ -12,9 +11,7 @@
         <v-flex xs2 sm2>
           <v-icon class="icons">fas fa-arrow-left</v-icon>
         </v-flex>
-        <v-flex xs8 sm8 class="text">
-          BOB'S PROFILE
-        </v-flex>
+        <v-flex xs8 sm8 class="text">BOB'S PROFILE</v-flex>
         <v-flex xs2 sm2 class="rightSide">
           <v-icon class="icons">fas fa-cog</v-icon>
         </v-flex>
@@ -94,9 +91,7 @@
               <img class="logoIcon" src="~/assets/images/comments.png" />
               120
             </div>
-            <div class="timing">
-              1h ago
-            </div>
+            <div class="timing">1h ago</div>
           </div>
         </div>
       </v-flex>
