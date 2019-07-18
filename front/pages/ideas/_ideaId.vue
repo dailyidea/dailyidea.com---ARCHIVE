@@ -1,10 +1,9 @@
 <template>
   <v-layout id="ideaDetailPage">
-    <img class="backgroundLamp" src="~/assets/images/profile/background_lamp.png" />
-    <!-- <img class="backgroundLamp" src="~/assets/images/white_lamp.png" /> -->
+    <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
     <!-- Headers -->
-    <div class="pageHeader">
+    <!-- <div class="pageHeader">
       <v-layout hidden-sm-and-down>
         <desktopHeader style="border-bottom: 1px solid #ebe7ed;"></desktopHeader>
       </v-layout>
@@ -17,7 +16,7 @@
           <v-icon class="icons menu">fas fa-ellipsis-v</v-icon>
         </v-flex>
       </v-layout>
-    </div>
+    </div>-->
 
     <v-layout row wrap>
       <!-- Left Side -->
@@ -114,18 +113,8 @@ export default {
 
 <style lang="scss">
 @import './assets/style/variables.scss';
-// Remove top header manually
-#app {
-  .toolBar {
-    display: none;
-  }
-  .nuxtContainer {
-    padding-top: 0px !important;
-  }
-}
 
 #ideaDetailPage {
-  padding-top: 65px;
   background: #ebe7ed;
   padding-bottom: 2vh;
   display: block;
@@ -135,45 +124,8 @@ export default {
   position: relative;
 
   @media #{$desktop} {
-    height: 100vh;
+    height: 90vh;
     overflow-y: hidden;
-  }
-
-  @media #{$small-screen} {
-    padding-top: 0vh;
-  }
-
-  .pageHeader {
-    // border: 1px solid red;
-    width: 100%;
-    background: white;
-    margin-bottom: -2px;
-
-    .mobileHeader {
-      padding: 25px 15px;
-      .text {
-        text-align: center;
-        margin-top: 2px;
-        font-size: 14px;
-        font-weight: 600;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.57;
-        letter-spacing: 0.42px;
-        text-align: center;
-        color: #18141c;
-      }
-      i {
-        color: #c0b7c5 !important;
-        font-size: 15px;
-      }
-      .rightSide {
-        text-align: right;
-        i {
-          color: #35124e !important;
-        }
-      }
-    }
   }
 
   .profileDetails {
@@ -181,7 +133,7 @@ export default {
     // padding-top: 5px;
     background: white;
     overflow: auto;
-    // border: 1px solid red;
+    border-top: 1px solid #f5f3f6;
 
     @media #{$small-screen} {
       padding-right: 5%;
@@ -299,7 +251,7 @@ export default {
   .rightSideComments {
     padding-right: 10px;
     padding-left: 10px;
-    padding-bottom: 80px;
+    padding-bottom: 50px;
 
     @media #{$desktop} {
       height: 90vh;

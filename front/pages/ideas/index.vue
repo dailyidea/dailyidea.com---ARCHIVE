@@ -1,7 +1,7 @@
 <template>
   <v-layout id="ideaListPage">
     <!-- Headers -->
-    <div class="pageHeader">
+    <!-- <div class="pageHeader">
       <v-layout hidden-sm-and-down>
         <desktopHeader></desktopHeader>
       </v-layout>
@@ -14,7 +14,7 @@
           <v-icon class="icons">fas fa-search</v-icon>
         </v-flex>
       </v-layout>
-    </div>
+    </div>-->
 
     <!-- Title Section -->
     <div class="titleDiv">
@@ -71,15 +71,6 @@ export default {
 <style lang="scss">
 @import './assets/style/variables.scss';
 
-// Remove top header manually
-#app {
-  .toolBar {
-    display: none;
-  }
-  .nuxtContainer {
-    padding-top: 0px !important;
-  }
-}
 #ideaListPage {
   padding-top: 50px;
   background: white;
