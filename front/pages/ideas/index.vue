@@ -69,8 +69,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import './assets/style/variables.scss';
-
 #ideaListPage {
   padding-top: 50px;
   background: white;

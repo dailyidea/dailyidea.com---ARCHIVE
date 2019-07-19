@@ -1,5 +1,4 @@
 require('dotenv').config()
-const path = require('path')
 // const { VuetifyProgressiveModule } = require('vuetify-loader')
 
 // const resolve = dir => path.join(__dirname, dir)
@@ -54,7 +53,15 @@ module.exports = {
   /*
    ** Nuxt.js modules
    */
-  modules: ['@nuxtjs/dotenv', 'nuxt-universal-storage'],
+  modules: [
+    '@nuxtjs/dotenv',
+    'nuxt-universal-storage',
+    '@nuxtjs/style-resources'
+  ],
+
+  styleResources: {
+    scss: ['assets/style/variables.scss']
+  },
 
   render: {
     bundleRenderer: {

@@ -44,8 +44,6 @@ export default {
 }
 </script>
 <style lang="scss">
-@import './assets/style/variables.scss';
-
 .loggedInHeader {
   width: 100%;
   background: white !important;

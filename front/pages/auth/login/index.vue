@@ -121,8 +121,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './assets/style/variables.scss';
-
 #loginPage {
   // border: 1px solid red;
   height: 90vh;

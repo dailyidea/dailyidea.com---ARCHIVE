@@ -7,7 +7,8 @@
 
     <!-- Logo -->
     <div class="logoText">
-      <span class="dark-font">DAILY</span><span class="light-font">IDEA</span>
+      <span class="dark-font">DAILY</span>
+      <span class="light-font">IDEA</span>
     </div>
 
     <!-- Menu Items -->
@@ -48,7 +49,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import './assets/style/variables.scss';
 // Remove top header manually
 #app {
   .toolBar {

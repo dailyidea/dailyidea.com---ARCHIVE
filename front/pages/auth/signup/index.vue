@@ -98,8 +98,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './assets/style/variables.scss';
-
 #signupPage {
   // border: 1px solid red;
   height: 90vh;

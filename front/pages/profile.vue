@@ -116,7 +116,6 @@ export default {
 }
 </script>
 <style lang="scss">
-@import './assets/style/variables.scss';
 // Remove top header manually
 #app {
   .toolBar {

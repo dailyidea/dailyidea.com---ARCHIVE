@@ -112,8 +112,6 @@ export default {
 
 
 <style lang="scss">
-@import './assets/style/variables.scss';
-
 #ideaDetailPage {
   background: #ebe7ed;
   padding-bottom: 2vh;

@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "0.0.1",
+    "@nuxtjs/style-resources": "^0.1.2",
     "@vue/eslint-config-prettier": "4.0.1",
     "babel-eslint": "10.0.1",
     "babel-plugin-transform-imports": "1.5.1",

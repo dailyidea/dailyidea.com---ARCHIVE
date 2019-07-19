@@ -91,8 +91,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import './assets/style/variables.scss';
-
 #loginSuccessPage {
   // border: 1px solid red;
   height: 90vh;
