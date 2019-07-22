@@ -26,7 +26,7 @@
 
     <!-- Idea List -->
     <v-layout class="ideaList" row wrap>
-      <v-flex class="ideaContainer" xs12 sm12 md4 lg4 xl4 v-for="idea in ideas" :key="idea">
+      <v-flex class="ideaContainer" xs12 sm12 md4 lg4 xl4 v-for="(idea, index) in ideas" :key="index">
         <div class="ideaItem" @click="$router.push({path:'/ideas/' + idea.ideaId, force: true})">
           <div class="ideaDescription">{{idea.title}}</div>
           <div class="engagement">
@@ -50,10 +50,13 @@
 </template>
 <script>
 import desktopHeader from './../../components/loggedInDesktopHeader'
-
 import { graphqlOperation } from '@aws-amplify/api'
 import getIdeas from '~/graphql/mutations/getIdeas'
-import moment from 'moment'
+
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
+
 export default {
   components: { desktopHeader },
   async asyncData({ app }) {

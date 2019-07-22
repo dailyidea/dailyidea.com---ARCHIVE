@@ -85,6 +85,9 @@
 import desktopHeader from './../../components/loggedInDesktopHeader'
 import { graphqlOperation } from '@aws-amplify/api'
 import getIdea from '~/graphql/mutations/getIdea'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime);
 export default {
   components: { desktopHeader },
   data: () => ({
@@ -102,6 +105,9 @@ export default {
     const { data } = await app.$amplifyApi.graphql(
       graphqlOperation(getIdea, { ideaId: route.params.ideaId })
     )
+    let abcd = dayjs
+
+    debugger
     return {
       idea: data.getIdea,
       user: { email: store.state.cognito.user.attributes.email }
