@@ -19,27 +19,7 @@
         <!-- Login Form -->
         <v-form>
           <!-- Email Input Box -->
-          <!-- <validate-text-field
-            v-model="email"
-            class="emailInput"
-            single-line
-            flat
-            label="Enter email"
-            prepend-inner-icon="email"
-          ></validate-text-field>-->
-
-          <validate-text-field
-            :value.sync="email"
-            single-line
-            flat
-            class="emailInput"
-            name="email"
-            autocomplete="email"
-            type="email"
-            prepend-inner-icon="email"
-            placeholder="Enter Email"
-            validate="required|email"
-          />
+          <validate-text-field :value.sync="email" single-line flat class="emailInput" name="email" autocomplete="email" type="email" prepend-inner-icon="email" placeholder="Enter Email" validate="required|email" />
 
           <!-- Continue Button -->
           <v-btn large class="continueBtn" @click="login">Continue</v-btn>
@@ -72,14 +52,10 @@
     </v-layout>
 
     <!-- Fixed Footer -->
-    <v-layout
-      hidden-sm-and-down
-      class="fixedFooter"
-      :style="{
+    <v-layout hidden-sm-and-down class="fixedFooter" :style="{
         'background-image':
           'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"
-    ></v-layout>
+      }"></v-layout>
   </div>
 </template>
 
@@ -101,12 +77,9 @@ export default {
         await this.$amplifyApi.post('RequestLogin', '', {
           body: { email: this.email }
         })
-        this.$snotify.success('Email Sent', 'Email Sent', {
-          timeout: 2000,
-          showProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true
-        })
+
+        // Redirect to registeration success page
+        this.$router.push('/auth/login/success')
       } catch (e) {
         this.$snotify.error(getErrorMessage(e), 'Error', {
           timeout: 2000,

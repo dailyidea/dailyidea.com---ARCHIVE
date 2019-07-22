@@ -18,14 +18,10 @@
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
         <!-- Email Input Box -->
-        <v-text-field
-          v-model="email"
-          class="emailInput"
-          single-line
-          flat
-          label="Enter email"
-          prepend-inner-icon="email"
-        ></v-text-field>
+        <v-text-field v-model="name" class="inputBox name" single-line flat label="Enter name" prepend-inner-icon="fas fa-user"></v-text-field>
+
+        <!-- Email Input Box -->
+        <v-text-field v-model="email" class="inputBox email" single-line flat label="Enter email" prepend-inner-icon="email"></v-text-field>
 
         <!-- Continue Button -->
         <v-btn large class="continueBtn" @click="signup">Continue</v-btn>
@@ -57,14 +53,10 @@
     </v-layout>
 
     <!-- Fixed Footer -->
-    <v-layout
-      hidden-sm-and-down
-      class="fixedFooter"
-      :style="{
+    <v-layout hidden-sm-and-down class="fixedFooter" :style="{
         'background-image':
           'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"
-    ></v-layout>
+      }"></v-layout>
   </div>
 </template>
 
@@ -74,7 +66,7 @@ import { getErrorMessage } from '~/utils'
 export default {
   data: () => ({
     email: '',
-    success: false
+    name: ''
   }),
   methods: {
     async signup() {
@@ -83,7 +75,9 @@ export default {
           username: this.email,
           password: nanoid()
         })
-        this.success = true
+
+        // Redirect to registeration success page
+        this.$router.push('/auth/signup/success')
       } catch (e) {
         this.$snotify.error(getErrorMessage(e), 'Error', {
           timeout: 2000,
@@ -97,7 +91,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #signupPage {
   // border: 1px solid red;
   height: 90vh;
@@ -159,7 +153,7 @@ export default {
     }
 
     .logoIcon {
-      width: 70px;
+      width: 60px;
       @media #{$small-screen} {
         // padding-top: 30vh;
         // background: red !important;
@@ -170,19 +164,23 @@ export default {
 
     .logoText {
       width: 200px;
+      margin-bottom: 7vh !important;
     }
 
-    .emailInput {
-      margin-top: 7vh !important;
-      .v-input__prepend-inner {
-        padding-right: 15px;
-      }
-    }
-
-    .emailInput {
+    .inputBox {
       width: 70%;
       margin: auto;
       max-width: 400px;
+      margin-top: 0.5vh !important;
+
+      .v-input__prepend-inner {
+        padding-right: 15px;
+        font-size: 12px;
+        i {
+          // color: red !important;
+          font-size: 18px;
+        }
+      }
 
       @media #{$medium-screen} {
         max-width: none;
@@ -192,6 +190,7 @@ export default {
 
     .continueBtn {
       border-radius: 4px;
+      margin-top: 20px;
       background-image: linear-gradient(to left, #ffdf01, #ffb92d);
       color: white;
       width: 70%;
@@ -205,14 +204,14 @@ export default {
     }
 
     .socialIconContainer {
-      margin-top: 6vh;
+      margin-top: 3vh;
       button {
         border: 1px solid #ebe7ed;
       }
     }
 
     .loginDiv {
-      margin-top: 5vh;
+      margin-top: 2vh;
       .loginTitle {
         font-size: 14px;
         font-weight: normal;
