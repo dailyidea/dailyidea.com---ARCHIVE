@@ -39,8 +39,7 @@
               120
             </div>
             <div class="timing">
-              1h ago
-              <!-- {{idea.createdDate}} -->
+              {{idea.relativeCreatedTime}}
             </div>
           </div>
         </div>
@@ -67,6 +66,12 @@ export default {
     return {
       ideas: ideas.items
     }
+  },
+  created() {
+    // this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
+    this.ideas.forEach(idea => {
+      idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
+    })
   }
 }
 </script>
@@ -183,7 +188,7 @@ export default {
       .ideaItem {
         border: solid 1px rgba(228, 228, 228, 0.38);
         padding: 10px;
-        cursor: pointer;
+        cursor: pointer !important;
 
         @media #{$small-screen} {
           border-left: 0px;
@@ -250,6 +255,7 @@ export default {
             letter-spacing: normal;
             text-align: right;
             color: #c0b7c5;
+            cursor: pointer !important;
           }
         }
       }

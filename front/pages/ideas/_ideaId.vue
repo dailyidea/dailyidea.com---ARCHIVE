@@ -29,8 +29,8 @@
         <div class="ideaTitle">{{idea.title}}</div>
 
         <div class="metadata">
-          <span>Bob Smith</span>
-          <span class="timing">1h ago</span>
+          <span>{{user.email}}</span>
+          <span class="timing">{{idea.relativeCreatedTime}}</span>
         </div>
 
         <!-- Description -->
@@ -87,7 +87,7 @@ import { graphqlOperation } from '@aws-amplify/api'
 import getIdea from '~/graphql/mutations/getIdea'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-dayjs.extend(relativeTime);
+dayjs.extend(relativeTime)
 export default {
   components: { desktopHeader },
   data: () => ({
@@ -105,13 +105,15 @@ export default {
     const { data } = await app.$amplifyApi.graphql(
       graphqlOperation(getIdea, { ideaId: route.params.ideaId })
     )
-    let abcd = dayjs
 
-    debugger
     return {
       idea: data.getIdea,
       user: { email: store.state.cognito.user.attributes.email }
     }
+  },
+  created() {
+    debugger
+    this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
   }
 }
 </script>
