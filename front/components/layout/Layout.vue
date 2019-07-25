@@ -1,7 +1,13 @@
 <template>
   <div id="commonHeader">
     <!-- Non login page header -->
-    <v-toolbar v-if="!$store.getters['cognito/isLoggedIn']" class="toolBar" app flat absolute>
+    <v-toolbar
+      v-if="!$store.getters['cognito/isLoggedIn']"
+      class="toolBar"
+      app
+      flat
+      absolute
+    >
       <v-toolbar-title class="blue--text subheading">
         <nuxt-link class="logoLink" :to="{ name: 'index' }">
           <img class="logoIcon" src="~/assets/images/logo_icon.png" />
@@ -10,7 +16,9 @@
       </v-toolbar-title>
       <v-spacer />
       <template>
-        <nuxt-link class="helpLink" :to="{ name: 'auth-login' }">Help</nuxt-link>
+        <nuxt-link class="helpLink" :to="{ name: 'auth-login' }"
+          >Help</nuxt-link
+        >
         <nuxt-link class="userLink" :to="{ name: 'auth-signup' }">
           <v-icon>fa-user</v-icon>
         </nuxt-link>
@@ -19,7 +27,9 @@
 
     <!-- Loggedin page header -->
     <template v-else>
-      <loggedInDesktopHeader v-bind="{ backButton: backButton }"></loggedInDesktopHeader>
+      <loggedInDesktopHeader
+        v-bind="{ backButton: backButton }"
+      ></loggedInDesktopHeader>
     </template>
 
     <!-- Router contents -->
