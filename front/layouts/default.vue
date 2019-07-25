@@ -6,10 +6,10 @@
   </v-app>
 </template>
 <script>
-import Layout from '@/components/layout/Layout'
+// import Layout from '@/components/layout/Layout'
 
 export default {
-  components: { Layout }
+  components: {}
 }
 </script>
 
@@ -74,4 +74,3 @@ export default {
   font-family: Quatro;
 }
 </style>
-

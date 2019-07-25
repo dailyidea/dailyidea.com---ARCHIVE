@@ -1,5 +1,5 @@
 <template>
-  <Layout anyProp="whatever">
+  <Layout any-prop="whatever">
     <div>Cust</div>
   </Layout>
 </template>

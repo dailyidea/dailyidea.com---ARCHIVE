@@ -1,5 +1,5 @@
 <template>
-  <Layout v-bind:backButton="true">
+  <Layout :back-button="true">
     <v-layout id="ideaListPage">
       <!-- Headers -->
       <!-- <div class="pageHeader">
@@ -20,16 +20,28 @@
       <!-- Title Section -->
       <div class="titleDiv">
         <v-layout class="titleText" hidden-sm-and-down>MY IDEAS</v-layout>
-        <div class="sortBy">
-          <v-icon>fas fa-clock</v-icon>Sort by Newest
-        </div>
+        <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
       </div>
 
       <!-- Idea List -->
       <v-layout class="ideaList" row wrap>
-        <v-flex class="ideaContainer" xs12 sm12 md4 lg4 xl4 v-for="(idea, index) in ideas" :key="index">
-          <div class="ideaItem" @click="$router.push({path:'/ideas/' + idea.ideaId, force: true})">
-            <div class="ideaDescription">{{idea.title}}</div>
+        <v-flex
+          v-for="(idea, index) in ideas"
+          :key="index"
+          class="ideaContainer"
+          xs12
+          sm12
+          md4
+          lg4
+          xl4
+        >
+          <div
+            class="ideaItem"
+            @click="
+              $router.push({ path: '/ideas/' + idea.ideaId, force: true })
+            "
+          >
+            <div class="ideaDescription">{{ idea.title }}</div>
             <div class="engagement">
               <div class="ups">
                 <img class="logoIcon" src="~/assets/images/logo_icon.png" />
@@ -40,7 +52,7 @@
                 120
               </div>
               <div class="timing">
-                {{idea.relativeCreatedTime}}
+                {{ idea.relativeCreatedTime }}
               </div>
             </div>
           </div>

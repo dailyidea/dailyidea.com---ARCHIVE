@@ -16,7 +16,8 @@
     <v-container class="settingsList">
       <div class="settingsItem">
         <div class="settingsInfo">
-          <v-icon>fas fa-pen</v-icon>Me
+          <v-icon>fas fa-pen</v-icon>
+          Me
         </div>
         <div class="metadata">John Doe</div>
       </div>
@@ -28,19 +29,22 @@
       </div>
       <div class="settingsItem">
         <div class="settingsInfo">
-          <v-icon>fas fa-cog</v-icon>General
+          <v-icon>fas fa-cog</v-icon>
+          General
         </div>
         <div class="metadata">Lorem Ipsum</div>
       </div>
       <div class="settingsItem">
         <div class="settingsInfo">
-          <v-icon>fas fa-user</v-icon>Account
+          <v-icon>fas fa-user</v-icon>
+          Account
         </div>
         <div class="metadata">john.doe@mail.com</div>
       </div>
       <div class="settingsItem">
         <div class="settingsInfo">
-          <v-icon>fas fa-lock</v-icon>Privacy
+          <v-icon>fas fa-lock</v-icon>
+          Privacy
         </div>
         <div class="metadata">Only me</div>
       </div>
@@ -60,11 +64,9 @@
   </v-layout>
 </template>
 <script>
-import desktopHeader from './../components/loggedInDesktopHeader'
-
 import { graphqlOperation } from '@aws-amplify/api'
 import getIdeas from '~/graphql/mutations/getIdeas'
-import moment from 'moment'
+import desktopHeader from './../components/loggedInDesktopHeader'
 export default {
   components: { desktopHeader },
   async asyncData({ app }) {

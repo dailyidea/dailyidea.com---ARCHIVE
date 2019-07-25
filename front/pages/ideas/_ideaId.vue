@@ -1,5 +1,5 @@
 <template>
-  <Layout v-bind:backButton="true">
+  <Layout :back-button="true">
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
@@ -26,15 +26,15 @@
             <v-icon class="menu">fas fa-ellipsis-v</v-icon>
           </v-layout>
 
-          <div class="ideaTitle">{{idea.title}}</div>
+          <div class="ideaTitle">{{ idea.title }}</div>
 
           <div class="metadata">
-            <span>{{user.email}}</span>
-            <span class="timing">{{idea.relativeCreatedTime}}</span>
+            <span>{{ user.email }}</span>
+            <span class="timing">{{ idea.relativeCreatedTime }}</span>
           </div>
 
           <!-- Description -->
-          <v-layout class="ideaDescription">{{idea.content}}</v-layout>
+          <v-layout class="ideaDescription">{{ idea.content }}</v-layout>
 
           <div class="tagsContainer">
             <v-chip label class="tag">web</v-chip>
@@ -61,14 +61,14 @@
         <!-- Right Side -->
         <v-flex class="rightSideComments" xs12 sm12 md7 lg7 xl7>
           <div class="commentTotal">322 Comments</div>
-          <div class="commentItem" v-for="i in 60" :key="i">
+          <div v-for="i in 60" :key="i" class="commentItem">
             <div class="header">
               <div class="commentUser">Name Surname</div>
               <div class="timing">1h</div>
             </div>
             <div class="commentText">
-              Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor
-              sit amet consecteturdfd
+              Excepteur sint occaecat lorem cupidatat non proident, sunt in
+              dolor sit amet consecteturdfd
             </div>
           </div>
         </v-flex>
@@ -76,7 +76,13 @@
 
       <!-- Foter with textbox -->
       <div class="pageFooter">
-        <v-text-field class="newCommentInput" flat solo label="Say something..." large></v-text-field>
+        <v-text-field
+          class="newCommentInput"
+          flat
+          solo
+          label="Say something..."
+          large
+        ></v-text-field>
         <v-icon class="sendBtn">fas fa-arrow-right</v-icon>
       </div>
     </v-layout>
@@ -101,7 +107,6 @@ export default {
       }
     ]
   }),
-  methods: {},
   async asyncData({ app, route, store }) {
     const { data } = await app.$amplifyApi.graphql(
       graphqlOperation(getIdea, { ideaId: route.params.ideaId })
@@ -115,10 +120,10 @@ export default {
   created() {
     debugger
     this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
-  }
+  },
+  methods: {}
 }
 </script>
-
 
 <style lang="scss">
 #ideaDetailPage {

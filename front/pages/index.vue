@@ -4,10 +4,7 @@
       <!-- First Section -->
       <div class="firstSection">
         <!-- Desktop - Hero Message & Signup Button -->
-        <v-layout class="desktopHero" fluid grid-list-md hidden-sm-and-down row :style="{
-          'background-image':
-            'url(' + require('~/assets/images/home/yellow_background.png') + ')'
-        }">
+        <v-layout class="desktopHero" fluid grid-list-md hidden-sm-and-down row :style="{ 'background-image': 'url(' + require('~/assets/images/home/yellow_background.png') + ')' }">
           <v-flex hidden-sm-and-down md7 lg6>
             <div class="heroTitle">
               Your Idea Could
@@ -30,20 +27,20 @@
 
         <!-- Mobile - Hero Message & Signup Button -->
         <v-layout class="mobileHero" hidden-md-and-up :style="{
-          'background-image':
-            'url(' +
-            require('~/assets/images/home/yellow_background_mobile.png') +
-            ')'
-        }">
+            'background-image':
+              'url(' +
+              require('~/assets/images/home/yellow_background_mobile.png') +
+              ')'
+          }">
           <div class="heroTitle">
             Your Idea
             <br />Could Be Huge!
           </div>
           <div class="heroSubtitle">That is, if you don't forget it!</div>
           <div class="heroDescription">
-            Submitting an idea every day is as simple as sending an email. We will
-            store your ideas for you, so you can share them with your friends and
-            conquer the world!
+            Submitting an idea every day is as simple as sending an email. We
+            will store your ideas for you, so you can share them with your
+            friends and conquer the world!
           </div>
 
           <!-- Signup Button -->
@@ -55,18 +52,19 @@
         <!-- Desktop Reviews -->
         <div>
           <v-layout class="desktopReviews" :style="{
-            'background-image':
-              'url(' +
-              require('~/assets/images/home/purple_background.png') +
-              ')'
-          }" hidden-sm-and-down fluid grid-list-md xs12 row>
+              'background-image':
+                'url(' +
+                require('~/assets/images/home/purple_background.png') +
+                ')'
+            }" hidden-sm-and-down fluid grid-list-md xs12 row>
             <v-flex md4 lg4>
               <v-card color="white" class="review">
                 Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
                 officia deserunt
                 <!-- User Icon -->
                 <div class="reviewerInfo">
-                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
+                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name
+                  Surname
                   <div class="reviewTime">1h ago</div>
                 </div>
               </v-card>
@@ -77,7 +75,8 @@
                 officia deserunt
                 <!-- User Icon -->
                 <div class="reviewerInfo">
-                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
+                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name
+                  Surname
                   <div class="reviewTime">1h ago</div>
                 </div>
               </v-card>
@@ -90,7 +89,8 @@
                 officia deserunt
                 <!-- User Icon -->
                 <div class="reviewerInfo">
-                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
+                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name
+                  Surname
                   <div class="reviewTime">1h ago</div>
                 </div>
               </v-card>
@@ -100,11 +100,11 @@
 
         <!-- Mobile Reviews -->
         <v-layout class="mobileReviews" hidden-md-and-up :style="{
-          'background-image':
-            'url(' +
-            require('~/assets/images/home/purple_background_mobile.png') +
-            ')'
-        }">
+            'background-image':
+              'url(' +
+              require('~/assets/images/home/purple_background_mobile.png') +
+              ')'
+          }">
           <v-carousel interval="600000" hide-controls delimiter-icon="fa-circle" class="mobileReviewCrousel">
             <v-carousel-item class="review">
               Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
@@ -181,8 +181,8 @@
             <img class="dotsImg" src="~/assets/images/home/dots.png" />
           </div>
           <div class="description">
-            We'll send you an email every day with a reminder for you to submit an
-            idea. Just hit reply, and you'll never again.
+            We'll send you an email every day with a reminder for you to submit
+            an idea. Just hit reply, and you'll never again.
           </div>
 
           <div style="text-align: center;">
@@ -206,15 +206,14 @@
         </div>
       </div>
     </div>
-
   </Layout>
 </template>
 
 <script>
 import Layout from '@/components/layout/Layout'
 export default {
-  methods: {},
-  components: { Layout }
+  components: { Layout },
+  methods: {}
 }
 </script>
 

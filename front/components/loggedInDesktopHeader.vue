@@ -1,23 +1,31 @@
 <template>
   <div class="loggedInHeader">
-
     <!-- Desktop Header -->
     <v-layout hidden-sm-and-down>
       <v-toolbar class="desktop" app flat absolute color="white">
         <v-toolbar-title class="blue--text subheading">
-
           <!-- Show Back button if enabled -->
-          <v-icon class="icons backButon" @click="onBackClick()">fas fa-arrow-left</v-icon>
+          <v-icon class="icons backButon" @click="onBackClick()"
+            >fas fa-arrow-left</v-icon
+          >
 
           <nuxt-link class="logoLink" :to="{ name: 'index' }">
             <img class="logoIcon" src="~/assets/images/logo_icon.png" />
-            <img class="logoIcon logoText" src="~/assets/images/logo_text.png" />
+            <img
+              class="logoIcon logoText"
+              src="~/assets/images/logo_text.png"
+            />
           </nuxt-link>
-
         </v-toolbar-title>
 
         <!-- Search Box -->
-        <v-text-field class="searchInput" flat solo label prepend-inner-icon="fas fa-search"></v-text-field>
+        <v-text-field
+          class="searchInput"
+          flat
+          solo
+          label
+          prepend-inner-icon="fas fa-search"
+        ></v-text-field>
 
         <v-spacer />
         <template>
@@ -46,16 +54,16 @@
 </template>
 <script>
 export default {
-  data: () => ({}),
   props: {
     backButton: {
       type: Boolean,
       default: false
     }
   },
+  data: () => ({}),
   methods: {
     onBackClick() {
-      this.$router.back();  
+      this.$router.back()
     }
   }
 }

@@ -1,9 +1,7 @@
 <template>
   <div id="commonHeader">
-
     <!-- Non login page header -->
     <v-toolbar v-if="!$store.getters['cognito/isLoggedIn']" class="toolBar" app flat absolute>
-
       <v-toolbar-title class="blue--text subheading">
         <nuxt-link class="logoLink" :to="{ name: 'index' }">
           <img class="logoIcon" src="~/assets/images/logo_icon.png" />
@@ -21,7 +19,7 @@
 
     <!-- Loggedin page header -->
     <template v-else>
-      <loggedInDesktopHeader v-bind="{backButton: backButton}"></loggedInDesktopHeader>
+      <loggedInDesktopHeader v-bind="{ backButton: backButton }"></loggedInDesktopHeader>
     </template>
 
     <!-- Router contents -->
@@ -38,7 +36,6 @@
     <!-- <v-footer app>
       <span>Dailyidea &copy; 2018</span>
     </v-footer>-->
-
   </div>
 </template>
 <script>
@@ -52,13 +49,13 @@ export default {
       default: false
     }
   },
+  created() {
+    console.log('at main params =>', this.backButton)
+  },
   methods: {
     logout() {
       this.$store.dispatch('cognito/signOut')
     }
-  },
-  created() {
-    console.log('at main params =>', this.backButton)
   }
 }
 </script>

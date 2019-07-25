@@ -1,7 +1,6 @@
 <template>
-  <Layout v-bind:backButton="true">
+  <Layout :back-button="true">
     <v-layout id="profilePage">
-
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
       <!-- Headers -->
@@ -34,8 +33,8 @@
           <!-- Mobile - Profile Description -->
           <v-layout class="profileDescription" hidden-md-and-up>
             Hi! My name is Bob, I’m a creative geek from San Francisco, CA. I
-            enjoy creating eye candy solutions for web and mobile apps. Contact me
-            at bob@mail.com
+            enjoy creating eye candy solutions for web and mobile apps. Contact
+            me at bob@mail.com
           </v-layout>
 
           <!-- 3 Boxes -->
@@ -63,8 +62,8 @@
           <!-- Desktop - Profile Description -->
           <v-layout class="profileDescription" hidden-sm-and-down>
             Hi! My name is Bob, I’m a creative geek from San Francisco, CA. I
-            enjoy creating eye candy solutions for web and mobile apps. Contact me
-            at bob@mail.com
+            enjoy creating eye candy solutions for web and mobile apps. Contact
+            me at bob@mail.com
           </v-layout>
 
           <div class="tagsContainer">
@@ -79,10 +78,10 @@
 
         <!-- Right Side -->
         <v-flex class="rightSideComments" xs12 sm12 md7 lg7 xl7>
-          <div class="commentItem" v-for="i in 6" :key="i">
+          <div v-for="i in 6" :key="i" class="commentItem">
             <div class="commentText">
-              Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor
-              sit amet consecteturdfd
+              Excepteur sint occaecat lorem cupidatat non proident, sunt in
+              dolor sit amet consecteturdfd
             </div>
             <div class="engagement">
               <div class="ups">
@@ -103,10 +102,9 @@
 </template>
 
 <script>
-import desktopHeader from './../components/loggedInDesktopHeader.vue'
 import Layout from '@/components/layout/Layout'
 export default {
-  components: { desktopHeader, Layout },
+  components: { Layout },
   data: () => ({
     commentList: [
       {
