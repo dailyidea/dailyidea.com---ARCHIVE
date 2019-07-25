@@ -1,248 +1,220 @@
 <template>
-  <div id="homePage">
-    <!-- First Section -->
-    <div class="firstSection">
-      <!-- Desktop - Hero Message & Signup Button -->
-      <v-layout
-        class="desktopHero"
-        fluid
-        grid-list-md
-        hidden-sm-and-down
-        row
-        :style="{
+  <Layout>
+    <div id="homePage">
+      <!-- First Section -->
+      <div class="firstSection">
+        <!-- Desktop - Hero Message & Signup Button -->
+        <v-layout class="desktopHero" fluid grid-list-md hidden-sm-and-down row :style="{
           'background-image':
             'url(' + require('~/assets/images/home/yellow_background.png') + ')'
-        }"
-      >
-        <v-flex hidden-sm-and-down md7 lg6>
-          <div class="heroTitle">
-            Your Idea Could
-            <br />Be Huge!
-          </div>
-          <div class="heroSubtitle">That is, if you don't forget it!</div>
-          <div class="heroDescription">
-            Submitting an idea every day is as simple as sending an email. We
-            will store your ideas for you, so you can share them with your
-            friends and conquer the world!
-          </div>
+        }">
+          <v-flex hidden-sm-and-down md7 lg6>
+            <div class="heroTitle">
+              Your Idea Could
+              <br />Be Huge!
+            </div>
+            <div class="heroSubtitle">That is, if you don't forget it!</div>
+            <div class="heroDescription">
+              Submitting an idea every day is as simple as sending an email. We
+              will store your ideas for you, so you can share them with your
+              friends and conquer the world!
+            </div>
 
-          <!-- Signup Button -->
-          <v-btn
-            large
-            class="signupButton"
-            :to="{ name: 'auth-signup' }"
-            color="primary"
-          >Sign up Now</v-btn>
+            <!-- Signup Button -->
+            <v-btn large class="signupButton" :to="{ name: 'auth-signup' }" color="primary">Sign up Now</v-btn>
 
-          <!-- Lamp Image -->
-          <img class="lampImg" src="~/assets/images/white_lamp.png" />
-        </v-flex>
-      </v-layout>
+            <!-- Lamp Image -->
+            <img class="lampImg" src="~/assets/images/white_lamp.png" />
+          </v-flex>
+        </v-layout>
 
-      <!-- Mobile - Hero Message & Signup Button -->
-      <v-layout
-        class="mobileHero"
-        hidden-md-and-up
-        :style="{
+        <!-- Mobile - Hero Message & Signup Button -->
+        <v-layout class="mobileHero" hidden-md-and-up :style="{
           'background-image':
             'url(' +
             require('~/assets/images/home/yellow_background_mobile.png') +
             ')'
-        }"
-      >
-        <div class="heroTitle">
-          Your Idea
-          <br />Could Be Huge!
-        </div>
-        <div class="heroSubtitle">That is, if you don't forget it!</div>
-        <div class="heroDescription">
-          Submitting an idea every day is as simple as sending an email. We will
-          store your ideas for you, so you can share them with your friends and
-          conquer the world!
-        </div>
+        }">
+          <div class="heroTitle">
+            Your Idea
+            <br />Could Be Huge!
+          </div>
+          <div class="heroSubtitle">That is, if you don't forget it!</div>
+          <div class="heroDescription">
+            Submitting an idea every day is as simple as sending an email. We will
+            store your ideas for you, so you can share them with your friends and
+            conquer the world!
+          </div>
 
-        <!-- Signup Button -->
-        <v-btn large class="signupButton" :to="{ name: 'auth-signup' }" color="primary">Sign up Now</v-btn>
+          <!-- Signup Button -->
+          <v-btn large class="signupButton" :to="{ name: 'auth-signup' }" color="primary">Sign up Now</v-btn>
 
-        <img class="lampImg" src="~/assets/images/white_lamp.png" />
-      </v-layout>
+          <img class="lampImg" src="~/assets/images/white_lamp.png" />
+        </v-layout>
 
-      <!-- Desktop Reviews -->
-      <div>
-        <v-layout
-          class="desktopReviews"
-          :style="{
+        <!-- Desktop Reviews -->
+        <div>
+          <v-layout class="desktopReviews" :style="{
             'background-image':
               'url(' +
               require('~/assets/images/home/purple_background.png') +
               ')'
-          }"
-          hidden-sm-and-down
-          fluid
-          grid-list-md
-          xs12
-          row
-        >
-          <v-flex md4 lg4>
-            <v-card color="white" class="review">
-              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-              officia deserunt
-              <!-- User Icon -->
-              <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-                <div class="reviewTime">1h ago</div>
-              </div>
-            </v-card>
-          </v-flex>
-          <v-flex md4 lg4>
-            <v-card color="white" class="review">
-              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-              officia deserunt
-              <!-- User Icon -->
-              <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-                <div class="reviewTime">1h ago</div>
-              </div>
-            </v-card>
-          </v-flex>
-          <v-flex md4 lg4 style="position: relative;">
-            <img class="person2Img" src="~/assets/images/home/person_2.png" />
-            <img class="person3Img" src="~/assets/images/home/person_3.png" />
-            <v-card color="white" class="review">
-              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-              officia deserunt
-              <!-- User Icon -->
-              <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-                <div class="reviewTime">1h ago</div>
-              </div>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </div>
+          }" hidden-sm-and-down fluid grid-list-md xs12 row>
+            <v-flex md4 lg4>
+              <v-card color="white" class="review">
+                Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
+                officia deserunt
+                <!-- User Icon -->
+                <div class="reviewerInfo">
+                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
+                  <div class="reviewTime">1h ago</div>
+                </div>
+              </v-card>
+            </v-flex>
+            <v-flex md4 lg4>
+              <v-card color="white" class="review">
+                Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
+                officia deserunt
+                <!-- User Icon -->
+                <div class="reviewerInfo">
+                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
+                  <div class="reviewTime">1h ago</div>
+                </div>
+              </v-card>
+            </v-flex>
+            <v-flex md4 lg4 style="position: relative;">
+              <img class="person2Img" src="~/assets/images/home/person_2.png" />
+              <img class="person3Img" src="~/assets/images/home/person_3.png" />
+              <v-card color="white" class="review">
+                Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
+                officia deserunt
+                <!-- User Icon -->
+                <div class="reviewerInfo">
+                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
+                  <div class="reviewTime">1h ago</div>
+                </div>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </div>
 
-      <!-- Mobile Reviews -->
-      <v-layout
-        class="mobileReviews"
-        hidden-md-and-up
-        :style="{
+        <!-- Mobile Reviews -->
+        <v-layout class="mobileReviews" hidden-md-and-up :style="{
           'background-image':
             'url(' +
             require('~/assets/images/home/purple_background_mobile.png') +
             ')'
-        }"
-      >
-        <v-carousel
-          interval="600000"
-          hide-controls
-          delimiter-icon="fa-circle"
-          class="mobileReviewCrousel"
-        >
-          <v-carousel-item class="review">
-            Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-            officia deserunt
-            <!-- User Icon -->
-            <div class="reviewerInfo">
-              <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-              <div class="reviewTime">1h ago</div>
-            </div>
-          </v-carousel-item>
-          <v-carousel-item class="review">
-            Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-            officia deserunt
-            <!-- User Icon -->
-            <div class="reviewerInfo">
-              <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-              <div class="reviewTime">1h ago</div>
-            </div>
-          </v-carousel-item>
-          <v-carousel-item class="review">
-            Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-            officia deserunt
-            <!-- User Icon -->
-            <div class="reviewerInfo">
-              <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-              <div class="reviewTime">1h ago</div>
-            </div>
-          </v-carousel-item>
-          <v-carousel-item class="review">
-            Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-            officia deserunt
-            <!-- User Icon -->
-            <div class="reviewerInfo">
-              <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-              <div class="reviewTime">1h ago</div>
-            </div>
-          </v-carousel-item>
-        </v-carousel>
+        }">
+          <v-carousel interval="600000" hide-controls delimiter-icon="fa-circle" class="mobileReviewCrousel">
+            <v-carousel-item class="review">
+              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
+              officia deserunt
+              <!-- User Icon -->
+              <div class="reviewerInfo">
+                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
+                <div class="reviewTime">1h ago</div>
+              </div>
+            </v-carousel-item>
+            <v-carousel-item class="review">
+              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
+              officia deserunt
+              <!-- User Icon -->
+              <div class="reviewerInfo">
+                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
+                <div class="reviewTime">1h ago</div>
+              </div>
+            </v-carousel-item>
+            <v-carousel-item class="review">
+              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
+              officia deserunt
+              <!-- User Icon -->
+              <div class="reviewerInfo">
+                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
+                <div class="reviewTime">1h ago</div>
+              </div>
+            </v-carousel-item>
+            <v-carousel-item class="review">
+              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
+              officia deserunt
+              <!-- User Icon -->
+              <div class="reviewerInfo">
+                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
+                <div class="reviewTime">1h ago</div>
+              </div>
+            </v-carousel-item>
+          </v-carousel>
 
-        <img class="heroImg" src="~/assets/images/home/person_2_mobile.png" />
-      </v-layout>
-    </div>
-
-    <!-- Second Section -->
-    <div class="secondSection">
-      <!-- Desktop View -->
-      <v-container class="desktopView" hidden-sm-and-down>
-        <v-layout row wrap>
-          <!-- Left side image -->
-          <v-flex class="leftImageSection" xs6>
-            <img class="img1" src="~/assets/images/person_with_phone.png" />
-            <img class="img2" src="~/assets/images/home/mail_work.png" />
-            <img class="img3" src="~/assets/images/home/lady_with_phone.png" />
-          </v-flex>
-          <!-- Right side description -->
-          <v-flex class="rightSideDescription" xs5 md6>
-            <div class="ttle">How it works</div>
-            <div class="subTitle">Oh, it's easy!</div>
-            <img class="dotsImg" src="~/assets/images/home/dots.png" />
-            <div class="description">
-              We'll send you an email every day with a reminder for you to
-              submit an idea. Just hit reply, and you'll never again.
-            </div>
-            <v-btn class="buttn" outline>More</v-btn>
-          </v-flex>
-        </v-layout>
-      </v-container>
-
-      <!-- Mobile View -->
-      <v-container class="mobileView" grid-list-md hidden-md-and-up>
-        <div class="ttle">How it works</div>
-        <div class="subTitle">
-          Oh, it's easy!
-          <img class="dotsImg" src="~/assets/images/home/dots.png" />
-        </div>
-        <div class="description">
-          We'll send you an email every day with a reminder for you to submit an
-          idea. Just hit reply, and you'll never again.
-        </div>
-
-        <div style="text-align: center;">
-          <img class="ladyMobile" src="~/assets/images/home/lady_with_phone.png" />
-          <img class="img2" src="~/assets/images/home/mail_work_mobile.png" />
-          <img class="img3" src="~/assets/images/person_with_phone.png" />
-        </div>
-        <v-btn class="buttn" outline>More</v-btn>
-      </v-container>
-
-      <!-- Footer -->
-      <div class="homeFooter">
-        <v-layout row wrap>
-          <v-flex md10 lg10 hidden-sm-and-down>&nbsp;</v-flex>
-          <v-flex md2 lg2>
-            <i class="fab fa-instagram"></i>
-            <i class="fab fa-twitter"></i>
-            <i class="fab fa-facebook-f"></i>
-          </v-flex>
+          <img class="heroImg" src="~/assets/images/home/person_2_mobile.png" />
         </v-layout>
       </div>
+
+      <!-- Second Section -->
+      <div class="secondSection">
+        <!-- Desktop View -->
+        <v-container class="desktopView" hidden-sm-and-down>
+          <v-layout row wrap>
+            <!-- Left side image -->
+            <v-flex class="leftImageSection" xs6>
+              <img class="img1" src="~/assets/images/person_with_phone.png" />
+              <img class="img2" src="~/assets/images/home/mail_work.png" />
+              <img class="img3" src="~/assets/images/home/lady_with_phone.png" />
+            </v-flex>
+            <!-- Right side description -->
+            <v-flex class="rightSideDescription" xs5 md6>
+              <div class="ttle">How it works</div>
+              <div class="subTitle">Oh, it's easy!</div>
+              <img class="dotsImg" src="~/assets/images/home/dots.png" />
+              <div class="description">
+                We'll send you an email every day with a reminder for you to
+                submit an idea. Just hit reply, and you'll never again.
+              </div>
+              <v-btn class="buttn" outline>More</v-btn>
+            </v-flex>
+          </v-layout>
+        </v-container>
+
+        <!-- Mobile View -->
+        <v-container class="mobileView" grid-list-md hidden-md-and-up>
+          <div class="ttle">How it works</div>
+          <div class="subTitle">
+            Oh, it's easy!
+            <img class="dotsImg" src="~/assets/images/home/dots.png" />
+          </div>
+          <div class="description">
+            We'll send you an email every day with a reminder for you to submit an
+            idea. Just hit reply, and you'll never again.
+          </div>
+
+          <div style="text-align: center;">
+            <img class="ladyMobile" src="~/assets/images/home/lady_with_phone.png" />
+            <img class="img2" src="~/assets/images/home/mail_work_mobile.png" />
+            <img class="img3" src="~/assets/images/person_with_phone.png" />
+          </div>
+          <v-btn class="buttn" outline>More</v-btn>
+        </v-container>
+
+        <!-- Footer -->
+        <div class="homeFooter">
+          <v-layout row wrap>
+            <v-flex md10 lg10 hidden-sm-and-down>&nbsp;</v-flex>
+            <v-flex md2 lg2>
+              <i class="fab fa-instagram"></i>
+              <i class="fab fa-twitter"></i>
+              <i class="fab fa-facebook-f"></i>
+            </v-flex>
+          </v-layout>
+        </div>
+      </div>
     </div>
-  </div>
+
+  </Layout>
 </template>
 
 <script>
+import Layout from '@/components/layout/Layout'
 export default {
-  methods: {}
+  methods: {},
+  components: { Layout }
 }
 </script>
 

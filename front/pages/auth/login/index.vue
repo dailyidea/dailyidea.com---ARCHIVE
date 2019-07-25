@@ -5,14 +5,15 @@
       <v-icon>fas fa-arrow-left</v-icon>
     </v-btn>
 
-    <v-layout row>
+    <v-layout class="mainTable" row>
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
+        <img class="imgLightGrayLamp" src="~/assets/images/signup/light_gray_lamp.png" />
         <img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
       </v-flex>
 
       <!-- Register Div -->
       <v-flex class="registerDiv">
-        <img class="logoIcon" src="~/assets/images/signup/dark_gray_lamp.png" />
+        <img class="logoIcon" src="~/assets/images/bulb_with_light_holder.png" />
         <br />
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
@@ -39,14 +40,13 @@
         </div>
 
         <!-- Login div at bottom -->
-        <div class="loginDiv">
+        <!-- <div class="loginDiv">
           <div class="loginTitle">Haven't created account yet?</div>
           <v-btn large class="loginBtn" color="primary" to="/auth/signup">REgister Now</v-btn>
-        </div>
+        </div> -->
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img class="imgLightGrayLamp" src="~/assets/images/signup/light_gray_lamp.png" />
         <img class="imgPersonWithPhone" src="~/assets/images/signup/lady_with_phone.png" />
       </v-flex>
     </v-layout>
@@ -95,159 +95,167 @@ export default {
 
 <style lang="scss" scoped>
 #loginPage {
-  // border: 1px solid red;
-  height: 90vh;
+  height: 100vh;
   overflow: hidden;
   background: white;
-  overflow: hidden;
+  // border: 1px solid red;
+  z-index: 1000;
 
   .backBtn {
     color: $primary-color;
-    position: absolute;
-    padding: 25px;
+    position: fixed;
+    top: 4vh;
+    left: 3vh;
+    z-index: 100;
     i {
       font-size: 16px;
     }
   }
 
-  .lefgImgContainer {
-    position: relative;
-    z-index: 10;
-    .imgPersonWithPhone {
-      height: 65vh;
-      position: absolute;
-      right: 0;
-      bottom: 0;
-    }
-  }
+  .mainTable {
+    height: 100vh;
 
-  .rightImgContainer {
-    position: relative;
-    z-index: 10;
+    .lefgImgContainer {
+      position: relative;
+      z-index: 10;
 
-    .imgLightGrayLamp {
-      height: 50vh;
-      position: absolute;
-      left: 10%;
-      top: 0;
-    }
+      .imgLightGrayLamp {
+        height: 55vh;
+        position: absolute;
+        left: 10%;
+        top: 7vh;
+      }
 
-    .imgPersonWithPhone {
-      height: 65vh;
-      position: absolute;
-      left: 0;
-      bottom: 0;
-    }
-  }
-
-  .registerDiv {
-    // border: 1px solid red;
-    text-align: center;
-    padding-top: 4vh;
-    z-index: 10;
-    height: 85vh;
-    overflow: hidden;
-
-    @media #{$small-screen} {
-      padding-top: 10vh;
+      .imgPersonWithPhone {
+        height: 75vh;
+        position: absolute;
+        right: 0;
+        bottom: 3vh;
+      }
     }
 
-    .logoIcon {
-      width: 70px;
+    .rightImgContainer {
+      position: relative;
+      z-index: 10;
+
+      .imgPersonWithPhone {
+        height: 65vh;
+        position: absolute;
+        left: 6%;
+        bottom: 3vh;
+      }
+    }
+
+    .registerDiv {
+      // border: 1px solid red;
+      text-align: center;
+      padding-top: 7vh;
+      z-index: 10;
+      height: 85vh;
+      overflow: hidden;
+
       @media #{$small-screen} {
-        // padding-top: 30vh;
-        // background: red !important;
-        height: 15vh !important;
-        width: auto !important;
+        padding-top: 10vh;
       }
-    }
 
-    .logoText {
-      width: 200px;
-    }
-
-    .emailInput {
-      margin-top: 7vh !important;
-      margin-bottom: 20px;
-      .v-input__prepend-inner {
-        padding-right: 15px;
+      .logoIcon {
+        width: 20vh;
+        @media #{$small-screen} {
+          // padding-top: 30vh;
+          // background: red !important;
+          height: 15vh !important;
+          width: auto !important;
+        }
       }
-    }
 
-    .emailInput {
-      width: 70%;
-      margin: auto;
-      max-width: 400px;
-
-      @media #{$medium-screen} {
-        max-width: none;
-        width: 80%;
+      .logoText {
+        width: 200px;
       }
-    }
 
-    .continueBtn {
-      border-radius: 4px;
-      background-image: linear-gradient(to left, #ffdf01, #ffb92d);
-      color: white;
-      width: 70%;
-
-      letter-spacing: 1px;
-
-      @media #{$medium-screen} {
-        max-width: none;
-        width: 80%;
+      .emailInput {
+        margin-top: 7vh !important;
+        margin-bottom: 20px;
+        .v-input__prepend-inner {
+          padding-right: 15px;
+        }
       }
-    }
 
-    .socialIconContainer {
-      margin-top: 6vh;
-      button {
-        border: 1px solid #ebe7ed;
-      }
-    }
-
-    .loginDiv {
-      margin-top: 5vh;
-      .loginTitle {
-        font-size: 14px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.57;
-        letter-spacing: normal;
-        text-align: center;
-        color: #c8c7c7;
-      }
-      .loginBtn {
+      .emailInput {
         width: 70%;
+        margin: auto;
         max-width: 400px;
-        border-radius: 4px;
-        letter-spacing: 1px;
-      }
-    }
 
-    @media #{$small-screen} {
-      .loginDiv {
-        position: fixed;
-        bottom: 0px;
-        width: 100%;
-
-        .logoIcon {
-          height: 26vh !important;
-        }
-
-        .logoText {
-          width: 200px;
-        }
-
-        .loginBtn {
-          width: 100%;
+        @media #{$medium-screen} {
           max-width: none;
-          margin: 0px;
-          border-radius: 0px;
-          margin-top: 10px;
-          height: 64px;
-          letter-spacing: 2px;
+          width: 80%;
+        }
+      }
+
+      .continueBtn {
+        margin-top: 7vh;
+        border-radius: 4px;
+        background-image: linear-gradient(to left, #ffdf01, #ffb92d);
+        color: white;
+        width: 70%;
+
+        letter-spacing: 1px;
+
+        @media #{$medium-screen} {
+          max-width: none;
+          width: 80%;
+        }
+      }
+
+      .socialIconContainer {
+        margin-top: 6vh;
+        button {
+          border: 1px solid #ebe7ed;
+        }
+      }
+
+      // .loginDiv {
+      //   margin-top: 5vh;
+      //   .loginTitle {
+      //     font-size: 14px;
+      //     font-weight: normal;
+      //     font-style: normal;
+      //     font-stretch: normal;
+      //     line-height: 1.57;
+      //     letter-spacing: normal;
+      //     text-align: center;
+      //     color: #c8c7c7;
+      //   }
+      //   .loginBtn {
+      //     width: 70%;
+      //     max-width: 400px;
+      //     border-radius: 4px;
+      //     letter-spacing: 1px;
+      //   }
+      // }
+
+      @media #{$small-screen} {
+        .loginDiv {
+          position: fixed;
+          bottom: 0px;
+          width: 100%;
+
+          .logoIcon {
+            height: 26vh !important;
+          }
+
+          .logoText {
+            width: 200px;
+          }
+
+          .loginBtn {
+            width: 100%;
+            max-width: none;
+            margin: 0px;
+            border-radius: 0px;
+            margin-top: 10px;
+            height: 64px;
+            letter-spacing: 2px;
+          }
         }
       }
     }
@@ -263,7 +271,7 @@ export default {
     // border: 1px solid red;
 
     background-size: cover;
-    // background-position-y: 30px;
+    background-position-y: 30px;
   }
 }
 </style>

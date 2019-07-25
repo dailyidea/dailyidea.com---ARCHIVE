@@ -1,8 +1,7 @@
 <template>
   <div id="signupPage">
-    <v-layout row>
+    <v-layout class="mainTable" row>
       <!-- Back button -->
-
       <v-btn class="backBtn" flat icon color="primary" to="/">
         <v-icon>fas fa-arrow-left</v-icon>
       </v-btn>
@@ -43,6 +42,7 @@
         <div class="loginDiv">
           <div class="loginTitle">Alreay have an account?</div>
           <v-btn large class="loginBtn" color="primary" to="/auth/login">LOGIN</v-btn>
+
         </div>
       </v-flex>
 
@@ -94,164 +94,166 @@ export default {
 <style lang="scss">
 #signupPage {
   // border: 1px solid red;
-  height: 90vh;
+  height: 100vh;
   overflow: hidden;
   background: white;
   overflow: hidden;
-  // border: 1px solid red;
 
-  .backBtn {
-    color: $primary-color;
-    position: absolute;
-    padding: 25px;
-    z-index: 5000;
-    i {
-      font-size: 16px;
-    }
-  }
-
-  .lefgImgContainer {
-    position: relative;
-    z-index: 10;
-    .imgPersonWithPhone {
-      height: 65vh;
+  .mainTable {
+    height: 100vh;
+    z-index: 100;
+    .backBtn {
+      color: $primary-color;
       position: absolute;
-      right: 0;
-      bottom: 0;
-    }
-  }
-
-  .rightImgContainer {
-    position: relative;
-    z-index: 10;
-
-    .imgLightGrayLamp {
-      height: 50vh;
-      position: absolute;
-      left: 10%;
-      top: 0;
+      padding: 25px;
+      z-index: 5000;
+      i {
+        font-size: 16px;
+      }
     }
 
-    .imgPersonWithPhone {
-      height: 65vh;
-      position: absolute;
-      left: 0;
-      bottom: 0;
-    }
-  }
-
-  .registerDiv {
-    // border: 1px solid red;
-    text-align: center;
-    padding-top: 4vh;
-    z-index: 10;
-    height: 85vh;
-    overflow: hidden;
-
-    @media #{$small-screen} {
-      padding-top: 10vh;
+    .lefgImgContainer {
+      position: relative;
+      z-index: 10;
+      .imgPersonWithPhone {
+        height: 70vh;
+        position: absolute;
+        right: 4%;
+        bottom: 3.5vh;
+      }
     }
 
-    .logoIcon {
-      width: 60px;
+    .rightImgContainer {
+      position: relative;
+      z-index: 100;
+
+      .imgLightGrayLamp {
+        height: 55vh;
+        position: absolute;
+        left: 10%;
+        top: 0;
+      }
+
+      .imgPersonWithPhone {
+        height: 70vh;
+        position: absolute;
+        left: 4%;
+        bottom: 3.5vh;
+      }
+    }
+
+    .registerDiv {
+      // border: 1px solid red;
+      text-align: center;
+      padding-top: 7vh;
+      z-index: 10;
+      height: 100vh;
+
       @media #{$small-screen} {
-        // padding-top: 30vh;
-        // background: red !important;
-        height: 15vh !important;
-        width: auto !important;
+        padding-top: 10vh;
       }
-    }
 
-    .logoText {
-      width: 200px;
-      margin-bottom: 7vh !important;
-    }
-
-    .inputBox {
-      width: 70%;
-      margin: auto;
-      max-width: 400px;
-      margin-top: 0.5vh !important;
-
-      .v-input__prepend-inner {
-        padding-right: 15px;
-        font-size: 12px;
-        i {
-          // color: red !important;
-          font-size: 18px;
+      .logoIcon {
+        width: 70px;
+        @media #{$small-screen} {
+          // padding-top: 30vh;
+          // background: red !important;
+          height: 15vh !important;
+          width: auto !important;
         }
       }
 
-      @media #{$medium-screen} {
-        max-width: none;
-        width: 80%;
+      .logoText {
+        width: 200px;
+        margin-bottom: 7vh !important;
       }
-    }
 
-    .continueBtn {
-      border-radius: 4px;
-      margin-top: 20px;
-      background-image: linear-gradient(to left, #ffdf01, #ffb92d);
-      color: white;
-      width: 70%;
-
-      letter-spacing: 1px;
-
-      @media #{$medium-screen} {
-        max-width: none;
-        width: 80%;
-      }
-    }
-
-    .socialIconContainer {
-      margin-top: 3vh;
-      button {
-        border: 1px solid #ebe7ed;
-      }
-    }
-
-    .loginDiv {
-      margin-top: 2vh;
-      .loginTitle {
-        font-size: 14px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.57;
-        letter-spacing: normal;
-        text-align: center;
-        color: #c8c7c7;
-      }
-      .loginBtn {
+      .inputBox {
         width: 70%;
+        margin: auto;
         max-width: 400px;
-        border-radius: 4px;
-        letter-spacing: 1px;
-      }
-    }
+        margin-top: 0.5vh !important;
 
-    @media #{$small-screen} {
-      .loginDiv {
-        position: fixed;
-        bottom: 0px;
-        width: 100%;
-
-        .logoIcon {
-          height: 26vh !important;
+        .v-input__prepend-inner {
+          padding-right: 15px;
+          font-size: 12px;
+          i {
+            // color: red !important;
+            font-size: 18px;
+          }
         }
 
-        .logoText {
-          width: 200px;
-        }
-
-        .loginBtn {
-          width: 100%;
+        @media #{$medium-screen} {
           max-width: none;
-          margin: 0px;
-          border-radius: 0px;
-          margin-top: 10px;
-          height: 64px;
-          letter-spacing: 2px;
+          width: 80%;
+        }
+      }
+
+      .continueBtn {
+        border-radius: 4px;
+        margin-top: 20px;
+        background-image: linear-gradient(to left, #ffdf01, #ffb92d);
+        color: white;
+        width: 70%;
+
+        letter-spacing: 1px;
+
+        @media #{$medium-screen} {
+          max-width: none;
+          width: 80%;
+        }
+      }
+
+      .socialIconContainer {
+        margin-top: 3vh;
+        button {
+          border: 1px solid #ebe7ed;
+        }
+      }
+
+      .loginDiv {
+        margin-top: 2vh;
+        .loginTitle {
+          font-size: 14px;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: 1.57;
+          letter-spacing: normal;
+          text-align: center;
+          color: #c8c7c7;
+        }
+        .loginBtn {
+          width: 70%;
+          max-width: 400px;
+          border-radius: 4px;
+          letter-spacing: 1px;
+        }
+      }
+
+      @media #{$small-screen} {
+        .loginDiv {
+          position: fixed;
+          bottom: 0px;
+          width: 100%;
+
+          .logoIcon {
+            height: 26vh !important;
+          }
+
+          .logoText {
+            width: 200px;
+          }
+
+          .loginBtn {
+            width: 100%;
+            max-width: none;
+            margin: 0px;
+            border-radius: 0px;
+            margin-top: 10px;
+            height: 64px;
+            letter-spacing: 2px;
+          }
         }
       }
     }
