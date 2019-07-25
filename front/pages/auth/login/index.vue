@@ -39,11 +39,6 @@
           </v-btn>
         </div>
 
-        <!-- Login div at bottom -->
-        <!-- <div class="loginDiv">
-          <div class="loginTitle">Haven't created account yet?</div>
-          <v-btn large class="loginBtn" color="primary" to="/auth/signup">REgister Now</v-btn>
-        </div> -->
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>

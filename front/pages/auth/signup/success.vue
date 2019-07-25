@@ -1,7 +1,7 @@
 <template>
   <div id="signupSuccessPage">
     <!-- Back button -->
-    <v-btn class="backBtn" flat icon color="primary">
+    <v-btn class="backBtn" flat icon color="primary" to="/">
       <v-icon>fas fa-arrow-left</v-icon>
     </v-btn>
 

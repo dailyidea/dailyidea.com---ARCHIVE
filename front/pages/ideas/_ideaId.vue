@@ -1,9 +1,10 @@
 <template>
-  <v-layout id="ideaDetailPage">
-    <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
+  <Layout v-bind:backButton="true">
+    <v-layout id="ideaDetailPage">
+      <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
-    <!-- Headers -->
-    <!-- <div class="pageHeader">
+      <!-- Headers -->
+      <!-- <div class="pageHeader">
       <v-layout hidden-sm-and-down>
         <desktopHeader style="border-bottom: 1px solid #ebe7ed;"></desktopHeader>
       </v-layout>
@@ -18,78 +19,78 @@
       </v-layout>
     </div>-->
 
-    <v-layout row wrap>
-      <!-- Left Side -->
-      <v-flex xs12 sm12 md5 lg5 xl5 class="profileDetails">
-        <v-layout class="sectionHeader" hidden-sm-and-down>
-          <v-icon class="backBtn">fas fa-arrow-left</v-icon>
-          <v-icon class="menu">fas fa-ellipsis-v</v-icon>
-        </v-layout>
+      <v-layout row wrap>
+        <!-- Left Side -->
+        <v-flex xs12 sm12 md5 lg5 xl5 class="profileDetails">
+          <v-layout class="sectionHeader" hidden-sm-and-down>
+            <v-icon class="menu">fas fa-ellipsis-v</v-icon>
+          </v-layout>
 
-        <div class="ideaTitle">{{idea.title}}</div>
+          <div class="ideaTitle">{{idea.title}}</div>
 
-        <div class="metadata">
-          <span>{{user.email}}</span>
-          <span class="timing">{{idea.relativeCreatedTime}}</span>
-        </div>
-
-        <!-- Description -->
-        <v-layout class="ideaDescription">{{idea.content}}</v-layout>
-
-        <div class="tagsContainer">
-          <v-chip label class="tag">web</v-chip>
-          <v-chip label class="tag">illustration</v-chip>
-          <v-chip label class="tag">graphics</v-chip>
-          <v-chip label class="tag">ui</v-chip>
-          <v-chip label class="tag">adobe</v-chip>
-          <v-chip label class="tag">interface</v-chip>
-        </div>
-
-        <!-- Engagements -->
-        <div class="engagement">
-          <div class="ups">
-            <img class="lamp" src="~/assets/images/dark_gray_lamp.png" />
-            609
+          <div class="metadata">
+            <span>{{user.email}}</span>
+            <span class="timing">{{idea.relativeCreatedTime}}</span>
           </div>
-          <div class="downs">
-            <img class src="~/assets/images/comments.png" />
-            120
-          </div>
-        </div>
-      </v-flex>
 
-      <!-- Right Side -->
-      <v-flex class="rightSideComments" xs12 sm12 md7 lg7 xl7>
-        <div class="commentTotal">322 Comments</div>
-        <div class="commentItem" v-for="i in 60" :key="i">
-          <div class="header">
-            <div class="commentUser">Name Surname</div>
-            <div class="timing">1h</div>
+          <!-- Description -->
+          <v-layout class="ideaDescription">{{idea.content}}</v-layout>
+
+          <div class="tagsContainer">
+            <v-chip label class="tag">web</v-chip>
+            <v-chip label class="tag">illustration</v-chip>
+            <v-chip label class="tag">graphics</v-chip>
+            <v-chip label class="tag">ui</v-chip>
+            <v-chip label class="tag">adobe</v-chip>
+            <v-chip label class="tag">interface</v-chip>
           </div>
-          <div class="commentText">
-            Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor
-            sit amet consecteturdfd
+
+          <!-- Engagements -->
+          <div class="engagement">
+            <div class="ups">
+              <img class="lamp" src="~/assets/images/dark_gray_lamp.png" />
+              609
+            </div>
+            <div class="downs">
+              <img class src="~/assets/images/comments.png" />
+              120
+            </div>
           </div>
-        </div>
-      </v-flex>
+        </v-flex>
+
+        <!-- Right Side -->
+        <v-flex class="rightSideComments" xs12 sm12 md7 lg7 xl7>
+          <div class="commentTotal">322 Comments</div>
+          <div class="commentItem" v-for="i in 60" :key="i">
+            <div class="header">
+              <div class="commentUser">Name Surname</div>
+              <div class="timing">1h</div>
+            </div>
+            <div class="commentText">
+              Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor
+              sit amet consecteturdfd
+            </div>
+          </div>
+        </v-flex>
+      </v-layout>
+
+      <!-- Foter with textbox -->
+      <div class="pageFooter">
+        <v-text-field class="newCommentInput" flat solo label="Say something..." large></v-text-field>
+        <v-icon class="sendBtn">fas fa-arrow-right</v-icon>
+      </div>
     </v-layout>
-
-    <!-- Foter with textbox -->
-    <div class="pageFooter">
-      <v-text-field class="newCommentInput" flat solo label="Say something..." large></v-text-field>
-      <v-icon class="sendBtn">fas fa-arrow-right</v-icon>
-    </div>
-  </v-layout>
+  </Layout>
 </template>
 <script>
-import desktopHeader from './../../components/loggedInDesktopHeader'
+import Layout from '@/components/layout/Layout'
 import { graphqlOperation } from '@aws-amplify/api'
 import getIdea from '~/graphql/mutations/getIdea'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
 export default {
-  components: { desktopHeader },
+  components: { Layout },
   data: () => ({
     commentList: [
       {

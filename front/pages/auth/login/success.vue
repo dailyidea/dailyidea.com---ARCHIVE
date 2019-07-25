@@ -1,7 +1,7 @@
 <template>
   <div id="loginSuccessPage">
     <!-- Back button -->
-    <v-btn class="backBtn" flat icon color="primary">
+    <v-btn class="backBtn" flat icon color="primary" to="/">
       <v-icon>fas fa-arrow-left</v-icon>
     </v-btn>
 
@@ -50,14 +50,10 @@
     </v-layout>
 
     <!-- Fixed Footer -->
-    <v-layout
-      hidden-sm-and-down
-      class="fixedFooter"
-      :style="{
+    <v-layout hidden-sm-and-down class="fixedFooter" :style="{
         'background-image':
           'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"
-    ></v-layout>
+      }"></v-layout>
   </div>
 </template>
 
@@ -93,7 +89,7 @@ export default {
 <style lang="scss">
 #loginSuccessPage {
   // border: 1px solid red;
-  height: 90vh;
+  height: 100vh;
   overflow: hidden;
   background: white;
   overflow: hidden;
@@ -108,14 +104,15 @@ export default {
   }
 
   .gridContainer {
+    height: 100vh;
     .lefgImgContainer {
       position: relative;
       z-index: 10;
       .imgPersonWithPhone {
-        height: 65vh;
+        height: 70vh;
         position: absolute;
         right: 0;
-        bottom: 0;
+        bottom: 5vh;
       }
     }
 
@@ -131,19 +128,19 @@ export default {
       }
 
       .imgPersonWithPhone {
-        height: 65vh;
+        height: 70vh;
         position: absolute;
         left: 0;
-        bottom: 0;
+        bottom: 5vh;
       }
     }
 
     .successMessage {
       // border: 1px solid red;
       text-align: center;
-      padding-top: 4vh;
+      padding-top: 10vh;
       z-index: 10;
-      height: 85vh;
+
       overflow: hidden;
 
       @media #{$small-screen} {
@@ -151,7 +148,7 @@ export default {
       }
 
       .logoIcon {
-        height: 100px;
+        height: 17vh;
         @media #{$small-screen} {
           // padding-top: 30vh;
           // background: red !important;
@@ -219,6 +216,7 @@ export default {
       }
     }
   }
+
   .fixedFooter {
     height: 30vh;
     width: 100%;

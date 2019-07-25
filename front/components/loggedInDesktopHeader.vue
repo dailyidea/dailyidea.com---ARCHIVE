@@ -7,14 +7,13 @@
         <v-toolbar-title class="blue--text subheading">
 
           <!-- Show Back button if enabled -->
-          <nuxt-link class="backButon" :to="{ name: 'index' }">
-            <v-icon class="icons">fas fa-arrow-left</v-icon>
-          </nuxt-link>
+          <v-icon class="icons backButon" @click="onBackClick()">fas fa-arrow-left</v-icon>
 
           <nuxt-link class="logoLink" :to="{ name: 'index' }">
             <img class="logoIcon" src="~/assets/images/logo_icon.png" />
             <img class="logoIcon logoText" src="~/assets/images/logo_text.png" />
           </nuxt-link>
+
         </v-toolbar-title>
 
         <!-- Search Box -->
@@ -54,7 +53,11 @@ export default {
       default: false
     }
   },
-  methods: {}
+  methods: {
+    onBackClick() {
+      this.$router.back();  
+    }
+  }
 }
 </script>
 <style lang="scss">
@@ -72,11 +75,11 @@ export default {
 
     .backButon {
       margin-right: 20px;
-      i {
-        color: $primary-color;
-        font-size: 15px;
-        line-height: 20px;
-      }
+
+      color: $primary-color;
+      font-size: 15px;
+      line-height: 20px;
+      cursor: pointer;
     }
 
     .logoLink {

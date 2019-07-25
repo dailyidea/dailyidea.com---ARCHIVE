@@ -1,7 +1,8 @@
 <template>
-  <v-layout id="ideaListPage">
-    <!-- Headers -->
-    <!-- <div class="pageHeader">
+  <Layout v-bind:backButton="true">
+    <v-layout id="ideaListPage">
+      <!-- Headers -->
+      <!-- <div class="pageHeader">
       <v-layout hidden-sm-and-down>
         <desktopHeader></desktopHeader>
       </v-layout>
@@ -16,39 +17,40 @@
       </v-layout>
     </div>-->
 
-    <!-- Title Section -->
-    <div class="titleDiv">
-      <v-layout class="titleText" hidden-sm-and-down>MY IDEAS</v-layout>
-      <div class="sortBy">
-        <v-icon>fas fa-clock</v-icon>Sort by Newest
+      <!-- Title Section -->
+      <div class="titleDiv">
+        <v-layout class="titleText" hidden-sm-and-down>MY IDEAS</v-layout>
+        <div class="sortBy">
+          <v-icon>fas fa-clock</v-icon>Sort by Newest
+        </div>
       </div>
-    </div>
 
-    <!-- Idea List -->
-    <v-layout class="ideaList" row wrap>
-      <v-flex class="ideaContainer" xs12 sm12 md4 lg4 xl4 v-for="(idea, index) in ideas" :key="index">
-        <div class="ideaItem" @click="$router.push({path:'/ideas/' + idea.ideaId, force: true})">
-          <div class="ideaDescription">{{idea.title}}</div>
-          <div class="engagement">
-            <div class="ups">
-              <img class="logoIcon" src="~/assets/images/logo_icon.png" />
-              609
-            </div>
-            <div class="downs">
-              <img class="logoIcon" src="~/assets/images/comments.png" />
-              120
-            </div>
-            <div class="timing">
-              {{idea.relativeCreatedTime}}
+      <!-- Idea List -->
+      <v-layout class="ideaList" row wrap>
+        <v-flex class="ideaContainer" xs12 sm12 md4 lg4 xl4 v-for="(idea, index) in ideas" :key="index">
+          <div class="ideaItem" @click="$router.push({path:'/ideas/' + idea.ideaId, force: true})">
+            <div class="ideaDescription">{{idea.title}}</div>
+            <div class="engagement">
+              <div class="ups">
+                <img class="logoIcon" src="~/assets/images/logo_icon.png" />
+                609
+              </div>
+              <div class="downs">
+                <img class="logoIcon" src="~/assets/images/comments.png" />
+                120
+              </div>
+              <div class="timing">
+                {{idea.relativeCreatedTime}}
+              </div>
             </div>
           </div>
-        </div>
-      </v-flex>
+        </v-flex>
+      </v-layout>
     </v-layout>
-  </v-layout>
+  </Layout>
 </template>
 <script>
-import desktopHeader from './../../components/loggedInDesktopHeader'
+import Layout from '@/components/layout/Layout'
 import { graphqlOperation } from '@aws-amplify/api'
 import getIdeas from '~/graphql/mutations/getIdeas'
 
@@ -57,7 +59,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
 
 export default {
-  components: { desktopHeader },
+  components: { Layout },
   async asyncData({ app }) {
     const {
       data: { ideas }
