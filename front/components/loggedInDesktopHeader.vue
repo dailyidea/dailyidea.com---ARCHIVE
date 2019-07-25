@@ -1,8 +1,16 @@
 <template>
   <div class="loggedInHeader">
+
+    <!-- Desktop Header -->
     <v-layout hidden-sm-and-down>
       <v-toolbar class="desktop" app flat absolute color="white">
         <v-toolbar-title class="blue--text subheading">
+
+          <!-- Show Back button if enabled -->
+          <nuxt-link class="backButon" :to="{ name: 'index' }">
+            <v-icon class="icons">fas fa-arrow-left</v-icon>
+          </nuxt-link>
+
           <nuxt-link class="logoLink" :to="{ name: 'index' }">
             <img class="logoIcon" src="~/assets/images/logo_icon.png" />
             <img class="logoIcon logoText" src="~/assets/images/logo_text.png" />
@@ -40,6 +48,12 @@
 <script>
 export default {
   data: () => ({}),
+  props: {
+    backButton: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {}
 }
 </script>
@@ -54,6 +68,15 @@ export default {
       color: #c0b7c5 !important;
       font-style: none !important;
       text-decoration: none !important;
+    }
+
+    .backButon {
+      margin-right: 20px;
+      i {
+        color: $primary-color;
+        font-size: 15px;
+        line-height: 20px;
+      }
     }
 
     .logoLink {
