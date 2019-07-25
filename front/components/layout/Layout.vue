@@ -1,12 +1,9 @@
 <template>
   <v-app id="app">
-    <v-toolbar
-      v-if="!$store.getters['cognito/isLoggedIn']"
-      class="toolBar"
-      app
-      flat
-      absolute
-    >
+
+    <!-- Non login page header -->
+    <v-toolbar v-if="!$store.getters['cognito/isLoggedIn']" class="toolBar" app flat absolute>
+
       <v-toolbar-title class="blue--text subheading">
         <nuxt-link class="logoLink" :to="{ name: 'index' }">
           <img class="logoIcon" src="~/assets/images/logo_icon.png" />
@@ -15,19 +12,17 @@
       </v-toolbar-title>
       <v-spacer />
       <template>
-        <nuxt-link class="helpLink" :to="{ name: 'auth-login' }"
-          >Help</nuxt-link
-        >
+        <nuxt-link class="helpLink" :to="{ name: 'auth-login' }">Help</nuxt-link>
         <nuxt-link class="userLink" :to="{ name: 'auth-signup' }">
           <v-icon>fa-user</v-icon>
         </nuxt-link>
       </template>
     </v-toolbar>
 
-    <!-- Header For Loggedin user -->
+    <!-- Loggedin page header -->
     <template v-else>
-      <!-- <a @click="logout">Logout</a> -->
-      <loggedInDesktopHeader></loggedInDesktopHeader>
+      <!-- Back Button -->
+      <loggedInDesktopHeader v-bind="{backButton: backButton}"></loggedInDesktopHeader>
     </template>
     <v-content class="nuxtContainer">
       <v-layout>
@@ -47,10 +42,19 @@ import loggedInDesktopHeader from '~/components/loggedInDesktopHeader'
 
 export default {
   components: { loggedInDesktopHeader },
+  props: {
+    backButton: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     logout() {
       this.$store.dispatch('cognito/signOut')
     }
+  },
+  created() {
+    console.log('at main params =>', this.backButton)
   }
 }
 </script>

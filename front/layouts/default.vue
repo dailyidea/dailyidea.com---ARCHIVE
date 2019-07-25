@@ -1,5 +1,7 @@
 <template>
-  <Layout><Nuxt /></Layout>
+  <!-- <Layout> -->
+  <Nuxt />
+  <!-- </Layout> -->
 </template>
 <script>
 import Layout from '@/components/layout/Layout'

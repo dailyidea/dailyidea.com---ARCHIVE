@@ -1,107 +1,112 @@
 <template>
-  <v-layout id="profilePage">
-    <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
+  <Layout v-bind:backButton="true">
+    <v-layout id="profilePage">
 
-    <!-- Headers -->
-    <div class="pageHeader">
-      <v-layout hidden-sm-and-down>
-        <desktopHeader></desktopHeader>
-      </v-layout>
-      <v-layout class="mobileHeader" row hidden-md-and-up>
-        <v-flex xs2 sm2>
-          <v-icon class="icons">fas fa-arrow-left</v-icon>
-        </v-flex>
-        <v-flex xs8 sm8 class="text">BOB'S PROFILE</v-flex>
-        <v-flex xs2 sm2 class="rightSide">
-          <v-icon class="icons">fas fa-cog</v-icon>
-        </v-flex>
-      </v-layout>
-    </div>
+      <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
-    <v-layout row wrap>
-      <!-- Left Side -->
-      <v-flex xs12 sm12 md5 lg5 xl5 class="profileDetails">
-        <div class="sectionHeader">
-          <span class="userIcon">
-            <v-icon>fas fa-user</v-icon>
-          </span>
-          <div class="userName">Bob Smith</div>
-          <v-btn class="followBtn" color="primary">FOLLOW</v-btn>
-        </div>
-
-        <!-- Mobile - Profile Description -->
-        <v-layout class="profileDescription" hidden-md-and-up>
-          Hi! My name is Bob, I’m a creative geek from San Francisco, CA. I
-          enjoy creating eye candy solutions for web and mobile apps. Contact me
-          at bob@mail.com
+      <!-- Headers -->
+      <!-- <div class="pageHeader">
+        <v-layout hidden-sm-and-down>
+          <desktopHeader></desktopHeader>
         </v-layout>
-
-        <!-- 3 Boxes -->
-        <v-layout class="boxContainer" row>
-          <v-flex xs4 sm4 md4 lg4 xl4>
-            <div class="box first">
-              <div class="number">140</div>
-              <div class="text">Ideas</div>
-            </div>
+        <v-layout class="mobileHeader" row hidden-md-and-up>
+          <v-flex xs2 sm2>
+            <v-icon class="icons">fas fa-arrow-left</v-icon>
           </v-flex>
-          <v-flex xs4 sm4 md4 lg4 xl4>
-            <div class="box">
-              <div class="number">24k</div>
-              <div class="text">Followers</div>
-            </div>
-          </v-flex>
-          <v-flex xs4 sm4 md4 lg4 xl4>
-            <div class="box last">
-              <div class="number">1,980</div>
-              <div class="text">Following</div>
-            </div>
+          <v-flex xs8 sm8 class="text">BOB'S PROFILE</v-flex>
+          <v-flex xs2 sm2 class="rightSide">
+            <v-icon class="icons">fas fa-cog</v-icon>
           </v-flex>
         </v-layout>
+      </div> -->
 
-        <!-- Desktop - Profile Description -->
-        <v-layout class="profileDescription" hidden-sm-and-down>
-          Hi! My name is Bob, I’m a creative geek from San Francisco, CA. I
-          enjoy creating eye candy solutions for web and mobile apps. Contact me
-          at bob@mail.com
-        </v-layout>
-
-        <div class="tagsContainer">
-          <v-chip label class="tag">web</v-chip>
-          <v-chip label class="tag">illustration</v-chip>
-          <v-chip label class="tag">graphics</v-chip>
-          <v-chip label class="tag">ui</v-chip>
-          <v-chip label class="tag">adobe</v-chip>
-          <v-chip label class="tag">interface</v-chip>
-        </div>
-      </v-flex>
-
-      <!-- Right Side -->
-      <v-flex class="rightSideComments" xs12 sm12 md7 lg7 xl7>
-        <div class="commentItem" v-for="i in 6" :key="i">
-          <div class="commentText">
-            Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor
-            sit amet consecteturdfd
+      <v-layout row wrap>
+        <!-- Left Side -->
+        <v-flex xs12 sm12 md5 lg5 xl5 class="profileDetails">
+          <div class="sectionHeader">
+            <span class="userIcon">
+              <v-icon>fas fa-user</v-icon>
+            </span>
+            <div class="userName">Bob Smith</div>
+            <v-btn class="followBtn" color="primary">FOLLOW</v-btn>
           </div>
-          <div class="engagement">
-            <div class="ups">
-              <img class="logoIcon" src="~/assets/images/logo_icon.png" />
-              609
-            </div>
-            <div class="downs">
-              <img class="logoIcon" src="~/assets/images/comments.png" />
-              120
-            </div>
-            <div class="timing">1h ago</div>
+
+          <!-- Mobile - Profile Description -->
+          <v-layout class="profileDescription" hidden-md-and-up>
+            Hi! My name is Bob, I’m a creative geek from San Francisco, CA. I
+            enjoy creating eye candy solutions for web and mobile apps. Contact me
+            at bob@mail.com
+          </v-layout>
+
+          <!-- 3 Boxes -->
+          <v-layout class="boxContainer" row>
+            <v-flex xs4 sm4 md4 lg4 xl4>
+              <div class="box first">
+                <div class="number">140</div>
+                <div class="text">Ideas</div>
+              </div>
+            </v-flex>
+            <v-flex xs4 sm4 md4 lg4 xl4>
+              <div class="box">
+                <div class="number">24k</div>
+                <div class="text">Followers</div>
+              </div>
+            </v-flex>
+            <v-flex xs4 sm4 md4 lg4 xl4>
+              <div class="box last">
+                <div class="number">1,980</div>
+                <div class="text">Following</div>
+              </div>
+            </v-flex>
+          </v-layout>
+
+          <!-- Desktop - Profile Description -->
+          <v-layout class="profileDescription" hidden-sm-and-down>
+            Hi! My name is Bob, I’m a creative geek from San Francisco, CA. I
+            enjoy creating eye candy solutions for web and mobile apps. Contact me
+            at bob@mail.com
+          </v-layout>
+
+          <div class="tagsContainer">
+            <v-chip label class="tag">web</v-chip>
+            <v-chip label class="tag">illustration</v-chip>
+            <v-chip label class="tag">graphics</v-chip>
+            <v-chip label class="tag">ui</v-chip>
+            <v-chip label class="tag">adobe</v-chip>
+            <v-chip label class="tag">interface</v-chip>
           </div>
-        </div>
-      </v-flex>
+        </v-flex>
+
+        <!-- Right Side -->
+        <v-flex class="rightSideComments" xs12 sm12 md7 lg7 xl7>
+          <div class="commentItem" v-for="i in 6" :key="i">
+            <div class="commentText">
+              Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor
+              sit amet consecteturdfd
+            </div>
+            <div class="engagement">
+              <div class="ups">
+                <img class="logoIcon" src="~/assets/images/logo_icon.png" />
+                609
+              </div>
+              <div class="downs">
+                <img class="logoIcon" src="~/assets/images/comments.png" />
+                120
+              </div>
+              <div class="timing">1h ago</div>
+            </div>
+          </div>
+        </v-flex>
+      </v-layout>
     </v-layout>
-  </v-layout>
+  </Layout>
 </template>
+
 <script>
 import desktopHeader from './../components/loggedInDesktopHeader.vue'
+import Layout from '@/components/layout/Layout'
 export default {
-  components: { desktopHeader },
+  components: { desktopHeader, Layout },
   data: () => ({
     commentList: [
       {
