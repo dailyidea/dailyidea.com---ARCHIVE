@@ -32,7 +32,8 @@
       <v-layout class="mobile" row hidden-md-and-up>
         <!-- Left Side Icon -->
         <v-flex xs2 sm2 v-if="mobileHamburger">
-          <v-icon class="icons">fas fa-bars</v-icon>
+          <v-icon class="icons" @click="$refs.mobileMenu.visible = true;">fas fa-bars</v-icon>
+          <MobileMenu ref="mobileMenu"></MobileMenu>
         </v-flex>
         <v-flex xs2 sm2 v-else-if="backButton">
           <v-icon class="icons" @click="onBackClick()">fas fa-arrow-left</v-icon>
@@ -188,7 +189,7 @@ export default {
       text-align: center;
       color: #18141c;
     }
-    i {
+    .icons {
       color: #c0b7c5 !important;
       font-size: 13px;
     }

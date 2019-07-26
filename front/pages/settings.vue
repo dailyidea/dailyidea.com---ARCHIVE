@@ -1,96 +1,71 @@
 <template>
-  <v-layout id="settingsPage">
-    <!-- Headers -->
-    <div class="pageHeader">
-      <v-layout hidden-sm-and-down>
-        <desktopHeader></desktopHeader>
-      </v-layout>
-      <v-layout class="mobileHeader" row hidden-md-and-up>
-        <v-flex xs2 sm2>
-          <v-icon class="icons">fas fa-arrow-left</v-icon>
-        </v-flex>
-        <v-flex xs8 sm8 class="text">SETTINGS</v-flex>
-      </v-layout>
-    </div>
+  <Layout v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'Settings'}">
+    <v-layout id="settingsPage">
 
-    <v-container class="settingsList">
-      <div class="settingsItem">
-        <div class="settingsInfo">
-          <v-icon>fas fa-pen</v-icon>
-          Me
+      <v-container class="settingsList">
+        <div class="settingsItem">
+          <div class="settingsInfo">
+            <v-icon>fas fa-pen</v-icon>
+            Me
+          </div>
+          <div class="metadata">John Doe</div>
         </div>
-        <div class="metadata">John Doe</div>
-      </div>
-      <div class="settingsItem">
-        <div class="settingsInfo">
-          <v-icon>fas fa-bell</v-icon>Notifications
+        <div class="settingsItem">
+          <div class="settingsInfo">
+            <v-icon>fas fa-bell</v-icon>Notifications
+          </div>
+          <div class="metadata">All</div>
         </div>
-        <div class="metadata">All</div>
-      </div>
-      <div class="settingsItem">
-        <div class="settingsInfo">
-          <v-icon>fas fa-cog</v-icon>
-          General
+        <div class="settingsItem">
+          <div class="settingsInfo">
+            <v-icon>fas fa-cog</v-icon>
+            General
+          </div>
+          <div class="metadata">Lorem Ipsum</div>
         </div>
-        <div class="metadata">Lorem Ipsum</div>
-      </div>
-      <div class="settingsItem">
-        <div class="settingsInfo">
-          <v-icon>fas fa-user</v-icon>
-          Account
+        <div class="settingsItem">
+          <div class="settingsInfo">
+            <v-icon>fas fa-user</v-icon>
+            Account
+          </div>
+          <div class="metadata">john.doe@mail.com</div>
         </div>
-        <div class="metadata">john.doe@mail.com</div>
-      </div>
-      <div class="settingsItem">
-        <div class="settingsInfo">
-          <v-icon>fas fa-lock</v-icon>
-          Privacy
+        <div class="settingsItem">
+          <div class="settingsInfo">
+            <v-icon>fas fa-lock</v-icon>
+            Privacy
+          </div>
+          <div class="metadata">Only me</div>
         </div>
-        <div class="metadata">Only me</div>
-      </div>
-      <div class="settingsItem">
-        <div class="settingsInfo">
-          <v-icon>fas fa-question-circle</v-icon>Help
+        <div class="settingsItem">
+          <div class="settingsInfo">
+            <v-icon>fas fa-question-circle</v-icon>Help
+          </div>
+          <div class="metadata">Questions?</div>
         </div>
-        <div class="metadata">Questions?</div>
-      </div>
-      <div class="settingsItem">
-        <div class="settingsInfo">
-          <v-icon>fas fa-sign-out-alt</v-icon>Sign Out
+        <div class="settingsItem">
+          <div class="settingsInfo" @click="signout()">
+            <v-icon>fas fa-sign-out-alt</v-icon>Sign Out
+          </div>
+          <div class="metadata">Sign Out Now</div>
         </div>
-        <div class="metadata">Sign Out Now</div>
-      </div>
-    </v-container>
-  </v-layout>
+      </v-container>
+    </v-layout>
+  </Layout>
 </template>
 <script>
-import { graphqlOperation } from '@aws-amplify/api'
-import getIdeas from '~/graphql/mutations/getIdeas'
-import desktopHeader from './../components/loggedInHeader'
+import Layout from '@/components/layout/Layout'
 export default {
-  components: { desktopHeader },
-  async asyncData({ app }) {
-    const {
-      data: { ideas }
-    } = await app.$amplifyApi.graphql(graphqlOperation(getIdeas))
-    debugger
-    return {
-      ideas: ideas.items
+  components: { Layout },
+  methods: {
+    signout() {
+      this.$store.dispatch('cognito/signOut')
     }
   }
 }
 </script>
 
 <style lang="scss">
-// Remove top header manually
-#app {
-  .toolBar {
-    display: none;
-  }
-  .nuxtContainer {
-    padding-top: 0px !important;
-  }
-}
 #settingsPage {
   padding-top: 50px;
   background: white;

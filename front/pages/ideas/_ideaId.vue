@@ -3,22 +3,6 @@
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
-      <!-- Headers -->
-      <!-- <div class="pageHeader">
-      <v-layout hidden-sm-and-down>
-        <desktopHeader style="border-bottom: 1px solid #ebe7ed;"></desktopHeader>
-      </v-layout>
-      <v-layout class="mobileHeader" row hidden-md-and-up>
-        <v-flex xs2 sm2>
-          <v-icon class="icons">fas fa-arrow-left</v-icon>
-        </v-flex>
-        <v-flex xs8 sm8 class="text">{{user.email}}'s Idea</v-flex>
-        <v-flex xs2 sm2 class="rightSide">
-          <v-icon class="icons menu">fas fa-ellipsis-v</v-icon>
-        </v-flex>
-      </v-layout>
-      </div>-->
-
       <v-layout row wrap>
         <!-- Left Side -->
         <v-flex xs12 sm12 md5 lg5 xl5 class="profileDetails">
@@ -91,16 +75,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
 export default {
   components: { Layout },
-  data: () => ({
-    commentList: [
-      {
-        text:
-          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
-        ups: 609,
-        downs: 120
-      }
-    ]
-  }),
+  data: () => ({}),
   async asyncData({ app, route, store }) {
     const { data } = await app.$amplifyApi.graphql(
       graphqlOperation(getIdea, { ideaId: route.params.ideaId })
@@ -138,7 +113,7 @@ export default {
     // padding-top: 5px;
     background: white;
     overflow: auto;
-    border-top: 1px solid #f5f3f6;
+    // border-top: 1px solid #f5f3f6;
 
     @media #{$small-screen} {
       padding-right: 5%;
@@ -147,11 +122,6 @@ export default {
 
     .sectionHeader {
       display: block;
-      .backBtn {
-        color: $primary-color;
-        font-size: 16px;
-        cursor: pointer;
-      }
       .menu {
         float: right;
         padding-top: 3px;
@@ -161,9 +131,9 @@ export default {
     }
 
     .ideaTitle {
-      padding-top: 20px;
+      padding-top: 30px;
 
-      font-size: 45px;
+      font-size: 40px;
       font-weight: normal;
       font-style: normal;
       font-stretch: normal;

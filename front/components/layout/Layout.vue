@@ -109,5 +109,9 @@ export default {
       }
     }
   }
+
+  .nuxtContainer {
+    padding-top: 56px !important;
+  }
 }
 </style>

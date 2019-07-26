@@ -1,7 +1,7 @@
 <template>
-  <div id="menuComponent">
+  <div id="menuComponent" v-if="visible">
     <!-- Right side close button -->
-    <div class="topRightCloseBtn">
+    <div class="topRightCloseBtn" @click="visible = false;">
       <i class="fa fa-times"></i>
     </div>
 
@@ -13,13 +13,23 @@
 
     <!-- Menu Items -->
     <div class="menuItemsContainer">
-      <img class="imgBackgroundLamp" src="~/assets/images/white_lamp.png" />
+
       <div class="menuItems">
-        <div class="menuItem">My Ideas</div>
-        <div class="menuItem">Saved Ideas</div>
-        <div class="menuItem">Settings</div>
-        <div class="menuItem">My Profile</div>
-        <div class="menuItem">My Groups</div>
+        <div class="menuItem">
+          <nuxt-link to="/ideas">My Ideas</nuxt-link>
+        </div>
+        <div class="menuItem">
+          <nuxt-link to="/ideas">Saved Ideas</nuxt-link>
+        </div>
+        <div class="menuItem">
+          <nuxt-link to="/settings">Settings</nuxt-link>
+        </div>
+        <div class="menuItem">
+          <nuxt-link to="/profile">My Profile</nuxt-link>
+        </div>
+        <div class="menuItem">
+          <nuxt-link to="/ideas">My Groups</nuxt-link>
+        </div>
       </div>
       <!-- Social Login Icons -->
       <div class="socialIconContainer">
@@ -37,33 +47,31 @@
 
     <!-- Logout div at bottom -->
     <div class="logoutDiv">
-      <v-btn large class="loginBtn" color="primary">LOG OUT</v-btn>
+      <v-btn large class="logoutBtn" color="primary">LOG OUT</v-btn>
     </div>
   </div>
 </template>
 <script>
 export default {
-  data: () => ({}),
-  methods: {}
+  data: () => ({
+    visible: true
+  }),
+  methods: {
+    logout() {
+      this.$store.dispatch('cognito/signOut')
+    }
+  }
 }
 </script>
 
 <style lang="scss">
-// Remove top header manually
-#app {
-  .toolBar {
-    display: none;
-  }
-  .nuxtContainer {
-    padding-top: 0px !important;
-  }
-}
-
 #menuComponent {
   height: 100vh;
+  position: fixed;
   overflow: hidden;
+  top: 0;
+  left: 0;
   width: 100%;
-
   background-image: linear-gradient(#ffdf01, #ffb92d);
 
   .topRightCloseBtn {
@@ -94,21 +102,19 @@ export default {
     // border: 1px solid red;
     height: 70vh;
     text-align: center;
-    .imgBackgroundLamp {
-      position: absolute;
-      left: 0;
-      right: 0;
-      margin-left: auto;
-      margin-right: auto;
-      width: 95%;
-      opacity: 0.7;
-      z-index: 0;
-    }
+    position: relative;
+    background-image: url('~assets/images/white_lamp.png');
+    background-size: 90%;
+    background-position-x: 50%;
+
     .menuItems {
-      z-index: 1;
-      color: white;
+      z-index: 10000;
       .menuItem {
         line-height: 12vh;
+        a {
+          color: white !important;
+          text-decoration: none;
+        }
       }
     }
     .socialIconContainer {
@@ -120,7 +126,7 @@ export default {
   }
 
   .logoutDiv {
-    position: fixed;
+    position: absolute;
     bottom: 0px;
     width: 100%;
 
@@ -132,7 +138,7 @@ export default {
       width: 200px;
     }
 
-    .loginBtn {
+    .logoutBtn {
       width: 100%;
       max-width: none;
       margin: 0px;
