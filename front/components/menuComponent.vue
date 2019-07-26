@@ -53,7 +53,7 @@
 <script>
 export default {
   data: () => ({
-    visible: true
+    visible: false
   }),
   methods: {
     logout() {
