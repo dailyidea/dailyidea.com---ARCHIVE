@@ -18,6 +18,9 @@
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 
+# remove mac file metadata
+*.DS_Store
+
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
@@ -99,6 +102,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+front/ngrok.exe
 
 # TypeScript v1 declaration files
 typings/
