@@ -12,7 +12,7 @@ let handler = undefined
 
 exports.render = function(event, context, callback) {
   if (!handler) {
-    nuxt.ready().then(() => {
+    return nuxt.ready().then(() => {
       handler = serverless(nuxt.render, {
         callbackWaitsForEmptyEventLoop: false
       })
