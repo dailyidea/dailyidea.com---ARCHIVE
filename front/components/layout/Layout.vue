@@ -10,7 +10,9 @@
       </v-toolbar-title>
       <v-spacer />
       <template>
-        <nuxt-link class="helpLink" :to="{ name: 'auth-login' }">Help</nuxt-link>
+        <nuxt-link class="helpLink" :to="{ name: 'auth-login' }"
+          >Help</nuxt-link
+        >
         <nuxt-link class="userLink" :to="{ name: 'auth-signup' }">
           <v-icon>fa-user</v-icon>
         </nuxt-link>
@@ -19,7 +21,14 @@
 
     <!-- Loggedin page header -->
     <template v-else-if="$store.getters['cognito/isLoggedIn']">
-      <loggedInHeader v-bind="{ backButton: backButton, mobileTitle: mobileTitle, mobileSearchIcon: mobileSearchIcon, mobileHamburger: mobileHamburger }">
+      <loggedInHeader
+        v-bind="{
+          backButton: backButton,
+          mobileTitle: mobileTitle,
+          mobileSearchIcon: mobileSearchIcon,
+          mobileHamburger: mobileHamburger
+        }"
+      >
       </loggedInHeader>
     </template>
 

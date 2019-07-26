@@ -1,24 +1,37 @@
 <template>
-  <Layout v-bind="{loggedInHeader: true,
-    mobileTitle:'My Ideas',
-    mobileHamburger:true,
-    mobileSearchIcon: true
-    }">
+  <Layout
+    v-bind="{
+      loggedInHeader: true,
+      mobileTitle: 'My Ideas',
+      mobileHamburger: true,
+      mobileSearchIcon: true
+    }"
+  >
     <v-layout id="ideaListPage">
       <!-- Title Section -->
       <div class="titleDiv">
         <v-layout class="titleText" hidden-sm-and-down>MY IDEAS</v-layout>
-        <div class="sortBy">
-          <v-icon>fas fa-clock</v-icon>Sort by Newest
-        </div>
+        <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
       </div>
 
       <!-- Idea List -->
       <v-layout class="ideaList" row wrap>
-        <v-flex v-for="(idea, index) in ideas" :key="index" class="ideaContainer" xs12 sm12 md4 lg4 xl4>
-          <div class="ideaItem" @click="
+        <v-flex
+          v-for="(idea, index) in ideas"
+          :key="index"
+          class="ideaContainer"
+          xs12
+          sm12
+          md4
+          lg4
+          xl4
+        >
+          <div
+            class="ideaItem"
+            @click="
               $router.push({ path: '/ideas/' + idea.ideaId, force: true })
-            ">
+            "
+          >
             <div class="ideaDescription">{{ idea.title }}</div>
             <div class="engagement">
               <div class="ups">

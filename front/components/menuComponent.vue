@@ -1,7 +1,7 @@
 <template>
-  <div id="menuComponent" v-if="visible">
+  <div v-if="visible" id="menuComponent">
     <!-- Right side close button -->
-    <div class="topRightCloseBtn" @click="visible = false;">
+    <div class="topRightCloseBtn" @click="visible = false">
       <i class="fa fa-times"></i>
     </div>
 
@@ -13,7 +13,6 @@
 
     <!-- Menu Items -->
     <div class="menuItemsContainer">
-
       <div class="menuItems">
         <div class="menuItem">
           <nuxt-link to="/ideas">My Ideas</nuxt-link>

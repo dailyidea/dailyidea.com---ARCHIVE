@@ -7,7 +7,10 @@
       </v-btn>
 
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
-        <img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
+        <img
+          class="imgPersonWithPhone"
+          src="~/assets/images/person_with_phone.png"
+        />
       </v-flex>
 
       <!-- Register Div -->
@@ -34,8 +37,8 @@
           <!-- Email Input Box -->
           <v-text-field
             v-model="email"
-            class="inputBox email"
             v-validate="'required|email'"
+            class="inputBox email"
             :error-messages="errors.collect('email')"
             data-vv-name="email"
             single-line
@@ -64,13 +67,21 @@
         <!-- Login div at bottom -->
         <div class="loginDiv">
           <div class="loginTitle">Alreay have an account?</div>
-          <v-btn large class="loginBtn" color="primary" to="/auth/login">LOGIN</v-btn>
+          <v-btn large class="loginBtn" color="primary" to="/auth/login"
+            >LOGIN</v-btn
+          >
         </div>
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img class="imgLightGrayLamp" src="~/assets/images/signup/light_gray_lamp.png" />
-        <img class="imgPersonWithPhone" src="~/assets/images/signup/lady_with_phone.png" />
+        <img
+          class="imgLightGrayLamp"
+          src="~/assets/images/signup/light_gray_lamp.png"
+        />
+        <img
+          class="imgPersonWithPhone"
+          src="~/assets/images/signup/lady_with_phone.png"
+        />
       </v-flex>
     </v-layout>
 
@@ -97,11 +108,17 @@ export default {
   $_veeValidate: {
     validator: 'new'
   },
+  mounted() {
+    this.$validator.localize('en', this.dictionary)
+  },
   methods: {
     async signup() {
       try {
+        //Validate input fields
         let result = await this.$validator.validateAll()
-        console.log('validation result', result)
+        if (!result) {
+          return
+        }
 
         await this.$store.dispatch('cognito/registerUser', {
           username: this.email,
@@ -119,9 +136,6 @@ export default {
         })
       }
     }
-  },
-  mounted() {
-    this.$validator.localize('en', this.dictionary)
   }
 }
 </script>

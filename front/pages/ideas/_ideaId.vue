@@ -1,5 +1,11 @@
 <template>
-  <Layout v-bind="{backButton: true, loggedInHeader: true, mobileTitle: user.email.toUpperCase() + '\'S IDEA'}">
+  <Layout
+    v-bind="{
+      backButton: true,
+      loggedInHeader: true,
+      mobileTitle: user.email.toUpperCase() + '\'S IDEA'
+    }"
+  >
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
@@ -60,7 +66,13 @@
 
       <!-- Foter with textbox -->
       <div class="pageFooter">
-        <v-text-field class="newCommentInput" flat solo label="Say something..." large></v-text-field>
+        <v-text-field
+          class="newCommentInput"
+          flat
+          solo
+          label="Say something..."
+          large
+        ></v-text-field>
         <v-icon class="sendBtn">fas fa-arrow-right</v-icon>
       </div>
     </v-layout>

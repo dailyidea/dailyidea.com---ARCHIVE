@@ -1,6 +1,12 @@
 <template>
-  <Layout v-bind="{ loggedInHeader: true,
-    mobileTitle: 'Bob\'s Profile', backButton: true, mobileSettingsIcon: true }">
+  <Layout
+    v-bind="{
+      loggedInHeader: true,
+      mobileTitle: 'Bob\'s Profile',
+      backButton: true,
+      mobileSettingsIcon: true
+    }"
+  >
     <v-layout id="profilePage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 

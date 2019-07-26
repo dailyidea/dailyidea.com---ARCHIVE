@@ -17,8 +17,8 @@
         />
       </v-flex>
 
-      <!-- Register Div -->
-      <v-flex class="registerDiv">
+      <!-- login Div -->
+      <v-flex class="loginDiv">
         <img
           class="logoIcon"
           src="~/assets/images/bulb_with_light_holder.png"
@@ -95,11 +95,17 @@ export default {
   methods: {
     async login() {
       try {
+        //Validate input fields
+        let result = await this.$validator.validateAll()
+        if (!result) {
+          return
+        }
+
         await this.$amplifyApi.post('RequestLogin', '', {
           body: { email: this.email }
         })
 
-        // Redirect to registeration success page
+        // Redirect to login success page
         this.$router.push('/auth/login/success')
       } catch (e) {
         this.$snotify.error(getErrorMessage(e), 'Error', {
@@ -167,7 +173,7 @@ export default {
       }
     }
 
-    .registerDiv {
+    .loginDiv {
       // border: 1px solid red;
       text-align: center;
       padding-top: 7vh;
