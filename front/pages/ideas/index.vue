@@ -1,46 +1,24 @@
 <template>
-  <Layout :back-button="true">
+  <Layout v-bind="{loggedInHeader: true,
+    mobileTitle:'My Ideas',
+    mobileHamburger:true,
+    mobileSearchIcon: true
+    }">
     <v-layout id="ideaListPage">
-      <!-- Headers -->
-      <!-- <div class="pageHeader">
-      <v-layout hidden-sm-and-down>
-        <desktopHeader></desktopHeader>
-      </v-layout>
-      <v-layout class="mobileHeader" row hidden-md-and-up>
-        <v-flex xs2 sm2>
-          <v-icon class="icons">fas fa-bars</v-icon>
-        </v-flex>
-        <v-flex xs8 sm8 class="text">MY IDEAS</v-flex>
-        <v-flex xs2 sm2 class="rightSide">
-          <v-icon class="icons">fas fa-search</v-icon>
-        </v-flex>
-      </v-layout>
-    </div>-->
-
       <!-- Title Section -->
       <div class="titleDiv">
         <v-layout class="titleText" hidden-sm-and-down>MY IDEAS</v-layout>
-        <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
+        <div class="sortBy">
+          <v-icon>fas fa-clock</v-icon>Sort by Newest
+        </div>
       </div>
 
       <!-- Idea List -->
       <v-layout class="ideaList" row wrap>
-        <v-flex
-          v-for="(idea, index) in ideas"
-          :key="index"
-          class="ideaContainer"
-          xs12
-          sm12
-          md4
-          lg4
-          xl4
-        >
-          <div
-            class="ideaItem"
-            @click="
+        <v-flex v-for="(idea, index) in ideas" :key="index" class="ideaContainer" xs12 sm12 md4 lg4 xl4>
+          <div class="ideaItem" @click="
               $router.push({ path: '/ideas/' + idea.ideaId, force: true })
-            "
-          >
+            ">
             <div class="ideaDescription">{{ idea.title }}</div>
             <div class="engagement">
               <div class="ups">
@@ -51,9 +29,7 @@
                 <img class="logoIcon" src="~/assets/images/comments.png" />
                 120
               </div>
-              <div class="timing">
-                {{ idea.relativeCreatedTime }}
-              </div>
+              <div class="timing">{{ idea.relativeCreatedTime }}</div>
             </div>
           </div>
         </v-flex>
@@ -105,34 +81,6 @@ export default {
 
   @media #{$small-screen} {
     padding-top: 0vh;
-  }
-
-  .pageHeader {
-    // border: 1px solid red;
-    padding: 25px 15px;
-    width: 100%;
-
-    .mobileHeader {
-      .text {
-        text-align: center;
-        margin-top: 2px;
-        font-size: 14px;
-        font-weight: 600;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.57;
-        letter-spacing: 0.42px;
-        text-align: center;
-        color: #18141c;
-      }
-      i {
-        color: #c0b7c5 !important;
-        font-size: 15px;
-      }
-      .rightSide {
-        text-align: right;
-      }
-    }
   }
 
   .titleDiv {
@@ -201,7 +149,7 @@ export default {
 
       .ideaItem {
         border: solid 1px rgba(228, 228, 228, 0.38);
-        padding: 10px;
+        padding: 15px 20px;
         cursor: pointer !important;
 
         @media #{$small-screen} {
@@ -260,7 +208,6 @@ export default {
 
           .timing {
             float: right;
-            padding-right: 20px;
             font-size: 12px;
             font-weight: normal;
             font-style: normal;

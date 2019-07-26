@@ -1,5 +1,6 @@
 <template>
-  <Layout :back-button="true">
+  <Layout v-bind="{ loggedInHeader: true,
+    mobileTitle: 'Bob\'s Profile', backButton: true, mobileSettingsIcon: true }">
     <v-layout id="profilePage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
@@ -119,17 +120,8 @@ export default {
 }
 </script>
 <style lang="scss">
-// Remove top header manually
-#app {
-  .toolBar {
-    display: none;
-  }
-  .nuxtContainer {
-    padding-top: 0px !important;
-  }
-}
 #profilePage {
-  padding-top: 95px;
+  padding-top: 13px;
   background: white;
   min-height: 100vh;
   padding-bottom: 2vh;

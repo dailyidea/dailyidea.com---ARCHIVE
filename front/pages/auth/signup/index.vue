@@ -7,10 +7,7 @@
       </v-btn>
 
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/person_with_phone.png"
-        />
+        <img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
       </v-flex>
 
       <!-- Register Div -->
@@ -19,28 +16,37 @@
         <br />
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
-        <!-- Email Input Box -->
-        <v-text-field
-          v-model="name"
-          class="inputBox name"
-          single-line
-          flat
-          label="Enter name"
-          prepend-inner-icon="fas fa-user"
-        ></v-text-field>
+        <!-- Register Form -->
+        <form>
+          <!-- Email Input Box -->
+          <v-text-field
+            v-model="name"
+            v-validate="'required|max:100'"
+            :error-messages="errors.collect('name')"
+            data-vv-name="name"
+            class="inputBox name"
+            single-line
+            flat
+            label="Enter name"
+            prepend-inner-icon="fas fa-user"
+          ></v-text-field>
 
-        <!-- Email Input Box -->
-        <v-text-field
-          v-model="email"
-          class="inputBox email"
-          single-line
-          flat
-          label="Enter email"
-          prepend-inner-icon="email"
-        ></v-text-field>
+          <!-- Email Input Box -->
+          <v-text-field
+            v-model="email"
+            class="inputBox email"
+            v-validate="'required|email'"
+            :error-messages="errors.collect('email')"
+            data-vv-name="email"
+            single-line
+            flat
+            label="Enter email"
+            prepend-inner-icon="email"
+          ></v-text-field>
 
-        <!-- Continue Button -->
-        <v-btn large class="continueBtn" @click="signup">Continue</v-btn>
+          <!-- Continue Button -->
+          <v-btn large class="continueBtn" @click="signup">Continue</v-btn>
+        </form>
 
         <!-- Social Login Icons -->
         <div class="socialIconContainer">
@@ -58,21 +64,13 @@
         <!-- Login div at bottom -->
         <div class="loginDiv">
           <div class="loginTitle">Alreay have an account?</div>
-          <v-btn large class="loginBtn" color="primary" to="/auth/login"
-            >LOGIN</v-btn
-          >
+          <v-btn large class="loginBtn" color="primary" to="/auth/login">LOGIN</v-btn>
         </div>
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img
-          class="imgLightGrayLamp"
-          src="~/assets/images/signup/light_gray_lamp.png"
-        />
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/signup/lady_with_phone.png"
-        />
+        <img class="imgLightGrayLamp" src="~/assets/images/signup/light_gray_lamp.png" />
+        <img class="imgPersonWithPhone" src="~/assets/images/signup/lady_with_phone.png" />
       </v-flex>
     </v-layout>
 
@@ -96,9 +94,15 @@ export default {
     email: '',
     name: ''
   }),
+  $_veeValidate: {
+    validator: 'new'
+  },
   methods: {
     async signup() {
       try {
+        let result = await this.$validator.validateAll()
+        console.log('validation result', result)
+
         await this.$store.dispatch('cognito/registerUser', {
           username: this.email,
           password: nanoid()
@@ -115,6 +119,9 @@ export default {
         })
       }
     }
+  },
+  mounted() {
+    this.$validator.localize('en', this.dictionary)
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <Layout :back-button="true">
+  <Layout v-bind="{backButton: true, loggedInHeader: true, mobileTitle: user.email.toUpperCase() + '\'S IDEA'}">
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
@@ -17,7 +17,7 @@
           <v-icon class="icons menu">fas fa-ellipsis-v</v-icon>
         </v-flex>
       </v-layout>
-    </div>-->
+      </div>-->
 
       <v-layout row wrap>
         <!-- Left Side -->
@@ -76,13 +76,7 @@
 
       <!-- Foter with textbox -->
       <div class="pageFooter">
-        <v-text-field
-          class="newCommentInput"
-          flat
-          solo
-          label="Say something..."
-          large
-        ></v-text-field>
+        <v-text-field class="newCommentInput" flat solo label="Say something..." large></v-text-field>
         <v-icon class="sendBtn">fas fa-arrow-right</v-icon>
       </div>
     </v-layout>
@@ -118,7 +112,6 @@ export default {
     }
   },
   created() {
-    debugger
     this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
   },
   methods: {}

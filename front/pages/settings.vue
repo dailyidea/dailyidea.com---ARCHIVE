@@ -66,7 +66,7 @@
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 import getIdeas from '~/graphql/mutations/getIdeas'
-import desktopHeader from './../components/loggedInDesktopHeader'
+import desktopHeader from './../components/loggedInHeader'
 export default {
   components: { desktopHeader },
   async asyncData({ app }) {

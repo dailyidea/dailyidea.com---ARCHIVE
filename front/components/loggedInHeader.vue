@@ -5,32 +5,21 @@
       <v-toolbar class="desktop" app flat absolute color="white">
         <v-toolbar-title class="blue--text subheading">
           <!-- Show Back button if enabled -->
-          <v-icon class="icons backButon" @click="onBackClick()"
-            >fas fa-arrow-left</v-icon
-          >
+          <v-icon v-if="backButton" class="icons backButon" @click="onBackClick()">fas fa-arrow-left</v-icon>
 
           <nuxt-link class="logoLink" :to="{ name: 'index' }">
             <img class="logoIcon" src="~/assets/images/logo_icon.png" />
-            <img
-              class="logoIcon logoText"
-              src="~/assets/images/logo_text.png"
-            />
+            <img class="logoIcon logoText" src="~/assets/images/logo_text.png" />
           </nuxt-link>
         </v-toolbar-title>
 
         <!-- Search Box -->
-        <v-text-field
-          class="searchInput"
-          flat
-          solo
-          label
-          prepend-inner-icon="fas fa-search"
-        ></v-text-field>
+        <v-text-field class="searchInput" flat solo label prepend-inner-icon="fas fa-search"></v-text-field>
 
         <v-spacer />
         <template>
           <v-icon style="color: #c0b7c5;">fas fa-cog</v-icon>
-          <span class="userName">Bob Smith</span>
+          <span class="userName">{{$store.getters['cognito/username']}}</span>
           <span class="userIcon">
             <v-icon>fas fa-user</v-icon>
           </span>
@@ -41,21 +30,44 @@
     <!-- Mobile HEader -->
     <v-toolbar app flat absolute color="white" hidden-md-and-up>
       <v-layout class="mobile" row hidden-md-and-up>
-        <v-flex xs2 sm2>
-          <v-icon class="icons">fas fa-arrow-left</v-icon>
+        <!-- Left Side Icon -->
+        <v-flex xs2 sm2 v-if="mobileHamburger">
+          <v-icon class="icons">fas fa-bars</v-icon>
         </v-flex>
-        <v-flex xs8 sm8 class="text">Idea</v-flex>
+        <v-flex xs2 sm2 v-else-if="backButton">
+          <v-icon class="icons" @click="onBackClick()">fas fa-arrow-left</v-icon>
+        </v-flex>
+
+        <!-- Center Title -->
+        <v-flex xs8 sm8 class="text">{{mobileTitle}}</v-flex>
+
+        <!-- Rightside Icons -->
         <v-flex xs2 sm2 class="rightSide">
-          <v-icon class="icons menu">fas fa-ellipsis-v</v-icon>
+          <v-icon v-if="mobileSearchIcon" class="icons menu">fas fa-search</v-icon>
+          <v-icon v-else class="icons menu">fas fa-ellipsis-v</v-icon>
         </v-flex>
       </v-layout>
     </v-toolbar>
   </div>
 </template>
 <script>
+import MobileMenu from '~/components/menuComponent'
 export default {
+  components: { MobileMenu },
   props: {
     backButton: {
+      type: Boolean,
+      default: false
+    },
+    mobileTitle: {
+      type: String,
+      default: ''
+    },
+    mobileHamburger: {
+      type: Boolean,
+      default: false
+    },
+    mobileSearchIcon: {
       type: Boolean,
       default: false
     }
@@ -172,10 +184,7 @@ export default {
       margin-top: 2px;
       font-size: 14px;
       font-weight: 600;
-      font-style: normal;
-      font-stretch: normal;
       line-height: 1.57;
-      letter-spacing: 0.42px;
       text-align: center;
       color: #18141c;
     }
@@ -186,7 +195,7 @@ export default {
     .rightSide {
       text-align: right;
       i {
-        color: #35124e !important;
+        // color: #35124e !important;
       }
     }
   }

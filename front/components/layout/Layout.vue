@@ -1,7 +1,7 @@
 <template>
   <div id="commonHeader">
     <!-- Non login page header -->
-    <v-toolbar v-if="!$store.getters['cognito/isLoggedIn']" class="toolBar" app flat absolute>
+    <v-toolbar v-if="!loggedInHeader" class="toolBar" app flat absolute>
       <v-toolbar-title class="blue--text subheading">
         <nuxt-link class="logoLink" :to="{ name: 'index' }">
           <img class="logoIcon" src="~/assets/images/logo_icon.png" />
@@ -18,8 +18,9 @@
     </v-toolbar>
 
     <!-- Loggedin page header -->
-    <template v-else>
-      <loggedInDesktopHeader v-bind="{ backButton: backButton }"></loggedInDesktopHeader>
+    <template v-else-if="$store.getters['cognito/isLoggedIn']">
+      <loggedInHeader v-bind="{ backButton: backButton, mobileTitle: mobileTitle, mobileSearchIcon: mobileSearchIcon, mobileHamburger: mobileHamburger }">
+      </loggedInHeader>
     </template>
 
     <!-- Router contents -->
@@ -39,12 +40,28 @@
   </div>
 </template>
 <script>
-import loggedInDesktopHeader from '~/components/loggedInDesktopHeader'
+import loggedInHeader from '~/components/loggedInHeader'
 
 export default {
-  components: { loggedInDesktopHeader },
+  components: { loggedInHeader },
   props: {
     backButton: {
+      type: Boolean,
+      default: false
+    },
+    loggedInHeader: {
+      type: Boolean,
+      default: false
+    },
+    mobileTitle: {
+      type: String,
+      default: ''
+    },
+    mobileHamburger: {
+      type: Boolean,
+      default: false
+    },
+    mobileSearchIcon: {
       type: Boolean,
       default: false
     }
@@ -60,9 +77,8 @@ export default {
 }
 </script>
 <style lang="scss">
-.commonHeader {
+#commonHeader {
   .toolBar {
-    display: none;
     background: white !important;
     color: #c0b7c5 !important;
     font-style: none !important;
@@ -83,14 +99,12 @@ export default {
 
     .logoLink {
       text-decoration: none;
-      display: none;
       .logoIcon {
         height: 24px !important;
-        display: none;
       }
 
       .logoText {
-        margin-top: 4px;
+        margin-top: 9px;
         height: 19px;
       }
     }
