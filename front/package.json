@@ -31,12 +31,12 @@
     "serverless-http": "2.0.2",
     "vee-validate": "2.2.11",
     "vue-notifications": "1.0.0",
+    "@nuxtjs/style-resources": "^0.1.2",
     "vue-snotify": "3.2.1",
     "vuetify": "1.5.16"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "0.0.1",
-    "@nuxtjs/style-resources": "^0.1.2",
     "@vue/eslint-config-prettier": "4.0.1",
     "babel-eslint": "10.0.1",
     "babel-plugin-transform-imports": "1.5.1",
