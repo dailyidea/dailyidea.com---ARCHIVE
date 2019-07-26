@@ -1,55 +1,50 @@
 <template>
-  <div id="signupPage">
-    <v-layout class="mainTable" row>
-      <!-- Back button -->
-      <v-btn class="backBtn" flat icon color="primary" to="/">
-        <v-icon>fas fa-arrow-left</v-icon>
-      </v-btn>
+  <div id="loginPage">
+    <!-- Back button -->
+    <v-btn class="backBtn" flat icon color="primary" to="/">
+      <v-icon>fas fa-arrow-left</v-icon>
+    </v-btn>
 
+    <v-layout class="mainTable" row>
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
+        <img
+          class="imgLightGrayLamp"
+          src="~/assets/images/signup/light_gray_lamp.png"
+        />
         <img
           class="imgPersonWithPhone"
           src="~/assets/images/person_with_phone.png"
         />
       </v-flex>
 
-      <!-- Register Div -->
-      <v-flex class="registerDiv">
-        <img class="logoIcon" src="~/assets/images/signup/dark_gray_lamp.png" />
+      <!-- login Div -->
+      <v-flex class="loginDiv">
+        <img
+          class="logoIcon"
+          src="~/assets/images/bulb_with_light_holder.png"
+        />
         <br />
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
-        <!-- Register Form -->
-        <form>
+        <!-- Login Form -->
+        <v-form>
           <!-- Email Input Box -->
-          <v-text-field
-            v-model="name"
-            v-validate="'required|max:100'"
-            :error-messages="errors.collect('name')"
-            data-vv-name="name"
-            class="inputBox name"
+          <validate-text-field
+            :value.sync="email"
             single-line
             flat
-            label="Enter name"
-            prepend-inner-icon="fas fa-user"
-          ></v-text-field>
-
-          <!-- Email Input Box -->
-          <v-text-field
-            v-model="email"
-            v-validate="'required|email'"
-            class="inputBox email"
-            :error-messages="errors.collect('email')"
-            data-vv-name="email"
-            single-line
-            flat
-            label="Enter email"
+            class="emailInput"
+            name="email"
+            autocomplete="email"
+            type="email"
             prepend-inner-icon="email"
-          ></v-text-field>
+            placeholder="Enter Email"
+            validate="required|email"
+          />
 
           <!-- Continue Button -->
-          <v-btn large class="continueBtn" @click="signup">Continue</v-btn>
-        </form>
+          <v-btn large class="continueBtn" @click="login">Continue</v-btn>
+        </v-form>
 
         <!-- Social Login Icons -->
         <div class="socialIconContainer">
@@ -63,21 +58,9 @@
             <v-icon>fab fa-google-plus-g</v-icon>
           </v-btn>
         </div>
-
-        <!-- Login div at bottom -->
-        <div class="loginDiv">
-          <div class="loginTitle">Alreay have an account?</div>
-          <v-btn large class="loginBtn" color="primary" to="/auth/login"
-            >LOGIN</v-btn
-          >
-        </div>
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img
-          class="imgLightGrayLamp"
-          src="~/assets/images/signup/light_gray_lamp.png"
-        />
         <img
           class="imgPersonWithPhone"
           src="~/assets/images/signup/lady_with_phone.png"
@@ -98,21 +81,19 @@
 </template>
 
 <script>
-import nanoid from 'nanoid'
+import ValidateTextField from '../../../components/ValidateTextField'
+import ActionValidate from '~/mixins/validatable'
 import { getErrorMessage } from '~/utils'
+
 export default {
+  components: { ValidateTextField },
+  $_veeValidate: { validator: 'new' },
+  mixins: [ActionValidate],
   data: () => ({
-    email: '',
-    name: ''
+    email: ''
   }),
-  $_veeValidate: {
-    validator: 'new'
-  },
-  mounted() {
-    this.$validator.localize('en', this.dictionary)
-  },
   methods: {
-    async signup() {
+    async login() {
       try {
         //Validate input fields
         let result = await this.$validator.validateAll()
@@ -120,13 +101,12 @@ export default {
           return
         }
 
-        await this.$store.dispatch('cognito/registerUser', {
-          username: this.email,
-          password: nanoid()
+        await this.$amplifyApi.post('RequestLogin', '', {
+          body: { email: this.email }
         })
 
-        // Redirect to registeration success page
-        this.$router.push('/auth/signup/success')
+        // Redirect to login success page
+        this.$router.push('/auth/login/success')
       } catch (e) {
         this.$snotify.error(getErrorMessage(e), 'Error', {
           timeout: 2000,
@@ -140,70 +120,73 @@ export default {
 }
 </script>
 
-<style lang="scss">
-#signupPage {
-  // border: 1px solid red;
+<style lang="scss" scoped>
+#loginPage {
   height: 100vh;
   overflow: hidden;
   background: white;
-  overflow: hidden;
+  // border: 1px solid red;
+  z-index: 1000;
+
+  .backBtn {
+    color: $primary-color;
+    position: fixed;
+    top: 4vh;
+    left: 3vh;
+    z-index: 100;
+    i {
+      font-size: 16px;
+    }
+  }
 
   .mainTable {
     height: 100vh;
-    z-index: 100;
-    .backBtn {
-      color: $primary-color;
-      position: absolute;
-      padding: 25px;
-      z-index: 5000;
-      i {
-        font-size: 16px;
-      }
-    }
 
     .lefgImgContainer {
       position: relative;
       z-index: 10;
-      .imgPersonWithPhone {
-        height: 70vh;
-        position: absolute;
-        right: 4%;
-        bottom: 3.5vh;
-      }
-    }
-
-    .rightImgContainer {
-      position: relative;
-      z-index: 100;
 
       .imgLightGrayLamp {
         height: 55vh;
         position: absolute;
         left: 10%;
-        top: 0;
+        top: 7vh;
       }
 
       .imgPersonWithPhone {
-        height: 70vh;
+        height: 75vh;
         position: absolute;
-        left: 4%;
-        bottom: 3.5vh;
+        right: 0;
+        bottom: 3vh;
       }
     }
 
-    .registerDiv {
+    .rightImgContainer {
+      position: relative;
+      z-index: 10;
+
+      .imgPersonWithPhone {
+        height: 65vh;
+        position: absolute;
+        left: 6%;
+        bottom: 3vh;
+      }
+    }
+
+    .loginDiv {
       // border: 1px solid red;
       text-align: center;
       padding-top: 7vh;
       z-index: 10;
-      height: 100vh;
+      height: 85vh;
+      overflow: hidden;
 
       @media #{$small-screen} {
         padding-top: 10vh;
       }
 
       .logoIcon {
-        width: 70px;
+        width: 20vh;
         @media #{$small-screen} {
           // padding-top: 30vh;
           // background: red !important;
@@ -214,23 +197,20 @@ export default {
 
       .logoText {
         width: 200px;
-        margin-bottom: 7vh !important;
       }
 
-      .inputBox {
+      .emailInput {
+        margin-top: 7vh !important;
+        margin-bottom: 20px;
+        .v-input__prepend-inner {
+          padding-right: 15px;
+        }
+      }
+
+      .emailInput {
         width: 70%;
         margin: auto;
         max-width: 400px;
-        margin-top: 0.5vh !important;
-
-        .v-input__prepend-inner {
-          padding-right: 15px;
-          font-size: 12px;
-          i {
-            // color: red !important;
-            font-size: 18px;
-          }
-        }
 
         @media #{$medium-screen} {
           max-width: none;
@@ -239,8 +219,8 @@ export default {
       }
 
       .continueBtn {
+        margin-top: 7vh;
         border-radius: 4px;
-        margin-top: 20px;
         background-image: linear-gradient(to left, #ffdf01, #ffb92d);
         color: white;
         width: 70%;
@@ -254,31 +234,31 @@ export default {
       }
 
       .socialIconContainer {
-        margin-top: 3vh;
+        margin-top: 6vh;
         button {
           border: 1px solid #ebe7ed;
         }
       }
 
-      .loginDiv {
-        margin-top: 2vh;
-        .loginTitle {
-          font-size: 14px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: 1.57;
-          letter-spacing: normal;
-          text-align: center;
-          color: #c8c7c7;
-        }
-        .loginBtn {
-          width: 70%;
-          max-width: 400px;
-          border-radius: 4px;
-          letter-spacing: 1px;
-        }
-      }
+      // .loginDiv {
+      //   margin-top: 5vh;
+      //   .loginTitle {
+      //     font-size: 14px;
+      //     font-weight: normal;
+      //     font-style: normal;
+      //     font-stretch: normal;
+      //     line-height: 1.57;
+      //     letter-spacing: normal;
+      //     text-align: center;
+      //     color: #c8c7c7;
+      //   }
+      //   .loginBtn {
+      //     width: 70%;
+      //     max-width: 400px;
+      //     border-radius: 4px;
+      //     letter-spacing: 1px;
+      //   }
+      // }
 
       @media #{$small-screen} {
         .loginDiv {
@@ -318,7 +298,7 @@ export default {
     // border: 1px solid red;
 
     background-size: cover;
-    // background-position-y: 30px;
+    background-position-y: 30px;
   }
 }
 </style>

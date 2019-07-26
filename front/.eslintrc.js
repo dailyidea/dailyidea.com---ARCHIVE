@@ -19,18 +19,19 @@ module.exports = {
   ],
 
   // required to lint *.vue files
-  plugins: [
-    'prettier'
-  ],
+  plugins: ['prettier'],
 
   // add your custom rules here
   rules: {
-    'prettier/prettier': 'error',
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto'
+      }
+    ],
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-
   },
 
   globals: {}
-
 }

@@ -2,9 +2,7 @@
   <v-form>
     <v-container>
       <v-layout row>
-        <v-flex>
-          {{ error }}
-        </v-flex>
+        <v-flex>{{ error }}</v-flex>
       </v-layout>
     </v-container>
   </v-form>
