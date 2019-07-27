@@ -22,8 +22,10 @@
 
         <!-- Hero Description -->
         <div class="heroDescription">
-          We've sent you an email confirmation link at ericzliu@gmail.com. Click
-          the link to confirm your address and get started!
+          We've sent you an email confirmation
+          <span v-if="email">link at {{email}}.</span>
+          <span v-else>link.</span>
+          Click the link to confirm your email and get started!
         </div>
 
         <!-- Continue Button -->
@@ -60,11 +62,12 @@
 <script>
 export default {
   data: () => ({
-    email: ''
+    email: null
   }),
-  created() {
-    // Read registered user's email id from vuex
-    debugger
+  mounted() {
+    if (this.$route.params.email) {
+      this.email = this.$route.params.email
+    }
   },
   methods: {}
 }
