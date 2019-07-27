@@ -7,19 +7,13 @@
 
     <v-layout row class="gridContainer">
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/person_with_phone.png"
-        />
+        <img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
       </v-flex>
 
       <!-- Register Div -->
       <v-flex class="successMessage">
         <!-- Header Images -->
-        <img
-          class="logoIcon"
-          src="~/assets/images/bulb_with_light_holder.png"
-        />
+        <img class="logoIcon" src="~/assets/images/bulb_with_light_holder.png" />
         <br />
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
@@ -28,8 +22,10 @@
 
         <!-- Hero Description -->
         <div class="heroDescription">
-          We've sent you an email confirmation link at ericzliu@gmail.com. Click
-          the link to get started!
+          We've sent you an email confirmation
+          <span v-if="email">link at {{email}}.</span>
+          <span v-else>link.</span>
+          Click the link to get started!
         </div>
 
         <!-- Continue Button -->
@@ -50,26 +46,16 @@
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img
-          class="imgLightGrayLamp"
-          src="~/assets/images/signup/light_gray_lamp.png"
-        />
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/signup/lady_with_phone.png"
-        />
+        <img class="imgLightGrayLamp" src="~/assets/images/signup/light_gray_lamp.png" />
+        <img class="imgPersonWithPhone" src="~/assets/images/signup/lady_with_phone.png" />
       </v-flex>
     </v-layout>
 
     <!-- Fixed Footer -->
-    <v-layout
-      hidden-sm-and-down
-      class="fixedFooter"
-      :style="{
+    <v-layout hidden-sm-and-down class="fixedFooter" :style="{
         'background-image':
           'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"
-    ></v-layout>
+      }"></v-layout>
   </div>
 </template>
 
@@ -78,7 +64,7 @@ import nanoid from 'nanoid'
 import { getErrorMessage } from '~/utils'
 export default {
   data: () => ({
-    email: '',
+    email: null,
     success: false
   }),
   methods: {
@@ -98,6 +84,11 @@ export default {
         })
       }
     }
+  },
+  mounted() {
+    if (this.$route.params.email) {
+      this.email = this.$route.params.email
+    }
   }
 }
 </script>
@@ -111,6 +102,7 @@ export default {
   overflow: hidden;
 
   .backBtn {
+    z-index: 100;
     color: $primary-color;
     position: absolute;
     padding: 25px;

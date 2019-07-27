@@ -85,14 +85,14 @@ module.exports = {
     extend(config, ctx) {
       config.plugins.push(new (require('vuetify-loader/lib/plugin'))())
       // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          include: path.join(__dirname)
-        })
-      }
+      // if (ctx.isDev && ctx.isClient) {
+      //   config.module.rules.push({
+      //     enforce: 'pre',
+      //     test: /\.(js|vue)$/,
+      //     loader: 'eslint-loader',
+      //     include: path.join(__dirname)
+      //   })
+      // }
 
       // const urlLoader = config.module.rules.find(r => r.test.test('test.gif'))
       // urlLoader.oneOf = []
