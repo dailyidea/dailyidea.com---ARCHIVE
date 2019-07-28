@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<head>
+	<!-- Fonts -->
+	<style>
+		@font-face {
+			font-family: 'QuatroBold';
+			src: url('./fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot'); /* IE9*/
+			src: url('./fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('./fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff2') format('woff2'), /* chrome、firefox */ url('./fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff') format('woff'), /* chrome、firefox */ url('./fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.ttf') format('truetype'),
+				/* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('./fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.svg#QuatroBold') format('svg'); /* iOS 4.1- */
+		}
+
+		@font-face {
+			font-family: 'Quatro';
+			src: url('./fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot'); /* IE9*/
+			src: url('./fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('./fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff2') format('woff2'), /* chrome、firefox */ url('./fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff') format('woff'), /* chrome、firefox */ url('./fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.ttf') format('truetype'),
+				/* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('./fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.svg#Quatro');
+		}
+
+		@font-face {
+			font-family: 'QuatroLight';
+			src: url('./fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot'); /* IE9*/
+			src: url('./fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('./fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff2') format('woff2'), /* chrome、firefox */ url('./fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff') format('woff'), /* chrome、firefox */ url('./fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.ttf') format('truetype'),
+				/* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('./fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.svg#QuatroLight') format('svg'); /* iOS 4.1- */
+		}
+	</style>
+
+	<!-- Page Style -->
+	<style>
+		body {
+			font-family: Quatro;
+		}
+
+		#email3 {
+			margin: auto;
+			width: 35%;
+			height: 110vh;
+			background-color: white;
+			/* display: flex; */
+			padding: 20px;
+			background-image: url('./Path733.png');
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position-x: -180px;
+			background-position-y: 30px;
+		}
+
+		.dailyIdea {
+			flex: 4;
+			padding: 20px 0px 20px 20px;
+		}
+		.dailyIdeaImg {
+			margin-bottom: 30px;
+			height: 5vh;
+		}
+		.topTitle {
+			width: 90%;
+		}
+		.title {
+			font-size: 30px;
+			width: 100%;
+			padding-top: 5px;
+			margin-bottom: 20px;
+		}
+		.description {
+			font-size: 18px;
+			font-family: QuatroLight;
+			letter-spacing: 1px;
+			width: 100%;
+			line-height: 30px;
+			color: gray;
+		}
+		.button {
+			background-image: linear-gradient(to left, #ffdf01, #ffb92d);
+			color: white;
+			border-radius: 4px;
+			padding: 20px 30px;
+			font-size: 17px;
+			letter-spacing: 2px;
+			border: none;
+			margin-top: 10px;
+		}
+
+		.rightSideImg {
+			flex: 2.2;
+			padding: 25px 10px 0px 0px;
+		}
+		.rightImg {
+			height: 60vh;
+		}
+		.commentSection {
+			background: white;
+			margin: 0 15px 10px 15px;
+			padding: 10px 40px 0px 40px;
+		}
+		.comment {
+			font-size: 14px;
+			width: 85%;
+			margin: 0px;
+			padding-bottom: 5px;
+		}
+		.likeIcon {
+			width: 40%;
+			height: 3vh;
+		}
+		.time {
+			float: right;
+			color: gray;
+			font-size: 10px;
+		}
+	</style>
+</head>
+
+<html>
+	<body>
+		<div id="email3">
+			<div style="display:flex">
+				<div class="dailyIdea">
+					<img class="dailyIdeaImg" src="./Group181.png" />
+					<div class="topTitle">Need inspiration!</div>
+
+					<div class="title">Check out these <span style="color: #ffdf01">hot ideas</span></div>
+					<p class="description">If these spark an idea, don't forget to submit it by clicking the button below or just hit reply to this email</p>
+					<button class="button">SUBMIT AN IDEA</button>
+				</div>
+				<div class="rightSideImg">
+					<img class="rightImg" src="./Group187.png" />
+				</div>
+			</div>
+			<div class="commentSection">
+				<p class="comment">Excepter sint occaecat lorem cupidatat non proideat, sunt in dolor</p>
+				<img class="likeIcon" src="./Group186.png" />
+				<!-- <img class="chatIcon" src="./Chat.png" /> -->
+				<span class="time">1h ago</span>
+			</div>
+			<div class="commentSection">
+				<p class="comment">Excepter sint occaecat lorem cupidatat non proideat, sunt in dolor</p>
+				<img class="likeIcon" src="./Group186.png" />
+				<!-- <img class="chatIcon" src="./Chat.png" /> -->
+				<span class="time">1h ago</span>
+			</div>
+			<div class="commentSection">
+				<p class="comment">Excepter sint occaecat lorem cupidatat non proideat, sunt in dolor</p>
+				<img class="likeIcon" src="./Group186.png" />
+				<!-- <img class="chatIcon" src="./Chat.png" /> -->
+				<span class="time">1h ago</span>
+			</div>
+		</div>
+	</body>
+</html>
