@@ -1,9 +1,11 @@
 <template>
-  <Layout v-bind="{
+  <Layout
+    v-bind="{
       backButton: true,
       loggedInHeader: true,
       mobileTitle: user.email.toUpperCase() + '\'S IDEA'
-    }">
+    }"
+  >
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
       <v-layout row wrap>
@@ -84,12 +86,23 @@
 
       <!-- Foter with textbox -->
       <div class="pageFooter">
-        <v-text-field class="newCommentInput" flat solo label="Say something..." large></v-text-field>
+        <v-text-field
+          class="newCommentInput"
+          flat
+          solo
+          label="Say something..."
+          large
+        ></v-text-field>
         <v-icon class="sendBtn">fas fa-arrow-right</v-icon>
       </div>
 
       <!-- Popup - Share Via Email -->
-      <v-dialog v-model="showEmailShareDialog" content-class="emailShareDialog" persistent max-width="400px">
+      <v-dialog
+        v-model="showEmailShareDialog"
+        content-class="emailShareDialog"
+        persistent
+        max-width="400px"
+      >
         <form>
           <v-card>
             <v-card-title style="text-align: center;">
@@ -99,13 +112,31 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="emailShareForm.name" v-validate="'required|max:100'" label="Enter your name" :error-messages="errors.collect('name')" data-vv-name="name"></v-text-field>
+                    <v-text-field
+                      v-model="emailShareForm.name"
+                      v-validate="'required|max:100'"
+                      label="Enter your name"
+                      :error-messages="errors.collect('name')"
+                      data-vv-name="name"
+                    ></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="emailShareForm.friendName" v-validate="'required|max:100'" label="Enter your friend's name" :error-messages="errors.collect('friend name')" data-vv-name="friend name"></v-text-field>
+                    <v-text-field
+                      v-model="emailShareForm.friendName"
+                      v-validate="'required|max:100'"
+                      label="Enter your friend's name"
+                      :error-messages="errors.collect('friend name')"
+                      data-vv-name="friend name"
+                    ></v-text-field>
                   </v-flex>
                   <v-flex xs12>
-                    <v-text-field v-model="emailShareForm.friendEmail" v-validate="'required|email|max:100'" label="Your Friend's email address" :error-messages="errors.collect('email')" data-vv-name="email"></v-text-field>
+                    <v-text-field
+                      v-model="emailShareForm.friendEmail"
+                      v-validate="'required|email|max:100'"
+                      label="Your Friend's email address"
+                      :error-messages="errors.collect('email')"
+                      data-vv-name="email"
+                    ></v-text-field>
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -113,7 +144,9 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="primary" @click="sendShareEmail()">Share</v-btn>
-              <v-btn color="red" flat @click="showEmailShareDialog = false">Cancel</v-btn>
+              <v-btn color="red" flat @click="showEmailShareDialog = false"
+                >Cancel</v-btn
+              >
             </v-card-actions>
           </v-card>
         </form>
