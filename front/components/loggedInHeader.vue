@@ -107,7 +107,7 @@ export default {
   background: white !important;
 
   .desktop {
-    z-index: 500;
+    z-index: 100;
     .helpLink {
       color: #c0b7c5 !important;
       font-style: none !important;

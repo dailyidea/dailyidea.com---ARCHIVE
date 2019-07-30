@@ -1,19 +1,37 @@
 <template>
-  <Layout
-    v-bind="{
+  <Layout v-bind="{
       backButton: true,
       loggedInHeader: true,
       mobileTitle: user.email.toUpperCase() + '\'S IDEA'
-    }"
-  >
+    }">
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
-
       <v-layout row wrap>
         <!-- Left Side -->
         <v-flex xs12 sm12 md5 lg5 xl5 class="profileDetails">
           <v-layout class="sectionHeader" hidden-sm-and-down>
-            <v-icon class="menu">fas fa-ellipsis-v</v-icon>
+            <!-- Share Menu -->
+            <v-menu class="shareMenu" offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn text icon color="light-gray" class="menu" v-on="on">
+                  <v-icon>fas fa-share-alt</v-icon>
+                </v-btn>
+              </template>
+
+              <v-list>
+                <v-list-tile @click="copyShareLink()">
+                  <v-list-tile-title>Copy Link</v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile @click="showEmailShareDialog = true">
+                  <v-list-tile-title>Shaer Via Email</v-list-tile-title>
+                </v-list-tile>
+              </v-list>
+            </v-menu>
+
+            <!-- Side Settings icon -->
+            <v-btn text icon color="gray" size="small" class="menu">
+              <v-icon>fas fa-ellipsis-v</v-icon>
+            </v-btn>
           </v-layout>
 
           <div class="ideaTitle">{{ idea.title }}</div>
@@ -66,15 +84,48 @@
 
       <!-- Foter with textbox -->
       <div class="pageFooter">
-        <v-text-field
-          class="newCommentInput"
-          flat
-          solo
-          label="Say something..."
-          large
-        ></v-text-field>
+        <v-text-field class="newCommentInput" flat solo label="Say something..." large></v-text-field>
         <v-icon class="sendBtn">fas fa-arrow-right</v-icon>
       </div>
+
+      <!-- Popup - Share Via Email -->
+      <v-dialog v-model="showEmailShareDialog" content-class="emailShareDialog" persistent max-width="400px">
+        <form>
+          <v-card>
+            <v-card-title style="text-align: center;">
+              <span class="headline">Share idea using email</span>
+            </v-card-title>
+            <v-card-text style="padding: 0px !important;">
+              <v-container grid-list-md>
+                <v-layout wrap>
+                  <v-flex xs12 sm12 md12>
+                    <v-text-field v-model="emailShareForm.name" v-validate="'required|max:100'" label="Enter your name" :error-messages="errors.collect('name')" data-vv-name="name"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm12 md12>
+                    <v-text-field v-model="emailShareForm.friendName" v-validate="'required|max:100'" label="Enter your friend's name" :error-messages="errors.collect('friend name')" data-vv-name="friend name"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12>
+                    <v-text-field v-model="emailShareForm.friendEmail" v-validate="'required|email|max:100'" label="Your Friend's email address" :error-messages="errors.collect('email')" data-vv-name="email"></v-text-field>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" @click="sendShareEmail()">Share</v-btn>
+              <v-btn color="red" flat @click="showEmailShareDialog = false">Cancel</v-btn>
+            </v-card-actions>
+          </v-card>
+        </form>
+      </v-dialog>
+
+      <!-- Bottom snackbar message -->
+      <v-snackbar v-model="snackbarVisible" :timeout="6000">
+        {{ snackbarMessage }}
+        <v-btn color="white" flat @click="snackbarVisible = false">
+          Close
+        </v-btn>
+      </v-snackbar>
     </v-layout>
   </Layout>
 </template>
@@ -84,10 +135,23 @@ import { graphqlOperation } from '@aws-amplify/api'
 import getIdea from '~/graphql/mutations/getIdea'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+
 dayjs.extend(relativeTime)
 export default {
   components: { Layout },
-  data: () => ({}),
+  $_veeValidate: {
+    validator: 'new'
+  },
+  data: () => ({
+    snackbarVisible: false,
+    snackbarMessage: '',
+    showEmailShareDialog: false,
+    emailShareForm: {
+      name: '',
+      friendName: '',
+      friendEmail: ''
+    }
+  }),
   async asyncData({ app, route, store }) {
     const { data } = await app.$amplifyApi.graphql(
       graphqlOperation(getIdea, { ideaId: route.params.ideaId })
@@ -101,7 +165,26 @@ export default {
   created() {
     this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
   },
-  methods: {}
+  methods: {
+    copyShareLink() {
+      this.$clipboard(window.location.href)
+      this.snackbarMessage = 'Link copied'
+      this.snackbarVisible = true
+    },
+    async sendShareEmail() {
+      //Validate input fields
+      let result = await this.$validator.validateAll()
+      if (!result) {
+        return
+      }
+
+      //TODO: Send email from backend
+      // Use this.emailShareForm
+      this.snackbarMessage = 'Email sent successfully.'
+      this.showEmailShareDialog = false
+      this.snackbarVisible = true
+    }
+  }
 }
 </script>
 
@@ -134,11 +217,16 @@ export default {
 
     .sectionHeader {
       display: block;
+      text-align: right;
+      .shareMenu {
+        display: inline-block;
+      }
       .menu {
-        float: right;
-        padding-top: 3px;
-        font-size: 16px;
-        cursor: pointer;
+        margin: 0px;
+        // border: 1px solid red;
+        i {
+          font-size: 13px !important;
+        }
       }
     }
 

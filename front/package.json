@@ -29,6 +29,7 @@
     "nuxt-start-edge": "2.9.0-26026572.fc5502cd",
     "nuxt-universal-storage": "0.2.1",
     "serverless-http": "2.0.2",
+    "v-clipboard": "^2.2.2",
     "vee-validate": "2.2.11",
     "vue-notifications": "1.0.0",
     "vue-snotify": "3.2.1",
