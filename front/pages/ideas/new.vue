@@ -21,23 +21,24 @@
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm12 md12>
-                  <v-text-field
-                    v-model="createideaForm.friendName"
+                  <VueTrix
+                    v-model="createideaForm.ideaEditContents"
                     v-validate="'required|max:100'"
-                    label="description"
+                    placeholder="Enter description"
                     :error-messages="
                       errors.collect('description', 'create-idea-form')
                     "
                     data-vv-name="description"
                   >
-                  </v-text-field>
+                  </VueTrix>
                 </v-flex>
               </v-layout>
             </v-container>
           </v-card-text>
           <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" @click="createIdea()">create</v-btn>
+            <v-spacer> </v-spacer>
+
+            <v-btn color="primary" @click="createIdea()">Create Idea </v-btn>
           </v-card-actions>
         </v-card>
       </form>
@@ -64,7 +65,8 @@ export default {
     snackbarMessage: '',
     createideaForm: {
       title: '',
-      description: ''
+      description: '',
+      ideaEditContents: ''
     }
   }),
 
@@ -78,6 +80,8 @@ export default {
 
       this.snackbarMessage = 'create idea successfully.'
       this.snackbarVisible = true
+
+      this.$router.push({ path: '/ideas' })
     }
   }
 }
@@ -86,7 +90,12 @@ export default {
 <style lang="scss">
 .creatideaform {
   width: 1000px;
-  padding-left: 400px;
+  padding-left: 350px;
   padding-top: 100px;
+}
+
+.ideaEditContents {
+  margin: 0px;
+  padding-top: 20px;
 }
 </style>
