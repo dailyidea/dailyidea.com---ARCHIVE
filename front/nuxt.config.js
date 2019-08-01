@@ -48,7 +48,8 @@ module.exports = {
     '@/plugins/dayjs',
     '@/plugins/clipboard',
     '@/plugins/vee-validate',
-    '@/plugins/mixins'
+    '@/plugins/mixins',
+    { src: '~plugins/vue-trix', ssr: false }
   ],
 
   /*
@@ -81,10 +82,12 @@ module.exports = {
       ? `https://${process.env.S3_DOMAIN}/`
       : undefined,
     transpile: ['vuetify/lib'],
+    vendor: ['vue-trix'],
     cache: true,
     // modern: true,
     extend(config, ctx) {
       config.plugins.push(new (require('vuetify-loader/lib/plugin'))())
+      config.resolve.alias['vue'] = 'vue/dist/vue.common'
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({

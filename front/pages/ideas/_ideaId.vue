@@ -10,7 +10,8 @@
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
       <v-layout row wrap>
         <!-- Left Side -->
-        <v-flex xs12 sm12 md5 lg5 xl5 class="profileDetails">
+        <v-flex xs12 sm12 md6 lg6 xl6 class="profileDetails">
+          <!-- Header section -->
           <v-layout class="sectionHeader" hidden-sm-and-down>
             <!-- Share Menu -->
             <v-menu class="shareMenu" offset-y>
@@ -37,14 +38,36 @@
           </v-layout>
 
           <div class="ideaTitle">{{ idea.title }}</div>
-
           <div class="metadata">
             <span>{{ user.email }}</span>
             <span class="timing">{{ idea.relativeCreatedTime }}</span>
           </div>
 
           <!-- Description -->
-          <v-layout class="ideaDescription">{{ idea.content }}</v-layout>
+          <div v-if="!ideaEditorVisible" class="ideaDescription">
+            <!-- Edit Button -->
+            <div class="buttons">
+              <v-btn small color="primary" @click="showIdeaEditor()"
+                >Edit Description</v-btn
+              >
+            </div>
+            <v-layout v-html="idea.content"></v-layout>
+          </div>
+          <div v-else class="ideaEditor">
+            <VueTrix
+              v-model="ideaEditContents"
+              class="editor"
+              placeholder="Enter content"
+            />
+            <div class="buttons">
+              <v-btn small color="primary" @click="onSaveIdeaContent()"
+                >Save</v-btn
+              >
+              <v-btn small color="error" @click="ideaEditorVisible = false"
+                >Cancel</v-btn
+              >
+            </div>
+          </div>
 
           <div class="tagsContainer">
             <v-chip label class="tag">web</v-chip>
@@ -69,7 +92,7 @@
         </v-flex>
 
         <!-- Right Side -->
-        <v-flex class="rightSideComments" xs12 sm12 md7 lg7 xl7>
+        <v-flex class="rightSideComments" xs12 sm12 md6 lg6 xl6>
           <div class="commentTotal">322 Comments</div>
           <div v-for="i in 60" :key="i" class="commentItem">
             <div class="header">
@@ -168,8 +191,8 @@ import { graphqlOperation } from '@aws-amplify/api'
 import getIdea from '~/graphql/mutations/getIdea'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-
 dayjs.extend(relativeTime)
+
 export default {
   components: { Layout },
   $_veeValidate: {
@@ -183,7 +206,9 @@ export default {
       name: '',
       friendName: '',
       friendEmail: ''
-    }
+    },
+    ideaEditorVisible: false,
+    ideaEditContents: ''
   }),
   async asyncData({ app, route, store }) {
     const { data } = await app.$amplifyApi.graphql(
@@ -216,6 +241,15 @@ export default {
       this.snackbarMessage = 'Email sent successfully.'
       this.showEmailShareDialog = false
       this.snackbarVisible = true
+    },
+    showIdeaEditor() {
+      debugger
+      this.ideaEditContents = this.idea.content
+      this.ideaEditorVisible = true
+    },
+    onSaveIdeaContent() {
+      this.idea.content = this.ideaEditContents
+      this.ideaEditorVisible = false
     }
   }
 }
@@ -251,11 +285,14 @@ export default {
     .sectionHeader {
       display: block;
       text-align: right;
+
       .shareMenu {
         display: inline-block;
       }
+
       .menu {
         margin: 0px;
+
         // border: 1px solid red;
         i {
           font-size: 13px !important;
@@ -297,6 +334,10 @@ export default {
     .ideaDescription {
       margin-top: 20px;
 
+      .buttons {
+        text-align: right;
+      }
+
       @media #{$small-screen} {
         padding-top: 20px;
       }
@@ -309,6 +350,26 @@ export default {
       letter-spacing: normal;
       text-align: left;
       color: #18141c;
+    }
+
+    .ideaEditor {
+      margin-top: 20px;
+
+      .buttons {
+        margin-top: 10px;
+
+        button {
+          margin-left: 0px;
+        }
+      }
+
+      .editor {
+        .trix-content {
+          height: 170px !important;
+          max-height: 200px !important;
+          overflow-y: auto;
+        }
+      }
     }
 
     .tagsContainer {
