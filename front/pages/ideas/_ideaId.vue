@@ -237,7 +237,6 @@ export default {
       }
 
       //TODO: Send email from backend
-      // Use this.emailShareForm
       this.snackbarMessage = 'Email sent successfully.'
       this.showEmailShareDialog = false
       this.snackbarVisible = true
