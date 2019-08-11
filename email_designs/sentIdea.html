@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<!-- Fonts -->
+	<style>
+		@font-face {
+			font-family: 'QuatroBold';
+			src: url('http://localhost:3000/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot');
+			/* IE9*/
+			src: url('http://localhost:3000/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot?#iefix') format('embedded-opentype');
+			/* IE6-IE8 */
+			src: url('http://localhost:3000/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff2') format('woff2');
+			/* chrome、firefox */
+			src: url('http://localhost:3000/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff') format('woff');
+			/* chrome、firefox */
+			src: url('http://localhost:3000/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.ttf') format('truetype');
+			/* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+			src: url('http://localhost:3000/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.svg#QuatroBold') format('svg');
+			/* iOS 4.1- */
+		}
+
+		@font-face {
+			font-family: 'Quatro';
+			src: url('http://localhost:3000/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot');
+			/* IE9*/
+			src: url('http://localhost:3000/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot?#iefix') format('embedded-opentype');
+			/* IE6-IE8 */
+			src: url('http://localhost:3000/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff2') format('woff2');
+			/* chrome、firefox */
+			src: url('http://localhost:3000/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff') format('woff');
+			/* chrome、firefox */
+			src: url('http://localhost:3000/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.ttf') format('truetype');
+			/* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+			src: url('http://localhost:3000/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.svg#Quatro');
+		}
+
+		@font-face {
+			font-family: 'QuatroLight';
+			src: url('http://localhost:3000/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot');
+			/* IE9*/
+			src: url('http://localhost:3000/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot?#iefix') format('embedded-opentype');
+			/* IE6-IE8 */
+			src: url('http://localhost:3000/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff2') format('woff2');
+			/* chrome、firefox */
+			src: url('http://localhost:3000/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff') format('woff');
+			/* chrome、firefox */
+			src: url('http://localhost:3000/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.ttf') format('truetype');
+			/* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+			src: url('http://localhost:3000/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.svg#QuatroLight') format('svg');
+			/* iOS 4.1- */
+		}
+	</style>
+
+	<!-- Page Style -->
+	<style>
+		body {
+			font-family: Quatro;
+		}
+		#sentIdea {
+			margin: auto;
+			width: 35%;
+			height: 75vh;
+			background-color: white;
+			padding: 20px;
+			background-image: url('http://localhost:3000/email/images/Path733.png');
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position-x: -220px;
+			background-position-y: 180px;
+			border: 1px solid #707070;
+		}
+
+		.dailyIdeaImg {
+			margin-bottom: 30px;
+			height: 11vh;
+			margin-left: auto;
+			margin-right: auto;
+			display: block;
+		}
+		.name {
+			font-size: 17px;
+			text-align: center;
+			color: gray;
+		}
+		.ideaDetails {
+			margin: auto;
+			width: 50%;
+			height: 45vh;
+			background-color: white;
+			padding: 25px;
+		}
+		.title {
+			font-size: 25px;
+			line-height: 1.6;
+		}
+		.authorImg {
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background-color: #ebe8ee;
+		}
+		.authorName {
+			padding-left: 7px;
+			font-family: QuatroLight;
+			font-size: 12px;
+			text-align: center;
+			padding-top: 5px;
+			color: #827c85;
+		}
+		.time {
+			float: right;
+			font-family: QuatroLight;
+			font-size: 12px;
+			margin-top: 5px;
+			color: #827c85;
+		}
+
+		.comment {
+			font-size: 18px;
+			line-height: 1.3;
+		}
+		.button {
+			background-color: #c0b7c5;
+			color: white;
+			border-radius: 6px;
+			padding: 5px;
+			font-size: 9px;
+			border: none;
+		}
+		i {
+			float: right;
+			padding-left: 7px;
+			font-size: 2px;
+		}
+		.tags {
+			width: 100%;
+			padding-bottom: 15px;
+			margin-top: -10px;
+		}
+		.likeImg {
+			width: 40%;
+		}
+	</style>
+</head>
+
+<html>
+	<body>
+		<div id="sentIdea">
+			<img class="dailyIdeaImg" src="http://localhost:3000/email/images/Group18.png" />
+			<div class="name">XYZNAME sent you an idea!</div>
+			<div class="ideaDetails">
+				<div class="title">Title lorem ipsum dolor sit amet</div>
+				<div class="author">
+					<button class="authorImg"></button>
+					<span class="authorName">Bob Smith</span>
+					<span class="time">1h ago</span>
+				</div>
+				<p class="comment">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.</p>
+
+				<button class="button">web <i class="fa fa-times" aria-hidden="true"></i></button>
+				<button class="button" style="margin-left:5px;">illustration<i class="fa fa-times" aria-hidden="true"></i></button>
+				<button class="button" style="margin-left:5px;">graphics <i class="fa fa-times" aria-hidden="true"></i></button>
+				<button class="button" style="margin-left:5px;">UI <i class="fa fa-times" aria-hidden="true"></i></button>
+				<!-- <img class="tags" src="http://localhost:3000/email/images/tags.png" /> -->
+				<img class="likeImg" src="http://localhost:3000/email/images/likescomments.png" />
+			</div>
+		</div>
+	</body>
+</html>
