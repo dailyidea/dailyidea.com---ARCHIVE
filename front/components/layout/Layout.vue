@@ -11,7 +11,7 @@
       <v-spacer />
       <template>
         <nuxt-link class="helpLink" :to="{ name: 'auth-login' }"
-          >Help</nuxt-link
+          >Login</nuxt-link
         >
         <nuxt-link class="userLink" :to="{ name: 'auth-signup' }">
           <v-icon>fa-user</v-icon>
@@ -21,15 +21,99 @@
 
     <!-- Loggedin page header -->
     <template v-else-if="$store.getters['cognito/isLoggedIn']">
-      <loggedInHeader
-        v-bind="{
-          backButton: backButton,
-          mobileTitle: mobileTitle,
-          mobileSearchIcon: mobileSearchIcon,
-          mobileHamburger: mobileHamburger
-        }"
-      >
-      </loggedInHeader>
+      <div class="loggedInHeader">
+        <!-- Desktop Header -->
+        <v-layout hidden-sm-and-down>
+          <v-toolbar class="desktop" app flat absolute color="white">
+            <v-toolbar-title class="blue--text subheading">
+              <!-- Show Back button if enabled -->
+              <v-icon
+                v-if="backButton"
+                class="icons backButon"
+                @click="onBackClick()"
+                >fas fa-arrow-left</v-icon
+              >
+
+              <nuxt-link class="logoLink" :to="{ name: 'index' }">
+                <img class="logoIcon" src="~/assets/images/logo_icon.png" />
+                <img
+                  class="logoIcon logoText"
+                  src="~/assets/images/logo_text.png"
+                />
+              </nuxt-link>
+            </v-toolbar-title>
+
+            <!-- Search Box -->
+            <v-text-field
+              class="searchInput"
+              flat
+              solo
+              label
+              prepend-inner-icon="fas fa-search"
+            ></v-text-field>
+
+            <v-spacer />
+            <template>
+              <v-icon style="color: #c0b7c5;">fas fa-cog</v-icon>
+              <span class="userName">{{
+                $store.getters['cognito/username']
+              }}</span>
+              <span class="userIcon">
+                <v-icon>fas fa-user</v-icon>
+              </span>
+            </template>
+          </v-toolbar>
+        </v-layout>
+
+        <!-- Mobile HEader -->
+        <v-toolbar app flat absolute color="white" hidden-md-and-up>
+          <v-layout class="mobile" row hidden-md-and-up>
+            <!-- Left Side Icon -->
+            <v-flex v-if="mobileHamburger" xs2 sm2>
+              <v-icon class="icons" @click="$refs.mobileMenu.visible = true"
+                >fas fa-bars</v-icon
+              >
+              <MobileMenu ref="mobileMenu"></MobileMenu>
+            </v-flex>
+            <v-flex v-else-if="backButton" xs2 sm2>
+              <v-icon class="icons" @click="onBackClick()"
+                >fas fa-arrow-left</v-icon
+              >
+            </v-flex>
+
+            <!-- Center Title -->
+            <v-flex xs8 sm8 class="text">{{ mobileTitle }}</v-flex>
+
+            <!-- Rightside Icons -->
+            <v-flex xs2 sm2 class="rightSide">
+              <!-- Share Idea Button -->
+
+              <v-menu v-show="shareIdeaVisible">
+                <template v-slot:activator="{ on }">
+                  <v-btn text icon color="light-gray" v-on="on">
+                    <v-icon v-if="shareIdeaVisible" class="sharemenu"
+                      >fas fa-share-alt</v-icon
+                    >
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-tile @click="onCopyShareIdeaLink">
+                    <v-list-tile-title>Copy Link</v-list-tile-title>
+                  </v-list-tile>
+                  <v-list-tile @click="$emit('showShareIdeaDialog')">
+                    <v-list-tile-title>Shaer Via Email</v-list-tile-title>
+                  </v-list-tile>
+                </v-list>
+              </v-menu>
+
+              <v-icon v-if="mobileSearchIcon" class="icons menu"
+                >fas fa-search</v-icon
+              >
+              <v-icon v-else class="icons menu">fas fa-ellipsis-v</v-icon>
+            </v-flex>
+          </v-layout>
+        </v-toolbar>
+      </div>
     </template>
 
     <!-- Router contents -->
@@ -49,10 +133,9 @@
   </div>
 </template>
 <script>
-import loggedInHeader from '~/components/loggedInHeader'
-
+import MobileMenu from '~/components/menuComponent'
 export default {
-  components: { loggedInHeader },
+  components: { MobileMenu },
   props: {
     backButton: {
       type: Boolean,
@@ -73,12 +156,29 @@ export default {
     mobileSearchIcon: {
       type: Boolean,
       default: false
+    },
+    shareIdeaVisible: {
+      type: Boolean,
+      default: false
+    },
+    onCopyShareIdeaLink: {
+      default: null
     }
+    // onSendShareIdeaEmail: {
+    //   type: Function,
+    //   default: null
+    // }
   },
   created() {
     console.log('at main params =>', this.backButton)
   },
   methods: {
+    onBackClick() {
+      this.$router.back()
+    },
+    onShareIdea() {
+      this.$root.$emit('share')
+    },
     logout() {
       this.$store.dispatch('cognito/signOut')
     }
@@ -115,6 +215,133 @@ export default {
       .logoText {
         margin-top: 9px;
         height: 19px;
+      }
+    }
+  }
+
+  .loggedInHeader {
+    width: 100%;
+    background: white !important;
+
+    .desktop {
+      z-index: 100;
+      .helpLink {
+        color: #c0b7c5 !important;
+        font-style: none !important;
+        text-decoration: none !important;
+      }
+
+      .backButon {
+        margin-right: 20px;
+
+        color: $primary-color;
+        font-size: 15px;
+        line-height: 20px;
+        cursor: pointer;
+      }
+
+      .logoLink {
+        text-decoration: none;
+
+        .logoIcon {
+          height: 24px;
+        }
+
+        .logoText {
+          margin-top: 4px;
+          height: 19px;
+        }
+      }
+
+      .searchInput {
+        border: solid 1px rgba(228, 228, 228, 0.38);
+
+        padding: 0px;
+        margin-left: 12% !important;
+        width: 40%;
+
+        .v-input__control {
+          max-height: 35px !important;
+          min-height: 35px !important;
+          //   padding: 5px;
+
+          .v-input__slot {
+            border: none;
+            padding-left: 5px;
+
+            .v-icon {
+              font-size: 20px !important;
+              color: #ebe7ed;
+            }
+
+            .v-text-field__slot {
+              margin-left: 10px !important;
+            }
+
+            &::before {
+              border: none;
+            }
+          }
+
+          .v-text-field__details {
+            display: none;
+          }
+        }
+      }
+
+      .userName {
+        margin-left: 20px;
+
+        font-size: 20px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.5;
+        letter-spacing: normal;
+        text-align: left;
+        color: #18141c;
+      }
+
+      .userIcon {
+        background: #ebe7ed;
+        padding: 10px 15px;
+        margin-left: 20px;
+        border-radius: 50%;
+        i {
+          font-size: 14px !important;
+          line-height: 16px !important;
+          color: #35124e !important;
+        }
+      }
+    }
+
+    .mobile {
+      padding: 0px 0px;
+      .text {
+        text-align: center;
+        margin-top: 2px;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.57;
+        text-align: center;
+        color: #18141c;
+      }
+      .icons {
+        color: #c0b7c5 !important;
+        font-size: 13px;
+      }
+      .rightSide {
+        text-align: right;
+
+        i {
+          color: #35124e !important;
+          padding-bottom: 0px;
+          border: 1px solid red;
+          text-align: right;
+        }
+        .sharemenu {
+          margin: 0px;
+        }
       }
     }
   }

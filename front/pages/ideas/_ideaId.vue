@@ -3,8 +3,11 @@
     v-bind="{
       backButton: true,
       loggedInHeader: true,
-      mobileTitle: user.email.toUpperCase() + '\'S IDEA'
+      mobileTitle: user.email.toUpperCase() + '\'S IDEA',
+      shareIdeaVisible: true,
+      onCopyShareIdeaLink: copyShareLink
     }"
+    @showShareIdeaDialog="showShareIdeaDialog"
   >
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
@@ -13,23 +16,51 @@
         <v-flex xs12 sm12 md6 lg6 xl6 class="profileDetails">
           <!-- Header section -->
           <v-layout class="sectionHeader" hidden-sm-and-down>
+            <!--Arrow Button-->
+            <v-layout>
+              <div class="arrowBtn">
+                <v-btn flat small class="leftBtn" fab>
+                  <v-icon> fas fa-arrow-left</v-icon>
+                </v-btn>
+                <v-btn flat small class="leftBtn" fab>
+                  <v-icon>fas fa-arrow-right</v-icon>
+                </v-btn>
+              </div>
+            </v-layout>
+
             <!-- Share Menu -->
+
             <v-menu class="shareMenu" offset-y>
               <template v-slot:activator="{ on }">
                 <v-btn text icon color="light-gray" class="menu" v-on="on">
-                  <v-icon>fas fa-share-alt</v-icon>
+                  <v-icon>fas fa-envelope</v-icon>
                 </v-btn>
               </template>
 
-              <v-list>
-                <v-list-tile @click="copyShareLink()">
-                  <v-list-tile-title>Copy Link</v-list-tile-title>
-                </v-list-tile>
+              <v-list color="yellow">
                 <v-list-tile @click="showEmailShareDialog = true">
-                  <v-list-tile-title>Shaer Via Email</v-list-tile-title>
+                  <v-list-tile-title>Share</v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile @click="copyShareLink()">
+                  <v-list-tile-title>Copy Direct Link</v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-title>Report Idea</v-list-tile-title>
                 </v-list-tile>
               </v-list>
             </v-menu>
+
+            <!-- Edit IDea Button-->
+            <v-btn
+              text
+              icon
+              color="gray"
+              size="small"
+              class="menu"
+              @click="showIdeaEditor()"
+            >
+              <v-icon>fas fa-pen</v-icon>
+            </v-btn>
 
             <!-- Side Settings icon -->
             <v-btn text icon color="gray" size="small" class="menu">
@@ -45,13 +76,7 @@
 
           <!-- Description -->
           <div v-if="!ideaEditorVisible" class="ideaDescription">
-            <!-- Edit Button -->
-            <div class="buttons">
-              <v-btn small color="primary" @click="showIdeaEditor()"
-                >Edit Description</v-btn
-              >
-            </div>
-            <v-layout v-html="idea.content"></v-layout>
+            <v-layout v-html="idea.content"> </v-layout>
           </div>
           <div v-else class="ideaEditor">
             <VueTrix
@@ -79,21 +104,21 @@
           </div>
 
           <!-- Engagements -->
-          <div class="engagement">
+          <div class="engagement"></div>
+        </v-flex>
+
+        <!-- Right Side -->
+        <v-flex class="rightSideComments" xs12 sm12 md6 lg6 xl6>
+          <div class="cmtAndLike">
             <div class="ups">
               <img class="lamp" src="~/assets/images/dark_gray_lamp.png" />
               609
             </div>
             <div class="downs">
-              <img class src="~/assets/images/comments.png" />
+              <img class="cmt" src="~/assets/images/comments.png" />
               120
             </div>
           </div>
-        </v-flex>
-
-        <!-- Right Side -->
-        <v-flex class="rightSideComments" xs12 sm12 md6 lg6 xl6>
-          <div class="commentTotal">322 Comments</div>
           <div v-for="i in 60" :key="i" class="commentItem">
             <div class="header">
               <div class="commentUser">Name Surname</div>
@@ -129,7 +154,13 @@
         <form>
           <v-card>
             <v-card-title style="text-align: center;">
-              <span class="headline">Share idea using email</span>
+              <div class="shareIcon" style="width:100%;">
+                <v-icon large color="#ffbd27">fas fa-envelope</v-icon>
+              </div>
+              <div class="headline">
+                <br />
+                Share Idea by Email
+              </div>
             </v-card-title>
             <v-card-text style="padding: 0px !important;">
               <v-container grid-list-md>
@@ -156,19 +187,23 @@
                     <v-text-field
                       v-model="emailShareForm.friendEmail"
                       v-validate="'required|email|max:100'"
+                      append-icon="email"
                       label="Your Friend's email address"
                       :error-messages="errors.collect('email')"
                       data-vv-name="email"
-                    ></v-text-field>
+                    >
+                    </v-text-field>
                   </v-flex>
                 </v-layout>
               </v-container>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" @click="sendShareEmail()">Share</v-btn>
               <v-btn color="red" flat @click="showEmailShareDialog = false"
                 >Cancel</v-btn
+              >
+              <v-btn color="#ffbd27" class="shareBtn" @click="sendShareEmail()"
+                >Share</v-btn
               >
             </v-card-actions>
           </v-card>
@@ -223,10 +258,19 @@ export default {
   created() {
     this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
   },
+  mounted() {
+    this.$root.$on('share', data => {
+      alert('yeee')
+    })
+  },
   methods: {
     copyShareLink() {
       this.$clipboard(window.location.href)
       this.snackbarMessage = 'Link copied'
+      this.snackbarVisible = true
+    },
+    showShareIdeaDialog() {
+      this.showEmailShareDialog = true
       this.snackbarVisible = true
     },
     async sendShareEmail() {
@@ -269,6 +313,15 @@ export default {
     overflow-y: hidden;
   }
 
+  .headline {
+    text-align: center;
+  }
+
+  .shareIcon {
+    text-align: center;
+    width: 100%;
+  }
+
   .profileDetails {
     padding: 20px;
     // padding-top: 5px;
@@ -287,6 +340,16 @@ export default {
 
       .shareMenu {
         display: inline-block;
+
+        .arrowBtn {
+          display: inline-block;
+        }
+
+        @media #{$small-screen} {
+          padding-left: 10px;
+          margin: 0px;
+          border: 1px solid red;
+        }
       }
 
       .menu {
@@ -381,7 +444,7 @@ export default {
     }
 
     .engagement {
-      display: block;
+      display: inline-block;
       margin-top: 30px;
       margin-bottom: 5px;
       padding-left: 5px;
@@ -399,19 +462,9 @@ export default {
         margin-right: 5px;
       }
 
-      .ups {
-        display: inline-block;
-        height: 18px;
-      }
-
       img,
       .lamp {
         margin-right: 2px;
-      }
-
-      .downs {
-        margin-left: 20px;
-        display: inline-block;
       }
     }
   }
@@ -420,6 +473,29 @@ export default {
     padding-right: 10px;
     padding-left: 10px;
     padding-bottom: 50px;
+
+    .cmtAndLike {
+      .ups {
+        display: inline-block;
+        padding-top: 15px;
+        padding-left: 15px;
+
+        .lamp {
+          display: inline-block;
+          height: 18px;
+        }
+      }
+      .downs {
+        float: right;
+        padding-top: 15px;
+        padding-right: 15px;
+
+        .cmt {
+          display: inline-block;
+          height: 18px;
+        }
+      }
+    }
 
     @media #{$desktop} {
       height: 90vh;

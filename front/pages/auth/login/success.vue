@@ -24,14 +24,14 @@
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
         <!-- Hero Message -->
-        <div class="heroMsg">Hooray!</div>
+        <div class="heroMsg">Yay!</div>
 
         <!-- Hero Description -->
         <div class="heroDescription">
-          We've sent you an email confirmation
+          Welcome to Daily Idea!<br />
+          We've sent you an email confirmation link
           <span v-if="email">link at {{ email }}.</span>
           <span v-else>link.</span>
-          Click the link to get started!
         </div>
 
         <!-- Continue Button -->

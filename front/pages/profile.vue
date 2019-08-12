@@ -85,10 +85,9 @@
 
         <!-- Right Side -->
         <v-flex class="rightSideComments" xs12 sm12 md7 lg7 xl7>
-          <div v-for="i in 6" :key="i" class="commentItem">
-            <div class="commentText">
-              Excepteur sint occaecat lorem cupidatat non proident, sunt in
-              dolor sit amet consecteturdfd
+          <div v-for="(comment, i) in commentList" :key="i" class="commentItem">
+            <div class="cmtText">
+              {{ comment.text }}
             </div>
             <div class="engagement">
               <div class="ups">
@@ -102,6 +101,13 @@
               <div class="timing">1h ago</div>
             </div>
           </div>
+
+          <div v-if="i > comment" :key="i" class="noCommentItem">
+            <div class="description">
+              Bob hasn't added any ideas yet
+            </div>
+          </div>
+          <div v-else></div>
         </v-flex>
       </v-layout>
     </v-layout>
@@ -114,6 +120,36 @@ export default {
   components: { Layout },
   data: () => ({
     commentList: [
+      {
+        text:
+          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
+        ups: 609,
+        downs: 120
+      },
+      {
+        text:
+          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
+        ups: 609,
+        downs: 120
+      },
+      {
+        text:
+          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
+        ups: 609,
+        downs: 120
+      },
+      {
+        text:
+          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
+        ups: 609,
+        downs: 120
+      },
+      {
+        text:
+          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
+        ups: 609,
+        downs: 120
+      },
       {
         text:
           'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
@@ -277,7 +313,7 @@ export default {
     }
 
     .tagsContainer {
-      margin-top: 20px;
+      margin-top: 300px;
 
       .tag {
         border-radius: 6px;

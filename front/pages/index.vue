@@ -116,6 +116,9 @@
                   <div class="reviewTime">1h ago</div>
                 </div>
               </v-card>
+              <div class="browseMoreIdeaBtn">
+                <v-btn large color="#ffbd27" dark>Browse More Idea</v-btn>
+              </div>
             </v-flex>
             <v-flex md4 lg4 style="position: relative;">
               <img class="person2Img" src="~/assets/images/home/person_2.png" />
@@ -427,6 +430,11 @@ export default {
       padding-bottom: 10vh;
       background-size: cover;
       background-position-y: 30px;
+
+      .browseMoreIdeaBtn {
+        text-align: center;
+        padding-top: 20px;
+      }
 
       .person2Img {
         position: absolute;

@@ -47,6 +47,11 @@
           </div>
         </v-flex>
       </v-layout>
+      <div>
+        <v-btn class="addBtn" fab dark>
+          <v-icon>add</v-icon>
+        </v-btn>
+      </div>
     </v-layout>
   </Layout>
 </template>
@@ -91,6 +96,11 @@ export default {
 
   padding-right: 3%;
   padding-left: 2%;
+
+  .addBtn {
+    float: right;
+    background-image: linear-gradient(to left, #ffdf01, #ffb92d);
+  }
 
   @media #{$small-screen} {
     padding-top: 0vh;
@@ -164,6 +174,9 @@ export default {
         border: solid 1px rgba(228, 228, 228, 0.38);
         padding: 15px 20px;
         cursor: pointer !important;
+        -webkit-box-shadow: 0px 0px 5px 3px rgba(227, 227, 227, 1);
+        -moz-box-shadow: 0px 0px 5px 3px rgba(227, 227, 227, 1);
+        box-shadow: 0px 0px 5px 3px rgba(227, 227, 227, 1);
 
         @media #{$small-screen} {
           border-left: 0px;
@@ -177,6 +190,7 @@ export default {
           display: block;
           overflow-wrap: break-word;
           min-height: 50px;
+
           @media #{$small-screen} {
             padding-top: 3px;
             min-height: 10px;

@@ -46,7 +46,7 @@
         </div>
         <div class="settingsItem">
           <div class="settingsInfo" @click="signout()">
-            <v-icon>fas fa-sign-out-alt</v-icon>Sign Out
+            <v-icon>fas fa-ban</v-icon>Sign Out
           </div>
           <div class="metadata">Sign Out Now</div>
         </div>
