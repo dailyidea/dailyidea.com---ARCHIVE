@@ -1,5 +1,10 @@
 <!DOCTYPE html>
+
 <head>
+	<!-- Include font-awesome icons -->
+	<link rel="stylesheet" href="http://localhost:3000/email/font-awesome/font-awesome.min.css" />
+
+
 	<!-- Fonts -->
 	<style>
 		@font-face {
@@ -55,18 +60,19 @@
 		body {
 			font-family: Quatro;
 		}
+
 		#magic_link {
 			margin: auto;
 			width: 35%;
 			height: 80vh;
 			background-color: white;
 			padding: 20px;
-			background-image: url('http://localhost:3000/email/images/Path733.png');
+			background-image: url('http://localhost:3000/email/images/Path739.png');
 			background-repeat: no-repeat;
 			background-size: cover;
 			background-position-x: -90px;
-			background-position-y: 200px;
-			border: 1px solid #707070;
+			background-position-y: 250px;
+			border: 1px solid #ddd;
 		}
 
 		.dailyIdeaImg {
@@ -76,19 +82,28 @@
 			margin-right: auto;
 			display: block;
 		}
+
 		.bottomPart {
 			display: flex;
 		}
+
 		.rightSideImg {
 			flex: 2.8;
 		}
+
 		.rightImg {
 			height: 65vh;
 		}
+
 		.dailyIdea {
 			flex: 4;
 			padding: 20px;
 		}
+
+		.dailyIdea a {
+			color: #29103B;
+		}
+
 		.title {
 			padding-top: 30px;
 			font-size: 50px;
@@ -106,22 +121,26 @@
 			padding-bottom: 25px;
 		}
 	</style>
+
 </head>
 
 <html>
-	<body>
-		<div id="magic_link">
-			<img class="dailyIdeaImg" src="http://localhost:3000/email/images/Group18.png" alt="Italian Trulli" />
-			<div class="bottomPart">
-				<div class="rightSideImg">
-					<img class="rightImg" src="http://localhost:3000/email/images/Group196.png" />
-				</div>
-				<div class="dailyIdea">
-					<div class="title">Welcome!</div>
-					<p class="description">Ready to share your rides? Simply follow the magic link below, and that's it. You're done!</p>
-					<a href="url">magiclink.com/magiclink</a>
-				</div>
+
+<body>
+	<div id="magic_link">
+		<img class="dailyIdeaImg" src="http://localhost:3000/email/images/Group18.png" alt="Italian Trulli" />
+		<div class="bottomPart">
+			<div class="rightSideImg">
+				<img class="rightImg" src="http://localhost:3000/email/images/Group196.png" />
+			</div>
+			<div class="dailyIdea">
+				<div class="title">Welcome!</div>
+				<p class="description">Ready to share your rides? Simply follow the magic link below, and that's it.
+					You're done!</p>
+				<a href="#">magiclink.com/magiclink</a>
 			</div>
 		</div>
-	</body>
+	</div>
+</body>
+
 </html>
