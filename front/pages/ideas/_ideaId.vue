@@ -296,7 +296,6 @@ export default {
     },
     showShareIdeaDialog() {
       this.showEmailShareDialog = true
-      this.snackbarVisible = true
     },
     async sendShareEmail() {
       //Validate input fields
@@ -516,6 +515,7 @@ export default {
           height: 18px;
         }
       }
+
       .downs {
         float: right;
         padding-top: 15px;

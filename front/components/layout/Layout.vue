@@ -88,13 +88,11 @@
             <v-flex xs2 sm2 class="rightSide">
               <!-- Share Idea Button -->
 
-              <v-menu v-show="shareIdeaVisible">
+              <v-menu v-show="shareIdeaVisible" class="shareIdea">
                 <template v-slot:activator="{ on }">
-                  <v-btn text icon color="light-gray" v-on="on">
-                    <v-icon v-if="shareIdeaVisible" class="sharemenu"
-                      >fas fa-share-alt</v-icon
-                    >
-                  </v-btn>
+                  <v-icon v-if="shareIdeaVisible" class="icons menu" v-on="on"
+                    >fas fa-share-alt</v-icon
+                  >
                 </template>
                 <v-list>
                   <v-list-tile @click="onCopyShareIdeaLink">
@@ -192,6 +190,7 @@ export default {
     color: #c0b7c5 !important;
     font-style: none !important;
     text-decoration: none !important;
+
     .helpLink {
       color: #c0b7c5 !important;
       font-style: none !important;
@@ -208,6 +207,7 @@ export default {
 
     .logoLink {
       text-decoration: none;
+
       .logoIcon {
         height: 24px !important;
       }
@@ -225,6 +225,7 @@ export default {
 
     .desktop {
       z-index: 100;
+
       .helpLink {
         color: #c0b7c5 !important;
         font-style: none !important;
@@ -307,6 +308,7 @@ export default {
         padding: 10px 15px;
         margin-left: 20px;
         border-radius: 50%;
+
         i {
           font-size: 14px !important;
           line-height: 16px !important;
@@ -317,6 +319,7 @@ export default {
 
     .mobile {
       padding: 0px 0px;
+
       .text {
         text-align: center;
         margin-top: 2px;
@@ -326,20 +329,24 @@ export default {
         text-align: center;
         color: #18141c;
       }
+
       .icons {
         color: #c0b7c5 !important;
-        font-size: 13px;
+        font-size: 16px;
       }
+
       .rightSide {
         text-align: right;
+
+        .shareIdea {
+          display: inline-block;
+          margin-right: 7px;
+        }
 
         i {
           color: #35124e !important;
           padding-bottom: 0px;
           text-align: right;
-        }
-        .sharemenu {
-          margin: 0px;
         }
       }
     }
