@@ -48,7 +48,7 @@
         </v-flex>
       </v-layout>
       <div>
-        <v-btn class="addBtn" fab dark>
+        <v-btn class="addBtn" fab dark to="/ideas/new">
           <v-icon>add</v-icon>
         </v-btn>
       </div>
@@ -98,8 +98,14 @@ export default {
   padding-left: 2%;
 
   .addBtn {
-    float: right;
-    background-image: linear-gradient(to left, #ffdf01, #ffb92d);
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-image: $secondary-gradient;
+
+    -webkit-box-shadow: 10px 10px 52px -10px rgba(255, 247, 156, 1);
+    -moz-box-shadow: 10px 10px 52px -10px rgba(255, 247, 156, 1);
+    box-shadow: 10px 10px 52px -10px rgba(255, 247, 156, 1);
   }
 
   @media #{$small-screen} {
@@ -110,6 +116,7 @@ export default {
     text-align: center;
     // border: 1px solid red;
     min-height: 30px;
+
     .titleText {
       display: inline-block;
       margin-bottom: 20px;
@@ -123,6 +130,7 @@ export default {
       text-align: center;
       color: #232323;
     }
+
     .sortBy {
       font-size: 14px;
       font-weight: normal;
@@ -162,6 +170,7 @@ export default {
 
     .ideaContainer {
       padding: 10px 10px;
+
       @media #{$small-screen} {
         padding: 0px !important;
 
@@ -174,9 +183,12 @@ export default {
         border: solid 1px rgba(228, 228, 228, 0.38);
         padding: 15px 20px;
         cursor: pointer !important;
-        -webkit-box-shadow: 0px 0px 5px 3px rgba(227, 227, 227, 1);
-        -moz-box-shadow: 0px 0px 5px 3px rgba(227, 227, 227, 1);
-        box-shadow: 0px 0px 5px 3px rgba(227, 227, 227, 1);
+
+        &:hover {
+          -webkit-box-shadow: 0px 0px 5px 3px #e3e3e361;
+          -moz-box-shadow: 0px 0px 5px 3px #e3e3e361;
+          box-shadow: 0px 0px 5px 3px #e3e3e361;
+        }
 
         @media #{$small-screen} {
           border-left: 0px;
