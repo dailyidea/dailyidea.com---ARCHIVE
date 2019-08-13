@@ -82,17 +82,15 @@
             </v-flex>
 
             <!-- Center Title -->
-            <v-flex xs8 sm8 class="text">{{ mobileTitle }}</v-flex>
+            <v-flex xs7 sm7 class="text">{{ mobileTitle }}</v-flex>
 
             <!-- Rightside Icons -->
-            <v-flex xs2 sm2 class="rightSide">
+            <v-flex xs3 sm3 class="rightSide">
               <!-- Share Idea Button -->
 
               <v-menu v-show="shareIdeaVisible" class="shareIdea">
                 <template v-slot:activator="{ on }">
-                  <v-icon v-if="shareIdeaVisible" class="icons menu" v-on="on"
-                    >fas fa-share-alt</v-icon
-                  >
+                  <v-icon class="icons menu" v-on="on">fas fa-share-alt</v-icon>
                 </template>
                 <v-list>
                   <v-list-tile @click="onCopyShareIdeaLink">
@@ -103,6 +101,13 @@
                   </v-list-tile>
                 </v-list>
               </v-menu>
+
+              <v-icon
+                v-if="editIdeaVisible"
+                class="icons menu"
+                @click="$emit('onEditIdea')"
+                >fas fa-pen</v-icon
+              >
 
               <v-icon v-if="mobileSearchIcon" class="icons menu"
                 >fas fa-search</v-icon
@@ -161,11 +166,11 @@ export default {
     },
     onCopyShareIdeaLink: {
       default: null
+    },
+    editIdeaVisible: {
+      type: Boolean,
+      default: false
     }
-    // onSendShareIdeaEmail: {
-    //   type: Function,
-    //   default: null
-    // }
   },
   created() {
     console.log('at main params =>', this.backButton)
@@ -347,6 +352,7 @@ export default {
           color: #35124e !important;
           padding-bottom: 0px;
           text-align: right;
+          margin-right: 7px;
         }
       }
     }
@@ -354,6 +360,21 @@ export default {
 
   .nuxtContainer {
     padding-top: 56px !important;
+  }
+}
+
+body {
+  .specialButton {
+    background-image: $secondary-gradient;
+    color: white !important;
+    -webkit-box-shadow: 10px 10px 52px -10px rgba(255, 247, 156, 1) !important;
+    -moz-box-shadow: 10px 10px 52px -10px rgba(255, 247, 156, 1) !important;
+    box-shadow: 10px 10px 52px -10px rgba(255, 247, 156, 1) !important;
+
+    &:hover {
+      background-image: none;
+      background: #ffb92d !important;
+    }
   }
 }
 </style>

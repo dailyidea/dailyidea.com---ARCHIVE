@@ -1,25 +1,37 @@
 <template>
-  <Layout v-bind="{
+  <Layout
+    v-bind="{
       loggedInHeader: true,
       mobileTitle: 'My Ideas',
       mobileHamburger: true,
       mobileSearchIcon: true
-    }">
+    }"
+  >
     <v-layout id="ideaListPage">
       <!-- Title Section -->
       <div class="titleDiv">
         <v-layout class="titleText" hidden-sm-and-down>MY IDEAS</v-layout>
-        <div class="sortBy">
-          <v-icon>fas fa-clock</v-icon>Sort by Newest
-        </div>
+        <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
       </div>
 
       <!-- Idea List -->
       <v-layout class="ideaList" row wrap>
-        <v-flex v-for="(idea, index) in ideas" :key="index" class="ideaContainer" xs12 sm12 md4 lg4 xl4>
-          <div class="ideaItem" @click="
+        <v-flex
+          v-for="(idea, index) in ideas"
+          :key="index"
+          class="ideaContainer"
+          xs12
+          sm12
+          md4
+          lg4
+          xl4
+        >
+          <div
+            class="ideaItem"
+            @click="
               $router.push({ path: '/ideas/' + idea.ideaId, force: true })
-            ">
+            "
+          >
             <div class="ideaDescription">{{ idea.title }}</div>
             <div class="engagement">
               <div class="ups">
@@ -36,7 +48,7 @@
         </v-flex>
       </v-layout>
       <div>
-        <v-btn class="addBtn" fab dark to="/ideas/new">
+        <v-btn class="specialButton addBtn" fab to="/ideas/new">
           <v-icon>add</v-icon>
         </v-btn>
       </div>
@@ -89,11 +101,6 @@ export default {
     position: fixed;
     right: 20px;
     bottom: 20px;
-    background-image: $secondary-gradient;
-
-    -webkit-box-shadow: 10px 10px 52px -10px rgba(255, 247, 156, 1);
-    -moz-box-shadow: 10px 10px 52px -10px rgba(255, 247, 156, 1);
-    box-shadow: 10px 10px 52px -10px rgba(255, 247, 156, 1);
   }
 
   @media #{$small-screen} {

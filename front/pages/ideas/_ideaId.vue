@@ -4,10 +4,12 @@
       backButton: true,
       loggedInHeader: true,
       mobileTitle: user.email.toUpperCase() + '\'S IDEA',
-
+      shareIdeaVisible: true,
+      editIdeaVisible: true,
       onCopyShareIdeaLink: copyShareLink
     }"
     @showShareIdeaDialog="showShareIdeaDialog"
+    @onEditIdea="showIdeaEditor"
   >
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
@@ -16,8 +18,7 @@
         <v-flex xs12 sm12 md6 lg6 xl6 class="profileDetails">
           <!-- Header section -->
           <v-layout class="sectionHeader" hidden-sm-and-down>
-            <!--Arrow Button-->
-            <v-layout>
+            <div class="headerLeftSide">
               <div class="arrowBtn">
                 <v-btn flat small class="leftBtn" fab>
                   <v-icon> fas fa-arrow-left</v-icon>
@@ -26,66 +27,75 @@
                   <v-icon>fas fa-arrow-right</v-icon>
                 </v-btn>
               </div>
-            </v-layout>
+            </div>
 
-            <!-- Share Menu -->
+            <div class="headerRightSide">
+              <!-- Share Menu -->
+              <v-menu class="shareMenu" offset-y>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    text
+                    icon
+                    color="light-gray"
+                    class="menu"
+                    @click="showEmailShareDialog = true"
+                    v-on="on"
+                  >
+                    <v-icon>fas fa-envelope</v-icon>
+                  </v-btn>
+                </template>
+              </v-menu>
 
-            <v-menu class="shareMenu" offset-y>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  text
-                  icon
-                  color="light-gray"
-                  class="menu"
-                  @click="showEmailShareDialog = true"
-                  v-on="on"
-                >
-                  <v-icon>fas fa-envelope</v-icon>
-                </v-btn>
-              </template>
-            </v-menu>
+              <!-- Edit IDea Button-->
+              <v-btn
+                text
+                icon
+                color="gray"
+                size="small"
+                class="menu"
+                @click="showIdeaEditor()"
+              >
+                <v-icon>fas fa-pen</v-icon>
+              </v-btn>
 
-            <!-- Edit IDea Button-->
-            <v-btn
-              text
-              icon
-              color="gray"
-              size="small"
-              class="menu"
-              @click="showIdeaEditor()"
-            >
-              <v-icon>fas fa-pen</v-icon>
-            </v-btn>
-
-            <!-- Side Settings icon -->
-            <v-menu class="sideMenu" offset-y>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  text
-                  icon
-                  color="gray"
-                  size="small"
-                  class="menu"
-                  v-on="on"
-                >
-                  <v-icon>fas fa-ellipsis-v</v-icon>
-                </v-btn>
-              </template>
-              <v-list>
-                <v-list-tile>
-                  <v-list-tile-title>Share</v-list-tile-title>
-                </v-list-tile>
-                <v-list-tile @click="copyShareLink()">
-                  <v-list-tile-title>Copy Direct Link</v-list-tile-title>
-                </v-list-tile>
-                <v-list-tile>
-                  <v-list-tile-title>Report Idea</v-list-tile-title>
-                </v-list-tile>
-              </v-list>
-            </v-menu>
+              <!-- Side Settings icon -->
+              <v-menu class="sideMenu" offset-y>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    text
+                    icon
+                    color="gray"
+                    size="small"
+                    class="menu"
+                    v-on="on"
+                  >
+                    <v-icon>fas fa-ellipsis-v</v-icon>
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-tile>
+                    <v-list-tile-title>Share</v-list-tile-title>
+                  </v-list-tile>
+                  <v-list-tile @click="copyShareLink()">
+                    <v-list-tile-title>Copy Direct Link</v-list-tile-title>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-title>Report Idea</v-list-tile-title>
+                  </v-list-tile>
+                </v-list>
+              </v-menu>
+            </div>
           </v-layout>
 
-          <div class="ideaTitle">{{ idea.title }}</div>
+          <!-- Idea title -->
+          <div v-if="!ideaEditorVisible" class="ideaTitle">
+            <div class="ideaTitle">{{ idea.title }}</div>
+          </div>
+          <div v-else class="titleEditor">
+            <!-- <v-textarea outline height="50px" name="input-7-4"></v-textarea> -->
+            <v-textarea v-model="idea.title" outline name="input-7-4">
+            </v-textarea>
+          </div>
           <div class="metadata">
             <span>{{ user.email }}</span>
             <span class="timing">{{ idea.relativeCreatedTime }}</span>
@@ -120,22 +130,46 @@
             <v-chip label class="tag">interface</v-chip>
           </div>
 
-          <!-- Engagements -->
-          <div class="engagement"></div>
+          <!-- Engagements & Next Prev -->
+          <v-layout class="engagement-nextPrev" hidden-md-and-up>
+            <!-- Engagement -->
+            <div class="engagement">
+              <div class="ups">
+                <img class="lamp" src="~/assets/images/dark_gray_lamp.png" />
+                <span>609</span>
+              </div>
+              <div class="downs">
+                <img class="cmt" src="~/assets/images/comments.png" />
+                <span>120</span>
+              </div>
+            </div>
+
+            <!-- Mobile Only - next prev button -->
+            <div class="arrowBtn">
+              <v-btn flat small class="leftBtn" fab>
+                <v-icon> fas fa-arrow-left</v-icon>
+              </v-btn>
+              <v-btn flat small class="leftBtn" fab>
+                <v-icon>fas fa-arrow-right</v-icon>
+              </v-btn>
+            </div>
+          </v-layout>
         </v-flex>
 
         <!-- Right Side -->
         <v-flex class="rightSideComments" xs12 sm12 md6 lg6 xl6>
-          <div class="cmtAndLike">
+          <v-layout class="cmtAndLike" hidden-sm-and-down>
             <div class="ups">
               <img class="lamp" src="~/assets/images/dark_gray_lamp.png" />
-              609
+              <span>609</span>
             </div>
             <div class="downs">
               <img class="cmt" src="~/assets/images/comments.png" />
-              120
+              <span>120</span>
             </div>
-          </div>
+          </v-layout>
+
+          <!-- Comment List -->
           <div v-for="i in 60" :key="i" class="commentItem">
             <div class="header">
               <div class="commentUser">Name Surname</div>
@@ -354,10 +388,8 @@ export default {
 
   .profileDetails {
     padding: 20px;
-    // padding-top: 5px;
     background: white;
     overflow: auto;
-    // border-top: 1px solid #f5f3f6;
 
     @media #{$small-screen} {
       padding-right: 5%;
@@ -365,8 +397,34 @@ export default {
     }
 
     .sectionHeader {
-      display: block;
-      text-align: right;
+      display: flex;
+
+      i {
+        line-height: 20px;
+        font-size: 15px;
+        color: #35124e;
+      }
+
+      .headerLeftSide {
+        flex: 1;
+      }
+
+      .headerRightSide {
+        flex: 1;
+        text-align: right;
+
+        button {
+          i {
+            color: #c0b7c5;
+          }
+
+          &:hover {
+            i {
+              color: #35124e;
+            }
+          }
+        }
+      }
 
       .shareMenu {
         display: inline-block;
@@ -385,17 +443,14 @@ export default {
       .menu {
         margin: 0px;
 
-        // border: 1px solid red;
-        i {
-          font-size: 13px !important;
-        }
+        /* border: 1px solid red; */
       }
     }
 
     .ideaTitle {
-      padding-top: 30px;
-
-      font-size: 40px;
+      padding-top: 10px;
+      padding-bottom: 20px;
+      font-size: 30px;
       font-weight: normal;
       font-style: normal;
       font-stretch: normal;
@@ -405,10 +460,16 @@ export default {
       color: #18141c;
     }
 
-    .metadata {
-      padding-top: 20px;
-      padding-left: 20px;
+    .titleEditor {
+      margin-bottom: -10px;
 
+      textarea {
+        margin-top: 0px !important;
+      }
+    }
+
+    .metadata {
+      padding-left: 20px;
       font-size: 12px;
       font-weight: normal;
       font-style: normal;
@@ -469,32 +530,55 @@ export default {
 
       .tag {
         border-radius: 6px;
-        background-color: #ffbd27;
+        background-color: #c0b7c5;
+        color: white;
       }
     }
 
-    .engagement {
-      display: inline-block;
-      margin-top: 30px;
-      margin-bottom: 5px;
-      padding-left: 5px;
+    .engagement-nextPrev {
+      display: flex;
+      margin-top: 15px;
 
-      font-size: 14px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      letter-spacing: normal;
-      text-align: left;
-      color: #c0b7c5;
+      .engagement {
+        flex: 1;
+        padding-top: 12px;
+        margin-bottom: 5px;
+        padding-left: 5px;
 
-      img {
-        height: 14px;
-        margin-right: 5px;
+        font-size: 18px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #c0b7c5;
+
+        div {
+          display: inline-block;
+          margin-right: 10px;
+        }
+
+        img {
+          height: 14px;
+          margin-right: 5px;
+        }
+
+        img,
+        .lamp {
+          margin-right: 2px;
+        }
       }
 
-      img,
-      .lamp {
-        margin-right: 2px;
+      .nextPrev {
+        flex: 1;
+
+        .arrowBtn {
+          display: inline-block;
+
+          i {
+            font-size: 18px;
+          }
+        }
       }
     }
   }
@@ -502,29 +586,30 @@ export default {
   .rightSideComments {
     padding-right: 10px;
     padding-left: 10px;
+    padding-top: 15px;
     padding-bottom: 50px;
+    font-size: 16px;
 
     .cmtAndLike {
-      .ups {
-        display: inline-block;
-        padding-top: 15px;
-        padding-left: 15px;
+      color: #231031;
+      display: flex;
+      font-weight: bold;
+      padding: 10px 15px 0px 15px;
 
-        .lamp {
-          display: inline-block;
-          height: 18px;
-        }
+      .ups {
+        flex: 1;
       }
 
       .downs {
-        float: right;
-        padding-top: 15px;
-        padding-right: 15px;
+        flex: 1;
+        text-align: right;
+      }
 
-        .cmt {
-          display: inline-block;
-          height: 18px;
-        }
+      img {
+        display: inline-block;
+        height: 16px;
+        padding-top: 2px;
+        margin-right: 5px;
       }
     }
 

@@ -20,9 +20,9 @@
         <div class="addNewTag">
           <v-btn color="primary">+ Add New Tag </v-btn>
         </div>
-        <div class="space"></div>
-        <div>
-          <v-btn class="submitBtn">Submit</v-btn>
+
+        <div class="submitBtn">
+          <v-btn class="specialButton">Submit</v-btn>
         </div>
       </div>
     </v-layout>
@@ -61,8 +61,10 @@ export default {
     width: 50%;
     max-width: 600px;
     margin: auto;
+
     .text {
-      font-size: 25px;
+      font-size: 16px;
+      margin-bottom: 10px;
     }
 
     .ideaEditor {
@@ -74,18 +76,22 @@ export default {
         }
       }
     }
+
     .addNewTag {
       padding-top: 10px;
       margin: 0px;
     }
-    .space {
-      padding-top: 15vh;
-    }
 
     .submitBtn {
-      width: 100%;
-      height: 50px;
-      background-image: linear-gradient(to left, #ffdf01, #ffb92d);
+      margin-top: 5vh;
+      padding-top: 5vh;
+      border-top: 1px solid #ddd;
+
+      button {
+        width: 100%;
+        height: 50px;
+        margin: 0px;
+      }
     }
   }
 
