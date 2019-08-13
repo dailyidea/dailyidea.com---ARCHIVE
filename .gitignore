@@ -20,6 +20,7 @@
 
 # remove mac file metadata
 *.DS_Store
+.idea
 
 # Gradle
 .idea/**/gradle.xml
