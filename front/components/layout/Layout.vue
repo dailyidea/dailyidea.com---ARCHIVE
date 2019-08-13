@@ -336,7 +336,6 @@ export default {
         i {
           color: #35124e !important;
           padding-bottom: 0px;
-          border: 1px solid red;
           text-align: right;
         }
         .sharemenu {

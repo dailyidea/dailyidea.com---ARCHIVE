@@ -30,7 +30,7 @@
         <div class="heroDescription">
           We've sent you an email confirmation
           <span v-if="email">link at {{ email }}.</span>
-          <span v-else>link.</span>
+          <span v-else></span>
           Click the link to confirm your email and get started!
         </div>
 

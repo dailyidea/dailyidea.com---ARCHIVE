@@ -4,7 +4,7 @@
       backButton: true,
       loggedInHeader: true,
       mobileTitle: user.email.toUpperCase() + '\'S IDEA',
-      shareIdeaVisible: true,
+
       onCopyShareIdeaLink: copyShareLink
     }"
     @showShareIdeaDialog="showShareIdeaDialog"
@@ -32,22 +32,17 @@
 
             <v-menu class="shareMenu" offset-y>
               <template v-slot:activator="{ on }">
-                <v-btn text icon color="light-gray" class="menu" v-on="on">
+                <v-btn
+                  text
+                  icon
+                  color="light-gray"
+                  class="menu"
+                  @click="showEmailShareDialog = true"
+                  v-on="on"
+                >
                   <v-icon>fas fa-envelope</v-icon>
                 </v-btn>
               </template>
-
-              <v-list color="yellow">
-                <v-list-tile @click="showEmailShareDialog = true">
-                  <v-list-tile-title>Share</v-list-tile-title>
-                </v-list-tile>
-                <v-list-tile @click="copyShareLink()">
-                  <v-list-tile-title>Copy Direct Link</v-list-tile-title>
-                </v-list-tile>
-                <v-list-tile>
-                  <v-list-tile-title>Report Idea</v-list-tile-title>
-                </v-list-tile>
-              </v-list>
             </v-menu>
 
             <!-- Edit IDea Button-->
@@ -63,9 +58,31 @@
             </v-btn>
 
             <!-- Side Settings icon -->
-            <v-btn text icon color="gray" size="small" class="menu">
-              <v-icon>fas fa-ellipsis-v</v-icon>
-            </v-btn>
+            <v-menu class="sideMenu" offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  text
+                  icon
+                  color="gray"
+                  size="small"
+                  class="menu"
+                  v-on="on"
+                >
+                  <v-icon>fas fa-ellipsis-v</v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-tile>
+                  <v-list-tile-title>Share</v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile @click="copyShareLink()">
+                  <v-list-tile-title>Copy Direct Link</v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-title>Report Idea</v-list-tile-title>
+                </v-list-tile>
+              </v-list>
+            </v-menu>
           </v-layout>
 
           <div class="ideaTitle">{{ idea.title }}</div>
@@ -147,7 +164,7 @@
       <!-- Popup - Share Via Email -->
       <v-dialog
         v-model="showEmailShareDialog"
-        content-class="emailShareDialog"
+        class="emailShareDialog"
         persistent
         max-width="400px"
       >
@@ -172,6 +189,8 @@
                       label="Enter your name"
                       :error-messages="errors.collect('name')"
                       data-vv-name="name"
+                      single-line
+                      outlined
                     ></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
@@ -181,6 +200,7 @@
                       label="Enter your friend's name"
                       :error-messages="errors.collect('friend name')"
                       data-vv-name="friend name"
+                      solo
                     ></v-text-field>
                   </v-flex>
                   <v-flex xs12>
@@ -191,6 +211,7 @@
                       label="Your Friend's email address"
                       :error-messages="errors.collect('email')"
                       data-vv-name="email"
+                      solo
                     >
                     </v-text-field>
                   </v-flex>
@@ -199,7 +220,11 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="red" flat @click="showEmailShareDialog = false"
+              <v-btn
+                color="red"
+                flat
+                class="canceBtn"
+                @click="showEmailShareDialog = false"
                 >Cancel</v-btn
               >
               <v-btn color="#ffbd27" class="shareBtn" @click="sendShareEmail()"
@@ -313,13 +338,19 @@ export default {
     overflow-y: hidden;
   }
 
-  .headline {
-    text-align: center;
-  }
+  .emailShareDialog {
+    .headline {
+      text-align: center;
+    }
 
-  .shareIcon {
-    text-align: center;
-    width: 100%;
+    .shareIcon {
+      text-align: center;
+      width: 100%;
+    }
+
+    .canceBtn {
+      padding-right: 20px;
+    }
   }
 
   .profileDetails {

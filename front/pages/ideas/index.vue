@@ -98,7 +98,9 @@ export default {
   padding-left: 2%;
 
   .addBtn {
-    float: right;
+    position: fixed;
+    right: 20px;
+    bottom: 4px;
     background-image: linear-gradient(to left, #ffdf01, #ffb92d);
   }
 
