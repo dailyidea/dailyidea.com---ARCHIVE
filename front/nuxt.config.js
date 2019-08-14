@@ -36,13 +36,12 @@ module.exports = {
   /*
    ** Global CSS
    */
-  css: ['~/assets/style/app.styl', 'vue-snotify/styles/material.css'],
+  css: ['vue-snotify/styles/material.css'],
 
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
-    '@/plugins/vuetify',
     '@/plugins/vuex-cognito',
     '@/plugins/notifications',
     '@/plugins/dayjs',
@@ -55,14 +54,25 @@ module.exports = {
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    '@nuxtjs/dotenv',
-    'nuxt-universal-storage',
-    '@nuxtjs/style-resources'
-  ],
+  modules: ['@nuxtjs/dotenv', '@nuxtjs/vuetify', 'nuxt-universal-storage'],
 
-  styleResources: {
-    scss: ['assets/style/variables.scss']
+  vuetify: {
+    icons: {
+      iconfont: 'md'
+    },
+    theme: {
+      themes: {
+        light: {
+          primary: '#FF9900',
+          accent: '#FFFFFF',
+          secondary: '#424242',
+          info: '#0D47A1',
+          warning: '#ffb300',
+          error: '#B71C1C',
+          success: '#2E7D32'
+        }
+      }
+    }
   },
 
   render: {
@@ -75,19 +85,20 @@ module.exports = {
    ** Build configuration
    */
   build: {
+    loaders: {
+      scss: {
+        data: `@import "~@/assets/style/variables.scss";`
+      }
+    },
     /*
      ** You can extend webpack config here
      */
     publicPath: process.env.S3_DOMAIN
       ? `https://${process.env.S3_DOMAIN}/`
       : undefined,
-    transpile: ['vuetify/lib'],
-    vendor: ['vue-trix'],
     cache: true,
     // modern: true,
     extend(config, ctx) {
-      config.plugins.push(new (require('vuetify-loader/lib/plugin'))())
-      config.resolve.alias['vue'] = 'vue/dist/vue.common'
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
@@ -97,33 +108,6 @@ module.exports = {
           include: path.join(__dirname)
         })
       }
-
-      // const urlLoader = config.module.rules.find(r => r.test.test('test.gif'))
-      // urlLoader.oneOf = []
-      // urlLoader.oneOf.push({
-      //   test: /\.(png|jpe?g|gif)$/,
-      //   resourceQuery: /vuetify-preload/,
-      //   use: [
-      //     'vuetify-loader/progressive-loader',
-      //     {
-      //       loader: 'url-loader',
-      //       options: { limit: 8000 }
-      //     }
-      //   ]
-      // })
-      // urlLoader.oneOf.push(urlLoader.use[0])
-      // delete urlLoader.use
-
-      // const vueLoader = ctx.loaders.vue
-      // vueLoader.compilerOptions = {}
-      // vueLoader.compilerOptions['modules'] = [VuetifyProgressiveModule]
-      // vueLoader.transformAssetUrls = Object.assign(
-      //   {},
-      //   vueLoader.transformAssetUrls,
-      //   {
-      //     'v-card-media': 'src'
-      //   }
-      // )
     }
   }
 }

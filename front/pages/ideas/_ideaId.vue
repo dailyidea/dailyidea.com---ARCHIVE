@@ -280,11 +280,11 @@
   </Layout>
 </template>
 <script>
-import Layout from '@/components/layout/Layout'
 import { graphqlOperation } from '@aws-amplify/api'
-import getIdea from '~/graphql/mutations/getIdea'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import getIdea from '~/graphql/mutations/getIdea'
+import Layout from '@/components/layout/Layout'
 dayjs.extend(relativeTime)
 
 export default {

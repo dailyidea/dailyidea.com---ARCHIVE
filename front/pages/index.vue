@@ -150,7 +150,7 @@
         >
           <v-carousel
             interval="600000"
-            hide-controls
+            :show-arrows="false"
             delimiter-icon="fa-circle"
             class="mobileReviewCrousel"
           >
@@ -219,7 +219,7 @@
                 We'll send you an email every day with a reminder for you to
                 submit an idea. Just hit reply, and you'll never again.
               </div>
-              <v-btn class="buttn" outline>More</v-btn>
+              <v-btn class="buttn" outlined>More</v-btn>
             </v-flex>
           </v-layout>
         </v-container>
@@ -244,7 +244,7 @@
             <img class="img2" src="~/assets/images/home/mail_work_mobile.png" />
             <img class="img3" src="~/assets/images/person_with_phone.png" />
           </div>
-          <v-btn class="buttn" outline>More</v-btn>
+          <v-btn class="buttn" outlined>More</v-btn>
         </v-container>
 
         <!-- Footer -->

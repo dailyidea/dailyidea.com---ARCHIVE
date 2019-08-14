@@ -4,4 +4,7 @@
     <option name="languageLevel" value="FLOW" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.6 (dailyidea)" project-jdk-type="Python SDK" />
+  <component name="WebPackConfiguration">
+    <option name="path" value="$PROJECT_DIR$/front/webpack.config.js" />
+  </component>
 </project>

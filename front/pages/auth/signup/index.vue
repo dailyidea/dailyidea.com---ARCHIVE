@@ -2,7 +2,7 @@
   <div id="signupPage">
     <v-layout class="mainTable" row>
       <!-- Back button -->
-      <v-btn class="backBtn" flat icon color="primary" to="/">
+      <v-btn class="backBtn" text icon color="primary" to="/">
         <v-icon>fas fa-arrow-left</v-icon>
       </v-btn>
 
@@ -53,13 +53,13 @@
 
         <!-- Social Login Icons -->
         <div class="socialIconContainer">
-          <v-btn small outline fab color="primary">
+          <v-btn small outlined fab color="primary">
             <v-icon>fab fa-facebook-f</v-icon>
           </v-btn>
-          <v-btn small outline fab color="primary">
+          <v-btn small outlined fab color="primary">
             <v-icon>fab fa-twitter</v-icon>
           </v-btn>
-          <v-btn small outline fab color="primary">
+          <v-btn small outlined fab color="primary">
             <v-icon>fab fa-google-plus-g</v-icon>
           </v-btn>
         </div>

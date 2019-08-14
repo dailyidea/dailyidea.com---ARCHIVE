@@ -56,12 +56,12 @@
   </Layout>
 </template>
 <script>
-import Layout from '@/components/layout/Layout'
 import { graphqlOperation } from '@aws-amplify/api'
-import getIdeas from '~/graphql/mutations/getIdeas'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import getIdeas from '~/graphql/mutations/getIdeas'
+import Layout from '@/components/layout/Layout'
 dayjs.extend(relativeTime)
 
 export default {
