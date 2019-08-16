@@ -16,7 +16,7 @@
           <v-text-field v-model="email" label="Your Email Address" />
         </v-flex>
       </v-layout>
-      <v-btn @click="signup">Resend Confirmation Email</v-btn>
+      <v-btn @click="resend">Resend Confirmation Email</v-btn>
     </v-container>
   </v-form>
 </template>
@@ -27,7 +27,7 @@ export default {
     email: ''
   }),
   methods: {
-    async signup() {
+    async resend() {
       await this.$store.dispatch('cognito/resendConfirmation', {
         username: this.email
       })

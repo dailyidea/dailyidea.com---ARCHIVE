@@ -74,30 +74,12 @@
 </template>
 
 <script>
-import nanoid from 'nanoid'
-import { getErrorMessage } from '~/utils'
 export default {
   data: () => ({
     email: '',
     success: false
   }),
   methods: {
-    async signup() {
-      try {
-        await this.$store.dispatch('cognito/registerUser', {
-          username: this.email,
-          password: nanoid()
-        })
-        this.success = true
-      } catch (e) {
-        this.$snotify.error(getErrorMessage(e), 'Error', {
-          timeout: 2000,
-          showProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true
-        })
-      }
-    }
   }
 }
 </script>
