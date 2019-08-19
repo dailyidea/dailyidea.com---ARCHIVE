@@ -122,7 +122,10 @@ export default {
 
         await this.$store.dispatch('cognito/registerUser', {
           username: this.email,
-          password: nanoid()
+          password: nanoid(),
+          attributes: {
+            name: this.name
+          }
         })
 
         // Redirect to registeration success page

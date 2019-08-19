@@ -59,6 +59,7 @@ exports.handler = async (event, context) => {
                 'userId': {S: event.request.userAttributes.sub},
               //  'sortKey': {S: "user"},
                 'email': {S: event.request.userAttributes.email},
+                'name': {S: event.request.userAttributes.name},
                 'createdDate': {S: date.toISOString()},
                 'firstLogin': {BOOL: true}
             }
