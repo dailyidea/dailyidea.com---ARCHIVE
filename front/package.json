@@ -30,9 +30,11 @@
     "nuxt-start-edge": "2.9.0-26094248.35ba6556",
     "nuxt-universal-storage": "0.3.1",
     "serverless-http": "2.0.2",
+    "v-clipboard": "^2.2.2",
     "vee-validate": "2.2.15",
     "vue-notifications": "1.0.2",
-    "vue-snotify": "3.2.1"
+    "vue-snotify": "3.2.1",
+    "vue-trix": "^0.9.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "1.1.2",
