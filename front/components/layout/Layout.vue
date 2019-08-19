@@ -50,6 +50,7 @@
 </template>
 <script>
 import loggedInHeader from '~/components/loggedInHeader'
+import '@fortawesome/fontawesome-free/css/all.css'
 
 export default {
   components: { loggedInHeader },
