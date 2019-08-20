@@ -22,7 +22,7 @@
         </div>
 
         <div class="submitBtn">
-          <v-btn class="specialButton">Submit</v-btn>
+          <v-btn>Submit</v-btn>
         </div>
       </div>
     </v-layout>

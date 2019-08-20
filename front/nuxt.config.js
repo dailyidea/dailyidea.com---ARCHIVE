@@ -70,6 +70,15 @@ module.exports = {
           warning: '#ffb300',
           error: '#B71C1C',
           success: '#2E7D32'
+        },
+        dark: {
+          primary: '#35124e',
+          accent: '#FFFFFF',
+          secondary: '#424242',
+          info: '#35124e',
+          warning: '#ffb300',
+          error: '#B71C1C',
+          success: '#2E7D32'
         }
       }
     }

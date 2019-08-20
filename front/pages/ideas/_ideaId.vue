@@ -3,7 +3,7 @@
     v-bind="{
       backButton: true,
       loggedInHeader: true,
-      mobileTitle: user.email.toUpperCase() + '\'S IDEA',
+      mobileTitle: mobileTitle,
       shareIdeaVisible: true,
       editIdeaVisible: true,
       onCopyShareIdeaLink: copyShareLink
@@ -13,7 +13,6 @@
   >
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
-
       <!-- Left Side -->
       <v-flex class="profileDetails">
         <!-- Header section - only for desktop -->
@@ -73,15 +72,15 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-tile>
-                  <v-list-tile-title>Share</v-list-tile-title>
-                </v-list-tile>
-                <v-list-tile @click="copyShareLink()">
-                  <v-list-tile-title>Copy Direct Link</v-list-tile-title>
-                </v-list-tile>
-                <v-list-tile>
-                  <v-list-tile-title>Report Idea</v-list-tile-title>
-                </v-list-tile>
+                <v-list-item>
+                  <v-list-item-title>Share</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="copyShareLink()">
+                  <v-list-item-title>Copy Direct Link</v-list-item-title>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>Report Idea</v-list-item-title>
+                </v-list-item>
               </v-list>
             </v-menu>
           </div>
@@ -303,11 +302,17 @@ export default {
     ideaEditorVisible: false,
     ideaEditContents: ''
   }),
+  computed: {
+    mobileTitle: function() {
+      console.log(this.user)
+      return this.user.email.toUpperCase() + "'S IDEA"
+    }
+  },
   async asyncData({ app, route, store }) {
     const { data } = await app.$amplifyApi.graphql(
       graphqlOperation(getIdea, { ideaId: route.params.ideaId })
     )
-
+    console.log('user info', store.state.cognito.user)
     return {
       idea: data.getIdea,
       user: { email: store.state.cognito.user.attributes.email }
@@ -315,11 +320,6 @@ export default {
   },
   created() {
     this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
-  },
-  mounted() {
-    this.$root.$on('share', data => {
-      alert('yeee')
-    })
   },
   methods: {
     copyShareLink() {
@@ -338,6 +338,7 @@ export default {
       }
 
       //TODO: Send email from backend
+
       this.snackbarMessage = 'Email sent successfully.'
       this.showEmailShareDialog = false
       this.snackbarVisible = true

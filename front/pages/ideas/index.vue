@@ -48,7 +48,7 @@
         </v-flex>
       </v-layout>
       <div>
-        <v-btn class="specialButton addBtn" fab to="/ideas/new">
+        <v-btn class="addBtn" fab to="/ideas/new">
           <v-icon>add</v-icon>
         </v-btn>
       </div>
