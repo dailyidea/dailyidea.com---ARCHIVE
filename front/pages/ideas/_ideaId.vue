@@ -73,15 +73,15 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-tile>
-                  <v-list-tile-title>Share</v-list-tile-title>
-                </v-list-tile>
-                <v-list-tile @click="copyShareLink()">
-                  <v-list-tile-title>Copy Direct Link</v-list-tile-title>
-                </v-list-tile>
-                <v-list-tile>
-                  <v-list-tile-title>Report Idea</v-list-tile-title>
-                </v-list-tile>
+                <v-list-item>
+                  <v-list-item-title>Share</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="copyShareLink()">
+                  <v-list-item-title>Copy Direct Link</v-list-item-title>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>Report Idea</v-list-item-title>
+                </v-list-item>
               </v-list>
             </v-menu>
           </div>
@@ -93,7 +93,12 @@
         </div>
         <div v-else class="titleEditor">
           <!-- <v-textarea outline height="50px" name="input-7-4"></v-textarea> -->
-          <v-textarea v-model="idea.title" outline name="input-7-4">
+          <v-textarea
+            v-model="idea.title"
+            single-line
+            outlined
+            name="input-7-4"
+          >
           </v-textarea>
         </div>
         <div class="metadata">
@@ -197,15 +202,17 @@
       <!-- Popup - Share Via Email -->
       <v-dialog
         v-model="showEmailShareDialog"
-        class="emailShareDialog"
+        content-class="emailShareDialog"
         persistent
         max-width="400px"
       >
         <form>
           <v-card>
             <v-card-title style="text-align: center;">
-              <div class="shareIcon" style="width:100%;">
-                <v-icon large color="#ffbd27">fas fa-envelope</v-icon>
+              <div style="width: 100%;">
+                <v-icon text class="shareIcon" size="50"
+                  >fas fa-envelope</v-icon
+                >
               </div>
               <div class="headline">
                 <br />
@@ -219,10 +226,9 @@
                     <v-text-field
                       v-model="emailShareForm.name"
                       v-validate="'required|max:100'"
-                      label="Enter your name"
                       :error-messages="errors.collect('name')"
                       data-vv-name="name"
-                      single-line
+                      label="Enter your name"
                       outlined
                     ></v-text-field>
                   </v-flex>
@@ -230,40 +236,46 @@
                     <v-text-field
                       v-model="emailShareForm.friendName"
                       v-validate="'required|max:100'"
-                      label="Enter your friend's name"
                       :error-messages="errors.collect('friend name')"
                       data-vv-name="friend name"
-                      solo
+                      label="Enter friend name"
+                      outlined
                     ></v-text-field>
                   </v-flex>
                   <v-flex xs12>
                     <v-text-field
                       v-model="emailShareForm.friendEmail"
                       v-validate="'required|email|max:100'"
-                      append-icon="email"
-                      label="Your Friend's email address"
                       :error-messages="errors.collect('email')"
                       data-vv-name="email"
-                      solo
-                    >
-                    </v-text-field>
+                      label="Your Friend's email address"
+                      outlined
+                    ></v-text-field>
                   </v-flex>
                 </v-layout>
               </v-container>
             </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                color="red"
-                text
-                class="canceBtn"
-                @click="showEmailShareDialog = false"
-                >Cancel</v-btn
-              >
-              <v-btn color="#ffbd27" class="shareBtn" @click="sendShareEmail()"
-                >Share</v-btn
-              >
-            </v-card-actions>
+            <div class="btn">
+              <v-card-actions>
+                <v-spacer></v-spacer>
+
+                <div>
+                  <v-btn
+                    class="cancleBtn"
+                    text
+                    @click="showEmailShareDialog = false"
+                    >Cancel</v-btn
+                  >
+                </div>
+                <div>
+                  <v-btn
+                    class="specialButton shareBtn"
+                    @click="sendShareEmail()"
+                    >Share</v-btn
+                  >
+                </div>
+              </v-card-actions>
+            </div>
           </v-card>
         </form>
       </v-dialog>
@@ -343,7 +355,6 @@ export default {
       this.snackbarVisible = true
     },
     showIdeaEditor() {
-      debugger
       this.ideaEditContents = this.idea.content
       this.ideaEditorVisible = true
     },
@@ -364,21 +375,6 @@ export default {
   overflow-x: hidden;
   overflow: auto;
   position: relative;
-
-  .emailShareDialog {
-    .headline {
-      text-align: center;
-    }
-
-    .shareIcon {
-      text-align: center;
-      width: 100%;
-    }
-
-    .canceBtn {
-      padding-right: 20px;
-    }
-  }
 
   .profileDetails {
     padding: 20px;
@@ -732,6 +728,27 @@ export default {
       top: 15vh;
       width: 80%;
       z-index: 0;
+    }
+  }
+}
+
+.emailShareDialog {
+  .headline {
+    text-align: center;
+
+    margin: auto;
+  }
+  .shareIcon {
+    color: rgba(255, 185, 45);
+  }
+
+  .btn {
+    padding-bottom: 22px;
+    .cancleBtn {
+      display: inline;
+    }
+    .shareBtn {
+      width: 170px;
     }
   }
 }

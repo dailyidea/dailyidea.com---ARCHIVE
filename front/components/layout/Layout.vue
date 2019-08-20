@@ -88,19 +88,14 @@
             <v-flex xs3 sm3 class="rightSide">
               <!-- Share Idea Button -->
 
-              <v-menu v-show="shareIdeaVisible" class="shareIdea">
-                <template v-slot:activator="{ on }">
-                  <v-icon class="icons menu" v-on="on">fas fa-share-alt</v-icon>
-                </template>
-                <v-list>
-                  <v-list-tile @click="onCopyShareIdeaLink">
-                    <v-list-tile-title>Copy Link</v-list-tile-title>
-                  </v-list-tile>
-                  <v-list-tile @click="$emit('showShareIdeaDialog')">
-                    <v-list-tile-title>Shaer Via Email</v-list-tile-title>
-                  </v-list-tile>
-                </v-list>
-              </v-menu>
+              <v-icon
+                class="icons menu"
+                @click="$emit('showShareIdeaDialog')"
+                v-on="on"
+                >fas fa-envelope</v-icon
+              >
+
+              <!-- Edit btn-->
 
               <v-icon
                 v-if="editIdeaVisible"
@@ -109,10 +104,32 @@
                 >fas fa-pen</v-icon
               >
 
+              <!-- search btn-->
+
               <v-icon v-if="mobileSearchIcon" class="icons menu"
                 >fas fa-search</v-icon
               >
-              <v-icon v-else class="icons menu">fas fa-ellipsis-v</v-icon>
+
+              <!-- side setting-->
+
+              <v-menu v-show="shareIdeaVisible" class="shareIdea">
+                <template v-slot:activator="{ on }">
+                  <v-icon class="icons menu" v-on="on"
+                    >fas fa-ellipsis-v</v-icon
+                  >
+                </template>
+                <v-list>
+                  <v-list-item>
+                    <v-list-item-title>Share</v-list-item-title>
+                  </v-list-item>
+                  <v-list-item @click="onCopyShareIdeaLink">
+                    <v-list-item-title>Copy Direct Link</v-list-item-title>
+                  </v-list-item>
+                  <v-list-item>
+                    <v-list-item-title>Report Idea</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </v-flex>
           </v-layout>
         </v-toolbar>
@@ -343,14 +360,14 @@ export default {
 
         .shareIdea {
           display: inline-block;
-          margin-right: 7px;
+          margin-right: 6px;
         }
 
         i {
           color: #35124e !important;
           padding-bottom: 0px;
           text-align: right;
-          margin-right: 7px;
+          margin-right: 6px;
         }
       }
     }
