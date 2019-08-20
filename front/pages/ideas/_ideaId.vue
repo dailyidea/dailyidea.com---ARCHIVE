@@ -3,7 +3,7 @@
     v-bind="{
       backButton: true,
       loggedInHeader: true,
-      mobileTitle: user.email.toUpperCase() + '\'S IDEA',
+      mobileTitle: mobileTitle,
       shareIdeaVisible: true,
       editIdeaVisible: true,
       onCopyShareIdeaLink: copyShareLink
@@ -13,7 +13,6 @@
   >
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
-
       <!-- Left Side -->
       <v-flex class="profileDetails">
         <!-- Header section - only for desktop -->
@@ -315,11 +314,17 @@ export default {
     ideaEditorVisible: false,
     ideaEditContents: ''
   }),
+  computed: {
+    mobileTitle: function() {
+      console.log(this.user)
+      return this.user.email.toUpperCase() + "'S IDEA"
+    }
+  },
   async asyncData({ app, route, store }) {
     const { data } = await app.$amplifyApi.graphql(
       graphqlOperation(getIdea, { ideaId: route.params.ideaId })
     )
-
+    console.log('user info', store.state.cognito.user)
     return {
       idea: data.getIdea,
       user: { email: store.state.cognito.user.attributes.email }
@@ -327,11 +332,6 @@ export default {
   },
   created() {
     this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
-  },
-  mounted() {
-    this.$root.$on('share', data => {
-      alert('yeee')
-    })
   },
   methods: {
     copyShareLink() {
@@ -350,6 +350,7 @@ export default {
       }
 
       //TODO: Send email from backend
+
       this.snackbarMessage = 'Email sent successfully.'
       this.showEmailShareDialog = false
       this.snackbarVisible = true

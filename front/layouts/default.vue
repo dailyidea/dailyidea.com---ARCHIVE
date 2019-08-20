@@ -78,4 +78,47 @@ export default {
 #app {
   font-family: Quatro;
 }
+
+.v-list-item {
+  &:hover {
+    background: #ffdf01;
+
+    .v-list-item__title: {
+      color: #18141c;
+    }
+  }
+}
+
+/* light theme styles */
+.theme--light.v-btn {
+  background: linear-gradient(to right, #ffbb2a, #ffdf01) !important;
+  box-shadow: none;
+  color: white !important;
+
+  &:hover {
+    background: #ffb92d !important;
+  }
+}
+
+.theme--light.v-btn.v-btn--flat,
+.theme--light.v-btn.v-btn--outlined {
+  background: transparent !important;
+  color: $primary-color !important;
+}
+
+/* dark theme styles */
+.theme--dark.v-btn {
+  background: $primary-color !important;
+  color: white !important;
+
+  &:hover {
+    background: #ffb92d !important;
+  }
+}
+
+.theme--dark.v-btn.v-btn--flat,
+.theme--dark.v-btn.v-btn--outlined {
+  background: transparent !important;
+  color: $primary-color;
+}
 </style>

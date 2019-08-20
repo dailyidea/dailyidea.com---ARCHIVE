@@ -67,9 +67,7 @@
         <!-- Login div at bottom -->
         <div class="loginDiv">
           <div class="loginTitle">Alreay have an account?</div>
-          <v-btn large class="loginBtn" color="primary" to="/auth/login"
-            >LOGIN</v-btn
-          >
+          <v-btn large dark class="loginBtn" to="/auth/login">LOGIN</v-btn>
         </div>
       </v-flex>
 

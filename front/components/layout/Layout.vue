@@ -87,7 +87,6 @@
             <!-- Rightside Icons -->
             <v-flex xs3 sm3 class="rightSide">
               <!-- Share Idea Button -->
-
               <v-icon
                 class="icons menu"
                 @click="$emit('showShareIdeaDialog')"
@@ -95,8 +94,7 @@
                 >fas fa-envelope</v-icon
               >
 
-              <!-- Edit btn-->
-
+              <!-- Edit Idea Icon -->
               <v-icon
                 v-if="editIdeaVisible"
                 class="icons menu"
@@ -104,15 +102,13 @@
                 >fas fa-pen</v-icon
               >
 
-              <!-- search btn-->
-
+              <!-- Search Idea Button -->
               <v-icon v-if="mobileSearchIcon" class="icons menu"
                 >fas fa-search</v-icon
               >
 
               <!-- side setting-->
-
-              <v-menu v-show="shareIdeaVisible" class="shareIdea">
+              <v-menu v-if="shareIdeaVisible" class="shareIdea">
                 <template v-slot:activator="{ on }">
                   <v-icon class="icons menu" v-on="on"
                     >fas fa-ellipsis-v</v-icon
@@ -180,11 +176,16 @@ export default {
       default: false
     },
     onCopyShareIdeaLink: {
-      default: null
+      default: null,
+      type: Function
     },
     editIdeaVisible: {
       type: Boolean,
       default: false
+    },
+    settingsIconVisible: {
+      type: Boolean,
+      default: true
     }
   },
   created() {
@@ -339,6 +340,8 @@ export default {
 
     .mobile {
       padding: 0px 0px;
+      margin-left: 0px;
+      margin-right: 0px;
 
       .text {
         text-align: center;
@@ -375,21 +378,6 @@ export default {
 
   .nuxtContainer {
     padding-top: 56px !important;
-  }
-}
-
-body {
-  .specialButton {
-    background-image: $secondary-gradient;
-    color: white !important;
-    -webkit-box-shadow: 10px 10px 52px -10px rgba(255, 247, 156, 1) !important;
-    -moz-box-shadow: 10px 10px 52px -10px rgba(255, 247, 156, 1) !important;
-    box-shadow: 10px 10px 52px -10px rgba(255, 247, 156, 1) !important;
-
-    &:hover {
-      background-image: none;
-      background: #ffb92d !important;
-    }
   }
 }
 </style>
