@@ -86,8 +86,7 @@ export default {
       this.email = this.$route.params.email
     }
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>
 

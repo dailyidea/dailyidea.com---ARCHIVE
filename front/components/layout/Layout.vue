@@ -136,9 +136,9 @@
   </div>
 </template>
 <script>
-import MobileMenu from '~/components/menuComponent'
+import '@fortawesome/fontawesome-free/css/all.css'
+
 export default {
-  components: { MobileMenu },
   props: {
     backButton: {
       type: Boolean,
