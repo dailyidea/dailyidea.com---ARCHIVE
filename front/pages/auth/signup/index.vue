@@ -157,11 +157,13 @@ export default {
   .mainTable {
     height: 100vh;
     z-index: 100;
+
     .backBtn {
       color: $primary-color;
       position: absolute;
       padding: 25px;
       z-index: 5000;
+
       i {
         font-size: 16px;
       }
@@ -170,6 +172,7 @@ export default {
     .lefgImgContainer {
       position: relative;
       z-index: 10;
+
       .imgPersonWithPhone {
         height: 70vh;
         position: absolute;
@@ -210,6 +213,7 @@ export default {
 
       .logoIcon {
         width: 70px;
+
         @media #{$small-screen} {
           // padding-top: 30vh;
           // background: red !important;
@@ -232,6 +236,7 @@ export default {
         .v-input__prepend-inner {
           padding-right: 15px;
           font-size: 12px;
+
           i {
             // color: red !important;
             font-size: 18px;
@@ -261,6 +266,7 @@ export default {
 
       .socialIconContainer {
         margin-top: 3vh;
+
         button {
           border: 1px solid #ebe7ed;
         }
@@ -268,6 +274,7 @@ export default {
 
       .loginDiv {
         margin-top: 2vh;
+
         .loginTitle {
           font-size: 14px;
           font-weight: normal;
@@ -278,6 +285,7 @@ export default {
           text-align: center;
           color: #c8c7c7;
         }
+
         .loginBtn {
           width: 70%;
           max-width: 400px;

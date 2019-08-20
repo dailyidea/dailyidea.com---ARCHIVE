@@ -13,152 +13,127 @@
   >
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
-      <v-layout row wrap>
-        <!-- Left Side -->
-        <v-flex xs12 sm12 md6 lg6 xl6 class="profileDetails">
-          <!-- Header section -->
-          <v-layout class="sectionHeader" hidden-sm-and-down>
-            <div class="headerLeftSide">
-              <div class="arrowBtn">
-                <v-btn flat small class="leftBtn" fab>
-                  <v-icon> fas fa-arrow-left</v-icon>
-                </v-btn>
-                <v-btn flat small class="leftBtn" fab>
-                  <v-icon>fas fa-arrow-right</v-icon>
-                </v-btn>
-              </div>
-            </div>
 
-            <div class="headerRightSide">
-              <!-- Share Menu -->
-              <v-menu class="shareMenu" offset-y>
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    text
-                    icon
-                    color="light-gray"
-                    class="menu"
-                    @click="showEmailShareDialog = true"
-                    v-on="on"
-                  >
-                    <v-icon>fas fa-envelope</v-icon>
-                  </v-btn>
-                </template>
-              </v-menu>
-
-              <!-- Edit IDea Button-->
-              <v-btn
-                text
-                icon
-                color="gray"
-                size="small"
-                class="menu"
-                @click="showIdeaEditor()"
-              >
-                <v-icon>fas fa-pen</v-icon>
-              </v-btn>
-
-              <!-- Side Settings icon -->
-              <v-menu class="sideMenu" offset-y>
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    text
-                    icon
-                    color="gray"
-                    size="small"
-                    class="menu"
-                    v-on="on"
-                  >
-                    <v-icon>fas fa-ellipsis-v</v-icon>
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-tile>
-                    <v-list-tile-title>Share</v-list-tile-title>
-                  </v-list-tile>
-                  <v-list-tile @click="copyShareLink()">
-                    <v-list-tile-title>Copy Direct Link</v-list-tile-title>
-                  </v-list-tile>
-                  <v-list-tile>
-                    <v-list-tile-title>Report Idea</v-list-tile-title>
-                  </v-list-tile>
-                </v-list>
-              </v-menu>
-            </div>
-          </v-layout>
-
-          <!-- Idea title -->
-          <div v-if="!ideaEditorVisible" class="ideaTitle">
-            <div class="ideaTitle">{{ idea.title }}</div>
-          </div>
-          <div v-else class="titleEditor">
-            <!-- <v-textarea outline height="50px" name="input-7-4"></v-textarea> -->
-            <v-textarea v-model="idea.title" outline name="input-7-4">
-            </v-textarea>
-          </div>
-          <div class="metadata">
-            <span>{{ user.email }}</span>
-            <span class="timing">{{ idea.relativeCreatedTime }}</span>
-          </div>
-
-          <!-- Description -->
-          <div v-if="!ideaEditorVisible" class="ideaDescription">
-            <v-layout v-html="idea.content"> </v-layout>
-          </div>
-          <div v-else class="ideaEditor">
-            <VueTrix
-              v-model="ideaEditContents"
-              class="editor"
-              placeholder="Enter content"
-            />
-            <div class="buttons">
-              <v-btn small color="primary" @click="onSaveIdeaContent()"
-                >Save</v-btn
-              >
-              <v-btn small color="error" @click="ideaEditorVisible = false"
-                >Cancel</v-btn
-              >
-            </div>
-          </div>
-
-          <div class="tagsContainer">
-            <v-chip label class="tag">web</v-chip>
-            <v-chip label class="tag">illustration</v-chip>
-            <v-chip label class="tag">graphics</v-chip>
-            <v-chip label class="tag">ui</v-chip>
-            <v-chip label class="tag">adobe</v-chip>
-            <v-chip label class="tag">interface</v-chip>
-          </div>
-
-          <!-- Engagements & Next Prev -->
-          <v-layout class="engagement-nextPrev" hidden-md-and-up>
-            <!-- Engagement -->
-            <div class="engagement">
-              <div class="ups">
-                <img class="lamp" src="~/assets/images/dark_gray_lamp.png" />
-                <span>609</span>
-              </div>
-              <div class="downs">
-                <img class="cmt" src="~/assets/images/comments.png" />
-                <span>120</span>
-              </div>
-            </div>
-
-            <!-- Mobile Only - next prev button -->
+      <!-- Left Side -->
+      <v-flex class="profileDetails">
+        <!-- Header section - only for desktop -->
+        <v-layout class="sectionHeader" hidden-sm-and-down>
+          <div class="headerLeftSide">
             <div class="arrowBtn">
-              <v-btn flat small class="leftBtn" fab>
+              <v-btn text small class="leftBtn" fab>
                 <v-icon> fas fa-arrow-left</v-icon>
               </v-btn>
-              <v-btn flat small class="leftBtn" fab>
+              <v-btn text small class="leftBtn" fab>
                 <v-icon>fas fa-arrow-right</v-icon>
               </v-btn>
             </div>
-          </v-layout>
-        </v-flex>
+          </div>
 
-        <!-- Right Side -->
-        <v-flex class="rightSideComments" xs12 sm12 md6 lg6 xl6>
-          <v-layout class="cmtAndLike" hidden-sm-and-down>
+          <div class="headerRightSide">
+            <!-- Share Menu -->
+            <v-menu class="shareMenu" offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  text
+                  icon
+                  color="light-gray"
+                  class="menu"
+                  @click="showEmailShareDialog = true"
+                  v-on="on"
+                >
+                  <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+              </template>
+            </v-menu>
+
+            <!-- Edit IDea Button-->
+            <v-btn
+              text
+              icon
+              color="gray"
+              size="small"
+              class="menu"
+              @click="showIdeaEditor()"
+            >
+              <v-icon>fas fa-pen</v-icon>
+            </v-btn>
+
+            <!-- Side Settings icon -->
+            <v-menu class="sideMenu" offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  text
+                  icon
+                  color="gray"
+                  size="small"
+                  class="menu"
+                  v-on="on"
+                >
+                  <v-icon>fas fa-ellipsis-v</v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-tile>
+                  <v-list-tile-title>Share</v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile @click="copyShareLink()">
+                  <v-list-tile-title>Copy Direct Link</v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-title>Report Idea</v-list-tile-title>
+                </v-list-tile>
+              </v-list>
+            </v-menu>
+          </div>
+        </v-layout>
+
+        <!-- Idea title -->
+        <div v-if="!ideaEditorVisible" class="ideaTitle">
+          <div class="ideaTitle">{{ idea.title }}</div>
+        </div>
+        <div v-else class="titleEditor">
+          <!-- <v-textarea outline height="50px" name="input-7-4"></v-textarea> -->
+          <v-textarea v-model="idea.title" outline name="input-7-4">
+          </v-textarea>
+        </div>
+        <div class="metadata">
+          <span>{{ user.email }}</span>
+          <span class="timing">{{ idea.relativeCreatedTime }}</span>
+        </div>
+
+        <!-- Description -->
+        <div v-if="!ideaEditorVisible" class="ideaDescription">
+          <v-layout v-html="idea.content"> </v-layout>
+        </div>
+        <div v-else class="ideaEditor">
+          <VueTrix
+            v-model="ideaEditContents"
+            class="editor"
+            placeholder="Enter content"
+          />
+          <div class="buttons">
+            <v-btn small color="primary" @click="onSaveIdeaContent()"
+              >Save</v-btn
+            >
+            <v-btn small color="error" @click="ideaEditorVisible = false"
+              >Cancel</v-btn
+            >
+          </div>
+        </div>
+
+        <div class="tagsContainer">
+          <v-chip label class="tag">web</v-chip>
+          <v-chip label class="tag">illustration</v-chip>
+          <v-chip label class="tag">graphics</v-chip>
+          <v-chip label class="tag">ui</v-chip>
+          <v-chip label class="tag">adobe</v-chip>
+          <v-chip label class="tag">interface</v-chip>
+        </div>
+
+        <!-- Engagements & Next Prev -->
+        <v-layout class="engagement-nextPrev" hidden-md-and-up>
+          <!-- Engagement -->
+          <div class="engagement">
             <div class="ups">
               <img class="lamp" src="~/assets/images/dark_gray_lamp.png" />
               <span>609</span>
@@ -167,21 +142,45 @@
               <img class="cmt" src="~/assets/images/comments.png" />
               <span>120</span>
             </div>
-          </v-layout>
-
-          <!-- Comment List -->
-          <div v-for="i in 60" :key="i" class="commentItem">
-            <div class="header">
-              <div class="commentUser">Name Surname</div>
-              <div class="timing">1h</div>
-            </div>
-            <div class="commentText">
-              Excepteur sint occaecat lorem cupidatat non proident, sunt in
-              dolor sit amet consecteturdfd
-            </div>
           </div>
-        </v-flex>
-      </v-layout>
+
+          <!-- Mobile Only - next prev button -->
+          <div class="arrowBtn">
+            <v-btn text small class="leftBtn" fab>
+              <v-icon> fas fa-arrow-left</v-icon>
+            </v-btn>
+            <v-btn text small class="leftBtn" fab>
+              <v-icon>fas fa-arrow-right</v-icon>
+            </v-btn>
+          </div>
+        </v-layout>
+      </v-flex>
+
+      <!-- Right Side -->
+      <v-flex class="rightSideComments">
+        <v-layout class="cmtAndLike" hidden-sm-and-down>
+          <div class="ups">
+            <img class="lamp" src="~/assets/images/dark_gray_lamp.png" />
+            <span>609</span>
+          </div>
+          <div class="downs">
+            <img class="cmt" src="~/assets/images/comments.png" />
+            <span>120</span>
+          </div>
+        </v-layout>
+
+        <!-- Comment List -->
+        <div v-for="i in 60" :key="i" class="commentItem">
+          <div class="header">
+            <div class="commentUser">Name Surname</div>
+            <div class="timing">1h</div>
+          </div>
+          <div class="commentText">
+            Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor
+            sit amet consecteturdfd
+          </div>
+        </div>
+      </v-flex>
 
       <!-- Foter with textbox -->
       <div class="pageFooter">
@@ -256,7 +255,7 @@
               <v-spacer></v-spacer>
               <v-btn
                 color="red"
-                flat
+                text
                 class="canceBtn"
                 @click="showEmailShareDialog = false"
                 >Cancel</v-btn
@@ -272,7 +271,7 @@
       <!-- Bottom snackbar message -->
       <v-snackbar v-model="snackbarVisible" :timeout="6000">
         {{ snackbarMessage }}
-        <v-btn color="white" flat @click="snackbarVisible = false">
+        <v-btn color="white" text @click="snackbarVisible = false">
           Close
         </v-btn>
       </v-snackbar>
@@ -365,11 +364,6 @@ export default {
   overflow-x: hidden;
   overflow: auto;
   position: relative;
-
-  @media #{$desktop} {
-    height: 90vh;
-    overflow-y: hidden;
-  }
 
   .emailShareDialog {
     .headline {
@@ -611,11 +605,6 @@ export default {
         padding-top: 2px;
         margin-right: 5px;
       }
-    }
-
-    @media #{$desktop} {
-      height: 90vh;
-      overflow: auto;
     }
 
     @media #{$small-screen} {

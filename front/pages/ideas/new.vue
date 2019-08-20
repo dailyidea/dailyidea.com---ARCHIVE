@@ -47,7 +47,7 @@
     <!-- Bottom snackbar message -->
     <v-snackbar v-model="snackbarVisible" :timeout="6000">
       {{ snackbarMessage }}
-      <v-btn color="white" flat @click="snackbarVisible = false">
+      <v-btn color="white" text @click="snackbarVisible = false">
         Close
       </v-btn>
     </v-snackbar>

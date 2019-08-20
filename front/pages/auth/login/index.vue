@@ -137,6 +137,7 @@ export default {
     top: 4vh;
     left: 3vh;
     z-index: 100;
+
     i {
       font-size: 16px;
     }
@@ -190,6 +191,7 @@ export default {
 
       .logoIcon {
         width: 20vh;
+
         @media #{$small-screen} {
           // padding-top: 30vh;
           // background: red !important;
@@ -205,6 +207,7 @@ export default {
       .emailInput {
         margin-top: 7vh !important;
         margin-bottom: 20px;
+
         .v-input__prepend-inner {
           padding-right: 15px;
         }
@@ -238,6 +241,7 @@ export default {
 
       .socialIconContainer {
         margin-top: 6vh;
+
         button {
           border: 1px solid #ebe7ed;
         }
