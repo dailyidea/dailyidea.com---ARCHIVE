@@ -1,12 +1,16 @@
 <template>
-  <Layout v-bind="{
+  <Layout
+    v-bind="{
       backButton: true,
       loggedInHeader: true,
       mobileTitle: mobileTitle,
       shareIdeaVisible: true,
       editIdeaVisible: true,
       onCopyShareIdeaLink: copyShareLink
-    }" @showShareIdeaDialog="showShareIdeaDialog" @onEditIdea="showIdeaEditor">
+    }"
+    @showShareIdeaDialog="showShareIdeaDialog"
+    @onEditIdea="showIdeaEditor"
+  >
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
       <!-- Left Side -->
@@ -28,21 +32,42 @@
             <!-- Share Menu -->
             <v-menu class="shareMenu" offset-y>
               <template v-slot:activator="{ on }">
-                <v-btn text icon color="light-gray" class="menu" @click="showEmailShareDialog = true" v-on="on">
+                <v-btn
+                  text
+                  icon
+                  color="light-gray"
+                  class="menu"
+                  @click="showEmailShareDialog = true"
+                  v-on="on"
+                >
                   <v-icon>fas fa-envelope</v-icon>
                 </v-btn>
               </template>
             </v-menu>
 
             <!-- Edit IDea Button-->
-            <v-btn text icon color="gray" size="small" class="menu" @click="showIdeaEditor()">
+            <v-btn
+              text
+              icon
+              color="gray"
+              size="small"
+              class="menu"
+              @click="showIdeaEditor()"
+            >
               <v-icon>fas fa-pen</v-icon>
             </v-btn>
 
             <!-- Side Settings icon -->
             <v-menu class="sideMenu" offset-y>
               <template v-slot:activator="{ on }">
-                <v-btn text icon color="gray" size="small" class="menu" v-on="on">
+                <v-btn
+                  text
+                  icon
+                  color="gray"
+                  size="small"
+                  class="menu"
+                  v-on="on"
+                >
                   <v-icon>fas fa-ellipsis-v</v-icon>
                 </v-btn>
               </template>
@@ -80,20 +105,41 @@
           <v-layout v-html="idea.content"> </v-layout>
         </div>
         <div v-else class="ideaEditor">
-          <VueTrix v-model="ideaEditContents" class="editor" placeholder="Enter content" />
+          <VueTrix
+            v-model="ideaEditContents"
+            class="editor"
+            placeholder="Enter content"
+          />
           <div class="buttons">
-            <v-btn small color="primary" @click="onSaveIdeaContent()">Save</v-btn>
-            <v-btn text small color="error" @click="ideaEditorVisible = false">Cancel</v-btn>
+            <v-btn small color="primary" @click="onSaveIdeaContent()"
+              >Save</v-btn
+            >
+            <v-btn text small color="error" @click="ideaEditorVisible = false"
+              >Cancel</v-btn
+            >
           </div>
         </div>
 
         <!-- Tags -->
         <div v-if="!ideaEditorVisible" class="tagsContainer">
-          <v-chip label class="tag" v-for="(tag, index) in ideaTags" :key="index">{{tag}}</v-chip>
+          <v-chip
+            v-for="(tag, index) in ideaTags"
+            :key="index"
+            label
+            class="tag"
+            >{{ tag }}</v-chip
+          >
         </div>
         <div v-else class="ideaEditor">
-          <v-chip label class="tag" v-for="(tag, index) in ideaTags" :key="index" close
-            @click:close="onRemoveChip(index)">{{tag}}</v-chip>
+          <v-chip
+            v-for="(tag, index) in ideaTags"
+            :key="index"
+            label
+            class="tag"
+            close
+            @click:close="onRemoveChip(index)"
+            >{{ tag }}</v-chip
+          >
         </div>
 
         <!-- Engagements & Next Prev -->
@@ -150,12 +196,23 @@
 
       <!-- Foter with textbox -->
       <div class="pageFooter">
-        <v-text-field class="newCommentInput" flat solo label="Say something..." large></v-text-field>
+        <v-text-field
+          class="newCommentInput"
+          flat
+          solo
+          label="Say something..."
+          large
+        ></v-text-field>
         <v-icon class="sendBtn">fas fa-arrow-right</v-icon>
       </div>
 
       <!-- Popup - Share Via Email -->
-      <v-dialog v-model="showEmailShareDialog" content-class="emailShareDialog" persistent max-width="500px">
+      <v-dialog
+        v-model="showEmailShareDialog"
+        content-class="emailShareDialog"
+        persistent
+        max-width="500px"
+      >
         <form>
           <!-- Popup Header -->
           <div class="header">
@@ -168,23 +225,43 @@
 
           <!-- Text Fields -->
           <div>
-            <v-text-field v-model="emailShareForm.name" v-validate="'required|max:100'"
-              :error-messages="errors.collect('name')" data-vv-name="name" label="Enter your name" outlined>
+            <v-text-field
+              v-model="emailShareForm.name"
+              v-validate="'required|max:100'"
+              :error-messages="errors.collect('name')"
+              data-vv-name="name"
+              label="Enter your name"
+              outlined
+            >
             </v-text-field>
 
-            <v-text-field v-model="emailShareForm.friendName" v-validate="'required|max:100'"
-              :error-messages="errors.collect('friend name')" data-vv-name="friend name" label="Enter friend name"
-              outlined></v-text-field>
+            <v-text-field
+              v-model="emailShareForm.friendName"
+              v-validate="'required|max:100'"
+              :error-messages="errors.collect('friend name')"
+              data-vv-name="friend name"
+              label="Enter friend name"
+              outlined
+            ></v-text-field>
 
-            <v-text-field v-model="emailShareForm.friendEmail" v-validate="'required|email|max:100'"
-              :error-messages="errors.collect('email')" data-vv-name="email" label="Your Friend's email address"
-              outlined></v-text-field>
+            <v-text-field
+              v-model="emailShareForm.friendEmail"
+              v-validate="'required|email|max:100'"
+              :error-messages="errors.collect('email')"
+              data-vv-name="email"
+              label="Your Friend's email address"
+              outlined
+            ></v-text-field>
           </div>
 
           <!-- Submit Buttons -->
           <div class="btnContainer">
-            <v-btn class="cancleBtn" text @click="showEmailShareDialog = false">Cancel</v-btn>
-            <v-btn class="specialButton shareBtn" @click="sendShareEmail()">Share</v-btn>
+            <v-btn class="cancleBtn" text @click="showEmailShareDialog = false"
+              >Cancel</v-btn
+            >
+            <v-btn class="specialButton shareBtn" @click="sendShareEmail()"
+              >Share</v-btn
+            >
           </div>
         </form>
       </v-dialog>
@@ -200,476 +277,484 @@
   </Layout>
 </template>
 <script>
-  import { graphqlOperation } from '@aws-amplify/api'
-  import dayjs from 'dayjs'
-  import relativeTime from 'dayjs/plugin/relativeTime'
-  import getIdea from '~/graphql/mutations/getIdea'
-  import Layout from '@/components/layout/Layout'
-  dayjs.extend(relativeTime)
+import { graphqlOperation } from '@aws-amplify/api'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import getIdea from '~/graphql/mutations/getIdea'
+import Layout from '@/components/layout/Layout'
+dayjs.extend(relativeTime)
 
-  export default {
-    components: { Layout },
-    $_veeValidate: {
-      validator: 'new'
+export default {
+  components: { Layout },
+  $_veeValidate: {
+    validator: 'new'
+  },
+  data: () => ({
+    snackbarVisible: false,
+    snackbarMessage: '',
+    showEmailShareDialog: false,
+    emailShareForm: {
+      name: '',
+      friendName: '',
+      friendEmail: ''
     },
-    data: () => ({
-      snackbarVisible: false,
-      snackbarMessage: '',
-      showEmailShareDialog: false,
-      emailShareForm: {
-        name: '',
-        friendName: '',
-        friendEmail: ''
-      },
-      ideaEditorVisible: false,
-      ideaEditContents: ''
-    }),
-    computed: {
-      mobileTitle: function () {
-        console.log(this.user)
-        return this.user.email.toUpperCase() + "'S IDEA"
+    ideaEditorVisible: false,
+    ideaEditContents: ''
+  }),
+  computed: {
+    mobileTitle: function() {
+      console.log(this.user)
+      return this.user.email.toUpperCase() + "'S IDEA"
+    }
+  },
+  async asyncData({ app, route, store }) {
+    const { data } = await app.$amplifyApi.graphql(
+      graphqlOperation(getIdea, { ideaId: route.params.ideaId })
+    )
+
+    let ideaTags = [
+      'web',
+      'illustration',
+      'graphics',
+      'ui',
+      'adobe',
+      'interface'
+    ]
+    return {
+      idea: data.getIdea,
+      user: { email: store.state.cognito.user.attributes.email },
+      ideaTags: ideaTags
+    }
+  },
+  created() {
+    this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
+  },
+  methods: {
+    copyShareLink() {
+      this.$clipboard(window.location.href)
+      this.snackbarMessage = 'Link copied'
+      this.snackbarVisible = true
+    },
+    showShareIdeaDialog() {
+      this.showEmailShareDialog = true
+    },
+    async sendShareEmail() {
+      //Validate input fields
+      let result = await this.$validator.validateAll()
+      if (!result) {
+        return
       }
-    },
-    async asyncData({ app, route, store }) {
-      const { data } = await app.$amplifyApi.graphql(
-        graphqlOperation(getIdea, { ideaId: route.params.ideaId })
-      )
 
-      let ideaTags = ['web', 'illustration', 'graphics', 'ui', 'adobe', 'interface']
-      return {
-        idea: data.getIdea,
-        user: { email: store.state.cognito.user.attributes.email },
-        ideaTags: ideaTags
-      }
-    },
-    created() {
-      this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
-    },
-    methods: {
-      copyShareLink() {
-        this.$clipboard(window.location.href)
-        this.snackbarMessage = 'Link copied'
-        this.snackbarVisible = true
-      },
-      showShareIdeaDialog() {
-        this.showEmailShareDialog = true
-      },
-      async sendShareEmail() {
-        //Validate input fields
-        let result = await this.$validator.validateAll()
-        if (!result) {
-          return
-        }
+      //TODO: Send email from backend
 
-        //TODO: Send email from backend
-
-        this.snackbarMessage = 'Email sent successfully.'
-        this.showEmailShareDialog = false
-        this.snackbarVisible = true
-      },
-      showIdeaEditor() {
-        this.ideaEditContents = this.idea.content
-        this.ideaEditorVisible = true
-      },
-      onRemoveChip(index) {
-        this.ideaTags.splice(index, 1);
-      },
-      onSaveIdeaContent() {
-        this.idea.content = this.ideaEditContents
-        this.ideaEditorVisible = false
-      }
+      this.snackbarMessage = 'Email sent successfully.'
+      this.showEmailShareDialog = false
+      this.snackbarVisible = true
+    },
+    showIdeaEditor() {
+      this.ideaEditContents = this.idea.content
+      this.ideaEditorVisible = true
+    },
+    onRemoveChip(index) {
+      this.ideaTags.splice(index, 1)
+    },
+    onSaveIdeaContent() {
+      this.idea.content = this.ideaEditContents
+      this.ideaEditorVisible = false
     }
   }
+}
 </script>
 
 <style lang="scss">
-  #ideaDetailPage {
-    background: #ebe7ed;
-    padding-bottom: 2vh;
-    display: block;
-    width: 100%;
-    overflow-x: hidden;
+#ideaDetailPage {
+  background: #ebe7ed;
+  padding-bottom: 2vh;
+  display: block;
+  width: 100%;
+  overflow-x: hidden;
+  overflow: auto;
+  position: relative;
+
+  .profileDetails {
+    padding: 20px;
+    background: white;
     overflow: auto;
-    position: relative;
 
-    .profileDetails {
-      padding: 20px;
-      background: white;
-      overflow: auto;
+    @media #{$small-screen} {
+      padding-right: 5%;
+      padding-left: 5%;
+    }
 
-      @media #{$small-screen} {
-        padding-right: 5%;
-        padding-left: 5%;
+    .sectionHeader {
+      display: flex;
+
+      i {
+        line-height: 20px;
+        font-size: 15px;
+        color: #35124e;
       }
 
-      .sectionHeader {
-        display: flex;
+      .headerLeftSide {
+        flex: 1;
+      }
 
-        i {
-          line-height: 20px;
-          font-size: 15px;
-          color: #35124e;
-        }
+      .headerRightSide {
+        flex: 1;
+        text-align: right;
 
-        .headerLeftSide {
-          flex: 1;
-        }
+        button {
+          i {
+            color: #c0b7c5;
+          }
 
-        .headerRightSide {
-          flex: 1;
-          text-align: right;
-
-          button {
+          &:hover {
             i {
-              color: #c0b7c5;
-            }
-
-            &:hover {
-              i {
-                color: #35124e;
-              }
+              color: #35124e;
             }
           }
         }
+      }
 
-        .shareMenu {
+      .shareMenu {
+        display: inline-block;
+
+        .arrowBtn {
           display: inline-block;
-
-          .arrowBtn {
-            display: inline-block;
-          }
-
-          @media #{$small-screen} {
-            padding-left: 10px;
-            margin: 0px;
-            border: 1px solid red;
-          }
-        }
-
-        .menu {
-          margin: 0px;
-
-          /* border: 1px solid red; */
-        }
-      }
-
-      .ideaTitle {
-        padding-top: 10px;
-        padding-bottom: 20px;
-        font-size: 30px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.11;
-        letter-spacing: normal;
-        text-align: left;
-        color: #18141c;
-      }
-
-      .metadata {
-        padding-left: 20px;
-        font-size: 12px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.83;
-        letter-spacing: normal;
-        text-align: left;
-        color: #b5b5b5;
-
-        .timing {
-          padding-left: 40px;
-        }
-      }
-
-      .ideaDescription {
-        margin-top: 20px;
-
-        .buttons {
-          text-align: right;
         }
 
         @media #{$small-screen} {
-          padding-top: 20px;
-        }
-
-        font-size: 15px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.5;
-        letter-spacing: normal;
-        text-align: left;
-        color: #18141c;
-      }
-
-      .ideaEditor {
-        margin-top: 20px;
-
-        .buttons {
-          margin-top: 10px;
-
-          button {
-            margin-left: 0px;
-          }
-        }
-
-        .editor {
-          .trix-content {
-            height: 170px !important;
-            max-height: 200px !important;
-            overflow-y: auto;
-          }
+          padding-left: 10px;
+          margin: 0px;
+          border: 1px solid red;
         }
       }
 
-      .tagsContainer {
-        margin-top: 20px;
+      .menu {
+        margin: 0px;
 
-        .tag {
-          margin: 0px 2px 10px 2px;
-          border-radius: 6px;
-          background-color: #c0b7c5;
-          color: white;
+        /* border: 1px solid red; */
+      }
+    }
+
+    .ideaTitle {
+      padding-top: 10px;
+      padding-bottom: 20px;
+      font-size: 30px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.11;
+      letter-spacing: normal;
+      text-align: left;
+      color: #18141c;
+    }
+
+    .metadata {
+      padding-left: 20px;
+      font-size: 12px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.83;
+      letter-spacing: normal;
+      text-align: left;
+      color: #b5b5b5;
+
+      .timing {
+        padding-left: 40px;
+      }
+    }
+
+    .ideaDescription {
+      margin-top: 20px;
+
+      .buttons {
+        text-align: right;
+      }
+
+      @media #{$small-screen} {
+        padding-top: 20px;
+      }
+
+      font-size: 15px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.5;
+      letter-spacing: normal;
+      text-align: left;
+      color: #18141c;
+    }
+
+    .ideaEditor {
+      margin-top: 20px;
+
+      .buttons {
+        margin-top: 10px;
+
+        button {
+          margin-left: 0px;
         }
       }
 
-      .engagement-nextPrev {
-        display: flex;
-        margin-top: 15px;
-
-        .engagement {
-          flex: 1;
-          padding-top: 12px;
-          margin-bottom: 5px;
-          padding-left: 5px;
-
-          font-size: 18px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          letter-spacing: normal;
-          text-align: left;
-          color: #c0b7c5;
-
-          div {
-            display: inline-block;
-            margin-right: 10px;
-          }
-
-          img {
-            height: 14px;
-            margin-right: 5px;
-          }
-
-          img,
-          .lamp {
-            margin-right: 2px;
-          }
-        }
-
-        .nextPrev {
-          flex: 1;
-
-          .arrowBtn {
-            display: inline-block;
-
-            i {
-              font-size: 18px;
-            }
-          }
+      .editor {
+        .trix-content {
+          height: 170px !important;
+          max-height: 200px !important;
+          overflow-y: auto;
         }
       }
     }
 
-    .rightSideComments {
-      padding-right: 10px;
-      padding-left: 10px;
-      padding-top: 15px;
-      padding-bottom: 50px;
-      font-size: 16px;
+    .tagsContainer {
+      margin-top: 20px;
 
-      .cmtAndLike {
-        color: #231031;
-        display: flex;
-        font-weight: bold;
-        padding: 10px 15px 0px 15px;
+      .tag {
+        margin: 0px 2px 10px 2px;
+        border-radius: 6px;
+        background-color: #c0b7c5;
+        color: white;
+      }
+    }
 
-        .ups {
-          flex: 1;
-        }
+    .engagement-nextPrev {
+      display: flex;
+      margin-top: 15px;
 
-        .downs {
-          flex: 1;
-          text-align: right;
+      .engagement {
+        flex: 1;
+        padding-top: 12px;
+        margin-bottom: 5px;
+        padding-left: 5px;
+
+        font-size: 18px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #c0b7c5;
+
+        div {
+          display: inline-block;
+          margin-right: 10px;
         }
 
         img {
-          display: inline-block;
-          height: 16px;
-          padding-top: 2px;
+          height: 14px;
           margin-right: 5px;
         }
+
+        img,
+        .lamp {
+          margin-right: 2px;
+        }
       }
+
+      .nextPrev {
+        flex: 1;
+
+        .arrowBtn {
+          display: inline-block;
+
+          i {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+
+  .rightSideComments {
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 15px;
+    padding-bottom: 50px;
+    font-size: 16px;
+
+    .cmtAndLike {
+      color: #231031;
+      display: flex;
+      font-weight: bold;
+      padding: 10px 15px 0px 15px;
+
+      .ups {
+        flex: 1;
+      }
+
+      .downs {
+        flex: 1;
+        text-align: right;
+      }
+
+      img {
+        display: inline-block;
+        height: 16px;
+        padding-top: 2px;
+        margin-right: 5px;
+      }
+    }
+
+    @media #{$small-screen} {
+      padding-right: 0%;
+      padding-left: 0%;
+    }
+
+    .commentTotal {
+      padding: 25px 0px 10px 15px;
+
+      font-size: 14px;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.57;
+      letter-spacing: 0.42px;
+      color: #232323;
+    }
+
+    .commentItem {
+      margin: 15px;
+      padding: 10px;
+      background-color: #ffffff;
+      border-radius: 0px 7px 7px 7px;
 
       @media #{$small-screen} {
-        padding-right: 0%;
-        padding-left: 0%;
+        border-left: 0px;
+        border-right: 0px;
+        border-bottom: none;
+        margin-top: 0px;
       }
 
-      .commentTotal {
-        padding: 25px 0px 10px 15px;
+      .header {
+        .commentUser {
+          padding-bottom: 3px;
+          display: inline-block;
 
-        font-size: 14px;
-        font-weight: 600;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.57;
-        letter-spacing: 0.42px;
-        color: #232323;
-      }
-
-      .commentItem {
-        margin: 15px;
-        padding: 10px;
-        background-color: #ffffff;
-        border-radius: 0px 7px 7px 7px;
-
-        @media #{$small-screen} {
-          border-left: 0px;
-          border-right: 0px;
-          border-bottom: none;
-          margin-top: 0px;
-        }
-
-        .header {
-          .commentUser {
-            padding-bottom: 3px;
-            display: inline-block;
-
-            font-size: 12px;
-            font-weight: normal;
-            font-style: normal;
-            font-stretch: normal;
-            line-height: 1.83;
-            letter-spacing: normal;
-            text-align: left;
-            color: #b5b5b5;
-          }
-
-          .timing {
-            float: right;
-            font-size: 12px;
-            font-weight: normal;
-            font-style: normal;
-            font-stretch: normal;
-            // line-height: 1.83;
-            letter-spacing: normal;
-            text-align: right;
-            color: #c0b7c5;
-          }
-        }
-
-        .commentText {
-          width: 100%;
-          display: block;
-
-          @media #{$small-screen} {
-            padding-top: 3px;
-          }
-
-          font-size: 14px;
+          font-size: 12px;
           font-weight: normal;
           font-style: normal;
           font-stretch: normal;
-          line-height: 1.57;
+          line-height: 1.83;
           letter-spacing: normal;
           text-align: left;
-          color: #827c85;
-        }
-      }
-    }
-
-    .pageFooter {
-      position: fixed;
-      width: 100%;
-      bottom: 0;
-      left: 0;
-      background: white;
-      z-index: 100;
-
-      height: 68px;
-      padding-top: 10px;
-      padding-left: 10px;
-      -webkit-backdrop-filter: blur(30px);
-      backdrop-filter: blur(30px);
-      box-shadow: 0 -10px 10px 0 rgba(228, 228, 228, 0.73);
-      background-color: #ffffff;
-
-      .newCommentInput {
-        .v-input__slot {
-          margin-bottom: 0px;
+          color: #b5b5b5;
         }
 
-        .v-text-field__details {
-          display: none;
+        .timing {
+          float: right;
+          font-size: 12px;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          // line-height: 1.83;
+          letter-spacing: normal;
+          text-align: right;
+          color: #c0b7c5;
         }
       }
 
-      .sendBtn {
-        position: absolute;
-        top: 24px;
-        right: 19px;
-        font-size: 21px;
-        color: #d4bb10;
-      }
-    }
+      .commentText {
+        width: 100%;
+        display: block;
 
-    .backgroundLamp {
-      position: absolute;
-      left: -10%;
-      top: 25vh;
-      width: 20%;
-      z-index: 0;
+        @media #{$small-screen} {
+          padding-top: 3px;
+        }
 
-      @media #{$small-screen} {
-        left: 60%;
-        top: 15vh;
-        width: 80%;
-        z-index: 0;
+        font-size: 14px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.57;
+        letter-spacing: normal;
+        text-align: left;
+        color: #827c85;
       }
     }
   }
 
-  .emailShareDialog {
-    padding: 45px 20px 20px 20px;
+  .pageFooter {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
     background: white;
+    z-index: 100;
 
-    .header {
-      text-align: center;
-      margin-bottom: 30px;
+    height: 68px;
+    padding-top: 10px;
+    padding-left: 10px;
+    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 -10px 10px 0 rgba(228, 228, 228, 0.73);
+    background-color: #ffffff;
 
-      .headlineText {
-        margin-top: 10px;
-        font-size: 25px;
-        font-family: Quatro;
+    .newCommentInput {
+      .v-input__slot {
+        margin-bottom: 0px;
+      }
+
+      .v-text-field__details {
+        display: none;
       }
     }
 
-    .shareIcon {
-      color: rgba(255, 185, 45);
-    }
-
-    .btnContainer {
-      margin-top: 20px;
-      margin-bottom: 20px;
-      text-align: right;
-
-      .cancleBtn {}
-
-      .shareBtn {
-        width: 170px;
-      }
+    .sendBtn {
+      position: absolute;
+      top: 24px;
+      right: 19px;
+      font-size: 21px;
+      color: #d4bb10;
     }
   }
+
+  .backgroundLamp {
+    position: absolute;
+    left: -10%;
+    top: 25vh;
+    width: 20%;
+    z-index: 0;
+
+    @media #{$small-screen} {
+      left: 60%;
+      top: 15vh;
+      width: 80%;
+      z-index: 0;
+    }
+  }
+}
+
+.emailShareDialog {
+  padding: 45px 20px 20px 20px;
+  background: white;
+
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+
+    .headlineText {
+      margin-top: 10px;
+      font-size: 25px;
+      font-family: Quatro;
+    }
+  }
+
+  .shareIcon {
+    color: rgba(255, 185, 45);
+  }
+
+  .btnContainer {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: right;
+
+    .cancleBtn {
+    }
+
+    .shareBtn {
+      width: 170px;
+    }
+  }
+}
 </style>

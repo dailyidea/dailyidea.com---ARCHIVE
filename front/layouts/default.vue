@@ -6,105 +6,119 @@
   </v-app>
 </template>
 <script>
-  import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/css/all.css'
 
-  export default {
-    components: {}
-  }
+export default {
+  components: {}
+}
 </script>
 
 <style lang="scss">
-  @font-face {
-    font-family: 'QuatroBold';
-    src: url('/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot');
-    /* IE9*/
-    src: url('/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot?#iefix') format('embedded-opentype'),
-      /* IE6-IE8 */
-      url('/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff2') format('woff2'),
-      /* chrome、firefox */
-      url('/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff') format('woff'),
-      /* chrome、firefox */
-      url('/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.ttf') format('truetype'),
-      /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-      url('/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.svg#QuatroBold') format('svg');
-    /* iOS 4.1- */
-  }
+@font-face {
+  font-family: 'QuatroBold';
+  src: url('/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot');
+  /* IE9*/
+  src: url('/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot?#iefix')
+      format('embedded-opentype'),
+    /* IE6-IE8 */
+      url('/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff2')
+      format('woff2'),
+    /* chrome、firefox */
+      url('/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff')
+      format('woff'),
+    /* chrome、firefox */
+      url('/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.ttf')
+      format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      url('/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.svg#QuatroBold')
+      format('svg');
+  /* iOS 4.1- */
+}
 
-  @font-face {
-    font-family: 'Quatro';
-    src: url('/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot');
-    /* IE9*/
-    src: url('/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot?#iefix') format('embedded-opentype'),
-      /* IE6-IE8 */
-      url('/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff2') format('woff2'),
-      /* chrome、firefox */
-      url('/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff') format('woff'),
-      /* chrome、firefox */
-      url('/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.ttf') format('truetype'),
-      /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+@font-face {
+  font-family: 'Quatro';
+  src: url('/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot');
+  /* IE9*/
+  src: url('/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot?#iefix')
+      format('embedded-opentype'),
+    /* IE6-IE8 */
+      url('/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff2')
+      format('woff2'),
+    /* chrome、firefox */
+      url('/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff')
+      format('woff'),
+    /* chrome、firefox */
+      url('/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.ttf')
+      format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
       url('/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.svg#Quatro');
-  }
+}
 
-  @font-face {
-    font-family: 'QuatroLight';
-    src: url('/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot');
-    /* IE9*/
-    src: url('/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot?#iefix') format('embedded-opentype'),
-      /* IE6-IE8 */
-      url('/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff2') format('woff2'),
-      /* chrome、firefox */
-      url('/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff') format('woff'),
-      /* chrome、firefox */
-      url('/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.ttf') format('truetype'),
-      /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-      url('/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.svg#QuatroLight') format('svg');
-    /* iOS 4.1- */
-  }
+@font-face {
+  font-family: 'QuatroLight';
+  src: url('/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot');
+  /* IE9*/
+  src: url('/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot?#iefix')
+      format('embedded-opentype'),
+    /* IE6-IE8 */
+      url('/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff2')
+      format('woff2'),
+    /* chrome、firefox */
+      url('/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff')
+      format('woff'),
+    /* chrome、firefox */
+      url('/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.ttf')
+      format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      url('/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.svg#QuatroLight')
+      format('svg');
+  /* iOS 4.1- */
+}
 
-  #app {
-    font-family: Quatro;
-  }
+#app {
+  font-family: Quatro;
+}
 
-  .v-list-item {
-    &:hover {
-      background: #ffdf01;
+.v-list-item {
+  &:hover {
+    background: #ffdf01;
 
-      .v-list-item__title: {
-        color: #18141c;
-      }
+    .v-list-item__title: {
+      color: #18141c;
     }
   }
+}
 
-  /* light theme styles */
-  .theme--light.v-btn {
-    background: linear-gradient(to right, #ffbb2a, #ffdf01) !important;
-    box-shadow: none;
-    color: white !important;
+/* light theme styles */
+.theme--light.v-btn {
+  background: linear-gradient(to right, #ffbb2a, #ffdf01) !important;
+  box-shadow: none;
+  color: white !important;
 
-    &:hover {
-      background: #ffb92d !important;
-    }
+  &:hover {
+    background: #ffb92d !important;
   }
+}
 
-  .theme--light.v-btn.v-btn--flat,
-  .theme--light.v-btn.v-btn--outlined {
-    background: transparent !important;
-    color: $primary-color !important;
-  }
+.theme--light.v-btn.v-btn--flat,
+.theme--light.v-btn.v-btn--outlined {
+  background: transparent !important;
+  color: $primary-color !important;
+}
 
-  /* dark theme styles */
-  .theme--dark.v-btn {
+/* dark theme styles */
+.theme--dark.v-btn {
+  background: $primary-color !important;
+  color: white !important;
+
+  &:hover {
     background: $primary-color !important;
-    color: white !important;
-
-    &:hover {
-      background: $primary-color !important;
-    }
   }
+}
 
-  .theme--dark.v-btn.v-btn--flat,
-  .theme--dark.v-btn.v-btn--outlined {
-    background: transparent !important;
-    color: $primary-color;
-  }
+.theme--dark.v-btn.v-btn--flat,
+.theme--dark.v-btn.v-btn--outlined {
+  background: transparent !important;
+  color: $primary-color;
+}
 </style>
