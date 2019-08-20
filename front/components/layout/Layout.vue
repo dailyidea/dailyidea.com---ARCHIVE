@@ -87,9 +87,8 @@
             <!-- Rightside Icons -->
             <v-flex xs3 sm3 class="rightSide">
               <!-- Share Idea Button -->
-
               <v-menu v-show="shareIdeaVisible" class="shareIdea">
-                <template v-slot:activator="{ on }">
+                <template v-if="shareIdeaVisible" v-slot:activator="{ on }">
                   <v-icon class="icons menu" v-on="on">fas fa-share-alt</v-icon>
                 </template>
                 <v-list>
@@ -102,6 +101,7 @@
                 </v-list>
               </v-menu>
 
+              <!-- Edit Idea Icon -->
               <v-icon
                 v-if="editIdeaVisible"
                 class="icons menu"
@@ -109,10 +109,15 @@
                 >fas fa-pen</v-icon
               >
 
+              <!-- Search Idea Button -->
               <v-icon v-if="mobileSearchIcon" class="icons menu"
                 >fas fa-search</v-icon
               >
-              <v-icon v-else class="icons menu">fas fa-ellipsis-v</v-icon>
+
+              <!-- Settings Icon -->
+              <v-icon v-else-if="settingsIconVisible" class="icons menu"
+                >fas fa-ellipsis-v</v-icon
+              >
             </v-flex>
           </v-layout>
         </v-toolbar>
@@ -168,6 +173,10 @@ export default {
     editIdeaVisible: {
       type: Boolean,
       default: false
+    },
+    settingsIconVisible: {
+      type: Boolean,
+      default: true
     }
   },
   created() {
@@ -322,6 +331,8 @@ export default {
 
     .mobile {
       padding: 0px 0px;
+      margin-left: 0px;
+      margin-right: 0px;
 
       .text {
         text-align: center;
