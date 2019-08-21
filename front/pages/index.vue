@@ -119,7 +119,7 @@
                 </div>
               </v-card>
               <div class="browseMoreIdeaBtn">
-                <v-btn large>Browse More Idea</v-btn>
+                <v-btn large>Browse More Ideas</v-btn>
               </div>
             </v-flex>
             <v-flex md4 lg4 style="position: relative;">
@@ -435,7 +435,11 @@ export default {
 
       .browseMoreIdeaBtn {
         text-align: center;
-        padding-top: 20px;
+        margin-top: 80px;
+
+        button {
+          width: 400px;
+        }
       }
 
       .person2Img {

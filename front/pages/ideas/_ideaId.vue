@@ -94,6 +94,8 @@
           <v-textarea v-model="idea.title" outlined label="Idea Title">
           </v-textarea>
         </div>
+
+        <!-- Metadata -->
         <div class="metadata">
           <span>{{ user.email }}</span>
           <span class="timing">{{ idea.relativeCreatedTime }}</span>
@@ -112,7 +114,6 @@
         </div>
 
         <!-- Tags -->
-
         <div v-if="!ideaEditorVisible" class="tagsContainer">
           <v-chip
             v-for="(tag, index) in ideaTags"
@@ -122,7 +123,6 @@
             >{{ tag }}</v-chip
           >
         </div>
-
         <div v-else class="ideaEditor">
           <v-combobox
             v-model="chips"
@@ -131,6 +131,8 @@
             times
             chips
             clearable
+            outlined
+            label="Add Tags"
             multiple
           >
             <template v-slot:selection="{ attrs, item, select, selected }">
@@ -598,8 +600,10 @@ export default {
           max-height: 200px !important;
           overflow-y: auto;
         }
+
         @media #{$small-screen} {
           font-size: 10px;
+
           .trix-content {
             height: 170px !important;
             max-height: 200px !important;

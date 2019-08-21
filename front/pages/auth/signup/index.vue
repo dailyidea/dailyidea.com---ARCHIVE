@@ -53,13 +53,15 @@
 
         <!-- Social Login Icons -->
         <div class="socialIconContainer">
-          <v-btn small outlined fab color="primary">
+          <v-btn outlined fab color="primary">
             <v-icon>fab fa-facebook-f</v-icon>
           </v-btn>
-          <v-btn small outlined fab color="primary">
+          &nbsp;&nbsp;&nbsp;
+          <v-btn outlined fab color="primary">
             <v-icon>fab fa-twitter</v-icon>
           </v-btn>
-          <v-btn small outlined fab color="primary">
+          &nbsp;&nbsp;&nbsp;
+          <v-btn outlined fab color="primary">
             <v-icon>fab fa-google-plus-g</v-icon>
           </v-btn>
         </div>
@@ -153,13 +155,16 @@ export default {
   overflow: hidden;
 
   .mainTable {
+    margin: 0px;
     height: 100vh;
     z-index: 100;
 
     .backBtn {
       color: $primary-color;
-      position: absolute;
-      padding: 25px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      margin: 5px 3px;
       z-index: 5000;
 
       i {
@@ -263,10 +268,15 @@ export default {
       }
 
       .socialIconContainer {
-        margin-top: 3vh;
+        margin-top: 5vh;
+        margin-bottom: 4vh;
 
         button {
           border: 1px solid #ebe7ed;
+
+          i {
+            font-size: 20px;
+          }
         }
       }
 
