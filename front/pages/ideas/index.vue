@@ -9,13 +9,13 @@
   >
     <v-layout id="ideaListPage">
       <!-- Title Section -->
-      <div v-if="ideas && ideas.length == 0" class="titleDiv">
+      <div v-if="ideas && ideas.length > 0" class="titleDiv">
         <v-layout class="titleText" hidden-sm-and-down>MY IDEAS</v-layout>
         <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
       </div>
 
       <!-- Idea List -->
-      <v-layout v-if="ideas && ideas.length == 0" class="ideaList" row wrap>
+      <v-layout v-if="ideas && ideas.length > 0" class="ideaList" row wrap>
         <v-flex
           v-for="(idea, index) in ideas"
           :key="index"
