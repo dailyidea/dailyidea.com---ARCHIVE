@@ -128,6 +128,7 @@
             v-model="chips"
             class="ideaTag"
             :items="items"
+            times
             chips
             clearable
             multiple
@@ -224,68 +225,53 @@
             >fas fa-arrow-right</v-icon
           >
         </div>
-        <!--
-          <v-dialog v-model="dialog" content-class="commentDialog" persistent max-width="290">
-            <template v-slot:activator="{ on }">
-
-            </template>
-            <v-card>
-              <v-icon class="cancelIcon" @click="dialog = false">fas fa-arrow-right</v-icon>
-              <v-card-title class="headline1">Oops</v-card-title>
-              <v-card-title class="headline2">Verify your emailor signin to post your comment.</v-card-title>
-              <div>
-                <v-text-field prepend-inner-icon="email" class="emailInput" required></v-text-field>
-              </div>
-              <div class="specialButton submitBtn">
-                <v-btn>Submit</v-btn>
-              </div>
-            </v-card>
-          </v-dialog> -->
 
         <v-dialog
           v-model="showcommentDialog"
           content-class="commentDialog"
           persistent
-          max-width="300px"
+          max-width="500px"
         >
+          <!-- Popup Header -->
+          <div class="header">
+            <v-icon
+              text
+              class="cancelIcon"
+              size="20"
+              @click="showcommentDialog = false"
+              >fas fa-times</v-icon
+            >
+          </div>
+
+          <!-- Popup body -->
           <form>
-            <!-- Popup Header -->
-            <div class="header">
-              <div>
-                <v-icon
-                  text
-                  class="cancelIcon"
-                  size="20"
-                  @click="showcommentDialog = false"
-                  >fas fa-times</v-icon
-                >
-              </div>
+            <div class="body">
               <div class="headlineText1">
                 Oops,
               </div>
               <div class="headlineText2">
                 Verify your emailor signin to post your comment.
               </div>
-            </div>
 
-            <!-- Text Fields -->
-            <div>
-              <v-text-field
-                v-model="commentForm.Email"
-                v-validate="'required|email|max:100'"
-                class="emailInput"
-                single-line
-                flat
-                prepend-inner-icon="email"
-                :error-messages="errors.collect('email')"
-                data-vv-name="email"
-                label="Enter email"
-              ></v-text-field>
-            </div>
+              <!-- Text Fields -->
+              <div>
+                <v-text-field
+                  v-model="commentForm.Email"
+                  v-validate="'required|email|max:100'"
+                  class="emailInput"
+                  single-line
+                  flat
+                  prepend-inner-icon="email"
+                  :error-messages="errors.collect('email')"
+                  data-vv-name="email"
+                  label="Enter email"
+                ></v-text-field>
+              </div>
 
-            <!-- Submit Buttons -->
-            <div class="specialButton submitBtn">
-              <v-btn>Submit</v-btn>
+              <!-- Submit Buttons -->
+              <div class="specialButton submitBtn">
+                <v-btn>SEND</v-btn>
+              </div>
             </div>
           </form>
         </v-dialog>
@@ -587,12 +573,14 @@ export default {
 
       .ideaTag {
         .v-chip {
-          color: rgba(192, 183, 197);
-          font-display: white;
+          background-color: rgba(192, 183, 197);
+          color: white;
+        }
+        .v-icon {
         }
 
         .v-input__icon {
-          display: none;
+          color: white;
         }
       }
 
@@ -627,7 +615,7 @@ export default {
       .tag {
         margin: 0px 2px 10px 2px;
         border-radius: 6px;
-        background-color: #c0b7c5;
+        background-color: rgba(192, 183, 197);
         color: white;
       }
     }
@@ -836,33 +824,43 @@ export default {
 }
 
 .commentDialog {
-  padding: 30px 25px 25px 25px;
+  padding: 15px 20px 20px 20px;
   background: white;
+  width: 100%;
 
-  .cancelIcon {
-    float: right;
-  }
-  .headlineText1 {
-    padding-top: 20px;
-    font-size: 25px;
-    text-align: center;
-  }
-  .headlineText2 {
-    padding-top: 10px;
-    text-align: center;
-    font-size: 13px;
-    color: rgba(192, 183, 197);
+  .header {
+    .cancelIcon {
+      float: right;
+    }
   }
 
-  .emailInput {
-    padding-top: 20px;
-    margin: 0px;
-  }
-  .submitBtn {
-    padding-top: 20px;
-    text-align: center;
-    button {
-      width: 100%;
+  .body {
+    padding: 20px 20px 20px 20px;
+    .headlineText1 {
+      padding-top: 20px;
+      font-size: 25px;
+      text-align: center;
+    }
+    .headlineText2 {
+      padding-top: 10px;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(192, 183, 197);
+    }
+
+    .emailInput {
+      padding-top: 20px;
+      margin: 0px;
+      .v-icon {
+        font-size: 18px;
+      }
+    }
+    .submitBtn {
+      padding-top: 20px;
+      text-align: center;
+      button {
+        width: 100%;
+      }
     }
   }
 }
