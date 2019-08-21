@@ -7,24 +7,90 @@
     }"
   >
     <v-layout id="createIdeaPage">
-      <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
+      <!--mobile view-->
+      <v-layout inline-block class="mobile" hidden-md-and-up>
+        <div class="createIdeaBox">
+          <v-textarea outlined label="Idea Title"> </v-textarea>
+          <div class="ideaEditor">
+            <VueTrix v-model="ideaEditContents" class="editor" />
+          </div>
+          <div class="addNewTag">
+            <div class="header">
+              <h1>+ Add Tag</h1>
+            </div>
+            <v-combobox
+              v-model="chips"
+              class="ideaTag"
+              :items="items"
+              chips
+              clearable
+              multiple
+            >
+              <template v-slot:selection="{ attrs, item, select, selected }">
+                <v-chip
+                  v-bind="attrs"
+                  :input-value="selected"
+                  close
+                  label
+                  @click="select"
+                  @click:close="remove(item)"
+                >
+                  <strong>{{ item }}</strong>
+                </v-chip>
+              </template>
+            </v-combobox>
+          </div>
+          <div class="submitBtn">
+            <v-btn>Submit</v-btn>
+          </div>
+        </div>
+      </v-layout>
 
-      <div class="createIdeaBox">
-        <div class="text">
-          My idea:
-        </div>
-        <v-textarea outline name="input-7-4"></v-textarea>
-        <div class="ideaEditor">
-          <VueTrix v-model="ideaEditContents" class="editor" />
-        </div>
-        <div class="addNewTag">
-          <v-btn color="primary">+ Add New Tag </v-btn>
-        </div>
+      <!-- desktop view-->
 
-        <div class="submitBtn">
-          <v-btn>Submit</v-btn>
+      <v-layout class="desktop" hidden-sm-and-down>
+        <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
+
+        <div class="createIdeaBox">
+          <div class="text">
+            My idea:
+          </div>
+          <v-textarea outlined label="Idea Title"> </v-textarea>
+          <div class="ideaEditor">
+            <VueTrix v-model="ideaEditContents" class="editor" />
+          </div>
+          <div class="addNewTag">
+            <div class="header">
+              <h1>+ Add Tag</h1>
+            </div>
+            <v-combobox
+              v-model="chips"
+              class="ideaTag"
+              :items="items"
+              chips
+              clearable
+              multiple
+            >
+              <template v-slot:selection="{ attrs, item, select, selected }">
+                <v-chip
+                  v-bind="attrs"
+                  :input-value="selected"
+                  close
+                  label
+                  @click="select"
+                  @click:close="remove(item)"
+                >
+                  <strong>{{ item }}</strong>
+                </v-chip>
+              </template>
+            </v-combobox>
+          </div>
+
+          <div class="submitBtn">
+            <v-btn>Submit</v-btn>
+          </div>
         </div>
-      </div>
+      </v-layout>
     </v-layout>
   </Layout>
 </template>
@@ -37,11 +103,17 @@ export default {
     validator: 'new'
   },
   data: () => ({
-    ideaEditContents: ''
+    ideaEditContents: '',
+    chips: []
   }),
   created() {},
   mounted() {},
-  methods: {}
+  methods: {
+    remove(item) {
+      this.chips.splice(this.chips.indexOf(item), 1)
+      this.chips = [...this.chips]
+    }
+  }
 }
 </script>
 
@@ -68,6 +140,7 @@ export default {
     }
 
     .ideaEditor {
+      font-size: 14px;
       .editor {
         .trix-content {
           height: 170px !important;
@@ -80,12 +153,23 @@ export default {
     .addNewTag {
       padding-top: 10px;
       margin: 0px;
+
+      .header {
+        font-size: 8px;
+      }
+
+      .ideaTag {
+        .v-chip {
+        }
+
+        .v-input__icon {
+          display: none;
+        }
+      }
     }
 
     .submitBtn {
       margin-top: 5vh;
-      padding-top: 5vh;
-      border-top: 1px solid #ddd;
 
       button {
         width: 100%;
@@ -106,6 +190,29 @@ export default {
       top: 15vh;
       width: 80%;
       z-index: 0;
+    }
+  }
+
+  .mobile {
+    background: white;
+    .createIdeaBox {
+      width: 80%;
+    }
+    .ideaEditor {
+      font-size: 8px;
+    }
+    .addNewTag {
+      .header {
+      }
+      .ideaTag {
+        padding-top: 5px;
+        .v-chip {
+        }
+      }
+    }
+    .submitBtn {
+      margin: 0px;
+      padding-bottom: 5vh;
     }
   }
 }
