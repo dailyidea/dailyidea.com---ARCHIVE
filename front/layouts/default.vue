@@ -112,7 +112,7 @@ export default {
   color: white !important;
 
   &:hover {
-    background: #ffb92d !important;
+    background: $primary-color !important;
   }
 }
 
