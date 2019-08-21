@@ -9,13 +9,13 @@
   >
     <v-layout id="ideaListPage">
       <!-- Title Section -->
-      <div class="titleDiv">
+      <div v-if="ideas && ideas.length == 0" class="titleDiv">
         <v-layout class="titleText" hidden-sm-and-down>MY IDEAS</v-layout>
         <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
       </div>
 
       <!-- Idea List -->
-      <v-layout class="ideaList" row wrap>
+      <v-layout v-if="ideas && ideas.length == 0" class="ideaList" row wrap>
         <v-flex
           v-for="(idea, index) in ideas"
           :key="index"
@@ -47,11 +47,26 @@
           </div>
         </v-flex>
       </v-layout>
-      <div>
-        <v-btn class="addBtn" fab to="/ideas/new">
-          <v-icon>add</v-icon>
-        </v-btn>
+
+      <!-- No Idea found div -->
+      <div v-else class="noIdeaFoundDiv">
+        <div>
+          <img
+            class="lampImg"
+            src="~/assets/images/light_gray_lamp_plain.png"
+          />
+        </div>
+        <div class="text">
+          You don't have any ideas right now. <br />
+          Or do you?
+        </div>
+        <img class="arrowImg" src="~/assets/images/add_idea_arrow.png" />
       </div>
+
+      <!-- Add Idea Button -->
+      <v-btn class="addBtn" fab to="/ideas/create">
+        <v-icon>add</v-icon>
+      </v-btn>
     </v-layout>
   </Layout>
 </template>
@@ -99,8 +114,8 @@ export default {
 
   .addBtn {
     position: fixed;
-    right: 20px;
-    bottom: 20px;
+    right: 40px;
+    bottom: 30px;
   }
 
   @media #{$small-screen} {
@@ -253,6 +268,38 @@ export default {
             cursor: pointer !important;
           }
         }
+      }
+    }
+  }
+
+  .noIdeaFoundDiv {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    height: 93vh;
+    padding-bottom: 60px;
+    align-items: center;
+
+    .lampImg {
+      margin-top: 15vh;
+      height: 30vh;
+    }
+
+    .text {
+      margin-top: 3vh;
+      margin-bottom: 3vh;
+      font-size: 20px;
+      color: #c0b7c5;
+    }
+
+    .arrowImg {
+      display: none;
+
+      @media #{$small-screen} {
+        display: block;
+        width: 20%;
+        margin-left: 30%;
       }
     }
   }
