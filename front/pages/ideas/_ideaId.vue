@@ -91,7 +91,6 @@
           <div class="ideaTitle">{{ idea.title }}</div>
         </div>
         <div v-else>
-          <!-- <v-textarea outline height="50px" name="input-7-4"></v-textarea> -->
           <v-textarea v-model="idea.title" outlined label="Idea Title">
           </v-textarea>
         </div>
@@ -110,17 +109,10 @@
             class="editor"
             placeholder="Enter content"
           />
-          <div class="buttons">
-            <v-btn small color="primary" @click="onSaveIdeaContent()"
-              >Save</v-btn
-            >
-            <v-btn text small color="error" @click="ideaEditorVisible = false"
-              >Cancel</v-btn
-            >
-          </div>
         </div>
 
         <!-- Tags -->
+
         <div v-if="!ideaEditorVisible" class="tagsContainer">
           <v-chip
             v-for="(tag, index) in ideaTags"
@@ -130,15 +122,37 @@
             >{{ tag }}</v-chip
           >
         </div>
+
         <div v-else class="ideaEditor">
-          <v-chip
-            v-for="(tag, index) in ideaTags"
-            :key="index"
-            label
-            class="tag"
-            close
-            @click:close="onRemoveChip(index)"
-            >{{ tag }}</v-chip
+          <v-combobox
+            v-model="chips"
+            class="ideaTag"
+            :items="items"
+            chips
+            clearable
+            multiple
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                label
+                @click="select"
+                @click:close="remove(item)"
+              >
+                <strong>{{ item }}</strong>
+              </v-chip>
+            </template>
+          </v-combobox>
+        </div>
+
+        <!--submit and cancel btn-->
+
+        <div v-if="ideaEditorVisible" class="buttons">
+          <v-btn small color="primary" @click="onSaveIdeaContent()">Save</v-btn>
+          <v-btn text small color="error" @click="ideaEditorVisible = false"
+            >Cancel</v-btn
           >
         </div>
 
@@ -203,7 +217,78 @@
           label="Say something..."
           large
         ></v-text-field>
-        <v-icon class="sendBtn">fas fa-arrow-right</v-icon>
+
+        <!-- Popip -ShowComment Dialogbox-->
+        <div>
+          <v-icon class="sendBtn" @click="showcommentDialog = true" v-on="on"
+            >fas fa-arrow-right</v-icon
+          >
+        </div>
+        <!--
+          <v-dialog v-model="dialog" content-class="commentDialog" persistent max-width="290">
+            <template v-slot:activator="{ on }">
+
+            </template>
+            <v-card>
+              <v-icon class="cancelIcon" @click="dialog = false">fas fa-arrow-right</v-icon>
+              <v-card-title class="headline1">Oops</v-card-title>
+              <v-card-title class="headline2">Verify your emailor signin to post your comment.</v-card-title>
+              <div>
+                <v-text-field prepend-inner-icon="email" class="emailInput" required></v-text-field>
+              </div>
+              <div class="specialButton submitBtn">
+                <v-btn>Submit</v-btn>
+              </div>
+            </v-card>
+          </v-dialog> -->
+
+        <v-dialog
+          v-model="showcommentDialog"
+          content-class="commentDialog"
+          persistent
+          max-width="300px"
+        >
+          <form>
+            <!-- Popup Header -->
+            <div class="header">
+              <div>
+                <v-icon
+                  text
+                  class="cancelIcon"
+                  size="20"
+                  @click="showcommentDialog = false"
+                  >fas fa-times</v-icon
+                >
+              </div>
+              <div class="headlineText1">
+                Oops,
+              </div>
+              <div class="headlineText2">
+                Verify your emailor signin to post your comment.
+              </div>
+            </div>
+
+            <!-- Text Fields -->
+            <div>
+              <v-text-field
+                v-model="commentForm.Email"
+                v-validate="'required|email|max:100'"
+                class="emailInput"
+                single-line
+                flat
+                prepend-inner-icon="email"
+                :error-messages="errors.collect('email')"
+                data-vv-name="email"
+                label="Enter email"
+              ></v-text-field>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="specialButton submitBtn">
+              <v-btn>Submit</v-btn>
+            </div>
+          </form>
+        </v-dialog>
       </div>
 
       <!-- Popup - Share Via Email -->
@@ -290,9 +375,16 @@ export default {
     validator: 'new'
   },
   data: () => ({
+    chips: ['web', 'illustration', 'graphics', 'ui', 'adobe', 'interface'],
+
     snackbarVisible: false,
     snackbarMessage: '',
     showEmailShareDialog: false,
+    showcommentDialog: false,
+    commentForm: {
+      Email: ''
+    },
+    dialog: false,
     emailShareForm: {
       name: '',
       friendName: '',
@@ -350,6 +442,10 @@ export default {
       this.snackbarMessage = 'Email sent successfully.'
       this.showEmailShareDialog = false
       this.snackbarVisible = true
+    },
+    remove(item) {
+      this.chips.splice(this.chips.indexOf(item), 1)
+      this.chips = [...this.chips]
     },
     showIdeaEditor() {
       this.ideaEditContents = this.idea.content
@@ -426,7 +522,6 @@ export default {
         @media #{$small-screen} {
           padding-left: 10px;
           margin: 0px;
-          border: 1px solid red;
         }
       }
 
@@ -490,6 +585,17 @@ export default {
     .ideaEditor {
       margin-top: 20px;
 
+      .ideaTag {
+        .v-chip {
+          color: rgba(192, 183, 197);
+          font-display: white;
+        }
+
+        .v-input__icon {
+          display: none;
+        }
+      }
+
       .buttons {
         margin-top: 10px;
 
@@ -503,6 +609,14 @@ export default {
           height: 170px !important;
           max-height: 200px !important;
           overflow-y: auto;
+        }
+        @media #{$small-screen} {
+          font-size: 10px;
+          .trix-content {
+            height: 170px !important;
+            max-height: 200px !important;
+            overflow-y: auto;
+          }
         }
       }
     }
@@ -582,145 +696,173 @@ export default {
       .ups {
         flex: 1;
       }
-
-      .downs {
-        flex: 1;
-        text-align: right;
-      }
-
-      img {
-        display: inline-block;
-        height: 16px;
-        padding-top: 2px;
-        margin-right: 5px;
-      }
     }
+
+    .downs {
+      flex: 1;
+      text-align: right;
+    }
+
+    img {
+      display: inline-block;
+      height: 16px;
+      padding-top: 2px;
+      margin-right: 5px;
+    }
+  }
+
+  @media #{$small-screen} {
+    padding-right: 0%;
+    padding-left: 0%;
+  }
+
+  .commentTotal {
+    padding: 25px 0px 10px 15px;
+
+    font-size: 14px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.57;
+    letter-spacing: 0.42px;
+    color: #232323;
+  }
+
+  .commentItem {
+    margin: 15px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 0px 7px 7px 7px;
 
     @media #{$small-screen} {
-      padding-right: 0%;
-      padding-left: 0%;
+      border-left: 0px;
+      border-right: 0px;
+      border-bottom: none;
+      margin-top: 0px;
     }
 
-    .commentTotal {
-      padding: 25px 0px 10px 15px;
+    .header {
+      .commentUser {
+        padding-bottom: 3px;
+        display: inline-block;
 
-      font-size: 14px;
-      font-weight: 600;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.57;
-      letter-spacing: 0.42px;
-      color: #232323;
-    }
-
-    .commentItem {
-      margin: 15px;
-      padding: 10px;
-      background-color: #ffffff;
-      border-radius: 0px 7px 7px 7px;
-
-      @media #{$small-screen} {
-        border-left: 0px;
-        border-right: 0px;
-        border-bottom: none;
-        margin-top: 0px;
-      }
-
-      .header {
-        .commentUser {
-          padding-bottom: 3px;
-          display: inline-block;
-
-          font-size: 12px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: 1.83;
-          letter-spacing: normal;
-          text-align: left;
-          color: #b5b5b5;
-        }
-
-        .timing {
-          float: right;
-          font-size: 12px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          // line-height: 1.83;
-          letter-spacing: normal;
-          text-align: right;
-          color: #c0b7c5;
-        }
-      }
-
-      .commentText {
-        width: 100%;
-        display: block;
-
-        @media #{$small-screen} {
-          padding-top: 3px;
-        }
-
-        font-size: 14px;
+        font-size: 12px;
         font-weight: normal;
         font-style: normal;
         font-stretch: normal;
-        line-height: 1.57;
+        line-height: 1.83;
         letter-spacing: normal;
         text-align: left;
-        color: #827c85;
+        color: #b5b5b5;
       }
+
+      .timing {
+        float: right;
+        font-size: 12px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        // line-height: 1.83;
+        letter-spacing: normal;
+        text-align: right;
+        color: #c0b7c5;
+      }
+    }
+
+    .commentText {
+      width: 100%;
+      display: block;
+
+      @media #{$small-screen} {
+        padding-top: 3px;
+      }
+
+      font-size: 14px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.57;
+      letter-spacing: normal;
+      text-align: left;
+      color: #827c85;
+    }
+  }
+}
+
+.pageFooter {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background: white;
+  z-index: 100;
+
+  height: 68px;
+  padding-top: 10px;
+  padding-left: 10px;
+  -webkit-backdrop-filter: blur(30px);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 -10px 10px 0 rgba(228, 228, 228, 0.73);
+  background-color: #ffffff;
+
+  .newCommentInput {
+    .v-input__slot {
+      margin-bottom: 0px;
     }
   }
 
-  .pageFooter {
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    background: white;
-    z-index: 100;
-
-    height: 68px;
-    padding-top: 10px;
-    padding-left: 10px;
-    -webkit-backdrop-filter: blur(30px);
-    backdrop-filter: blur(30px);
-    box-shadow: 0 -10px 10px 0 rgba(228, 228, 228, 0.73);
-    background-color: #ffffff;
-
-    .newCommentInput {
-      .v-input__slot {
-        margin-bottom: 0px;
-      }
-
-      .v-text-field__details {
-        display: none;
-      }
-    }
-
-    .sendBtn {
-      position: absolute;
-      top: 24px;
-      right: 19px;
-      font-size: 21px;
-      color: #d4bb10;
-    }
-  }
-
-  .backgroundLamp {
+  .sendBtn {
     position: absolute;
-    left: -10%;
-    top: 25vh;
-    width: 20%;
-    z-index: 0;
+    top: 24px;
+    right: 19px;
+    font-size: 21px;
+    color: #d4bb10;
+  }
+}
 
-    @media #{$small-screen} {
-      left: 60%;
-      top: 15vh;
-      width: 80%;
-      z-index: 0;
+.backgroundLamp {
+  position: absolute;
+  left: -10%;
+  top: 25vh;
+  width: 20%;
+  z-index: 0;
+
+  @media #{$small-screen} {
+    left: 60%;
+    top: 15vh;
+    width: 80%;
+    z-index: 0;
+  }
+}
+
+.commentDialog {
+  padding: 30px 25px 25px 25px;
+  background: white;
+
+  .cancelIcon {
+    float: right;
+  }
+  .headlineText1 {
+    padding-top: 20px;
+    font-size: 25px;
+    text-align: center;
+  }
+  .headlineText2 {
+    padding-top: 10px;
+    text-align: center;
+    font-size: 13px;
+    color: rgba(192, 183, 197);
+  }
+
+  .emailInput {
+    padding-top: 20px;
+    margin: 0px;
+  }
+  .submitBtn {
+    padding-top: 20px;
+    text-align: center;
+    button {
+      width: 100%;
     }
   }
 }
@@ -748,9 +890,6 @@ export default {
     margin-top: 20px;
     margin-bottom: 20px;
     text-align: right;
-
-    .cancleBtn {
-    }
 
     .shareBtn {
       width: 170px;

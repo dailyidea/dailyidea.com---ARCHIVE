@@ -121,12 +121,14 @@ export default {
 
     .titleText {
       padding-top: 3vh;
+      padding-left: 15vh;
       text-align: center;
       font-size: 80px;
     }
 
     .note2 {
       text-align: center;
+      padding-left: 15vh;
       font-size: 20px;
       color: #d4cdd7;
       padding-top: 2vh;

@@ -86,14 +86,6 @@
 
             <!-- Rightside Icons -->
             <v-flex xs3 sm3 class="rightSide">
-              <!-- Share Idea Button -->
-              <v-icon
-                class="icons menu"
-                @click="$emit('showShareIdeaDialog')"
-                v-on="on"
-                >fas fa-envelope</v-icon
-              >
-
               <!-- Edit Idea Icon -->
               <v-icon
                 v-if="editIdeaVisible"
@@ -107,7 +99,14 @@
                 >fas fa-search</v-icon
               >
 
-              <!-- side setting-->
+              <!-- Share idea button and menu-->
+              <v-icon
+                v-if="shareIdeaVisible"
+                class="icons menu"
+                @click="$emit('showShareIdeaDialog')"
+                v-on="on"
+                >fas fa-envelope</v-icon
+              >
               <v-menu v-if="shareIdeaVisible" class="shareIdea">
                 <template v-slot:activator="{ on }">
                   <v-icon class="icons menu" v-on="on"
