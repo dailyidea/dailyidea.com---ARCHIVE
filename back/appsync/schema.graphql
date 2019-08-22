@@ -1,8 +1,23 @@
-#type Mutation {
-#	requestLogin(
-#	    email: String!
-#	): Result!
-#}
+type Mutation {
+
+    createIdea(
+		content: String!,
+		title: String!,
+		ideaDate: String
+	): Idea!
+
+	deleteIdea(
+	    ideaId: String!,
+    ): Idea!
+
+	updateIdea(
+	    ideaId: String!,
+	    content: String!,
+		title: String!,
+		ideaDate: String
+    ): Idea!
+
+}
 
 type Query {
 	meInfo: User!
@@ -40,5 +55,5 @@ type  IdeaConnection {
 
 schema {
 	query: Query
-#	mutation: Mutation
+	mutation: Mutation
 }

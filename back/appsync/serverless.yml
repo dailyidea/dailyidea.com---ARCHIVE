@@ -11,6 +11,10 @@ plugins:
   - serverless-offline
   - serverless-appsync-plugin
 
+functions:
+  graphql:
+    handler: handler.graphqlHandler
+
 custom:
   cogintoUserPoolId: ${env:COGNITO_POOL_ID}
   usersTableName: dailyidea-users-${self:provider.stage}
@@ -42,7 +46,22 @@ custom:
         field: meInfo
         request: "meInfo-request-mapping-template.txt"
         response: "meInfo-response-mapping-template.txt"
-#      - dataSource: RequestLink
+      - dataSource: Ideas
+        type: Mutation
+        field: createIdea
+        request: "createIdea-request-mapping-template.txt"
+        response: "createIdea-request-mapping-template.txt"
+      - dataSource: Ideas
+        type: Mutation
+        field: deleteIdea
+        request: "deleteIdea-request-mapping-template.txt"
+        response: "deleteIdea-response-mapping-template.txt"
+      - dataSource: Ideas
+        type: Mutation
+        field: updateIdea
+        request: "updateIdea-request-mapping-template.txt"
+        response: "updateIdea-response-mapping-template.txt"
+    #      - dataSource: RequestLink
 #        type: Mutation
 #        field: requestLogin
 #        request: "requestLogin-request-mapping-template.txt"
@@ -50,6 +69,12 @@ custom:
     # schema: # defaults schema.graphql
     serviceRole: "AppSyncServiceRole"
     dataSources:
+      - type: AWS_LAMBDA
+        name: LambdaHandler
+        description: 'Lambda DataSource'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [GraphqlLambdaFunction, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AMAZON_DYNAMODB
         name: Users
         description: 'Users table'
@@ -78,6 +103,30 @@ custom:
 
 resources:
   Resources:
+    AppSyncLambdaServiceRole:
+      Type: "AWS::IAM::Role"
+      Properties:
+        RoleName: "Lambda-AppSyncServiceRole"
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: "Allow"
+              Principal:
+                Service:
+                  - "appsync.amazonaws.com"
+              Action:
+                - "sts:AssumeRole"
+        Policies:
+          - PolicyName: "Lambda-AppSyncServiceRole-Policy"
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: "Allow"
+                  Action:
+                    - "lambda:invokeFunction"
+                  Resource:
+                    - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-dev-graphql"
+                    - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-dev-graphql:*"
     AppSyncServiceRole:
       Type: "AWS::IAM::Role"
       Properties:
