@@ -123,7 +123,7 @@ export default {
 }
 
 /* Pink modal background */
-.v-overlay {
+.v-overlay.v-overlay--active {
   .v-overlay__scrim {
     opacity: 0.46 !important;
     background-color: #ecd9f7 !important;
