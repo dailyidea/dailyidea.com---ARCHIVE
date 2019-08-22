@@ -66,23 +66,33 @@
         </v-layout>
 
         <!-- Mobile HEader -->
-        <v-toolbar app flat absolute color="white" hidden-md-and-up>
-          <v-layout class="mobile" row hidden-md-and-up>
+        <v-toolbar
+          v-if="!searchIdeaMode"
+          app
+          flat
+          absolute
+          color="white"
+          class="mobile"
+          hidden-md-and-up
+        >
+          <v-layout class="nonSearchSection" row>
             <!-- Left Side Icon -->
-            <v-flex v-if="mobileHamburger" xs2 sm2>
-              <v-icon class="icons" @click="$refs.mobileMenu.visible = true"
-                >fas fa-bars</v-icon
-              >
-              <MobileMenu ref="mobileMenu"></MobileMenu>
-            </v-flex>
-            <v-flex v-else-if="backButton" xs2 sm2>
-              <v-icon class="icons" @click="onBackClick()"
-                >fas fa-arrow-left</v-icon
-              >
-            </v-flex>
+            <v-layout>
+              <v-flex v-if="mobileHamburger" xs2 sm2>
+                <v-icon class="icons" @click="$refs.mobileMenu.visible = true"
+                  >fas fa-bars</v-icon
+                >
+                <MobileMenu ref="mobileMenu"></MobileMenu>
+              </v-flex>
+              <v-flex v-else-if="backButton" xs2 sm2>
+                <v-icon class="icons" @click="onBackClick()"
+                  >fas fa-arrow-left</v-icon
+                >
+              </v-flex>
 
-            <!-- Center Title -->
-            <v-flex xs7 sm7 class="text">{{ mobileTitle }}</v-flex>
+              <!-- Center Title -->
+              <v-flex xs7 sm7 class="text">{{ mobileTitle }}</v-flex>
+            </v-layout>
 
             <!-- Rightside Icons -->
             <v-flex xs3 sm3 class="rightSide">
@@ -95,7 +105,10 @@
               >
 
               <!-- Search Idea Button -->
-              <v-icon v-if="mobileSearchIcon" class="icons menu"
+              <v-icon
+                v-if="mobileSearchIcon"
+                class="icons menu"
+                @click="onShowSearchIdeaBox()"
                 >fas fa-search</v-icon
               >
 
@@ -128,6 +141,26 @@
             </v-flex>
           </v-layout>
         </v-toolbar>
+        <v-toolbar
+          v-else
+          app
+          flat
+          absolute
+          color="white"
+          class="mobile searchIdeaContainer"
+          hidden-md-and-up
+        >
+          <v-text-field
+            ref="mobileMenuSearchIdeaBox"
+            placeholder="What are you looking for?"
+            hide-details
+            prepend-inner-icon="search"
+            outlined
+          ></v-text-field>
+          <v-icon class="closeIcon " @click="searchIdeaMode = false"
+            >fas fa-times</v-icon
+          >
+        </v-toolbar>
       </div>
     </template>
 
@@ -148,7 +181,9 @@
   </div>
 </template>
 <script>
+import MobileMenu from '@/components/menuComponent'
 export default {
+  components: { MobileMenu },
   props: {
     backButton: {
       type: Boolean,
@@ -187,6 +222,12 @@ export default {
       default: true
     }
   },
+  data() {
+    return {
+      mobileMenuVisible: false,
+      searchIdeaMode: false
+    }
+  },
   created() {
     console.log('at main params =>', this.backButton)
   },
@@ -196,6 +237,9 @@ export default {
     },
     onShareIdea() {
       this.$root.$emit('share')
+    },
+    onShowSearchIdeaBox() {
+      this.searchIdeaMode = true
     },
     logout() {
       this.$store.dispatch('cognito/signOut')
@@ -341,36 +385,76 @@ export default {
       padding: 0px 0px;
       margin-left: 0px;
       margin-right: 0px;
+      //width: 100%;
 
-      .text {
-        text-align: center;
-        margin-top: 2px;
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 1.57;
-        text-align: center;
-        color: #18141c;
-      }
-
-      .icons {
-        color: #c0b7c5 !important;
-        font-size: 16px;
-      }
-
-      .rightSide {
-        text-align: right;
-
-        .shareIdea {
-          display: inline-block;
-          margin-right: 6px;
+      .nonSearchSection {
+        padding: 0px 0px;
+        .text {
+          text-align: center;
+          margin-top: 2px;
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 1.57;
+          text-align: center;
+          color: #18141c;
         }
 
-        i {
-          color: #35124e !important;
-          padding-bottom: 0px;
+        .icons {
+          color: #c0b7c5 !important;
+          font-size: 16px;
+        }
+
+        .rightSide {
           text-align: right;
-          margin-right: 6px;
+
+          .shareIdea {
+            display: inline-block;
+            margin-right: 6px;
+          }
+
+          i {
+            color: #35124e !important;
+            padding-bottom: 0px;
+            text-align: right;
+            margin-right: 6px;
+          }
         }
+      }
+    }
+
+    .mobile.searchIdeaContainer {
+      .v-input__slot {
+        max-height: 40px;
+        min-height: 40px;
+        // border: 2px solid green;
+        padding: 0px 5px;
+
+        .v-input__prepend-inner {
+          margin-top: 8px;
+          .v-icon {
+            font-size: 17px;
+          }
+        }
+
+        .v-text-field__slot {
+          max-height: 43px;
+          overflow: hidden;
+          // border: 1px solid red;
+
+          fieldset {
+            max-height: 43px;
+          }
+
+          input {
+            // border: 1px solid blue;
+            font-size: 15px;
+          }
+        }
+      }
+      .closeIcon {
+        position: absolute;
+        right: 25px;
+        font-size: 12px;
       }
     }
   }

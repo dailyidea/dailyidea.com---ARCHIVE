@@ -29,7 +29,7 @@
         <!-- Hero Description -->
         <div class="heroDescription">
           Welcome to Daily Idea!<br />
-          We've sent you an email confirmation link
+          We've sent you an email confirmation
           <span v-if="email">link at {{ email }}.</span>
           <span v-else>link.</span>
         </div>
@@ -217,6 +217,9 @@ export default {
         margin-top: 4vh;
         button {
           border: 1px solid #ebe7ed;
+          .v-icon {
+            font-size: 14px;
+          }
         }
       }
     }

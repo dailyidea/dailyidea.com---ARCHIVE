@@ -43,7 +43,7 @@
           />
 
           <!-- Continue Button -->
-          <v-btn large class="continueBtn" @click="login">Continue</v-btn>
+          <v-btn large class="continueBtn" @click="login">OK</v-btn>
         </v-form>
 
         <!-- Social Login Icons -->
@@ -233,7 +233,7 @@ export default {
         border-radius: 4px;
         background-image: linear-gradient(to left, #ffdf01, #ffb92d);
         color: white;
-        width: 70%;
+        width: 40%;
 
         letter-spacing: 1px;
 
@@ -249,6 +249,9 @@ export default {
 
         button {
           border: 1px solid #ebe7ed;
+          .v-icon {
+            font-size: 17px;
+          }
 
           i {
             font-size: 20px;

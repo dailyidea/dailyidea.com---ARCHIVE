@@ -159,6 +159,7 @@ export default {
         text-align: left;
         padding-left: 5%;
         font-size: 12px;
+        padding-top: 10px;
       }
 
       i {

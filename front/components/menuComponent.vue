@@ -46,7 +46,7 @@
 
     <!-- Logout div at bottom -->
     <div class="logoutDiv">
-      <v-btn large class="logoutBtn" color="primary">LOG OUT</v-btn>
+      <v-btn large class="logoutBtn" dark>LOG OUT</v-btn>
     </div>
   </div>
 </template>
@@ -75,10 +75,10 @@ export default {
 
   .topRightCloseBtn {
     position: absolute;
-    top: 5px;
+    top: 10px;
     right: 15px;
     color: white;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: lighter;
   }
 
@@ -102,14 +102,11 @@ export default {
     height: 70vh;
     text-align: center;
     position: relative;
-    background-image: url('~assets/images/white_lamp.png');
-    background-size: 90%;
-    background-position-x: 50%;
 
     .menuItems {
       z-index: 10000;
       .menuItem {
-        line-height: 12vh;
+        line-height: 11vh;
         a {
           color: white !important;
           text-decoration: none;
@@ -117,9 +114,12 @@ export default {
       }
     }
     .socialIconContainer {
-      margin-top: 3vh;
+      margin-top: 4vh;
       button {
         border: 1px solid #ebe7ed;
+        .v-icon {
+          font-size: 12px;
+        }
       }
     }
   }

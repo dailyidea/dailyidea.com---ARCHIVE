@@ -275,7 +275,7 @@ export default {
           border: 1px solid #ebe7ed;
 
           i {
-            font-size: 20px;
+            font-size: 16px;
           }
         }
       }
@@ -296,7 +296,7 @@ export default {
 
         .loginBtn {
           width: 70%;
-          max-width: 400px;
+          max-width: 500px;
           border-radius: 4px;
           letter-spacing: 1px;
         }

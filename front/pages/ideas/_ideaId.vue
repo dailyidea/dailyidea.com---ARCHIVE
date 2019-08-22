@@ -284,10 +284,11 @@
         v-model="showEmailShareDialog"
         content-class="emailShareDialog"
         persistent
-        max-width="500px"
+        max-width="400px"
       >
         <form>
           <!-- Popup Header -->
+
           <div class="header">
             <v-icon text class="shareIcon" size="50">fas fa-envelope</v-icon>
 
@@ -579,10 +580,10 @@ export default {
           color: white;
         }
         .v-icon {
+          color: white;
         }
 
         .v-input__icon {
-          color: white;
         }
       }
 
@@ -847,6 +848,7 @@ export default {
     }
     .headlineText2 {
       padding-top: 10px;
+      padding-bottom: 10px;
       text-align: center;
       font-size: 13px;
       color: rgba(192, 183, 197);
@@ -870,17 +872,22 @@ export default {
 }
 
 .emailShareDialog {
-  padding: 45px 20px 20px 20px;
+  padding: 40px 20px 20px 20px;
   background: white;
 
   .header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 
     .headlineText {
       margin-top: 10px;
       font-size: 25px;
       font-family: Quatro;
+    }
+    .cancelIcon {
+      border: 1px solid red;
+      float: right;
+      padding-bottom: 10px;
     }
   }
 
