@@ -39,6 +39,8 @@ custom:
 functions:
   processIncomingMail:
     handler: process_incoming_mail.endpoint
+  sendDailyToUser:
+    handler: request_daily_idea_user.endpoint
   requestIdeasMail:
     handler: request_daily_idea.endpoint
     events:
