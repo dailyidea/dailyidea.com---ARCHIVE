@@ -123,7 +123,7 @@
             >{{ tag }}</v-chip
           >
         </div>
-        <div v-else class="ideaEditor">
+        <div v-else class="tagsEditor">
           <v-combobox
             v-model="chips"
             class="ideaTag"
@@ -151,9 +151,14 @@
         </div>
 
         <!--submit and cancel btn-->
-
         <div v-if="ideaEditorVisible" class="buttons">
-          <v-btn small color="primary" @click="onSaveIdeaContent()">Save</v-btn>
+          <v-btn
+            small
+            color="primary"
+            :loading="updatingIdea"
+            @click="onSaveIdeaContent()"
+            >Save</v-btn
+          >
           <v-btn text small color="error" @click="ideaEditorVisible = false"
             >Cancel</v-btn
           >
@@ -354,7 +359,8 @@
 import { graphqlOperation } from '@aws-amplify/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import getIdea from '~/graphql/mutations/getIdea'
+import getIdea from '~/graphql/query/getIdea'
+import updateIdea from '~/graphql/mutations/updateIdea'
 import Layout from '@/components/layout/Layout'
 dayjs.extend(relativeTime)
 
@@ -379,6 +385,7 @@ export default {
       friendName: '',
       friendEmail: ''
     },
+    updatingIdea: false,
     ideaEditorVisible: false,
     ideaEditContents: ''
   }),
@@ -443,9 +450,20 @@ export default {
     onRemoveChip(index) {
       this.ideaTags.splice(index, 1)
     },
-    onSaveIdeaContent() {
+    async onSaveIdeaContent() {
       this.idea.content = this.ideaEditContents
+
+      console.log('updating idea...', updateIdea)
+      this.updatingIdea = true
+      // let response = await this.$amplifyApi.graphql(
+      //   graphqlOperation(updateIdea, { ideaId: this.$route.params.ideaId, content: this.idea.content, title: this.idea.title })
+      // )
+
+      this.updatingIdea = false
       this.ideaEditorVisible = false
+
+      this.snackbarMessage = 'Idea Updated'
+      this.snackbarVisible = true
     }
   }
 }
@@ -574,27 +592,6 @@ export default {
     .ideaEditor {
       margin-top: 20px;
 
-      .ideaTag {
-        .v-chip {
-          background-color: rgba(192, 183, 197);
-          color: white;
-        }
-        .v-icon {
-          color: white;
-        }
-
-        .v-input__icon {
-        }
-      }
-
-      .buttons {
-        margin-top: 10px;
-
-        button {
-          margin-left: 0px;
-        }
-      }
-
       .editor {
         .trix-content {
           height: 170px !important;
@@ -622,6 +619,29 @@ export default {
         border-radius: 6px;
         background-color: rgba(192, 183, 197);
         color: white;
+      }
+    }
+
+    .tagsEditor {
+      margin-top: 40px;
+
+      .ideaTag {
+        .v-chip {
+          background-color: rgba(192, 183, 197);
+          color: white;
+
+          i {
+            color: white;
+          }
+        }
+
+        .v-input__append-inner {
+          display: none;
+        }
+      }
+
+      .v-icon.mdi-menu-down {
+        display: none;
       }
     }
 
@@ -841,11 +861,13 @@ export default {
 
   .body {
     padding: 20px 20px 20px 20px;
+
     .headlineText1 {
       padding-top: 20px;
       font-size: 25px;
       text-align: center;
     }
+
     .headlineText2 {
       padding-top: 10px;
       padding-bottom: 10px;
@@ -857,13 +879,16 @@ export default {
     .emailInput {
       padding-top: 20px;
       margin: 0px;
+
       .v-icon {
         font-size: 18px;
       }
     }
+
     .submitBtn {
       padding-top: 20px;
       text-align: center;
+
       button {
         width: 100%;
       }
