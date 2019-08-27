@@ -106,6 +106,10 @@ export default {
   color: $primary-color !important;
 }
 
+.theme--light.v-btn.white--text {
+  color: white !important;
+}
+
 /* dark theme styles */
 .theme--dark.v-btn {
   background: $primary-color !important;

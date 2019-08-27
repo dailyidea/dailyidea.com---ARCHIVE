@@ -346,7 +346,11 @@
       </v-dialog>
 
       <!-- Bottom snackbar message -->
-      <v-snackbar v-model="snackbarVisible" :timeout="6000">
+      <v-snackbar
+        v-model="snackbarVisible"
+        :timeout="2000"
+        :color="snackbarColor"
+      >
         {{ snackbarMessage }}
         <v-btn color="white" text @click="snackbarVisible = false">
           Close
@@ -374,6 +378,8 @@ export default {
 
     snackbarVisible: false,
     snackbarMessage: '',
+    snackbarColor: 'success',
+
     showEmailShareDialog: false,
     showcommentDialog: false,
     commentForm: {
@@ -421,6 +427,7 @@ export default {
     copyShareLink() {
       this.$clipboard(window.location.href)
       this.snackbarMessage = 'Link copied'
+      this.snackbarColor = 'success'
       this.snackbarVisible = true
     },
     showShareIdeaDialog() {
@@ -455,15 +462,27 @@ export default {
 
       console.log('updating idea...', updateIdea)
       this.updatingIdea = true
-      // let response = await this.$amplifyApi.graphql(
-      //   graphqlOperation(updateIdea, { ideaId: this.$route.params.ideaId, content: this.idea.content, title: this.idea.title })
-      // )
 
-      this.updatingIdea = false
-      this.ideaEditorVisible = false
+      try {
+        await this.$amplifyApi.graphql(
+          graphqlOperation(updateIdea, {
+            ideaId: this.$route.params.ideaId,
+            content: this.idea.content,
+            title: this.idea.title
+          })
+        )
+        this.updatingIdea = false
+        this.ideaEditorVisible = false
 
-      this.snackbarMessage = 'Idea Updated'
-      this.snackbarVisible = true
+        this.snackbarMessage = 'Idea Updated'
+        this.snackbarColor = 'success'
+        this.snackbarVisible = true
+      } catch (err) {
+        this.updatingIdea = false
+        this.snackbarMessage = 'Something went wrong!!'
+        this.snackbarColor = 'error'
+        this.snackbarVisible = true
+      }
     }
   }
 }
@@ -909,6 +928,7 @@ export default {
       font-size: 25px;
       font-family: Quatro;
     }
+
     .cancelIcon {
       border: 1px solid red;
       float: right;
