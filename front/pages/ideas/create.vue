@@ -16,11 +16,11 @@
         </v-layout>
 
         <!-- title -->
-        <v-textarea outlined label="Idea Title"> </v-textarea>
+        <v-textarea v-model="title" outlined label="Idea Title"> </v-textarea>
 
         <!-- Descriptiion = trix editor -->
         <div class="ideaEditor">
-          <VueTrix v-model="ideaEditContents" class="editor" />
+          <VueTrix v-model="contents" class="editor" />
         </div>
 
         <!-- Tags -->
@@ -50,40 +50,28 @@
 
         <!-- Submit -->
         <div class="submitBtn">
-          <v-btn>Submit</v-btn>
+          <v-btn :loading="creatingIdea" @click="onCreateIdea">Submit</v-btn>
         </div>
       </div>
 
-      <!-- desktop view-->
-      <!-- <v-layout class="desktop" hidden-sm-and-down>
-
-
-        <div class="createIdeaBox">
-
-          <v-textarea outlined label="Idea Title"> </v-textarea>
-          <div class="ideaEditor">
-            <VueTrix v-model="ideaEditContents" class="editor" />
-          </div>
-
-          <v-combobox v-model="chips" class="ideaTag" :items="items" chips clearable multiple outlined label="Add Tags">
-            <template v-slot:selection="{ attrs, item, select, selected }">
-              <v-chip v-bind="attrs" :input-value="selected" close label @click="select" @click:close="remove(item)">
-                <strong>{{ item }}</strong>
-              </v-chip>
-            </template>
-          </v-combobox>
-
-
-          <div class="submitBtn">
-            <v-btn>Submit</v-btn>
-          </div>
-        </div>
-      </v-layout> -->
+      <!-- Bottom snackbar message -->
+      <v-snackbar
+        v-model="snackbarVisible"
+        :timeout="2000"
+        :color="snackbarColor"
+      >
+        {{ snackbarMessage }}
+        <v-btn color="white" text @click="snackbarVisible = false">
+          Close
+        </v-btn>
+      </v-snackbar>
     </v-layout>
   </Layout>
 </template>
 <script>
+import { graphqlOperation } from '@aws-amplify/api'
 import Layout from '@/components/layout/Layout'
+import createIdea from '~/graphql/mutations/createIdea'
 
 export default {
   components: { Layout },
@@ -91,8 +79,14 @@ export default {
     validator: 'new'
   },
   data: () => ({
-    ideaEditContents: '',
-    chips: []
+    contents: '',
+    title: '',
+    creatingIdea: false,
+    chips: [],
+
+    snackbarVisible: false,
+    snackbarMessage: '',
+    snackbarColor: 'success'
   }),
   created() {},
   mounted() {},
@@ -100,6 +94,31 @@ export default {
     remove(item) {
       this.chips.splice(this.chips.indexOf(item), 1)
       this.chips = [...this.chips]
+    },
+    async onCreateIdea() {
+      this.creatingIdea = true
+
+      try {
+        await this.$amplifyApi.graphql(
+          graphqlOperation(createIdea, {
+            content: this.contents,
+            title: this.title
+          })
+        )
+        this.creatingIdea = false
+        this.ideaEditorVisible = false
+
+        this.snackbarMessage = 'Idea Updated'
+        this.snackbarColor = 'success'
+        this.snackbarVisible = true
+      } catch (err) {
+        this.creatingIdea = false
+        this.snackbarMessage = 'Something went wrong!!'
+        this.snackbarColor = 'error'
+        this.snackbarVisible = true
+        debugger
+        console.error(err)
+      }
     }
   }
 }

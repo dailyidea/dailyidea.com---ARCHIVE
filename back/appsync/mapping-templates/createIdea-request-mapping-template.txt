@@ -8,6 +8,7 @@
     "attributeValues" : {
         	":content" : { "S" : "${context.arguments.content}" },
         	":title" : { "S" : "${context.arguments.title}" },
-        	":ideaDate" : { "S" : "${context.arguments.ideaDate}" }
+        	":ideaDate" : { "S" : "${context.arguments.ideaDate}" },
+            ":userId" : { "S" : "${context.identity.username}" }
     }
 }

@@ -3,10 +3,11 @@
     "version" : "2017-02-28",
     "operation" : "UpdateItem",
     "key" : {
-        "ideaId" : { "S" : "${context.arguments.ideaId}" }
+        "ideaId" : { "S" : "${context.arguments.ideaId}" },
+        "userId" : { "S" : "${context.identity.username}" }
     },
     "update" : {
-        "expression" : "SET tweet = :tweet",
+        "expression" : "SET content = :content, title = :title, ideaDate = :ideaDate",
         "expressionValues": {
         	":content" : { "S" : "${context.arguments.content}" },
         	":title" : { "S" : "${context.arguments.title}" },
