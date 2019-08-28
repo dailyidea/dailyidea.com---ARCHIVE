@@ -1,9 +1,11 @@
 <template>
-  <Layout v-bind="{
+  <Layout
+    v-bind="{
       backButton: true,
       loggedInHeader: true,
       mobileTitle: 'CREATE IDEA'
-    }">
+    }"
+  >
     <v-layout id="createIdeaPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
@@ -22,9 +24,25 @@
         </div>
 
         <!-- Tags -->
-        <v-combobox v-model="chips" class="ideaTag" :items="items" chips clearable multiple outlined label="Add Tags">
+        <v-combobox
+          v-model="chips"
+          class="ideaTag"
+          :items="items"
+          chips
+          clearable
+          multiple
+          outlined
+          label="Add Tags"
+        >
           <template v-slot:selection="{ attrs, item, select, selected }">
-            <v-chip v-bind="attrs" :input-value="selected" close label @click="select" @click:close="remove(item)">
+            <v-chip
+              v-bind="attrs"
+              :input-value="selected"
+              close
+              label
+              @click="select"
+              @click:close="remove(item)"
+            >
               <strong>{{ item }}</strong>
             </v-chip>
           </template>
