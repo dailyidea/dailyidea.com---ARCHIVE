@@ -7,40 +7,20 @@
 
     <v-layout class="mainTable" row>
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
-        <img
-          class="imgLightGrayLamp"
-          src="~/assets/images/signup/light_gray_lamp.png"
-        />
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/person_with_phone.png"
-        />
+        <img class="imgLightGrayLamp" src="~/assets/images/signup/light_gray_lamp.png" />
+        <img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
       </v-flex>
 
       <!-- login Div -->
       <v-flex class="loginDiv">
-        <img
-          class="logoIcon"
-          src="~/assets/images/bulb_with_light_holder.png"
-        />
+        <img class="logoIcon" src="~/assets/images/bulb_with_light_holder.png" />
         <br />
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
         <!-- Login Form -->
         <v-form>
           <!-- Email Input Box -->
-          <validate-text-field
-            :value.sync="email"
-            single-line
-            flat
-            class="emailInput"
-            name="email"
-            autocomplete="email"
-            type="email"
-            prepend-inner-icon="email"
-            placeholder="Enter Email"
-            validate="required|email"
-          />
+          <validate-text-field :value.sync="email" single-line flat class="emailInput" name="email" autocomplete="email" type="email" prepend-inner-icon="email" placeholder="Enter Email" validate="required|email" />
 
           <!-- Continue Button -->
           <v-btn large class="continueBtn" @click="login">OK</v-btn>
@@ -63,22 +43,15 @@
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/signup/lady_with_phone.png"
-        />
+        <img class="imgPersonWithPhone" src="~/assets/images/signup/lady_with_phone.png" />
       </v-flex>
     </v-layout>
 
     <!-- Fixed Footer -->
-    <v-layout
-      hidden-sm-and-down
-      class="fixedFooter"
-      :style="{
+    <v-layout hidden-sm-and-down class="fixedFooter" :style="{
         'background-image':
           'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"
-    ></v-layout>
+      }"></v-layout>
   </div>
 </template>
 
