@@ -34,7 +34,7 @@
               <v-icon>fas fa-user</v-icon>
             </span>
             <div class="userName">Bob Smith</div>
-            <v-btn class="followBtn" color="primary">FOLLOW</v-btn>
+            <v-btn class="followBtn" dark color="primary">FOLLOW</v-btn>
           </div>
 
           <!-- Mobile - Profile Description -->
@@ -193,10 +193,12 @@ export default {
         text-align: center;
         color: #18141c;
       }
+
       i {
         color: #c0b7c5 !important;
         font-size: 15px;
       }
+
       .rightSide {
         text-align: right;
       }
@@ -212,6 +214,7 @@ export default {
       padding-right: 5%;
       padding-left: 5%;
     }
+
     .sectionHeader {
       // border: 1px solid red;
       .userName {
@@ -233,6 +236,7 @@ export default {
         background: #ebe7ed;
         padding: 13px 15px;
         border-radius: 50%;
+
         i {
           font-size: 15px !important;
           line-height: 16px !important;
@@ -274,6 +278,7 @@ export default {
           text-align: left;
           color: #35124e;
         }
+
         .text {
           font-size: 16px;
           font-weight: normal;
@@ -408,6 +413,7 @@ export default {
     width: 350px;
     margin-top: 40vh;
     left: 17%;
+
     @media #{$small-screen} {
       top: 100px;
       margin-top: 0vh;
