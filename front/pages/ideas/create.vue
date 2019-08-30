@@ -165,7 +165,18 @@ export default {
     .ideaTag {
       padding-top: 30px;
 
-      .v-input__icon {
+      .v-chip {
+        background-color: rgba(192, 183, 197);
+        color: white;
+
+        i {
+          color: white;
+        }
+      }
+      .v-icon.mdi-menu-down {
+        display: none;
+      }
+      .v-input__append-inner {
         display: none;
       }
     }
