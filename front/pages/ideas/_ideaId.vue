@@ -96,7 +96,7 @@ export default {
 
     return {
       idea: data.getIdea,
-      user: { email: store.statequery.cognito.user.attributes.email }
+      user: { email: store.state.cognito.user.attributes.email }
     }
   },
   created() {

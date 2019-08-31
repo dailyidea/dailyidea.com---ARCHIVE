@@ -2,7 +2,7 @@
   <div class="loggedInHeader">
     <!-- Desktop Header -->
     <v-layout hidden-sm-and-down>
-      <v-toolbar class="desktop" app flat absolute color="white">
+      <v-app-bar class="desktop" app flat absolute color="white">
         <v-toolbar-title class="blue--text subheading">
           <!-- Show Back button if enabled -->
           <v-icon
@@ -38,7 +38,7 @@
             <v-icon>fas fa-user</v-icon>
           </span>
         </template>
-      </v-toolbar>
+      </v-app-bar>
     </v-layout>
 
     <!-- Mobile HEader -->
