@@ -79,8 +79,7 @@ export default {
     email: '',
     success: false
   }),
-  methods: {
-  }
+  methods: {}
 }
 </script>
 

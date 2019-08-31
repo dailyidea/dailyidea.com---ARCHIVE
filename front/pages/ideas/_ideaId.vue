@@ -82,8 +82,9 @@
 import { graphqlOperation } from '@aws-amplify/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import getIdea from '~/graphql/mutations/getIdea'
+import getIdea from '~/graphql/query/getIdea'
 import Layout from '@/components/layout/Layout'
+
 dayjs.extend(relativeTime)
 export default {
   components: { Layout },
@@ -95,7 +96,7 @@ export default {
 
     return {
       idea: data.getIdea,
-      user: { email: store.state.cognito.user.attributes.email }
+      user: { email: store.statequery.cognito.user.attributes.email }
     }
   },
   created() {

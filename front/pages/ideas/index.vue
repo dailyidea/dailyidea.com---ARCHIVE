@@ -55,7 +55,7 @@ import { graphqlOperation } from '@aws-amplify/api'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import getIdeas from '~/graphql/mutations/getIdeas'
+import getIdeas from '~/graphql/query/getIdeas'
 import Layout from '@/components/layout/Layout'
 dayjs.extend(relativeTime)
 
@@ -65,7 +65,6 @@ export default {
     const {
       data: { ideas }
     } = await app.$amplifyApi.graphql(graphqlOperation(getIdeas))
-    debugger
     return {
       ideas: ideas.items
     }

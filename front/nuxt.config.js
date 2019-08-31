@@ -85,7 +85,7 @@ module.exports = {
   build: {
     loaders: {
       scss: {
-        data: `@import "~@/assets/style/variables.scss";`
+        prependData: `@import "~@/assets/style/variables.scss";`
       }
     },
     /*

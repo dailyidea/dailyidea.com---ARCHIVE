@@ -80,7 +80,6 @@ export default {
   }),
   created() {
     // Read registered user's email id from vuex
-    debugger
   },
   methods: {}
 }
