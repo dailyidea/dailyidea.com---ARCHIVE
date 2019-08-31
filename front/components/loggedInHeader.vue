@@ -42,7 +42,7 @@
     </v-layout>
 
     <!-- Mobile HEader -->
-    <v-toolbar app flat absolute color="white" hidden-md-and-up>
+    <v-app-bar app flat absolute color="white" hidden-md-and-up>
       <v-layout class="mobile" row hidden-md-and-up>
         <!-- Left Side Icon -->
         <v-flex v-if="mobileHamburger" xs2 sm2>
@@ -68,7 +68,7 @@
           <v-icon v-else class="icons menu">fas fa-ellipsis-v</v-icon>
         </v-flex>
       </v-layout>
-    </v-toolbar>
+    </v-app-bar>
   </div>
 </template>
 <script>

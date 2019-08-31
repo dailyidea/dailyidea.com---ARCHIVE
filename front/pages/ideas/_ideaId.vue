@@ -6,6 +6,10 @@
       mobileTitle: user.email.toUpperCase() + '\'S IDEA'
     }"
   >
+    <!-- TODO just examople. remove    -->
+    <v-btn @click="updateIdea">Update Idea</v-btn>
+    <v-btn @click="deleteIdea">Delete Idea</v-btn>
+    <v-btn @click="createIdea">Create Idea</v-btn>
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
@@ -83,6 +87,9 @@ import { graphqlOperation } from '@aws-amplify/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import getIdea from '~/graphql/query/getIdea'
+import updateIdea from '~/graphql/mutations/updateIdea'
+import deleteIdea from '~/graphql/mutations/deleteIdea'
+import createIdea from '~/graphql/mutations/createIdea'
 import Layout from '@/components/layout/Layout'
 
 dayjs.extend(relativeTime)
@@ -102,7 +109,30 @@ export default {
   created() {
     this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
   },
-  methods: {}
+  methods: {
+    async updateIdea() {
+      await this.$amplifyApi.graphql(
+        graphqlOperation(updateIdea, {
+          ideaId: this.$route.params.ideaId,
+          content: 'content me',
+          title: 'titleme'
+        })
+      )
+    },
+    async deleteIdea() {
+      await this.$amplifyApi.graphql(
+        graphqlOperation(deleteIdea, { ideaId: this.$route.params.ideaId })
+      )
+    },
+    async createIdea() {
+      await this.$amplifyApi.graphql(
+        graphqlOperation(createIdea, {
+          content: 'content me',
+          title: 'titleme'
+        })
+      )
+    }
+  }
 }
 </script>
 

@@ -4262,7 +4262,12 @@ eslint-config-prettier@^6.0.0:
   dependencies:
     get-stdin "^6.0.0"
 
-eslint-config-standard@12.0.0, eslint-config-standard@^12.0.0:
+eslint-config-standard@14.1.0:
+  version "14.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-standard/-/eslint-config-standard-14.1.0.tgz#b23da2b76fe5a2eba668374f246454e7058f15d4"
+  integrity sha512-EF6XkrrGVbvv8hL/kYa/m6vnvmUT+K82pJJc4JJVMM6+Qgqh0pnwprSxdduDLB9p/7bIxD+YV5O0wfb8lmcPbA==
+
+eslint-config-standard@^12.0.0:
   version "12.0.0"
   resolved "https://registry.yarnpkg.com/eslint-config-standard/-/eslint-config-standard-12.0.0.tgz#638b4c65db0bd5a41319f96bba1f15ddad2107d9"
   integrity sha512-COUz8FnXhqFitYj4DTqHzidjIL/t4mumGZto5c7DrBpvWoie+Sn3P4sLEzUGeYhRElWuFEf8K1S1EfvD1vixCQ==
@@ -4275,10 +4280,10 @@ eslint-import-resolver-node@^0.3.2:
     debug "^2.6.9"
     resolve "^1.5.0"
 
-eslint-loader@2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/eslint-loader/-/eslint-loader-2.1.2.tgz#453542a1230d6ffac90e4e7cb9cadba9d851be68"
-  integrity sha512-rA9XiXEOilLYPOIInvVH5S/hYfyTPyxag6DZhoQOduM+3TkghAEQ3VcFO8VnX4J4qg/UIBzp72aOf/xvYmpmsg==
+eslint-loader@2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/eslint-loader/-/eslint-loader-2.2.1.tgz#28b9c12da54057af0845e2a6112701a2f6bf8337"
+  integrity sha512-RLgV9hoCVsMLvOxCuNjdqOrUqIj9oJg8hF44vzJaYqsAHuY9G2YAeN3joQ9nxP0p5Th9iFSIpKo+SD8KISxXRg==
   dependencies:
     loader-fs-cache "^1.0.0"
     loader-utils "^1.0.2"
@@ -4380,10 +4385,10 @@ eslint-plugin-vue@5.2.3, eslint-plugin-vue@^5.2.3:
   dependencies:
     vue-eslint-parser "^5.0.0"
 
-eslint-plugin-you-dont-need-lodash-underscore@6.5.0:
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-you-dont-need-lodash-underscore/-/eslint-plugin-you-dont-need-lodash-underscore-6.5.0.tgz#c8893157fe477f8ccc9bf6e3e4577702f7333116"
-  integrity sha512-68bj1UlZtCLmu1Mp0GaRgIBNFJyHJChfwphY9fBk60fBkNPH/xnbEXhbFsk7CBaZGMqPkHhYjT1iICQyZAdK5Q==
+eslint-plugin-you-dont-need-lodash-underscore@6.6.0:
+  version "6.6.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-you-dont-need-lodash-underscore/-/eslint-plugin-you-dont-need-lodash-underscore-6.6.0.tgz#708dabd3867163c36091930d9c4088e766a48236"
+  integrity sha512-LEu9RHc0rt3MbX9I4DEVeGp/PLAWNc4L2Ql5PbYka+9cwZy+veDwhgOgzE0qttuD9xPhquDi92Rwk+iXUUYgCQ==
   dependencies:
     kebab-case "^1.0.0"
 
@@ -9110,13 +9115,6 @@ sass@^1.22.10:
   version "1.22.10"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.22.10.tgz#b9f01440352ba0be5d99fa64a2040b035cc6e5ff"
   integrity sha512-DUpS1tVMGCH6gr/N9cXCoemrjoNdOLhAHfQ37fJw2A5ZM4gSI9ej/8Xi95Xwus03RqZ2zdSnKZGULL7oS+jfMA==
-  dependencies:
-    chokidar ">=2.0.0 <4.0.0"
-
-sass@^1.22.9:
-  version "1.22.9"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.22.9.tgz#41a2ed6038027f58be2bd5041293452a29c2cb84"
-  integrity sha512-FzU1X2V8DlnqabrL4u7OBwD2vcOzNMongEJEx3xMEhWY/v26FFR3aG0hyeu2T965sfR0E9ufJwmG+Qjz78vFPQ==
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 
