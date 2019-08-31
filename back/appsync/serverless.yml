@@ -50,7 +50,7 @@ custom:
         type: Mutation
         field: createIdea
         request: "createIdea-request-mapping-template.txt"
-        response: "createIdea-request-mapping-template.txt"
+        response: "createIdea-response-mapping-template.txt"
       - dataSource: Ideas
         type: Mutation
         field: deleteIdea
