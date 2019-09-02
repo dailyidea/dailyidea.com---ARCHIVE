@@ -11,14 +11,9 @@
     @showShareIdeaDialog="showShareIdeaDialog"
     @onEditIdea="showIdeaEditor"
   >
-    <!-- TODO just examople. remove    -->
-    <v-btn @click="updateIdea">Update Idea</v-btn>
-    <v-btn @click="deleteIdea">Delete Idea</v-btn>
-    <v-btn @click="createIdea">Create Idea</v-btn>
-
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
-      <!-- Left Side -->
+
       <v-flex class="profileDetails">
         <!-- Header section - only for desktop -->
         <v-layout class="sectionHeader" hidden-sm-and-down>
@@ -195,7 +190,7 @@
         </v-layout>
       </v-flex>
 
-      <!-- Right Side -->
+      <!-- Comments -->
       <v-flex class="rightSideComments">
         <v-layout class="cmtAndLike" hidden-sm-and-down>
           <div class="ups">
@@ -489,60 +484,13 @@ export default {
         this.snackbarVisible = true
       }
     }
+    //     async deleteIdea() {
+    //       await this.$amplifyApi.graphql(
+    //         graphqlOperation(deleteIdea, { ideaId: this.$route.params.ideaId })
+    //       )
+    //     },
   }
 }
-
-// import { graphqlOperation } from '@aws-amplify/api'
-// import dayjs from 'dayjs'
-// import relativeTime from 'dayjs/plugin/relativeTime'
-// import getIdea from '~/graphql/query/getIdea'
-// import updateIdea from '~/graphql/mutations/updateIdea'
-// import deleteIdea from '~/graphql/mutations/deleteIdea'
-// import createIdea from '~/graphql/mutations/createIdea'
-// import Layout from '@/components/layout/Layout'
-
-// dayjs.extend(relativeTime)
-// export default {
-//   components: { Layout },
-//   data: () => ({}),
-//   async asyncData({ app, route, store }) {
-//     const { data } = await app.$amplifyApi.graphql(
-//       graphqlOperation(getIdea, { ideaId: route.params.ideaId })
-//     )
-
-//     return {
-//       idea: data.getIdea,
-//       user: { email: store.state.cognito.user.attributes.email }
-//     }
-//   },
-//   created() {
-//     this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
-//   },
-//   methods: {
-//     async updateIdea() {
-//       await this.$amplifyApi.graphql(
-//         graphqlOperation(updateIdea, {
-//           ideaId: this.$route.params.ideaId,
-//           content: 'content me',
-//           title: 'titleme'
-//         })
-//       )
-//     },
-//     async deleteIdea() {
-//       await this.$amplifyApi.graphql(
-//         graphqlOperation(deleteIdea, { ideaId: this.$route.params.ideaId })
-//       )
-//     },
-//     async createIdea() {
-//       await this.$amplifyApi.graphql(
-//         graphqlOperation(createIdea, {
-//           content: 'content me',
-//           title: 'titleme'
-//         })
-//       )
-//     }
-//   }
-// }
 </script>
 
 <style lang="scss">
@@ -567,6 +515,7 @@ export default {
 
     .sectionHeader {
       display: flex;
+      margin-bottom: 20px;
 
       i {
         line-height: 20px;
@@ -616,7 +565,6 @@ export default {
     }
 
     .ideaTitle {
-      padding-top: 10px;
       padding-bottom: 20px;
       font-size: 30px;
       font-weight: normal;

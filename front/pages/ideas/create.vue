@@ -99,18 +99,23 @@ export default {
       this.creatingIdea = true
 
       try {
-        await this.$amplifyApi.graphql(
+        let result = await this.$amplifyApi.graphql(
           graphqlOperation(createIdea, {
             content: this.contents,
             title: this.title
           })
         )
+
         this.creatingIdea = false
         this.ideaEditorVisible = false
 
-        this.snackbarMessage = 'Idea Updated'
+        this.snackbarMessage = 'Idea Created'
         this.snackbarColor = 'success'
         this.snackbarVisible = true
+
+        // Redirect to idea deail page
+        let ideaId = result.data.createIdea.ideaId
+        this.$router.push({ path: '/ideas/' + ideaId, force: true })
       } catch (err) {
         this.creatingIdea = false
         this.snackbarMessage = 'Something went wrong!!'
@@ -173,9 +178,11 @@ export default {
           color: white;
         }
       }
+
       .v-icon.mdi-menu-down {
         display: none;
       }
+
       .v-input__append-inner {
         display: none;
       }
