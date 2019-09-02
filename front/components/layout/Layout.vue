@@ -78,20 +78,20 @@
           <v-layout class="nonSearchSection" row>
             <!-- Left Side Icon -->
             <v-layout>
-              <v-flex v-if="mobileHamburger" xs2 sm2>
+              <v-flex v-if="mobileHamburger" xs1 sm1>
                 <v-icon class="icons" @click="$refs.mobileMenu.visible = true"
                   >fas fa-bars</v-icon
                 >
                 <MobileMenu ref="mobileMenu"></MobileMenu>
               </v-flex>
-              <v-flex v-else-if="backButton" xs2 sm2>
+              <v-flex v-else-if="backButton" xs1 sm1>
                 <v-icon class="icons" @click="onBackClick()"
                   >fas fa-arrow-left</v-icon
                 >
               </v-flex>
 
               <!-- Center Title -->
-              <v-flex xs7 sm7 class="text">{{ mobileTitle }}</v-flex>
+              <v-flex xs8 sm8 class="text">{{ mobileTitle }}</v-flex>
             </v-layout>
 
             <!-- Rightside Icons -->
@@ -289,6 +289,7 @@ export default {
 
     .desktop {
       z-index: 100;
+      width: 100%;
 
       .helpLink {
         color: #c0b7c5 !important;
@@ -382,20 +383,21 @@ export default {
     }
 
     .mobile {
-      padding: 0px 0px;
+      padding: 0px 10px;
       margin-left: 0px;
       margin-right: 0px;
-      //width: 100%;
+      width: 100%;
 
       .nonSearchSection {
         padding: 0px 0px;
+
         .text {
-          text-align: center;
+          text-align: left !important;
+          padding-left: 5px;
           margin-top: 2px;
           font-size: 14px;
           font-weight: 600;
           line-height: 1.57;
-          text-align: center;
           color: #18141c;
         }
 
@@ -431,6 +433,7 @@ export default {
 
         .v-input__prepend-inner {
           margin-top: 8px;
+
           .v-icon {
             font-size: 17px;
           }
@@ -439,7 +442,6 @@ export default {
         .v-text-field__slot {
           max-height: 43px;
           overflow: hidden;
-          // border: 1px solid red;
 
           fieldset {
             max-height: 43px;
@@ -451,6 +453,7 @@ export default {
           }
         }
       }
+
       .closeIcon {
         position: absolute;
         right: 25px;
