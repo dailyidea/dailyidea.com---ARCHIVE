@@ -85,6 +85,9 @@ export default {
       this.email = this.$route.params.email
     }
   },
+  created() {
+    // Read registered user's email id from vuex
+  },
   methods: {}
 }
 </script>
@@ -102,6 +105,7 @@ export default {
     color: $primary-color;
     position: absolute;
     padding: 25px;
+
     i {
       font-size: 16px;
     }
@@ -109,9 +113,11 @@ export default {
 
   .gridContainer {
     height: 100vh;
+
     .lefgImgContainer {
       position: relative;
       z-index: 10;
+
       .imgPersonWithPhone {
         height: 70vh;
         position: absolute;
@@ -153,6 +159,7 @@ export default {
 
       .logoIcon {
         height: 100px;
+
         @media #{$small-screen} {
           // padding-top: 30vh;
           // background: red !important;
@@ -175,6 +182,7 @@ export default {
         letter-spacing: normal;
         text-align: center;
         color: #18141c;
+
         @media #{$small-screen} {
           font-size: 44px;
         }
@@ -214,12 +222,14 @@ export default {
 
       .socialIconContainer {
         margin-top: 4vh;
+
         button {
           border: 1px solid #ebe7ed;
         }
       }
     }
   }
+
   .fixedFooter {
     height: 30vh;
     width: 100%;

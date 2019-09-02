@@ -3,12 +3,13 @@
     "version" : "2017-02-28",
     "operation" : "PutItem",
     "key" : {
-        "ideaId" : { "S" : "${context.arguments.ideaId}" }
+        "ideaId" : $util.dynamodb.toDynamoDBJson($util.autoId()),
+        "userId" : { "S" : "${context.identity.username}" }
     },
     "attributeValues" : {
-        	":content" : { "S" : "${context.arguments.content}" },
-        	":title" : { "S" : "${context.arguments.title}" },
-        	":ideaDate" : { "S" : "${context.arguments.ideaDate}" },
-            ":userId" : { "S" : "${context.identity.username}" }
+        "content" : { "S" : "${context.arguments.content}" },
+        "title" : { "S" : "${context.arguments.title}" },
+        "ideaDate" : $util.dynamodb.toDynamoDBJson($util.time.nowISO8601()),
+        "createdDate" : $util.dynamodb.toDynamoDBJson($util.time.nowISO8601())
     }
 }

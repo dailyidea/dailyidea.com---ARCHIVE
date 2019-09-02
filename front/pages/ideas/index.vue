@@ -85,7 +85,6 @@ export default {
     const {
       data: { ideas }
     } = await app.$amplifyApi.graphql(graphqlOperation(getIdeas))
-    debugger
     return {
       ideas: ideas.items
     }
