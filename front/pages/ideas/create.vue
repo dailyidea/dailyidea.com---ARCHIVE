@@ -121,7 +121,6 @@ export default {
         this.snackbarMessage = 'Something went wrong!!'
         this.snackbarColor = 'error'
         this.snackbarVisible = true
-        debugger
         console.error(err)
       }
     }
