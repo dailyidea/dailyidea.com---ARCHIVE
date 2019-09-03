@@ -9,13 +9,13 @@
   >
     <v-layout id="ideaListPage">
       <!-- Title Section -->
-      <div class="titleDiv">
+      <div v-if="ideas && ideas.length > 0" class="titleDiv">
         <v-layout class="titleText" hidden-sm-and-down>MY IDEAS</v-layout>
         <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
       </div>
 
       <!-- Idea List -->
-      <v-layout class="ideaList" row wrap>
+      <v-layout v-if="ideas && ideas.length > 0" class="ideaList" row wrap>
         <v-flex
           v-for="(idea, index) in ideas"
           :key="index"
@@ -47,6 +47,26 @@
           </div>
         </v-flex>
       </v-layout>
+
+      <!-- No Idea found div -->
+      <div v-else class="noIdeaFoundDiv">
+        <div>
+          <img
+            class="lampImg"
+            src="~/assets/images/light_gray_lamp_plain.png"
+          />
+        </div>
+        <div class="text">
+          You don't have any ideas right now. <br />
+          Or do you?
+        </div>
+        <img class="arrowImg" src="~/assets/images/add_idea_arrow.png" />
+      </div>
+
+      <!-- Add Idea Button -->
+      <v-btn class="addBtn" fab to="/ideas/create">
+        <v-icon>add</v-icon>
+      </v-btn>
     </v-layout>
   </Layout>
 </template>
@@ -91,6 +111,12 @@ export default {
   padding-right: 3%;
   padding-left: 2%;
 
+  .addBtn {
+    position: fixed;
+    right: 40px;
+    bottom: 30px;
+  }
+
   @media #{$small-screen} {
     padding-top: 0vh;
   }
@@ -99,6 +125,7 @@ export default {
     text-align: center;
     // border: 1px solid red;
     min-height: 30px;
+
     .titleText {
       display: inline-block;
       margin-bottom: 20px;
@@ -112,6 +139,7 @@ export default {
       text-align: center;
       color: #232323;
     }
+
     .sortBy {
       font-size: 14px;
       font-weight: normal;
@@ -130,6 +158,7 @@ export default {
         text-align: left;
         padding-left: 5%;
         font-size: 12px;
+        padding-top: 10px;
       }
 
       i {
@@ -151,6 +180,7 @@ export default {
 
     .ideaContainer {
       padding: 10px 10px;
+
       @media #{$small-screen} {
         padding: 0px !important;
 
@@ -164,6 +194,12 @@ export default {
         padding: 15px 20px;
         cursor: pointer !important;
 
+        &:hover {
+          -webkit-box-shadow: 0px 0px 5px 3px #e3e3e361;
+          -moz-box-shadow: 0px 0px 5px 3px #e3e3e361;
+          box-shadow: 0px 0px 5px 3px #e3e3e361;
+        }
+
         @media #{$small-screen} {
           border-left: 0px;
           border-right: 0px;
@@ -176,6 +212,7 @@ export default {
           display: block;
           overflow-wrap: break-word;
           min-height: 50px;
+
           @media #{$small-screen} {
             padding-top: 3px;
             min-height: 10px;
@@ -231,6 +268,38 @@ export default {
             cursor: pointer !important;
           }
         }
+      }
+    }
+  }
+
+  .noIdeaFoundDiv {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    height: 93vh;
+    padding-bottom: 60px;
+    align-items: center;
+
+    .lampImg {
+      margin-top: 15vh;
+      height: 30vh;
+    }
+
+    .text {
+      margin-top: 3vh;
+      margin-bottom: 3vh;
+      font-size: 20px;
+      color: #c0b7c5;
+    }
+
+    .arrowImg {
+      display: none;
+
+      @media #{$small-screen} {
+        display: block;
+        width: 20%;
+        margin-left: 30%;
       }
     }
   }

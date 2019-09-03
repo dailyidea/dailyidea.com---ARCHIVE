@@ -45,8 +45,10 @@ module.exports = {
     '@/plugins/vuex-cognito',
     '@/plugins/notifications',
     '@/plugins/dayjs',
+    '@/plugins/clipboard',
     '@/plugins/vee-validate',
-    '@/plugins/mixins'
+    '@/plugins/mixins',
+    { src: '~plugins/vue-trix', ssr: false }
   ],
 
   /*
@@ -61,10 +63,19 @@ module.exports = {
     theme: {
       themes: {
         light: {
-          primary: '#FF9900',
+          primary: '#35124e',
           accent: '#FFFFFF',
           secondary: '#424242',
-          info: '#0D47A1',
+          info: '#35124e',
+          warning: '#ffb300',
+          error: '#B71C1C',
+          success: '#2E7D32'
+        },
+        dark: {
+          primary: '#35124e',
+          accent: '#FFFFFF',
+          secondary: '#424242',
+          info: '#35124e',
           warning: '#ffb300',
           error: '#B71C1C',
           success: '#2E7D32'

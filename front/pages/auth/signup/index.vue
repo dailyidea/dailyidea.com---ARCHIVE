@@ -53,13 +53,15 @@
 
         <!-- Social Login Icons -->
         <div class="socialIconContainer">
-          <v-btn small outlined fab color="primary">
+          <v-btn outlined fab color="primary">
             <v-icon>fab fa-facebook-f</v-icon>
           </v-btn>
-          <v-btn small outlined fab color="primary">
+          &nbsp;&nbsp;&nbsp;
+          <v-btn outlined fab color="primary">
             <v-icon>fab fa-twitter</v-icon>
           </v-btn>
-          <v-btn small outlined fab color="primary">
+          &nbsp;&nbsp;&nbsp;
+          <v-btn outlined fab color="primary">
             <v-icon>fab fa-google-plus-g</v-icon>
           </v-btn>
         </div>
@@ -67,9 +69,7 @@
         <!-- Login div at bottom -->
         <div class="loginDiv">
           <div class="loginTitle">Alreay have an account?</div>
-          <v-btn large class="loginBtn" color="primary" to="/auth/login"
-            >LOGIN</v-btn
-          >
+          <v-btn large dark class="loginBtn" to="/auth/login">LOGIN</v-btn>
         </div>
       </v-flex>
 
@@ -129,7 +129,10 @@ export default {
         })
 
         // Redirect to registeration success page
-        this.$router.push('/auth/signup/success')
+        this.$router.push({
+          name: 'auth-signup-success',
+          params: { email: this.email }
+        })
       } catch (e) {
         this.$snotify.error(getErrorMessage(e), 'Error', {
           timeout: 2000,
@@ -152,13 +155,18 @@ export default {
   overflow: hidden;
 
   .mainTable {
+    margin: 0px;
     height: 100vh;
     z-index: 100;
+
     .backBtn {
       color: $primary-color;
-      position: absolute;
-      padding: 25px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      margin: 5px 3px;
       z-index: 5000;
+
       i {
         font-size: 16px;
       }
@@ -167,6 +175,7 @@ export default {
     .lefgImgContainer {
       position: relative;
       z-index: 10;
+
       .imgPersonWithPhone {
         height: 70vh;
         position: absolute;
@@ -207,6 +216,7 @@ export default {
 
       .logoIcon {
         width: 70px;
+
         @media #{$small-screen} {
           // padding-top: 30vh;
           // background: red !important;
@@ -229,6 +239,7 @@ export default {
         .v-input__prepend-inner {
           padding-right: 15px;
           font-size: 12px;
+
           i {
             // color: red !important;
             font-size: 18px;
@@ -257,14 +268,21 @@ export default {
       }
 
       .socialIconContainer {
-        margin-top: 3vh;
+        margin-top: 5vh;
+        margin-bottom: 4vh;
+
         button {
           border: 1px solid #ebe7ed;
+
+          i {
+            font-size: 16px;
+          }
         }
       }
 
       .loginDiv {
         margin-top: 2vh;
+
         .loginTitle {
           font-size: 14px;
           font-weight: normal;
@@ -275,9 +293,10 @@ export default {
           text-align: center;
           color: #c8c7c7;
         }
+
         .loginBtn {
           width: 70%;
-          max-width: 400px;
+          max-width: 500px;
           border-radius: 4px;
           letter-spacing: 1px;
         }

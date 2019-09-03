@@ -43,18 +43,20 @@
           />
 
           <!-- Continue Button -->
-          <v-btn large class="continueBtn" @click="login">Continue</v-btn>
+          <v-btn large class="continueBtn" @click="login">OK</v-btn>
         </v-form>
 
         <!-- Social Login Icons -->
         <div class="socialIconContainer">
-          <v-btn small outlined fab color="primary">
+          <v-btn outlined fab color="primary">
             <v-icon>fab fa-facebook-f</v-icon>
           </v-btn>
-          <v-btn small outlined fab color="primary">
+          &nbsp;&nbsp;&nbsp;
+          <v-btn outlined fab color="primary">
             <v-icon>fab fa-twitter</v-icon>
           </v-btn>
-          <v-btn small outlined fab color="primary">
+          &nbsp;&nbsp;&nbsp;
+          <v-btn outlined fab color="primary">
             <v-icon>fab fa-google-plus-g</v-icon>
           </v-btn>
         </div>
@@ -106,7 +108,10 @@ export default {
         })
 
         // Redirect to login success page
-        this.$router.push('/auth/login/success')
+        this.$router.push({
+          name: 'auth-login-success',
+          params: { email: this.email }
+        })
       } catch (e) {
         this.$snotify.error(getErrorMessage(e), 'Error', {
           timeout: 2000,
@@ -131,15 +136,18 @@ export default {
   .backBtn {
     color: $primary-color;
     position: fixed;
-    top: 4vh;
-    left: 3vh;
+    top: 0;
+    left: 0;
+    margin: 5px 3px;
     z-index: 100;
+
     i {
       font-size: 16px;
     }
   }
 
   .mainTable {
+    margin: 0px;
     height: 100vh;
 
     .lefgImgContainer {
@@ -187,6 +195,7 @@ export default {
 
       .logoIcon {
         width: 20vh;
+
         @media #{$small-screen} {
           // padding-top: 30vh;
           // background: red !important;
@@ -202,6 +211,7 @@ export default {
       .emailInput {
         margin-top: 7vh !important;
         margin-bottom: 20px;
+
         .v-input__prepend-inner {
           padding-right: 15px;
         }
@@ -223,7 +233,7 @@ export default {
         border-radius: 4px;
         background-image: linear-gradient(to left, #ffdf01, #ffb92d);
         color: white;
-        width: 70%;
+        width: 40%;
 
         letter-spacing: 1px;
 
@@ -234,9 +244,18 @@ export default {
       }
 
       .socialIconContainer {
-        margin-top: 6vh;
+        margin-top: 5vh;
+        margin-bottom: 4vh;
+
         button {
           border: 1px solid #ebe7ed;
+          .v-icon {
+            font-size: 17px;
+          }
+
+          i {
+            font-size: 20px;
+          }
         }
       }
 

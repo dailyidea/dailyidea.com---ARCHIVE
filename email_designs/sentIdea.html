@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<head>
+
+	<!-- Include font-awesome icons -->
+	<link rel="stylesheet" href="http://localhost:3000/email/font-awesome/font-awesome.min.css" />
+
+	<!-- Fonts -->
+	<style>
+		@font-face {
+			font-family: 'QuatroBold';
+			src: url('http://localhost:3000/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot');
+			/* IE9*/
+			src: url('http://localhost:3000/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot?#iefix') format('embedded-opentype');
+			/* IE6-IE8 */
+			src: url('http://localhost:3000/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff2') format('woff2');
+			/* chrome、firefox */
+			src: url('http://localhost:3000/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff') format('woff');
+			/* chrome、firefox */
+			src: url('http://localhost:3000/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.ttf') format('truetype');
+			/* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+			src: url('http://localhost:3000/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.svg#QuatroBold') format('svg');
+			/* iOS 4.1- */
+		}
+
+		@font-face {
+			font-family: 'Quatro';
+			src: url('http://localhost:3000/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot');
+			/* IE9*/
+			src: url('http://localhost:3000/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot?#iefix') format('embedded-opentype');
+			/* IE6-IE8 */
+			src: url('http://localhost:3000/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff2') format('woff2');
+			/* chrome、firefox */
+			src: url('http://localhost:3000/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff') format('woff');
+			/* chrome、firefox */
+			src: url('http://localhost:3000/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.ttf') format('truetype');
+			/* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+			src: url('http://localhost:3000/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.svg#Quatro');
+		}
+
+		@font-face {
+			font-family: 'QuatroLight';
+			src: url('http://localhost:3000/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot');
+			/* IE9*/
+			src: url('http://localhost:3000/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot?#iefix') format('embedded-opentype');
+			/* IE6-IE8 */
+			src: url('http://localhost:3000/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff2') format('woff2');
+			/* chrome、firefox */
+			src: url('http://localhost:3000/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff') format('woff');
+			/* chrome、firefox */
+			src: url('http://localhost:3000/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.ttf') format('truetype');
+			/* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+			src: url('http://localhost:3000/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.svg#QuatroLight') format('svg');
+			/* iOS 4.1- */
+		}
+	</style>
+
+	<!-- Page Style -->
+	<style>
+		body {
+			font-family: Quatro;
+		}
+
+		#sentIdea {
+			margin: auto;
+			margin-top: 20px;
+			width: 100%;
+			max-width: 500px;
+			min-height: 75vh;
+			background-color: white;
+			padding: 20px;
+
+			background-image: url("http://localhost:3000/email/images/Path734.png");
+			background-repeat: no-repeat;
+			background-position-x: -142px;
+			background-position-y: 176px;
+
+		}
+
+		.dailyIdeaImg {
+			margin-bottom: 30px;
+			height: 80px;
+			margin-left: auto;
+			margin-right: auto;
+			display: block;
+		}
+
+		.name {
+			font-size: 17px;
+			text-align: center;
+			color: #ebe7ed;
+		}
+
+		.ideaDetails {
+			margin-left: auto;
+			margin-right: auto;
+			width: 70%;
+			background-color: white;
+			padding: 30px;
+		}
+
+		.title {
+			font-size: 35px;
+			margin-bottom: 10px;
+		}
+
+		.author {
+			display: flex;
+			justify-content: center;
+			align-content: center;
+			flex-direction: row;
+			/* Column | row */
+		}
+
+		.author .authorImg {
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background-color: #ebe8ee;
+		}
+
+		.author .authorName {
+			flex: 1;
+			padding-left: 7px;
+			font-family: QuatroLight;
+			font-size: 14px;
+			color: #b5b5b5;
+			line-height: 20px;
+		}
+
+		.authorName>div {
+			display: inline-block;
+		}
+
+
+		.time {
+			float: right !important;
+			font-family: QuatroLight;
+			margin-right: 20px;
+			color: #b5b5b5;
+		}
+
+		.description {
+			font-size: 18px;
+			line-height: 1.3;
+			color: #18141c;
+		}
+
+		.chip {
+			background-color: #c0b7c5;
+			color: white;
+			border-radius: 3px;
+			padding: 5px;
+			font-size: 9px;
+			border: none;
+			margin-bottom: 20px;
+			display: inline-block;
+		}
+
+		i {
+			float: right;
+			padding-left: 7px;
+			font-size: 2px;
+		}
+
+		.engagement {
+			display: flex;
+			justify-content: left;
+			align-content: center;
+			flex-direction: row;
+			line-height: 25px;
+		}
+
+		.engagement .logoIcon {
+			height: 20px;
+			margin-right: 5px;
+		}
+
+		.commentImg {
+			margin-left: 50px;
+			border-radius: 5px;
+			width: 18px;
+			height: 18px;
+			margin-right: 7px;
+		}
+	</style>
+</head>
+
+<html>
+
+<body>
+	<div id="sentIdea">
+		<img class="dailyIdeaImg" src="http://localhost:3000/email/images/Group18.png" />
+		<div class="name">XYZNAME sent you an idea!</div>
+		<div class="ideaDetails">
+			<div class="title">Title lorem ipsum dolor sit amet</div>
+			<div class="author">
+				<div class="authorImg"></div>
+				<div class="authorName">
+					<div>Bob Smith</div>
+					<div class="time">1h ago</div>
+				</div>
+
+			</div>
+			<p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+				mollit
+				anim.</p>
+
+			<div class="chip">web <i class="fa fa-times" aria-hidden="true"></i></div>
+			<div class="chip" style="margin-left:5px;">
+				illustration<i class="fa fa-times" aria-hidden="true"></i>
+			</div>
+			<div class="chip" style="margin-left:5px;">graphics <i class="fa fa-times" aria-hidden="true"></i></div>
+			<div class="chip" style="margin-left:5px;">UI <i class="fa fa-times" aria-hidden="true"></i></div>
+
+			<div class="engagement">
+				<img class="logoIcon" src="http://localhost:3000/email/images/logo_icon.png" />
+				<span class="likeNum">609</span>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<img class="logoIcon" src="http://localhost:3000/email/images/comments.png" />
+				<span class="likeNum">30</span>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

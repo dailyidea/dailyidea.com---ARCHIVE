@@ -34,7 +34,7 @@
               <v-icon>fas fa-user</v-icon>
             </span>
             <div class="userName">Bob Smith</div>
-            <v-btn class="followBtn" color="primary">FOLLOW</v-btn>
+            <v-btn class="followBtn" dark color="primary">FOLLOW</v-btn>
           </div>
 
           <!-- Mobile - Profile Description -->
@@ -85,10 +85,9 @@
 
         <!-- Right Side -->
         <v-flex class="rightSideComments" xs12 sm12 md7 lg7 xl7>
-          <div v-for="i in 6" :key="i" class="commentItem">
-            <div class="commentText">
-              Excepteur sint occaecat lorem cupidatat non proident, sunt in
-              dolor sit amet consecteturdfd
+          <div v-for="(comment, i) in commentList" :key="i" class="commentItem">
+            <div class="cmtText">
+              {{ comment.text }}
             </div>
             <div class="engagement">
               <div class="ups">
@@ -102,6 +101,13 @@
               <div class="timing">1h ago</div>
             </div>
           </div>
+
+          <div v-if="i > comment" :key="i" class="noCommentItem">
+            <div class="description">
+              Bob hasn't added any ideas yet
+            </div>
+          </div>
+          <div v-else></div>
         </v-flex>
       </v-layout>
     </v-layout>
@@ -114,6 +120,36 @@ export default {
   components: { Layout },
   data: () => ({
     commentList: [
+      {
+        text:
+          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
+        ups: 609,
+        downs: 120
+      },
+      {
+        text:
+          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
+        ups: 609,
+        downs: 120
+      },
+      {
+        text:
+          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
+        ups: 609,
+        downs: 120
+      },
+      {
+        text:
+          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
+        ups: 609,
+        downs: 120
+      },
+      {
+        text:
+          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
+        ups: 609,
+        downs: 120
+      },
       {
         text:
           'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
@@ -157,10 +193,12 @@ export default {
         text-align: center;
         color: #18141c;
       }
+
       i {
         color: #c0b7c5 !important;
         font-size: 15px;
       }
+
       .rightSide {
         text-align: right;
       }
@@ -176,6 +214,7 @@ export default {
       padding-right: 5%;
       padding-left: 5%;
     }
+
     .sectionHeader {
       // border: 1px solid red;
       .userName {
@@ -197,6 +236,7 @@ export default {
         background: #ebe7ed;
         padding: 13px 15px;
         border-radius: 50%;
+
         i {
           font-size: 15px !important;
           line-height: 16px !important;
@@ -238,6 +278,7 @@ export default {
           text-align: left;
           color: #35124e;
         }
+
         .text {
           font-size: 16px;
           font-weight: normal;
@@ -277,7 +318,7 @@ export default {
     }
 
     .tagsContainer {
-      margin-top: 20px;
+      margin-top: 300px;
 
       .tag {
         border-radius: 6px;
@@ -372,6 +413,7 @@ export default {
     width: 350px;
     margin-top: 40vh;
     left: 17%;
+
     @media #{$small-screen} {
       top: 100px;
       margin-top: 0vh;

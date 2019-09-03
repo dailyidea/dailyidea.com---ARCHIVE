@@ -28,8 +28,10 @@
 
         <!-- Hero Description -->
         <div class="heroDescription">
-          We've sent you an email confirmation link at ericzliu@gmail.com. Click
-          the link to confirm your address and get started!
+          We've sent you an email confirmation
+          <span v-if="email">link at {{ email }}.</span>
+          <span v-else></span>
+          Click the link to confirm your email and get started!
         </div>
 
         <!-- Continue Button -->
@@ -76,8 +78,13 @@
 <script>
 export default {
   data: () => ({
-    email: ''
+    email: null
   }),
+  mounted() {
+    if (this.$route.params.email) {
+      this.email = this.$route.params.email
+    }
+  },
   created() {
     // Read registered user's email id from vuex
   },
@@ -88,29 +95,34 @@ export default {
 <style lang="scss">
 #signupSuccessPage {
   // border: 1px solid red;
-  height: 90vh;
+  height: 100vh;
   overflow: hidden;
   background: white;
   overflow: hidden;
 
   .backBtn {
+    z-index: 100;
     color: $primary-color;
     position: absolute;
     padding: 25px;
+
     i {
       font-size: 16px;
     }
   }
 
   .gridContainer {
+    height: 100vh;
+
     .lefgImgContainer {
       position: relative;
       z-index: 10;
+
       .imgPersonWithPhone {
-        height: 65vh;
+        height: 70vh;
         position: absolute;
         right: 0;
-        bottom: 0;
+        bottom: 4vh;
       }
     }
 
@@ -126,17 +138,17 @@ export default {
       }
 
       .imgPersonWithPhone {
-        height: 65vh;
+        height: 70vh;
         position: absolute;
         left: 0;
-        bottom: 0;
+        bottom: 4vh;
       }
     }
 
     .successMessage {
       // border: 1px solid red;
       text-align: center;
-      padding-top: 4vh;
+      padding-top: 10vh;
       z-index: 10;
       height: 85vh;
       overflow: hidden;
@@ -147,6 +159,7 @@ export default {
 
       .logoIcon {
         height: 100px;
+
         @media #{$small-screen} {
           // padding-top: 30vh;
           // background: red !important;
@@ -169,6 +182,7 @@ export default {
         letter-spacing: normal;
         text-align: center;
         color: #18141c;
+
         @media #{$small-screen} {
           font-size: 44px;
         }
@@ -208,12 +222,14 @@ export default {
 
       .socialIconContainer {
         margin-top: 4vh;
+
         button {
           border: 1px solid #ebe7ed;
         }
       }
     }
   }
+
   .fixedFooter {
     height: 30vh;
     width: 100%;

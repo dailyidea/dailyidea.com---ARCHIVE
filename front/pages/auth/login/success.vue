@@ -24,12 +24,14 @@
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
         <!-- Hero Message -->
-        <div class="heroMsg">Hooray!</div>
+        <div class="heroMsg">Yay!</div>
 
         <!-- Hero Description -->
         <div class="heroDescription">
-          We've sent you an email confirmation link at ericzliu@gmail.com. Click
-          the link to get started!
+          Welcome to Daily Idea!<br />
+          We've sent you an email confirmation
+          <span v-if="email">link at {{ email }}.</span>
+          <span v-else>link.</span>
         </div>
 
         <!-- Continue Button -->
@@ -76,9 +78,14 @@
 <script>
 export default {
   data: () => ({
-    email: '',
+    email: null,
     success: false
   }),
+  mounted() {
+    if (this.$route.params.email) {
+      this.email = this.$route.params.email
+    }
+  },
   methods: {}
 }
 </script>
@@ -92,9 +99,11 @@ export default {
   overflow: hidden;
 
   .backBtn {
+    z-index: 100;
     color: $primary-color;
     position: absolute;
     padding: 25px;
+
     i {
       font-size: 16px;
     }
@@ -102,9 +111,11 @@ export default {
 
   .gridContainer {
     height: 100vh;
+
     .lefgImgContainer {
       position: relative;
       z-index: 10;
+
       .imgPersonWithPhone {
         height: 70vh;
         position: absolute;
@@ -146,6 +157,7 @@ export default {
 
       .logoIcon {
         height: 17vh;
+
         @media #{$small-screen} {
           // padding-top: 30vh;
           // background: red !important;
@@ -168,6 +180,7 @@ export default {
         letter-spacing: normal;
         text-align: center;
         color: #18141c;
+
         @media #{$small-screen} {
           font-size: 44px;
         }
@@ -207,8 +220,13 @@ export default {
 
       .socialIconContainer {
         margin-top: 4vh;
+
         button {
           border: 1px solid #ebe7ed;
+
+          .v-icon {
+            font-size: 14px;
+          }
         }
       }
     }

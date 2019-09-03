@@ -32,6 +32,7 @@
             <!-- Signup Button -->
             <v-btn
               large
+              dark
               class="signupButton"
               :to="{ name: 'auth-signup' }"
               color="primary"
@@ -68,6 +69,7 @@
           <!-- Signup Button -->
           <v-btn
             large
+            dark
             class="signupButton"
             :to="{ name: 'auth-signup' }"
             color="primary"
@@ -116,6 +118,9 @@
                   <div class="reviewTime">1h ago</div>
                 </div>
               </v-card>
+              <div class="browseMoreIdeaBtn">
+                <v-btn large>Browse More Ideas</v-btn>
+              </div>
             </v-flex>
             <v-flex md4 lg4 style="position: relative;">
               <img class="person2Img" src="~/assets/images/home/person_2.png" />
@@ -216,7 +221,7 @@
                 We'll send you an email every day with a reminder for you to
                 submit an idea. Just hit reply, and you'll never again.
               </div>
-              <v-btn class="buttn" outlined>More</v-btn>
+              <v-btn class="buttn" dark outlined>More</v-btn>
             </v-flex>
           </v-layout>
         </v-container>
@@ -241,7 +246,7 @@
             <img class="img2" src="~/assets/images/home/mail_work_mobile.png" />
             <img class="img3" src="~/assets/images/person_with_phone.png" />
           </div>
-          <v-btn class="buttn" outlined>More</v-btn>
+          <v-btn class="buttn" dark outlined>More</v-btn>
         </v-container>
 
         <!-- Footer -->
@@ -428,6 +433,15 @@ export default {
       background-size: cover;
       background-position-y: 30px;
 
+      .browseMoreIdeaBtn {
+        text-align: center;
+        margin-top: 80px;
+
+        button {
+          width: 400px;
+        }
+      }
+
       .person2Img {
         position: absolute;
         margin-top: -300px;
@@ -461,6 +475,7 @@ export default {
             line-height: 20px;
             margin-right: 10px;
           }
+
           .reviewTime {
             float: right;
           }
@@ -483,6 +498,7 @@ export default {
         width: 45%;
         z-index: 0;
       }
+
       .mobileReviewCrousel {
         // border: 1px solid red;
         width: 90%;
@@ -530,6 +546,7 @@ export default {
               line-height: 20px;
               margin-right: 10px;
             }
+
             .reviewTime {
               float: right;
             }
@@ -552,6 +569,7 @@ export default {
         justify-content: center;
         text-align: center;
         position: relative;
+
         .img1 {
           position: absolute;
           overflow: hidden;
@@ -559,6 +577,7 @@ export default {
           top: 1vh;
           left: -4%;
         }
+
         .img2 {
           width: 70%;
         }
@@ -574,6 +593,7 @@ export default {
 
       .rightSideDescription {
         padding-top: 7vh;
+
         .ttle {
           color: #ffc61e;
           font-style: italic;
@@ -589,6 +609,7 @@ export default {
           margin-top: 2vh;
           height: 10px;
         }
+
         .description {
           width: 80%;
           padding-top: 4vh;
@@ -596,6 +617,7 @@ export default {
           padding-left: 5px;
           color: #aca7ae;
         }
+
         .buttn {
           margin-top: 7vh;
           margin-bottom: 5vh;
@@ -624,6 +646,7 @@ export default {
         font-size: 9vw;
         margin-top: 2vh;
         position: relative;
+
         .dotsImg {
           position: absolute;
           right: 4%;
@@ -684,6 +707,7 @@ export default {
     background: #35124e;
     color: white;
     padding: 20px;
+
     i {
       margin-left: 13px;
       margin-right: 13px;
