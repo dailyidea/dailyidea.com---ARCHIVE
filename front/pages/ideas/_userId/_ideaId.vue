@@ -365,6 +365,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import getIdea from '~/graphql/query/getIdea'
 import updateIdea from '~/graphql/mutations/updateIdea'
+import addComment from '~/graphql/mutations/addComment'
 import Layout from '@/components/layout/Layout'
 dayjs.extend(relativeTime)
 
@@ -449,6 +450,11 @@ export default {
     remove(item) {
       this.chips.splice(this.chips.indexOf(item), 1)
       this.chips = [...this.chips]
+    },
+    async addComment() {
+      const idea = await this.$amplifyApi.graphql(
+        graphqlOperation(addComment, { body: 'fuck tuck', ideaId: this.$route.params.ideaId, userId: this.$route.params.userId })
+      )
     },
     showIdeaEditor() {
       this.ideaEditContents = this.idea.content

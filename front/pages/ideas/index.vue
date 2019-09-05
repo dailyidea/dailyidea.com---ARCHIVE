@@ -29,7 +29,14 @@
           <div
             class="ideaItem"
             @click="
-              $router.push({ path: '/ideas/' + idea.ideaId, force: true })
+              $router.push({
+                name: 'ideas-userId-ideaId',
+                params: {
+                  ideaId: idea.ideaId,
+                  userId: $store.getters['cognito/userSub']
+                },
+                force: true
+              })
             "
           >
             <div class="ideaDescription">{{ idea.title }}</div>
