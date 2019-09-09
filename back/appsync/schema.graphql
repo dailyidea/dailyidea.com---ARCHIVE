@@ -23,6 +23,13 @@ type Mutation {
 	    userId: String!,
     ): Idea!
 
+	deleteComment(
+	    body: String!,
+	    commentId: String!,
+	    ideaId: String!,
+	    userId: String!
+    ): Idea!
+
 }
 
 type Query {

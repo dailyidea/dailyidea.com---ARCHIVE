@@ -58,6 +58,11 @@ custom:
         response: "addComment-response-mapping-template.txt"
       - dataSource: Ideas
         type: Mutation
+        field: deleteComment
+        request: "deleteComment-request-mapping-template.txt"
+        response: "deleteComment-response-mapping-template.txt"
+      - dataSource: Ideas
+        type: Mutation
         field: deleteIdea
         request: "deleteIdea-request-mapping-template.txt"
         response: "deleteIdea-response-mapping-template.txt"

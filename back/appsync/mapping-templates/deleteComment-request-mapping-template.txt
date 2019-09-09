@@ -1,0 +1,23 @@
+
+{
+    "version" : "2017-02-28",
+    "operation" : "UpdateItem",
+    "key" : {
+        "ideaId" : { "S" : "${context.arguments.ideaId}" },
+        "userId" : { "S" : "${context.identity.username}" }
+    },
+    "update" : {
+        "expression" : "SET comments = $util.list.copyAndRemoveAll(comments, :commentToDelete)",
+        "expressionValues": {
+        	":commentToDelete" : {"L":
+        	    [
+        	      {"M" :
+        	      {
+        	      "body": {"S": "${context.arguments.body}"},
+        	      "userId": {"S": "${context.identity.username}"},
+        	      "commentId" : {"S": "${context.arguments.commentId}"},
+        	      }
+        	   }]
+        }
+    }
+}
