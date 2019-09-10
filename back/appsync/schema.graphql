@@ -30,12 +30,26 @@ type Mutation {
 	    userId: String!
     ): Idea!
 
+	addTags(
+	    tag: String!,
+	    ideaId: String!
+    ): Tag!
+
+	deleteTag(
+	    tag: String!,
+	    ideaId: String!
+    ): Tag!
+
 }
 
 type Query {
 	meInfo: User!
 	ideas: IdeaConnection
 	getIdea(ideaId: String!): Idea!
+}
+type Tag {
+   tag: String!
+   ideaId: String!
 }
 
 
