@@ -19,6 +19,7 @@ custom:
   cogintoUserPoolId: ${env:COGNITO_POOL_ID}
   usersTableName: dailyidea-users-${self:provider.stage}
   ideasTableName: dailyidea-ideas-${self:provider.stage}
+  tagsTableName: dailyidea-tags-${self:provider.stage}
   ideasMailBox: ${env:IDEAS_MAILBOX, 'ideas-dev'}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
   appSync:
@@ -51,6 +52,16 @@ custom:
         field: createIdea
         request: "createIdea-request-mapping-template.txt"
         response: "createIdea-response-mapping-template.txt"
+      - dataSource: Ideas
+        type: Mutation
+        field: addComment
+        request: "addComment-request-mapping-template.txt"
+        response: "addComment-response-mapping-template.txt"
+      - dataSource: Ideas
+        type: Mutation
+        field: deleteComment
+        request: "deleteComment-request-mapping-template.txt"
+        response: "deleteComment-response-mapping-template.txt"
       - dataSource: Ideas
         type: Mutation
         field: deleteIdea
@@ -86,6 +97,12 @@ custom:
         description: 'Ideas table'
         config:
           tableName: ${self:custom.ideasTableName}
+          serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
+      - type: AMAZON_DYNAMODB
+        name: Tags
+        description: 'Tags table'
+        config:
+          tableName: ${self:custom.tagsTableName}
           serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
 #      - type: AWS_LAMBDA
 #        name: RequestLink
@@ -178,7 +195,7 @@ resources:
                         - - 'arn:aws:dynamodb'
                           - Ref: 'AWS::Region'
                           - Ref: 'AWS::AccountId'
-                          - 'table/${self:custom.ideasTableName}/*'
+                          - 'table/${self:custom.tagsTableName}/*'
           - PolicyName: "Lambda-AppSyncServiceRole-Policy"
             PolicyDocument:
               Version: "2012-10-17"

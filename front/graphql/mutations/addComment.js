@@ -1,6 +1,6 @@
 export default `
-query getIdea($ideaId: String!) {
-  getIdea(ideaId: $ideaId) {
+mutation addComment( $body: String!, $userId: String!, $ideaId: String!, ) {
+  addComment( body: $body, userId: $userId, ideaId: $ideaId ) {
     ideaId
     content
     title

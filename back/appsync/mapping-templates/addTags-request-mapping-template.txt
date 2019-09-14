@@ -1,0 +1,12 @@
+#set($tagssdata = [])
+#foreach($item in ${ctx.args.tags})
+    $util.qr($tagssdata.add($util.dynamodb.toMapValues($item)))
+#end
+
+{
+    "version" : "2018-05-29",
+    "operation" : "BatchPutItem",
+    "tables" : {
+        "Tags": $utils.toJson($tagssdata)
+    }
+}

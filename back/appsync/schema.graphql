@@ -17,12 +17,39 @@ type Mutation {
 		ideaDate: String
     ): Idea!
 
+	addComment(
+	    body: String!,
+	    ideaId: String!,
+	    userId: String!,
+    ): Idea!
+
+	deleteComment(
+	    body: String!,
+	    commentId: String!,
+	    ideaId: String!,
+	    userId: String!
+    ): Idea!
+
+	addTags(
+	    tag: String!,
+	    ideaId: String!
+    ): Tag!
+
+	deleteTag(
+	    tag: String!,
+	    ideaId: String!
+    ): Tag!
+
 }
 
 type Query {
 	meInfo: User!
 	ideas: IdeaConnection
 	getIdea(ideaId: String!): Idea!
+}
+type Tag {
+   tag: String!
+   ideaId: String!
 }
 
 
@@ -33,6 +60,7 @@ type Idea {
 	userId: String
 	createdDate: String
 	ideaDate: String
+	comments: [Comment]
 }
 
 
@@ -40,6 +68,12 @@ type User {
 	user_id: String!
 	email: String!
 	ideas(limit: Int!, nextToken: String): IdeaConnection
+}
+
+type Comment {
+	body: String!
+	userId: String!
+	commentId: String!
 }
 
 type Result {

@@ -115,7 +115,11 @@ export default {
 
         // Redirect to idea deail page
         let ideaId = result.data.createIdea.ideaId
-        this.$router.push({ path: '/ideas/' + ideaId, force: true })
+        this.$router.push({
+          name: 'ideas-userId-ideaId',
+          params: { ideaId, userId: this.$store.getters['cognito/userSub'] },
+          force: true
+        })
       } catch (err) {
         this.creatingIdea = false
         this.snackbarMessage = 'Something went wrong!!'
