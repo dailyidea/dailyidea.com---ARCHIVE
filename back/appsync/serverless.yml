@@ -93,6 +93,11 @@ custom:
         field: unlikeIdea
         request: "unlikeIdea-request-mapping-template.txt"
         response: "unlikeIdea-response-mapping-template.txt"
+      - dataSource: Likes
+        type: Mutation
+        field: getLikedIdeas
+        request: "getLikedIdeas-request-mapping-template.txt"
+        response: "getLikedIdeas-response-mapping-template.txt"
     #      - dataSource: RequestLink
 #        type: Mutation
 #        field: requestLogin
