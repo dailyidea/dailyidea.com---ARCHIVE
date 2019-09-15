@@ -48,6 +48,16 @@ custom:
         field: meInfo
         request: "meInfo-request-mapping-template.txt"
         response: "meInfo-response-mapping-template.txt"
+      - dataSource: Users
+        type: Mutation
+        field: followUser
+        request: "followUser-request-mapping-template.txt"
+        response: "followUser-response-mapping-template.txt"
+      - dataSource: Users
+        type: Mutation
+        field: unfollowUser
+        request: "unfollowUser-request-mapping-template.txt"
+        response: "unfollowUser-response-mapping-template.txt"
       - dataSource: Ideas
         type: Mutation
         field: createIdea
@@ -94,7 +104,7 @@ custom:
         request: "unlikeIdea-request-mapping-template.txt"
         response: "unlikeIdea-response-mapping-template.txt"
       - dataSource: Likes
-        type: Mutation
+        type: Query
         field: getLikedIdeas
         request: "getLikedIdeas-request-mapping-template.txt"
         response: "getLikedIdeas-response-mapping-template.txt"

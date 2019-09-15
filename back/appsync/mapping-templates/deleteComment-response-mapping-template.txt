@@ -1,17 +1,1 @@
-
-{
-    "version" : "2017-02-28",
-    "operation" : "UpdateItem",
-    "key" : {
-        "ideaId" : { "S" : "${context.arguments.ideaId}" },
-        "userId" : { "S" : "${context.arguments.userId}" }
-    },
-    "update" : {
-        "expression" : "REMOVE active_user[%d]" % (user_index)",
-        "expressionValues": {
-        	":content" : { "S" : "${context.arguments.content}" },
-        	":title" : { "S" : "${context.arguments.title}" },
-        	":ideaDate" : { "S" : "${context.arguments.ideaDate}" }
-        }
-    }
-}
+$util.toJson($context.result)
