@@ -40,12 +40,29 @@ type Mutation {
 	    ideaId: String!
     ): Tag!
 
+	followUser(
+	    userId: String!
+    ): User!
+
+	unfollowUser(
+	    userId: String!
+    ): User!
+
+	likeIdea(
+	    ideaId: String!
+    ): Idea!
+
+	unlikeIdea(
+	    ideaId: String!
+    ): Idea!
+
 }
 
 type Query {
 	meInfo: User!
 	ideas: IdeaConnection
 	getIdea(ideaId: String!): Idea!
+	getLikedIdeas: IdeaConnection
 }
 type Tag {
    tag: String!
