@@ -131,7 +131,8 @@
       </v-flex>
 
       <!-- Comments -->
-      <v-flex class="rightSideComments">
+      <v-flex class="rightSideComments" v-if="!noComment">
+
         <v-layout class="cmtAndLike" hidden-sm-and-down>
           <div class="ups">
             <img class="lamp" src="~/assets/images/dark_gray_lamp.png" />
@@ -144,7 +145,7 @@
         </v-layout>
 
         <!-- Comment List -->
-        <div v-for="item in commentList" :key="items" class="commentItem">
+        <div v-for="(item, index) in commentList" :key="index" class="commentItem">
           <div class="header">
             <div class="commentUser">{{item.userId}}</div>
             <div class="timing">1h</div>
@@ -153,6 +154,11 @@
             {{item.body}}
           </div>
         </div>
+
+        <div class="noCommentDiv" v-if="noComment">
+          No added Comment yet.
+        </div>
+
       </v-flex>
 
       <!-- Foter with textbox -->
@@ -259,11 +265,10 @@ export default {
     snackbarMessage: '',
     snackbarColor: 'success',
     noAddComment: true,
-    commentList: {
-      body: ''
-    },
+    commentList: [],
     currentComment: '',
     updatingComment: false,
+    noComment: false,
 
     showEmailShareDialog: false,
     showcommentDialog: false,
@@ -423,8 +428,7 @@ export default {
   padding-bottom: 2vh;
   display: block;
   width: 100%;
-  overflow-x: hidden;
-  overflow: auto;
+
   position: relative;
 
   .profileDetails {
@@ -647,6 +651,7 @@ export default {
     padding-top: 15px;
     padding-bottom: 50px;
     font-size: 16px;
+    // height: 50vh;
 
     .cmtAndLike {
       color: #231031;
