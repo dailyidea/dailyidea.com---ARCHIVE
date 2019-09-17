@@ -144,13 +144,13 @@
         </v-layout>
 
         <!-- Comment List -->
-        <div v-for="items in commentList" :key="items" class="commentItem">
+        <div v-for="item in commentList" :key="items" class="commentItem">
           <div class="header">
-            <div class="commentUser">Username</div>
+            <div class="commentUser">{{item.userId}}</div>
             <div class="timing">1h</div>
           </div>
           <div class="commentText">
-            {{items}}
+            {{item.body}}
           </div>
         </div>
       </v-flex>
@@ -259,7 +259,9 @@ export default {
     snackbarMessage: '',
     snackbarColor: 'success',
     noAddComment: true,
-    commentList: [],
+    commentList: {
+      body: ''
+    },
     currentComment: '',
     updatingComment: false,
 
@@ -299,23 +301,17 @@ export default {
     ]
 
     console.log('comment list is', data)
-    return (
-      {
-        idea: data.getIdea,
-        user: { email: store.state.cognito.user.attributes.email },
-        ideaTags: ideaTags
-        // commentList: dgzssxf
-      },
-      // async asyncData({ app, route, store }) {
-      //   const { data } = await app.$amplifyApi.graphql(
-      //     graphqlOperation(addComment, { body: this.currentComment })
-      //   )
-      // },
-      mounted()
-    )
-    {
+
+    console.log('comment is', data.body)
+    return {
+      idea: data.getIdea,
+      user: { email: store.state.cognito.user.attributes.email },
+      ideaTags: ideaTags,
+      commentList: data.getIdea.comments
     }
   },
+
+  mounted() {},
 
   created() {
     this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
@@ -333,6 +329,7 @@ export default {
 
       try {
         debugger
+        console.log('Add comments...', addComment)
         const idea = await this.$amplifyApi.graphql(
           graphqlOperation(addComment, {
             body: this.currentComment,

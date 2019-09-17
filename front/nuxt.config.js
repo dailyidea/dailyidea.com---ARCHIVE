@@ -118,8 +118,7 @@ module.exports = {
      ** You can extend webpack config here
      */
     publicPath: process.env.S3_DOMAIN ?
-      `https://${process.env.S3_DOMAIN}/` :
-      undefined,
+      `https://${process.env.S3_DOMAIN}/` : undefined,
     cache: true,
     // modern: true,
     extend(config, ctx) {
