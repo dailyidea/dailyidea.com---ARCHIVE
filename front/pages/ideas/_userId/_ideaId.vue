@@ -161,7 +161,9 @@
 
         <!-- Popip -ShowComment Dialogbox-->
         <div>
-          <v-icon class="sendBtn" @click="addComment()">fas fa-arrow-right</v-icon>
+          <v-btn class="sendBtn" text icon flat :loading="updatingComment" @click="addCommentBox()">
+            <v-icon color="#d4bb10">fas fa-arrow-right</v-icon>
+          </v-btn>
         </div>
 
         <v-dialog v-model="showcommentDialog" content-class="commentDialog" persistent max-width="500px">
@@ -259,6 +261,7 @@ export default {
     noAddComment: true,
     commentList: [],
     currentComment: '',
+    updatingComment: false,
 
     showEmailShareDialog: false,
     showcommentDialog: false,
@@ -294,15 +297,30 @@ export default {
       'adobe',
       'interface'
     ]
-    return {
-      idea: data.getIdea,
-      user: { email: store.state.cognito.user.attributes.email },
-      ideaTags: ideaTags
+
+    console.log('comment list is', data)
+    return (
+      {
+        idea: data.getIdea,
+        user: { email: store.state.cognito.user.attributes.email },
+        ideaTags: ideaTags
+        // commentList: dgzssxf
+      },
+      // async asyncData({ app, route, store }) {
+      //   const { data } = await app.$amplifyApi.graphql(
+      //     graphqlOperation(addComment, { body: this.currentComment })
+      //   )
+      // },
+      mounted()
+    )
+    {
     }
   },
+
   created() {
     this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
   },
+
   methods: {
     copyShareLink() {
       this.$clipboard(window.location.href)
@@ -310,13 +328,30 @@ export default {
       this.snackbarColor = 'success'
       this.snackbarVisible = true
     },
+    async addCommentBox() {
+      this.updatingComment = true
 
-    addComment() {
-      if (this.commentList.push(this.currentComment)) {
+      try {
+        debugger
+        const idea = await this.$amplifyApi.graphql(
+          graphqlOperation(addComment, {
+            body: this.currentComment,
+            ideaId: this.$route.params.ideaId,
+            userId: this.$store.getters['cognito/userSub']
+          })
+        )
+        // this.commentList.push(this.currentComment)
+        this.updatingComment = false
         this.snackbarMessage = 'Added Comment'
         this.snackbarColor = 'success'
         this.snackbarVisible = true
         this.currentComment = ''
+      } catch (err) {
+        console.error(err)
+        this.updatingComment = false
+        this.snackbarMessage = 'Something went wrong!!'
+        this.snackbarColor = 'error'
+        this.snackbarVisible = true
       }
     },
 
@@ -336,15 +371,12 @@ export default {
       this.showEmailShareDialog = false
       this.snackbarVisible = true
     },
+
     remove(item) {
       this.chips.splice(this.chips.indexOf(item), 1)
       this.chips = [...this.chips]
     },
-    async addComment() {
-      const idea = await this.$amplifyApi.graphql(
-        graphqlOperation(addComment, { body: 'fuck tuck', ideaId: this.$route.params.ideaId, userId: this.$route.params.userId })
-      )
-    },
+
     showIdeaEditor() {
       this.ideaEditContents = this.idea.content
       this.ideaEditorVisible = true
@@ -353,7 +385,7 @@ export default {
       this.ideaTags.splice(index, 1)
     },
     async onSaveIdeaContent() {
-      this.idea.content = this.ideaEditContents
+      // this.idea.content = this.ideaEditContents
 
       console.log('updating idea...', updateIdea)
       this.updatingIdea = true
@@ -745,10 +777,12 @@ export default {
 
   .sendBtn {
     position: absolute;
-    top: 24px;
+    top: 20px;
     right: 19px;
     font-size: 21px;
-    color: #d4bb10;
+    .v-icon {
+      padding-bottom: 5px;
+    }
   }
 }
 

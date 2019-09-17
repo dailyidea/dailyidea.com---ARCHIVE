@@ -11,17 +11,27 @@ module.exports = {
    */
   head: {
     title: 'Daily Idea',
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Daily Idea' }
+    meta: [{
+        charset: 'utf-8'
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Daily Idea'
+      }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    link: [{
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      },
       {
         rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
+        href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
       }
     ]
   },
@@ -31,7 +41,9 @@ module.exports = {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#FFFFFF' },
+  loading: {
+    color: '#FFFFFF'
+  },
 
   /*
    ** Global CSS
@@ -48,7 +60,10 @@ module.exports = {
     '@/plugins/clipboard',
     '@/plugins/vee-validate',
     '@/plugins/mixins',
-    { src: '~plugins/vue-trix', ssr: false }
+    {
+      src: '~plugins/vue-trix',
+      ssr: false
+    }
   ],
 
   /*
@@ -102,21 +117,21 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    publicPath: process.env.S3_DOMAIN
-      ? `https://${process.env.S3_DOMAIN}/`
-      : undefined,
+    publicPath: process.env.S3_DOMAIN ?
+      `https://${process.env.S3_DOMAIN}/` :
+      undefined,
     cache: true,
     // modern: true,
     extend(config, ctx) {
       // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          include: path.join(__dirname)
-        })
-      }
+      // if (ctx.isDev && ctx.isClient) {
+      //   config.module.rules.push({
+      //     enforce: 'pre',
+      //     test: /\.(js|vue)$/,
+      //     loader: 'eslint-loader',
+      //     include: path.join(__dirname)
+      //   })
+      // }
     }
   }
 }
