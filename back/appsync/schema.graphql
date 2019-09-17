@@ -31,14 +31,10 @@ type Mutation {
     ): Idea!
 
 	addTags(
-	    tag: String!,
-	    ideaId: String!
-    ): Tag!
+	    tags: [TagInput],
+    ): [Tag]
 
-	deleteTag(
-	    tag: String!,
-	    ideaId: String!
-    ): Tag!
+	deleteTag(tag: TagInput): Tag!
 
 	followUser(
 	    userId: String!
@@ -58,12 +54,17 @@ type Mutation {
 
 }
 
+input TagInput {
+   tag: String!
+   ideaId: String!
+}
 type Query {
 	meInfo: User!
 	ideas: IdeaConnection
 	getIdea(ideaId: String!): Idea!
 	getLikedIdeas: IdeaConnection
 }
+
 type Tag {
    tag: String!
    ideaId: String!
