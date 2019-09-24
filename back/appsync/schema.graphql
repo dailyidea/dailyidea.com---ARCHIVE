@@ -91,6 +91,7 @@ type User {
 type Comment {
 	body: String!
 	userId: String!
+	createdDate: String!
 	commentId: String!
 }
 
