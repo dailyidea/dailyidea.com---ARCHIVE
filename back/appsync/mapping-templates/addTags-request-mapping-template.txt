@@ -1,12 +1,14 @@
 #set($tagssdata = [])
 #foreach($item in ${ctx.args.tags})
-    $util.qr($tagssdata.add($util.dynamodb.toMapValues($item)))
+    #set($tagItem=$util.dynamodb.toMapValues($item))
+    $util.qr($tagItem.put("userId", {"S": "${context.identity.username}"}))
+    $util.qr($tagssdata.add($tagItem))
 #end
 
 {
     "version" : "2018-05-29",
     "operation" : "BatchPutItem",
     "tables" : {
-        "Tags": $utils.toJson($tagssdata)
+        "dailyidea-tags-dev": $utils.toJson($tagssdata)
     }
 }
