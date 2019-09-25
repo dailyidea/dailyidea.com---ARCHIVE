@@ -1,6 +1,5 @@
-var aws = require('aws-sdk')
-var ddb = new aws.DynamoDB({ apiVersion: '2012-10-08' })
-
+var aws = require("aws-sdk");
+var ddb = new aws.DynamoDB({ apiVersion: "2012-10-08" });
 
 /**
  *
@@ -40,58 +39,62 @@ var ddb = new aws.DynamoDB({ apiVersion: '2012-10-08' })
  */
 
 exports.handler = async (event, context) => {
+  let date = new Date();
 
-  let date = new Date()
-
-  const tableName = process.env.TABLE_NAME
-  const region = process.env.REGION
+  const tableName = process.env.TABLE_NAME;
+  const region = process.env.REGION;
   var lambda = new aws.Lambda({
     region: region
-  })
-  console.log("table=" + tableName + " -- region=" + region)
+  });
+  console.log("table=" + tableName + " -- region=" + region);
 
-  aws.config.update({ region: region })
+  aws.config.update({ region: region });
 
   // If the required parameters are present, proceed
   if (event.request.userAttributes.sub) {
-
     // -- Write data to DDB
     let ddbParams = {
       TableName: tableName,
       Item: {
-        'userId': { S: event.request.userAttributes.sub },
+        userId: { S: event.request.userAttributes.sub },
         //  'sortKey': {S: "user"},
-        'email': { S: event.request.userAttributes.email },
-        'name': { S: event.request.userAttributes.name },
-        'createdDate': { S: date.toISOString() },
-        'firstLogin': { BOOL: true }
+        email: { S: event.request.userAttributes.email },
+        name: { S: event.request.userAttributes.name },
+        createdDate: { S: date.toISOString() },
+        firstLogin: { BOOL: true }
       }
-    }
+    };
 
     // Call DynamoDB
     try {
-      await ddb.putItem(ddbParams).promise()
-      console.log("Success")
+      await ddb.putItem(ddbParams).promise();
+      console.log("Success");
     } catch (err) {
-      console.log("Error", err)
+      console.log("Error", err);
     }
 
-    console.log("Success: Everything executed correctly")
-    lambda.invoke({
-      FunctionName: 'sendDailyToUser',
-      Payload: JSON.stringify({email: event.request.userAttributes.email}, null, 2) // pass params
-    }, function (error, data) {
-      if (error) {
-        context.done('error', error)
+    console.log("Success: Everything executed correctly");
+    lambda.invoke(
+      {
+        FunctionName: "sendDailyToUser",
+        Payload: JSON.stringify(
+          { email: event.request.userAttributes.email },
+          null,
+          2
+        ) // pass params
+      },
+      function(error, data) {
+        if (error) {
+          context.done("error", error);
+        }
+        if (data.Payload) {
+          context.succeed(null, event);
+        }
       }
-      if (data.Payload) {
-        context.succeed(null, event)
-      }
-    })
-
+    );
   } else {
     // Nothing to do, the user's email ID is unknown
-    console.log("Error: Nothing was written to DDB or SQS")
-    context.done(null, event)
+    console.log("Error: Nothing was written to DDB or SQS");
+    context.done(null, event);
   }
-}
+};

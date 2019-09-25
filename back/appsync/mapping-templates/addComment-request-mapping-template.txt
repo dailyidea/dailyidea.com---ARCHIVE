@@ -11,6 +11,7 @@
         	":comment" : {"L":  [{"M" : {
         	      "body": {"S": "${context.arguments.body}"},
         	      "userId": {"S": "${context.identity.username}"},
+        	      "createdDate" : $util.dynamodb.toDynamoDBJson($util.time.nowISO8601()),
         	      "commentId" : $util.dynamodb.toDynamoDBJson($util.autoId())
         	   }}]
         	},
