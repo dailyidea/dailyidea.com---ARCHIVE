@@ -2,12 +2,13 @@
     "version" : "2017-02-28",
     "operation" : "DeleteItem",
     "key" : {
-        "tag" : { "S" : "${context.arguments.tag}" }
+        "tag" : {"S" : "${context.arguments.tag.tag}"},
+        "ideaId": {"S" : "${context.arguments.tag.ideaId}"}
     },
-    "condition" : {
-            "expression"       : "ideaId = :ideaId",
-            "expressionValues" : {
-                ":ideaId" : { "S" : ${context.arguments.ideaId} }
-            }
+    "condition": {
+        "expression" : "attribute_not_exists(userId) OR userId = :userId",
+        "expressionValues" : {
+           ":userId" : { "S" : "${context.identity.username}" }
         }
+    }
 }

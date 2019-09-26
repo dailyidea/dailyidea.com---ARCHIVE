@@ -14,15 +14,15 @@
         </v-layout>
 
         <!-- title -->
-        <v-textarea v-model="title" v-validate="'required|max:100'" :error-messages="errors.collect('title')" data-vv-name="title" outlined label="Idea Title"> </v-textarea>
+        <v-textarea v-model="title" v-validate="'required|max:100'" :error-messages="errors.collect('title')" data-vv-name="title" outlined label="Idea Title">
+        </v-textarea>
 
         <!-- Descriptiion = trix editor -->
         <div class="ideaEditor">
           <VueTrix v-model="contents" class="editor" />
-
         </div>
-        <div class="errorMsg" v-if="!contents">
-          {{errorMsg}}
+        <div v-if="!contents" class="errorMsg">
+          {{ errorMsg }}
         </div>
 
         <!-- Tags -->

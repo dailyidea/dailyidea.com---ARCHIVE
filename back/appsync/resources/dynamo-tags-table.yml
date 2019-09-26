@@ -1,0 +1,28 @@
+Resources:
+  TagsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: tag
+          AttributeType: S
+        - AttributeName: ideaId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: tag
+          KeyType: HASH
+        - AttributeName: ideaId
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      TableName: ${self:custom.tagsTableName}
+      GlobalSecondaryIndexes:
+        - IndexName: ideaTags
+          KeySchema:
+            - AttributeName: ideaId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
