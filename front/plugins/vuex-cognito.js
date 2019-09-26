@@ -20,9 +20,7 @@ export default (ctx, inject) => {
       return ctx.app.$storage.removeUniversal(key)
     }
     // clear out the storage
-    static clear() {
-      // console.log('clear')
-    }
+    static clear() {}
   }
   inject('amplifyStorage', AmplifyStorage)
 

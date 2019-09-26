@@ -1,12 +1,16 @@
 <template>
-  <Layout v-bind="{
+  <Layout
+    v-bind="{
       backButton: true,
       loggedInHeader: true,
-      mobile  : mobileTitle,
+      mobile: mobileTitle,
       shareIdeaVisible: true,
       editIdeaVisible: true,
       onCopyShareIdeaLink: copyShareLink
-    }" @showShareIdeaDialog="showShareIdeaDialog" @onEditIdea="showIdeaEditor">
+    }"
+    @showShareIdeaDialog="showShareIdeaDialog"
+    @onEditIdea="showIdeaEditor"
+  >
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
@@ -28,21 +32,42 @@
             <!-- Share Menu -->
             <v-menu class="shareMenu" offset-y>
               <template v-slot:activator="{ on }">
-                <v-btn text icon color="light-gray" class="menu" @click="showEmailShareDialog = true" v-on="on">
+                <v-btn
+                  text
+                  icon
+                  color="light-gray"
+                  class="menu"
+                  @click="showEmailShareDialog = true"
+                  v-on="on"
+                >
                   <v-icon>fas fa-envelope</v-icon>
                 </v-btn>
               </template>
             </v-menu>
 
             <!-- Edit IDea Button-->
-            <v-btn text icon color="gray" size="small" class="menu" @click="showIdeaEditor()">
+            <v-btn
+              text
+              icon
+              color="gray"
+              size="small"
+              class="menu"
+              @click="showIdeaEditor()"
+            >
               <v-icon>fas fa-pen</v-icon>
             </v-btn>
 
             <!-- Side Settings icon -->
             <v-menu class="sideMenu" offset-y>
               <template v-slot:activator="{ on }">
-                <v-btn text icon color="gray" size="small" class="menu" v-on="on">
+                <v-btn
+                  text
+                  icon
+                  color="gray"
+                  size="small"
+                  class="menu"
+                  v-on="on"
+                >
                   <v-icon>fas fa-ellipsis-v</v-icon>
                 </v-btn>
               </template>
@@ -55,7 +80,6 @@
                 </v-list-item>
                 <v-list-item>
                   <v-list-item-title>Report Idea</v-list-item-title>
-
                 </v-list-item>
                 <v-list-item @click="deleteIdea()">
                   <v-list-item-title>Delete Idea</v-list-item-title>
@@ -85,17 +109,44 @@
           <v-layout v-html="idea.content"> </v-layout>
         </div>
         <div v-else class="ideaEditor">
-          <VueTrix v-model="ideaEditContents" class="editor" placeholder="Enter content" />
+          <VueTrix
+            v-model="ideaEditContents"
+            class="editor"
+            placeholder="Enter content"
+          />
         </div>
 
         <!-- Tags -->
         <div v-if="!ideaEditorVisible" class="tagsContainer">
-          <v-chip v-for="(tag, index) in ideaTags" :key="index" label class="tag">{{ tag }}</v-chip>
+          <v-chip
+            v-for="(tag, index) in ideaTags"
+            :key="index"
+            label
+            class="tag"
+            >{{ tag }}</v-chip
+          >
         </div>
         <div v-else class="tagsEditor">
-          <v-combobox v-model="chips" class="ideaTag" :items="items" times chips clearable outlined label="Add Tags" multiple>
+          <v-combobox
+            v-model="chips"
+            class="ideaTag"
+            :items="items"
+            times
+            chips
+            clearable
+            outlined
+            label="Add Tags"
+            multiple
+          >
             <template v-slot:selection="{ attrs, item, select, selected }">
-              <v-chip v-bind="attrs" :input-value="selected" close label @click="select" @click:close="remove(item)">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                label
+                @click="select"
+                @click:close="remove(item)"
+              >
                 <strong>{{ item }}</strong>
               </v-chip>
             </template>
@@ -104,8 +155,16 @@
 
         <!--submit and cancel btn-->
         <div v-if="ideaEditorVisible" class="buttons">
-          <v-btn small color="primary" :loading="updatingIdea" @click="onSaveIdeaContent()">Save</v-btn>
-          <v-btn text small color="error" @click="ideaEditorVisible = false">Cancel</v-btn>
+          <v-btn
+            small
+            color="primary"
+            :loading="updatingIdea"
+            @click="onSaveIdeaContent()"
+            >Save</v-btn
+          >
+          <v-btn text small color="error" @click="ideaEditorVisible = false"
+            >Cancel</v-btn
+          >
         </div>
 
         <!-- Engagements & Next Prev -->
@@ -135,8 +194,7 @@
       </v-flex>
 
       <!-- Comments -->
-      <v-flex class="rightSideComments" v-if="!noComment">
-
+      <v-flex v-if="!noComment" class="rightSideComments">
         <v-layout class="cmtAndLike" hidden-sm-and-down>
           <div class="ups">
             <v-btn text @click="toggleLikeIdea">
@@ -151,42 +209,77 @@
         </v-layout>
 
         <!-- Comment List -->
-        <div v-for="(item, index) in commentList" :key="index" class="commentItem">
+        <div
+          v-for="(item, index) in commentList"
+          :key="index"
+          class="commentItem"
+        >
           <div class="header">
-            <div class="commentUser">{{item.userId}}</div>
+            <div class="commentUser">{{ item.userId }}</div>
             <div class="timing">
               1h
-              <v-btn class="deleteCommentBtn" color="red" icon text @click="deleteComment(item.commentId, item.body)" x-small>
+              <v-btn
+                class="deleteCommentBtn"
+                color="red"
+                icon
+                text
+                x-small
+                @click="deleteComment(item.commentId, item.body)"
+              >
                 <v-icon color="red">fas fa-trash-alt</v-icon>
               </v-btn>
             </div>
           </div>
           <div class="commentText">
-            {{item.body}}
+            {{ item.body }}
           </div>
         </div>
 
-        <div class="noCommentDiv" v-if="noComment">
+        <div v-if="noComment" class="noCommentDiv">
           No added Comment yet.
         </div>
-
       </v-flex>
 
       <!-- Foter with textbox -->
       <div class="pageFooter">
-        <v-text-field class="newCommentInput" v-model="currentComment" flat solo label="Say something..." large></v-text-field>
+        <v-text-field
+          v-model="currentComment"
+          class="newCommentInput"
+          flat
+          solo
+          label="Say something..."
+          large
+        ></v-text-field>
 
         <!-- Popip -ShowComment Dialogbox-->
         <div>
-          <v-btn class="sendBtn" text icon flat :loading="updatingComment" @click="addCommentBox()">
+          <v-btn
+            class="sendBtn"
+            text
+            icon
+            flat
+            :loading="updatingComment"
+            @click="addCommentBox()"
+          >
             <v-icon color="#d4bb10">fas fa-arrow-right</v-icon>
           </v-btn>
         </div>
 
-        <v-dialog v-model="showcommentDialog" content-class="commentDialog" persistent max-width="500px">
+        <v-dialog
+          v-model="showcommentDialog"
+          content-class="commentDialog"
+          persistent
+          max-width="500px"
+        >
           <!-- Popup Header -->
           <div class="header">
-            <v-icon text class="cancelIcon" size="20" @click="showcommentDialog = false">fas fa-times</v-icon>
+            <v-icon
+              text
+              class="cancelIcon"
+              size="20"
+              @click="showcommentDialog = false"
+              >fas fa-times</v-icon
+            >
           </div>
 
           <!-- Popup body -->
@@ -201,7 +294,17 @@
 
               <!-- Text Fields -->
               <div>
-                <v-text-field v-model="commentForm.Email" v-validate="'required|email|max:100'" class="emailInput" single-line flat prepend-inner-icon="email" :error-messages="errors.collect('email')" data-vv-name="email" label="Enter email"></v-text-field>
+                <v-text-field
+                  v-model="commentForm.Email"
+                  v-validate="'required|email|max:100'"
+                  class="emailInput"
+                  single-line
+                  flat
+                  prepend-inner-icon="email"
+                  :error-messages="errors.collect('email')"
+                  data-vv-name="email"
+                  label="Enter email"
+                ></v-text-field>
               </div>
 
               <!-- Submit Buttons -->
@@ -214,7 +317,12 @@
       </div>
 
       <!-- Popup - Share Via Email -->
-      <v-dialog v-model="showEmailShareDialog" content-class="emailShareDialog" persistent max-width="400px">
+      <v-dialog
+        v-model="showEmailShareDialog"
+        content-class="emailShareDialog"
+        persistent
+        max-width="400px"
+      >
         <form>
           <!-- Popup Header -->
 
@@ -228,24 +336,53 @@
 
           <!-- Text Fields -->
           <div>
-            <v-text-field v-model="emailShareForm.name" v-validate="'required|max:100'" :error-messages="errors.collect('name')" data-vv-name="name" label="Enter your name" outlined>
+            <v-text-field
+              v-model="emailShareForm.name"
+              v-validate="'required|max:100'"
+              :error-messages="errors.collect('name')"
+              data-vv-name="name"
+              label="Enter your name"
+              outlined
+            >
             </v-text-field>
 
-            <v-text-field v-model="emailShareForm.friendName" v-validate="'required|max:100'" :error-messages="errors.collect('friend name')" data-vv-name="friend name" label="Enter friend name" outlined></v-text-field>
+            <v-text-field
+              v-model="emailShareForm.friendName"
+              v-validate="'required|max:100'"
+              :error-messages="errors.collect('friend name')"
+              data-vv-name="friend name"
+              label="Enter friend name"
+              outlined
+            ></v-text-field>
 
-            <v-text-field v-model="emailShareForm.friendEmail" v-validate="'required|email|max:100'" :error-messages="errors.collect('email')" data-vv-name="email" label="Your Friend's email address" outlined></v-text-field>
+            <v-text-field
+              v-model="emailShareForm.friendEmail"
+              v-validate="'required|email|max:100'"
+              :error-messages="errors.collect('email')"
+              data-vv-name="email"
+              label="Your Friend's email address"
+              outlined
+            ></v-text-field>
           </div>
 
           <!-- Submit Buttons -->
           <div class="btnContainer">
-            <v-btn class="cancleBtn" text @click="showEmailShareDialog = false">Cancel</v-btn>
-            <v-btn class="specialButton shareBtn" @click="sendShareEmail()">Share</v-btn>
+            <v-btn class="cancleBtn" text @click="showEmailShareDialog = false"
+              >Cancel</v-btn
+            >
+            <v-btn class="specialButton shareBtn" @click="sendShareEmail()"
+              >Share</v-btn
+            >
           </div>
         </form>
       </v-dialog>
 
       <!-- Bottom snackbar message -->
-      <v-snackbar v-model="snackbarVisible" :timeout="2000" :color="snackbarColor">
+      <v-snackbar
+        v-model="snackbarVisible"
+        :timeout="2000"
+        :color="snackbarColor"
+      >
         {{ snackbarMessage }}
         <v-btn color="white" text @click="snackbarVisible = false">
           Close
@@ -303,7 +440,6 @@ export default {
   }),
   computed: {
     mobileTitle: function() {
-      console.log(this.user)
       return this.user.email.toUpperCase() + "'S IDEA"
     }
   },
@@ -321,9 +457,6 @@ export default {
       'interface'
     ]
 
-    console.log('comment list is', data)
-
-    console.log('comment is', data.body)
     return {
       idea: data.getIdea,
       user: { email: store.state.cognito.user.attributes.email },
@@ -341,27 +474,16 @@ export default {
 
   methods: {
     async fetchCommentList() {
-      const { data } = await app.$amplifyApi.graphql(
-        graphqlOperation(getIdea, { ideaId: route.params.ideaId })
+      const { data } = await this.$amplifyApi.graphql(
+        graphqlOperation(getIdea, { ideaId: this.$route.params.ideaId })
       )
-
-      let ideaTags = [
-        'web',
-        'illustration',
-        'graphics',
-        'ui',
-        'adobe',
-        'interface'
-      ]
 
       this.commentList = data.getIdea.comments
     },
 
     async deleteComment(commentId, body) {
       try {
-        console.log('delete comments...', deleteComment)
-        debugger
-        const response = await this.$amplifyApi.graphql(
+        await this.$amplifyApi.graphql(
           graphqlOperation(deleteComment, {
             body: body,
             userId: this.$store.getters['cognito/userSub'],
@@ -395,9 +517,7 @@ export default {
       this.updatingComment = true
 
       try {
-        debugger
-        console.log('Add comments...', addComment)
-        const idea = await this.$amplifyApi.graphql(
+        await this.$amplifyApi.graphql(
           graphqlOperation(addComment, {
             body: this.currentComment,
             ideaId: this.$route.params.ideaId,
@@ -454,13 +574,14 @@ export default {
     async toggleLikeIdea() {
       let ideaLiked = true
       if (this.likeIdea) {
-        let ideaLiked = !this.likeIdea
+        ideaLiked = !this.likeIdea
       }
 
       try {
         let ideaId = this.$route.params.ideaId
         let mutationToCall = ideaLiked ? likeIdea : unlikeIdea
-        const response = await this.$amplifyApi.graphql(
+
+        await this.$amplifyApi.graphql(
           graphqlOperation(mutationToCall, {
             ideaId: ideaId
           })
@@ -480,8 +601,7 @@ export default {
     async deleteIdea() {
       try {
         let ideaId = this.$route.params.ideaId
-        console.log('ideaid is', ideaId)
-        const response = await this.$amplifyApi.graphql(
+        await this.$amplifyApi.graphql(
           graphqlOperation(deleteIdea, {
             ideaId: ideaId
           })
@@ -504,9 +624,6 @@ export default {
     },
 
     async onSaveIdeaContent() {
-      // this.idea.content = this.ideaEditContents
-
-      console.log('updating idea...', updateIdea)
       this.updatingIdea = true
 
       try {
