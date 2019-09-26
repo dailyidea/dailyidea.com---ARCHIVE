@@ -1,34 +1,23 @@
 <template>
-  <Layout
-    v-bind="{
+  <Layout v-bind="{
       loggedInHeader: true,
       mobileTitle: 'My Ideas',
       mobileHamburger: true,
       mobileSearchIcon: true
-    }"
-  >
+    }">
     <v-layout id="ideaListPage">
       <!-- Title Section -->
       <div v-if="ideas && ideas.length > 0" class="titleDiv">
         <v-layout class="titleText" hidden-sm-and-down>MY IDEAS</v-layout>
-        <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
+        <div class="sortBy">
+          <v-icon>fas fa-clock</v-icon>Sort by Newest
+        </div>
       </div>
 
       <!-- Idea List -->
       <v-layout v-if="ideas && ideas.length > 0" class="ideaList" row wrap>
-        <v-flex
-          v-for="(idea, index) in ideas"
-          :key="index"
-          class="ideaContainer"
-          xs12
-          sm12
-          md4
-          lg4
-          xl4
-        >
-          <div
-            class="ideaItem"
-            @click="
+        <v-flex v-for="(idea, index) in ideas" :key="index" class="ideaContainer" xs12 sm12 md4 lg4 xl4>
+          <div class="ideaItem" @click="
               $router.push({
                 name: 'ideas-userId-ideaId',
                 params: {
@@ -37,9 +26,14 @@
                 },
                 force: true
               })
-            "
-          >
+            ">
+            <!-- {{idea.ideaId }} -->
             <div class="ideaDescription">{{ idea.title }}</div>
+            <div class="deleteIdeaBtn">
+              <v-btn color="white" @click="deleteIdea( idea.ideaId )" fab x-small>
+                <v-icon>fas fa-trash-alt</v-icon>
+              </v-btn>
+            </div>
             <div class="engagement">
               <div class="ups">
                 <img class="logoIcon" src="~/assets/images/logo_icon.png" />
@@ -51,17 +45,17 @@
               </div>
               <div class="timing">{{ idea.relativeCreatedTime }}</div>
             </div>
+
           </div>
+
         </v-flex>
+
       </v-layout>
 
       <!-- No Idea found div -->
       <div v-else class="noIdeaFoundDiv">
         <div>
-          <img
-            class="lampImg"
-            src="~/assets/images/light_gray_lamp_plain.png"
-          />
+          <img class="lampImg" src="~/assets/images/light_gray_lamp_plain.png" />
         </div>
         <div class="text">
           You don't have any ideas right now. <br />
@@ -74,6 +68,14 @@
       <v-btn class="addBtn" fab to="/ideas/create">
         <v-icon>add</v-icon>
       </v-btn>
+
+      <!-- Bottom snackbar message -->
+      <v-snackbar v-model="snackbarVisible" :timeout="2000" :color="snackbarColor">
+        {{ snackbarMessage }}
+        <v-btn color="white" text @click="snackbarVisible = false">
+          Close
+        </v-btn>
+      </v-snackbar>
     </v-layout>
   </Layout>
 </template>
@@ -83,17 +85,49 @@ import { graphqlOperation } from '@aws-amplify/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import getIdeas from '~/graphql/query/getIdeas'
+import deleteIdea from '~/graphql/mutations/deleteIdea'
 import Layout from '@/components/layout/Layout'
 dayjs.extend(relativeTime)
 
 export default {
   components: { Layout },
+
+  data: () => ({
+    snackbarVisible: false,
+    snackbarMessage: '',
+    snackbarColor: 'success'
+  }),
+
   async asyncData({ app }) {
     const {
       data: { ideas }
     } = await app.$amplifyApi.graphql(graphqlOperation(getIdeas))
     return {
       ideas: ideas.items
+    }
+  },
+
+  methods: {
+    async deleteIdea(ideaId) {
+      try {
+        console.log('ideaid is', ideaId)
+        const idea = await this.$amplifyApi.graphql(
+          graphqlOperation(deleteIdea, {
+            ideaId: ideaId
+          })
+        )
+
+        this.snackbarMessage = 'Idea deleted'
+        this.snackbarColor = 'success'
+        this.snackbarVisible = true
+
+        return false
+      } catch (err) {
+        console.error(err)
+        this.snackbarMessage = 'Something went wrong!!'
+        this.snackbarColor = 'error'
+        this.snackbarVisible = true
+      }
     }
   },
   created() {
@@ -233,6 +267,13 @@ export default {
           letter-spacing: normal;
           text-align: left;
           color: #18141c;
+        }
+
+        .deleteIdeaBtn {
+          display: block;
+          text-align: right;
+          // float: right;
+          margin-bottom: 5px;
         }
 
         .engagement {

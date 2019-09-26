@@ -148,7 +148,12 @@
         <div v-for="(item, index) in commentList" :key="index" class="commentItem">
           <div class="header">
             <div class="commentUser">{{item.userId}}</div>
-            <div class="timing">1h</div>
+            <div class="timing">1h
+              <br>
+              <v-btn color="white" @click="deleteComment(item.commentId, item.body)" fab x-small>
+                <v-icon>fas fa-trash-alt</v-icon>
+              </v-btn>
+            </div>
           </div>
           <div class="commentText">
             {{item.body}}
@@ -250,6 +255,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import getIdea from '~/graphql/query/getIdea'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import addComment from '~/graphql/mutations/addComment'
+import deleteComment from '~/graphql/mutations/deleteComment'
 import Layout from '@/components/layout/Layout'
 dayjs.extend(relativeTime)
 
@@ -266,6 +272,7 @@ export default {
     snackbarColor: 'success',
     noAddComment: true,
     commentList: [],
+    // commentId: null,
     currentComment: '',
     updatingComment: false,
     noComment: false,
@@ -313,6 +320,7 @@ export default {
       user: { email: store.state.cognito.user.attributes.email },
       ideaTags: ideaTags,
       commentList: data.getIdea.comments
+      // commentId: commentId
     }
   },
 
@@ -323,6 +331,51 @@ export default {
   },
 
   methods: {
+    async fetchCommentList() {
+      const { data } = await app.$amplifyApi.graphql(
+        graphqlOperation(getIdea, { ideaId: route.params.ideaId })
+      )
+
+      let ideaTags = [
+        'web',
+        'illustration',
+        'graphics',
+        'ui',
+        'adobe',
+        'interface'
+      ]
+
+      this.commentList = data.getIdea.comments
+    },
+
+    async deleteComment(commentId, body) {
+      try {
+        console.log('delete comments...', deleteComment)
+        debugger
+        const idea = await this.$amplifyApi.graphql(
+          graphqlOperation(deleteComment, {
+            body: body,
+            userId: this.$store.getters['cognito/userSub'],
+            ideaId: this.$route.params.ideaId,
+            commentId: commentId
+          })
+          // this.commentList.splice(body, 1)
+        )
+
+        await this.fetchCommentList()
+        this.snackbarMessage = 'Deleted Comment'
+        this.snackbarColor = 'success'
+        this.snackbarVisible = true
+        this.currentComment = ''
+      } catch (err) {
+        console.error(err)
+
+        this.snackbarMessage = 'Something went wrong!!'
+        this.snackbarColor = 'error'
+        this.snackbarVisible = true
+      }
+    },
+
     copyShareLink() {
       this.$clipboard(window.location.href)
       this.snackbarMessage = 'Link copied'
