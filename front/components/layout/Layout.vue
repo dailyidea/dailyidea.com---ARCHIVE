@@ -1,7 +1,7 @@
 <template>
   <div id="commonHeader">
     <!-- Non login page header -->
-    <v-toolbar v-if="!loggedInHeader" app class="toolBar" flat absolute>
+    <v-toolbar v-if="!loggedInHeader" class="toolBar" flat absolute>
       <v-toolbar-title class="blue--text subheading">
         <nuxt-link class="logoLink" :to="{ name: 'index' }">
           <img class="logoIcon" src="~/assets/images/logo_icon.png" />
@@ -10,9 +10,7 @@
       </v-toolbar-title>
       <v-spacer />
       <template>
-        <nuxt-link class="helpLink" :to="{ name: 'auth-login' }"
-          >Login</nuxt-link
-        >
+        <nuxt-link class="helpLink" :to="{ name: 'auth-login' }">Login</nuxt-link>
         <nuxt-link class="userLink" :to="{ name: 'auth-signup' }">
           <v-icon>fa-user</v-icon>
         </nuxt-link>
@@ -24,33 +22,19 @@
       <div class="loggedInHeader">
         <!-- Desktop Header -->
         <v-layout hidden-sm-and-down>
-          <v-toolbar class="desktop" app flat absolute color="white">
+          <v-toolbar class="desktop" flat absolute color="white">
             <v-toolbar-title class="blue--text subheading">
               <!-- Show Back button if enabled -->
-              <v-icon
-                v-if="backButton"
-                class="icons backButon"
-                @click="onBackClick()"
-                >fas fa-arrow-left</v-icon
-              >
+              <v-icon v-if="backButton" class="icons backButon" @click="onBackClick()">fas fa-arrow-left</v-icon>
 
               <nuxt-link class="logoLink" :to="{ name: 'index' }">
                 <img class="logoIcon" src="~/assets/images/logo_icon.png" />
-                <img
-                  class="logoIcon logoText"
-                  src="~/assets/images/logo_text.png"
-                />
+                <img class="logoIcon logoText" src="~/assets/images/logo_text.png" />
               </nuxt-link>
             </v-toolbar-title>
 
             <!-- Search Box -->
-            <v-text-field
-              class="searchInput"
-              flat
-              solo
-              label
-              prepend-inner-icon="fas fa-search"
-            ></v-text-field>
+            <v-text-field class="searchInput" flat solo label prepend-inner-icon="fas fa-search"></v-text-field>
 
             <v-spacer />
             <template>
@@ -66,28 +50,16 @@
         </v-layout>
 
         <!-- Mobile HEader -->
-        <v-toolbar
-          v-if="!searchIdeaMode"
-          app
-          flat
-          absolute
-          color="white"
-          class="mobile"
-          hidden-md-and-up
-        >
+        <v-toolbar v-if="!searchIdeaMode" flat absolute color="white" class="mobile" hidden-md-and-up>
           <v-layout class="nonSearchSection" row>
             <!-- Left Side Icon -->
             <v-layout>
               <v-flex v-if="mobileHamburger" xs1 sm1>
-                <v-icon class="icons" @click="$refs.mobileMenu.visible = true"
-                  >fas fa-bars</v-icon
-                >
+                <v-icon class="icons" @click="$refs.mobileMenu.visible = true">fas fa-bars</v-icon>
                 <MobileMenu ref="mobileMenu"></MobileMenu>
               </v-flex>
               <v-flex v-else-if="backButton" xs1 sm1>
-                <v-icon class="icons" @click="onBackClick()"
-                  >fas fa-arrow-left</v-icon
-                >
+                <v-icon class="icons" @click="onBackClick()">fas fa-arrow-left</v-icon>
               </v-flex>
 
               <!-- Center Title -->
@@ -97,34 +69,16 @@
             <!-- Rightside Icons -->
             <v-flex xs3 sm3 class="rightSide">
               <!-- Edit Idea Icon -->
-              <v-icon
-                v-if="editIdeaVisible"
-                class="icons menu"
-                @click="$emit('onEditIdea')"
-                >fas fa-pen</v-icon
-              >
+              <v-icon v-if="editIdeaVisible" class="icons menu" @click="$emit('onEditIdea')">fas fa-pen</v-icon>
 
               <!-- Search Idea Button -->
-              <v-icon
-                v-if="mobileSearchIcon"
-                class="icons menu"
-                @click="onShowSearchIdeaBox()"
-                >fas fa-search</v-icon
-              >
+              <v-icon v-if="mobileSearchIcon" class="icons menu" @click="onShowSearchIdeaBox()">fas fa-search</v-icon>
 
               <!-- Share idea button and menu-->
-              <v-icon
-                v-if="shareIdeaVisible"
-                class="icons menu"
-                @click="$emit('showShareIdeaDialog')"
-                v-on="on"
-                >fas fa-envelope</v-icon
-              >
+              <v-icon v-if="shareIdeaVisible" class="icons menu" @click="$emit('showShareIdeaDialog')" v-on="on">fas fa-envelope</v-icon>
               <v-menu v-if="shareIdeaVisible" class="shareIdea">
                 <template v-slot:activator="{ on }">
-                  <v-icon class="icons menu" v-on="on"
-                    >fas fa-ellipsis-v</v-icon
-                  >
+                  <v-icon class="icons menu" v-on="on">fas fa-ellipsis-v</v-icon>
                 </template>
                 <v-list>
                   <v-list-item>
@@ -141,25 +95,9 @@
             </v-flex>
           </v-layout>
         </v-toolbar>
-        <v-toolbar
-          v-else
-          app
-          flat
-          absolute
-          color="white"
-          class="mobile searchIdeaContainer"
-          hidden-md-and-up
-        >
-          <v-text-field
-            ref="mobileMenuSearchIdeaBox"
-            placeholder="What are you looking for?"
-            hide-details
-            prepend-inner-icon="search"
-            outlined
-          ></v-text-field>
-          <v-icon class="closeIcon " @click="searchIdeaMode = false"
-            >fas fa-times</v-icon
-          >
+        <v-toolbar v-else flat absolute color="white" class="mobile searchIdeaContainer" hidden-md-and-up>
+          <v-text-field ref="mobileMenuSearchIdeaBox" placeholder="What are you looking for?" hide-details prepend-inner-icon="search" outlined></v-text-field>
+          <v-icon class="closeIcon " @click="searchIdeaMode = false">fas fa-times</v-icon>
         </v-toolbar>
       </div>
     </template>
