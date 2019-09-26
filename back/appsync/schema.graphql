@@ -34,7 +34,7 @@ type Mutation {
 	    tags: [TagInput],
     ): [Tag]
 
-	deleteTag(tag: TagInput): Tag!
+	deleteTag(tag: TagInput): Tag
 
 	followUser(
 	    userId: String!
@@ -58,11 +58,13 @@ input TagInput {
    tag: String!
    ideaId: String!
 }
+
 type Query {
 	meInfo: User!
 	ideas: IdeaConnection
 	getIdea(ideaId: String!): Idea!
 	getLikedIdeas: IdeaConnection
+	ideaTags(ideaId: String!): [Tag!]!
 }
 
 type Tag {
@@ -91,7 +93,6 @@ type User {
 type Comment {
 	body: String!
 	userId: String!
-	createdDate: String!
 	commentId: String!
 }
 

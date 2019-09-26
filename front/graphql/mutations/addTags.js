@@ -1,6 +1,6 @@
 export default `
 mutation addTags( $tags: [TagInput] ) {
-  addTags( $tags ) {
+  addTags( tags: $tags ) {
     ideaId
     tag
   }
