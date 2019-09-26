@@ -26,7 +26,7 @@
         </div>
 
         <!-- Tags -->
-        <v-combobox v-validate="'required|max:100'" :error-messages="errors.collect('title')" data-vv-name="title" v-model="chips" class="ideaTag" :items="items" chips clearable multiple outlined label="Add Tags">
+        <v-combobox v-validate="'required|max:100'" :error-messages="errors.collect('tag')" data-vv-name="tag" v-model="chips" class="ideaTag" :items="items" chips clearable multiple outlined label="Add Tags">
           <template v-slot:selection="{ attrs, item, select, selected }">
             <v-chip v-bind="attrs" :input-value="selected" close label @click="select" @click:close="remove(item)">
               <strong>{{ item }}</strong>

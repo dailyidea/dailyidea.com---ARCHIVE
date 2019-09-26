@@ -66,7 +66,7 @@
           <div class="ideaTitle">{{ idea.title }}</div>
         </div>
         <div v-else>
-          <v-textarea v-model="idea.title" outlined label="Idea Title">
+          <v-textarea v-validate="'required|max:100'" :error-messages="errors.collect('title')" data-vv-name="title" v-model="idea.title" outlined label="Idea Title">
           </v-textarea>
         </div>
 
@@ -82,6 +82,9 @@
         </div>
         <div v-else class="ideaEditor">
           <VueTrix v-model="ideaEditContents" class="editor" placeholder="Enter content" />
+          <div class="errorMsg" v-if="!ideaEditContents">
+            {{errorMsg}}
+          </div>
         </div>
 
         <!-- Tags -->
@@ -89,7 +92,7 @@
           <v-chip v-for="(tag, index) in ideaTags" :key="index" label class="tag">{{ tag }}</v-chip>
         </div>
         <div v-else class="tagsEditor">
-          <v-combobox v-model="chips" class="ideaTag" :items="items" times chips clearable outlined label="Add Tags" multiple>
+          <v-combobox v-validate="'required|max:100'" :error-messages="errors.collect('tag')" data-vv-name="tag" v-model="chips" class="ideaTag" :items="items" times chips clearable outlined label="Add Tags" multiple>
             <template v-slot:selection="{ attrs, item, select, selected }">
               <v-chip v-bind="attrs" :input-value="selected" close label @click="select" @click:close="remove(item)">
                 <strong>{{ item }}</strong>
@@ -442,7 +445,14 @@ export default {
     async onSaveIdeaContent() {
       // this.idea.content = this.ideaEditContents
 
+      let result = await this.$validator.validateAll()
+      if (!result) {
+        this.errorMsg = 'This field is required.'
+        return
+      }
+
       console.log('updating idea...', updateIdea)
+
       this.updatingIdea = true
 
       try {
@@ -466,6 +476,7 @@ export default {
         this.snackbarVisible = true
       }
     }
+
     //     async deleteIdea() {
     //       await this.$amplifyApi.graphql(
     //         graphqlOperation(deleteIdea, { ideaId: this.$route.params.ideaId })
@@ -614,6 +625,12 @@ export default {
           }
         }
       }
+    }
+    .errorMsg {
+      color: #b71c1c;
+      font-size: 12px;
+      margin-top: 2px;
+      padding-left: 10px;
     }
 
     .tagsContainer {
