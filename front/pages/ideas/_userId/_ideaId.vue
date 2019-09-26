@@ -139,8 +139,10 @@
 
         <v-layout class="cmtAndLike" hidden-sm-and-down>
           <div class="ups">
-            <img class="lamp" src="~/assets/images/dark_gray_lamp.png" />
-            <span>609</span>
+            <v-btn text @click="toggleLikeIdea">
+              <img class="lamp" src="~/assets/images/dark_gray_lamp.png" />
+              <span>609</span>
+            </v-btn>
           </div>
           <div class="downs">
             <img class="cmt" src="~/assets/images/comments.png" />
@@ -155,7 +157,7 @@
             <div class="timing">
               1h
               <v-btn class="deleteCommentBtn" color="red" icon text @click="deleteComment(item.commentId, item.body)" x-small>
-                <v-icon>fas fa-trash-alt</v-icon>
+                <v-icon color="red">fas fa-trash-alt</v-icon>
               </v-btn>
             </div>
           </div>
@@ -261,6 +263,8 @@ import updateIdea from '~/graphql/mutations/updateIdea'
 import addComment from '~/graphql/mutations/addComment'
 import deleteComment from '~/graphql/mutations/deleteComment'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
+import likeIdea from '~/graphql/mutations/likeIdea'
+import unlikeIdea from '~/graphql/mutations/unlikeIdea'
 import Layout from '@/components/layout/Layout'
 dayjs.extend(relativeTime)
 
@@ -357,17 +361,17 @@ export default {
       try {
         console.log('delete comments...', deleteComment)
         debugger
-        const idea = await this.$amplifyApi.graphql(
+        const response = await this.$amplifyApi.graphql(
           graphqlOperation(deleteComment, {
             body: body,
             userId: this.$store.getters['cognito/userSub'],
             ideaId: this.$route.params.ideaId,
             commentId: commentId
           })
-          // this.commentList.splice(body, 1)
         )
 
         await this.fetchCommentList()
+
         this.snackbarMessage = 'Deleted Comment'
         this.snackbarColor = 'success'
         this.snackbarVisible = true
@@ -445,6 +449,32 @@ export default {
 
     onRemoveChip(index) {
       this.ideaTags.splice(index, 1)
+    },
+
+    async toggleLikeIdea() {
+      let ideaLiked = true
+      if (this.likeIdea) {
+        let ideaLiked = !this.likeIdea
+      }
+
+      try {
+        let ideaId = this.$route.params.ideaId
+        let mutationToCall = ideaLiked ? likeIdea : unlikeIdea
+        const response = await this.$amplifyApi.graphql(
+          graphqlOperation(mutationToCall, {
+            ideaId: ideaId
+          })
+        )
+
+        this.snackbarMessage = 'Idea ' + (ideaLiked ? 'Liked.' : 'Unliked.')
+        this.snackbarColor = 'success'
+        this.snackbarVisible = true
+      } catch (err) {
+        console.error(err)
+        this.snackbarMessage = 'Something went wrong!!'
+        this.snackbarColor = 'error'
+        this.snackbarVisible = true
+      }
     },
 
     async deleteIdea() {
