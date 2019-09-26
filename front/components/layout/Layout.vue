@@ -192,6 +192,7 @@ export default {
     color: #c0b7c5 !important;
     font-style: none !important;
     text-decoration: none !important;
+    width: 100% !important;
 
     .helpLink {
       color: #c0b7c5 !important;
