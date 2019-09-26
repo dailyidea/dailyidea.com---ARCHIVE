@@ -152,9 +152,9 @@
         <div v-for="(item, index) in commentList" :key="index" class="commentItem">
           <div class="header">
             <div class="commentUser">{{item.userId}}</div>
-            <div class="timing">1h
-              <br>
-              <v-btn color="white" @click="deleteComment(item.commentId, item.body)" fab x-small>
+            <div class="timing">
+              1h
+              <v-btn class="deleteCommentBtn" color="red" icon text @click="deleteComment(item.commentId, item.body)" x-small>
                 <v-icon>fas fa-trash-alt</v-icon>
               </v-btn>
             </div>
@@ -833,6 +833,15 @@ export default {
       letter-spacing: normal;
       text-align: left;
       color: #827c85;
+    }
+
+    .deleteCommentBtn {
+      display: block;
+      margin-right: -20px;
+      margin-top: 7px;
+      i {
+        font-size: 13px !important;
+      }
     }
   }
 }
