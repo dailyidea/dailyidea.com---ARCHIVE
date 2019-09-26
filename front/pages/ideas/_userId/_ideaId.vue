@@ -55,6 +55,10 @@
                 </v-list-item>
                 <v-list-item>
                   <v-list-item-title>Report Idea</v-list-item-title>
+
+                </v-list-item>
+                <v-list-item @click="deleteIdea()">
+                  <v-list-item-title>Delete Idea</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -256,6 +260,7 @@ import getIdea from '~/graphql/query/getIdea'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import addComment from '~/graphql/mutations/addComment'
 import deleteComment from '~/graphql/mutations/deleteComment'
+import deleteIdea from '~/graphql/mutations/deleteIdea'
 import Layout from '@/components/layout/Layout'
 dayjs.extend(relativeTime)
 
@@ -413,6 +418,7 @@ export default {
     showShareIdeaDialog() {
       this.showEmailShareDialog = true
     },
+
     async sendShareEmail() {
       //Validate input fields
       let result = await this.$validator.validateAll()
@@ -436,9 +442,37 @@ export default {
       this.ideaEditContents = this.idea.content
       this.ideaEditorVisible = true
     },
+
     onRemoveChip(index) {
       this.ideaTags.splice(index, 1)
     },
+
+    async deleteIdea() {
+      try {
+        let ideaId = this.$route.params.ideaId
+        console.log('ideaid is', ideaId)
+        const response = await this.$amplifyApi.graphql(
+          graphqlOperation(deleteIdea, {
+            ideaId: ideaId
+          })
+        )
+
+        this.snackbarMessage = 'Idea deleted'
+        this.snackbarColor = 'success'
+        this.snackbarVisible = true
+
+        this.$router.push({
+          name: 'ideas',
+          force: true
+        })
+      } catch (err) {
+        console.error(err)
+        this.snackbarMessage = 'Something went wrong!!'
+        this.snackbarColor = 'error'
+        this.snackbarVisible = true
+      }
+    },
+
     async onSaveIdeaContent() {
       // this.idea.content = this.ideaEditContents
 
@@ -466,11 +500,6 @@ export default {
         this.snackbarVisible = true
       }
     }
-    //     async deleteIdea() {
-    //       await this.$amplifyApi.graphql(
-    //         graphqlOperation(deleteIdea, { ideaId: this.$route.params.ideaId })
-    //       )
-    //     },
   }
 }
 </script>

@@ -29,11 +29,6 @@
             ">
             <!-- {{idea.ideaId }} -->
             <div class="ideaDescription">{{ idea.title }}</div>
-            <div class="deleteIdeaBtn">
-              <v-btn color="white" @click="deleteIdea( idea.ideaId )" fab x-small>
-                <v-icon>fas fa-trash-alt</v-icon>
-              </v-btn>
-            </div>
             <div class="engagement">
               <div class="ups">
                 <img class="logoIcon" src="~/assets/images/logo_icon.png" />
@@ -85,7 +80,6 @@ import { graphqlOperation } from '@aws-amplify/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import getIdeas from '~/graphql/query/getIdeas'
-import deleteIdea from '~/graphql/mutations/deleteIdea'
 import Layout from '@/components/layout/Layout'
 dayjs.extend(relativeTime)
 
@@ -107,29 +101,7 @@ export default {
     }
   },
 
-  methods: {
-    async deleteIdea(ideaId) {
-      try {
-        console.log('ideaid is', ideaId)
-        const idea = await this.$amplifyApi.graphql(
-          graphqlOperation(deleteIdea, {
-            ideaId: ideaId
-          })
-        )
-
-        this.snackbarMessage = 'Idea deleted'
-        this.snackbarColor = 'success'
-        this.snackbarVisible = true
-
-        return false
-      } catch (err) {
-        console.error(err)
-        this.snackbarMessage = 'Something went wrong!!'
-        this.snackbarColor = 'error'
-        this.snackbarVisible = true
-      }
-    }
-  },
+  methods: {},
   created() {
     // this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
     this.ideas.forEach(idea => {
@@ -267,13 +239,6 @@ export default {
           letter-spacing: normal;
           text-align: left;
           color: #18141c;
-        }
-
-        .deleteIdeaBtn {
-          display: block;
-          text-align: right;
-          // float: right;
-          margin-bottom: 5px;
         }
 
         .engagement {
