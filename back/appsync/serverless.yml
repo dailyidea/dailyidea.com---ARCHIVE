@@ -2,7 +2,7 @@ service: dailyidea-appsync-backend
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: 'python3.6'
   stage: ${env:STAGE, 'local'}
   region: ${env:AWS_REGION, 'us-east-1'}
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
@@ -12,8 +12,9 @@ plugins:
   - serverless-appsync-plugin
 
 functions:
-  graphql:
-    handler: handler.graphqlHandler
+  getLikedIdeas:
+    handler: functions.get_liked_ideas.get_liked_ideas.endpoint
+    role: LambdaGetLikedIdeasFunctionRole
 
 custom:
   cogintoUserPoolId: ${env:COGNITO_POOL_ID}
@@ -100,7 +101,7 @@ custom:
         response: "getIdeaTags-response-mapping-template.txt"
       - dataSource: Likes
         type: Mutation
-        field: unlikeIdea
+        field: likeIdea
         request: "likeIdea-request-mapping-template.txt"
         response: "likeIdea-response-mapping-template.txt"
       - dataSource: Likes
@@ -113,6 +114,11 @@ custom:
         field: getLikedIdeas
         request: "getLikedIdeas-request-mapping-template.txt"
         response: "getLikedIdeas-response-mapping-template.txt"
+      - type: Query
+        field: likedIdeas
+        dataSource: LikedIdeasHandler
+        request: "likedIdeas-query-request-mapping-template.txt"
+        response: "likedIdeas-response-mapping-template.txt"
     #      - dataSource: RequestLink
 #        type: Mutation
 #        field: requestLogin
@@ -122,10 +128,10 @@ custom:
     serviceRole: "AppSyncServiceRole"
     dataSources:
       - type: AWS_LAMBDA
-        name: LambdaHandler
-        description: 'Lambda DataSource'
+        name: LikedIdeasHandler
+        description: 'Lambda Liked Ideas Data Source'
         config:
-          lambdaFunctionArn: { Fn::GetAtt: [GraphqlLambdaFunction, Arn] }
+          lambdaFunctionArn: { Fn::GetAtt: [GetLikedIdeasLambdaFunction, Arn] }
           serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AMAZON_DYNAMODB
         name: Users
@@ -151,6 +157,7 @@ custom:
         config:
           tableName: ${self:custom.likesTableName}
           serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
+
 #      - type: AWS_LAMBDA
 #        name: RequestLink
 #        description: 'Lambda DataSource'
@@ -167,6 +174,7 @@ custom:
 
 resources:
   - Resources:
+      LambdaGetLikedIdeasFunctionRole: ${file(functions/get_liked_ideas/function_role.yml):LambdaGetLikedIdeasFunctionRole}
       AppSyncLambdaServiceRole:
         Type: "AWS::IAM::Role"
         Properties:
@@ -189,8 +197,9 @@ resources:
                     Action:
                       - "lambda:invokeFunction"
                     Resource:
-                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-dev-graphql"
-                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-dev-graphql:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-dev-getLikedIdeas"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-dev-getLikedIdeas:*"
+
       AppSyncServiceRole:
         Type: "AWS::IAM::Role"
         Properties:
@@ -220,6 +229,7 @@ resources:
                       - "dynamodb:UpdateItem"
                     Resource:
                       - { "Fn::GetAtt": ["TagsTable", "Arn" ] }
+                      - { "Fn::GetAtt": ["LikesTable", "Arn" ] }
                       - 'Fn::Join':
                           - ':'
                           - - 'arn:aws:dynamodb'
@@ -265,3 +275,4 @@ resources:
                       - ses:SendEmail
                     Resource: "*"
   - ${file(resources/dynamo-tags-table.yml)}
+  - ${file(resources/dynamo-likes-table.yml)}

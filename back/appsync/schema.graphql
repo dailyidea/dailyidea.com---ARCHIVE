@@ -46,11 +46,12 @@ type Mutation {
 
 	likeIdea(
 	    ideaId: String!
-    ): Idea!
+		ideaOwnerId: String!
+    ): Idea
 
 	unlikeIdea(
 	    ideaId: String!
-    ): Idea!
+    ): Idea
 
 }
 
@@ -63,13 +64,18 @@ type Query {
 	meInfo: User!
 	ideas: IdeaConnection
 	getIdea(ideaId: String!): Idea!
-	getLikedIdeas: IdeaConnection
 	ideaTags(ideaId: String!): [Tag!]!
+	likedIdeas(userId: String!): PaginatedIdeas!
 }
 
 type Tag {
    tag: String!
    ideaId: String!
+}
+
+type PaginatedIdeas {
+	count: Int!
+	items: [Idea!]
 }
 
 
