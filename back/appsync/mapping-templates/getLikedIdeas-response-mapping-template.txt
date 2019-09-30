@@ -1,4 +1,6 @@
-{
-    "items": $util.toJson($context.result.items),
-    "nextToken": $util.toJson($context.result.nextToken)
-}
+## Raise a GraphQL field error in case of a datasource invocation error
+#if($ctx.error)
+    $util.error($ctx.error.message, $ctx.error.type)
+#end
+
+$util.toJson($ctx.result)

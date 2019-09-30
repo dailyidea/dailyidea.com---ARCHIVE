@@ -9,7 +9,8 @@ module.exports = {
     extensions: ['.js', '.vue'],
     alias: {
       '~': resolve(__dirname),
-      '@': resolve(__dirname)
+      '@': resolve(__dirname),
+      ['assets']: resolve(__dirname, 'assets'),
       // your aliases go here.
     }
   }

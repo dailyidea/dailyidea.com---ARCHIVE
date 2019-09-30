@@ -1,0 +1,4 @@
+$util.toJson({
+    "result": {"ok": true},
+    "likesCount": $ctx.result["likesCount"]
+})

@@ -15,6 +15,14 @@ functions:
   getLikedIdeas:
     handler: functions.get_liked_ideas.get_liked_ideas.endpoint
     role: LambdaGetLikedIdeasFunctionRole
+    memorySize: 512
+    environment:
+      LIKES_TABLE_NAME: dailyidea-likes-${self:provider.stage}
+      IDEAS_TABLE_NAME: dailyidea-ideas-${self:provider.stage}
+  developmentLogger:
+    handler: functions.development_logger.development_logger.endpoint
+    role: LambdaDevelopmentLoggerFunctionRole
+    memorySize: 128
 
 custom:
   cogintoUserPoolId: ${env:COGNITO_POOL_ID}
@@ -102,23 +110,32 @@ custom:
       - dataSource: Likes
         type: Mutation
         field: likeIdea
-        request: "likeIdea-request-mapping-template.txt"
-        response: "likeIdea-response-mapping-template.txt"
+        request: "like-idea/before-mapping-template.txt"
+        response: "like-idea/after-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - createLikedIdeaItem
+          - increaseIdeaLikesCount
+#          - logResults
       - dataSource: Likes
         type: Mutation
         field: unlikeIdea
-        request: "unlikeIdea-request-mapping-template.txt"
-        response: "unlikeIdea-response-mapping-template.txt"
-      - dataSource: Likes
-        type: Query
+        request: "unlike-idea/before-mapping-template.txt"
+        response: "unlike-idea/after-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - deleteLikedIdeaItem
+          - decreaseIdeaLikesCount
+      - type: Query
         field: getLikedIdeas
+        dataSource: LikedIdeasHandler
         request: "getLikedIdeas-request-mapping-template.txt"
         response: "getLikedIdeas-response-mapping-template.txt"
-      - type: Query
-        field: likedIdeas
-        dataSource: LikedIdeasHandler
-        request: "likedIdeas-query-request-mapping-template.txt"
-        response: "likedIdeas-response-mapping-template.txt"
+      - dataSource: Likes
+        type: Query
+        field: getIsIdeaLikedByMe
+        request: "getIsIdeaLikedByMe-request-mapping-template.txt"
+        response: "getIsIdeaLikedByMe-response-mapping-template.txt"
     #      - dataSource: RequestLink
 #        type: Mutation
 #        field: requestLogin
@@ -132,6 +149,12 @@ custom:
         description: 'Lambda Liked Ideas Data Source'
         config:
           lambdaFunctionArn: { Fn::GetAtt: [GetLikedIdeasLambdaFunction, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
+      - type: AWS_LAMBDA
+        name: DevelopmentLoggerHandler
+        description: 'Development purposes only. Insert into pipeline to log what are happening there=)'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [DevelopmentLoggerLambdaFunction, Arn] }
           serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AMAZON_DYNAMODB
         name: Users
@@ -157,7 +180,27 @@ custom:
         config:
           tableName: ${self:custom.likesTableName}
           serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
-
+    functionConfigurations:
+      - dataSource: Likes
+        name: createLikedIdeaItem
+        request: 'like-idea/createLikedIdeaItem-request-mapping-template.txt'
+        response: 'like-idea/createLikedIdeaItem-response-mapping-template.txt'
+      - dataSource: Likes
+        name: deleteLikedIdeaItem
+        request: 'unlike-idea/deleteLikedIdeaItem-request-mapping-template.txt'
+        response: 'unlike-idea/deleteLikedIdeaItem-response-mapping-template.txt'
+      - dataSource: Ideas
+        name: increaseIdeaLikesCount
+        request: 'like-idea/increaseIdeaLikesCount-request-mapping-template.txt'
+        response: 'like-idea/increaseIdeaLikesCount-response-mapping-template.txt'
+      - dataSource: Ideas
+        name: decreaseIdeaLikesCount
+        request: 'unlike-idea/decreaseIdeaLikesCount-request-mapping-template.txt'
+        response: 'unlike-idea/decreaseIdeaLikesCount-response-mapping-template.txt'
+      - dataSource: DevelopmentLoggerHandler
+        name: logResults
+        request: 'development-logger/request-request-mapping-template.txt'
+        response: 'development-logger/response-response-mapping-template.txt'
 #      - type: AWS_LAMBDA
 #        name: RequestLink
 #        description: 'Lambda DataSource'
@@ -175,6 +218,7 @@ custom:
 resources:
   - Resources:
       LambdaGetLikedIdeasFunctionRole: ${file(functions/get_liked_ideas/function_role.yml):LambdaGetLikedIdeasFunctionRole}
+      LambdaDevelopmentLoggerFunctionRole: ${file(functions/development_logger/function_role.yml):LambdaDevelopmentLoggerFunctionRole}
       AppSyncLambdaServiceRole:
         Type: "AWS::IAM::Role"
         Properties:
@@ -199,6 +243,8 @@ resources:
                     Resource:
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-dev-getLikedIdeas"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-dev-getLikedIdeas:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-dev-developmentLogger"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-dev-developmentLogger:*"
 
       AppSyncServiceRole:
         Type: "AWS::IAM::Role"

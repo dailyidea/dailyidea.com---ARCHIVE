@@ -17,8 +17,13 @@ LambdaGetLikedIdeasFunctionRole:
             - Action:
                 - "dynamodb:Query"
                 - "dynamodb:BatchGetItem"
+                - "logs:CreateLogGroup"
+                - "logs:CreateLogStream"
+                - "logs:PutLogEvents"
+                - "logs:DescribeLogStreams"
               Effect: Allow
               Resource:
+                - "arn:aws:logs:*:*:*"
                 - 'Fn::Join':
                     - ':'
                     - - 'arn:aws:dynamodb'
