@@ -444,7 +444,7 @@ export default {
       try {
         let ideaId = this.$route.params.ideaId
         let mutationToCall = ideaLiked ? likeIdea : unlikeIdea
-
+        debugger
         await this.$amplifyApi.graphql(
           graphqlOperation(mutationToCall, {
             ideaId: ideaId

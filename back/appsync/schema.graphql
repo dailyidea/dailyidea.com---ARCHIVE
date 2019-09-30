@@ -46,11 +46,16 @@ type Mutation {
 
 	likeIdea(
 	    ideaId: String!
-    ): Idea!
+		ideaOwnerId: String!
+    ): LikeResult
 
 	unlikeIdea(
 	    ideaId: String!
-    ): Idea!
+    ): LikeResult
+
+	testPipeline(
+		ideaId: String
+	): Result
 
 }
 
@@ -61,17 +66,29 @@ input TagInput {
 
 type Query {
 	meInfo: User!
-	ideas: IdeaConnection
+	ideas(nextToken: String, limit: Int): IdeaConnection
 	getIdea(ideaId: String!): Idea!
-	getLikedIdeas: IdeaConnection
+	getLikedIdeas(nextToken: String, limit: Int): IdeaConnection
 	ideaTags(ideaId: String!): [Tag!]!
+	getIsIdeaLikedByMe(
+		ideaId: String!
+	): IsLikedResult
+}
+
+type LikeResult {
+	result: Result!
+	likesCount: Int
+}
+
+type IsLikedResult {
+	result: Result!
+	isLiked: Boolean
 }
 
 type Tag {
    tag: String!
    ideaId: String!
 }
-
 
 type Idea {
 	ideaId: String!
@@ -81,6 +98,7 @@ type Idea {
 	createdDate: String
 	ideaDate: String
 	comments: [Comment]
+	likesCount: Int
 }
 
 
@@ -98,7 +116,7 @@ type Comment {
 
 type Result {
 	error: String
-	ok: Boolean
+	ok: Boolean!
 }
 
 

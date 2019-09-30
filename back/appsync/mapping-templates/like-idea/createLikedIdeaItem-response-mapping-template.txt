@@ -1,0 +1,4 @@
+#if($ctx.error)
+    $util.qr($ctx.stash.put("alreadyLikedError", true))
+#end
+$util.toJson($ctx.result)

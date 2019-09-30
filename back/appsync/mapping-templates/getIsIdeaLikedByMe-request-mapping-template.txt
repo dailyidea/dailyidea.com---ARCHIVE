@@ -1,0 +1,15 @@
+{
+    "version" : "2017-02-28",
+    "operation" : "Query",
+    "query" : {
+        "expression": "ideaId = :ideaId and userId = :userId",
+        "expressionValues" : {
+            ":ideaId" : {
+                "S" : "${context.arguments.ideaId}"
+            },
+            ":userId": {
+                "S": "${context.identity.username}"
+            }
+        }
+    }
+}

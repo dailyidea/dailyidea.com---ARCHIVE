@@ -6,6 +6,7 @@ query getIdea($ideaId: String!) {
     title
     createdDate
     ideaDate
+    likesCount
     comments {
       userId
       body
