@@ -1,12 +1,14 @@
 export default `
-query ideas {
-  ideas {
+query ideas($nextToken: String, $limit: Int) {
+  ideas(nextToken: $nextToken, limit: $limit) {
     items {
       ideaId
       content
       title
       createdDate
       ideaDate
+      likesCount
     }
+    nextToken
   }
 }`

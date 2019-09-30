@@ -1,0 +1,5 @@
+#if($context.result.items.size() > 0)
+    #return({"result": {"ok": true}, "isLiked": true})
+#else
+    #return({"result": {"ok": true}, "isLiked": false})
+#end

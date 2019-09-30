@@ -9,6 +9,7 @@
         "content" : { "S" : "${context.arguments.content}" },
         "title" : { "S" : "${context.arguments.title}" },
         "ideaDate" : $util.dynamodb.toDynamoDBJson($util.time.nowISO8601()),
-        "createdDate" : $util.dynamodb.toDynamoDBJson($util.time.nowISO8601())
+        "createdDate" : $util.dynamodb.toDynamoDBJson($util.time.nowISO8601()),
+        "likesCount" : {"N": "0"}
     }
 }
