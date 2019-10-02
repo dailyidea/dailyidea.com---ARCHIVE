@@ -1,0 +1,17 @@
+{
+    "version" : "2017-02-28",
+    "operation" : "UpdateItem",
+    "key": {
+        "userId" : { "S" : "${ctx.arguments.ideaOwnerId}" },
+        "ideaId" : { "S" : "${ctx.arguments.ideaId}" },
+    },
+    "update" : {
+        "expression" : "ADD #commentsfield :plusOne",
+        "expressionNames" : {
+           "#commentsfield" : "commentsCount"
+        },
+        "expressionValues" : {
+            ":plusOne" : { "N" : "1" }
+        }
+    },
+}
