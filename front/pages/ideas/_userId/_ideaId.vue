@@ -93,14 +93,14 @@
         </div>
 
         <!-- Tags -->
-        <!-- {{tag}} -->
         <div v-if="!ideaEditorVisible" class="tagsContainer">
-          <v-chip v-for="(tag, index) in ideaTags" :key="index" label class="tag">{{ tag }}</v-chip>
+          <v-chip v-for="(item, index) in ideaTags" :key="index" label class="tag">{{item}}</v-chip>
         </div>
         <div v-else class="tagsEditor">
-          <v-combobox v-model="chips" v-validate="'required|max:100'" :error-messages="errors.collect('tag')" data-vv-name="tag" class="ideaTag" :items="items" times chips clearable outlined label="Add Tags" multiple>
+
+          <v-combobox v-model="ideaTags" v-validate="'required|max:100'" :error-messages="errors.collect('tag')" data-vv-name="tag" class="ideaTag" times chips clearable outlined label="Add Tags" multiple>
             <template v-slot:selection="{ attrs, item, select, selected }">
-              <v-chip v-bind="attrs" :input-value="selected" close label @click="select " @click:close="remove(item)">
+              <v-chip v-bind="attrs" :input-value="selected" close label @click="select; " @click:close="removeTag(item)">
                 <strong>{{ item }}</strong>
               </v-chip>
             </template>
@@ -109,7 +109,7 @@
 
         <!--submit and cancel btn-->
         <div v-if="ideaEditorVisible" class="buttons">
-          <v-btn small color="primary" :loading="updatingIdea" @click="onSaveIdeaContent()">Save</v-btn>
+          <v-btn small color="primary" :loading="updatingIdea" @click="onSaveIdeaContent();">Save</v-btn>
           <v-btn text small color="error" @click="ideaEditorVisible = false">Cancel</v-btn>
         </div>
 
@@ -268,6 +268,7 @@ import updateIdea from '~/graphql/mutations/updateIdea'
 import addComment from '~/graphql/mutations/addComment'
 import deleteComment from '~/graphql/mutations/deleteComment'
 import getIdeaTags from '~/graphql/query/getIdeaTags'
+import getComments from '~/graphql/query/getComments'
 import likeIdea from '~/graphql/mutations/likeIdea'
 import unlikeIdea from '~/graphql/mutations/unlikeIdea'
 import Layout from '@/components/layout/Layout'
@@ -283,6 +284,8 @@ export default {
   data: () => ({
     // chips: ['web', 'illustration', 'graphics', 'ui', 'adobe', 'interface'],
     chips: [],
+    ideaTags: [],
+    tagsToRemove: [],
 
     snackbarVisible: false,
     snackbarMessage: '',
@@ -330,17 +333,21 @@ export default {
       graphqlOperation(getIdeaTags, { ideaId: route.params.ideaId })
     )
 
-    // ideaTags = ['web', 'illustration', 'graphics', 'ui', 'adobe', 'interface']
+    const commentList = await app.$amplifyApi.graphql(
+      graphqlOperation(getComments, { ideaId: route.params.ideaId, limi: 10 })
+    )
 
-    let ideaTags = tag.ideaTags
-    debugger
+    let ideaTags = []
+    for (let i = 0; i < tag.data.ideaTags.length; i++) {
+      ideaTags.push(tag.data.ideaTags[i].tag)
+    }
+
     return {
       idea: data.getIdea,
       user: { email: store.state.cognito.user.attributes.email },
       ideaTags: ideaTags,
       isIdeaLiked: isLiked,
-      commentList: data.getIdea.comments
-      // commentId: commentId
+      commentList: commentList.data.getComments.items
     }
   },
 
@@ -359,40 +366,19 @@ export default {
     //   this.commentList = data.getIdea.comments
     // },
 
-    // async addIdeaTag() {
-    //   debugger
-    //   try {
-    //     await this.$amplifyApi.graphql(
-    //       graphqlOperation(addTags, {
-    //         ideaId: this.$route.params.ideaId,
-    //         tag: this.chips
-    //       })
-    //     )
-    //     // this.chips
-    //     // this.snackbarMessage = 'Added Tags'
-    //     // this.snackbarColor = 'success'
-    //     // this.snackbarVisible = true
-    //   } catch (err) {
-    //     console.error(err)
-
-    //     this.snackbarMessage = 'Something went wrong!!'
-    //     this.snackbarColor = 'error'
-    //     this.snackbarVisible = true
-    //   }
-    // },
-
     async deleteComment(commentId, body) {
       try {
         await this.$amplifyApi.graphql(
           graphqlOperation(deleteComment, {
-            body: body,
-            userId: this.$store.getters['cognito/userSub'],
+            // body: body,
+            // userId: this.$store.getters['cognito/userSub'],
             ideaId: this.$route.params.ideaId,
+            ideaOwnerId: this.idea.userId,
             commentId: commentId
           })
         )
 
-        await this.fetchCommentList()
+        // await this.fetchCommentList()
 
         this.snackbarMessage = 'Deleted Comment'
         this.snackbarColor = 'success'
@@ -413,19 +399,20 @@ export default {
       this.snackbarColor = 'success'
       this.snackbarVisible = true
     },
-    addCommentBox() {
-      this.commentList.push(this.currentComment)
+    async addCommentBox() {
       this.updatingComment = true
+      // this.commentList.push(this.currentComment)
 
       try {
-        this.$amplifyApi.graphql(
+        await this.$amplifyApi.graphql(
           graphqlOperation(addComment, {
             body: this.currentComment,
             ideaId: this.$route.params.ideaId,
-            userId: this.$store.getters['cognito/userSub']
+            userId: this.$store.getters['cognito/userSub'],
+            ideaOwnerId: this.idea.userId
           })
         )
-
+        // this.fetchCommentList()
         this.updatingComment = false
         this.snackbarMessage = 'Added Comment'
         this.snackbarColor = 'success'
@@ -458,18 +445,15 @@ export default {
       this.snackbarVisible = true
     },
 
-    remove(item) {
-      this.chips.splice(this.chips.indexOf(item), 1)
-      this.chips = [...this.chips]
+    removeTag(item) {
+      this.ideaTags.splice(this.ideaTags.indexOf(item), 1)
+      this.ideaTags = [...this.ideaTags]
+      this.tagsToRemove.push(item)
     },
 
     showIdeaEditor() {
       this.ideaEditContents = this.idea.content
       this.ideaEditorVisible = true
-    },
-
-    onRemoveChip(index) {
-      this.ideaTags.splice(index, 1)
     },
 
     async toggleLikeIdea() {
@@ -528,10 +512,10 @@ export default {
         return
       }
 
-      console.log('updating idea...', updateIdea)
       this.updatingIdea = true
 
       try {
+        // save content
         await this.$amplifyApi.graphql(
           graphqlOperation(updateIdea, {
             ideaId: this.$route.params.ideaId,
@@ -539,13 +523,50 @@ export default {
             title: this.idea.title
           })
         )
+
+        // save tags
+        let tagsToSave = []
+        for (let i = 0; i < this.ideaTags.length; i++) {
+          tagsToSave.push({
+            tag: this.ideaTags[i],
+            ideaId: this.$route.params.ideaId
+          })
+        }
+        await this.$amplifyApi.graphql(
+          graphqlOperation(addTags, {
+            tags: tagsToSave
+          })
+        )
+
+        //delete Tag
+        for (let i = 0; i < this.tagsToRemove.length; i++) {
+          await this.$amplifyApi.graphql(
+            graphqlOperation(deleteTag, {
+              tag: {
+                ideaId: this.$route.params.ideaId,
+                tag: this.tagsToRemove[i]
+              }
+            })
+          )
+        }
+
         this.updatingIdea = false
         this.ideaEditorVisible = false
-
         this.snackbarMessage = 'Idea Updated'
         this.snackbarColor = 'success'
         this.snackbarVisible = true
+
+        // Fetch tags
+        const tag = await this.$amplifyApi.graphql(
+          graphqlOperation(getIdeaTags, { ideaId: this.$route.params.ideaId })
+        )
+
+        this.ideaTags = []
+        for (let i = 0; i < tag.data.ideaTags.length; i++) {
+          this.ideaTags.push(tag.data.ideaTags[i].tag)
+        }
       } catch (err) {
+        console.error(err)
         this.updatingIdea = false
         this.snackbarMessage = 'Something went wrong!!'
         this.snackbarColor = 'error'

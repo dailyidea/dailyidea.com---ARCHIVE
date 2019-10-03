@@ -7,6 +7,7 @@ query getIdea($ideaId: String!) {
     createdDate
     ideaDate
     likesCount
+    userId
     commentsCount
   }
 }`
