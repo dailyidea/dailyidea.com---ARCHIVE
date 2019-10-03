@@ -65,6 +65,8 @@
         </v-layout>
 
         <!-- Idea title -->
+
+        <!-- {{idea}} -->
         <div v-if="!ideaEditorVisible" class="ideaTitle">
           <div class="ideaTitle">{{ idea.title }}</div>
         </div>
@@ -91,13 +93,14 @@
         </div>
 
         <!-- Tags -->
+        <!-- {{tag}} -->
         <div v-if="!ideaEditorVisible" class="tagsContainer">
           <v-chip v-for="(tag, index) in ideaTags" :key="index" label class="tag">{{ tag }}</v-chip>
         </div>
         <div v-else class="tagsEditor">
           <v-combobox v-model="chips" v-validate="'required|max:100'" :error-messages="errors.collect('tag')" data-vv-name="tag" class="ideaTag" :items="items" times chips clearable outlined label="Add Tags" multiple>
             <template v-slot:selection="{ attrs, item, select, selected }">
-              <v-chip v-bind="attrs" :input-value="selected" close label @click="select" @click:close="remove(item)">
+              <v-chip v-bind="attrs" :input-value="selected" close label @click="select " @click:close="remove(item)">
                 <strong>{{ item }}</strong>
               </v-chip>
             </template>
@@ -141,13 +144,15 @@
         <v-layout class="cmtAndLike" hidden-sm-and-down>
           <div class="ups">
             <v-btn text @click="toggleLikeIdea">
-              <img class="lamp" src="~/assets/images/dark_gray_lamp.png" />
-              <span>609</span>
+              <img class="lamp" src="~/assets/images/logo_icon.png" v-if="isIdeaLiked" />
+              <img v-else class="lamp" src="~/assets/images/dark_gray_lamp.png" />
+              <span>{{idea.likesCount}}</span>
             </v-btn>
+
           </div>
           <div class="downs">
             <img class="cmt" src="~/assets/images/comments.png" />
-            <span>120</span>
+            <!-- <span>{{idea.comments.length>0}}</span> -->
           </div>
         </v-layout>
 
@@ -166,7 +171,6 @@
             {{ item.body }}
           </div>
         </div>
-
         <div v-if="noComment" class="noCommentDiv">
           No added Comment yet.
         </div>
@@ -259,13 +263,16 @@ import { graphqlOperation } from '@aws-amplify/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import getIdea from '~/graphql/query/getIdea'
+import getIsIdeaLikedByMe from '~/graphql/query/getIsIdeaLikedByMe'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import addComment from '~/graphql/mutations/addComment'
 import deleteComment from '~/graphql/mutations/deleteComment'
-import deleteIdea from '~/graphql/mutations/deleteIdea'
+import getIdeaTags from '~/graphql/query/getIdeaTags'
 import likeIdea from '~/graphql/mutations/likeIdea'
 import unlikeIdea from '~/graphql/mutations/unlikeIdea'
 import Layout from '@/components/layout/Layout'
+import addTags from '~/graphql/mutations/addTags'
+import deleteTag from '~/graphql/mutations/deleteTag'
 dayjs.extend(relativeTime)
 
 export default {
@@ -274,17 +281,20 @@ export default {
     validator: 'new'
   },
   data: () => ({
-    chips: ['web', 'illustration', 'graphics', 'ui', 'adobe', 'interface'],
+    // chips: ['web', 'illustration', 'graphics', 'ui', 'adobe', 'interface'],
+    chips: [],
 
     snackbarVisible: false,
     snackbarMessage: '',
     snackbarColor: 'success',
     noAddComment: true,
     commentList: [],
+    isIdeaLiked: false,
     // commentId: null,
     currentComment: '',
     updatingComment: false,
     noComment: false,
+    isIdeaLiked: false,
 
     showEmailShareDialog: false,
     showcommentDialog: false,
@@ -311,19 +321,24 @@ export default {
       graphqlOperation(getIdea, { ideaId: route.params.ideaId })
     )
 
-    let ideaTags = [
-      'web',
-      'illustration',
-      'graphics',
-      'ui',
-      'adobe',
-      'interface'
-    ]
+    let isLiked = await app.$amplifyApi.graphql(
+      graphqlOperation(getIsIdeaLikedByMe, { ideaId: route.params.ideaId })
+    )
+    isLiked = isLiked.data.getIsIdeaLikedByMe.isLiked
 
+    const tag = await app.$amplifyApi.graphql(
+      graphqlOperation(getIdeaTags, { ideaId: route.params.ideaId })
+    )
+
+    // ideaTags = ['web', 'illustration', 'graphics', 'ui', 'adobe', 'interface']
+
+    let ideaTags = tag.ideaTags
+    debugger
     return {
       idea: data.getIdea,
       user: { email: store.state.cognito.user.attributes.email },
       ideaTags: ideaTags,
+      isIdeaLiked: isLiked,
       commentList: data.getIdea.comments
       // commentId: commentId
     }
@@ -336,13 +351,35 @@ export default {
   },
 
   methods: {
-    async fetchCommentList() {
-      const { data } = await this.$amplifyApi.graphql(
-        graphqlOperation(getIdea, { ideaId: this.$route.params.ideaId })
-      )
+    // async fetchCommentList() {
+    //   const { data } = await this.$amplifyApi.graphql(
+    //     graphqlOperation(getIdea, { ideaId: this.$route.params.ideaId })
+    //   )
 
-      this.commentList = data.getIdea.comments
-    },
+    //   this.commentList = data.getIdea.comments
+    // },
+
+    // async addIdeaTag() {
+    //   debugger
+    //   try {
+    //     await this.$amplifyApi.graphql(
+    //       graphqlOperation(addTags, {
+    //         ideaId: this.$route.params.ideaId,
+    //         tag: this.chips
+    //       })
+    //     )
+    //     // this.chips
+    //     // this.snackbarMessage = 'Added Tags'
+    //     // this.snackbarColor = 'success'
+    //     // this.snackbarVisible = true
+    //   } catch (err) {
+    //     console.error(err)
+
+    //     this.snackbarMessage = 'Something went wrong!!'
+    //     this.snackbarColor = 'error'
+    //     this.snackbarVisible = true
+    //   }
+    // },
 
     async deleteComment(commentId, body) {
       try {
@@ -376,12 +413,12 @@ export default {
       this.snackbarColor = 'success'
       this.snackbarVisible = true
     },
-    async addCommentBox() {
+    addCommentBox() {
       this.commentList.push(this.currentComment)
       this.updatingComment = true
 
       try {
-        await this.$amplifyApi.graphql(
+        this.$amplifyApi.graphql(
           graphqlOperation(addComment, {
             body: this.currentComment,
             ideaId: this.$route.params.ideaId,
@@ -436,24 +473,21 @@ export default {
     },
 
     async toggleLikeIdea() {
-      let ideaLiked = true
-      if (this.likeIdea) {
-        ideaLiked = !this.likeIdea
-      }
+      this.isIdeaLiked = !this.isIdeaLiked
+
+      // Increase decrease like counter
+      if (this.isIdeaLiked) this.idea.likesCount++
+      else this.idea.likesCount--
 
       try {
         let ideaId = this.$route.params.ideaId
-        let mutationToCall = ideaLiked ? likeIdea : unlikeIdea
-        debugger
+        let mutationToCall = this.isIdeaLiked ? likeIdea : unlikeIdea
         await this.$amplifyApi.graphql(
           graphqlOperation(mutationToCall, {
-            ideaId: ideaId
+            ideaId: ideaId,
+            ideaOwnerId: this.idea.userId
           })
         )
-
-        this.snackbarMessage = 'Idea ' + (ideaLiked ? 'Liked.' : 'Unliked.')
-        this.snackbarColor = 'success'
-        this.snackbarVisible = true
       } catch (err) {
         console.error(err)
         this.snackbarMessage = 'Something went wrong!!'
@@ -757,7 +791,7 @@ export default {
     padding-top: 15px;
     padding-bottom: 50px;
     font-size: 16px;
-    // height: 50vh;
+    min-height: 50vh;
 
     .cmtAndLike {
       color: #231031;
@@ -801,6 +835,7 @@ export default {
   }
 
   .commentItem {
+    // height: 20vh;
     margin: 15px;
     padding: 10px;
     background-color: #ffffff;
