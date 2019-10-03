@@ -1,15 +1,12 @@
 export default `
-mutation addComment( $body: String!, $userId: String!, $ideaId: String!, ) {
-  addComment( body: $body, userId: $userId, ideaId: $ideaId ) {
-    ideaId
-    content
-    title
-    createdDate
-    ideaDate
-    comments {
-      userId
-      body
+mutation addComment( $body: String!, $ideaOwnerId: String!, $ideaId: String!, ) {
+  addComment( body: $body, ideaOwnerId: $ideaOwnerId, ideaId: $ideaId ) {
+    result {
+      ok
+    }
+    comment {
       commentId
+      body
     }
   }
 }`

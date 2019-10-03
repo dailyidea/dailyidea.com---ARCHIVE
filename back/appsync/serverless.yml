@@ -29,6 +29,7 @@ custom:
   usersTableName: dailyidea-users-${self:provider.stage}
   ideasTableName: dailyidea-ideas-${self:provider.stage}
   tagsTableName: dailyidea-tags-${self:provider.stage}
+  ideaCommentsTableName: dailyidea-comments-${self:provider.stage}
   likesTableName: dailyidea-likes-${self:provider.stage}
   ideasMailBox: ${env:IDEAS_MAILBOX, 'ideas-dev'}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
@@ -72,16 +73,29 @@ custom:
         field: createIdea
         request: "createIdea-request-mapping-template.txt"
         response: "createIdea-response-mapping-template.txt"
-      - dataSource: Ideas
-        type: Mutation
-        field: addComment
-        request: "addComment-request-mapping-template.txt"
-        response: "addComment-response-mapping-template.txt"
-      - dataSource: Ideas
+      - dataSource: IdeaComments
         type: Mutation
         field: deleteComment
-        request: "deleteComment-request-mapping-template.txt"
-        response: "deleteComment-response-mapping-template.txt"
+        request: "idea-comments/delete-comment/before-mapping-template.txt"
+        response: "idea-comments/delete-comment/after-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - deleteIdeaCommentItem
+          - decreaseIdeaCommentsCount
+      - dataSource: IdeaComments
+        type: Mutation
+        field: addComment
+        request: "idea-comments/add-comment/before-mapping-template.txt"
+        response: "idea-comments/add-comment/after-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - createIdeaCommentItem
+          - increaseIdeaCommentsCount
+      - dataSource: IdeaComments
+        type: Query
+        field: getComments
+        request: "idea-comments/getComments-request-mapping-template.txt"
+        response: "idea-comments/getComments-response-mapping-template.txt"
       - dataSource: Ideas
         type: Mutation
         field: deleteIdea
@@ -169,6 +183,12 @@ custom:
           tableName: ${self:custom.ideasTableName}
           serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
       - type: AMAZON_DYNAMODB
+        name: IdeaComments
+        description: 'Idea Comments table'
+        config:
+          tableName: ${self:custom.ideaCommentsTableName}
+          serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
+      - type: AMAZON_DYNAMODB
         name: Tags
         description: 'Tags table'
         config:
@@ -201,6 +221,22 @@ custom:
         name: logResults
         request: 'development-logger/request-request-mapping-template.txt'
         response: 'development-logger/response-response-mapping-template.txt'
+      - dataSource: IdeaComments
+        name: createIdeaCommentItem
+        request: 'idea-comments/add-comment/createIdeaCommentItem-request-mapping-template.txt'
+        response: 'idea-comments/add-comment/createIdeaCommentItem-response-mapping-template.txt'
+      - dataSource: Ideas
+        name: increaseIdeaCommentsCount
+        request: 'idea-comments/add-comment/increaseIdeaCommentsCount-request-mapping-template.txt'
+        response: 'idea-comments/add-comment/increaseIdeaCommentsCount-response-mapping-template.txt'
+      - dataSource: IdeaComments
+        name: deleteIdeaCommentItem
+        request: 'idea-comments/delete-comment/deleteIdeaCommentItem-request-mapping-template.txt'
+        response: 'idea-comments/delete-comment/deleteIdeaCommentItem-response-mapping-template.txt'
+      - dataSource: Ideas
+        name: decreaseIdeaCommentsCount
+        request: 'idea-comments/delete-comment/decreaseIdeaCommentsCount-request-mapping-template.txt'
+        response: 'idea-comments/delete-comment/decreaseIdeaCommentsCount-response-mapping-template.txt'
 #      - type: AWS_LAMBDA
 #        name: RequestLink
 #        description: 'Lambda DataSource'
@@ -276,6 +312,7 @@ resources:
                     Resource:
                       - { "Fn::GetAtt": ["TagsTable", "Arn" ] }
                       - { "Fn::GetAtt": ["LikesTable", "Arn" ] }
+                      - { "Fn::GetAtt": ["IdeaCommentsTable", "Arn" ] }
                       - 'Fn::Join':
                           - ':'
                           - - 'arn:aws:dynamodb'
@@ -306,6 +343,18 @@ resources:
                             - Ref: 'AWS::Region'
                             - Ref: 'AWS::AccountId'
                             - 'table/${self:custom.likesTableName}/*'
+                      - 'Fn::Join':
+                          - ':'
+                          - - 'arn:aws:dynamodb'
+                            - Ref: 'AWS::Region'
+                            - Ref: 'AWS::AccountId'
+                            - 'table/${self:custom.ideaCommentsTableName}'
+                      - 'Fn::Join':
+                          - ':'
+                          - - 'arn:aws:dynamodb'
+                            - Ref: 'AWS::Region'
+                            - Ref: 'AWS::AccountId'
+                            - 'table/${self:custom.ideaCommentsTableName}/*'
             - PolicyName: "Lambda-AppSyncServiceRole-Policy"
               PolicyDocument:
                 Version: "2012-10-17"
@@ -322,3 +371,4 @@ resources:
                     Resource: "*"
   - ${file(resources/dynamo-tags-table.yml)}
   - ${file(resources/dynamo-likes-table.yml)}
+  - ${file(resources/dynamo-comments-table.yml)}
