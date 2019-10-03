@@ -1,15 +1,7 @@
 export default `
-mutation deleteComment( $body: String!, $userId: String!, $ideaId: String!,$commentId: String! ) {
-  deleteComment( body: $body, userId: $userId, ideaId: $ideaId, commentId: $commentId ) {
-    ideaId
-    content
-    title
-    createdDate
-    ideaDate
-    comments {
-      userId
-      body
-      commentId
-    }
+mutation deleteComment($ideaId: String!, $ideaOwnerId: String!, $commentId: String! ) {
+  deleteComment(ideaId: $ideaId, ideaOwnerId: $ideaOwnerId, commentId: $commentId ) {    
+      ok
+      error
   }
 }`
