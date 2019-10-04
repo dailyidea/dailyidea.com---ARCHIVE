@@ -11,7 +11,8 @@ module.exports = {
    */
   head: {
     title: 'Daily Idea',
-    meta: [{
+    meta: [
+      {
         charset: 'utf-8'
       },
       {
@@ -24,14 +25,16 @@ module.exports = {
         content: 'Daily Idea'
       }
     ],
-    link: [{
+    link: [
+      {
         rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico'
       },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
+        href:
+          'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
       }
     ]
   },
@@ -117,21 +120,21 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    publicPath: process.env.S3_DOMAIN ?
-      `https://${process.env.S3_DOMAIN}/` :
-      undefined,
+    publicPath: process.env.S3_DOMAIN
+      ? `https://${process.env.S3_DOMAIN}/`
+      : undefined,
     cache: true,
     // modern: true,
     extend(config, ctx) {
       // Run ESLint on save
-      // if (ctx.isDev && ctx.isClient) {
-      //   config.module.rules.push({
-      //     enforce: 'pre',
-      //     test: /\.(js|vue)$/,
-      //     loader: 'eslint-loader',
-      //     include: path.join(__dirname)
-      //   })
-      // }
+      if (ctx.isDev && ctx.isClient) {
+        config.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          include: path.join(__dirname)
+        })
+      }
     }
   }
 }
