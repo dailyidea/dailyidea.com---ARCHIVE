@@ -37,11 +37,11 @@ type Mutation {
 
 	followUser(
 	    userId: String!
-    ): User!
+    ): Result!
 
 	unfollowUser(
 	    userId: String!
-    ): User!
+    ): Result!
 
 	likeIdea(
 	    ideaId: String!
@@ -51,11 +51,6 @@ type Mutation {
 	unlikeIdea(
 	    ideaId: String!
     ): LikeResult
-
-	testPipeline(
-		ideaId: String
-	): Result
-
 }
 
 input TagInput {

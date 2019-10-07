@@ -1,0 +1,19 @@
+#if($ctx.stash.followingNotFound)
+    #return({"ok":false, "error": "Not following"})
+#end
+{
+    "version" : "2017-02-28",
+    "operation" : "UpdateItem",
+    "key": {
+        "userId" : { "S" : "${ctx.arguments.userId}"},
+    },
+    "update" : {
+        "expression" : "SET #followersfield = #followersfield - :one",
+        "expressionNames" : {
+           "#followersfield" : "followersCount"
+        },
+        "expressionValues" : {
+            ":one" : { "N" : "1" }
+        }
+    },
+}
