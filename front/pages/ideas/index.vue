@@ -57,7 +57,7 @@
       </div>
 
       <!-- LodaMore Button -->
-      <v-btn class="loadMoreBtn" @click="loadMoreIdea()">
+      <v-btn class="loadMoreBtn" @click="loadMoreIdea()" v-if="nextToken">
         Load More Idea
       </v-btn>
 
@@ -97,8 +97,14 @@ export default {
   async asyncData({ app }) {
     const {
       data: { ideas }
-    } = await app.$amplifyApi.graphql(graphqlOperation(getIdeas))
+    } = await app.$amplifyApi.graphql(
+      graphqlOperation(getIdeas, { nextToken: null, limit: 10 })
+    )
+
     return {
+      // Set next token for next batch of ideas
+      nextToken: ideas.nextToken,
+      // Set ideas
       ideas: ideas.items
     }
   },
@@ -110,8 +116,20 @@ export default {
   },
 
   methods: {
-    loadMoreIdea() {
-      // ideas.length>6
+    async loadMoreIdea() {
+      if (!this.nextToken) {
+        return
+      }
+      const {
+        data: { ideas }
+      } = await this.$amplifyApi.graphql(
+        graphqlOperation(getIdeas, { nextToken: this.nextToken, limit: 10 })
+      )
+
+      // Set next token for next batch of ideas
+      this.nextToken = ideas.nextToken
+      // Push ideas
+      this.ideas = this.ideas.concat(ideas.items)
     }
   }
 }

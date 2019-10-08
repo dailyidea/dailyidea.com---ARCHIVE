@@ -125,16 +125,16 @@ module.exports = {
       : undefined,
     cache: true,
     // modern: true,
-    extend(config, ctx) {
-      // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          include: path.join(__dirname)
-        })
-      }
-    }
+    // extend(config, ctx) {
+    //   // Run ESLint on save
+    //   if (ctx.isDev && ctx.isClient) {
+    //     config.module.rules.push({
+    //       enforce: 'pre',
+    //       test: /\.(js|vue)$/,
+    //       loader: 'eslint-loader',
+    //       include: path.join(__dirname)
+    //     })
+    //   }
+    // }
   }
 }
