@@ -42,6 +42,7 @@
             </div>
           </div>
         </v-flex>
+
       </v-layout>
 
       <!-- No Idea found div -->
@@ -57,9 +58,12 @@
       </div>
 
       <!-- LodaMore Button -->
-      <v-btn class="loadMoreBtn" @click="loadMoreIdea()" v-if="nextToken">
-        Load More Idea
-      </v-btn>
+
+      <div class="loadMoreBtn">
+        <v-btn @click="loadMoreIdea()" :loading="loadingIdea" v-if="nextToken">
+          Load More Idea
+        </v-btn>
+      </div>
 
       <!-- Add Idea Button -->
       <v-btn class="addBtn" fab to="/ideas/create">
@@ -91,7 +95,8 @@ export default {
   data: () => ({
     snackbarVisible: false,
     snackbarMessage: '',
-    snackbarColor: 'success'
+    snackbarColor: 'success',
+    loadingIdea: false
   }),
 
   async asyncData({ app }) {
@@ -117,6 +122,7 @@ export default {
 
   methods: {
     async loadMoreIdea() {
+      this.loadingIdea = true
       if (!this.nextToken) {
         return
       }
@@ -130,6 +136,7 @@ export default {
       this.nextToken = ideas.nextToken
       // Push ideas
       this.ideas = this.ideas.concat(ideas.items)
+      this.loadingIdea = false
     }
   }
 }
@@ -155,6 +162,7 @@ export default {
   }
 
   .loadMoreBtn {
+    padding-top: 20px;
     text-align: center;
   }
 

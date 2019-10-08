@@ -1,12 +1,10 @@
 <template>
-  <Layout
-    v-bind="{
+  <Layout v-bind="{
       loggedInHeader: true,
       mobileTitle: 'Bob\'s Profile',
       backButton: true,
       mobileSettingsIcon: true
-    }"
-  >
+    }">
     <v-layout id="profilePage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
@@ -34,7 +32,8 @@
               <v-icon>fas fa-user</v-icon>
             </span>
             <div class="userName">Bob Smith</div>
-            <v-btn class="followBtn" dark color="primary">FOLLOW</v-btn>
+            <v-btn v-if="isFollowUser" class="followAndUnFollowBtn" @click="followAndUnFollow()" dark color="primary">FOLLOW</v-btn>
+            <v-btn v-else class="followAndUnFollowBtn" @click="followAndUnFollow()" dark color="primary">UNFOLLOW</v-btn>
           </div>
 
           <!-- Mobile - Profile Description -->
@@ -116,9 +115,13 @@
 
 <script>
 import Layout from '@/components/layout/Layout'
+import followUser from '~/graphql/mutations/followUser'
+import unfollowUser from '~/graphql/mutations/unfollowUser'
+
 export default {
   components: { Layout },
   data: () => ({
+    isFollowUser: false,
     commentList: [
       {
         text:
@@ -158,7 +161,29 @@ export default {
       }
     ]
   }),
-  methods: {}
+  methods: {
+    async followAndUnFollow() {
+      this.isFollowUser = !this.isFollowUser
+
+      try {
+        debugger
+        let mutationToCall = this.isFollowUser ? followUser : unfollowUser
+        await this.$amplifyApi.graphql(
+          graphqlOperation(mutationToCall, {
+            userId: this.$store.getters['cognito/userSub']
+          })
+        )
+        this.snackbarMessage = 'followed user!!'
+        this.snackbarColor = 'success'
+        this.snackbarVisible = true
+      } catch (err) {
+        console.error(err)
+        this.snackbarMessage = 'Something went wrong!!'
+        this.snackbarColor = 'error'
+        this.snackbarVisible = true
+      }
+    }
+  }
 }
 </script>
 <style lang="scss">
@@ -244,7 +269,7 @@ export default {
         }
       }
 
-      .followBtn {
+      .followAndUnFollowBtn {
         float: right;
         margin: 0px;
       }
