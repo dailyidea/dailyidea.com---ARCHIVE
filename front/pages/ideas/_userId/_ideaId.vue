@@ -489,7 +489,7 @@ export default {
     )
 
     const commentList = await app.$amplifyApi.graphql(
-      graphqlOperation(getComments, { ideaId: route.params.ideaId, limi: 10 })
+      graphqlOperation(getComments, { ideaId: route.params.ideaId, limit: 10 })
     )
 
     let ideaTags = []
