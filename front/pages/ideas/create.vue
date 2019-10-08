@@ -16,16 +16,30 @@
         </v-layout>
 
         <!-- title -->
-        <v-textarea v-model="title" outlined label="Idea Title"> </v-textarea>
+        <v-textarea
+          v-model="title"
+          v-validate="'required|max:100'"
+          :error-messages="errors.collect('title')"
+          data-vv-name="title"
+          outlined
+          label="Idea Title"
+        >
+        </v-textarea>
 
         <!-- Descriptiion = trix editor -->
         <div class="ideaEditor">
           <VueTrix v-model="contents" class="editor" />
         </div>
+        <div v-if="!contents" class="errorMsg">
+          {{ errorMsg }}
+        </div>
 
         <!-- Tags -->
         <v-combobox
           v-model="chips"
+          v-validate="'required|max:100'"
+          :error-messages="errors.collect('tag')"
+          data-vv-name="tag"
           class="ideaTag"
           :items="items"
           chips
@@ -83,6 +97,8 @@ export default {
     title: '',
     creatingIdea: false,
     chips: [],
+    // sjahj: true,
+    errorMsg: null,
 
     snackbarVisible: false,
     snackbarMessage: '',
@@ -96,6 +112,12 @@ export default {
       this.chips = [...this.chips]
     },
     async onCreateIdea() {
+      let result = await this.$validator.validateAll()
+      if (!result) {
+        this.errorMsg = 'This field is required.'
+        return
+      }
+
       this.creatingIdea = true
 
       try {
@@ -125,7 +147,7 @@ export default {
         this.snackbarMessage = 'Something went wrong!!'
         this.snackbarColor = 'error'
         this.snackbarVisible = true
-        console.error(err)
+        // console.error(err)
       }
     }
   }
@@ -168,6 +190,12 @@ export default {
           overflow-y: auto;
         }
       }
+    }
+    .errorMsg {
+      color: #b71c1c;
+      font-size: 12px;
+      margin-top: 2px;
+      padding-left: 10px;
     }
 
     .ideaTag {

@@ -12,12 +12,25 @@ module.exports = {
   head: {
     title: 'Daily Idea',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Daily Idea' }
+      {
+        charset: 'utf-8'
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Daily Idea'
+      }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      },
       {
         rel: 'stylesheet',
         href:
@@ -31,7 +44,9 @@ module.exports = {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#FFFFFF' },
+  loading: {
+    color: '#FFFFFF'
+  },
 
   /*
    ** Global CSS
@@ -48,7 +63,10 @@ module.exports = {
     '@/plugins/clipboard',
     '@/plugins/vee-validate',
     '@/plugins/mixins',
-    { src: '~plugins/vue-trix', ssr: false }
+    {
+      src: '~plugins/vue-trix',
+      ssr: false
+    }
   ],
 
   /*
@@ -106,7 +124,7 @@ module.exports = {
       ? `https://${process.env.S3_DOMAIN}/`
       : undefined,
     cache: true,
-    // modern: true,
+    modern: true,
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {

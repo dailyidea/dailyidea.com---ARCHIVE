@@ -34,7 +34,22 @@
               <v-icon>fas fa-user</v-icon>
             </span>
             <div class="userName">Bob Smith</div>
-            <v-btn class="followBtn" dark color="primary">FOLLOW</v-btn>
+            <v-btn
+              v-if="isFollowUser"
+              class="followAndUnFollowBtn"
+              dark
+              color="primary"
+              @click="followAndUnFollow()"
+              >FOLLOW</v-btn
+            >
+            <v-btn
+              v-else
+              class="followAndUnFollowBtn"
+              dark
+              color="primary"
+              @click="followAndUnFollow()"
+              >UNFOLLOW</v-btn
+            >
           </div>
 
           <!-- Mobile - Profile Description -->
@@ -48,19 +63,19 @@
           <v-layout class="boxContainer" row>
             <v-flex xs4 sm4 md4 lg4 xl4>
               <div class="box first">
-                <div class="number">140</div>
+                <div class="number">{{ userData.userInfo.ideasCreated }}</div>
                 <div class="text">Ideas</div>
               </div>
             </v-flex>
             <v-flex xs4 sm4 md4 lg4 xl4>
               <div class="box">
-                <div class="number">24k</div>
+                <div class="number">{{ userData.userInfo.followersCount }}</div>
                 <div class="text">Followers</div>
               </div>
             </v-flex>
             <v-flex xs4 sm4 md4 lg4 xl4>
               <div class="box last">
-                <div class="number">1,980</div>
+                <div class="number">{{ userData.userInfo.followeesCount }}</div>
                 <div class="text">Following</div>
               </div>
             </v-flex>
@@ -73,41 +88,48 @@
             me at bob@mail.com
           </v-layout>
 
-          <div class="tagsContainer">
+          <!-- {{userData.userInfo}} -->
+
+          <!-- <div class="tagsContainer">
             <v-chip label class="tag">web</v-chip>
             <v-chip label class="tag">illustration</v-chip>
             <v-chip label class="tag">graphics</v-chip>
             <v-chip label class="tag">ui</v-chip>
             <v-chip label class="tag">adobe</v-chip>
             <v-chip label class="tag">interface</v-chip>
-          </div>
+          </div> -->
         </v-flex>
 
         <!-- Right Side -->
+        <!-- {{ideaList}} -->
         <v-flex class="rightSideComments" xs12 sm12 md7 lg7 xl7>
-          <div v-for="(comment, i) in commentList" :key="i" class="commentItem">
+          <div
+            v-for="(ideas, index) in ideaList"
+            :key="index"
+            class="commentItem"
+          >
             <div class="cmtText">
-              {{ comment.text }}
+              {{ ideas.title }}
             </div>
             <div class="engagement">
               <div class="ups">
                 <img class="logoIcon" src="~/assets/images/logo_icon.png" />
-                609
+                {{ ideas.likesCount }}
               </div>
               <div class="downs">
                 <img class="logoIcon" src="~/assets/images/comments.png" />
                 120
               </div>
-              <div class="timing">1h ago</div>
+              <div class="timing">{{ ideas.relativeCreatedTime }}</div>
             </div>
           </div>
 
-          <div v-if="i > comment" :key="i" class="noCommentItem">
+          <!-- <div v-if="i > comment" :key="i" class="noCommentItem">
             <div class="description">
               Bob hasn't added any ideas yet
             </div>
           </div>
-          <div v-else></div>
+          <div v-else></div> -->
         </v-flex>
       </v-layout>
     </v-layout>
@@ -115,50 +137,75 @@
 </template>
 
 <script>
+import { graphqlOperation } from '@aws-amplify/api'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import Layout from '@/components/layout/Layout'
+import followUser from '~/graphql/mutations/followUser'
+import unfollowUser from '~/graphql/mutations/unfollowUser'
+import userInfo from '~/graphql/query/userInfo'
+import userIdeas from '~/graphql/query/userIdeas'
+dayjs.extend(relativeTime)
+
 export default {
   components: { Layout },
   data: () => ({
-    commentList: [
-      {
-        text:
-          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
-        ups: 609,
-        downs: 120
-      },
-      {
-        text:
-          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
-        ups: 609,
-        downs: 120
-      },
-      {
-        text:
-          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
-        ups: 609,
-        downs: 120
-      },
-      {
-        text:
-          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
-        ups: 609,
-        downs: 120
-      },
-      {
-        text:
-          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
-        ups: 609,
-        downs: 120
-      },
-      {
-        text:
-          'Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor sit amet consectetur',
-        ups: 609,
-        downs: 120
-      }
-    ]
+    isFollowUser: false
   }),
-  methods: {}
+
+  async asyncData({ app, route, store }) {
+    const { data } = await app.$amplifyApi.graphql(
+      graphqlOperation(userInfo, { userId: store.getters['cognito/userSub'] })
+    )
+
+    const userIdeasList = await app.$amplifyApi.graphql(
+      graphqlOperation(userIdeas, {
+        userId: store.getters['cognito/userSub']
+        // nextToken: '',
+        // limit: 5
+      })
+    )
+    // console.log(userIdeasList)
+
+    return {
+      userData: data.userInfo,
+      ideaList: userIdeasList.data.userIdeas.items
+    }
+
+    //
+  },
+
+  mounted() {},
+
+  created() {
+    this.ideaList.relativeCreatedTime = dayjs(
+      this.ideaList.createdDate
+    ).fromNow()
+  },
+
+  methods: {
+    async followAndUnFollow() {
+      this.isFollowUser = !this.isFollowUser
+
+      try {
+        debugger
+        let mutationToCall = this.isFollowUser ? followUser : unfollowUser
+        console.log('clicked..')
+        await this.$amplifyApi.graphql(
+          graphqlOperation(mutationToCall, {
+            userId: this.$store.getters['cognito/userSub']
+          })
+        )
+        this.userData.userInfo.followeesCount + 2
+        this.userData.userInfo.followersCount + 2
+      } catch (err) {
+        console.error(err)
+        this.snackbarMessage = 'Something went wrong!!'
+        this.snackbarColor = 'error'
+        this.snackbarVisible = true
+      }
+    }
+  }
 }
 </script>
 <style lang="scss">
@@ -244,7 +291,7 @@ export default {
         }
       }
 
-      .followBtn {
+      .followAndUnFollowBtn {
         float: right;
         margin: 0px;
       }

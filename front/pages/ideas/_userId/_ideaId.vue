@@ -3,7 +3,7 @@
     v-bind="{
       backButton: true,
       loggedInHeader: true,
-      mobileTitle: mobileTitle,
+      mobile: mobileTitle,
       shareIdeaVisible: true,
       editIdeaVisible: true,
       onCopyShareIdeaLink: copyShareLink
@@ -81,17 +81,29 @@
                 <v-list-item>
                   <v-list-item-title>Report Idea</v-list-item-title>
                 </v-list-item>
+                <v-list-item @click="deleteIdea()">
+                  <v-list-item-title>Delete Idea</v-list-item-title>
+                </v-list-item>
               </v-list>
             </v-menu>
           </div>
         </v-layout>
 
         <!-- Idea title -->
+
+        <!-- {{idea}} -->
         <div v-if="!ideaEditorVisible" class="ideaTitle">
           <div class="ideaTitle">{{ idea.title }}</div>
         </div>
         <div v-else>
-          <v-textarea v-model="idea.title" outlined label="Idea Title">
+          <v-textarea
+            v-model="idea.title"
+            v-validate="'required|max:100'"
+            :error-messages="errors.collect('title')"
+            data-vv-name="title"
+            outlined
+            label="Idea Title"
+          >
           </v-textarea>
         </div>
 
@@ -111,23 +123,28 @@
             class="editor"
             placeholder="Enter content"
           />
+          <div v-if="!ideaEditContents" class="errorMsg">
+            {{ errorMsg }}
+          </div>
         </div>
 
         <!-- Tags -->
         <div v-if="!ideaEditorVisible" class="tagsContainer">
           <v-chip
-            v-for="(tag, index) in ideaTags"
+            v-for="(item, index) in ideaTags"
             :key="index"
             label
             class="tag"
-            >{{ tag }}</v-chip
+            >{{ item }}</v-chip
           >
         </div>
         <div v-else class="tagsEditor">
           <v-combobox
-            v-model="chips"
+            v-model="ideaTags"
+            v-validate="'required|max:100'"
+            :error-messages="errors.collect('tag')"
+            data-vv-name="tag"
             class="ideaTag"
-            :items="items"
             times
             chips
             clearable
@@ -141,8 +158,8 @@
                 :input-value="selected"
                 close
                 label
-                @click="select"
-                @click:close="remove(item)"
+                @click="select;"
+                @click:close="removeTag(item)"
               >
                 <strong>{{ item }}</strong>
               </v-chip>
@@ -191,46 +208,95 @@
       </v-flex>
 
       <!-- Comments -->
-      <v-flex class="rightSideComments">
+      <v-flex v-if="!noComment" class="rightSideComments">
         <v-layout class="cmtAndLike" hidden-sm-and-down>
           <div class="ups">
-            <img class="lamp" src="~/assets/images/dark_gray_lamp.png" />
-            <span>609</span>
+            <v-btn text @click="toggleLikeIdea">
+              <img
+                v-if="isIdeaLiked"
+                class="lamp"
+                src="~/assets/images/logo_icon.png"
+              />
+              <img
+                v-else
+                class="lamp"
+                src="~/assets/images/dark_gray_lamp.png"
+              />
+              <span>{{ idea.likesCount }}</span>
+            </v-btn>
           </div>
           <div class="downs">
             <img class="cmt" src="~/assets/images/comments.png" />
-            <span>120</span>
+            <!-- <span>{{idea.comments.length>0}}</span> -->
           </div>
         </v-layout>
 
         <!-- Comment List -->
-        <div v-for="i in 60" :key="i" class="commentItem">
+        <div
+          v-for="(item, index) in commentList"
+          :key="index"
+          class="commentItem"
+        >
           <div class="header">
-            <div class="commentUser">Name Surname</div>
-            <div class="timing">1h</div>
+            <div class="commentUser">{{ item.userId }}</div>
+            <div class="timing">
+              1h
+              <v-btn
+                class="deleteCommentBtn"
+                color="red"
+                icon
+                text
+                x-small
+                @click="deleteComment(item.commentId, item.body, index)"
+              >
+                <v-icon color="red">fas fa-trash-alt</v-icon>
+              </v-btn>
+            </div>
           </div>
           <div class="commentText">
-            Excepteur sint occaecat lorem cupidatat non proident, sunt in dolor
-            sit amet consecteturdfd
+            {{ item.body }}
           </div>
+        </div>
+
+        <!-- LodaMore Button -->
+        <div class="loadMoreBtn">
+          <!-- <v-btn @click="loadMoreIdea()" :loading="loadingIdea" v-if="nextToken">
+            Load More
+          </v-btn> -->
+          <a v-if="nextToken" @click="loadMoreComments()">
+            Lode More Comments......
+          </a>
+        </div>
+
+        <div v-if="noComment" class="noCommentDiv">
+          No added Comment yet.
         </div>
       </v-flex>
 
       <!-- Foter with textbox -->
       <div class="pageFooter">
         <v-text-field
+          v-model="currentComment"
           class="newCommentInput"
           flat
           solo
           label="Say something..."
           large
-        ></v-text-field>
+        >
+        </v-text-field>
 
         <!-- Popip -ShowComment Dialogbox-->
         <div>
-          <v-icon class="sendBtn" @click="showcommentDialog = true" v-on="on"
-            >fas fa-arrow-right</v-icon
+          <v-btn
+            class="sendBtn"
+            text
+            icon
+            flat
+            :loading="updatingComment"
+            @click="addCommentBox()"
           >
+            <v-icon color="#d4bb10">fas fa-arrow-right</v-icon>
+          </v-btn>
         </div>
 
         <v-dialog
@@ -313,7 +379,6 @@
               outlined
             >
             </v-text-field>
-
             <v-text-field
               v-model="emailShareForm.friendName"
               v-validate="'required|max:100'"
@@ -364,9 +429,18 @@ import { graphqlOperation } from '@aws-amplify/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import getIdea from '~/graphql/query/getIdea'
+import getIsIdeaLikedByMe from '~/graphql/query/getIsIdeaLikedByMe'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import addComment from '~/graphql/mutations/addComment'
+import deleteComment from '~/graphql/mutations/deleteComment'
+import getIdeaTags from '~/graphql/query/getIdeaTags'
+import getComments from '~/graphql/query/getComments'
+import likeIdea from '~/graphql/mutations/likeIdea'
+import unlikeIdea from '~/graphql/mutations/unlikeIdea'
 import Layout from '@/components/layout/Layout'
+import addTags from '~/graphql/mutations/addTags'
+import deleteIdea from '~/graphql/mutations/deleteIdea'
+import deleteTag from '~/graphql/mutations/deleteTag'
 dayjs.extend(relativeTime)
 
 export default {
@@ -375,11 +449,22 @@ export default {
     validator: 'new'
   },
   data: () => ({
-    chips: ['web', 'illustration', 'graphics', 'ui', 'adobe', 'interface'],
+    // chips: ['web', 'illustration', 'graphics', 'ui', 'adobe', 'interface'],
+    chips: [],
+    ideaTags: [],
+    tagsToRemove: [],
+    loadingIdea: false,
 
     snackbarVisible: false,
     snackbarMessage: '',
     snackbarColor: 'success',
+    noAddComment: true,
+    commentList: [],
+    isIdeaLiked: false,
+    // commentId: null,
+    currentComment: '',
+    updatingComment: false,
+    noComment: false,
 
     showEmailShareDialog: false,
     showcommentDialog: false,
@@ -398,7 +483,6 @@ export default {
   }),
   computed: {
     mobileTitle: function() {
-      console.log(this.user)
       return this.user.email.toUpperCase() + "'S IDEA"
     }
   },
@@ -407,33 +491,137 @@ export default {
       graphqlOperation(getIdea, { ideaId: route.params.ideaId })
     )
 
-    let ideaTags = [
-      'web',
-      'illustration',
-      'graphics',
-      'ui',
-      'adobe',
-      'interface'
-    ]
+    let isLiked = await app.$amplifyApi.graphql(
+      graphqlOperation(getIsIdeaLikedByMe, { ideaId: route.params.ideaId })
+    )
+
+    const tag = await app.$amplifyApi.graphql(
+      graphqlOperation(getIdeaTags, { ideaId: route.params.ideaId })
+    )
+
+    const result = await app.$amplifyApi.graphql(
+      graphqlOperation(getComments, { ideaId: route.params.ideaId, limit: 10 })
+    )
+
+    let ideaTags = []
+    for (let i = 0; i < tag.data.ideaTags.length; i++) {
+      ideaTags.push(tag.data.ideaTags[i].tag)
+    }
+
     return {
       idea: data.getIdea,
       user: { email: store.state.cognito.user.attributes.email },
-      ideaTags: ideaTags
+      ideaTags: ideaTags,
+      isIdeaLiked: isLiked.data.getIsIdeaLikedByMe.isLiked,
+      commentList: result.data.getComments.items,
+      nextToken: result.data.getComments.nextToken
     }
   },
+
+  mounted() {},
+
   created() {
     this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
   },
+
   methods: {
+    // async fetchCommentList() {
+    //   const { data } = await this.$amplifyApi.graphql(
+    //     graphqlOperation(getIdea, { ideaId: this.$route.params.ideaId })
+    //   )
+
+    //   this.commentList = data.getIdea.comments
+    // },
+
+    async loadMoreComments() {
+      this.loadingIdea = true
+      if (!this.nextToken) {
+        return
+      }
+      const result = await this.$amplifyApi.graphql(
+        graphqlOperation(getComments, {
+          ideaId: this.$route.params.ideaId,
+          limit: 10,
+          nextToken: this.nextToken
+        })
+      )
+
+      // add next batch comment list into the existing comment array
+      this.commentList = this.commentList.concat(result.data.getComments.items)
+      // set nextToken for the next batch of comments
+      this.nextToken = result.data.getComments.nextToken
+
+      this.loadingIdea = false
+    },
+
+    async deleteComment(commentId, body, index) {
+      try {
+        await this.$amplifyApi.graphql(
+          graphqlOperation(deleteComment, {
+            // body: body,
+            // userId: this.$store.getters['cognito/userSub'],
+            ideaId: this.$route.params.ideaId,
+            ideaOwnerId: this.idea.userId,
+            commentId: commentId
+          })
+        )
+
+        // remove comment form comment list array
+        this.commentList.splice(index, 1)
+
+        this.snackbarMessage = 'Deleted Comment'
+        this.snackbarColor = 'success'
+        this.snackbarVisible = true
+        this.currentComment = ''
+      } catch (err) {
+        console.error(err)
+
+        this.snackbarMessage = 'Something went wrong!!'
+        this.snackbarColor = 'error'
+        this.snackbarVisible = true
+      }
+    },
+
     copyShareLink() {
       this.$clipboard(window.location.href)
       this.snackbarMessage = 'Link copied'
       this.snackbarColor = 'success'
       this.snackbarVisible = true
     },
+
+    async addCommentBox() {
+      this.updatingComment = true
+
+      try {
+        const result = await this.$amplifyApi.graphql(
+          graphqlOperation(addComment, {
+            body: this.currentComment,
+            ideaId: this.$route.params.ideaId,
+            userId: this.$store.getters['cognito/userSub'],
+            ideaOwnerId: this.idea.userId
+          })
+        )
+        this.commentList.push(result.data.addComment.comment)
+
+        // this.fetchCommentList()
+        this.updatingComment = false
+        this.snackbarMessage = 'Added Comment'
+        this.snackbarColor = 'success'
+        this.snackbarVisible = true
+        this.currentComment = ''
+      } catch (err) {
+        console.error(err)
+        this.updatingComment = false
+        this.snackbarMessage = 'Something went wrong!!'
+        this.snackbarColor = 'error'
+        this.snackbarVisible = true
+      }
+    },
+
     showShareIdeaDialog() {
       this.showEmailShareDialog = true
     },
+
     async sendShareEmail() {
       //Validate input fields
       let result = await this.$validator.validateAll()
@@ -447,29 +635,78 @@ export default {
       this.showEmailShareDialog = false
       this.snackbarVisible = true
     },
-    remove(item) {
-      this.chips.splice(this.chips.indexOf(item), 1)
-      this.chips = [...this.chips]
+
+    removeTag(item) {
+      this.ideaTags.splice(this.ideaTags.indexOf(item), 1)
+      this.ideaTags = [...this.ideaTags]
+      this.tagsToRemove.push(item)
     },
-    async addComment() {
-      const idea = await this.$amplifyApi.graphql(
-        graphqlOperation(addComment, { body: 'fuck tuck', ideaId: this.$route.params.ideaId, userId: this.$route.params.userId })
-      )
-    },
+
     showIdeaEditor() {
       this.ideaEditContents = this.idea.content
       this.ideaEditorVisible = true
     },
-    onRemoveChip(index) {
-      this.ideaTags.splice(index, 1)
-    },
-    async onSaveIdeaContent() {
-      this.idea.content = this.ideaEditContents
 
-      console.log('updating idea...', updateIdea)
+    async toggleLikeIdea() {
+      this.isIdeaLiked = !this.isIdeaLiked
+
+      // Increase decrease like counter
+      if (this.isIdeaLiked) this.idea.likesCount++
+      else this.idea.likesCount--
+
+      try {
+        let ideaId = this.$route.params.ideaId
+        let mutationToCall = this.isIdeaLiked ? likeIdea : unlikeIdea
+        await this.$amplifyApi.graphql(
+          graphqlOperation(mutationToCall, {
+            ideaId: ideaId,
+            ideaOwnerId: this.idea.userId
+          })
+        )
+      } catch (err) {
+        console.error(err)
+        this.snackbarMessage = 'Something went wrong!!'
+        this.snackbarColor = 'error'
+        this.snackbarVisible = true
+      }
+    },
+
+    async deleteIdea() {
+      try {
+        let ideaId = this.$route.params.ideaId
+        await this.$amplifyApi.graphql(
+          graphqlOperation(deleteIdea, {
+            ideaId: ideaId
+          })
+        )
+
+        this.snackbarMessage = 'Idea deleted'
+        this.snackbarColor = 'success'
+        this.snackbarVisible = true
+
+        this.$router.push({
+          name: 'ideas',
+          force: true
+        })
+      } catch (err) {
+        console.error(err)
+        this.snackbarMessage = 'Something went wrong!!'
+        this.snackbarColor = 'error'
+        this.snackbarVisible = true
+      }
+    },
+
+    async onSaveIdeaContent() {
+      let result = await this.$validator.validateAll()
+      if (!result) {
+        this.errorMsg = 'This field is required.'
+        return
+      }
+
       this.updatingIdea = true
 
       try {
+        // save content
         await this.$amplifyApi.graphql(
           graphqlOperation(updateIdea, {
             ideaId: this.$route.params.ideaId,
@@ -477,24 +714,56 @@ export default {
             title: this.idea.title
           })
         )
+
+        // save tags
+        let tagsToSave = []
+        for (let i = 0; i < this.ideaTags.length; i++) {
+          tagsToSave.push({
+            tag: this.ideaTags[i],
+            ideaId: this.$route.params.ideaId
+          })
+        }
+        await this.$amplifyApi.graphql(
+          graphqlOperation(addTags, {
+            tags: tagsToSave
+          })
+        )
+
+        //delete Tag
+        for (let i = 0; i < this.tagsToRemove.length; i++) {
+          await this.$amplifyApi.graphql(
+            graphqlOperation(deleteTag, {
+              tag: {
+                ideaId: this.$route.params.ideaId,
+                tag: this.tagsToRemove[i]
+              }
+            })
+          )
+        }
+
         this.updatingIdea = false
         this.ideaEditorVisible = false
-
         this.snackbarMessage = 'Idea Updated'
         this.snackbarColor = 'success'
         this.snackbarVisible = true
+
+        // Fetch tags
+        const tag = await this.$amplifyApi.graphql(
+          graphqlOperation(getIdeaTags, { ideaId: this.$route.params.ideaId })
+        )
+
+        this.ideaTags = []
+        for (let i = 0; i < tag.data.ideaTags.length; i++) {
+          this.ideaTags.push(tag.data.ideaTags[i].tag)
+        }
       } catch (err) {
+        console.error(err)
         this.updatingIdea = false
         this.snackbarMessage = 'Something went wrong!!'
         this.snackbarColor = 'error'
         this.snackbarVisible = true
       }
     }
-    //     async deleteIdea() {
-    //       await this.$amplifyApi.graphql(
-    //         graphqlOperation(deleteIdea, { ideaId: this.$route.params.ideaId })
-    //       )
-    //     },
   }
 }
 </script>
@@ -505,8 +774,7 @@ export default {
   padding-bottom: 2vh;
   display: block;
   width: 100%;
-  overflow-x: hidden;
-  overflow: auto;
+
   position: relative;
 
   .profileDetails {
@@ -641,6 +909,13 @@ export default {
       }
     }
 
+    .errorMsg {
+      color: #b71c1c;
+      font-size: 12px;
+      margin-top: 2px;
+      padding-left: 10px;
+    }
+
     .tagsContainer {
       margin-top: 20px;
 
@@ -729,6 +1004,7 @@ export default {
     padding-top: 15px;
     padding-bottom: 50px;
     font-size: 16px;
+    min-height: 50vh;
 
     .cmtAndLike {
       color: #231031;
@@ -772,6 +1048,7 @@ export default {
   }
 
   .commentItem {
+    // height: 20vh;
     margin: 15px;
     padding: 10px;
     background-color: #ffffff;
@@ -829,7 +1106,23 @@ export default {
       text-align: left;
       color: #827c85;
     }
+
+    .deleteCommentBtn {
+      display: block;
+      margin-right: -20px;
+      margin-top: 7px;
+
+      i {
+        font-size: 13px !important;
+      }
+    }
   }
+}
+
+.loadMoreBtn {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 10px;
 }
 
 .pageFooter {
@@ -856,10 +1149,13 @@ export default {
 
   .sendBtn {
     position: absolute;
-    top: 24px;
+    top: 20px;
     right: 19px;
     font-size: 21px;
-    color: #d4bb10;
+
+    .v-icon {
+      padding-bottom: 5px;
+    }
   }
 }
 

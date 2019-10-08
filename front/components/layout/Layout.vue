@@ -1,7 +1,7 @@
 <template>
   <div id="commonHeader">
     <!-- Non login page header -->
-    <v-toolbar v-if="!loggedInHeader" app class="toolBar" flat absolute>
+    <v-toolbar v-if="!loggedInHeader" class="toolBar" flat absolute>
       <v-toolbar-title class="blue--text subheading">
         <nuxt-link class="logoLink" :to="{ name: 'index' }">
           <img class="logoIcon" src="~/assets/images/logo_icon.png" />
@@ -24,7 +24,7 @@
       <div class="loggedInHeader">
         <!-- Desktop Header -->
         <v-layout hidden-sm-and-down>
-          <v-toolbar class="desktop" app flat absolute color="white">
+          <v-toolbar class="desktop" flat absolute color="white">
             <v-toolbar-title class="blue--text subheading">
               <!-- Show Back button if enabled -->
               <v-icon
@@ -68,7 +68,6 @@
         <!-- Mobile HEader -->
         <v-toolbar
           v-if="!searchIdeaMode"
-          app
           flat
           absolute
           color="white"
@@ -143,7 +142,6 @@
         </v-toolbar>
         <v-toolbar
           v-else
-          app
           flat
           absolute
           color="white"
@@ -228,9 +226,7 @@ export default {
       searchIdeaMode: false
     }
   },
-  created() {
-    console.log('at main params =>', this.backButton)
-  },
+  created() {},
   methods: {
     onBackClick() {
       this.$router.back()
@@ -254,6 +250,7 @@ export default {
     color: #c0b7c5 !important;
     font-style: none !important;
     text-decoration: none !important;
+    width: 100% !important;
 
     .helpLink {
       color: #c0b7c5 !important;

@@ -39,6 +39,7 @@
               })
             "
           >
+            <!-- {{idea.ideaId }} -->
             <div class="ideaDescription">{{ idea.title }}</div>
             <div class="engagement">
               <div class="ups">
@@ -70,10 +71,30 @@
         <img class="arrowImg" src="~/assets/images/add_idea_arrow.png" />
       </div>
 
+      <!-- LodaMore Button -->
+
+      <div class="loadMoreBtn">
+        <v-btn v-if="nextToken" :loading="loadingIdea" @click="loadMoreIdea()">
+          Load More Idea
+        </v-btn>
+      </div>
+
       <!-- Add Idea Button -->
       <v-btn class="addBtn" fab to="/ideas/create">
         <v-icon>add</v-icon>
       </v-btn>
+
+      <!-- Bottom snackbar message -->
+      <v-snackbar
+        v-model="snackbarVisible"
+        :timeout="2000"
+        :color="snackbarColor"
+      >
+        {{ snackbarMessage }}
+        <v-btn color="white" text @click="snackbarVisible = false">
+          Close
+        </v-btn>
+      </v-snackbar>
     </v-layout>
   </Layout>
 </template>
@@ -88,11 +109,25 @@ dayjs.extend(relativeTime)
 
 export default {
   components: { Layout },
+
+  data: () => ({
+    snackbarVisible: false,
+    snackbarMessage: '',
+    snackbarColor: 'success',
+    loadingIdea: false
+  }),
+
   async asyncData({ app }) {
     const {
       data: { ideas }
-    } = await app.$amplifyApi.graphql(graphqlOperation(getIdeas))
+    } = await app.$amplifyApi.graphql(
+      graphqlOperation(getIdeas, { nextToken: null, limit: 10 })
+    )
+
     return {
+      // Set next token for next batch of ideas
+      nextToken: ideas.nextToken,
+      // Set ideas
       ideas: ideas.items
     }
   },
@@ -101,6 +136,26 @@ export default {
     this.ideas.forEach(idea => {
       idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
     })
+  },
+
+  methods: {
+    async loadMoreIdea() {
+      this.loadingIdea = true
+      if (!this.nextToken) {
+        return
+      }
+      const {
+        data: { ideas }
+      } = await this.$amplifyApi.graphql(
+        graphqlOperation(getIdeas, { nextToken: this.nextToken, limit: 10 })
+      )
+
+      // Set next token for next batch of ideas
+      this.nextToken = ideas.nextToken
+      // Push ideas
+      this.ideas = this.ideas.concat(ideas.items)
+      this.loadingIdea = false
+    }
   }
 }
 </script>
@@ -122,6 +177,11 @@ export default {
     position: fixed;
     right: 40px;
     bottom: 30px;
+  }
+
+  .loadMoreBtn {
+    padding-top: 20px;
+    text-align: center;
   }
 
   @media #{$small-screen} {
