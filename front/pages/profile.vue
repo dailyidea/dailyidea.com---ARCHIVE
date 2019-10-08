@@ -1,10 +1,12 @@
 <template>
-  <Layout v-bind="{
+  <Layout
+    v-bind="{
       loggedInHeader: true,
       mobileTitle: 'Bob\'s Profile',
       backButton: true,
       mobileSettingsIcon: true
-    }">
+    }"
+  >
     <v-layout id="profilePage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
@@ -32,8 +34,22 @@
               <v-icon>fas fa-user</v-icon>
             </span>
             <div class="userName">Bob Smith</div>
-            <v-btn v-if="isFollowUser" class="followAndUnFollowBtn" @click="followAndUnFollow()" dark color="primary">FOLLOW</v-btn>
-            <v-btn v-else class="followAndUnFollowBtn" @click="followAndUnFollow()" dark color="primary">UNFOLLOW</v-btn>
+            <v-btn
+              v-if="isFollowUser"
+              class="followAndUnFollowBtn"
+              dark
+              color="primary"
+              @click="followAndUnFollow()"
+              >FOLLOW</v-btn
+            >
+            <v-btn
+              v-else
+              class="followAndUnFollowBtn"
+              dark
+              color="primary"
+              @click="followAndUnFollow()"
+              >UNFOLLOW</v-btn
+            >
           </div>
 
           <!-- Mobile - Profile Description -->

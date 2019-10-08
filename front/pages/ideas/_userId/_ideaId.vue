@@ -1,12 +1,16 @@
 <template>
-  <Layout v-bind="{
+  <Layout
+    v-bind="{
       backButton: true,
       loggedInHeader: true,
       mobile: mobileTitle,
       shareIdeaVisible: true,
       editIdeaVisible: true,
       onCopyShareIdeaLink: copyShareLink
-    }" @showShareIdeaDialog="showShareIdeaDialog" @onEditIdea="showIdeaEditor">
+    }"
+    @showShareIdeaDialog="showShareIdeaDialog"
+    @onEditIdea="showIdeaEditor"
+  >
     <v-layout id="ideaDetailPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
@@ -28,21 +32,42 @@
             <!-- Share Menu -->
             <v-menu class="shareMenu" offset-y>
               <template v-slot:activator="{ on }">
-                <v-btn text icon color="light-gray" class="menu" @click="showEmailShareDialog = true" v-on="on">
+                <v-btn
+                  text
+                  icon
+                  color="light-gray"
+                  class="menu"
+                  @click="showEmailShareDialog = true"
+                  v-on="on"
+                >
                   <v-icon>fas fa-envelope</v-icon>
                 </v-btn>
               </template>
             </v-menu>
 
             <!-- Edit IDea Button-->
-            <v-btn text icon color="gray" size="small" class="menu" @click="showIdeaEditor()">
+            <v-btn
+              text
+              icon
+              color="gray"
+              size="small"
+              class="menu"
+              @click="showIdeaEditor()"
+            >
               <v-icon>fas fa-pen</v-icon>
             </v-btn>
 
             <!-- Side Settings icon -->
             <v-menu class="sideMenu" offset-y>
               <template v-slot:activator="{ on }">
-                <v-btn text icon color="gray" size="small" class="menu" v-on="on">
+                <v-btn
+                  text
+                  icon
+                  color="gray"
+                  size="small"
+                  class="menu"
+                  v-on="on"
+                >
                   <v-icon>fas fa-ellipsis-v</v-icon>
                 </v-btn>
               </template>
@@ -71,7 +96,14 @@
           <div class="ideaTitle">{{ idea.title }}</div>
         </div>
         <div v-else>
-          <v-textarea v-model="idea.title" v-validate="'required|max:100'" :error-messages="errors.collect('title')" data-vv-name="title" outlined label="Idea Title">
+          <v-textarea
+            v-model="idea.title"
+            v-validate="'required|max:100'"
+            :error-messages="errors.collect('title')"
+            data-vv-name="title"
+            outlined
+            label="Idea Title"
+          >
           </v-textarea>
         </div>
 
@@ -86,7 +118,11 @@
           <v-layout v-html="idea.content"> </v-layout>
         </div>
         <div v-else class="ideaEditor">
-          <VueTrix v-model="ideaEditContents" class="editor" placeholder="Enter content" />
+          <VueTrix
+            v-model="ideaEditContents"
+            class="editor"
+            placeholder="Enter content"
+          />
           <div v-if="!ideaEditContents" class="errorMsg">
             {{ errorMsg }}
           </div>
@@ -94,12 +130,37 @@
 
         <!-- Tags -->
         <div v-if="!ideaEditorVisible" class="tagsContainer">
-          <v-chip v-for="(item, index) in ideaTags" :key="index" label class="tag">{{ item }}</v-chip>
+          <v-chip
+            v-for="(item, index) in ideaTags"
+            :key="index"
+            label
+            class="tag"
+            >{{ item }}</v-chip
+          >
         </div>
         <div v-else class="tagsEditor">
-          <v-combobox v-model="ideaTags" v-validate="'required|max:100'" :error-messages="errors.collect('tag')" data-vv-name="tag" class="ideaTag" times chips clearable outlined label="Add Tags" multiple>
+          <v-combobox
+            v-model="ideaTags"
+            v-validate="'required|max:100'"
+            :error-messages="errors.collect('tag')"
+            data-vv-name="tag"
+            class="ideaTag"
+            times
+            chips
+            clearable
+            outlined
+            label="Add Tags"
+            multiple
+          >
             <template v-slot:selection="{ attrs, item, select, selected }">
-              <v-chip v-bind="attrs" :input-value="selected" close label @click="select;" @click:close="removeTag(item)">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                label
+                @click="select;"
+                @click:close="removeTag(item)"
+              >
                 <strong>{{ item }}</strong>
               </v-chip>
             </template>
@@ -108,8 +169,16 @@
 
         <!--submit and cancel btn-->
         <div v-if="ideaEditorVisible" class="buttons">
-          <v-btn small color="primary" :loading="updatingIdea" @click="onSaveIdeaContent()">Save</v-btn>
-          <v-btn text small color="error" @click="ideaEditorVisible = false">Cancel</v-btn>
+          <v-btn
+            small
+            color="primary"
+            :loading="updatingIdea"
+            @click="onSaveIdeaContent()"
+            >Save</v-btn
+          >
+          <v-btn text small color="error" @click="ideaEditorVisible = false"
+            >Cancel</v-btn
+          >
         </div>
 
         <!-- Engagements & Next Prev -->
@@ -143,8 +212,16 @@
         <v-layout class="cmtAndLike" hidden-sm-and-down>
           <div class="ups">
             <v-btn text @click="toggleLikeIdea">
-              <img v-if="isIdeaLiked" class="lamp" src="~/assets/images/logo_icon.png" />
-              <img v-else class="lamp" src="~/assets/images/dark_gray_lamp.png" />
+              <img
+                v-if="isIdeaLiked"
+                class="lamp"
+                src="~/assets/images/logo_icon.png"
+              />
+              <img
+                v-else
+                class="lamp"
+                src="~/assets/images/dark_gray_lamp.png"
+              />
               <span>{{ idea.likesCount }}</span>
             </v-btn>
           </div>
@@ -155,12 +232,23 @@
         </v-layout>
 
         <!-- Comment List -->
-        <div v-for="(item, index) in commentList" :key="index" class="commentItem">
+        <div
+          v-for="(item, index) in commentList"
+          :key="index"
+          class="commentItem"
+        >
           <div class="header">
             <div class="commentUser">{{ item.userId }}</div>
             <div class="timing">
               1h
-              <v-btn class="deleteCommentBtn" color="red" icon text x-small @click="deleteComment(item.commentId, item.body, index)">
+              <v-btn
+                class="deleteCommentBtn"
+                color="red"
+                icon
+                text
+                x-small
+                @click="deleteComment(item.commentId, item.body, index)"
+              >
                 <v-icon color="red">fas fa-trash-alt</v-icon>
               </v-btn>
             </div>
@@ -175,7 +263,7 @@
           <!-- <v-btn @click="loadMoreIdea()" :loading="loadingIdea" v-if="nextToken">
             Load More
           </v-btn> -->
-          <a @click="loadMoreComments()" v-if="nextToken">
+          <a v-if="nextToken" @click="loadMoreComments()">
             Lode More Comments......
           </a>
         </div>
@@ -187,20 +275,45 @@
 
       <!-- Foter with textbox -->
       <div class="pageFooter">
-        <v-text-field v-model="currentComment" class="newCommentInput" flat solo label="Say something..." large>
+        <v-text-field
+          v-model="currentComment"
+          class="newCommentInput"
+          flat
+          solo
+          label="Say something..."
+          large
+        >
         </v-text-field>
 
         <!-- Popip -ShowComment Dialogbox-->
         <div>
-          <v-btn class="sendBtn" text icon flat :loading="updatingComment" @click="addCommentBox()">
+          <v-btn
+            class="sendBtn"
+            text
+            icon
+            flat
+            :loading="updatingComment"
+            @click="addCommentBox()"
+          >
             <v-icon color="#d4bb10">fas fa-arrow-right</v-icon>
           </v-btn>
         </div>
 
-        <v-dialog v-model="showcommentDialog" content-class="commentDialog" persistent max-width="500px">
+        <v-dialog
+          v-model="showcommentDialog"
+          content-class="commentDialog"
+          persistent
+          max-width="500px"
+        >
           <!-- Popup Header -->
           <div class="header">
-            <v-icon text class="cancelIcon" size="20" @click="showcommentDialog = false">fas fa-times</v-icon>
+            <v-icon
+              text
+              class="cancelIcon"
+              size="20"
+              @click="showcommentDialog = false"
+              >fas fa-times</v-icon
+            >
           </div>
 
           <!-- Popup body -->
@@ -215,7 +328,17 @@
 
               <!-- Text Fields -->
               <div>
-                <v-text-field v-model="commentForm.Email" v-validate="'required|email|max:100'" class="emailInput" single-line flat prepend-inner-icon="email" :error-messages="errors.collect('email')" data-vv-name="email" label="Enter email"></v-text-field>
+                <v-text-field
+                  v-model="commentForm.Email"
+                  v-validate="'required|email|max:100'"
+                  class="emailInput"
+                  single-line
+                  flat
+                  prepend-inner-icon="email"
+                  :error-messages="errors.collect('email')"
+                  data-vv-name="email"
+                  label="Enter email"
+                ></v-text-field>
               </div>
 
               <!-- Submit Buttons -->
@@ -228,7 +351,12 @@
       </div>
 
       <!-- Popup - Share Via Email -->
-      <v-dialog v-model="showEmailShareDialog" content-class="emailShareDialog" persistent max-width="400px">
+      <v-dialog
+        v-model="showEmailShareDialog"
+        content-class="emailShareDialog"
+        persistent
+        max-width="400px"
+      >
         <form>
           <!-- Popup Header -->
 
@@ -242,24 +370,53 @@
 
           <!-- Text Fields -->
           <div>
-            <v-text-field v-model="emailShareForm.name" v-validate="'required|max:100'" :error-messages="errors.collect('name')" data-vv-name="name" label="Enter your name" outlined>
+            <v-text-field
+              v-model="emailShareForm.name"
+              v-validate="'required|max:100'"
+              :error-messages="errors.collect('name')"
+              data-vv-name="name"
+              label="Enter your name"
+              outlined
+            >
             </v-text-field>
 
-            <v-text-field v-model="emailShareForm.friendName" v-validate="'required|max:100'" :error-messages="errors.collect('friend name')" data-vv-name="friend name" label="Enter friend name" outlined></v-text-field>
+            <v-text-field
+              v-model="emailShareForm.friendName"
+              v-validate="'required|max:100'"
+              :error-messages="errors.collect('friend name')"
+              data-vv-name="friend name"
+              label="Enter friend name"
+              outlined
+            ></v-text-field>
 
-            <v-text-field v-model="emailShareForm.friendEmail" v-validate="'required|email|max:100'" :error-messages="errors.collect('email')" data-vv-name="email" label="Your Friend's email address" outlined></v-text-field>
+            <v-text-field
+              v-model="emailShareForm.friendEmail"
+              v-validate="'required|email|max:100'"
+              :error-messages="errors.collect('email')"
+              data-vv-name="email"
+              label="Your Friend's email address"
+              outlined
+            ></v-text-field>
           </div>
 
           <!-- Submit Buttons -->
           <div class="btnContainer">
-            <v-btn class="cancleBtn" text @click="showEmailShareDialog = false">Cancel</v-btn>
-            <v-btn class="specialButton shareBtn" @click="sendShareEmail()">Share</v-btn>
+            <v-btn class="cancleBtn" text @click="showEmailShareDialog = false"
+              >Cancel</v-btn
+            >
+            <v-btn class="specialButton shareBtn" @click="sendShareEmail()"
+              >Share</v-btn
+            >
           </div>
         </form>
       </v-dialog>
 
       <!-- Bottom snackbar message -->
-      <v-snackbar v-model="snackbarVisible" :timeout="2000" :color="snackbarColor">
+      <v-snackbar
+        v-model="snackbarVisible"
+        :timeout="2000"
+        :color="snackbarColor"
+      >
         {{ snackbarMessage }}
         <v-btn color="white" text @click="snackbarVisible = false">
           Close

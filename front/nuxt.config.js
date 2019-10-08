@@ -123,7 +123,7 @@ module.exports = {
     publicPath: process.env.S3_DOMAIN
       ? `https://${process.env.S3_DOMAIN}/`
       : undefined,
-    cache: true,
+    cache: true
     // modern: true,
     // extend(config, ctx) {
     //   // Run ESLint on save
