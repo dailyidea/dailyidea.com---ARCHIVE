@@ -1,0 +1,4 @@
+#if(!$ctx.result)
+    $util.qr($ctx.stash.put("ideaNotFound", true))
+#end
+$util.toJson($ctx.result)

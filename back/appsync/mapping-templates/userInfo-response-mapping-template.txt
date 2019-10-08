@@ -1,0 +1,5 @@
+#if($context.result.items.isEmpty())
+{"result":{"ok":false, "error":"User Not Found"}}
+#else
+{"result":{"ok":true}, "userInfo": $util.toJson($context.result.items[0])}
+#end

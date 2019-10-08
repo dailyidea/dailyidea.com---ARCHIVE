@@ -31,6 +31,7 @@ custom:
   tagsTableName: dailyidea-tags-${self:provider.stage}
   ideaCommentsTableName: dailyidea-comments-${self:provider.stage}
   likesTableName: dailyidea-likes-${self:provider.stage}
+  followingTableName: dailyidea-following-${self:provider.stage}
   ideasMailBox: ${env:IDEAS_MAILBOX, 'ideas-dev'}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
   appSync:
@@ -53,11 +54,21 @@ custom:
         field: ideas
         request: "ideas-request-mapping-template.txt"
         response: "ideas-response-mapping-template.txt"
+      - dataSource: Ideas
+        type: Query
+        field: userIdeas
+        request: "userIdeas-request-mapping-template.txt"
+        response: "userIdeas-response-mapping-template.txt"
       - dataSource: Users
         type: Query
         field: meInfo
         request: "meInfo-request-mapping-template.txt"
         response: "meInfo-response-mapping-template.txt"
+      - dataSource: Users
+        type: Query
+        field: userInfo
+        request: "userInfo-request-mapping-template.txt"
+        response: "userInfo-response-mapping-template.txt"
       - dataSource: Users
         type: Mutation
         field: followUser
@@ -71,8 +82,12 @@ custom:
       - dataSource: Ideas
         type: Mutation
         field: createIdea
-        request: "createIdea-request-mapping-template.txt"
-        response: "createIdea-response-mapping-template.txt"
+        request: "common/before-mapping-template.txt"
+        response: "common/after-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - createIdeaItem
+          - increaseIdeasCreatedCount
       - dataSource: IdeaComments
         type: Mutation
         field: deleteComment
@@ -99,8 +114,12 @@ custom:
       - dataSource: Ideas
         type: Mutation
         field: deleteIdea
-        request: "deleteIdea-request-mapping-template.txt"
-        response: "deleteIdea-response-mapping-template.txt"
+        request: "common/before-mapping-template.txt"
+        response: "common/after-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - deleteIdeaItem
+          - decreaseIdeasCreatedCount
       - dataSource: Ideas
         type: Mutation
         field: updateIdea
@@ -150,6 +169,26 @@ custom:
         field: getIsIdeaLikedByMe
         request: "getIsIdeaLikedByMe-request-mapping-template.txt"
         response: "getIsIdeaLikedByMe-response-mapping-template.txt"
+      - dataSource: Users
+        type: Mutation
+        field: followUser
+        request: "common/before-mapping-template.txt"
+        response: "common/after-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - addFollowingItem
+          - increaseFollowersCount
+          - increaseFolloweesCount
+      - dataSource: Users
+        type: Mutation
+        field: unfollowUser
+        request: "common/before-mapping-template.txt"
+        response: "common/after-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - deleteFollowingItem
+          - decreaseFollowersCount
+          - decreaseFolloweesCount
     #      - dataSource: RequestLink
 #        type: Mutation
 #        field: requestLogin
@@ -175,6 +214,12 @@ custom:
         description: 'Users table'
         config:
           tableName: ${self:custom.usersTableName}
+          serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
+      - type: AMAZON_DYNAMODB
+        name: Following
+        description: 'Following table'
+        config:
+          tableName: ${self:custom.followingTableName}
           serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
       - type: AMAZON_DYNAMODB
         name: Ideas
@@ -237,6 +282,50 @@ custom:
         name: decreaseIdeaCommentsCount
         request: 'idea-comments/delete-comment/decreaseIdeaCommentsCount-request-mapping-template.txt'
         response: 'idea-comments/delete-comment/decreaseIdeaCommentsCount-response-mapping-template.txt'
+
+      - dataSource: Following
+        name: addFollowingItem
+        request: 'user-following/follow-user/addFollowingItem-request-mapping-template.txt'
+        response: 'user-following/follow-user/addFollowingItem-response-mapping-template.txt'
+      - dataSource: Users
+        name: increaseFollowersCount
+        request: 'user-following/follow-user/increaseFollowersCount-request-mapping-template.txt'
+        response: 'user-following/follow-user/increaseFollowersCount-response-mapping-template.txt'
+      - dataSource: Users
+        name: increaseFolloweesCount
+        request: 'user-following/follow-user/increaseFolloweesCount-request-mapping-template.txt'
+        response: 'user-following/follow-user/increaseFolloweesCount-response-mapping-template.txt'
+
+      - dataSource: Following
+        name: deleteFollowingItem
+        request: 'user-following/unfollow-user/deleteFollowingItem-request-mapping-template.txt'
+        response: 'user-following/unfollow-user/deleteFollowingItem-response-mapping-template.txt'
+      - dataSource: Users
+        name: decreaseFollowersCount
+        request: 'user-following/unfollow-user/decreaseFollowersCount-request-mapping-template.txt'
+        response: 'user-following/unfollow-user/decreaseFollowersCount-response-mapping-template.txt'
+      - dataSource: Users
+        name: decreaseFolloweesCount
+        request: 'user-following/unfollow-user/decreaseFolloweesCount-request-mapping-template.txt'
+        response: 'user-following/unfollow-user/decreaseFolloweesCount-response-mapping-template.txt'
+
+      - dataSource: Ideas
+        name: createIdeaItem
+        request: 'ideas/create-idea/createIdeaItem-request-mapping-template.txt'
+        response: 'ideas/create-idea/createIdeaItem-response-mapping-template.txt'
+      - dataSource: Ideas
+        name: deleteIdeaItem
+        request: 'ideas/delete-idea/deleteIdeaItem-request-mapping-template.txt'
+        response: 'ideas/delete-idea/deleteIdeaItem-response-mapping-template.txt'
+      - dataSource: Users
+        name: increaseIdeasCreatedCount
+        request: 'ideas/create-idea/increaseIdeasCreatedCount-request-mapping-template.txt'
+        response: 'ideas/create-idea/increaseIdeasCreatedCount-response-mapping-template.txt'
+      - dataSource: Users
+        name: decreaseIdeasCreatedCount
+        request: 'ideas/delete-idea/decreaseIdeasCreatedCount-request-mapping-template.txt'
+        response: 'ideas/delete-idea/decreaseIdeasCreatedCount-response-mapping-template.txt'
+
 #      - type: AWS_LAMBDA
 #        name: RequestLink
 #        description: 'Lambda DataSource'
@@ -313,6 +402,7 @@ resources:
                       - { "Fn::GetAtt": ["TagsTable", "Arn" ] }
                       - { "Fn::GetAtt": ["LikesTable", "Arn" ] }
                       - { "Fn::GetAtt": ["IdeaCommentsTable", "Arn" ] }
+                      - { "Fn::GetAtt": ["FollowingTable", "Arn" ] }
                       - 'Fn::Join':
                           - ':'
                           - - 'arn:aws:dynamodb'
@@ -372,3 +462,4 @@ resources:
   - ${file(resources/dynamo-tags-table.yml)}
   - ${file(resources/dynamo-likes-table.yml)}
   - ${file(resources/dynamo-comments-table.yml)}
+  - ${file(resources/dynamo-following-table.yml)}

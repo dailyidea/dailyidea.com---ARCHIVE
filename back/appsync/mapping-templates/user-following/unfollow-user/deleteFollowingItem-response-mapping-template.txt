@@ -1,0 +1,4 @@
+#if(!$ctx.result)
+    $util.qr($ctx.stash.put("followingNotFound", true))
+#end
+$util.toJson($ctx.result)
