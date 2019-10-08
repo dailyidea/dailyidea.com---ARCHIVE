@@ -1,0 +1,14 @@
+{
+    "version" : "2017-02-28",
+    "operation" : "PutItem",
+    "key" : {
+        "followeeId" : { "S" : "${ctx.arguments.userId}" },
+        "followerId" : { "S" : "${ctx.identity.username}" }
+    },
+    "attributeValues" : {
+            "followStartedTime" : $util.dynamodb.toDynamoDBJson($util.time.nowISO8601()),
+    },
+    "condition": {
+            "expression" : "attribute_not_exists(followStartedTime)",
+    }
+}
