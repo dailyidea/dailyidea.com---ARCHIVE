@@ -1,0 +1,19 @@
+#if($ctx.stash.ideaNotFound)
+    #return({"ok":false, "error": "Idea Not Found"})
+#end
+{
+    "version" : "2017-02-28",
+    "operation" : "UpdateItem",
+    "key": {
+        "userId" : { "S" : "${ctx.identity.username}"},
+    },
+    "update" : {
+        "expression" : "SET #ideascreatedfield = #ideascreatedfield - :one",
+        "expressionNames" : {
+           "#ideascreatedfield" : "ideasCreated"
+        },
+        "expressionValues" : {
+            ":one" : { "N" : "1" }
+        }
+    },
+}
