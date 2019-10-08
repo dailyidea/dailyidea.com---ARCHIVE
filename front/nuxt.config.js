@@ -123,18 +123,18 @@ module.exports = {
     publicPath: process.env.S3_DOMAIN
       ? `https://${process.env.S3_DOMAIN}/`
       : undefined,
-    cache: true
-    // modern: true,
-    // extend(config, ctx) {
-    //   // Run ESLint on save
-    //   if (ctx.isDev && ctx.isClient) {
-    //     config.module.rules.push({
-    //       enforce: 'pre',
-    //       test: /\.(js|vue)$/,
-    //       loader: 'eslint-loader',
-    //       include: path.join(__dirname)
-    //     })
-    //   }
-    // }
+    cache: true,
+    modern: true,
+    extend(config, ctx) {
+      // Run ESLint on save
+      if (ctx.isDev && ctx.isClient) {
+        config.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          include: path.join(__dirname)
+        })
+      }
+    }
   }
 }

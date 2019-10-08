@@ -379,7 +379,6 @@
               outlined
             >
             </v-text-field>
-
             <v-text-field
               v-model="emailShareForm.friendName"
               v-validate="'required|max:100'"

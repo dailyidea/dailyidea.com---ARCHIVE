@@ -64,7 +64,7 @@
 
         <!-- Submit -->
         <div class="submitBtn">
-          <v-btn :loading="creatingIdea" @click="onCreateIdea()">Submit</v-btn>
+          <v-btn :loading="creatingIdea" @click="onCreateIdea">Submit</v-btn>
         </div>
       </div>
 
