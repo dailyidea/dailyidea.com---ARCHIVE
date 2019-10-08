@@ -494,7 +494,6 @@ export default {
     let isLiked = await app.$amplifyApi.graphql(
       graphqlOperation(getIsIdeaLikedByMe, { ideaId: route.params.ideaId })
     )
-    isLiked = isLiked.data.getIsIdeaLikedByMe.isLiked
 
     const tag = await app.$amplifyApi.graphql(
       graphqlOperation(getIdeaTags, { ideaId: route.params.ideaId })
@@ -513,7 +512,7 @@ export default {
       idea: data.getIdea,
       user: { email: store.state.cognito.user.attributes.email },
       ideaTags: ideaTags,
-      isIdeaLiked: isLiked,
+      isIdeaLiked: isLiked.data.getIsIdeaLikedByMe.isLiked,
       commentList: result.data.getComments.items,
       nextToken: result.data.getComments.nextToken
     }
