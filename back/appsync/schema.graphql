@@ -60,7 +60,9 @@ input TagInput {
 
 type Query {
 	meInfo: User!
+	userInfo(userId: String!): UserInfoResult!
 	ideas(nextToken: String, limit: Int): IdeaConnection
+	userIdeas(userId: String!, nextToken: String, limit: Int): IdeaConnection
 	getIdea(ideaId: String!): Idea!
 	getLikedIdeas(nextToken: String, limit: Int): IdeaConnection
 	ideaTags(ideaId: String!): [Tag!]!
@@ -73,6 +75,11 @@ type Query {
 type LikeResult {
 	result: Result!
 	likesCount: Int
+}
+
+type UserInfoResult {
+	result: Result!
+	userInfo: UserInfo
 }
 
 type AddCommentResult {
@@ -106,6 +113,13 @@ type User {
 	user_id: String!
 	email: String!
 	ideas(limit: Int!, nextToken: String): IdeaConnection
+}
+
+type UserInfo {
+	userId: String!
+	followersCount: Int
+	followeesCount: Int
+	ideasCreated: Int
 }
 
 type Comment {

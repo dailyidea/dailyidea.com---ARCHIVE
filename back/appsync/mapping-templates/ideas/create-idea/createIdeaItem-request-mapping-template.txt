@@ -1,0 +1,17 @@
+{
+    "version" : "2017-02-28",
+    "operation" : "PutItem",
+    "key" : {
+        "ideaId" : $util.dynamodb.toDynamoDBJson($util.autoId()),
+        "userId" : { "S" : "${ctx.identity.username}" }
+    },
+    "attributeValues" : {
+        "content" : { "S" : "${ctx.arguments.content}" },
+        "title" : { "S" : "${ctx.arguments.title}" },
+        "ideaDate" : $util.dynamodb.toDynamoDBJson($util.time.nowISO8601()),
+        "createdDate" : $util.dynamodb.toDynamoDBJson($util.time.nowISO8601()),
+        "likesCount" : {"N": "0"},
+        "commentsCount" : {"N": "0"},
+        "public" : {"BOOL": true}
+    }
+}
