@@ -44,7 +44,7 @@
             <div class="engagement">
               <div class="ups">
                 <img class="logoIcon" src="~/assets/images/logo_icon.png" />
-                609
+                {{ idea.likesCount }}
               </div>
               <div class="downs">
                 <img class="logoIcon" src="~/assets/images/comments.png" />
