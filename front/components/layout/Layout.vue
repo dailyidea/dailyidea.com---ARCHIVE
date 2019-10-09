@@ -42,7 +42,6 @@
               <span class="userName">{{
                 $store.getters['cognito/username']
               }}</span>
-
               <v-btn small to="/profile" class="userIcon" fab>
                 <v-icon>fas fa-user</v-icon>
               </v-btn>
@@ -307,15 +306,15 @@ export default {
       }
 
       .userIcon {
-        // background: #ebe7ed;
-        // padding: 10px 15px;
-        margin-left: 15px;
-        // border-radius: 50%;
+        background: #ebe7ed !important;
+        padding: 10px 15px;
+        margin-left: 20px;
+        border-radius: 50%;
 
         i {
-          font-size: 13px !important;
-          // line-height: 10px !important;
-          // color: #35124e !important;
+          font-size: 14px !important;
+          line-height: 16px !important;
+          color: #35124e !important;
         }
       }
     }
