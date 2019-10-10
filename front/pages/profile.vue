@@ -35,7 +35,7 @@
             </span>
             <div class="userName">Bob Smith</div>
             <v-btn
-              v-if="isFollowUser"
+              v-if="!isFollowUser"
               class="followAndUnFollowBtn"
               dark
               color="primary"
@@ -188,16 +188,17 @@ export default {
       this.isFollowUser = !this.isFollowUser
 
       try {
-        debugger
         let mutationToCall = this.isFollowUser ? followUser : unfollowUser
-        console.log('clicked..')
         await this.$amplifyApi.graphql(
           graphqlOperation(mutationToCall, {
             userId: this.$store.getters['cognito/userSub']
           })
         )
-        this.userData.userInfo.followeesCount + 2
-        this.userData.userInfo.followersCount + 2
+        if (this.isFollowUser) {
+          this.userData.userInfo.followersCount++
+        } else {
+          this.userData.userInfo.followersCount--
+        }
       } catch (err) {
         console.error(err)
         this.snackbarMessage = 'Something went wrong!!'

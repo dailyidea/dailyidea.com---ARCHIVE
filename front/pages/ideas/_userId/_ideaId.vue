@@ -227,11 +227,12 @@
           </div>
           <div class="downs">
             <img class="cmt" src="~/assets/images/comments.png" />
-            <!-- <span>{{idea.comments.length>0}}</span> -->
+            <span>{{ idea.commentsCount }}</span>
           </div>
         </v-layout>
 
         <!-- Comment List -->
+
         <div
           v-for="(item, index) in commentList"
           :key="index"
