@@ -42,7 +42,7 @@
               <span class="userName">{{
                 $store.getters['cognito/username']
               }}</span>
-              <v-btn small to="/profile" class="userIcon" fab>
+              <v-btn small to="/profile" class="profileBtn" fab>
                 <v-icon>fas fa-user</v-icon>
               </v-btn>
             </template>
@@ -305,7 +305,7 @@ export default {
         color: #18141c;
       }
 
-      .userIcon {
+      .profileBtn {
         background: #ebe7ed !important;
         padding: 10px 15px;
         margin-left: 20px;
