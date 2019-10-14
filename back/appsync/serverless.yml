@@ -42,13 +42,21 @@ custom:
       defaultAction: ALLOW
       defaultEffect: ALLOW
       userPoolId: ${self:custom.cogintoUserPoolId}
+    additionalAuthenticationProviders:
+      - authenticationType: API_KEY
+
     # mappingTemplatesLocation: # defaults to mapping-templates
     mappingTemplates:
       - dataSource: Ideas
         type: Query
-        field: getIdea
-        request: "getIdea-request-mapping-template.txt"
-        response: "getIdea-response-mapping-template.txt"
+        field: getMyIdea
+        request: "getMyIdea-request-mapping-template.txt"
+        response: "getMyIdea-response-mapping-template.txt"
+      - dataSource: Ideas
+        type: Query
+        field: getUsersIdea
+        request: "getUsersIdea-request-mapping-template.txt"
+        response: "getUsersIdea-response-mapping-template.txt"
       - dataSource: Ideas
         type: Query
         field: ideas
