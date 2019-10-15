@@ -69,6 +69,8 @@ type Query {
 	getMyIdea(ideaId: String!): Idea!
 	getUsersIdea(userId: String!, ideaId: String!): Idea!
 	@aws_api_key @aws_cognito_user_pools
+	getPublicIdeas(nextToken: String, limit: Int): IdeaConnection!
+	@aws_api_key @aws_cognito_user_pools
 	getLikedIdeas(nextToken: String, limit: Int): IdeaConnection
 	ideaTags(ideaId: String!): [Tag!]!
 	getIsIdeaLikedByMe(
@@ -139,7 +141,7 @@ type Result  @aws_api_key @aws_cognito_user_pools{
 }
 
 
-type  IdeaConnection {
+type  IdeaConnection @aws_api_key @aws_cognito_user_pools {
 	items: [Idea!]!
 	nextToken: String
 }
