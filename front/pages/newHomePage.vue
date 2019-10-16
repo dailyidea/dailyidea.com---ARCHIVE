@@ -3,7 +3,7 @@
     <div id="newhomePage">
       <!-- desktop view -->
 
-      <section class="firstSection " fluid grid-list-md hidden-sm-and-down row>
+      <section class="firstSection hidden-sm-and-down">
         <div class="row futureListContainer">
           <div class="col-md-5">
             <div class="firstFreatureList">
@@ -18,15 +18,16 @@
               </div>
 
               <!-- Signup Button -->
-              <v-btn
-                normal
-                dark
-                rounded
-                class="signupButton"
-                :to="{ name: 'auth-signup' }"
-                color="#326bde"
-                >Sign up Now</v-btn
-              >
+              <div class="signUpBtn">
+                <v-btn
+                  color="primary"
+                  :to="{ name: 'auth-signup' }"
+                  large
+                  rounded
+                  class="signupButton"
+                  >Sign up Now</v-btn
+                >
+              </div>
             </div>
           </div>
 
@@ -42,14 +43,14 @@
         </div>
       </section>
 
-      <section class="ideaSection">
+      <section class="ideaSection hidden-sm-and-down">
         <div class="ideaSectionHeader">
           Your Idea’s
         </div>
 
         <v-layout class="desktopReviews">
           <v-flex md4 lg4>
-            <v-card color="white" class="review">
+            <div color="white" class="review">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
@@ -60,10 +61,10 @@
                 <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
                 <div class="reviewTime">1h ago</div>
               </div>
-            </v-card>
+            </div>
           </v-flex>
           <v-flex md4 lg4>
-            <v-card color="white" class="review">
+            <div color="white" class="review">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
@@ -73,10 +74,10 @@
                 <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
                 <div class="reviewTime">1h ago</div>
               </div>
-            </v-card>
+            </div>
           </v-flex>
           <v-flex md4 lg4>
-            <v-card color="white" class="review">
+            <div color="white" class="review">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
@@ -86,26 +87,26 @@
                 <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
                 <div class="reviewTime">1h ago</div>
               </div>
-            </v-card>
+            </div>
           </v-flex>
         </v-layout>
 
         <!-- Signup Button -->
         <div class="moreBrowseBtn">
-          <v-btn large rounded color="primary" class="browseButton"
+          <v-btn color="primary" large rounded class="browseButton"
             >Browse More Ideas</v-btn
           >
         </div>
       </section>
 
-      <section class="lastSection ">
+      <section class="lastSection hidden-sm-and-down ">
         <div class="row futureListContainer">
           <div class="col-md-6">
             <div class="buttomImageContainer">
               <img
                 alt="image"
                 class="buttomLeftImage"
-                src="~/assets/images/buttomLeft.png"
+                src="~/assets/images/newLastImage.png"
               />
             </div>
           </div>
@@ -121,12 +122,12 @@
                 forget an idea ever again.
               </div>
 
-              <!-- Signup Button -->
+              <!-- View More Button -->
               <v-btn
                 normal
                 outlined
                 rounded
-                class="signupButton"
+                class="viewMoreButton"
                 color="primary"
                 >View More</v-btn
               >
@@ -135,44 +136,134 @@
         </div>
       </section>
 
-      <!-- <section class="footerSection">
+      <footer class="footerSection hidden-sm-and-down  ">
+        <div class="linkContainer">
+          <a>About us</a>
+          <a>FAQ</a>
+          <a>Terms % Conditions</a>
+          <a>Privacy</a>
+          <span class="copyRight"> Copyright @DailyIdea 2019</span>
+        </div>
+      </footer>
 
-        <div class="ddc">
-          About us
+      <!-- Mobile view -->
+
+      <section class="mobileFirstSection   hidden-md-and-up">
+        <div class="firstFreatureList">
+          <div class="firstHeader">Your Idea Could Be Huge!</div>
+          <div class="subHeader">That is, if you don't forget it !</div>
+
+          <div class="firstImageContainer">
+            <img
+              alt="image"
+              class="firstImage"
+              src="~/assets/images/mobileTopImage.png"
+            />
+          </div>
+          <div class="descriptionSection">
+            Submitting an idea every day is as simple as <br />sending an email.
+            We will store your ideas for<br />
+            you, so you can share them with your friends<br />
+            and conquer the world!
+          </div>
+
+          <!-- Signup Button -->
+          <div class="actionBtn">
+            <v-btn
+              normal
+              dark
+              rounded
+              class="signupButton"
+              :to="{ name: 'auth-signup' }"
+              color="#326bde"
+              >Sign up Now</v-btn
+            >
+          </div>
         </div>
-        <div class="ddc">
-          FAQ
-        </div>
-        <div class="ddc">
-          Tems & Condition
-        </div>
-        <div class="ddc">
-          Privacy
+      </section>
+
+      <section class="mobileIdeaSection hidden-md-and-up">
+        <div class="ideaSectionHeader">
+          Your Idea’s
         </div>
 
-        <div class="dwscvh">
+        <div class="firstIdea">
+          <div color="white" sh class="review">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled.
+
+            <!-- User Icon -->
+            <div class="reviewerInfo">
+              <v-icon class="userIcon">fa-user-circle</v-icon
+              ><span class="nameOfUser">by Name Surname</span>
+              <div class="reviewTime">1h ago</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="firstIdea">
+          <div color="white" class="review">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled.
+            <!-- User Icon -->
+            <div class="reviewerInfo">
+              <v-icon class="userIcon">fa-user-circle</v-icon
+              ><span class="nameOfUser">by Name Surname</span>
+              <div class="reviewTime">1h ago</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mobilelasttSection   hidden-md-and-up">
+        <div class="firstFreatureList">
+          <div class="firstHeader">How it work’s?</div>
+          <div class="subHeader">Oh, its easy!</div>
+
+          <div class="lastImageContainer">
+            <img
+              alt="image"
+              class="lastImage"
+              src="~/assets/images/newLastImage.png"
+            />
+          </div>
+          <div class="descriptionSection">
+            We’ll send you an email every day with a <br />
+            reminder for you to submit an idea.<br />
+            Just hit reply, and you’ll never forget an<br />
+            idea ever again.
+          </div>
+
+          <!-- Signup Button -->
+          <div class="viewMoreBtn">
+            <v-btn
+              normal
+              outlined
+              rounded
+              class="viewMoreButton"
+              color="primary"
+              >View More</v-btn
+            >
+          </div>
+        </div>
+      </section>
+
+      <footer class="mobileFooterSection  hidden-md-and-up">
+        <div class="linkContainer">
+          <a>About us</a>
+          <a>FAQ</a>
+          <a>Terms % Conditions</a>
+          <a>Privacy</a>
+        </div>
+
+        <div class="copyRight">
           Copyright @DailyIdea 2019
         </div>
-      </section> -->
-
-      <v-footer class="footer">
-        <div class="footer1">
-          <h2>About us</h2>
-        </div>
-        <div class="footer2">
-          <h2>FAQ</h2>
-        </div>
-        <div class="footer2">
-          <h2>Tems & Condition</h2>
-        </div>
-        <div class="footer2">
-          <h2>Privacy</h2>
-        </div>
-
-        <div class="dwscvh">
-          <h2>Copyright @DailyIdea 2019</h2>
-        </div>
-      </v-footer>
+      </footer>
     </div>
   </Layout>
 </template>
@@ -202,14 +293,14 @@ export default {
     .futureListContainer {
       padding-top: 4vh;
       .firstFreatureList {
-        // display: none;
         padding-top: 10vh;
         margin-top: 10vh;
         margin-left: 8vh;
         text-align: left;
 
         .firstHeader {
-          font-size: 30px;
+          font-family: Avenir;
+          font-size: 40px;
           font-weight: 400;
           line-height: 1.2;
           color: #4a4a4a;
@@ -217,43 +308,40 @@ export default {
         }
 
         .subHeader {
+          font-family: Avenir;
           margin-top: 3vh;
-          font-size: 18px;
+          font-size: 22px;
           color: #4a4a4a;
-
           line-height: 1.5;
         }
 
         .descriptionSection {
           margin-top: 10vh;
-          font-size: 15px;
-          // line-height: 1.5;
+          font-size: 18px;
           color: #4a4a4a;
         }
 
-        .signupButton {
-          margin-top: 25px;
+        .signUpBtn {
+          .signupButton {
+            margin-top: 30px;
+            width: 200px;
+            background: #326bde !important;
+
+            -webkit-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+            -moz-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+            box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+          }
         }
       }
 
       .firstImageContainer {
-        // display: none;
         margin-right: 10vh;
         margin-top: 20px;
 
         .firstImage {
-          // display: none;
-          // border: 1px solid red;
           height: 60vh;
-          // padding-right: 10vh;
-          // width: 100%;
-          // border-radius: 6px;
         }
       }
-    }
-
-    @media #{$small-screen} {
-      padding-top: 0px;
     }
   }
 
@@ -266,7 +354,7 @@ export default {
       margin-bottom: 40px;
       text-align: center;
       height: 26px;
-      // font-family: Avenir;
+      font-family: Avenir;
       font-size: 19px;
       font-weight: 600;
       font-style: normal;
@@ -277,36 +365,40 @@ export default {
     }
 
     .desktopReviews {
-      margin-left: 25vh;
-      margin-right: 25vh;
+      margin-left: 30vh;
+      margin-right: 30vh;
+
       .review {
+        font-family: Avenir;
         max-width: 320px !important;
-        height: 230px;
-        width: 100%;
+        width: 350px;
         padding: 18px 25px;
         font-size: 16px;
         margin: auto;
         font-size: 14px;
         border-radius: 4px;
-        border: solid 1px #326bde;
         background-color: #ffffff;
+        border: solid 1px #d8e3f9;
 
         .reviewerInfo {
-          font-size: 10px;
+          border-top: 0.8px solid #e8e8e8;
+          font-size: 12px;
+          font-family: Avenir;
           color: #777;
           line-height: 30px;
-          margin-top: 30px;
+          margin-top: 20px;
+          padding-top: 20px;
+          margin-right: 6vh;
 
           .userIcon {
             color: #35124e;
-            font-size: 25px;
+            font-size: 30px;
             // line-height: 20px;
             margin-right: 10px;
           }
 
           .reviewTime {
-            // float: right;
-            margin-left: 35px;
+            margin-left: 39px;
           }
         }
       }
@@ -315,8 +407,14 @@ export default {
     .moreBrowseBtn {
       margin-top: 10vh;
       text-align: center;
+      .browseButton {
+        width: 200px;
+        background: #326bde !important;
 
-      color: blue !important;
+        -webkit-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+        -moz-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+        box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+      }
     }
   }
 
@@ -328,34 +426,23 @@ export default {
     padding: 0px !important;
 
     .futureListContainer {
-      // padding-top: 7vh;
-
       .buttomImageContainer {
-        // display: none;
-        // margin-right: 30px;
-        // margin-top: 20px;
-        // border: 1px solid red;
         text-align: center;
         margin: auto;
         .buttomLeftImage {
-          // display: none;
-          height: 70vh;
+          height: 60vh;
           margin: auto;
-          // border: 1px solid red;
         }
       }
 
       .firstFreatureList {
-        // display: none;
-        margin-top: 15vh;
+        margin-top: 18vh;
         margin-left: 10vh;
         text-align: left;
 
         .firstHeader {
-          // width: 128px;
-          // height: 26px;
-          // font-family: Avenir;
-          font-size: 19px;
+          font-family: Avenir;
+          font-size: 25px;
           font-weight: 500;
           font-style: normal;
           font-stretch: normal;
@@ -365,8 +452,9 @@ export default {
         }
 
         .subHeader {
+          font-family: Avenir;
           margin-top: 3vh;
-          font-size: 30px;
+          font-size: 40px;
           color: #4a4a4a;
           line-height: normal;
           font-stretch: normal;
@@ -374,8 +462,9 @@ export default {
         }
 
         .descriptionSection {
+          font-family: Avenir;
           margin-top: 7vh;
-          font-size: 14px;
+          font-size: 18px;
           line-height: 2;
           color: #4a4a4a;
           font-weight: normal;
@@ -384,60 +473,268 @@ export default {
           color: #4a4a4a;
         }
 
-        .signupButton {
-          width: 177px;
+        .viewMoreButton {
+          width: 200px;
           margin-top: 30px;
         }
       }
     }
   }
 
-  // .footerSection {
-  //   margin-top: 5vh;
-  //   margin-bottom: 5vh;
-  //   position: relative;
-  //   border-top: 1px solid #4a4a4a;
+  .footerSection {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-right: 20px;
+    padding-left: 20px;
+    .linkContainer {
+      border-top: 0.2px solid #e8e8e8;
+      padding-top: 20px;
+      // text-align: center;
+      a {
+        font-family: Avenir;
+        height: 56px;
+        font-size: 16px;
+        margin-left: 20px;
+        margin-right: 20px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.33;
+        letter-spacing: normal;
+        color: #4a4a4a;
+      }
 
-  //   .ddc {
-  //     padding-top: 20px !important;
-  //     display: inline;
-  //   }
-  //   // .sdfxf {
-  //   //   padding-top: 10px !important;
-  //   //   display: inline;
-  //   // }
-  //   // .sdvx {
-  //   //   display: inline;
-  //   // }
-  //   // .ddsxcc {
-  //   //   display: inline;
-  //   // }
-
-  //   .dwscvh {
-  //     float: right;
-  //   }
-  // }
-
-  .footer {
-    // align-items: baseline;
-    margin-top: 10vh;
-    height: 22vh;
-    background: white;
-
-    .footer1 {
-      font-size: 10px;
-      padding-left: 5vh;
-      display: inline-block;
+      .copyRight {
+        font-family: Avenir;
+        float: right;
+        height: 28px;
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.8;
+        letter-spacing: normal;
+        color: #4a4a4a;
+      }
     }
-    .footer2 {
-      font-size: 10px;
-      padding-left: 5vh;
-      display: inline-block;
+  }
+
+  .mobileFirstSection {
+    padding-top: 20px;
+    .firstFreatureList {
+      .firstHeader {
+        font-family: Avenir;
+        margin-right: 20px;
+        font-size: 26px;
+        font-weight: 900;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #4a4a4a;
+        text-align: center;
+      }
+
+      .subHeader {
+        font-family: Avenir;
+        font-size: 18px;
+        text-align: left;
+        margin-left: 3vh;
+        margin-top: 10px;
+      }
+
+      .firstImageContainer {
+        margin-top: 20px;
+        padding: 20px 20px 20px 20px;
+        .firstImage {
+          height: 26vh;
+        }
+      }
+
+      .descriptionSection {
+        font-family: Avenir;
+        margin-top: 2vh;
+        font-size: 15px;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2;
+        letter-spacing: normal;
+        color: #4a4a4a;
+      }
+
+      .actionBtn {
+        padding-top: 25px;
+        padding-bottom: 30px;
+        text-align: center;
+        .signupButton {
+          width: 177px;
+          background: #326bde !important;
+
+          -webkit-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+          -moz-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+          box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+        }
+      }
     }
-    .dwscvh {
-      float: right;
-      font-size: 10px;
-      // display: inline-block;
+  }
+
+  .mobileIdeaSection {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    .ideaSectionHeader {
+      font-family: Avenir;
+      text-align: center;
+      font-size: 19px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #4a4a4a;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+    }
+
+    .firstIdea {
+      margin-top: 35px;
+      padding-left: 22px;
+      padding-right: 22px;
+
+      .review {
+        font-family: Avenir;
+        font-size: 13px;
+        padding: 18px 10px 10px 10px;
+        width: 100%;
+        border-radius: 3.2px;
+        border: solid 0.8px #d8e3f9;
+
+        .reviewerInfo {
+          border-top: 0.8px solid #e8e8e8;
+          margin-top: 10px;
+          padding-top: 20px;
+          margin-right: 7vh;
+
+          .userIcon {
+            font-size: 28px;
+          }
+
+          .nameOfUser {
+            margin-left: 10px;
+          }
+
+          .reviewTime {
+            margin-left: 36px;
+          }
+        }
+      }
+    }
+  }
+
+  .mobilelasttSection {
+    padding: 50px 10px 30px 10px;
+
+    .firstFreatureList {
+      .firstHeader {
+        font-family: Avenir;
+        margin-left: 15px;
+        font-size: 20px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #4a4a4a;
+      }
+
+      .subHeader {
+        font-family: Avenir;
+        height: 40px;
+        margin-top: 15px;
+        margin-left: 15px;
+        font-size: 30px;
+        font-weight: 900;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #4a4a4a;
+      }
+
+      .lastImageContainer {
+        text-align: center;
+        padding-top: 25px;
+        padding-bottom: 10px;
+        margin-top: 20px;
+        .lastImage {
+          width: 100%;
+        }
+      }
+
+      .descriptionSection {
+        font-family: Avenir;
+        padding: 2vh;
+        height: 112px;
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2;
+        letter-spacing: normal;
+        color: #4a4a4a;
+      }
+
+      .viewMoreBtn {
+        padding-top: 2vh;
+        margin-top: 30px;
+        text-align: center;
+        .viewMoreButton {
+          width: 177px;
+          color: #979797 !important;
+        }
+      }
+    }
+  }
+
+  .mobileFooterSection {
+    padding-top: 20px;
+    padding-bottom: 3px;
+    padding-right: 10px;
+    padding-left: 10px;
+    .linkContainer {
+      border-top: 0.2px solid #e8e8e8;
+      padding-top: 20px;
+      text-align: center;
+      a {
+        font-family: Avenir;
+        height: 56px;
+        font-size: 12px;
+        margin-left: 10px;
+        margin-right: 10px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.33;
+        letter-spacing: normal;
+        color: #4a4a4a;
+      }
+    }
+
+    .copyRight {
+      font-family: Avenir;
+      margin-bottom: 10px;
+      text-align: center;
+      height: 28px;
+      font-size: 12px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 2.8;
+      letter-spacing: normal;
+      text-align: center;
+      color: #4a4a4a;
     }
   }
 }

@@ -15,6 +15,11 @@ export default {
 
 <style lang="scss">
 @font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/Avenir/AvenirRoman.otf');
+}
+
+@font-face {
   font-family: 'QuatroBold';
   src: url('/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot');
   /* IE9*/
