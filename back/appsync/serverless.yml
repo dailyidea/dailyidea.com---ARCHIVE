@@ -42,18 +42,31 @@ custom:
       defaultAction: ALLOW
       defaultEffect: ALLOW
       userPoolId: ${self:custom.cogintoUserPoolId}
+    additionalAuthenticationProviders:
+      - authenticationType: API_KEY
+
     # mappingTemplatesLocation: # defaults to mapping-templates
     mappingTemplates:
       - dataSource: Ideas
         type: Query
-        field: getIdea
-        request: "getIdea-request-mapping-template.txt"
-        response: "getIdea-response-mapping-template.txt"
+        field: getMyIdea
+        request: "getMyIdea-request-mapping-template.txt"
+        response: "getMyIdea-response-mapping-template.txt"
+      - dataSource: Ideas
+        type: Query
+        field: getUsersIdea
+        request: "getUsersIdea-request-mapping-template.txt"
+        response: "getUsersIdea-response-mapping-template.txt"
       - dataSource: Ideas
         type: Query
         field: ideas
         request: "ideas-request-mapping-template.txt"
         response: "ideas-response-mapping-template.txt"
+      - dataSource: Ideas
+        type: Query
+        field: getPublicIdeas
+        request: "getPublicIdeas-request-mapping-template.txt"
+        response: "getPublicIdeas-response-mapping-template.txt"
       - dataSource: Ideas
         type: Query
         field: userIdeas
@@ -421,6 +434,12 @@ resources:
                             - Ref: 'AWS::Region'
                             - Ref: 'AWS::AccountId'
                             - 'table/${self:custom.ideasTableName}'
+                      - 'Fn::Join':
+                          - ':'
+                          - - 'arn:aws:dynamodb'
+                            - Ref: 'AWS::Region'
+                            - Ref: 'AWS::AccountId'
+                            - 'table/${self:custom.ideasTableName}/*'
                       - 'Fn::Join':
                           - ':'
                           - - 'arn:aws:dynamodb'
