@@ -19,25 +19,14 @@
 
               <!-- Signup Button -->
               <div class="signUpBtn">
-                <v-btn
-                  color="primary"
-                  :to="{ name: 'auth-signup' }"
-                  large
-                  rounded
-                  class="signupButton"
-                  >Sign up Now</v-btn
-                >
+                <v-btn color="primary" :to="{ name: 'auth-signup' }" large rounded class="signupButton">Sign up Now</v-btn>
               </div>
             </div>
           </div>
 
           <div class="col-md-7">
             <div class="firstImageContainer">
-              <img
-                alt="image"
-                class="firstImage"
-                src="~/assets/images/homeImage.png"
-              />
+              <img alt="image" class="firstImage" src="~/assets/images/homeImage.png" />
             </div>
           </div>
         </div>
@@ -58,9 +47,39 @@
 
               <!-- User Icon -->
               <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-                <div class="reviewTime">1h ago</div>
+                <div class="row reviewerDetail">
+                  <div class="col-md-2">
+                    <img alt="image" class="reviewInfoImage" src="~/assets/images/Oval.png" />
+                  </div>
+                  <div class="col-md-8">
+                    <div class="reviewerName">Boniface Esanji</div>
+                    <div class="reviewTime"> 1h ago</div>
+                  </div>
+                </div>
               </div>
+
+            </div>
+          </v-flex>
+          <v-flex md4 lg4>
+            <div color="white" class="review">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled.
+
+              <!-- User Icon -->
+              <div class="reviewerInfo">
+                <div class="row reviewerDetail">
+                  <div class="col-md-2">
+                    <img alt="image" class="reviewInfoImage" src="~/assets/images/Oval.png" />
+                  </div>
+                  <div class="col-md-8">
+                    <div class="reviewerName">Amelia Cabal</div>
+                    <div class="reviewTime"> 1h ago</div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </v-flex>
           <v-flex md4 lg4>
@@ -70,32 +89,29 @@
               ever since the 1500s, when an unknown printer took a galley of
               type and scrambled.
               <!-- User Icon -->
+
               <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-                <div class="reviewTime">1h ago</div>
+                <div class="row reviewerDetail">
+                  <div class="col-md-2">
+                    <img alt="image" class="reviewInfoImage" src="~/assets/images/Oval.png" />
+                  </div>
+                  <div class="col-md-8">
+                    <div class="reviewerName">Anne-Marije Markink</div>
+                    <div class="reviewTime"> 1h ago</div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </v-flex>
-          <v-flex md4 lg4>
-            <div color="white" class="review">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled.
-              <!-- User Icon -->
-              <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-                <div class="reviewTime">1h ago</div>
-              </div>
+
+              <!-- <div class="gjhkF">
+                <div class="reviewTime"> 1h ago</div>
+              </div> -->
             </div>
           </v-flex>
         </v-layout>
 
         <!-- Signup Button -->
         <div class="moreBrowseBtn">
-          <v-btn color="primary" large rounded class="browseButton"
-            >Browse More Ideas</v-btn
-          >
+          <v-btn color="primary" large rounded class="browseButton">Browse More Ideas</v-btn>
         </div>
       </section>
 
@@ -103,11 +119,7 @@
         <div class="row futureListContainer">
           <div class="col-md-6">
             <div class="buttomImageContainer">
-              <img
-                alt="image"
-                class="buttomLeftImage"
-                src="~/assets/images/newLastImage.png"
-              />
+              <img alt="image" class="buttomLeftImage" src="~/assets/images/newLastImage.png" />
             </div>
           </div>
 
@@ -123,14 +135,7 @@
               </div>
 
               <!-- View More Button -->
-              <v-btn
-                normal
-                outlined
-                rounded
-                class="viewMoreButton"
-                color="primary"
-                >View More</v-btn
-              >
+              <v-btn normal outlined rounded class="viewMoreButton" color="primary">View More</v-btn>
             </div>
           </div>
         </div>
@@ -154,11 +159,7 @@
           <div class="subHeader">That is, if you don't forget it !</div>
 
           <div class="firstImageContainer">
-            <img
-              alt="image"
-              class="firstImage"
-              src="~/assets/images/mobileTopImage.png"
-            />
+            <img alt="image" class="firstImage" src="~/assets/images/mobileTopImage.png" />
           </div>
           <div class="descriptionSection">
             Submitting an idea every day is as simple as <br />sending an email.
@@ -169,15 +170,7 @@
 
           <!-- Signup Button -->
           <div class="actionBtn">
-            <v-btn
-              normal
-              dark
-              rounded
-              class="signupButton"
-              :to="{ name: 'auth-signup' }"
-              color="#326bde"
-              >Sign up Now</v-btn
-            >
+            <v-btn normal dark rounded class="signupButton" :to="{ name: 'auth-signup' }" color="#326bde">Sign up Now</v-btn>
           </div>
         </div>
       </section>
@@ -195,10 +188,17 @@
             and scrambled.
 
             <!-- User Icon -->
+
             <div class="reviewerInfo">
-              <v-icon class="userIcon">fa-user-circle</v-icon
-              ><span class="nameOfUser">by Name Surname</span>
-              <div class="reviewTime">1h ago</div>
+              <div class="row reviewerDetail">
+                <div class="col-md-0">
+                  <img alt="image" class="reviewInfoImage" src="~/assets/images/Oval.png" />
+                </div>
+                <div class="col-md-0">
+                  <div class="reviewerName">Boniface Esanji</div>
+                  <div class="reviewTime"> 1h ago</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -211,9 +211,15 @@
             and scrambled.
             <!-- User Icon -->
             <div class="reviewerInfo">
-              <v-icon class="userIcon">fa-user-circle</v-icon
-              ><span class="nameOfUser">by Name Surname</span>
-              <div class="reviewTime">1h ago</div>
+              <div class="row reviewerDetail">
+                <div class="col-md-0">
+                  <img alt="image" class="reviewInfoImage" src="~/assets/images/Oval.png" />
+                </div>
+                <div class="col-md-0">
+                  <div class="reviewerName">Wilhelm Dowall</div>
+                  <div class="reviewTime"> 1h Ago</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -225,11 +231,7 @@
           <div class="subHeader">Oh, its easy!</div>
 
           <div class="lastImageContainer">
-            <img
-              alt="image"
-              class="lastImage"
-              src="~/assets/images/newLastImage.png"
-            />
+            <img alt="image" class="lastImage" src="~/assets/images/newLastImage.png" />
           </div>
           <div class="descriptionSection">
             We’ll send you an email every day with a <br />
@@ -240,14 +242,7 @@
 
           <!-- Signup Button -->
           <div class="viewMoreBtn">
-            <v-btn
-              normal
-              outlined
-              rounded
-              class="viewMoreButton"
-              color="primary"
-              >View More</v-btn
-            >
+            <v-btn normal outlined rounded class="viewMoreButton" color="primary">View More</v-btn>
           </div>
         </div>
       </section>
@@ -317,6 +312,7 @@ export default {
 
         .descriptionSection {
           margin-top: 10vh;
+          font-family: Avenir;
           font-size: 18px;
           color: #4a4a4a;
         }
@@ -379,26 +375,43 @@ export default {
         border-radius: 4px;
         background-color: #ffffff;
         border: solid 1px #d8e3f9;
+        padding-bottom: 0px;
 
         .reviewerInfo {
           border-top: 0.8px solid #e8e8e8;
           font-size: 12px;
           font-family: Avenir;
           color: #777;
-          line-height: 30px;
-          margin-top: 20px;
-          padding-top: 20px;
+          margin-top: 15px;
+          padding-top: 5px;
           margin-right: 6vh;
 
-          .userIcon {
-            color: #35124e;
-            font-size: 30px;
-            // line-height: 20px;
-            margin-right: 10px;
+          .reviewerDetail {
+            .reviewInfoImage {
+              height: 37px;
+            }
+
+            .reviewerName {
+              margin-left: 10px;
+              height: 16px;
+              font-family: Avenir;
+              font-size: 12px;
+              font-weight: 900;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: normal;
+              letter-spacing: normal;
+              color: #4a4a4a;
+            }
+
+            .reviewTime {
+              margin-left: 10px;
+              margin-top: 3px;
+            }
           }
 
-          .reviewTime {
-            margin-left: 39px;
+          .gjhkF {
+            display: inline-block;
           }
         }
       }
@@ -427,6 +440,7 @@ export default {
 
     .futureListContainer {
       .buttomImageContainer {
+        padding-bottom: 7vh;
         text-align: center;
         margin: auto;
         .buttomLeftImage {
@@ -436,7 +450,7 @@ export default {
       }
 
       .firstFreatureList {
-        margin-top: 18vh;
+        margin-top: 15vh;
         margin-left: 10vh;
         text-align: left;
 
@@ -617,16 +631,29 @@ export default {
           padding-top: 20px;
           margin-right: 7vh;
 
-          .userIcon {
-            font-size: 28px;
-          }
+          .reviewerDetail {
+            // margin-left: 10px;
+            .reviewInfoImage {
+              margin-left: 12px;
+              width: 38px;
+            }
 
-          .nameOfUser {
-            margin-left: 10px;
-          }
+            .reviewerName {
+              margin-left: 15px;
+              height: 14px;
+              font-family: Avenir;
+              font-weight: 1000;
+              font-stretch: normal;
+              font-style: normal;
+              // line-height: normal;
+              letter-spacing: normal;
+              color: #4a4a4a;
+            }
 
-          .reviewTime {
-            margin-left: 36px;
+            .reviewTime {
+              margin-top: 5px;
+              margin-left: 15px;
+            }
           }
         }
       }
