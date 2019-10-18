@@ -4,46 +4,18 @@
       mobileTitle: 'My Ideas',
       mobileHamburger: true,
       mobileSearchIcon: true,
+      mobileSettingsIcon: true,
+
       desktopMenuVisible:true
     }">
     <v-layout id="ideaListPage">
       <!-- Title Section -->
       <div v-if="ideas && ideas.length > 0" class="titleDiv">
-        <v-layout class="titleText" hidden-sm-and-down>MY IDEAS</v-layout>
-        <div class="sortBy">
-          <v-icon>fas fa-clock</v-icon>Sort by Newest
-        </div>
+        <v-layout class="titleText" hidden-sm-and-down>PUBLIC IDEAS</v-layout>
       </div>
 
       <!-- Idea List -->
-      <!-- <v-layout v-if="ideas && ideas.length > 0" class="ideaList" row wrap>
-        <v-flex v-for="(idea, index) in ideas" :key="index" class="ideaContainer" xs12 sm12 md4 lg4 xl4>
-          <div class="ideaItem" @click="
-              $router.push({
-                name: 'ideas-userId-ideaId',
-                params: {
-                  ideaId: idea.ideaId,
-                  userId: $store.getters['cognito/userSub']
-                },
-                force: true
-              })
-            ">
-
-            <div class="ideaDescription">{{ idea.title }}</div>
-            <div class="engagement">
-              <div class="ups">
-                <img class="logoIcon" src="~/assets/images/logo_icon.png" />
-                {{ idea.likesCount }}
-              </div>
-              <div class="downs">
-                <img class="logoIcon" src="~/assets/images/comments.png" />
-                120
-              </div>
-              <div class="timing">{{ idea.relativeCreatedTime }}</div>
-            </div>
-          </div>
-        </v-flex>
-      </v-layout> -->
+      <!-- {{ideas}} -->
 
       <div class="publisIdeasSection" v-if="ideas && ideas.length > 0">
         <div class="sortBy">
@@ -138,7 +110,7 @@ export default {
     const {
       data: { ideas }
     } = await app.$amplifyApi.graphql(
-      graphqlOperation(getIdeas, { nextToken: null, limit: 10 })
+      graphqlOperation(getIdeas, { nextToken: null, limit: 5 })
     )
 
     return {
@@ -222,137 +194,6 @@ export default {
       letter-spacing: 0.51px;
       text-align: center;
       color: #232323;
-    }
-
-    .sortBy {
-      font-size: 14px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.57;
-      letter-spacing: normal;
-      text-align: left;
-      color: #35124e;
-
-      float: right;
-      text-align: right;
-
-      @media #{$small-screen} {
-        float: left;
-        text-align: left;
-        padding-left: 5%;
-        font-size: 12px;
-        padding-top: 10px;
-      }
-
-      i {
-        font-size: 17px;
-        padding-right: 7px;
-        color: #35124e;
-      }
-    }
-  }
-
-  .ideaList {
-    margin-left: -10px;
-    margin-right: -10px;
-
-    @media #{$small-screen} {
-      padding-right: 0%;
-      padding-left: 0%;
-    }
-
-    .ideaContainer {
-      padding: 10px 10px;
-
-      @media #{$small-screen} {
-        padding: 0px !important;
-
-        &:last-child {
-          border-bottom: solid 1px rgba(228, 228, 228, 0.38);
-        }
-      }
-
-      .ideaItem {
-        border: solid 1px rgba(228, 228, 228, 0.38);
-        padding: 15px 20px;
-        cursor: pointer !important;
-
-        &:hover {
-          -webkit-box-shadow: 0px 0px 5px 3px #e3e3e361;
-          -moz-box-shadow: 0px 0px 5px 3px #e3e3e361;
-          box-shadow: 0px 0px 5px 3px #e3e3e361;
-        }
-
-        @media #{$small-screen} {
-          border-left: 0px;
-          border-right: 0px;
-          border-bottom: none;
-          margin-top: 0px;
-        }
-
-        .ideaDescription {
-          width: 100%;
-          display: block;
-          overflow-wrap: break-word;
-          min-height: 50px;
-
-          @media #{$small-screen} {
-            padding-top: 3px;
-            min-height: 10px;
-          }
-
-          font-size: 16px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: 1.5;
-          letter-spacing: normal;
-          text-align: left;
-          color: #18141c;
-        }
-
-        .engagement {
-          display: block;
-          margin-top: 10px;
-          margin-bottom: 5px;
-          font-size: 14px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          letter-spacing: normal;
-          text-align: left;
-          color: #c0b7c5;
-
-          img {
-            height: 14px;
-            margin-right: 5px;
-          }
-
-          .ups {
-            display: inline-block;
-            height: 18px;
-          }
-
-          .downs {
-            margin-left: 20px;
-            display: inline-block;
-          }
-
-          .timing {
-            float: right;
-            font-size: 12px;
-            font-weight: normal;
-            font-style: normal;
-            font-stretch: normal;
-            line-height: 1.83;
-            letter-spacing: normal;
-            text-align: right;
-            color: #c0b7c5;
-            cursor: pointer !important;
-          }
-        }
-      }
     }
   }
 
