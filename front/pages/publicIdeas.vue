@@ -35,7 +35,9 @@
             ">
               <!-- {{idea.ideaId }} -->
               <div class="ideaTitle">{{ idea.title }}</div>
-              <div class=" ideaDescrpition">{{ idea.content }}</div>
+              <div class=" ideaDescrpition">
+                <v-layout v-html="idea.content"> </v-layout>
+              </div>
               <div class="engagement">
                 <div class="ups">
                   <img class="logoIcon" src="~/assets/images/logo_icon.png" />

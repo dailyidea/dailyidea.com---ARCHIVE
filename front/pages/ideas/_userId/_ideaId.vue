@@ -272,7 +272,6 @@
 import { graphqlOperation } from '@aws-amplify/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import getIdea from '~/graphql/query/getIdea'
 import getIsIdeaLikedByMe from '~/graphql/query/getIsIdeaLikedByMe'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import addComment from '~/graphql/mutations/addComment'
@@ -285,6 +284,8 @@ import Layout from '@/components/layout/Layout'
 import addTags from '~/graphql/mutations/addTags'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
 import deleteTag from '~/graphql/mutations/deleteTag'
+import getIdea from '~/graphql/query/getIdea'
+
 dayjs.extend(relativeTime)
 
 export default {
@@ -293,7 +294,6 @@ export default {
     validator: 'new'
   },
   data: () => ({
-    // chips: ['web', 'illustration', 'graphics', 'ui', 'adobe', 'interface'],
     chips: [],
     ideaTags: [],
     tagsToRemove: [],

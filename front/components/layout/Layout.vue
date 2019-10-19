@@ -81,7 +81,7 @@
 
             <v-list-item>
               <v-list-item-content>
-                <router-link to="/publicIdeas">
+                <router-link to="/ideas/publicIdeas">
                   <v-list-item-title>Public Ideas</v-list-item-title>
                 </router-link>
               </v-list-item-content>
@@ -89,7 +89,7 @@
             <v-divider></v-divider>
             <v-list-item>
               <v-list-item-content>
-                <router-link to="/ideas">
+                <router-link to="/ideas/myIdeas">
                   <v-list-item-title>My Ideas</v-list-item-title>
                 </router-link>
               </v-list-item-content>
@@ -448,18 +448,19 @@ export default {
 
     .menuOfDesktop {
       background: #37244e;
+
       // display: none;
       .v-list-item__content {
         height: 70px;
+
+        .nuxt-link-exact-active.nuxt-link-active {
+          text-decoration: none;
+        }
 
         .v-list-item__title {
           font-size: 15px;
           text-align: center;
           color: white;
-
-          :hover {
-            text-decoration: none;
-          }
 
           .mediaBtn {
             margin-right: 12px;

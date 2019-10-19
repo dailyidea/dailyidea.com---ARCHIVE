@@ -10,9 +10,6 @@
       <!-- Title Section -->
       <div v-if="ideas && ideas.length > 0" class="titleDiv">
         <v-layout class="titleText" hidden-sm-and-down>MY IDEAS</v-layout>
-        <div class="sortBy">
-          <v-icon>fas fa-clock</v-icon>Sort by Newest
-        </div>
       </div>
 
       <!-- Idea List -->
@@ -61,9 +58,11 @@
                 force: true
               })
             ">
-              <!-- {{idea.ideaId }} -->
+
               <div class="ideaTitle">{{ idea.title }}</div>
-              <div class=" ideaDescrpition">{{ idea.content }}</div>
+              <div class=" ideaDescrpition">
+                <v-layout v-html="idea.content"> </v-layout>
+              </div>
               <div class="engagement">
                 <div class="ups">
                   <img class="logoIcon" src="~/assets/images/logo_icon.png" />
@@ -89,16 +88,18 @@
           You don't have any ideas right now. <br />
           Or do you?
         </div>
-        <img class="arrowImg" src="~/assets/images/arrowImage.png" />
+        <div>
+          <img class="arrowImg" src="~/assets/images/arrowImage.png" />
+        </div>
       </div>
 
       <!-- LodaMore Button -->
 
-      <div class="loadMoreBtn">
+      <!-- <div class="loadMoreBtn">
         <v-btn v-if="nextToken" :loading="loadingIdea" @click="loadMoreIdea()">
           Load More Idea
         </v-btn>
-      </div>
+      </div> -->
 
       <!-- Add Idea Button -->
       <v-btn class="addBtn" fab to="/ideas/create">
@@ -212,8 +213,7 @@ export default {
 
     .titleText {
       display: inline-block;
-      margin-bottom: 20px;
-
+      margin-bottom: 10px;
       font-size: 17px;
       font-weight: 600;
       font-style: normal;
@@ -523,7 +523,7 @@ export default {
     align-items: center;
 
     .lampImg {
-      margin-top: 15vh;
+      margin-top: 10vh;
       height: 30vh;
     }
 
@@ -535,7 +535,9 @@ export default {
     }
 
     .arrowImg {
-      display: none;
+      // display: none;
+      height: 37vh;
+      margin-left: 50%;
 
       @media #{$small-screen} {
         display: block;

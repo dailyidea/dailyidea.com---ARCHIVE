@@ -1,7 +1,5 @@
 <template>
-  <Layout
-    v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'Settings' }"
-  >
+  <Layout v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'Settings' }">
     <v-layout id="settingsPage">
       <v-container class="settingsList">
         <div class="settingsItem">
@@ -18,11 +16,15 @@
           <div class="metadata">All</div>
         </div>
         <div class="settingsItem">
+
           <div class="settingsInfo">
-            <v-icon>fas fa-cog</v-icon>
-            General
+            <v-icon>fas fa-envelope</v-icon>
+            <router-link to="/emailSettings">
+              Email
+            </router-link>
           </div>
-          <div class="metadata">Lorem Ipsum</div>
+
+          <div class="metadata">All</div>
         </div>
         <div class="settingsItem">
           <div class="settingsInfo">
