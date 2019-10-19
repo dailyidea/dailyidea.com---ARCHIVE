@@ -1,6 +1,11 @@
 <template>
-  <Layout v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'Settings' }">
+  <Layout
+    v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'Settings' }"
+  >
     <v-layout id="settingsPage">
+      <div class="headerOfSetting">
+        SETTINGS
+      </div>
       <v-container class="settingsList">
         <div class="settingsItem">
           <div class="settingsInfo">
@@ -16,7 +21,6 @@
           <div class="metadata">All</div>
         </div>
         <div class="settingsItem">
-
           <div class="settingsInfo">
             <v-icon>fas fa-envelope</v-icon>
             <router-link to="/emailSettings">
@@ -81,6 +85,11 @@ export default {
   padding-right: 3%;
   padding-left: 2%;
 
+  .headerOfSetting {
+    text-align: center;
+    font-size: 25px;
+  }
+
   @media #{$small-screen} {
     padding-top: 0vh;
   }
@@ -125,6 +134,10 @@ export default {
       padding: 15px;
       display: flex;
       font-size: 13px !important;
+
+      a {
+        text-decoration: none;
+      }
 
       .settingsInfo {
         flex: 1;

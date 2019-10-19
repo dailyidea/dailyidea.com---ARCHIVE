@@ -7,13 +7,19 @@
 
     <v-layout row class="gridContainer">
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
-        <img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
+        <img
+          class="imgPersonWithPhone"
+          src="~/assets/images/person_with_phone.png"
+        />
       </v-flex>
 
       <!-- Register Div -->
       <v-flex class="successMessage">
         <!-- Header Images -->
-        <img class="logoIcon" src="~/assets/images/bulb_with_light_holder.png" />
+        <img
+          class="logoIcon"
+          src="~/assets/images/bulb_with_light_holder.png"
+        />
         <br />
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
@@ -48,16 +54,26 @@
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img class="imgLightGrayLamp" src="~/assets/images/signup/light_gray_lamp.png" />
-        <img class="imgPersonWithPhone" src="~/assets/images/signup/lady_with_phone.png" />
+        <img
+          class="imgLightGrayLamp"
+          src="~/assets/images/signup/light_gray_lamp.png"
+        />
+        <img
+          class="imgPersonWithPhone"
+          src="~/assets/images/signup/lady_with_phone.png"
+        />
       </v-flex>
     </v-layout>
 
     <!-- Fixed Footer -->
-    <v-layout hidden-sm-and-down class="fixedFooter" :style="{
+    <v-layout
+      hidden-sm-and-down
+      class="fixedFooter"
+      :style="{
         'background-image':
           'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"></v-layout>
+      }"
+    ></v-layout>
   </div>
 </template>
 

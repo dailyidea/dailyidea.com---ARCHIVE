@@ -1,14 +1,14 @@
 <template>
-  <Layout v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'Settings' }">
+  <Layout
+    v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'Settings' }"
+  >
     <v-layout id="settingsPage">
-
       <v-container class="settingsList">
-
         <div class="emailSettingHeader">
           EMAIL SETTINGS
         </div>
         <div class="emailSubHeader">
-          What can we email you about
+          What can we email you about?
         </div>
         <div class="settingsItem">
           <div class="settingsInfo">
@@ -16,30 +16,53 @@
             Idea Reminders
           </div>
           <div class="metadata">
-            <v-switch class="swithBtn" v-model="switch1" inset :label="`Switch 1: ${switch1.toString()}`"></v-switch>
+            <v-switch
+              v-model="switch1"
+              class="swithBtn"
+              inset
+              :label="`On `"
+            ></v-switch>
           </div>
         </div>
         <div class="settingsItem">
-          <div class="settingsInfo">
-            <v-icon>fas fa-bell</v-icon>Hot Steaks
+          <div class="settingsInfo"><v-icon>fas fa-bell</v-icon>Hot Steaks</div>
+          <div class="metadata">
+            <v-switch
+              v-model="switch2"
+              class="swithBtn"
+              inset
+              :label="`Off `"
+            ></v-switch>
           </div>
-          <div class="metadata">All</div>
         </div>
         <div class="settingsItem">
           <div class="settingsInfo">
             <v-icon>fas fa-cog</v-icon>
             Daily Digest
           </div>
-          <div class="metadata">Lorem Ipsum</div>
+          <div class="metadata">
+            <v-switch
+              v-model="switch2"
+              class="swithBtn"
+              inset
+              :label="`Off `"
+            ></v-switch>
+          </div>
         </div>
         <div class="settingsItem">
           <div class="settingsInfo">
             <v-icon>fas fa-user</v-icon>
             Weekly Digest
           </div>
-          <div class="metadata">john.doe@mail.com</div>
+          <div class="metadata">
+            <v-switch
+              v-model="switch2"
+              class="swithBtn"
+              inset
+              :label="`Off `"
+            ></v-switch>
+          </div>
         </div>
-
       </v-container>
     </v-layout>
   </Layout>
@@ -47,13 +70,13 @@
 <script>
 import Layout from '@/components/layout/Layout'
 export default {
+  components: { Layout },
   data() {
     return {
       switch1: true,
-      switch2: false
+      switch2: true
     }
   },
-  components: { Layout },
   methods: {
     signout() {
       this.$store.dispatch('cognito/signOut')
@@ -122,19 +145,22 @@ export default {
     .emailSubHeader {
       text-align: center;
       font-size: 18px;
-      margin-bottom: 25px;
+      margin-bottom: 35px;
       color: #7777;
     }
 
     .settingsItem {
       border: 1px solid #e4e4e4;
-      margin: 17px 15px 17px 15px;
-      padding: 15px;
+      margin: 17px 15px 5px 15px;
+      padding: 0px;
       display: flex;
+      // height: 20px;
       font-size: 13px !important;
 
       .settingsInfo {
         flex: 1;
+        margin-top: 25px;
+        margin-left: 20px;
         font-size: 13px !important;
         color: $primary-color;
         i {
@@ -146,9 +172,14 @@ export default {
 
       .metadata {
         text-align: right;
-        color: black;
         font-size: 12px;
+        margin-right: 20px;
+
         .swithBtn {
+          .v-input--switch__track.theme--light.accent--text {
+            color: #febe3d !important;
+            caret-color: #febe3d !important;
+          }
           flex: 1;
           float: right;
         }

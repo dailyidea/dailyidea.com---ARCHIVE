@@ -19,14 +19,25 @@
 
               <!-- Signup Button -->
               <div class="signUpBtn">
-                <v-btn color="primary" :to="{ name: 'auth-signup' }" large rounded class="signupButton">Sign up Now</v-btn>
+                <v-btn
+                  color="primary"
+                  :to="{ name: 'auth-signup' }"
+                  large
+                  rounded
+                  class="signupButton"
+                  >Sign up Now</v-btn
+                >
               </div>
             </div>
           </div>
 
           <div class="col-md-7">
             <div class="firstImageContainer">
-              <img alt="image" class="firstImage" src="~/assets/images/homeImage.png" />
+              <img
+                alt="image"
+                class="firstImage"
+                src="~/assets/images/homeImage.png"
+              />
             </div>
           </div>
         </div>
@@ -49,15 +60,18 @@
               <div class="reviewerInfo">
                 <div class="row reviewerDetail">
                   <div class="col-md-2">
-                    <img alt="image" class="reviewInfoImage" src="~/assets/images/Oval.png" />
+                    <img
+                      alt="image"
+                      class="reviewInfoImage"
+                      src="~/assets/images/Oval.png"
+                    />
                   </div>
                   <div class="col-md-8">
                     <div class="reviewerName">Boniface Esanji</div>
-                    <div class="reviewTime"> 1h ago</div>
+                    <div class="reviewTime">1h ago</div>
                   </div>
                 </div>
               </div>
-
             </div>
           </v-flex>
           <v-flex md4 lg4>
@@ -71,15 +85,18 @@
               <div class="reviewerInfo">
                 <div class="row reviewerDetail">
                   <div class="col-md-2">
-                    <img alt="image" class="reviewInfoImage" src="~/assets/images/Oval.png" />
+                    <img
+                      alt="image"
+                      class="reviewInfoImage"
+                      src="~/assets/images/Oval.png"
+                    />
                   </div>
                   <div class="col-md-8">
                     <div class="reviewerName">Amelia Cabal</div>
-                    <div class="reviewTime"> 1h ago</div>
+                    <div class="reviewTime">1h ago</div>
                   </div>
                 </div>
               </div>
-
             </div>
           </v-flex>
           <v-flex md4 lg4>
@@ -93,11 +110,15 @@
               <div class="reviewerInfo">
                 <div class="row reviewerDetail">
                   <div class="col-md-2">
-                    <img alt="image" class="reviewInfoImage" src="~/assets/images/Oval.png" />
+                    <img
+                      alt="image"
+                      class="reviewInfoImage"
+                      src="~/assets/images/Oval.png"
+                    />
                   </div>
                   <div class="col-md-8">
                     <div class="reviewerName">Anne-Marije Markink</div>
-                    <div class="reviewTime"> 1h ago</div>
+                    <div class="reviewTime">1h ago</div>
                   </div>
                 </div>
               </div>
@@ -111,7 +132,9 @@
 
         <!-- Signup Button -->
         <div class="moreBrowseBtn">
-          <v-btn color="primary" large rounded class="browseButton">Browse More Ideas</v-btn>
+          <v-btn color="primary" large rounded class="browseButton"
+            >Browse More Ideas</v-btn
+          >
         </div>
       </section>
 
@@ -119,7 +142,11 @@
         <div class="row futureListContainer">
           <div class="col-md-6">
             <div class="buttomImageContainer">
-              <img alt="image" class="buttomLeftImage" src="~/assets/images/newLastImage.png" />
+              <img
+                alt="image"
+                class="buttomLeftImage"
+                src="~/assets/images/newLastImage.png"
+              />
             </div>
           </div>
 
@@ -135,7 +162,14 @@
               </div>
 
               <!-- View More Button -->
-              <v-btn normal outlined rounded class="viewMoreButton" color="primary">View More</v-btn>
+              <v-btn
+                normal
+                outlined
+                rounded
+                class="viewMoreButton"
+                color="primary"
+                >View More</v-btn
+              >
             </div>
           </div>
         </div>
@@ -159,7 +193,11 @@
           <div class="subHeader">That is, if you don't forget it !</div>
 
           <div class="firstImageContainer">
-            <img alt="image" class="firstImage" src="~/assets/images/mobileTopImage.png" />
+            <img
+              alt="image"
+              class="firstImage"
+              src="~/assets/images/mobileTopImage.png"
+            />
           </div>
           <div class="descriptionSection">
             Submitting an idea every day is as simple as <br />sending an email.
@@ -170,7 +208,15 @@
 
           <!-- Signup Button -->
           <div class="actionBtn">
-            <v-btn normal dark rounded class="signupButton" :to="{ name: 'auth-signup' }" color="#326bde">Sign up Now</v-btn>
+            <v-btn
+              normal
+              dark
+              rounded
+              class="signupButton"
+              :to="{ name: 'auth-signup' }"
+              color="#326bde"
+              >Sign up Now</v-btn
+            >
           </div>
         </div>
       </section>
@@ -192,11 +238,15 @@
             <div class="reviewerInfo">
               <div class="row reviewerDetail">
                 <div class="col-md-0">
-                  <img alt="image" class="reviewInfoImage" src="~/assets/images/Oval.png" />
+                  <img
+                    alt="image"
+                    class="reviewInfoImage"
+                    src="~/assets/images/Oval.png"
+                  />
                 </div>
                 <div class="col-md-0">
                   <div class="reviewerName">Boniface Esanji</div>
-                  <div class="reviewTime"> 1h ago</div>
+                  <div class="reviewTime">1h ago</div>
                 </div>
               </div>
             </div>
@@ -213,11 +263,15 @@
             <div class="reviewerInfo">
               <div class="row reviewerDetail">
                 <div class="col-md-0">
-                  <img alt="image" class="reviewInfoImage" src="~/assets/images/Oval.png" />
+                  <img
+                    alt="image"
+                    class="reviewInfoImage"
+                    src="~/assets/images/Oval.png"
+                  />
                 </div>
                 <div class="col-md-0">
                   <div class="reviewerName">Wilhelm Dowall</div>
-                  <div class="reviewTime"> 1h Ago</div>
+                  <div class="reviewTime">1h Ago</div>
                 </div>
               </div>
             </div>
@@ -231,7 +285,11 @@
           <div class="subHeader">Oh, its easy!</div>
 
           <div class="lastImageContainer">
-            <img alt="image" class="lastImage" src="~/assets/images/newLastImage.png" />
+            <img
+              alt="image"
+              class="lastImage"
+              src="~/assets/images/newLastImage.png"
+            />
           </div>
           <div class="descriptionSection">
             We’ll send you an email every day with a <br />
@@ -242,7 +300,14 @@
 
           <!-- Signup Button -->
           <div class="viewMoreBtn">
-            <v-btn normal outlined rounded class="viewMoreButton" color="primary">View More</v-btn>
+            <v-btn
+              normal
+              outlined
+              rounded
+              class="viewMoreButton"
+              color="primary"
+              >View More</v-btn
+            >
           </div>
         </div>
       </section>
