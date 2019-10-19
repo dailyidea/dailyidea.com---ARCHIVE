@@ -42,6 +42,7 @@ export default (ctx, inject) => {
     aws_appsync_graphqlEndpoint: process.env.APPSYNC_ENDPOINT,
     aws_appsync_region: process.env.AWS_REGION,
     aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
+    aws_appsync_apiKey: process.env.APPSYNC_API_KEY,
     endpoints: [
       {
         name: 'RequestLogin',

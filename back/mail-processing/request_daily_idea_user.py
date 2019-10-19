@@ -1,7 +1,7 @@
 from datetime import date
 
 from utils.models import UserModel
-from mail_template.sed_request_daily import send_daily
+from mail_template.send_request_daily import send_daily
 
 
 
