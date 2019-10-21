@@ -35,14 +35,24 @@ custom:
       Kinesis: http://localhost:4568
   pythonRequirements:
     dockerizePip: non-linux
+    pythonBin: /home/orion/envs/idea36/bin/python
+
+  s3Sync:
+    - bucketName: ${self:provider.emailStaticBucketName} # required
+      localDir: static # required
+      acl: public-read
 
 functions:
   processIncomingMail:
     handler: process_incoming_mail.endpoint
   sendDailyToUser:
     handler: request_daily_idea_user.endpoint
+  sendWeeklyDigest:
+    handler: test_send_weekly_digest.handler
   requestIdeasMail:
     handler: request_daily_idea.endpoint
+    environment:
+      BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
     events:
       - schedule:
           rate: cron(0 12 * * ? *)
@@ -60,12 +70,14 @@ plugins:
   - serverless-localstack
   - serverless-prune-plugin
   - serverless-python-requirements
+  - serverless-s3-sync
 
 provider:
   name: 'aws'
   runtime: 'python3.6'
   stage: ${env:STAGE, 'local'}
   region: ${env:AWS_REGION, 'us-east-1'}
+  emailStaticBucketName: dailyidea-serverless-email-static-${self:provider.stage}
   environment:
     AWS_DEPLOY_REGION: ${self:provider.region}
     SES_S3_BUCKET_NAME: ${self:custom.mailBucket}
@@ -116,4 +128,5 @@ provider:
 resources:
   - ${file(resources/dynamo-idea-table.yml)}
   - ${file(resources/ses.yml)}
+  - ${file(resources/s3.yml)}
 

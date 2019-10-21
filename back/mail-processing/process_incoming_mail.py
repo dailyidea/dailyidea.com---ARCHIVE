@@ -52,6 +52,7 @@ def processIncomingMail(parsed_email):
     idea.content = "\n".join(content_lines)
     idea.title = content_parsed.splitlines()[0]
     idea.createdDate = datetime.now()
+    idea.visibility = 'public'
     idea_date_str = parsed_email.subject.split('[Daily Idea] Idea for ', 1)[1]
     idea.ideaDate = datetime.strptime(idea_date_str, '%a %b %d %Y')
     idea.save()
