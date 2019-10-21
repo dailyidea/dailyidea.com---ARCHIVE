@@ -7,6 +7,10 @@ Resources:
             AttributeType: S
           - AttributeName: userId
             AttributeType: S
+          - AttributeName: visibility
+            AttributeType: S
+          - AttributeName: createdDate
+            AttributeType: S
         KeySchema:
           - AttributeName: userId
             KeyType: HASH
@@ -16,3 +20,15 @@ Resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:custom.ideasTableName}
+        GlobalSecondaryIndexes:
+          - IndexName: publicIdeasByDate
+            KeySchema:
+              - AttributeName: visibility
+                KeyType: HASH
+              - AttributeName: createdDate
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<head>
+  <!-- Fonts -->
+  <style>
+    @font-face {
+      font-family: "QuatroBold";
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot");
+      /* IE9*/
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot?#iefix") format("embedded-opentype");
+      /* IE6-IE8 */
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff2") format("woff2");
+      /* chrome、firefox */
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff") format("woff");
+      /* chrome、firefox */
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.ttf") format("truetype");
+      /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.svg#QuatroBold") format("svg");
+      /* iOS 4.1- */
+    }
+
+    @font-face {
+      font-family: "Quatro";
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot");
+      /* IE9*/
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot?#iefix") format("embedded-opentype");
+      /* IE6-IE8 */
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff2") format("woff2");
+      /* chrome、firefox */
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff") format("woff");
+      /* chrome、firefox */
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.ttf") format("truetype");
+      /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.svg#Quatro");
+    }
+
+    @font-face {
+      font-family: "QuatroLight";
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot");
+      /* IE9*/
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot?#iefix") format("embedded-opentype");
+      /* IE6-IE8 */
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff2") format("woff2");
+      /* chrome、firefox */
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff") format("woff");
+      /* chrome、firefox */
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.ttf") format("truetype");
+      /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      src: url("{{ BUCKET_URL_PREFIX }}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.svg#QuatroLight") format("svg");
+      /* iOS 4.1- */
+    }
+  </style>
+
+  <!-- Page Style -->
+  <style>
+    body {
+      font-family: Quatro;
+    }
+
+    #email {
+      margin: auto;
+      width: 40%;
+      height: 75vh;
+      background-color: white;
+      display: flex;
+      padding: 20px;
+      background-image: url("{{ BUCKET_URL_PREFIX }}/email/images/Path733.png");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position-x: -112px;
+      background-position-y: 176px;
+    }
+
+    .dailyIdea {
+      flex: 4;
+      padding: 20px;
+    }
+
+    .dailyIdeaImg {
+      margin-bottom: 30px;
+      height: 6vh;
+    }
+
+    .title {
+      font-size: 43px;
+      width: 80%;
+      margin-bottom: 25px;
+    }
+
+    .description {
+      font-size: 18px;
+      font-family: QuatroLight;
+      letter-spacing: 1px;
+      width: 80%;
+      line-height: 30px;
+      color: #827c85;
+    }
+
+    .button {
+      background-image: linear-gradient(to left, #ffdf01, #ffb92d);
+      color: white;
+      border-radius: 4px;
+      padding: 20px 30px;
+      font-size: 17px;
+      letter-spacing: 2px;
+      border: none;
+      margin-top: 50px;
+    }
+
+    .rightSideImg {
+      flex: 2.2;
+      padding-top: 25px;
+    }
+
+    .rightImg {
+      height: 70vh;
+    }
+  </style>
+</head>
+
+<html>
+
+<body>
+  <div id="email">
+    <!-- <img class="rightImg" src="{{ BUCKET_URL_PREFIX }}/email/images/Path 733.png" /> -->
+    <div class="dailyIdea">
+      <img class="dailyIdeaImg" src="{{ BUCKET_URL_PREFIX }}/email/images/Group181.png" />
+      <div class="title">Hey, what's your idea?</div>
+      <div class="description">It's really easy to submit an idea. Just hit reply or the button below!</div>
+      <a href="https://{{DOMAIN_NAME}}/ideas/create">
+        <button class="button" style="cursor: pointer;">SUBMIT AN IDEA</button>
+      </a>
+    </div>
+    <div class="rightSideImg">
+      <img class="rightImg" src="{{ BUCKET_URL_PREFIX }}/email/images/lady_with_phone.png" />
+    </div>
+  </div>
+</body>
+
+</html>
