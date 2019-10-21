@@ -17,30 +17,20 @@
     rimraf "~2.2.8"
     streamsink "~1.2.0"
 
-"@aws-amplify/api@1.0.42":
-  version "1.0.42"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/api/-/api-1.0.42.tgz#d1268f9a9c0be5f051f5d1b4759f5780476ef86a"
-  integrity sha512-Bj5Z+9jGKbWo2x37F3fQkbgUKnf6Kt0c5+/f/wvPkDwIJ3aec31JyOwpzTUVyPyBT4m6vjqz1v0buzfn4XE1mA==
+"@aws-amplify/api@1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/api/-/api-1.2.2.tgz#e7279f27e8194613443744fe9bf006ba2c98de7e"
+  integrity sha512-jpMf6HQO36oyZ0WVi6wIDK3EtQCjMLDSwHrLKzFGM83mtcDdC8XBIaqElWG6nKgFE8MKOmG8I9YSinTl3HpPqg==
   dependencies:
-    "@aws-amplify/auth" "^1.2.31"
-    "@aws-amplify/cache" "^1.0.32"
-    "@aws-amplify/core" "^1.1.0"
+    "@aws-amplify/auth" "^1.4.2"
+    "@aws-amplify/cache" "^1.1.2"
+    "@aws-amplify/core" "^1.2.2"
     axios "^0.19.0"
     graphql "0.13.0"
     uuid "^3.2.1"
     zen-observable "^0.8.6"
 
-"@aws-amplify/auth@1.2.31":
-  version "1.2.31"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/auth/-/auth-1.2.31.tgz#b4c5f975549ae18349ed2ca372e0a2a0ee7f395e"
-  integrity sha512-J7ANZgO4+G14ZBw1XiyVNjI73ObKgm10ZtIMHoTATGwp9LknlwMm18F6vRcJmvB5e8C80CeOzCXVH8pu17ukCA==
-  dependencies:
-    "@aws-amplify/cache" "^1.0.32"
-    "@aws-amplify/core" "^1.1.0"
-    amazon-cognito-identity-js "^3.0.15"
-    crypto-js "^3.1.9-1"
-
-"@aws-amplify/auth@^1.2.18", "@aws-amplify/auth@^1.2.31":
+"@aws-amplify/auth@1.4.2", "@aws-amplify/auth@^1.2.18", "@aws-amplify/auth@^1.4.2":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@aws-amplify/auth/-/auth-1.4.2.tgz#099ff67de3c0c4397d0f6f9f30bddb4d5dbdf16e"
   integrity sha512-X82t3zxAMjRQjwZ8M4xT+96DhRrb6H8FoZZDp1Pxr4p2KSKKMkEkS2AJCenLNQ37g6CUBLlltQ++iGXDLabskw==
@@ -50,22 +40,14 @@
     amazon-cognito-identity-js "^3.1.2"
     crypto-js "^3.1.9-1"
 
-"@aws-amplify/cache@^1.0.32", "@aws-amplify/cache@^1.1.2":
+"@aws-amplify/cache@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@aws-amplify/cache/-/cache-1.1.2.tgz#2316980f851ccd4755515c68a7e5a39cb9c75cb3"
   integrity sha512-ZK/IANuqQ0rrgI2soN6yR6YhwvftHsnmovMXzeQG+tHdnK2n3RxUciku6+Ey9k4usCD67ZFbXbb+V4KWqBf9Yw==
   dependencies:
     "@aws-amplify/core" "^1.2.2"
 
-"@aws-amplify/core@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/core/-/core-1.1.0.tgz#52f23b4ef120749b5af8ff6a65471df60ac7fe33"
-  integrity sha512-71xPm1vH/F436BHIuItkgJ0tqfr//aCFG6uLVCUaeBV4IgblfrxCo9ps9TpIqGjg0lQtwsCU33VLjjm29HHbOg==
-  dependencies:
-    aws-sdk "2.474.0"
-    url "^0.11.0"
-
-"@aws-amplify/core@^1.0.23", "@aws-amplify/core@^1.1.0", "@aws-amplify/core@^1.2.2":
+"@aws-amplify/core@1.2.2", "@aws-amplify/core@^1.0.23", "@aws-amplify/core@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@aws-amplify/core/-/core-1.2.2.tgz#ffb510b79d86b84027705214587415e8f18710e6"
   integrity sha512-mczpQr+wBP6WxL0EK9yue4p+5mQVm+u8IGiyB9HN5ibMLs1t4hPcbS/D/QzjeWSfZ16oMPvZ3Sej3Z4J9zjv9Q==
@@ -1846,7 +1828,7 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-amazon-cognito-identity-js@^3.0.15, amazon-cognito-identity-js@^3.1.2:
+amazon-cognito-identity-js@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/amazon-cognito-identity-js/-/amazon-cognito-identity-js-3.1.2.tgz#12c08178956893ed48c4c15bbce20e44acdd4e13"
   integrity sha512-NQ/MxGvzYAauHNWjWu/OMB0LtH5w3D/BKeYP9royQwT6+pR4UJifqFaETh2GQUefROKkv0rqEuvkvT/Wx2RA+Q==
@@ -2114,21 +2096,6 @@ autoprefixer@^9.6.1:
     num2fraction "^1.2.2"
     postcss "^7.0.18"
     postcss-value-parser "^4.0.2"
-
-aws-sdk@2.474.0:
-  version "2.474.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.474.0.tgz#580c7c28e00828b40e2f97b031820bcef68d2367"
-  integrity sha512-nyTZNeVRJix1AStgvH5zcacemgXOhrMrhsXHMmvPkvaXBp3Boj+A79/G8KMd3f/zfjgjRPi9VG0I/BNzfsP3HQ==
-  dependencies:
-    buffer "4.9.1"
-    events "1.1.1"
-    ieee754 "1.1.8"
-    jmespath "0.15.0"
-    querystring "0.2.0"
-    sax "1.2.1"
-    url "0.10.3"
-    uuid "3.3.2"
-    xml2js "0.4.19"
 
 aws-sdk@2.518.0:
   version "2.518.0"

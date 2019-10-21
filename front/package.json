@@ -17,9 +17,9 @@
     "sls:remove-dev": "env-cmd -f ./conf/dev.env serverless remove"
   },
   "dependencies": {
-    "@aws-amplify/api": "1.0.42",
-    "@aws-amplify/auth": "1.2.31",
-    "@aws-amplify/core": "1.1.0",
+    "@aws-amplify/api": "1.2.2",
+    "@aws-amplify/auth": "1.4.2",
+    "@aws-amplify/core": "1.2.2",
     "@fortawesome/fontawesome-free": "^5.9.0",
     "@nuxtjs/dotenv": "1.4.0",
     "@nuxtjs/vuetify": "1.8.3",
