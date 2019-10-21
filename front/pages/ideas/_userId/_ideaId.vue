@@ -429,7 +429,7 @@
 import { graphqlOperation } from '@aws-amplify/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import getIdea from '~/graphql/query/getIdea'
+import getMyIdea from '~/graphql/query/getMyIdea'
 import getIsIdeaLikedByMe from '~/graphql/query/getIsIdeaLikedByMe'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import addComment from '~/graphql/mutations/addComment'
@@ -489,7 +489,7 @@ export default {
   },
   async asyncData({ app, route, store }) {
     const { data } = await app.$amplifyApi.graphql(
-      graphqlOperation(getIdea, { ideaId: route.params.ideaId })
+      graphqlOperation(getMyIdea, { ideaId: route.params.ideaId })
     )
 
     let isLiked = await app.$amplifyApi.graphql(
@@ -510,7 +510,7 @@ export default {
     }
 
     return {
-      idea: data.getIdea,
+      idea: data.getMyIdea,
       user: { email: store.state.cognito.user.attributes.email },
       ideaTags: ideaTags,
       isIdeaLiked: isLiked.data.getIsIdeaLikedByMe.isLiked,

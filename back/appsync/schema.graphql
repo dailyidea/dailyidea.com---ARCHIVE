@@ -60,10 +60,17 @@ input TagInput {
 
 type Query {
 	meInfo: User!
+
 	userInfo(userId: String!): UserInfoResult!
+	@aws_api_key @aws_cognito_user_pools
+
 	ideas(nextToken: String, limit: Int): IdeaConnection
 	userIdeas(userId: String!, nextToken: String, limit: Int): IdeaConnection
-	getIdea(ideaId: String!): Idea!
+	getMyIdea(ideaId: String!): Idea!
+	getUsersIdea(userId: String!, ideaId: String!): Idea!
+	@aws_api_key @aws_cognito_user_pools
+	getPublicIdeas(nextToken: String, limit: Int): IdeaConnection!
+	@aws_api_key @aws_cognito_user_pools
 	getLikedIdeas(nextToken: String, limit: Int): IdeaConnection
 	ideaTags(ideaId: String!): [Tag!]!
 	getIsIdeaLikedByMe(
@@ -77,7 +84,7 @@ type LikeResult {
 	likesCount: Int
 }
 
-type UserInfoResult {
+type UserInfoResult @aws_api_key @aws_cognito_user_pools{
 	result: Result!
 	userInfo: UserInfo
 }
@@ -97,7 +104,7 @@ type Tag {
    ideaId: String!
 }
 
-type Idea {
+type Idea @aws_api_key @aws_cognito_user_pools {
 	ideaId: String!
 	content: String
 	title: String
@@ -115,7 +122,7 @@ type User {
 	ideas(limit: Int!, nextToken: String): IdeaConnection
 }
 
-type UserInfo {
+type UserInfo  @aws_api_key @aws_cognito_user_pools{
 	userId: String!
 	followersCount: Int
 	followeesCount: Int
@@ -128,13 +135,13 @@ type Comment {
 	commentId: String!
 }
 
-type Result {
+type Result  @aws_api_key @aws_cognito_user_pools{
 	error: String
 	ok: Boolean!
 }
 
 
-type  IdeaConnection {
+type  IdeaConnection @aws_api_key @aws_cognito_user_pools {
 	items: [Idea!]!
 	nextToken: String
 }

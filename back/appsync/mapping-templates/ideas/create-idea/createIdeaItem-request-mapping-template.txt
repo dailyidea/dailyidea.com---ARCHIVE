@@ -12,6 +12,6 @@
         "createdDate" : $util.dynamodb.toDynamoDBJson($util.time.nowISO8601()),
         "likesCount" : {"N": "0"},
         "commentsCount" : {"N": "0"},
-        "public" : {"BOOL": true}
+        "visibility" : {"S": "public"},
     }
 }
