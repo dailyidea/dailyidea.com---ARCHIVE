@@ -20,6 +20,7 @@
                   :to="{ name: 'auth-signup' }"
                   large
                   rounded
+                  dark
                   class="signupButton"
                   >Sign up Now</v-btn
                 >
@@ -132,7 +133,7 @@
 
         <!-- Signup Button -->
         <div class="moreBrowseBtn">
-          <v-btn color="primary" large rounded class="browseButton"
+          <v-btn color="primary" dark large rounded class="browseButton"
             >Browse More Ideas</v-btn
           >
         </div>
@@ -166,6 +167,7 @@
                 normal
                 outlined
                 rounded
+                dark
                 class="viewMoreButton"
                 color="primary"
                 >View More</v-btn
@@ -386,11 +388,11 @@ export default {
           .signupButton {
             margin-top: 30px;
             width: 200px;
-            background: #326bde !important;
+            // background: #326bde !important;
 
-            -webkit-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
-            -moz-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
-            box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+            // -webkit-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+            // -moz-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+            // box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
           }
         }
       }
@@ -504,11 +506,6 @@ export default {
       text-align: center;
       .browseButton {
         width: 200px;
-        background: #326bde !important;
-
-        -webkit-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
-        -moz-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
-        box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
       }
     }
   }
