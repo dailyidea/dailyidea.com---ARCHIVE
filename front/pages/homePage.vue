@@ -4,12 +4,17 @@
       <!-- First Section -->
       <div class="firstSection">
         <!-- Desktop - Hero Message & Signup Button -->
-        <v-layout class="desktopHero" fluid grid-list-md hidden-sm-and-down row :style="{
+        <v-layout
+          class="desktopHero"
+          fluid
+          grid-list-md
+          hidden-sm-and-down
+          row
+          :style="{
             'background-image':
-              'url(' +
-              require('~/assets/images/home/bigTree.png') +
-              ')'
-          }">
+              'url(' + require('~/assets/images/home/bigTree.png') + ')'
+          }"
+        >
           <v-flex hidden-sm-and-down md7 lg6>
             <div class="heroTitle">
               Your Idea Could
@@ -23,7 +28,14 @@
             </div>
 
             <!-- Signup Button -->
-            <v-btn large dark class="signupButton" :to="{ name: 'auth-signup' }" color="primary">Sign up Now</v-btn>
+            <v-btn
+              large
+              dark
+              class="signupButton"
+              :to="{ name: 'auth-signup' }"
+              color="primary"
+              >Sign up Now</v-btn
+            >
 
             <!-- Lamp Image -->
             <img class="lampImg" src="~/assets/images/yellowBulb.png" />
@@ -31,12 +43,16 @@
         </v-layout>
 
         <!-- Mobile - Hero Message & Signup Button -->
-        <v-layout class="mobileHero" hidden-md-and-up :style="{
+        <v-layout
+          class="mobileHero"
+          hidden-md-and-up
+          :style="{
             'background-image':
               'url(' +
               require('~/assets/images/home/yellow_background_mobile.png') +
               ')'
-          }">
+          }"
+        >
           <div class="heroTitle">
             Your Idea
             <br />Could Be Huge!
@@ -49,19 +65,34 @@
           </div>
 
           <!-- Signup Button -->
-          <v-btn large dark class="signupButton" :to="{ name: 'auth-signup' }" color="primary">Sign up Now</v-btn>
+          <v-btn
+            large
+            dark
+            class="signupButton"
+            :to="{ name: 'auth-signup' }"
+            color="primary"
+            >Sign up Now</v-btn
+          >
 
           <img class="lampImg" src="~/assets/images/white_lamp.png" />
         </v-layout>
 
         <!-- Desktop Reviews -->
         <div>
-          <v-layout class="desktopReviews" :style="{
+          <v-layout
+            class="desktopReviews"
+            :style="{
               'background-image':
                 'url(' +
                 require('~/assets/images/home/purple_background.png') +
                 ')'
-            }" hidden-sm-and-down fluid grid-list-md xs12 row>
+            }"
+            hidden-sm-and-down
+            fluid
+            grid-list-md
+            xs12
+            row
+          >
             <v-flex md4 lg4>
               <v-card color="white" class="review">
                 Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
@@ -107,13 +138,22 @@
         </div>
 
         <!-- Mobile Reviews -->
-        <v-layout class="mobileReviews" hidden-md-and-up :style="{
+        <v-layout
+          class="mobileReviews"
+          hidden-md-and-up
+          :style="{
             'background-image':
               'url(' +
               require('~/assets/images/home/purple_background_mobile.png') +
               ')'
-          }">
-          <v-carousel interval="600000" :show-arrows="false" delimiter-icon="fa-circle" class="mobileReviewCrousel">
+          }"
+        >
+          <v-carousel
+            interval="600000"
+            :show-arrows="false"
+            delimiter-icon="fa-circle"
+            class="mobileReviewCrousel"
+          >
             <v-carousel-item class="review">
               Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
               officia deserunt
@@ -165,7 +205,10 @@
             <v-flex class="leftImageSection" xs6>
               <img class="img1" src="~/assets/images/person_with_phone.png" />
               <img class="img2" src="~/assets/images/home/mail_work.png" />
-              <img class="img3" src="~/assets/images/home/lady_with_phone.png" />
+              <img
+                class="img3"
+                src="~/assets/images/home/lady_with_phone.png"
+              />
             </v-flex>
             <!-- Right side description -->
             <v-flex class="rightSideDescription" xs5 md6>
@@ -173,9 +216,10 @@
               <div class="subTitle">Oh, it's easy!</div>
               <img class="dotsImg" src="~/assets/images/home/dots.png" />
               <div class="description">
-                We'll send you an email every day with a <br>reminder for you to submit
-                an idea. Just hit <br>reply, and you'll never forget an idea ever <br> again.
-
+                We'll send you an email every day with a <br />reminder for you
+                to submit an idea. Just hit <br />reply, and you'll never forget
+                an idea ever <br />
+                again.
               </div>
               <v-btn class="buttn" dark outlined>More</v-btn>
             </v-flex>
@@ -190,13 +234,15 @@
             <img class="dotsImg" src="~/assets/images/home/dots.png" />
           </div>
           <div class="description">
-            We'll send you an email every day with a reminder for you to
-            submit an idea. Just hit reply, and you'll never again.
-
+            We'll send you an email every day with a reminder for you to submit
+            an idea. Just hit reply, and you'll never again.
           </div>
 
           <div style="text-align: center;">
-            <img class="ladyMobile" src="~/assets/images/home/lady_with_phone.png" />
+            <img
+              class="ladyMobile"
+              src="~/assets/images/home/lady_with_phone.png"
+            />
             <img class="img2" src="~/assets/images/home/mail_work_mobile.png" />
             <img class="img3" src="~/assets/images/person_with_phone.png" />
           </div>

@@ -1,5 +1,11 @@
 <template>
-  <Layout v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'EMAIL SETTINGS' }">
+  <Layout
+    v-bind="{
+      backButton: true,
+      loggedInHeader: true,
+      mobileTitle: 'EMAIL SETTINGS'
+    }"
+  >
     <v-layout id="settingsPage">
       <v-container class="settingsList">
         <div class="emailSettingHeader">
@@ -14,15 +20,23 @@
             Idea Reminders
           </div>
           <div class="metadata">
-            <v-switch v-model="switch1" class="swithBtn" inset :label="`On `"></v-switch>
+            <v-switch
+              v-model="switch1"
+              class="swithBtn"
+              inset
+              :label="`On `"
+            ></v-switch>
           </div>
         </div>
         <div class="settingsItem">
-          <div class="settingsInfo">
-            <v-icon>fas fa-bell</v-icon>Hot Steaks
-          </div>
+          <div class="settingsInfo"><v-icon>fas fa-bell</v-icon>Hot Steaks</div>
           <div class="metadata">
-            <v-switch v-model="switch2" class="swithBtn" inset :label="`Off `"></v-switch>
+            <v-switch
+              v-model="switch2"
+              class="swithBtn"
+              inset
+              :label="`Off `"
+            ></v-switch>
           </div>
         </div>
         <div class="settingsItem">
@@ -31,7 +45,12 @@
             Daily Digest
           </div>
           <div class="metadata">
-            <v-switch v-model="switch2" class="swithBtn" inset :label="`Off `"></v-switch>
+            <v-switch
+              v-model="switch2"
+              class="swithBtn"
+              inset
+              :label="`Off `"
+            ></v-switch>
           </div>
         </div>
         <div class="settingsItem">
@@ -40,7 +59,12 @@
             Weekly Digest
           </div>
           <div class="metadata">
-            <v-switch v-model="switch2" class="swithBtn" inset :label="`Off `"></v-switch>
+            <v-switch
+              v-model="switch2"
+              class="swithBtn"
+              inset
+              :label="`Off `"
+            ></v-switch>
           </div>
         </div>
       </v-container>

@@ -1,5 +1,7 @@
 <template>
-  <Layout v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'Settings' }">
+  <Layout
+    v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'Settings' }"
+  >
     <v-layout id="settingsPage">
       <div class="headerOfSetting">
         SETTINGS
