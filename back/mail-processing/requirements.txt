@@ -2,3 +2,4 @@ pynamodb==3.3.3
 mail-parser==3.5.1
 boto3==1.9.16
 mako==1.0.7
+Jinja2==2.10.3

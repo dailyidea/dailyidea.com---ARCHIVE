@@ -19,14 +19,11 @@
         >
           <v-flex hidden-sm-and-down md7 lg6>
             <div class="heroTitle">
-              Your Idea Could
-              <br />Be Huge!
+              Every Day, Log An Idea
             </div>
-            <div class="heroSubtitle">That is, if you don't forget it!</div>
+            <div class="heroSubtitle">A project idea, a startup idea, a work idea</div>
             <div class="heroDescription">
-              Submitting an idea every day is as simple as sending an email. We
-              will store your ideas for you, so you can share them with your
-              friends and conquer the world!
+              You'll get an email in your inbox reminding you to submit an idea. Just respond to it and we'll save it for you.
             </div>
 
             <!-- Signup Button -->
