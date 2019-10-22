@@ -1,7 +1,5 @@
 <template>
-  <Layout
-    v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'Settings' }"
-  >
+  <Layout v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'EMAIL SETTINGS' }">
     <v-layout id="settingsPage">
       <v-container class="settingsList">
         <div class="emailSettingHeader">
@@ -16,23 +14,15 @@
             Idea Reminders
           </div>
           <div class="metadata">
-            <v-switch
-              v-model="switch1"
-              class="swithBtn"
-              inset
-              :label="`On `"
-            ></v-switch>
+            <v-switch v-model="switch1" class="swithBtn" inset :label="`On `"></v-switch>
           </div>
         </div>
         <div class="settingsItem">
-          <div class="settingsInfo"><v-icon>fas fa-bell</v-icon>Hot Steaks</div>
+          <div class="settingsInfo">
+            <v-icon>fas fa-bell</v-icon>Hot Steaks
+          </div>
           <div class="metadata">
-            <v-switch
-              v-model="switch2"
-              class="swithBtn"
-              inset
-              :label="`Off `"
-            ></v-switch>
+            <v-switch v-model="switch2" class="swithBtn" inset :label="`Off `"></v-switch>
           </div>
         </div>
         <div class="settingsItem">
@@ -41,12 +31,7 @@
             Daily Digest
           </div>
           <div class="metadata">
-            <v-switch
-              v-model="switch2"
-              class="swithBtn"
-              inset
-              :label="`Off `"
-            ></v-switch>
+            <v-switch v-model="switch2" class="swithBtn" inset :label="`Off `"></v-switch>
           </div>
         </div>
         <div class="settingsItem">
@@ -55,12 +40,7 @@
             Weekly Digest
           </div>
           <div class="metadata">
-            <v-switch
-              v-model="switch2"
-              class="swithBtn"
-              inset
-              :label="`Off `"
-            ></v-switch>
+            <v-switch v-model="switch2" class="swithBtn" inset :label="`Off `"></v-switch>
           </div>
         </div>
       </v-container>
@@ -132,14 +112,18 @@ export default {
     // border: 1px solid red;
     margin-top: 5vh;
     padding: 0px !important;
+
     @media #{$mobile} {
-      margin-top: 2vh;
+      // margin-top: 2vh;
     }
 
     .emailSettingHeader {
       font-size: 25px;
       text-align: center;
       margin-bottom: 40px;
+      @media #{$mobile} {
+        display: none;
+      }
     }
 
     .emailSubHeader {
@@ -147,6 +131,14 @@ export default {
       font-size: 18px;
       margin-bottom: 35px;
       color: #7777;
+
+      @media #{$mobile} {
+        text-align: left;
+        font-size: 15px;
+        margin-left: 17px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
     }
 
     .settingsItem {

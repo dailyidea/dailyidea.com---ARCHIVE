@@ -7,7 +7,7 @@
         <v-layout class="desktopHero" fluid grid-list-md hidden-sm-and-down row :style="{
             'background-image':
               'url(' +
-              require('~/assets/images/home/yellow_background.png') +
+              require('~/assets/images/home/bigTree.png') +
               ')'
           }">
           <v-flex hidden-sm-and-down md7 lg6>
@@ -26,7 +26,7 @@
             <v-btn large dark class="signupButton" :to="{ name: 'auth-signup' }" color="primary">Sign up Now</v-btn>
 
             <!-- Lamp Image -->
-            <img class="lampImg" src="~/assets/images/white_lamp.png" />
+            <img class="lampImg" src="~/assets/images/yellowBulb.png" />
           </v-flex>
         </v-layout>
 
@@ -173,8 +173,9 @@
               <div class="subTitle">Oh, it's easy!</div>
               <img class="dotsImg" src="~/assets/images/home/dots.png" />
               <div class="description">
-                We'll send you an email every day with a reminder for you to
-                submit an idea. Just hit reply, and you'll never again.
+                We'll send you an email every day with a <br>reminder for you to submit
+                an idea. Just hit <br>reply, and you'll never forget an idea ever <br> again.
+
               </div>
               <v-btn class="buttn" dark outlined>More</v-btn>
             </v-flex>
@@ -189,8 +190,9 @@
             <img class="dotsImg" src="~/assets/images/home/dots.png" />
           </div>
           <div class="description">
-            We'll send you an email every day with a <br>reminder for you to submit
-            an idea. Just hit <br>reply, and you'll never forget an idea ever <br> again.
+            We'll send you an email every day with a reminder for you to
+            submit an idea. Just hit reply, and you'll never again.
+
           </div>
 
           <div style="text-align: center;">
@@ -231,12 +233,12 @@ export default {
     width: 100%;
     min-height: 100vh;
     text-align: left;
-    background: ebe7ed;
+    background: white;
 
     .desktopHero {
-      padding-left: 11.5%;
-      background-size: cover;
-      background-position-y: -20px;
+      // padding-left: 11.5%;
+      // background-size: cover;
+      // background-position-y: -20px;
 
       .heroTitle {
         padding-top: 7vh;
@@ -547,7 +549,7 @@ export default {
         padding-top: 7vh;
 
         .ttle {
-          color: #ffc61e;
+          // color: #ffc61e;
           font-style: italic;
           font-size: 2vw;
           line-height: 2.3vw;

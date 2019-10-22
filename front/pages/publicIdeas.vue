@@ -1,15 +1,13 @@
 <template>
-  <Layout
-    v-bind="{
+  <Layout v-bind="{
       loggedInHeader: true,
-      mobileTitle: 'My Ideas',
+      mobileTitle: 'Public Ideas',
       mobileHamburger: true,
       mobileSearchIcon: true,
       mobileSettingsIcon: true,
 
       desktopMenuVisible: true
-    }"
-  >
+    }">
     <v-layout id="ideaListPage">
       <!-- Title Section -->
       <div v-if="ideas && ideas.length > 0" class="titleDiv">
@@ -20,16 +18,12 @@
       <!-- {{ideas}} -->
 
       <div v-if="ideas && ideas.length > 0" class="publisIdeasSection">
-        <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
+        <div class="sortBy">
+          <v-icon>fas fa-clock</v-icon>Sort by Newest
+        </div>
         <div class="ideaList" wrap>
-          <v-flex
-            v-for="(idea, index) in ideas"
-            :key="index"
-            class="ideaContainer"
-          >
-            <div
-              class="ideaItem"
-              @click="
+          <v-flex v-for="(idea, index) in ideas" :key="index" class="ideaContainer">
+            <div class="ideaItem" @click="
                 $router.push({
                   name: 'ideas-userId-ideaId',
                   params: {
@@ -38,8 +32,7 @@
                   },
                   force: true
                 })
-              "
-            >
+              ">
               <!-- {{idea.ideaId }} -->
               <div class="ideaTitle">{{ idea.title }}</div>
               <div class=" ideaDescrpition">
@@ -64,10 +57,7 @@
       <!-- No Idea found div -->
       <div v-else class="noIdeaFoundDiv">
         <div>
-          <img
-            class="lampImg"
-            src="~/assets/images/light_gray_lamp_plain.png"
-          />
+          <img class="lampImg" src="~/assets/images/light_gray_lamp_plain.png" />
         </div>
         <div class="text">
           You don't have any ideas right now. <br />
@@ -90,11 +80,7 @@
       </v-btn>
 
       <!-- Bottom snackbar message -->
-      <v-snackbar
-        v-model="snackbarVisible"
-        :timeout="2000"
-        :color="snackbarColor"
-      >
+      <v-snackbar v-model="snackbarVisible" :timeout="2000" :color="snackbarColor">
         {{ snackbarMessage }}
         <v-btn color="white" text @click="snackbarVisible = false">
           Close
@@ -230,11 +216,12 @@ export default {
       // text-align: right;
 
       @media #{$small-screen} {
-        float: left;
-        text-align: left;
-        padding-left: 5%;
+        // float: left;
+        // text-align: left;
+        // padding-left: 5%;
         font-size: 12px;
         padding-top: 10px;
+        margin-left: 15px;
       }
 
       i {
@@ -252,6 +239,7 @@ export default {
       @media #{$small-screen} {
         padding-right: 0%;
         padding-left: 0%;
+        margin: 0px;
       }
 
       .ideaContainer {

@@ -1,7 +1,5 @@
 <template>
-  <Layout
-    v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'Settings' }"
-  >
+  <Layout v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'Settings' }">
     <v-layout id="settingsPage">
       <div class="headerOfSetting">
         SETTINGS
@@ -88,6 +86,10 @@ export default {
   .headerOfSetting {
     text-align: center;
     font-size: 25px;
+
+    @media #{$small-screen} {
+      display: none;
+    }
   }
 
   @media #{$small-screen} {
