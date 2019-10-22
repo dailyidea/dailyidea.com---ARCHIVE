@@ -35,30 +35,16 @@
             autocomplete="email"
             type="email"
             prepend-inner-icon="email"
-            placeholder="Enter Email"
+            placeholder="What is your email address?"
             validate="required|email"
           />
 
           <!-- Continue Button -->
           <v-btn large class="continueBtn" :loading="logingUser" @click="login"
-            >OK</v-btn
+            >Log In</v-btn
           >
         </v-form>
 
-        <!-- Social Login Icons -->
-        <div class="socialIconContainer">
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-facebook-f</v-icon>
-          </v-btn>
-          &nbsp;&nbsp;&nbsp;
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-twitter</v-icon>
-          </v-btn>
-          &nbsp;&nbsp;&nbsp;
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-google-plus-g</v-icon>
-          </v-btn>
-        </div>
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
