@@ -1,0 +1,25 @@
+ Resources:
+    StaticBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.emailStaticBucketName}
+        AccessControl: PublicRead
+    StaticBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: StaticBucket
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Action:
+                - s3:*
+              Effect: Allow
+              Resource:
+                Fn::Join:
+                  - ""
+                  - - "arn:aws:s3:::"
+                    - Ref: StaticBucket
+                    - "/*"
+              Principal:
+                Service: "s3.amazonaws.com"

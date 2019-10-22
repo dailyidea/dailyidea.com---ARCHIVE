@@ -16,6 +16,7 @@ class IdeaModel(Model):
     userId = UnicodeAttribute(hash_key=True)
     content = UnicodeAttribute(null=True)
     title = UnicodeAttribute(null=True)
+    visibility = UnicodeAttribute(null=True)
     createdDate = UTCDateTimeAttribute(null=True)
     ideaDate = UTCDateTimeAttribute(null=True)
 
