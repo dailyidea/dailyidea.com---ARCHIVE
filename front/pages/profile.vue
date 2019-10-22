@@ -150,17 +150,24 @@ dayjs.extend(relativeTime)
 export default {
   components: { Layout },
   data: () => ({
-    isFollowUser: false
+    isFollowUser: false,
+    profileUserId: null
   }),
 
   async asyncData({ app, route, store }) {
+    let profileUserId = store.getters['cognito/userSub']
+    // if (route.query.id) {
+    // 	profileUserId = 'd331e081-a639-4f14-9a57-2e1380cdcd5e'
+    // }
+
     const { data } = await app.$amplifyApi.graphql(
-      graphqlOperation(userInfo, { userId: store.getters['cognito/userSub'] })
+      graphqlOperation(userInfo, { userId: profileUserId })
     )
+    console.log('profile data', data)
 
     const userIdeasList = await app.$amplifyApi.graphql(
       graphqlOperation(userIdeas, {
-        userId: store.getters['cognito/userSub']
+        userId: profileUserId
         // nextToken: '',
         // limit: 5
       })
@@ -169,10 +176,9 @@ export default {
 
     return {
       userData: data.userInfo,
-      ideaList: userIdeasList.data.userIdeas.items
+      ideaList: userIdeasList.data.userIdeas.items,
+      profileUserId: profileUserId
     }
-
-    //
   },
 
   mounted() {},
@@ -191,7 +197,7 @@ export default {
         let mutationToCall = this.isFollowUser ? followUser : unfollowUser
         await this.$amplifyApi.graphql(
           graphqlOperation(mutationToCall, {
-            userId: this.$store.getters['cognito/userSub']
+            userId: this.profileUserId
           })
         )
         if (this.isFollowUser) {

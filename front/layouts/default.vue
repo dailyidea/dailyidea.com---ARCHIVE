@@ -84,7 +84,7 @@ export default {
   font-family: Quatro;
 }
 
-.v-list-item {
+.theme--light.v-list-item {
   &:hover {
     background: #ffdf01;
 
@@ -101,7 +101,7 @@ export default {
   color: white !important;
 
   &:hover {
-    background: #ffb92d !important;
+    // background: #ffb92d !important;
   }
 }
 

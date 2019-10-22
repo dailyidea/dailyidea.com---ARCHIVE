@@ -21,9 +21,12 @@
             <div class="heroTitle">
               Every Day, Log An Idea
             </div>
-            <div class="heroSubtitle">A project idea, a startup idea, a work idea</div>
+            <div class="heroSubtitle">
+              A project idea, a startup idea, a work idea
+            </div>
             <div class="heroDescription">
-              You'll get an email in your inbox reminding you to submit an idea. Just respond to it and we'll save it for you.
+              You'll get an email in your inbox reminding you to submit an idea.
+              Just respond to it and we'll save it for you.
             </div>
 
             <!-- Signup Button -->

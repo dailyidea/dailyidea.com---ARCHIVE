@@ -8,6 +8,7 @@ query getPublicIdeas($nextToken: String, $limit: Int) {
       createdDate
       ideaDate
       likesCount
+      userId
     }
     nextToken
   }

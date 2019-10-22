@@ -97,45 +97,41 @@
           absolute
           temporary
         >
-          <v-list dense>
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title>John Leider</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-
-          <v-divider></v-divider>
-
-          <v-list dense>
+          <v-list dense dark>
             <!-- <v-list-item>
               <v-list-item-avatar>
                 <v-img src="~/assets/images/bulb_with_light_holder.png"></v-img>
               </v-list-item-avatar>
             </v-list-item> -->
 
+            <!-- Back button -->
+            <div class="backBtn" @click="openDesktopMenu = false">
+              <i class="fas fa-arrow-left"></i>
+            </div>
+
+            <div class="logoContainer">
+              <img src="~/assets/images/logo_with_text.png" />
+            </div>
+
             <v-list-item>
               <v-list-item-content>
-                <router-link to="/ideas/publicIdeas">
+                <router-link to="/ideas/public">
                   <v-list-item-title>Public Ideas</v-list-item-title>
                 </router-link>
               </v-list-item-content>
             </v-list-item>
-            <v-divider></v-divider>
             <v-list-item>
               <v-list-item-content>
-                <router-link to="/ideas/myIdeas">
+                <router-link to="/ideas/me">
                   <v-list-item-title>My Ideas</v-list-item-title>
                 </router-link>
               </v-list-item-content>
             </v-list-item>
-            <v-divider></v-divider>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Saved Ideas</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-divider></v-divider>
             <v-list-item>
               <v-list-item-content>
                 <router-link to="/profile">
@@ -143,19 +139,16 @@
                 </router-link>
               </v-list-item-content>
             </v-list-item>
-            <v-divider></v-divider>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Leaderboards</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-divider></v-divider>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Sign Out</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-divider></v-divider>
             <v-list-item class="mediaSection">
               <v-list-item-content>
                 <v-list-item-title>
@@ -472,6 +465,8 @@ export default {
 
       .desktopMenu {
         margin-right: 20px;
+        margin-top: -9px;
+        font-size: 20px;
       }
 
       .logoLink {
@@ -565,34 +560,63 @@ export default {
     }
 
     .menuOfDesktop {
-      background: #37244e;
+      background: rgb(35, 16, 49) !important;
+      z-index: 999;
+
+      .backBtn {
+        margin: 10px 10px;
+        cursor: pointer;
+      }
+
+      .logoContainer {
+        margin-top: 4vh;
+        margin-bottom: 3vh;
+        text-align: center;
+        img {
+          width: 70%;
+          margin-top: 3vh;
+        }
+      }
 
       // display: none;
-      .v-list-item__content {
-        height: 70px;
+      .v-list-item {
+        .v-list-item__content {
+          height: 70px;
+          cursor: pointer;
+          border-bottom: 1px solid #827c852e !important;
 
-        .nuxt-link-exact-active.nuxt-link-active {
-          text-decoration: none;
-        }
+          .nuxt-link-exact-active.nuxt-link-active {
+            text-decoration: none;
+          }
 
-        .v-list-item__title {
-          font-size: 15px;
-          text-align: center;
-          color: white;
+          .v-list-item__title {
+            font-size: 15px;
+            text-align: center;
+            color: white;
 
-          .mediaBtn {
-            margin-right: 12px;
-            color: white !important;
+            .mediaBtn {
+              margin-right: 12px;
+              color: white !important;
 
-            .v-icon {
-              font-size: 13px;
+              .v-icon {
+                font-size: 13px;
+              }
+            }
+          }
+
+          &:hover {
+            .v-list-item__title {
+              color: #ffca19 !important;
             }
           }
         }
       }
 
       .mediaSection {
-        margin-top: 23px;
+        margin-top: 4vh;
+        .v-list-item__content {
+          border-bottom: none !important;
+        }
       }
     }
 
