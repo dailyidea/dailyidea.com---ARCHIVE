@@ -7,14 +7,10 @@
         <div class="row futureListContainer">
           <div class="col-md-5">
             <div class="firstFreatureList">
-              <div class="firstHeader">Your Idea Could Be Huge!</div>
-              <div class="subHeader">That is, if you don't forget it !</div>
+              <div class="firstHeader">Every Day, Log An Idea</div>
+              <div class="subHeader">A project idea, a startup idea, a work idea</div>
               <div class="descriptionSection">
-                Submitting an idea every day is as simple as sending an
-                email.<br />
-                We will store your ideas for you, so you can share them with
-                your<br />
-                friends and conquer the world!
+                You'll get an email in your inbox reminding you to submit an idea. Just respond to it and we'll save it for you.
               </div>
 
               <!-- Signup Button -->
