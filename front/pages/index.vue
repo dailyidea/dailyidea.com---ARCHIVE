@@ -1,268 +1,329 @@
 <template>
   <Layout>
-    <div id="homePage">
-      <!-- First Section -->
-      <div class="firstSection">
-        <!-- Desktop - Hero Message & Signup Button -->
-        <v-layout
-          class="desktopHero"
-          fluid
-          grid-list-md
-          hidden-sm-and-down
-          row
-          :style="{
-            'background-image':
-              'url(' +
-              require('~/assets/images/home/yellow_background.png') +
-              ')'
-          }"
-        >
-          <v-flex hidden-sm-and-down md7 lg6>
-            <div class="heroTitle">
-              Every Day, Log An Idea
-            </div>
-            <div class="heroSubtitle">
-              A project idea, a startup idea, a work idea
-            </div>
-            <div class="heroDescription">
-              You'll get an email in your inbox reminding you to submit an idea.
-              Just respond to it and we'll save it for you.
-            </div>
+    <div id="newhomePage">
+      <!-- desktop view -->
 
-            <!-- Signup Button -->
-            <v-btn
-              large
-              dark
-              class="signupButton"
-              :to="{ name: 'auth-signup' }"
-              color="primary"
-              >Sign up Now</v-btn
-            >
+      <section class="firstSection hidden-sm-and-down">
+        <div class="row futureListContainer">
+          <div class="col-md-5">
+            <div class="firstFreatureList">
+              <div class="firstHeader">Your Idea Could Be Huge!</div>
+              <div class="subHeader">That is, if you don't forget it !</div>
+              <div class="descriptionSection">
+                Submitting an idea every day is as simple as sending an
+                email.<br />
+                We will store your ideas for you, so you can share them with
+                your<br />
+                friends and conquer the world!
+              </div>
 
-            <!-- Lamp Image -->
-            <img class="lampImg" src="~/assets/images/white_lamp.png" />
+              <!-- Signup Button -->
+              <div class="signUpBtn">
+                <v-btn
+                  color="primary"
+                  :to="{ name: 'auth-signup' }"
+                  large
+                  rounded
+                  class="signupButton"
+                  >Sign up Now</v-btn
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-7">
+            <div class="firstImageContainer">
+              <img
+                alt="image"
+                class="firstImage"
+                src="~/assets/images/homeImage.png"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ideaSection hidden-sm-and-down">
+        <div class="ideaSectionHeader">
+          Your Idea’s
+        </div>
+
+        <v-layout class="desktopReviews">
+          <v-flex md4 lg4>
+            <div color="white" class="review">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled.
+
+              <!-- User Icon -->
+              <div class="reviewerInfo">
+                <div class="row reviewerDetail">
+                  <div class="col-md-2">
+                    <img
+                      alt="image"
+                      class="reviewInfoImage"
+                      src="~/assets/images/Oval.png"
+                    />
+                  </div>
+                  <div class="col-md-8">
+                    <div class="reviewerName">Boniface Esanji</div>
+                    <div class="reviewTime">1h ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </v-flex>
+          <v-flex md4 lg4>
+            <div color="white" class="review">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled.
+
+              <!-- User Icon -->
+              <div class="reviewerInfo">
+                <div class="row reviewerDetail">
+                  <div class="col-md-2">
+                    <img
+                      alt="image"
+                      class="reviewInfoImage"
+                      src="~/assets/images/Oval.png"
+                    />
+                  </div>
+                  <div class="col-md-8">
+                    <div class="reviewerName">Amelia Cabal</div>
+                    <div class="reviewTime">1h ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </v-flex>
+          <v-flex md4 lg4>
+            <div color="white" class="review">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled.
+              <!-- User Icon -->
+
+              <div class="reviewerInfo">
+                <div class="row reviewerDetail">
+                  <div class="col-md-2">
+                    <img
+                      alt="image"
+                      class="reviewInfoImage"
+                      src="~/assets/images/Oval.png"
+                    />
+                  </div>
+                  <div class="col-md-8">
+                    <div class="reviewerName">Anne-Marije Markink</div>
+                    <div class="reviewTime">1h ago</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="gjhkF">
+                <div class="reviewTime"> 1h ago</div>
+              </div> -->
+            </div>
           </v-flex>
         </v-layout>
 
-        <!-- Mobile - Hero Message & Signup Button -->
-        <v-layout
-          class="mobileHero"
-          hidden-md-and-up
-          :style="{
-            'background-image':
-              'url(' +
-              require('~/assets/images/home/yellow_background_mobile.png') +
-              ')'
-          }"
-        >
-          <div class="heroTitle">
-            Your Idea
-            <br />Could Be Huge!
+        <!-- Signup Button -->
+        <div class="moreBrowseBtn">
+          <v-btn color="primary" large rounded class="browseButton"
+            >Browse More Ideas</v-btn
+          >
+        </div>
+      </section>
+
+      <section class="lastSection hidden-sm-and-down ">
+        <div class="row futureListContainer">
+          <div class="col-md-6">
+            <div class="buttomImageContainer">
+              <img
+                alt="image"
+                class="buttomLeftImage"
+                src="~/assets/images/newLastImage.png"
+              />
+            </div>
           </div>
-          <div class="heroSubtitle">That is, if you don't forget it!</div>
-          <div class="heroDescription">
-            Submitting an idea every day is as simple as sending an email. We
-            will store your ideas for you, so you can share them with your
-            friends and conquer the world!
+
+          <div class="col-md-6">
+            <div class="firstFreatureList">
+              <div class="firstHeader">How it work’s?</div>
+              <div class="subHeader">Oh, its easy!</div>
+
+              <div class="descriptionSection">
+                We’ll send you an email every day with a reminder for<br />
+                you to submit an idea. Just hit reply, and you’ll never<br />
+                forget an idea ever again.
+              </div>
+
+              <!-- View More Button -->
+              <v-btn
+                normal
+                outlined
+                rounded
+                class="viewMoreButton"
+                color="primary"
+                >View More</v-btn
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footerSection hidden-sm-and-down  ">
+        <div class="linkContainer">
+          <a>About us</a>
+          <a>FAQ</a>
+          <a>Terms % Conditions</a>
+          <a>Privacy</a>
+          <span class="copyRight"> Copyright @DailyIdea 2019</span>
+        </div>
+      </footer>
+
+      <!-- Mobile view -->
+
+      <section class="mobileFirstSection   hidden-md-and-up">
+        <div class="firstFreatureList">
+          <div class="firstHeader">Your Idea Could Be Huge!</div>
+          <div class="subHeader">That is, if you don't forget it !</div>
+
+          <div class="firstImageContainer">
+            <img
+              alt="image"
+              class="firstImage"
+              src="~/assets/images/mobileTopImage.png"
+            />
+          </div>
+          <div class="descriptionSection">
+            Submitting an idea every day is as simple as <br />sending an email.
+            We will store your ideas for<br />
+            you, so you can share them with your friends<br />
+            and conquer the world!
           </div>
 
           <!-- Signup Button -->
-          <v-btn
-            large
-            dark
-            class="signupButton"
-            :to="{ name: 'auth-signup' }"
-            color="primary"
-            >Sign up Now</v-btn
-          >
+          <div class="actionBtn">
+            <v-btn
+              normal
+              dark
+              rounded
+              class="signupButton"
+              :to="{ name: 'auth-signup' }"
+              color="#326bde"
+              >Sign up Now</v-btn
+            >
+          </div>
+        </div>
+      </section>
 
-          <img class="lampImg" src="~/assets/images/white_lamp.png" />
-        </v-layout>
-
-        <!-- Desktop Reviews -->
-        <div>
-          <v-layout
-            class="desktopReviews"
-            :style="{
-              'background-image':
-                'url(' +
-                require('~/assets/images/home/purple_background.png') +
-                ')'
-            }"
-            hidden-sm-and-down
-            fluid
-            grid-list-md
-            xs12
-            row
-          >
-            <v-flex md4 lg4>
-              <v-card color="white" class="review">
-                Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-                officia deserunt
-                <!-- User Icon -->
-                <div class="reviewerInfo">
-                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name
-                  Surname
-                  <div class="reviewTime">1h ago</div>
-                </div>
-              </v-card>
-            </v-flex>
-            <v-flex md4 lg4>
-              <v-card color="white" class="review">
-                Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-                officia deserunt
-                <!-- User Icon -->
-                <div class="reviewerInfo">
-                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name
-                  Surname
-                  <div class="reviewTime">1h ago</div>
-                </div>
-              </v-card>
-              <div class="browseMoreIdeaBtn">
-                <v-btn large>Browse More Ideas</v-btn>
-              </div>
-            </v-flex>
-            <v-flex md4 lg4 style="position: relative;">
-              <img class="person2Img" src="~/assets/images/home/person_2.png" />
-              <img class="person3Img" src="~/assets/images/home/person_3.png" />
-              <v-card color="white" class="review">
-                Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-                officia deserunt
-                <!-- User Icon -->
-                <div class="reviewerInfo">
-                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name
-                  Surname
-                  <div class="reviewTime">1h ago</div>
-                </div>
-              </v-card>
-            </v-flex>
-          </v-layout>
+      <section class="mobileIdeaSection hidden-md-and-up">
+        <div class="ideaSectionHeader">
+          Your Idea’s
         </div>
 
-        <!-- Mobile Reviews -->
-        <v-layout
-          class="mobileReviews"
-          hidden-md-and-up
-          :style="{
-            'background-image':
-              'url(' +
-              require('~/assets/images/home/purple_background_mobile.png') +
-              ')'
-          }"
-        >
-          <v-carousel
-            interval="600000"
-            :show-arrows="false"
-            delimiter-icon="fa-circle"
-            class="mobileReviewCrousel"
-          >
-            <v-carousel-item class="review">
-              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-              officia deserunt
-              <!-- User Icon -->
-              <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-                <div class="reviewTime">1h ago</div>
-              </div>
-            </v-carousel-item>
-            <v-carousel-item class="review">
-              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-              officia deserunt
-              <!-- User Icon -->
-              <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-                <div class="reviewTime">1h ago</div>
-              </div>
-            </v-carousel-item>
-            <v-carousel-item class="review">
-              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-              officia deserunt
-              <!-- User Icon -->
-              <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-                <div class="reviewTime">1h ago</div>
-              </div>
-            </v-carousel-item>
-            <v-carousel-item class="review">
-              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-              officia deserunt
-              <!-- User Icon -->
-              <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-                <div class="reviewTime">1h ago</div>
-              </div>
-            </v-carousel-item>
-          </v-carousel>
+        <div class="firstIdea">
+          <div color="white" sh class="review">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled.
 
-          <img class="heroImg" src="~/assets/images/home/person_2_mobile.png" />
-        </v-layout>
-      </div>
+            <!-- User Icon -->
 
-      <!-- Second Section -->
-      <div class="secondSection">
-        <!-- Desktop View -->
-        <v-container class="desktopView" hidden-sm-and-down>
-          <v-layout row wrap>
-            <!-- Left side image -->
-            <v-flex class="leftImageSection" xs6>
-              <img class="img1" src="~/assets/images/person_with_phone.png" />
-              <img class="img2" src="~/assets/images/home/mail_work.png" />
-              <img
-                class="img3"
-                src="~/assets/images/home/lady_with_phone.png"
-              />
-            </v-flex>
-            <!-- Right side description -->
-            <v-flex class="rightSideDescription" xs5 md6>
-              <div class="ttle">How it works</div>
-              <div class="subTitle">Oh, it's easy!</div>
-              <img class="dotsImg" src="~/assets/images/home/dots.png" />
-              <div class="description">
-                We'll send you an email every day with a reminder for you to
-                submit an idea. Just hit reply, and you'll never again.
+            <div class="reviewerInfo">
+              <div class="row reviewerDetail">
+                <div class="col-md-0">
+                  <img
+                    alt="image"
+                    class="reviewInfoImage"
+                    src="~/assets/images/Oval.png"
+                  />
+                </div>
+                <div class="col-md-0">
+                  <div class="reviewerName">Boniface Esanji</div>
+                  <div class="reviewTime">1h ago</div>
+                </div>
               </div>
-              <v-btn class="buttn" dark outlined>More</v-btn>
-            </v-flex>
-          </v-layout>
-        </v-container>
-
-        <!-- Mobile View -->
-        <v-container class="mobileView" grid-list-md hidden-md-and-up>
-          <div class="ttle">How it works</div>
-          <div class="subTitle">
-            Oh, it's easy!
-            <img class="dotsImg" src="~/assets/images/home/dots.png" />
+            </div>
           </div>
-          <div class="description">
-            We'll send you an email every day with a <br />reminder for you to
-            submit an idea. Just hit <br />reply, and you'll never forget an
-            idea ever <br />
-            again.
-          </div>
+        </div>
 
-          <div style="text-align: center;">
+        <div class="firstIdea">
+          <div color="white" class="review">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled.
+            <!-- User Icon -->
+            <div class="reviewerInfo">
+              <div class="row reviewerDetail">
+                <div class="col-md-0">
+                  <img
+                    alt="image"
+                    class="reviewInfoImage"
+                    src="~/assets/images/Oval.png"
+                  />
+                </div>
+                <div class="col-md-0">
+                  <div class="reviewerName">Wilhelm Dowall</div>
+                  <div class="reviewTime">1h Ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mobilelasttSection   hidden-md-and-up">
+        <div class="firstFreatureList">
+          <div class="firstHeader">How it work’s?</div>
+          <div class="subHeader">Oh, its easy!</div>
+
+          <div class="lastImageContainer">
             <img
-              class="ladyMobile"
-              src="~/assets/images/home/lady_with_phone.png"
+              alt="image"
+              class="lastImage"
+              src="~/assets/images/newLastImage.png"
             />
-            <img class="img2" src="~/assets/images/home/mail_work_mobile.png" />
-            <img class="img3" src="~/assets/images/person_with_phone.png" />
           </div>
-          <v-btn class="buttn" dark outlined>More</v-btn>
-        </v-container>
+          <div class="descriptionSection">
+            We’ll send you an email every day with a <br />
+            reminder for you to submit an idea.<br />
+            Just hit reply, and you’ll never forget an<br />
+            idea ever again.
+          </div>
 
-        <!-- Footer -->
-        <div class="homeFooter">
-          <v-layout row wrap>
-            <v-flex md10 lg10 hidden-sm-and-down>&nbsp;</v-flex>
-            <v-flex md2 lg2>
-              <i class="fab fa-instagram"></i>
-              <i class="fab fa-twitter"></i>
-              <i class="fab fa-facebook-f"></i>
-            </v-flex>
-          </v-layout>
+          <!-- Signup Button -->
+          <div class="viewMoreBtn">
+            <v-btn
+              normal
+              outlined
+              rounded
+              class="viewMoreButton"
+              color="primary"
+              >View More</v-btn
+            >
+          </div>
         </div>
-      </div>
+      </section>
+
+      <footer class="mobileFooterSection  hidden-md-and-up">
+        <div class="linkContainer">
+          <a>About us</a>
+          <a>FAQ</a>
+          <a>Terms % Conditions</a>
+          <a>Privacy</a>
+        </div>
+
+        <div class="copyRight">
+          Copyright @DailyIdea 2019
+        </div>
+      </footer>
     </div>
   </Layout>
 </template>
@@ -276,281 +337,387 @@ export default {
 </script>
 
 <style lang="scss">
-#homePage {
-  .firstSection {
+#newhomePage {
+  background: white;
+
+  @media #{$small-screen} {
     width: 100%;
-    min-height: 100vh;
-    text-align: left;
-    background: ebe7ed;
+  }
 
-    .desktopHero {
-      padding-left: 11.5%;
-      background-size: cover;
-      background-position-y: -20px;
+  .firstSection {
+    margin-left: 10vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 0px !important;
 
-      .heroTitle {
-        padding-top: 7vh;
-
-        font-size: 75px;
-        font-family: QuatroLight;
-        font-weight: 600;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.2;
-        letter-spacing: normal;
+    .futureListContainer {
+      padding-top: 4vh;
+      .firstFreatureList {
+        padding-top: 10vh;
+        margin-top: 10vh;
+        margin-left: 8vh;
         text-align: left;
-        color: #18141c;
+
+        .firstHeader {
+          font-family: Avenir;
+          font-size: 40px;
+          font-weight: 400;
+          line-height: 1.2;
+          color: #4a4a4a;
+          font-weight: bolder;
+        }
+
+        .subHeader {
+          font-family: Avenir;
+          margin-top: 3vh;
+          font-size: 22px;
+          color: #4a4a4a;
+          line-height: 1.5;
+        }
+
+        .descriptionSection {
+          margin-top: 10vh;
+          font-family: Avenir;
+          font-size: 18px;
+          color: #4a4a4a;
+        }
+
+        .signUpBtn {
+          .signupButton {
+            margin-top: 30px;
+            width: 200px;
+            background: #326bde !important;
+
+            -webkit-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+            -moz-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+            box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+          }
+        }
       }
 
-      .heroSubtitle {
-        margin-top: 3vh;
-        padding-left: 5px;
+      .firstImageContainer {
+        margin-right: 10vh;
+        margin-top: 20px;
 
-        font-family: QuatroLight;
-        font-size: 25px;
-        font-weight: 600;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 0.73;
-        letter-spacing: normal;
-        text-align: left;
-        color: #18141c;
-      }
-
-      .heroDescription {
-        padding-left: 5px;
-        padding-top: 4vh;
-        width: 63%;
-
-        // font-family: QuatroLight;
-        font-size: 20px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.5;
-        letter-spacing: normal;
-        text-align: left;
-        color: #18141c;
-      }
-
-      .signupButton {
-        width: 220px;
-        font-size: 13px;
-        margin-top: 8.5vh;
-        margin-bottom: 2vh;
-      }
-
-      .lampImg {
-        position: absolute;
-        right: 21%;
-        top: 3vh;
-        height: 190px;
+        .firstImage {
+          height: 60vh;
+        }
       }
     }
+  }
 
-    .mobileHero {
-      display: block;
-      width: 100%;
-      padding-left: 7%;
-      padding-right: 7%;
-      padding-bottom: 1vh;
-      margin: auto;
-      background-size: cover;
-      background-position-x: 90%;
-      background-position-y: 0px;
-      position: relative;
-      overflow-x: hidden;
-      overflow-y: hidden;
+  .ideaSection {
+    margin-top: 10vh;
+    margin-bottom: 40px;
 
-      .heroTitle {
-        width: 70%;
-        padding-top: 11vh;
-        display: block;
-
-        font-family: QuatroSlab;
-        font-size: 50px;
-        font-weight: 600;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1;
-        letter-spacing: normal;
-        text-align: left;
-        color: #18141c;
-      }
-
-      .heroSubtitle {
-        margin-top: 3vh;
-        padding-left: 5px;
-
-        font-family: QuatroSlab;
-        font-size: 14px;
-        font-weight: 600;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.57;
-        letter-spacing: normal;
-        text-align: left;
-        color: #18141c;
-      }
-
-      .heroDescription {
-        padding-left: 5px;
-        padding-top: 3vh;
-        width: 54%;
-        text-align: left;
-
-        font-family: Quatro;
-        font-size: 14px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.57;
-        letter-spacing: normal;
-        text-align: left;
-        color: #ffffff;
-      }
-
-      .signupButton {
-        width: 150px;
-        font-size: 13px;
-        margin-top: 40px;
-      }
-
-      .lampImg {
-        position: absolute;
-        right: -2%;
-        top: 3vh;
-        height: 170px;
-      }
+    .ideaSectionHeader {
+      margin-top: 20px;
+      margin-bottom: 40px;
+      text-align: center;
+      height: 26px;
+      font-family: Avenir;
+      font-size: 19px;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #4a4a4a;
     }
 
     .desktopReviews {
-      padding-left: 10px;
-      width: 100%;
-      padding-left: 10%;
-      padding-right: 10%;
-      margin: auto;
-      margin-top: 7vh;
-      padding-bottom: 10vh;
-      background-size: cover;
-      background-position-y: 30px;
-
-      .browseMoreIdeaBtn {
-        text-align: center;
-        margin-top: 80px;
-
-        button {
-          width: 400px;
-        }
-      }
-
-      .person2Img {
-        position: absolute;
-        margin-top: -300px;
-        right: 163px;
-        height: 450px;
-      }
-
-      .person3Img {
-        position: absolute;
-        right: -34px;
-        margin-top: -342px;
-        height: 480px;
-      }
+      margin-left: 30vh;
+      margin-right: 30vh;
 
       .review {
-        max-width: 400px !important;
-        width: 90%;
-        padding: 40px 33px;
+        font-family: Avenir;
+        max-width: 320px !important;
+        width: 350px;
+        padding: 18px 25px;
         font-size: 16px;
         margin: auto;
+        font-size: 14px;
+        border-radius: 4px;
+        background-color: #ffffff;
+        border: solid 1px #d8e3f9;
+        padding-bottom: 0px;
 
         .reviewerInfo {
-          font-size: 13px;
+          border-top: 0.8px solid #e8e8e8;
+          font-size: 12px;
+          font-family: Avenir;
           color: #777;
-          line-height: 30px;
-          margin-top: 30px;
+          margin-top: 15px;
+          padding-top: 5px;
+          margin-right: 6vh;
 
-          .userIcon {
-            color: #35124e;
-            font-size: 25px;
-            line-height: 20px;
-            margin-right: 10px;
-          }
-
-          .reviewTime {
-            float: right;
-          }
-        }
-      }
-    }
-
-    .mobileReviews {
-      padding-bottom: 7vh;
-      background-size: cover;
-      background-position-y: 10vh;
-      position: relative;
-
-      .heroImg {
-        position: absolute;
-        right: 0px;
-        // top: -38vh;
-        top: -300px;
-        // height: 71vh;
-        width: 45%;
-        z-index: 0;
-      }
-
-      .mobileReviewCrousel {
-        // border: 1px solid red;
-        width: 90%;
-        margin: auto;
-        max-height: 33vh;
-        background: white;
-        margin-top: 25px;
-        padding-bottom: 10px;
-        z-index: 10;
-
-        .v-carousel__controls {
-          background: white;
-          padding-bottom: 5vh !important;
-          padding-top: 4vh !important;
-
-          .v-icon {
-            color: #777 !important;
-            font-size: 11px !important;
-          }
-
-          .v-btn--active {
-            background-color: white !important;
-
-            .v-icon {
-              color: #ffc61e !important;
+          .reviewerDetail {
+            .reviewInfoImage {
+              height: 37px;
             }
-          }
-        }
 
-        .review {
-          padding: 32px 32px;
-          padding-bottom: 0px;
-          font-size: 18px;
-          margin: auto;
-
-          .reviewerInfo {
-            font-size: px;
-            color: #777;
-            line-height: 30px;
-            margin-top: 20px;
-
-            .userIcon {
-              color: #35124e;
-              font-size: 25px;
-              line-height: 20px;
-              margin-right: 10px;
+            .reviewerName {
+              margin-left: 10px;
+              height: 16px;
+              font-family: Avenir;
+              font-size: 12px;
+              font-weight: 900;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: normal;
+              letter-spacing: normal;
+              color: #4a4a4a;
             }
 
             .reviewTime {
-              float: right;
+              margin-left: 10px;
+              margin-top: 3px;
+            }
+          }
+
+          .gjhkF {
+            display: inline-block;
+          }
+        }
+      }
+    }
+
+    .moreBrowseBtn {
+      margin-top: 10vh;
+      text-align: center;
+      .browseButton {
+        width: 200px;
+        background: #326bde !important;
+
+        -webkit-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+        -moz-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+        box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+      }
+    }
+  }
+
+  .lastSection {
+    margin-left: 10vh;
+    margin-top: 15vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 0px !important;
+
+    .futureListContainer {
+      .buttomImageContainer {
+        padding-bottom: 7vh;
+        text-align: center;
+        margin: auto;
+        .buttomLeftImage {
+          height: 60vh;
+          margin: auto;
+        }
+      }
+
+      .firstFreatureList {
+        margin-top: 15vh;
+        margin-left: 10vh;
+        text-align: left;
+
+        .firstHeader {
+          font-family: Avenir;
+          font-size: 25px;
+          font-weight: 500;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          color: #4a4a4a;
+        }
+
+        .subHeader {
+          font-family: Avenir;
+          margin-top: 3vh;
+          font-size: 40px;
+          color: #4a4a4a;
+          line-height: normal;
+          font-stretch: normal;
+          font-weight: 900;
+        }
+
+        .descriptionSection {
+          font-family: Avenir;
+          margin-top: 7vh;
+          font-size: 18px;
+          line-height: 2;
+          color: #4a4a4a;
+          font-weight: normal;
+          font-stretch: normal;
+          letter-spacing: normal;
+          color: #4a4a4a;
+        }
+
+        .viewMoreButton {
+          width: 200px;
+          margin-top: 30px;
+        }
+      }
+    }
+  }
+
+  .footerSection {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-right: 20px;
+    padding-left: 20px;
+    .linkContainer {
+      border-top: 0.2px solid #e8e8e8;
+      padding-top: 20px;
+      // text-align: center;
+      a {
+        font-family: Avenir;
+        height: 56px;
+        font-size: 16px;
+        margin-left: 20px;
+        margin-right: 20px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.33;
+        letter-spacing: normal;
+        color: #4a4a4a;
+      }
+
+      .copyRight {
+        font-family: Avenir;
+        float: right;
+        height: 28px;
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.8;
+        letter-spacing: normal;
+        color: #4a4a4a;
+      }
+    }
+  }
+
+  .mobileFirstSection {
+    padding-top: 20px;
+    .firstFreatureList {
+      .firstHeader {
+        font-family: Avenir;
+        margin-right: 20px;
+        font-size: 26px;
+        font-weight: 900;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #4a4a4a;
+        text-align: center;
+      }
+
+      .subHeader {
+        font-family: Avenir;
+        font-size: 18px;
+        text-align: left;
+        margin-left: 3vh;
+        margin-top: 10px;
+      }
+
+      .firstImageContainer {
+        margin-top: 20px;
+        padding: 20px 20px 20px 20px;
+        .firstImage {
+          height: 26vh;
+        }
+      }
+
+      .descriptionSection {
+        font-family: Avenir;
+        margin-top: 2vh;
+        font-size: 15px;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2;
+        letter-spacing: normal;
+        color: #4a4a4a;
+      }
+
+      .actionBtn {
+        padding-top: 25px;
+        padding-bottom: 30px;
+        text-align: center;
+        .signupButton {
+          width: 177px;
+          background: #326bde !important;
+
+          -webkit-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+          -moz-box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+          box-shadow: 4px 26px 79px -11px rgba(50, 107, 222, 1);
+        }
+      }
+    }
+  }
+
+  .mobileIdeaSection {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    .ideaSectionHeader {
+      font-family: Avenir;
+      text-align: center;
+      font-size: 19px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #4a4a4a;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+    }
+
+    .firstIdea {
+      margin-top: 35px;
+      padding-left: 22px;
+      padding-right: 22px;
+
+      .review {
+        font-family: Avenir;
+        font-size: 13px;
+        padding: 18px 10px 10px 10px;
+        width: 100%;
+        border-radius: 3.2px;
+        border: solid 0.8px #d8e3f9;
+
+        .reviewerInfo {
+          border-top: 0.8px solid #e8e8e8;
+          margin-top: 10px;
+          padding-top: 20px;
+          margin-right: 7vh;
+
+          .reviewerDetail {
+            // margin-left: 10px;
+            .reviewInfoImage {
+              margin-left: 12px;
+              width: 38px;
+            }
+
+            .reviewerName {
+              margin-left: 15px;
+              height: 14px;
+              font-family: Avenir;
+              font-weight: 1000;
+              font-stretch: normal;
+              font-style: normal;
+              // line-height: normal;
+              letter-spacing: normal;
+              color: #4a4a4a;
+            }
+
+            .reviewTime {
+              margin-top: 5px;
+              margin-left: 15px;
             }
           }
         }
@@ -558,163 +725,108 @@ export default {
     }
   }
 
-  .secondSection {
-    text-align: left;
-    padding-top: 0vh;
-    overflow: hidden;
-    position: relative;
+  .mobilelasttSection {
+    padding: 50px 10px 30px 10px;
 
-    .desktopView {
-      .leftImageSection {
-        display: flex; // make us of Flexbox
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        position: relative;
-
-        .img1 {
-          position: absolute;
-          overflow: hidden;
-          height: 100vh;
-          top: 1vh;
-          left: -4%;
-        }
-
-        .img2 {
-          width: 70%;
-        }
-
-        .img3 {
-          position: absolute;
-          overflow: hidden;
-          height: 60vh;
-          top: 5vh;
-          right: 13%;
-        }
-      }
-
-      .rightSideDescription {
-        padding-top: 7vh;
-
-        .ttle {
-          color: #ffc61e;
-          font-style: italic;
-          font-size: 2vw;
-          line-height: 2.3vw;
-        }
-
-        .subTitle {
-          font-size: 4vw;
-        }
-
-        .dotsImg {
-          margin-top: 2vh;
-          height: 10px;
-        }
-
-        .description {
-          width: 80%;
-          padding-top: 4vh;
-          font-size: 1.3vw;
-          padding-left: 5px;
-          color: #aca7ae;
-        }
-
-        .buttn {
-          margin-top: 7vh;
-          margin-bottom: 5vh;
-        }
-      }
-    }
-
-    .mobileView {
-      padding: 6vh 8% 0vh 10%;
-      position: relative;
-      overflow: hidden;
-
-      .ttle {
-        font-family: QuatroSlab;
-        font-size: 14px;
-        font-weight: normal;
-        font-style: italic;
+    .firstFreatureList {
+      .firstHeader {
+        font-family: Avenir;
+        margin-left: 15px;
+        font-size: 20px;
+        font-weight: 500;
         font-stretch: normal;
-        line-height: 1.57;
-        letter-spacing: 0.42px;
-        text-align: left;
-        color: #ffbd27;
-      }
-
-      .subTitle {
-        font-size: 9vw;
-        margin-top: 2vh;
-        position: relative;
-
-        .dotsImg {
-          position: absolute;
-          right: 4%;
-          top: 22px;
-          width: 60px;
-        }
-      }
-
-      .description {
-        width: 70%;
-        padding-top: 3vh;
-        padding-left: 5px;
-
-        font-family: Quatro;
-        font-size: 12px;
-        font-weight: normal;
         font-style: normal;
-        font-stretch: normal;
-        line-height: 1.83;
+        line-height: normal;
         letter-spacing: normal;
-        text-align: left;
-        color: #827c85;
+        color: #4a4a4a;
       }
 
-      .buttn {
-        // margin-top: 30vh;
+      .subHeader {
+        font-family: Avenir;
+        height: 40px;
+        margin-top: 15px;
+        margin-left: 15px;
+        font-size: 30px;
+        font-weight: 900;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #4a4a4a;
       }
 
-      .ladyMobile {
-        position: absolute;
-        bottom: 13vh;
-        left: 23px;
-        height: 263px;
+      .lastImageContainer {
+        text-align: center;
+        padding-top: 25px;
+        padding-bottom: 10px;
+        margin-top: 20px;
+        .lastImage {
+          width: 100%;
+        }
       }
 
-      .img2 {
-        width: 70%;
-        margin: auto;
+      .descriptionSection {
+        font-family: Avenir;
+        padding: 2vh;
+        height: 112px;
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2;
+        letter-spacing: normal;
+        color: #4a4a4a;
       }
 
-      .img3 {
-        position: absolute;
-        height: 670px;
-        right: -65px;
-        bottom: -250px;
+      .viewMoreBtn {
+        padding-top: 2vh;
+        margin-top: 30px;
+        text-align: center;
+        .viewMoreButton {
+          width: 177px;
+          color: #979797 !important;
+        }
       }
-    }
-
-    .buttn {
-      margin-top: 8vh;
-      margin-bottom: 4vh;
-      color: #3a1852 !important;
-      border: 2px solid #cbc4cf !important;
     }
   }
 
-  .homeFooter {
-    background: white;
-    color: white;
-    padding: 30px;
-    // padding-top: 20px;
+  .mobileFooterSection {
+    padding-top: 20px;
+    padding-bottom: 3px;
+    padding-right: 10px;
+    padding-left: 10px;
+    .linkContainer {
+      border-top: 0.2px solid #e8e8e8;
+      padding-top: 20px;
+      text-align: center;
+      a {
+        font-family: Avenir;
+        height: 56px;
+        font-size: 12px;
+        margin-left: 10px;
+        margin-right: 10px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.33;
+        letter-spacing: normal;
+        color: #4a4a4a;
+      }
+    }
 
-    i {
-      color: #35124e;
-      margin-left: 13px;
-      margin-right: 13px;
+    .copyRight {
+      font-family: Avenir;
+      margin-bottom: 10px;
+      text-align: center;
+      height: 28px;
+      font-size: 12px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 2.8;
+      letter-spacing: normal;
+      text-align: center;
+      color: #4a4a4a;
     }
   }
 }

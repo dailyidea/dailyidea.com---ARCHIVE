@@ -9,11 +9,11 @@
     <div class="menuItemsContainer">
       <div class="menuItems">
         <div class="menuItem">
-          <nuxt-link to="/publicIdeas">Public Ideas</nuxt-link>
+          <nuxt-link to="/ideas/public">Public Ideas</nuxt-link>
         </div>
         <v-divider></v-divider>
         <div class="menuItem">
-          <nuxt-link to="/ideas/myIdeas">My Ideas</nuxt-link>
+          <nuxt-link to="/ideas/me">My Ideas</nuxt-link>
         </div>
         <v-divider></v-divider>
         <div class="menuItem">

@@ -6,7 +6,7 @@
       mobile: mobileTitle,
       shareIdeaVisible: true,
       editIdeaVisible: true,
-      showEditIdeaBtn: true,
+      showEditIdeaBtn: editIdeaAllowed,
       showSaveActionBtn: true,
       showUnSaveActionBtn: true,
       showPrivateIdeaBtn: true,
@@ -802,6 +802,7 @@ export default {
     tagsToRemove: [],
     loadingIdea: false,
 
+    editIdeaAllowed: false,
     ideaOwnerId: null,
     loggedInUserId: null,
 
@@ -868,6 +869,10 @@ export default {
       ideaTags.push(tag.data.ideaTags[i].tag)
     }
 
+    let editIdeaAllowed = false;
+    if(route.params.userId == store.getters['cognito/userSub']){
+      editIdeaAllowed = true;
+    }
     return {
       idea: data.getUsersIdea,
       user: { email: store.state.cognito.user.attributes.email },
@@ -877,7 +882,8 @@ export default {
       nextToken: result.data.getComments.nextToken,
 
       ideaOwnerId: route.params.userId,
-      loggedInUserId: store.getters['cognito/userSub']
+      loggedInUserId: store.getters['cognito/userSub'],
+      editIdeaAllowed: editIdeaAllowed
     }
   },
 
@@ -885,6 +891,7 @@ export default {
 
   created() {
     this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
+    console.log('deaowner id ', this.ideaOwnerId, 'logged in user id', this.loggedInUserId, this.editIdeaAllowed)
   },
 
   methods: {
@@ -1139,6 +1146,7 @@ export default {
   padding-bottom: 2vh;
   display: block;
   width: 100%;
+  overflow-x:   hidden;
 
   @media #{$small-screen} {
     width: 100%;

@@ -23,14 +23,11 @@
     <template v-else-if="$store.getters['cognito/isLoggedIn']">
       <div class="loggedInHeader">
         <!-- Desktop Header -->
-
         <v-layout hidden-sm-and-down>
           <v-toolbar class="desktop" flat absolute color="white">
+            <!-- Top Left Side -->
             <v-toolbar-title class="blue--text subheading">
-              <!-- Show Back button if enabled -->
-
-              <!-- Desktop Menu -->
-
+              <!-- Desktop Menu Button -->
               <v-icon
                 v-if="desktopMenuVisible"
                 class="desktopMenu"
@@ -38,12 +35,15 @@
                 >fas fa-align-left</v-icon
               >
 
+              <!-- Show Back button if enabled -->
               <v-icon
                 v-if="backButton"
                 class="icons backButon"
                 @click="onBackClick()"
                 >fas fa-arrow-left</v-icon
               >
+
+              <!-- Logo on top left corner -->
               <nuxt-link class="logoLink" :to="{ name: 'index' }">
                 <img class="logoIcon" src="~/assets/images/logo_icon.png" />
                 <img
@@ -91,6 +91,7 @@
           </v-toolbar>
         </v-layout>
 
+        <!-- Desktop sidebar menu -->
         <v-navigation-drawer
           v-model="openDesktopMenu"
           class="menuOfDesktop"
@@ -98,12 +99,6 @@
           temporary
         >
           <v-list dense dark>
-            <!-- <v-list-item>
-              <v-list-item-avatar>
-                <v-img src="~/assets/images/bulb_with_light_holder.png"></v-img>
-              </v-list-item-avatar>
-            </v-list-item> -->
-
             <!-- Back button -->
             <div class="backBtn" @click="openDesktopMenu = false">
               <i class="fas fa-arrow-left"></i>
@@ -211,7 +206,6 @@
               </v-btn>
 
               <!-- Edit IDea Button-->
-
               <v-btn
                 v-if="showEditIdeaBtn"
                 outlined
@@ -265,6 +259,8 @@
             </v-flex>
           </v-layout>
         </v-toolbar>
+
+        <!-- Mobile search toolbar -->
         <v-toolbar
           v-else
           flat
@@ -581,7 +577,7 @@ export default {
       // display: none;
       .v-list-item {
         .v-list-item__content {
-          height: 70px;
+          height: 7vh;
           cursor: pointer;
           border-bottom: 1px solid #827c852e !important;
 
@@ -616,6 +612,7 @@ export default {
         margin-top: 4vh;
         .v-list-item__content {
           border-bottom: none !important;
+          height: auto;
         }
       }
     }
