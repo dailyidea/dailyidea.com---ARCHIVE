@@ -6,9 +6,15 @@
       mobile: mobileTitle,
       shareIdeaVisible: true,
       editIdeaVisible: true,
+      showEditIdeaBtn: editIdeaAllowed,
+      showSaveActionBtn: true,
+      showUnSaveActionBtn: true,
+      showPrivateIdeaBtn: true,
       onCopyShareIdeaLink: copyShareLink
     }"
     @showShareIdeaDialog="showShareIdeaDialog"
+    @showSaveIdeaForMobileDailog="showSaveIdeaMobileViewDailog = true"
+    @showPrivateIdeaDailog="privateIdeaDailog = true"
     @onEditIdea="showIdeaEditor"
   >
     <v-layout id="ideaDetailPage">
@@ -17,44 +23,60 @@
       <v-flex class="profileDetails">
         <!-- Header section - only for desktop -->
         <v-layout class="sectionHeader" hidden-sm-and-down>
-          <div class="headerLeftSide">
-            <div class="arrowBtn">
-              <v-btn text small class="leftBtn" fab>
-                <v-icon> fas fa-arrow-left</v-icon>
-              </v-btn>
-              <v-btn text small class="leftBtn" fab>
-                <v-icon>fas fa-arrow-right</v-icon>
-              </v-btn>
-            </div>
-          </div>
+          <!-- Edit IDea Button-->
+          <v-btn
+           v-if="!ideaEditorVisible"
+            outlined
+            rounded
+            color="gray"
+            class="editIdeaBtn"
+            @click="showIdeaEditor()"
+          >
+            MY IDEA <v-icon right>fas fa-pen</v-icon>
+          </v-btn>
+
+
+            <v-btn
+            v-if="ideaEditorVisible"
+            outlined
+            rounded
+            color="gray"
+            class="editIdeaBtnOnEditMode"
+            @click="showIdeaEditor()"
+          >
+            MY IDEA <v-icon right>fas fa-pen</v-icon>
+          </v-btn>
 
           <div class="headerRightSide">
-            <!-- Share Menu -->
-            <v-menu class="shareMenu" offset-y>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  text
-                  icon
-                  color="light-gray"
-                  class="menu"
-                  @click="showEmailShareDialog = true"
-                  v-on="on"
-                >
-                  <v-icon>fas fa-envelope</v-icon>
-                </v-btn>
-              </template>
-            </v-menu>
+            <!-- <v-btn text icon color="gray" class="globeImageDiv">
+              <img
+                alt="image"
+                class="globeSmallImage"
+                src="~/assets/images/globeSmallImage.png"
+              />
+            </v-btn> -->
 
-            <!-- Edit IDea Button-->
             <v-btn
               text
               icon
               color="gray"
-              size="small"
-              class="menu"
-              @click="showIdeaEditor()"
+              class="globeImageDiv"
+              @click="privateIdeaDailog = true"
             >
-              <v-icon>fas fa-pen</v-icon>
+              <img
+                alt="image"
+                class="globeImage"
+                src="~/assets/images/globeImage.png"
+              />
+            </v-btn>
+
+            <v-btn text icon color="gray" class="saveIdeaBtn">
+              <img
+                class="saveIdea"
+                src="~/assets/images/unSaveIdeaImage.png"
+                @click="showSaveIdeaDailog = true"
+              />
+              <!-- <img class="unsaveIdea" src="~/assets/images/saveIdeaImage.png" /> -->
             </v-btn>
 
             <!-- Side Settings icon -->
@@ -74,6 +96,9 @@
               <v-list>
                 <v-list-item>
                   <v-list-item-title>Share</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="showEmailShareDialog = true">
+                  <v-list-item-title>Share by Email</v-list-item-title>
                 </v-list-item>
                 <v-list-item @click="copyShareLink()">
                   <v-list-item-title>Copy Direct Link</v-list-item-title>
@@ -95,7 +120,7 @@
         <div v-if="!ideaEditorVisible" class="ideaTitle">
           <div class="ideaTitle">{{ idea.title }}</div>
         </div>
-        <div v-else>
+        <div v-else class="editIdeaTitle">
           <v-textarea
             v-model="idea.title"
             v-validate="'required|max:100'"
@@ -167,6 +192,17 @@
           </v-combobox>
         </div>
 
+        <div class="headerLeftSideOfDesktop">
+          <div class="arrowBtn">
+            <v-btn text small class="leftBtn" fab>
+              <v-icon> fas fa-arrow-left</v-icon>
+            </v-btn>
+            <v-btn text small class="leftBtn" fab>
+              <v-icon>fas fa-arrow-right</v-icon>
+            </v-btn>
+          </div>
+        </div>
+
         <!--submit and cancel btn-->
         <div v-if="ideaEditorVisible" class="buttons">
           <v-btn
@@ -200,7 +236,7 @@
             <v-btn text small class="leftBtn" fab>
               <v-icon> fas fa-arrow-left</v-icon>
             </v-btn>
-            <v-btn text small class="leftBtn" fab>
+            <v-btn text small class="rightBtn" fab>
               <v-icon>fas fa-arrow-right</v-icon>
             </v-btn>
           </div>
@@ -208,7 +244,10 @@
       </v-flex>
 
       <!-- Comments -->
-      <v-flex v-if="!noComment" class="rightSideComments">
+      <v-flex
+        v-if="commentList && commentList.length > 0"
+        class="rightSideComments"
+      >
         <v-layout class="cmtAndLike" hidden-sm-and-down>
           <div class="ups">
             <v-btn text @click="toggleLikeIdea">
@@ -232,7 +271,7 @@
         </v-layout>
 
         <!-- Comment List -->
-
+<!-- {{commentList}} -->
         <div
           v-for="(item, index) in commentList"
           :key="index"
@@ -268,11 +307,10 @@
             Lode More Comments......
           </a>
         </div>
-
-        <div v-if="noComment" class="noCommentDiv">
-          No added Comment yet.
-        </div>
       </v-flex>
+      <div v-else class="noCommentDiv">
+        <div>There are not comments yet. <br />Add the first one?</div>
+      </div>
 
       <!-- Foter with textbox -->
       <div class="pageFooter">
@@ -358,6 +396,15 @@
         persistent
         max-width="400px"
       >
+        <div class="closeBtn">
+          <v-icon
+            text
+            class="cancelIcon"
+            size="18"
+            @click="showEmailShareDialog = false"
+            >fas fa-times</v-icon
+          >
+        </div>
         <form>
           <!-- Popup Header -->
 
@@ -376,7 +423,7 @@
               v-validate="'required|max:100'"
               :error-messages="errors.collect('name')"
               data-vv-name="name"
-              label="Enter your name"
+              label=" Your name"
               outlined
             >
             </v-text-field>
@@ -385,16 +432,17 @@
               v-validate="'required|max:100'"
               :error-messages="errors.collect('friend name')"
               data-vv-name="friend name"
-              label="Enter friend name"
+              label=" Your Friend's name"
               outlined
             ></v-text-field>
 
             <v-text-field
               v-model="emailShareForm.friendEmail"
               v-validate="'required|email|max:100'"
+              append-icon="email"
               :error-messages="errors.collect('email')"
               data-vv-name="email"
-              label="Your Friend's email address"
+              label="Your Friend's email "
               outlined
             ></v-text-field>
           </div>
@@ -405,6 +453,306 @@
               >Cancel</v-btn
             >
             <v-btn class="specialButton shareBtn" @click="sendShareEmail()"
+              >Share</v-btn
+            >
+          </div>
+        </form>
+      </v-dialog>
+
+      <!-- Popup - Save Idea from Email -->
+      <v-dialog
+        v-model="saveIdeaFromEmailDialog"
+        content-class="saveIdeaEmailDialog"
+        persistent
+        max-width="420px"
+      >
+        <div class="closeBtn">
+          <v-icon
+            text
+            class="cancelIcon"
+            size="20"
+            @click="saveIdeaFromEmailDialog = false"
+            >fas fa-times</v-icon
+          >
+        </div>
+
+        <form>
+          <div class="bulbImageSection">
+            <img
+              alt="image"
+              class="bulbImage"
+              src="~/assets/images/logo_icon.png"
+            />
+          </div>
+          <!-- Popup Header -->
+          <div class="header">
+            <div class="headlineText">
+              Someone shared an <br />
+              Idea with you
+            </div>
+            <div class="subHeader">
+              Daily Idea Lets you browse othre <br />people's ideas but also
+              save your<br />
+              own. What would you like to do?
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="btnContainer">
+            <v-btn to="/ideas/create" class="specialButton shareBtn">WRITE A NEW IDEA</v-btn>
+          </div>
+          <div class="btnContainer">
+            <v-btn to="/ideas/create" outlined class="browseBtn">SUBMIT A NEW IDEA</v-btn>
+          </div>
+          <div class="btnContainer">
+            <v-btn to="/ideas/public" outlined class="browseBtn">BROWSE PUBLIC IDEAS</v-btn>
+          </div>
+        </form>
+      </v-dialog>
+
+      <!-- Popup - Save Idea -->
+      <v-dialog
+        v-model="showSaveIdeaDailog"
+        content-class=" saveIdeaDialog"
+        persistent
+        max-width="450px"
+      >
+        <div class="closeBtn">
+          <v-icon
+            text
+            class="cancelIcon"
+            size="20"
+            @click="showSaveIdeaDailog = false"
+            >fas fa-times</v-icon
+          >
+        </div>
+        <form>
+          <!-- Popup Header -->
+          <div class="headerInfo">
+            <div class=" row saveIdeaDetail">
+              <div class="col-md-4">
+                <img
+                  alt="image"
+                  class="saveIdeaImage"
+                  src="~/assets/images/saveDailogMobile.png"
+                />
+              </div>
+              <div class="col-md-8">
+                <div class="detailOfSave">
+                <div class="mainheader">Save Idea</div>
+                <div class="subHeader">
+                  To save this idea and get back to it at any time, you need to
+                  create an account.Don't worry, all we need is your email.
+                </div>
+                </div>
+              </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text Fields -->
+          <div class="inputDetails">
+            <v-text-field
+              v-model="emailShareForm.name"
+              v-validate="'required|max:100'"
+              prepend-inner-icon="fas fa-user"
+              single-line
+              flat
+              :error-messages="errors.collect('name')"
+              data-vv-name="name"
+              label="Enter your name"
+            >
+            </v-text-field>
+            <v-text-field
+              v-model="emailShareForm.friendEmail"
+              v-validate="'required|email|max:100'"
+              prepend-inner-icon="email"
+              single-line
+              flat
+              :error-messages="errors.collect('email')"
+              data-vv-name="email"
+              label="Enter your email address"
+            ></v-text-field>
+          </div>
+
+          <!-- Submit Buttons -->
+          <div class="btnContainer">
+            <v-btn
+              class="specialButton shareBtn"
+              @click="saveIdeaForUserDialog()"
+              >SUBMIT</v-btn
+            >
+          </div>
+        </form>
+      </v-dialog>
+
+      <!-- Popup - Save Idea conform Dailog-->
+      <v-dialog
+        v-model="savedIdeaConformDailog"
+        content-class="saveIdeaConformDivDialog"
+        persistent
+        max-width="420px"
+      >
+        <div class="closeBtn">
+          <v-icon
+            text
+            class="cancelIcon"
+            size="20"
+            @click="savedIdeaConformDailog = false"
+            >fas fa-times</v-icon
+          >
+        </div>
+
+        <form>
+          <div class="bulbImageSection">
+            <img
+              alt="image"
+              class="bulbImage"
+              src="~/assets/images/logo_icon.png"
+            />
+          </div>
+          <!-- Popup Header -->
+          <div class="header">
+            <div class="headlineText">
+              Yay, You Saved <br />
+              an Idea!
+            </div>
+            <div class="subHeader">
+              Daily Idea Lets you browse othre <br />people's ideas but also
+              save your<br />
+              own. What would you like to do?
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="btnContainer">
+            <v-btn to="/ideas/create" class="specialButton shareBtn">WRITE A NEW IDEA</v-btn>
+          </div>
+          <div class="btnContainer">
+            <v-btn to="/ideas/public" outlined class="browseBtn">BROWSE PUBLIC IDEAS</v-btn>
+          </div>
+        </form>
+      </v-dialog>
+
+      <!-- Popup -Private Idea -->
+      <v-dialog
+        v-model="privateIdeaDailog"
+        content-class="privateIdeaSectionDialog"
+        persistent
+        max-width="450px"
+      >
+        <div class="closeBtn">
+          <v-icon
+            text
+            class="cancelIcon"
+            size="18"
+            @click="privateIdeaDailog = false"
+            >fas fa-times</v-icon
+          >
+        </div>
+
+        <form>
+          <!-- Popup Header -->
+
+          <div class="globeImageSection">
+            <img
+              alt="image"
+              class="globeImage"
+              src="~/assets/images/globeImage.png"
+            />
+          </div>
+          <div class="header">
+            <div class="headlineText">
+              So You Want To Keep <br />
+              Your Ideas to <br />
+              Yourself ?
+            </div>
+            <div class="subHeader">
+              That's ok. Some things do<br />
+              need to stay private. Turn your <br />
+              idea private with just a click for<br />
+              only
+            </div>
+            <div class="rateSection">
+              $ 2.99/mounth
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="btnContainer">
+            <v-btn class="specialButton shareBtn">SUBSCRIBE</v-btn>
+          </div>
+        </form>
+      </v-dialog>
+
+      <!-- Popup - Save Idea For Mobile View  -->
+      <v-dialog
+        v-model="showSaveIdeaMobileViewDailog"
+        content-class="saveIdeaMobileViewDialog"
+        persistent
+        max-width="350px"
+      >
+        <div class="closeBtn">
+          <v-icon
+            text
+            class="cancelIcon"
+            size="20"
+            @click="showSaveIdeaMobileViewDailog = false"
+            >fas fa-times</v-icon
+          >
+        </div>
+        <form>
+          <!-- Popup Header -->
+          <div class="headerInfo">
+            <div class="row saveIdeaDetail">
+              <div class="col-md-0">
+                <img
+                  alt="image"
+                  class="saveIdeaImage"
+                  src="~/assets/images/saveDailogMobile.png"
+                />
+              </div>
+              <div class="col-md-0">
+                <div class="mainheader">Save Idea</div>
+                <div class="subHeader">
+                  To save this idea and get back to it at any time, you need to
+                  create an account.Don't worry, all we need is your email.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text Fields -->
+          <div class="inputDetails">
+            <v-text-field
+              v-model="emailShareForm.name"
+              v-validate="'required|max:100'"
+              prepend-inner-icon="fas fa-user"
+              single-line
+              flat
+              :error-messages="errors.collect('name')"
+              data-vv-name="name"
+              label="Enter your name"
+            >
+            </v-text-field>
+            <v-text-field
+              v-model="emailShareForm.friendEmail"
+              v-validate="'required|email|max:100'"
+              prepend-inner-icon="email"
+              single-line
+              flat
+              :error-messages="errors.collect('email')"
+              data-vv-name="email"
+              label="Enter your email address"
+            ></v-text-field>
+          </div>
+
+          <!-- Submit Buttons -->
+          <div class="btnContainer">
+            <v-btn
+              class="specialButton shareBtn"
+              @click="saveIdeaForUserDialog()"
               >Share</v-btn
             >
           </div>
@@ -429,7 +777,6 @@
 import { graphqlOperation } from '@aws-amplify/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import getMyIdea from '~/graphql/query/getMyIdea'
 import getIsIdeaLikedByMe from '~/graphql/query/getIsIdeaLikedByMe'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import addComment from '~/graphql/mutations/addComment'
@@ -442,6 +789,8 @@ import Layout from '@/components/layout/Layout'
 import addTags from '~/graphql/mutations/addTags'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
 import deleteTag from '~/graphql/mutations/deleteTag'
+import getUsersIdea from '~/graphql/query/getUsersIdea'
+
 dayjs.extend(relativeTime)
 
 export default {
@@ -450,11 +799,14 @@ export default {
     validator: 'new'
   },
   data: () => ({
-    // chips: ['web', 'illustration', 'graphics', 'ui', 'adobe', 'interface'],
     chips: [],
     ideaTags: [],
     tagsToRemove: [],
     loadingIdea: false,
+
+    editIdeaAllowed: false,
+    ideaOwnerId: null,
+    loggedInUserId: null,
 
     snackbarVisible: false,
     snackbarMessage: '',
@@ -465,9 +817,13 @@ export default {
     // commentId: null,
     currentComment: '',
     updatingComment: false,
-    noComment: false,
 
     showEmailShareDialog: false,
+    showSaveIdeaMobileViewDailog: false,
+    savedIdeaConformDailog: false,
+    privateIdeaDailog: false,
+    saveIdeaFromEmailDialog: false,
+    showSaveIdeaDailog: false,
     showcommentDialog: false,
     commentForm: {
       Email: ''
@@ -488,9 +844,15 @@ export default {
     }
   },
   async asyncData({ app, route, store }) {
-    const { data } = await app.$amplifyApi.graphql(
-      graphqlOperation(getMyIdea, { ideaId: route.params.ideaId })
-    )
+    const { data } = await app.$amplifyApi.graphql({
+      query: getUsersIdea,
+      variables: {
+        userId: route.params.userId,
+        ideaId: route.params.ideaId
+      },
+      authMode: 'API_KEY'
+    })
+    console.log('idea data: ', data)
 
     let isLiked = await app.$amplifyApi.graphql(
       graphqlOperation(getIsIdeaLikedByMe, { ideaId: route.params.ideaId })
@@ -509,13 +871,21 @@ export default {
       ideaTags.push(tag.data.ideaTags[i].tag)
     }
 
+    let editIdeaAllowed = false;
+    if(route.params.userId == store.getters['cognito/userSub']){
+      editIdeaAllowed = true;
+    }
     return {
-      idea: data.getMyIdea,
+      idea: data.getUsersIdea,
       user: { email: store.state.cognito.user.attributes.email },
       ideaTags: ideaTags,
       isIdeaLiked: isLiked.data.getIsIdeaLikedByMe.isLiked,
       commentList: result.data.getComments.items,
-      nextToken: result.data.getComments.nextToken
+      nextToken: result.data.getComments.nextToken,
+
+      ideaOwnerId: route.params.userId,
+      loggedInUserId: store.getters['cognito/userSub'],
+      editIdeaAllowed: editIdeaAllowed
     }
   },
 
@@ -523,16 +893,35 @@ export default {
 
   created() {
     this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
+    console.log('deaowner id ', this.ideaOwnerId, 'logged in user id', this.loggedInUserId, this.editIdeaAllowed)
   },
 
   methods: {
-    // async fetchCommentList() {
-    //   const { data } = await this.$amplifyApi.graphql(
-    //     graphqlOperation(getIdea, { ideaId: this.$route.params.ideaId })
-    //   )
+    async saveIdeaForUserDialog() {
+      this.savedIdeaConformDailog = true
+      this.showSaveIdeaDailog = false
+    },
 
-    //   this.commentList = data.getIdea.comments
-    // },
+    showShareIdeaDialog() {
+      this.showEmailShareDialog = true
+    },
+
+    async sendShareEmail() {
+      //Validate input fields
+      this.saveIdeaFromEmailDialog = true
+      this.showEmailShareDialog = false
+
+      let result = await this.$validator.validateAll()
+      if (!result) {
+        return
+      }
+
+      //TODO: Send email from backend
+
+      this.snackbarMessage = 'Email sent successfully.'
+      this.showEmailShareDialog = false
+      this.snackbarVisible = true
+    },
 
     async loadMoreComments() {
       this.loadingIdea = true
@@ -562,7 +951,7 @@ export default {
             // body: body,
             // userId: this.$store.getters['cognito/userSub'],
             ideaId: this.$route.params.ideaId,
-            ideaOwnerId: this.idea.userId,
+            ideaOwnerId: this.$route.params.userId,
             commentId: commentId
           })
         )
@@ -594,12 +983,13 @@ export default {
       this.updatingComment = true
 
       try {
+        debugger
         const result = await this.$amplifyApi.graphql(
           graphqlOperation(addComment, {
             body: this.currentComment,
             ideaId: this.$route.params.ideaId,
             userId: this.$store.getters['cognito/userSub'],
-            ideaOwnerId: this.idea.userId
+            ideaOwnerId: this.$route.params.userId
           })
         )
         this.commentList.push(result.data.addComment.comment)
@@ -617,24 +1007,6 @@ export default {
         this.snackbarColor = 'error'
         this.snackbarVisible = true
       }
-    },
-
-    showShareIdeaDialog() {
-      this.showEmailShareDialog = true
-    },
-
-    async sendShareEmail() {
-      //Validate input fields
-      let result = await this.$validator.validateAll()
-      if (!result) {
-        return
-      }
-
-      //TODO: Send email from backend
-
-      this.snackbarMessage = 'Email sent successfully.'
-      this.showEmailShareDialog = false
-      this.snackbarVisible = true
     },
 
     removeTag(item) {
@@ -661,7 +1033,7 @@ export default {
         await this.$amplifyApi.graphql(
           graphqlOperation(mutationToCall, {
             ideaId: ideaId,
-            ideaOwnerId: this.idea.userId
+            ideaOwnerId: this.$route.params.userId
           })
         )
       } catch (err) {
@@ -699,11 +1071,12 @@ export default {
 
     async onSaveIdeaContent() {
       let result = await this.$validator.validateAll()
+
+      this.errorMsg = ''
       if (!result) {
         this.errorMsg = 'This field is required.'
         return
       }
-
       this.updatingIdea = true
 
       try {
@@ -775,6 +1148,11 @@ export default {
   padding-bottom: 2vh;
   display: block;
   width: 100%;
+  overflow-x:   hidden;
+
+  @media #{$small-screen} {
+    width: 100%;
+  }
 
   position: relative;
 
@@ -784,13 +1162,31 @@ export default {
     overflow: auto;
 
     @media #{$small-screen} {
-      padding-right: 5%;
-      padding-left: 5%;
+      // padding-right: 5%;
+      // padding-left: 5%;
     }
 
     .sectionHeader {
       display: flex;
       margin-bottom: 20px;
+
+      .editIdeaBtn {
+        margin: 0px;
+        color: #87818a !important;
+
+        i {
+          color: #87818a !important;
+        }
+      }
+
+      .editIdeaBtnOnEditMode{
+         margin: 0px;
+        color: #37234d!important;
+
+        i {
+          color: #37234d !important;
+        }
+      }
 
       i {
         line-height: 20px;
@@ -805,6 +1201,25 @@ export default {
       .headerRightSide {
         flex: 1;
         text-align: right;
+
+        .globeIcon {
+          margin-right: 10px;
+        }
+
+        .globeImageDiv {
+          margin-right: 10px;
+          .globeImage {
+            height: 22px;
+          }
+
+          .globeSmallImage {
+            height: 21px;
+          }
+        }
+
+        .saveIdeaBtn {
+          margin-right: 5px;
+        }
 
         button {
           i {
@@ -831,12 +1246,6 @@ export default {
           margin: 0px;
         }
       }
-
-      .menu {
-        margin: 0px;
-
-        /* border: 1px solid red; */
-      }
     }
 
     .ideaTitle {
@@ -849,6 +1258,16 @@ export default {
       letter-spacing: normal;
       text-align: left;
       color: #18141c;
+
+      @media #{$small-screen} {
+        // display: none;
+        margin-top: 10px;
+      }
+    }
+
+    .editIdeaTitle {
+      padding-top: 28px;
+      padding-bottom: 0px;
     }
 
     .metadata {
@@ -905,6 +1324,24 @@ export default {
             height: 170px !important;
             max-height: 200px !important;
             overflow-y: auto;
+          }
+        }
+      }
+    }
+
+    .headerLeftSideOfDesktop {
+      display: block;
+      float: right;
+      margin-right: 10px;
+
+      @media #{$small-screen} {
+        display: none;
+      }
+
+      .arrowBtn {
+        .leftBtn {
+          i {
+            font-size: 16px;
           }
         }
       }
@@ -969,6 +1406,10 @@ export default {
         text-align: left;
         color: #c0b7c5;
 
+        .downs {
+          margin-left: 25px;
+        }
+
         div {
           display: inline-block;
           margin-right: 10px;
@@ -1029,6 +1470,14 @@ export default {
       padding-top: 2px;
       margin-right: 5px;
     }
+  }
+
+  .noCommentDiv {
+    min-height: 70vh;
+    padding-top: 34vh;
+    text-align: center;
+    color: #c0b7c5;
+    font-size: 25px;
   }
 
   @media #{$small-screen} {
@@ -1142,6 +1591,10 @@ export default {
   box-shadow: 0 -10px 10px 0 rgba(228, 228, 228, 0.73);
   background-color: #ffffff;
 
+  @media #{$small-screen} {
+    // display: none;
+  }
+
   .newCommentInput {
     .v-input__slot {
       margin-bottom: 0px;
@@ -1224,12 +1677,19 @@ export default {
 }
 
 .emailShareDialog {
-  padding: 40px 20px 20px 20px;
+  padding: 15px 20px 20px 20px;
   background: white;
+
+  .closeBtn {
+    .cancelIcon {
+      float: right;
+    }
+  }
 
   .header {
     text-align: center;
     margin-bottom: 20px;
+    margin-top: 30px;
 
     .headlineText {
       margin-top: 10px;
@@ -1255,6 +1715,334 @@ export default {
 
     .shareBtn {
       width: 170px;
+    }
+  }
+}
+
+.saveIdeaDialog {
+  padding: 14px 25px 20px 25px;
+  background: white;
+
+  @media #{$small-screen} {
+    width: 320px;
+  }
+
+  .closeBtn {
+    .cancelIcon {
+      float: right;
+    }
+  }
+
+  .headerInfo {
+    .saveIdeaDetail {
+      .saveIdeaImage {
+        position: absolute;
+        margin-top: 40px;
+        margin-left: -35px;
+      }
+
+      .detailOfSave{
+        margin-left:30px;
+      .mainheader {
+        font-size: 25px;
+        margin-top: 35px;
+        margin-left: 39px;
+        letter-spacing: 1.5px;
+      }
+
+      .subHeader {
+        font-size: 17px;
+        letter-spacing: 1px;
+        margin-top: 30px;
+        margin-left: 39px;
+        line-height: 25px;
+        color: #777;
+      }
+      }
+    }
+  }
+
+  .inputDetails {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .btnContainer {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    // text-align: right;
+
+    .shareBtn {
+      width: 100%;
+      height: 50px;
+    }
+  }
+}
+
+.saveIdeaEmailDialog {
+  padding: 20px 20px 20px 20px;
+  background: white;
+
+  .closeBtn {
+    .cancelIcon {
+      float: right;
+    }
+  }
+
+  .bulbImageSection {
+    margin-top: 25px;
+    text-align: center;
+    .bulbImage {
+      height: 10vh;
+    }
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+
+    .headlineText {
+      letter-spacing: 1.4px;
+      margin-top: 30px;
+      font-size: 25px;
+      font-family: Quatro;
+    }
+
+    .subHeader {
+      // text-align: left;
+      // margin: 25px 30px 25px 50px;
+      font-size: 18px;
+      margin-top: 20px;
+      line-height: 35px;
+      letter-spacing: normal;
+      color: #777;
+    }
+  }
+
+  .btnContainer {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+    // text-align: right;
+
+    .shareBtn {
+      height: 55px;
+      width: 100%;
+    }
+
+    .browseBtn {
+      height: 55px;
+      width: 100%;
+    }
+  }
+}
+
+.privateIdeaSectionDialog {
+  padding: 20px 20px 20px 20px;
+  background: white;
+
+  .closeBtn {
+    .cancelIcon {
+      float: right;
+    }
+  }
+
+  .globeImageSection {
+    text-align: center;
+    margin-top: 45px;
+    .globeImage {
+      height: 6vh;
+    }
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 30px;
+
+    .headlineText {
+      margin-top: 10px;
+      font-size: 25px;
+      font-family: Quatro;
+      letter-spacing: 2px;
+    }
+
+    .subHeader {
+      letter-spacing: 1px;
+      font-size: 17px;
+      margin-top: 25px;
+      line-height: 32px;
+      color: #777;
+    }
+
+    .rateSection {
+      margin-top: 20px;
+      font-size: 25px;
+    }
+  }
+
+  .btnContainer {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+    // text-align: right;
+
+    .shareBtn {
+      height: 55px;
+      width: 100%;
+    }
+
+    .browseBtn {
+      height: 55px;
+      width: 100%;
+    }
+  }
+
+  @media #{$small-screen} {
+    width: 320px;
+    padding: 15px 15px 15px 15px;
+    background: white;
+
+    .globeImageSection {
+      text-align: center;
+      margin-top: 40px;
+      .globeImage {
+        height: 8vh;
+      }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      margin-top: 30px;
+
+      .headlineText {
+        margin: 8px 50px 20px 50px;
+        font-size: 25px;
+        font-family: Quatro;
+        // letter-spacing: 2px;
+      }
+
+      .subHeader {
+        // letter-spacing: 1px;
+        font-size: 17px;
+        margin-top: 25px;
+        // line-height: 32px;
+        color: #777;
+      }
+
+      .rateSection {
+        margin-top: 20px;
+        font-size: 25px;
+      }
+    }
+  }
+}
+
+.saveIdeaConformDivDialog {
+  padding: 20px 20px 20px 20px;
+  background: white;
+
+  .closeBtn {
+    .cancelIcon {
+      float: right;
+    }
+  }
+
+  .bulbImageSection {
+    margin-top: 25px;
+    text-align: center;
+    .bulbImage {
+      height: 10vh;
+    }
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+
+    .headlineText {
+      letter-spacing: 1.4px;
+      margin-top: 30px;
+      font-size: 25px;
+      font-family: Quatro;
+    }
+
+    .subHeader {
+      // text-align: left;
+      // margin: 25px 30px 25px 50px;
+      font-size: 18px;
+      margin-top: 20px;
+      line-height: 35px;
+      letter-spacing: normal;
+      color: #777;
+    }
+  }
+
+  .btnContainer {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+    // text-align: right;
+
+    .shareBtn {
+      height: 55px;
+      width: 100%;
+    }
+
+    .browseBtn {
+      height: 55px;
+      width: 100%;
+    }
+  }
+}
+
+.saveIdeaMobileViewDialog {
+  padding: 14px 25px 20px 25px;
+  background: white;
+
+  .closeBtn {
+    .cancelIcon {
+      float: right;
+    }
+  }
+
+  .headerInfo {
+    .saveIdeaDetail {
+      .mainheader {
+        font-size: 25px;
+        margin-top: 35px;
+        margin-left: 39px;
+        // letter-spacing: 1.5px;
+      }
+
+      .subHeader {
+        font-size: 17px;
+        // letter-spacing: 1px;
+        margin-top: 30px;
+        margin-left: 39px;
+        line-height: 25px;
+        color: #777;
+      }
+    }
+  }
+
+  .inputDetails {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .btnContainer {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    // text-align: right;
+
+    .shareBtn {
+      width: 100%;
+      height: 50px;
     }
   }
 }

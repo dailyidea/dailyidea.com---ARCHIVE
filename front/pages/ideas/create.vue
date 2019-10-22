@@ -3,6 +3,7 @@
     v-bind="{
       backButton: true,
       loggedInHeader: true,
+      showPrivateIdeaBtn: true,
       mobileTitle: 'CREATE IDEA'
     }"
   >
@@ -13,6 +14,13 @@
         <!-- Header -->
         <v-layout class="text" hidden-sm-and-down>
           My idea:
+          <div class="privateIcon">
+            <img
+              alt="image"
+              class="globeSmallImage"
+              src="~/assets/images/globeSmallImage.png"
+            />
+          </div>
         </v-layout>
 
         <!-- title -->
@@ -172,8 +180,18 @@ export default {
     }
 
     .text {
+      // width: 100%;
       font-size: 16px;
       margin-bottom: 10px;
+    }
+    .privateIcon {
+      width: 90%;
+      float: right;
+      text-align: right;
+      // margin-left: 89%;
+      .privateIcon {
+        font-size: 15px;
+      }
     }
 
     .ideaEditor {

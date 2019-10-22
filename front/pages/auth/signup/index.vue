@@ -7,6 +7,8 @@
       </v-btn>
 
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
+        <img class="bigTreeImage" src="~/assets/images/signup/bigTree.png" />
+
         <img
           class="imgPersonWithPhone"
           src="~/assets/images/person_with_phone.png"
@@ -75,9 +77,10 @@
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
         <img
-          class="imgLightGrayLamp"
-          src="~/assets/images/signup/light_gray_lamp.png"
+          class="smallTreeImage"
+          src="~/assets/images/signup/smallTree.png"
         />
+
         <img
           class="imgPersonWithPhone"
           src="~/assets/images/signup/lady_with_phone.png"
@@ -176,11 +179,18 @@ export default {
       position: relative;
       z-index: 10;
 
-      .imgPersonWithPhone {
-        height: 70vh;
+      .bigTreeImage {
+        height: 75vh;
         position: absolute;
-        right: 4%;
-        bottom: 3.5vh;
+        left: -3%;
+        top: 20vh;
+      }
+
+      .imgPersonWithPhone {
+        height: 75vh;
+        position: absolute;
+        right: 10%;
+        bottom: 3vh;
       }
     }
 
@@ -188,18 +198,18 @@ export default {
       position: relative;
       z-index: 100;
 
-      .imgLightGrayLamp {
-        height: 55vh;
+      .smallTreeImage {
+        height: 90vh;
         position: absolute;
-        left: 10%;
-        top: 0;
+        left: 58%;
+        bottom: 6vh;
       }
 
       .imgPersonWithPhone {
-        height: 70vh;
+        height: 72vh;
         position: absolute;
-        left: 4%;
-        bottom: 3.5vh;
+        left: 20%;
+        bottom: 3vh;
       }
     }
 
@@ -257,7 +267,7 @@ export default {
         margin-top: 20px;
         background-image: linear-gradient(to left, #ffdf01, #ffb92d);
         color: white;
-        width: 70%;
+        width: 62%;
 
         letter-spacing: 1px;
 
@@ -295,7 +305,7 @@ export default {
         }
 
         .loginBtn {
-          width: 70%;
+          width: 62%;
           max-width: 500px;
           border-radius: 4px;
           letter-spacing: 1px;

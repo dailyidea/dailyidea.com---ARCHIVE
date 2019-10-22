@@ -1,5 +1,5 @@
 <template>
-  <div id="signupSuccessPage">
+  <div id="loginSuccessPage">
     <!-- Back button -->
     <v-btn class="backBtn" text icon color="primary" to="/">
       <v-icon>fas fa-arrow-left</v-icon>
@@ -7,6 +7,8 @@
 
     <v-layout row class="gridContainer">
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
+        <img class="bigTreeImage" src="~/assets/images/signup/bigTree.png" />
+
         <img
           class="imgPersonWithPhone"
           src="~/assets/images/person_with_phone.png"
@@ -24,18 +26,20 @@
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
         <!-- Hero Message -->
-        <div class="heroMsg">Hooray!</div>
+        <div class="heroMsg">Welcome!</div>
 
         <!-- Hero Description -->
         <div class="heroDescription">
-          We've sent you a Login link.
-          <span v-if="email">link at {{ email }}.</span>
-          <span v-else></span>
-          Click the link to confirm your email and get started!
+          Daily Idea lets you browse other people's <br />
+          ideas but also save your own. What<br />
+          would you like to do?
         </div>
 
         <!-- Continue Button -->
-        <v-btn large class="okBtn">OK</v-btn>
+        <v-btn large class="saveNewBtn">SAVE A NEW IDEA</v-btn><br />
+        <v-btn large dark color="primary" class="browsePublicIdeaBtn"
+          >BROWSE PUBLIC IDEAS</v-btn
+        >
 
         <!-- Social Login Icons -->
         <div class="socialIconContainer">
@@ -53,8 +57,8 @@
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
         <img
-          class="imgLightGrayLamp"
-          src="~/assets/images/signup/light_gray_lamp.png"
+          class="smallTreeImage"
+          src="~/assets/images/signup/smallTree.png"
         />
         <img
           class="imgPersonWithPhone"
@@ -78,22 +82,20 @@
 <script>
 export default {
   data: () => ({
-    email: null
+    email: null,
+    success: false
   }),
   mounted() {
     if (this.$route.params.email) {
       this.email = this.$route.params.email
     }
   },
-  created() {
-    // Read registered user's email id from vuex
-  },
   methods: {}
 }
 </script>
 
 <style lang="scss">
-#signupSuccessPage {
+#loginSuccessPage {
   // border: 1px solid red;
   height: 100vh;
   overflow: hidden;
@@ -118,11 +120,19 @@ export default {
       position: relative;
       z-index: 10;
 
+      .bigTreeImage {
+        height: 75vh;
+        position: absolute;
+        left: -2%;
+        top: 20vh;
+      }
+
       .imgPersonWithPhone {
         height: 70vh;
         position: absolute;
         right: 0;
-        bottom: 4vh;
+        left: 52%;
+        bottom: 5vh;
       }
     }
 
@@ -130,27 +140,27 @@ export default {
       position: relative;
       z-index: 10;
 
-      .imgLightGrayLamp {
-        height: 50vh;
+      .smallTreeImage {
+        height: 85vh;
         position: absolute;
-        left: 10%;
-        top: 0;
+        left: 50%;
+        bottom: 10vh;
       }
 
       .imgPersonWithPhone {
         height: 70vh;
         position: absolute;
-        left: 0;
-        bottom: 4vh;
+        left: 10%;
+        bottom: 5vh;
       }
     }
 
     .successMessage {
       // border: 1px solid red;
       text-align: center;
-      padding-top: 10vh;
+      padding-top: 8vh;
       z-index: 10;
-      height: 85vh;
+
       overflow: hidden;
 
       @media #{$small-screen} {
@@ -158,7 +168,7 @@ export default {
       }
 
       .logoIcon {
-        height: 100px;
+        height: 17vh;
 
         @media #{$small-screen} {
           // padding-top: 30vh;
@@ -201,12 +211,17 @@ export default {
         text-align: center;
         color: #827c85;
 
+        a {
+          font-size: 18px;
+          color: #7777;
+        }
+
         @media #{$small-screen} {
           font-size: 14px;
         }
       }
 
-      .okBtn {
+      .saveNewBtn {
         border-radius: 4px;
         background-image: linear-gradient(to left, #ffdf01, #ffb92d);
         color: white;
@@ -220,11 +235,28 @@ export default {
         }
       }
 
+      .browsePublicIdeaBtn {
+        border-radius: 4px;
+
+        width: 246px;
+        margin-top: 2vh;
+
+        letter-spacing: 1px;
+
+        @media #{$medium-screen} {
+          width: 130px;
+        }
+      }
+
       .socialIconContainer {
         margin-top: 4vh;
 
         button {
           border: 1px solid #ebe7ed;
+
+          .v-icon {
+            font-size: 14px;
+          }
         }
       }
     }

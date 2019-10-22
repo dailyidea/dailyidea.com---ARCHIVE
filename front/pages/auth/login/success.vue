@@ -7,6 +7,8 @@
 
     <v-layout row class="gridContainer">
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
+        <img class="bigTreeImage" src="~/assets/images/signup/bigTree.png" />
+
         <img
           class="imgPersonWithPhone"
           src="~/assets/images/person_with_phone.png"
@@ -24,14 +26,16 @@
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
         <!-- Hero Message -->
-        <div class="heroMsg">Yay!</div>
+        <div class="heroMsg">Yay !</div>
 
         <!-- Hero Description -->
         <div class="heroDescription">
-          Welcome to Daily Idea!<br />
-          We've sent you an email confirmation
-          <span v-if="email">link at {{ email }}.</span>
-          <span v-else>link.</span>
+          Welcome To Daily Idea!<br />
+          WE've sent you an email confirmation link<br /><br />
+          <!-- <span v-if="email">link at {{ email }}.</span> -->
+          <!-- <span v-else>link.</span> -->
+
+          <!-- <a>Din't get it? Request a new Link</a> -->
         </div>
 
         <!-- Continue Button -->
@@ -53,9 +57,10 @@
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
         <img
-          class="imgLightGrayLamp"
-          src="~/assets/images/signup/light_gray_lamp.png"
+          class="smallTreeImage"
+          src="~/assets/images/signup/smallTree.png"
         />
+
         <img
           class="imgPersonWithPhone"
           src="~/assets/images/signup/lady_with_phone.png"
@@ -116,10 +121,18 @@ export default {
       position: relative;
       z-index: 10;
 
+      .bigTreeImage {
+        height: 75vh;
+        position: absolute;
+        left: -2%;
+        top: 20vh;
+      }
+
       .imgPersonWithPhone {
         height: 70vh;
         position: absolute;
         right: 0;
+        left: 52%;
         bottom: 5vh;
       }
     }
@@ -128,17 +141,17 @@ export default {
       position: relative;
       z-index: 10;
 
-      .imgLightGrayLamp {
-        height: 50vh;
+      .smallTreeImage {
+        height: 85vh;
         position: absolute;
-        left: 10%;
-        top: 0;
+        left: 50%;
+        bottom: 10vh;
       }
 
       .imgPersonWithPhone {
         height: 70vh;
         position: absolute;
-        left: 0;
+        left: 10%;
         bottom: 5vh;
       }
     }
@@ -198,6 +211,11 @@ export default {
         letter-spacing: normal;
         text-align: center;
         color: #827c85;
+
+        a {
+          font-size: 18px;
+          color: #7777;
+        }
 
         @media #{$small-screen} {
           font-size: 14px;

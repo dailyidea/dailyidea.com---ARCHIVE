@@ -15,6 +15,11 @@ export default {
 
 <style lang="scss">
 @font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/Avenir/AvenirRoman.otf');
+}
+
+@font-face {
   font-family: 'QuatroBold';
   src: url('~assets/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot');
   /* IE9*/
@@ -79,7 +84,7 @@ export default {
   font-family: Quatro;
 }
 
-.v-list-item {
+.theme--light.v-list-item {
   &:hover {
     background: #ffdf01;
 
@@ -96,7 +101,7 @@ export default {
   color: white !important;
 
   &:hover {
-    background: #ffb92d !important;
+    // background: #ffb92d !important;
   }
 }
 

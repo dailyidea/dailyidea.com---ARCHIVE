@@ -4,7 +4,7 @@
       loggedInHeader: true,
       mobileTitle: 'Bob\'s Profile',
       backButton: true,
-      mobileSettingsIcon: true
+      desktopSearchMode: false
     }"
   >
     <v-layout id="profilePage">
@@ -103,6 +103,16 @@
         <!-- Right Side -->
         <!-- {{ideaList}} -->
         <v-flex class="rightSideComments" xs12 sm12 md7 lg7 xl7>
+          <div class="loadMoreBtn">
+            <v-btn
+              v-if="nextToken"
+              :loading="loadingIdea"
+              @click="loadMoreIdea()"
+            >
+              Load More Idea
+            </v-btn>
+          </div>
+
           <div
             v-for="(ideas, index) in ideaList"
             :key="index"
@@ -150,17 +160,26 @@ dayjs.extend(relativeTime)
 export default {
   components: { Layout },
   data: () => ({
-    isFollowUser: false
+    isFollowUser: false,
+    loadingIdea: false,
+    nextToken: null,
+    profileUserId: ''
   }),
 
   async asyncData({ app, route, store }) {
+    let profileUserId = store.getters['cognito/userSub']
+    // if (route.query.id) {
+    // 	profileUserId = 'd331e081-a639-4f14-9a57-2e1380cdcd5e'
+    // }
+
     const { data } = await app.$amplifyApi.graphql(
-      graphqlOperation(userInfo, { userId: store.getters['cognito/userSub'] })
+      graphqlOperation(userInfo, { userId: profileUserId })
     )
+    console.log('profile data', data)
 
     const userIdeasList = await app.$amplifyApi.graphql(
       graphqlOperation(userIdeas, {
-        userId: store.getters['cognito/userSub']
+        userId: profileUserId
         // nextToken: '',
         // limit: 5
       })
@@ -168,11 +187,11 @@ export default {
     // console.log(userIdeasList)
 
     return {
+      nextToken: userIdeasList.nextToken,
       userData: data.userInfo,
-      ideaList: userIdeasList.data.userIdeas.items
+      ideaList: userIdeasList.data.userIdeas.items,
+      profileUserId: profileUserId
     }
-
-    //
   },
 
   mounted() {},
@@ -184,6 +203,25 @@ export default {
   },
 
   methods: {
+    async loadMoreIdea() {
+      this.loadingIdea = true
+      if (!this.nextToken) {
+        return
+      }
+      const {
+        data: { ideas }
+      } = await this.$amplifyApi.graphql(
+        graphqlOperation(userIdeas, { nextToken: this.nextToken, limit: 10 })
+      )
+
+      // Set next token for next batch of ideas
+      this.nextToken = ideas.nextToken
+
+      // Push ideas
+      this.ideas = this.ideas.concat(ideas.items)
+      this.loadingIdea = false
+    },
+
     async followAndUnFollow() {
       this.isFollowUser = !this.isFollowUser
 
@@ -191,7 +229,7 @@ export default {
         let mutationToCall = this.isFollowUser ? followUser : unfollowUser
         await this.$amplifyApi.graphql(
           graphqlOperation(mutationToCall, {
-            userId: this.$store.getters['cognito/userSub']
+            userId: this.profileUserId
           })
         )
         if (this.isFollowUser) {
@@ -393,7 +431,8 @@ export default {
         border-left: 0px;
         border-right: 0px;
         border-bottom: none;
-        margin-top: 0px;
+        margin-left: 15px;
+        margin-right: 15px;
       }
 
       .commentText {
