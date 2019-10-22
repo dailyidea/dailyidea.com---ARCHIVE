@@ -1,10 +1,12 @@
 <template>
-  <Layout v-bind="{
+  <Layout
+    v-bind="{
       loggedInHeader: true,
       mobileTitle: 'Bob\'s Profile',
       backButton: true,
       desktopSearchMode: false
-    }">
+    }"
+  >
     <v-layout id="profilePage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
@@ -32,8 +34,22 @@
               <v-icon>fas fa-user</v-icon>
             </span>
             <div class="userName">Bob Smith</div>
-            <v-btn v-if="!isFollowUser" class="followAndUnFollowBtn" dark color="primary" @click="followAndUnFollow()">FOLLOW</v-btn>
-            <v-btn v-else class="followAndUnFollowBtn" dark color="primary" @click="followAndUnFollow()">UNFOLLOW</v-btn>
+            <v-btn
+              v-if="!isFollowUser"
+              class="followAndUnFollowBtn"
+              dark
+              color="primary"
+              @click="followAndUnFollow()"
+              >FOLLOW</v-btn
+            >
+            <v-btn
+              v-else
+              class="followAndUnFollowBtn"
+              dark
+              color="primary"
+              @click="followAndUnFollow()"
+              >UNFOLLOW</v-btn
+            >
           </div>
 
           <!-- Mobile - Profile Description -->
@@ -88,12 +104,20 @@
         <!-- {{ideaList}} -->
         <v-flex class="rightSideComments" xs12 sm12 md7 lg7 xl7>
           <div class="loadMoreBtn">
-            <v-btn v-if="nextToken" :loading="loadingIdea" @click="loadMoreIdea()">
+            <v-btn
+              v-if="nextToken"
+              :loading="loadingIdea"
+              @click="loadMoreIdea()"
+            >
               Load More Idea
             </v-btn>
           </div>
 
-          <div v-for="(ideas, index) in ideaList" :key="index" class="commentItem">
+          <div
+            v-for="(ideas, index) in ideaList"
+            :key="index"
+            class="commentItem"
+          >
             <div class="cmtText">
               {{ ideas.title }}
             </div>
@@ -117,7 +141,6 @@
           </div>
           <div v-else></div> -->
         </v-flex>
-
       </v-layout>
     </v-layout>
   </Layout>
