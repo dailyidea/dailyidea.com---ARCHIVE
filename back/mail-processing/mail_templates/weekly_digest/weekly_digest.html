@@ -1,10 +1,246 @@
 <!DOCTYPE html>
-<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <!-- Fonts -->
+    <style>
+        @font-face {
+            font-family: "QuatroBold";
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot");
+            /* IE9*/
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot?#iefix") format("embedded-opentype");
+            /* IE6-IE8 */
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff2") format("woff2");
+            /* chrome、firefox */
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff") format("woff");
+            /* chrome、firefox */
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.ttf") format("truetype");
+            /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.svg#QuatroBold") format("svg");
+            /* iOS 4.1- */
+        }
+
+        @font-face {
+            font-family: "Quatro";
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot");
+            /* IE9*/
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot?#iefix") format("embedded-opentype");
+            /* IE6-IE8 */
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff2") format("woff2");
+            /* chrome、firefox */
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff") format("woff");
+            /* chrome、firefox */
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.ttf") format("truetype");
+            /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.svg#Quatro");
+        }
+
+        @font-face {
+            font-family: "QuatroLight";
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot");
+            /* IE9*/
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot?#iefix") format("embedded-opentype");
+            /* IE6-IE8 */
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff2") format("woff2");
+            /* chrome、firefox */
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff") format("woff");
+            /* chrome、firefox */
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.ttf") format("truetype");
+            /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.svg#QuatroLight") format("svg");
+            /* iOS 4.1- */
+        }
+    </style>
+
+    <!-- Page Style -->
+    <style>
+        body {
+            font-family: Quatro;
+        }
+
+        #emailContainer {
+            margin: auto;
+            width: 45%;
+            background-color: white;
+            background-image: url("{{BUCKET_URL_PREFIX}}/email/images/Path733.png");
+            background-repeat: no-repeat;
+            background-position-x: -85px;
+            background-position-y: 304px;
+        }
+
+        .headerDiv {
+            display: flex;
+            padding-top: 20px;
+            padding-left: 20px;
+            height: 74vh;
+        }
+
+        .dailyIdea {
+            flex: 4;
+            padding: 20px 0px 20px 20px;
+            color: #29103b;
+        }
+
+        .dailyIdeaImg {
+            margin-bottom: 30px;
+            height: 6vh;
+        }
+
+        .topTitle {
+            line-height: 26px;
+            font-size: 17px;
+        }
+
+        .title {
+            font-size: 30px;
+            width: 70%;
+            padding-top: 5px;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 18px;
+            font-family: QuatroLight;
+            letter-spacing: 1px;
+            width: 95%;
+            line-height: 30px;
+            color: #827c85;
+        }
+
+        .button {
+            background-image: linear-gradient(to left, #ffdf01, #ffb92d);
+            color: white;
+            border-radius: 4px;
+            padding: 20px 30px;
+            font-size: 17px;
+            letter-spacing: 2px;
+            border: none;
+            margin-top: 20px;
+        }
+
+        .rightSideImg {
+            flex: 2.2;
+            padding: 25px 10px 0px 0px;
+        }
+
+        .rightImg {
+            height: 67vh;
+        }
+
+        .commentList {
+            background: #ebe7ed;
+            padding-bottom: 20px;
+        }
+
+        .commentItem {
+            background: white;
+            margin: 0 15px 10px 15px;
+            padding: 20px;
+        }
+
+        .commentText {
+            font-size: 14px;
+            margin-bottom: 13px;
+        }
+
+        .engagement {
+            display: block;
+
+            font-size: 14px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            letter-spacing: normal;
+            text-align: left;
+            color: #c0b7c5;
+        }
+
+        .engagement img {
+            height: 14px;
+            margin-right: 3px;
+        }
+
+        .ups {
+            display: inline-block;
+            height: 18px;
+        }
+
+        .downs {
+            margin-left: 20px;
+            display: inline-block;
+        }
+
+        .timing {
+            float: right;
+            font-size: 12px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            letter-spacing: normal;
+            text-align: right;
+            color: #c0b7c5;
+        }
+    </style>
 </head>
+
+<html>
+
 <body>
 
+<div id="emailContainer">
+    <div class="headerDiv">
+        <div class="dailyIdea">
+            <img class="dailyIdeaImg" src="{{BUCKET_URL_PREFIX}}/email/images/Group181.png" />
+
+            {% if num_days > 0 %}
+            <div class="topTitle">Last week, you responded to</div>
+            <div class="title">{{ num_days }} ideas!</div>
+            {% else %}
+            <div class="topTitle">Awww</div>
+            <div class="title">We missed you last week :(</div>
+            <div class="description">Anything we can do to help you with responding for ideas? :)</div>
+            {% endif %}
+
+            {% if num_days > 6 %}
+            <p class="description">Wow, perfect!</p>
+            {% elif num_days > 3 %}
+            <p class="description">Great job!</p>
+            {% elif num_days > 0 %}
+            <p class="description">Let's aim for {{ num_days + 1 }} this week!</p>
+            {% else %}
+
+            {% endif %}
+            <a href="{{BASE_SITE_URL}}/ideas/create">
+                <button class="button">SUBMIT AN IDEA</button>
+            </a>
+        </div>
+        <div class="rightSideImg">
+            <img class="rightImg" src="{{BUCKET_URL_PREFIX}}/email/images/Group179.png" />
+        </div>
+    </div>
+    {% if ideas_last_week|length >0 %}
+    <div class="commentList">
+        {% for idea in ideas_last_week %}
+        <div class="commentItem">
+            <div class="commentText">{{ idea.title }}</div>
+            <div class="engagement">
+                <div class="ups">
+                    <img class="lamp" src="{{BUCKET_URL_PREFIX}}/email/images/logo_icon.png" />
+                    {{idea.likesCount}}
+                </div>
+                <div class="downs">
+                    <img class src="{{BUCKET_URL_PREFIX}}/email/images/comments.png" />
+                    {{idea.commentsCount}}
+                </div>
+                <div class="timing">
+                    {{ datetime.strptime(idea.createdDate[:10],'%Y-%m-%d').strftime('%A') }}
+                </div>
+            </div>
+            <!-- <img class="chatIcon" src="{{BUCKET_URL_PREFIX}}/email/images/Chat.png" /> -->
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
 </body>
+
 </html>

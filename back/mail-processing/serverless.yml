@@ -49,6 +49,8 @@ functions:
     handler: request_daily_idea_user.endpoint
   sendWeeklyDigest:
     handler: test_send_weekly_digest.handler
+    environment:
+      BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
   requestIdeasMail:
     handler: request_daily_idea.endpoint
     environment:
@@ -59,6 +61,8 @@ functions:
           enabled: true
   weeklyDigest:
     handler: weekly_digest.endpoint
+    environment:
+      BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
     events:
       - schedule:
           rate: cron(0 12 ? * SUN *)

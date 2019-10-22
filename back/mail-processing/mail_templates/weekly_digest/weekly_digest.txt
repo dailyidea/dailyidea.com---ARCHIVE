@@ -1,13 +1,10 @@
 Hi {{ user.email }}!
-{% if num_days == 7 %}
+{% if num_days > 6 %}
 Wow, perfect! You responded to 7 emails last week with ideas!
-{% elif num_days in [6,5,4] %}
-Great job! You responded to 5 emails last week with ideas!
-four/five
-{% elif num_days in [3,2] %}
-You responded to 1 idea last week! Let's aim for 2 this week!
-{% elif num_days == 1 %}
-You responded to 1 idea last week! Let's aim for 2 this week!
+{% elif num_days > 3 %}
+Great job! You responded to {{ num_days }} emails last week with ideas!
+{% elif num_days > 0 %}
+You responded to {{ num_days }} idea last week! Let's aim for {{ num_days + 1 }} this week!
 {% else %}
 Awww we missed you last week :( Anything we can do to help you with responding for ideas? :)
 {% endif %}
