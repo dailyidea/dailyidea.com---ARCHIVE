@@ -9,7 +9,10 @@
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
         <img class="bigTreeImage" src="~/assets/images/signup/bigTree.png" />
 
-        <img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
+        <img
+          class="imgPersonWithPhone"
+          src="~/assets/images/person_with_phone.png"
+        />
       </v-flex>
 
       <!-- Register Div -->
@@ -21,10 +24,30 @@
         <!-- Register Form -->
         <form>
           <!-- Email Input Box -->
-          <v-text-field v-model="name" v-validate="'required|max:100'" :error-messages="errors.collect('name')" data-vv-name="name" class="inputBox name" single-line flat label="Enter name" prepend-inner-icon="fas fa-user"></v-text-field>
+          <v-text-field
+            v-model="name"
+            v-validate="'required|max:100'"
+            :error-messages="errors.collect('name')"
+            data-vv-name="name"
+            class="inputBox name"
+            single-line
+            flat
+            label="Enter name"
+            prepend-inner-icon="fas fa-user"
+          ></v-text-field>
 
           <!-- Email Input Box -->
-          <v-text-field v-model="email" v-validate="'required|email'" class="inputBox email" :error-messages="errors.collect('email')" data-vv-name="email" single-line flat label="Enter email" prepend-inner-icon="email"></v-text-field>
+          <v-text-field
+            v-model="email"
+            v-validate="'required|email'"
+            class="inputBox email"
+            :error-messages="errors.collect('email')"
+            data-vv-name="email"
+            single-line
+            flat
+            label="Enter email"
+            prepend-inner-icon="email"
+          ></v-text-field>
 
           <!-- Continue Button -->
           <v-btn large class="continueBtn" @click="signup">Continue</v-btn>
@@ -53,17 +76,27 @@
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img class="smallTreeImage" src="~/assets/images/signup/smallTree.png" />
+        <img
+          class="smallTreeImage"
+          src="~/assets/images/signup/smallTree.png"
+        />
 
-        <img class="imgPersonWithPhone" src="~/assets/images/signup/lady_with_phone.png" />
+        <img
+          class="imgPersonWithPhone"
+          src="~/assets/images/signup/lady_with_phone.png"
+        />
       </v-flex>
     </v-layout>
 
     <!-- Fixed Footer -->
-    <v-layout hidden-sm-and-down class="fixedFooter" :style="{
+    <v-layout
+      hidden-sm-and-down
+      class="fixedFooter"
+      :style="{
         'background-image':
           'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"></v-layout>
+      }"
+    ></v-layout>
   </div>
 </template>
 

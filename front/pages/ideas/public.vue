@@ -6,7 +6,6 @@
       mobileHamburger: true,
       mobileSearchIcon: true,
       mobileSettingsIcon: true,
-
       desktopMenuVisible: true
     }"
   >
@@ -15,9 +14,6 @@
       <div v-if="ideas && ideas.length > 0" class="titleDiv">
         <v-layout class="titleText" hidden-sm-and-down>PUBLIC IDEAS</v-layout>
       </div>
-
-      <!-- Idea List -->
-      <!-- {{ideas}} -->
 
       <div v-if="ideas && ideas.length > 0" class="publisIdeasSection">
         <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
@@ -34,7 +30,7 @@
                   name: 'ideas-userId-ideaId',
                   params: {
                     ideaId: idea.ideaId,
-                    userId: $store.getters['cognito/userSub']
+                    userId: idea.userId
                   },
                   force: true
                 })
@@ -73,13 +69,10 @@
           You don't have any ideas right now. <br />
           Or do you?
         </div>
-        <div>
-          <img class="arrowImg" src="~/assets/images/arrowImage.png" />
-        </div>
+        <img class="arrowImg" src="~/assets/images/arrowImage.png" />
       </div>
 
       <!-- LodaMore Button -->
-
       <div class="loadMoreBtn">
         <v-btn v-if="nextToken" :loading="loadingIdea" @click="loadMoreIdea()">
           Load More Idea
@@ -106,11 +99,9 @@
   </Layout>
 </template>
 <script>
-import { graphqlOperation } from '@aws-amplify/api'
-
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import getIdeas from '~/graphql/query/getIdeas'
+import getPublicIdeas from '~/graphql/query/getPublicIdeas'
 import Layout from '@/components/layout/Layout'
 dayjs.extend(relativeTime)
 
@@ -121,41 +112,55 @@ export default {
     snackbarVisible: false,
     snackbarMessage: '',
     snackbarColor: 'success',
-    loadingIdea: false
+    loadingIdea: false,
+
+    nextToken: null,
+    pagesize: 10
   }),
 
   async asyncData({ app }) {
-    const {
-      data: { ideas }
-    } = await app.$amplifyApi.graphql(
-      graphqlOperation(getIdeas, { nextToken: null, limit: 5 })
-    )
+    let result = await app.$amplifyApi.graphql({
+      query: getPublicIdeas,
+      variables: {
+        nextToken: null,
+        limit: app.pagesize
+      },
+      authMode: 'API_KEY'
+    })
 
+    result = result.data.getPublicIdeas
     return {
       // Set next token for next batch of ideas
-      nextToken: ideas.nextToken,
+      nextToken: result.nextToken,
       // Set ideas
-      ideas: ideas.items
+      ideas: result.items
     }
   },
   created() {
+    console
     // this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
-    this.ideas.forEach(idea => {
-      idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
-    })
+    // this.ideas.forEach(idea => {
+    // 	idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
+    // })
   },
 
   methods: {
     async loadMoreIdea() {
       this.loadingIdea = true
+
       if (!this.nextToken) {
         return
       }
-      const {
-        data: { ideas }
-      } = await this.$amplifyApi.graphql(
-        graphqlOperation(getIdeas, { nextToken: this.nextToken, limit: 10 })
-      )
+
+      let result = await this.$amplifyApi.graphql({
+        query: getPublicIdeas,
+        variables: {
+          nextToken: this.nextToken,
+          limit: this.pagesize
+        },
+        authMode: 'API_KEY'
+      })
+      let ideas = result.data.getPublicIdeas
 
       // Set next token for next batch of ideas
       this.nextToken = ideas.nextToken
@@ -384,7 +389,7 @@ export default {
     align-items: center;
 
     .lampImg {
-      margin-top: 10vh;
+      margin-top: 15vh;
       height: 30vh;
     }
 
@@ -396,9 +401,7 @@ export default {
     }
 
     .arrowImg {
-      // display: none;
-      height: 37vh;
-      margin-left: 50%;
+      display: none;
 
       @media #{$small-screen} {
         display: block;

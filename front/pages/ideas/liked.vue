@@ -2,22 +2,20 @@
   <Layout
     v-bind="{
       loggedInHeader: true,
-      mobileTitle: 'Public Ideas',
+      mobileTitle: 'My Ideas',
       mobileHamburger: true,
       mobileSearchIcon: true,
-      mobileSettingsIcon: true,
-
-      desktopMenuVisible: true
+      desktopMenuVisible: true,
+      showEditIdeaBtn: false
     }"
   >
     <v-layout id="ideaListPage">
       <!-- Title Section -->
       <div v-if="ideas && ideas.length > 0" class="titleDiv">
-        <v-layout class="titleText" hidden-sm-and-down>PUBLIC IDEAS</v-layout>
+        <v-layout class="titleText" hidden-sm-and-down>MY IDEAS</v-layout>
       </div>
 
       <!-- Idea List -->
-      <!-- {{ideas}} -->
 
       <div v-if="ideas && ideas.length > 0" class="publisIdeasSection">
         <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
@@ -40,7 +38,6 @@
                 })
               "
             >
-              <!-- {{idea.ideaId }} -->
               <div class="ideaTitle">{{ idea.title }}</div>
               <div class=" ideaDescrpition">
                 <v-layout v-html="idea.content"> </v-layout>
@@ -54,7 +51,16 @@
                   <img class="logoIcon" src="~/assets/images/comments.png" />
                   120
                 </div>
-                <div class="timing">{{ idea.relativeCreatedTime }}</div>
+                <div class="timing">
+                  {{ idea.relativeCreatedTime }}
+                  <v-btn text icon color="gray" class="globeImageDiv">
+                    <img
+                      alt="image"
+                      class="globeSmallImage"
+                      src="~/assets/images/globeSmallImage.png"
+                    />
+                  </v-btn>
+                </div>
               </div>
             </div>
           </v-flex>
@@ -73,16 +79,18 @@
           You don't have any ideas right now. <br />
           Or do you?
         </div>
-        <img class="arrowImg" src="~/assets/images/arrowImage.png" />
+        <div>
+          <img class="arrowImg" src="~/assets/images/arrowImage.png" />
+        </div>
       </div>
 
       <!-- LodaMore Button -->
 
-      <div class="loadMoreBtn">
+      <!-- <div class="loadMoreBtn">
         <v-btn v-if="nextToken" :loading="loadingIdea" @click="loadMoreIdea()">
           Load More Idea
         </v-btn>
-      </div>
+      </div> -->
 
       <!-- Add Idea Button -->
       <v-btn class="addBtn" fab to="/ideas/create">
@@ -103,12 +111,13 @@
     </v-layout>
   </Layout>
 </template>
+
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import getIdeas from '~/graphql/query/getIdeas'
+import getLikedIdeas from '~/graphql/query/getLikedIdeas'
 import Layout from '@/components/layout/Layout'
 dayjs.extend(relativeTime)
 
@@ -123,12 +132,11 @@ export default {
   }),
 
   async asyncData({ app }) {
-    const {
-      data: { ideas }
-    } = await app.$amplifyApi.graphql(
-      graphqlOperation(getIdeas, { nextToken: null, limit: 5 })
+    let ideas = await app.$amplifyApi.graphql(
+      graphqlOperation(getLikedIdeas, { nextToken: null, limit: 10 })
     )
-
+    ideas = ideas.data.getLikedIdeas
+    console.log('data is ', ideas)
     return {
       // Set next token for next batch of ideas
       nextToken: ideas.nextToken,
@@ -152,7 +160,10 @@ export default {
       const {
         data: { ideas }
       } = await this.$amplifyApi.graphql(
-        graphqlOperation(getIdeas, { nextToken: this.nextToken, limit: 10 })
+        graphqlOperation(getLikedIdeas, {
+          nextToken: this.nextToken,
+          limit: 10
+        })
       )
 
       // Set next token for next batch of ideas
@@ -180,8 +191,8 @@ export default {
 
   .addBtn {
     position: fixed;
-    right: 40px;
-    bottom: 30px;
+    right: 15px;
+    bottom: 15px;
   }
 
   .loadMoreBtn {
@@ -196,12 +207,11 @@ export default {
   .titleDiv {
     text-align: center;
     // border: 1px solid red;
-    min-height: 30px;
+    // min-height: 30px;
 
     .titleText {
       display: inline-block;
-      margin-bottom: 20px;
-
+      margin-bottom: 10px;
       font-size: 17px;
       font-weight: 600;
       font-style: normal;
@@ -210,6 +220,142 @@ export default {
       letter-spacing: 0.51px;
       text-align: center;
       color: #232323;
+
+      @media #{$small-screen} {
+        text-align: center;
+      }
+    }
+
+    .sortBy {
+      font-size: 14px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.57;
+      letter-spacing: normal;
+      text-align: left;
+      color: #35124e;
+
+      float: right;
+      text-align: right;
+
+      @media #{$small-screen} {
+        float: left;
+        text-align: left;
+        // padding-left: 5%;
+        margin: 0px;
+        font-size: 12px;
+        // padding-top: 10px;
+      }
+
+      i {
+        font-size: 17px;
+        padding-right: 7px;
+        color: #35124e;
+      }
+    }
+  }
+
+  .ideaList {
+    margin-left: -10px;
+    margin-right: -10px;
+
+    @media #{$small-screen} {
+      padding-right: 0%;
+      padding-left: 0%;
+    }
+
+    .ideaContainer {
+      padding: 10px 10px;
+
+      @media #{$small-screen} {
+        padding: 0px !important;
+
+        &:last-child {
+          border-bottom: solid 1px rgba(228, 228, 228, 0.38);
+        }
+      }
+
+      .ideaItem {
+        border: solid 1px rgba(228, 228, 228, 0.38);
+        padding: 15px 20px;
+        cursor: pointer !important;
+
+        &:hover {
+          -webkit-box-shadow: 0px 0px 5px 3px #e3e3e361;
+          -moz-box-shadow: 0px 0px 5px 3px #e3e3e361;
+          box-shadow: 0px 0px 5px 3px #e3e3e361;
+        }
+
+        @media #{$small-screen} {
+          border-left: 0px;
+          border-right: 0px;
+          border-bottom: none;
+          margin-top: 0px;
+        }
+
+        .ideaDescription {
+          width: 100%;
+          display: block;
+          overflow-wrap: break-word;
+          min-height: 50px;
+
+          @media #{$small-screen} {
+            padding-top: 3px;
+            min-height: 10px;
+          }
+
+          font-size: 16px;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: 1.5;
+          letter-spacing: normal;
+          text-align: left;
+          color: #18141c;
+        }
+
+        .engagement {
+          display: block;
+          margin-top: 10px;
+          margin-bottom: 5px;
+          font-size: 14px;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          letter-spacing: normal;
+          text-align: left;
+          color: #c0b7c5;
+
+          img {
+            height: 14px;
+            margin-right: 5px;
+          }
+
+          .ups {
+            display: inline-block;
+            height: 18px;
+          }
+
+          .downs {
+            margin-left: 20px;
+            display: inline-block;
+          }
+
+          .timing {
+            float: right;
+            font-size: 12px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.83;
+            letter-spacing: normal;
+            text-align: right;
+            color: #c0b7c5;
+            cursor: pointer !important;
+          }
+        }
+      }
     }
   }
 
@@ -235,7 +381,8 @@ export default {
         // padding-left: 5%;
         font-size: 12px;
         padding-top: 10px;
-        margin-left: 15px;
+        // padding-bottom: 10px;
+        margin-left: 10px;
       }
 
       i {
@@ -269,7 +416,7 @@ export default {
 
         .ideaItem {
           border: solid 1px rgba(228, 228, 228, 0.38);
-          padding: 15px 20px;
+          // padding: 15px 20px;
           cursor: pointer !important;
 
           &:hover {
@@ -382,7 +529,7 @@ export default {
     align-items: center;
 
     .lampImg {
-      margin-top: 15vh;
+      margin-top: 10vh;
       height: 30vh;
     }
 
@@ -394,7 +541,9 @@ export default {
     }
 
     .arrowImg {
-      display: none;
+      // display: none;
+      height: 37vh;
+      margin-left: 50%;
 
       @media #{$small-screen} {
         display: block;

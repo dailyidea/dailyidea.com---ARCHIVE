@@ -9,13 +9,19 @@
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
         <img class="bigTreeImage" src="~/assets/images/signup/bigTree.png" />
 
-        <img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
+        <img
+          class="imgPersonWithPhone"
+          src="~/assets/images/person_with_phone.png"
+        />
       </v-flex>
 
       <!-- Register Div -->
       <v-flex class="successMessage">
         <!-- Header Images -->
-        <img class="logoIcon" src="~/assets/images/bulb_with_light_holder.png" />
+        <img
+          class="logoIcon"
+          src="~/assets/images/bulb_with_light_holder.png"
+        />
         <br />
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
@@ -31,7 +37,9 @@
 
         <!-- Continue Button -->
         <v-btn large class="saveNewBtn">SAVE A NEW IDEA</v-btn><br />
-        <v-btn large dark color="primary" class="browsePublicIdeaBtn">BROWSE PUBLIC IDEAS</v-btn>
+        <v-btn large dark color="primary" class="browsePublicIdeaBtn"
+          >BROWSE PUBLIC IDEAS</v-btn
+        >
 
         <!-- Social Login Icons -->
         <div class="socialIconContainer">
@@ -48,16 +56,26 @@
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img class="smallTreeImage" src="~/assets/images/signup/smallTree.png" />
-        <img class="imgPersonWithPhone" src="~/assets/images/signup/lady_with_phone.png" />
+        <img
+          class="smallTreeImage"
+          src="~/assets/images/signup/smallTree.png"
+        />
+        <img
+          class="imgPersonWithPhone"
+          src="~/assets/images/signup/lady_with_phone.png"
+        />
       </v-flex>
     </v-layout>
 
     <!-- Fixed Footer -->
-    <v-layout hidden-sm-and-down class="fixedFooter" :style="{
+    <v-layout
+      hidden-sm-and-down
+      class="fixedFooter"
+      :style="{
         'background-image':
           'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"></v-layout>
+      }"
+    ></v-layout>
   </div>
 </template>
 

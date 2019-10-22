@@ -244,7 +244,10 @@
       </v-flex>
 
       <!-- Comments -->
-      <v-flex v-if="!noComment" class="rightSideComments">
+      <v-flex
+        v-if="commentList && commentList.length > 0"
+        class="rightSideComments"
+      >
         <v-layout class="cmtAndLike" hidden-sm-and-down>
           <div class="ups">
             <v-btn text @click="toggleLikeIdea">
@@ -306,9 +309,7 @@
         </div>
       </v-flex>
       <div v-else class="noCommentDiv">
-        <div>
-          No added Comment yet.
-        </div>
+        <div>There are not comments yet. <br />Add the first one?</div>
       </div>
 
       <!-- Foter with textbox -->
@@ -528,20 +529,20 @@
         <form>
           <!-- Popup Header -->
           <div class="headerInfo">
-            <div class=" row saveIdeaDetail">
-              <div class="col-md-3">
-              <img
-                alt="image"
-                class="saveIdeaImage"
-                src="~/assets/images/saveDailogMobile.png"
-              />
+            <div class="saveIdeaDetail">
+              <div class="col-md-8">
+                <img
+                  alt="image"
+                  class="saveIdeaImage"
+                  src="~/assets/images/saveDailogMobile.png"
+                />
               </div>
-              <div class="col-md-9">
-                <div class="detailOfSave">
-              <div class="mainheader">Save Idea</div>
-              <div class="subHeader">
-                To save this idea and get back to it at any time, you need to
-                create an account.Don't worry, all we need is your email.
+              <div class="col-md-8">
+                <div class="mainheader">Save Idea</div>
+                <div class="subHeader">
+                  To save this idea and get back to it at any time, you need to
+                  create an account.Don't worry, all we need is your email.
+                </div>
               </div>
                 </div>
               </div>
@@ -774,7 +775,6 @@
 import { graphqlOperation } from '@aws-amplify/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import getMyIdea from '~/graphql/query/getMyIdea'
 import getIsIdeaLikedByMe from '~/graphql/query/getIsIdeaLikedByMe'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import addComment from '~/graphql/mutations/addComment'
@@ -787,7 +787,7 @@ import Layout from '@/components/layout/Layout'
 import addTags from '~/graphql/mutations/addTags'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
 import deleteTag from '~/graphql/mutations/deleteTag'
-// import getIdea from '~/graphql/query/getIdea'
+import getUsersIdea from '~/graphql/query/getUsersIdea'
 
 dayjs.extend(relativeTime)
 
@@ -802,6 +802,9 @@ export default {
     tagsToRemove: [],
     loadingIdea: false,
 
+    ideaOwnerId: null,
+    loggedInUserId: null,
+
     snackbarVisible: false,
     snackbarMessage: '',
     snackbarColor: 'success',
@@ -811,7 +814,6 @@ export default {
     // commentId: null,
     currentComment: '',
     updatingComment: false,
-    noComment: false,
 
     showEmailShareDialog: false,
     showSaveIdeaMobileViewDailog: false,
@@ -839,10 +841,15 @@ export default {
     }
   },
   async asyncData({ app, route, store }) {
-    // debugger
-    const { data } = await app.$amplifyApi.graphql(
-      graphqlOperation(getMyIdea, { ideaId: route.params.ideaId })
-    )
+    const { data } = await app.$amplifyApi.graphql({
+      query: getUsersIdea,
+      variables: {
+        userId: route.params.userId,
+        ideaId: route.params.ideaId
+      },
+      authMode: 'API_KEY'
+    })
+    console.log('idea data: ', data)
 
     let isLiked = await app.$amplifyApi.graphql(
       graphqlOperation(getIsIdeaLikedByMe, { ideaId: route.params.ideaId })
@@ -862,12 +869,15 @@ export default {
     }
 
     return {
-      idea: data.getMyIdea,
+      idea: data.getUsersIdea,
       user: { email: store.state.cognito.user.attributes.email },
       ideaTags: ideaTags,
       isIdeaLiked: isLiked.data.getIsIdeaLikedByMe.isLiked,
       commentList: result.data.getComments.items,
-      nextToken: result.data.getComments.nextToken
+      nextToken: result.data.getComments.nextToken,
+
+      ideaOwnerId: route.params.userId,
+      loggedInUserId: store.getters['cognito/userSub']
     }
   },
 
@@ -878,14 +888,6 @@ export default {
   },
 
   methods: {
-    // async fetchCommentList() {
-    //   const { data } = await this.$amplifyApi.graphql(
-    //     graphqlOperation(getIdea, { ideaId: this.$route.params.ideaId })
-    //   )
-
-    //   this.commentList = data.getIdea.comments
-    // },
-
     async saveIdeaForUserDialog() {
       this.savedIdeaConformDailog = true
       this.showSaveIdeaDailog = false
@@ -940,7 +942,7 @@ export default {
             // body: body,
             // userId: this.$store.getters['cognito/userSub'],
             ideaId: this.$route.params.ideaId,
-            ideaOwnerId: this.idea.userId,
+            ideaOwnerId: this.$route.params.userId,
             commentId: commentId
           })
         )
@@ -972,12 +974,13 @@ export default {
       this.updatingComment = true
 
       try {
+        debugger
         const result = await this.$amplifyApi.graphql(
           graphqlOperation(addComment, {
             body: this.currentComment,
             ideaId: this.$route.params.ideaId,
             userId: this.$store.getters['cognito/userSub'],
-            ideaOwnerId: this.idea.userId
+            ideaOwnerId: this.$route.params.userId
           })
         )
         this.commentList.push(result.data.addComment.comment)
@@ -1021,7 +1024,7 @@ export default {
         await this.$amplifyApi.graphql(
           graphqlOperation(mutationToCall, {
             ideaId: ideaId,
-            ideaOwnerId: this.idea.userId
+            ideaOwnerId: this.$route.params.userId
           })
         )
       } catch (err) {
@@ -1059,6 +1062,8 @@ export default {
 
     async onSaveIdeaContent() {
       let result = await this.$validator.validateAll()
+
+      this.errorMsg = ''
       if (!result) {
         this.errorMsg = 'This field is required.'
         return
@@ -1458,7 +1463,11 @@ export default {
   }
 
   .noCommentDiv {
-    border: 1px solid red;
+    min-height: 70vh;
+    padding-top: 34vh;
+    text-align: center;
+    color: #c0b7c5;
+    font-size: 25px;
   }
 
   @media #{$small-screen} {

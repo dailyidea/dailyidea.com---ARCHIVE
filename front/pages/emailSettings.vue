@@ -1,9 +1,11 @@
 <template>
-  <Layout v-bind="{
+  <Layout
+    v-bind="{
       backButton: true,
       loggedInHeader: true,
       mobileTitle: 'EMAIL SETTINGS'
-    }">
+    }"
+  >
     <v-layout id="settingsPage">
       <v-container class="settingsList">
         <div class="emailSettingHeader">
@@ -18,22 +20,29 @@
             Idea Reminders
           </div>
           <div class="metadata">
-            <v-switch v-model="switch1" class="swithBtn" inset :label="``"></v-switch>
+            <v-switch
+              v-model="switch1"
+              class="swithBtn"
+              inset
+              :label="``"
+            ></v-switch>
             <!-- <v-switch v-model="switch2 " class="swithBtn" inset :label="``"></v-switch> -->
           </div>
-          <span class="onAction" v-if="switch1">On</span>
-          <span class="OffAction" v-if="!switch1">OFF</span>
+          <span v-if="switch1" class="onAction">On</span>
+          <span v-if="!switch1" class="OffAction">OFF</span>
         </div>
         <div class="settingsItem">
-          <div class="settingsInfo">
-            <v-icon>fas fa-bell</v-icon>Hot Steaks
-          </div>
+          <div class="settingsInfo"><v-icon>fas fa-bell</v-icon>Hot Steaks</div>
           <div class="metadata">
-            <v-switch v-model="switch2" class="swithBtn" inset :label="``"></v-switch>
+            <v-switch
+              v-model="switch2"
+              class="swithBtn"
+              inset
+              :label="``"
+            ></v-switch>
           </div>
-          <span class="onAction" v-if="switch2">On</span>
-          <span class="OffAction" v-if="!switch2">OFF</span>
-
+          <span v-if="switch2" class="onAction">On</span>
+          <span v-if="!switch2" class="OffAction">OFF</span>
         </div>
         <div class="settingsItem">
           <div class="settingsInfo">
@@ -41,11 +50,15 @@
             Daily Digest
           </div>
           <div class="metadata">
-            <v-switch v-model="switch3" class="swithBtn" inset :label="``"></v-switch>
+            <v-switch
+              v-model="switch3"
+              class="swithBtn"
+              inset
+              :label="``"
+            ></v-switch>
           </div>
-          <span class="onAction" v-if="switch3">On</span>
-          <span class="OffAction" v-if="!switch3">OFF</span>
-
+          <span v-if="switch3" class="onAction">On</span>
+          <span v-if="!switch3" class="OffAction">OFF</span>
         </div>
         <div class="settingsItem">
           <div class="settingsInfo">
@@ -53,10 +66,15 @@
             Weekly Digest
           </div>
           <div class="metadata">
-            <v-switch v-model="switch4" class="swithBtn" inset :label="``"></v-switch>
+            <v-switch
+              v-model="switch4"
+              class="swithBtn"
+              inset
+              :label="``"
+            ></v-switch>
           </div>
-          <span class="onAction" v-if="switch4">On</span>
-          <span class="OffAction" v-if="!switch4">OFF</span>
+          <span v-if="switch4" class="onAction">On</span>
+          <span v-if="!switch4" class="OffAction">OFF</span>
         </div>
       </v-container>
     </v-layout>

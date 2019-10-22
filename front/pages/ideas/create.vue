@@ -1,10 +1,12 @@
 <template>
-  <Layout v-bind="{
+  <Layout
+    v-bind="{
       backButton: true,
       loggedInHeader: true,
       showPrivateIdeaBtn: true,
       mobileTitle: 'CREATE IDEA'
-    }">
+    }"
+  >
     <v-layout id="createIdeaPage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
@@ -13,11 +15,23 @@
         <v-layout class="text" hidden-sm-and-down>
           My idea:
           <div class="privateIcon">
-            <img alt="image" class="globeSmallImage" src="~/assets/images/globeSmallImage.png" /></div>
+            <img
+              alt="image"
+              class="globeSmallImage"
+              src="~/assets/images/globeSmallImage.png"
+            />
+          </div>
         </v-layout>
 
         <!-- title -->
-        <v-textarea v-model="title" v-validate="'required|max:100'" :error-messages="errors.collect('title')" data-vv-name="title" outlined label="Idea Title">
+        <v-textarea
+          v-model="title"
+          v-validate="'required|max:100'"
+          :error-messages="errors.collect('title')"
+          data-vv-name="title"
+          outlined
+          label="Idea Title"
+        >
         </v-textarea>
 
         <!-- Descriptiion = trix editor -->
@@ -29,9 +43,28 @@
         </div>
 
         <!-- Tags -->
-        <v-combobox v-model="chips" v-validate="'required|max:100'" :error-messages="errors.collect('tag')" data-vv-name="tag" class="ideaTag" :items="items" chips clearable multiple outlined label="Add Tags">
+        <v-combobox
+          v-model="chips"
+          v-validate="'required|max:100'"
+          :error-messages="errors.collect('tag')"
+          data-vv-name="tag"
+          class="ideaTag"
+          :items="items"
+          chips
+          clearable
+          multiple
+          outlined
+          label="Add Tags"
+        >
           <template v-slot:selection="{ attrs, item, select, selected }">
-            <v-chip v-bind="attrs" :input-value="selected" close label @click="select" @click:close="remove(item)">
+            <v-chip
+              v-bind="attrs"
+              :input-value="selected"
+              close
+              label
+              @click="select"
+              @click:close="remove(item)"
+            >
               <strong>{{ item }}</strong>
             </v-chip>
           </template>
@@ -44,7 +77,11 @@
       </div>
 
       <!-- Bottom snackbar message -->
-      <v-snackbar v-model="snackbarVisible" :timeout="2000" :color="snackbarColor">
+      <v-snackbar
+        v-model="snackbarVisible"
+        :timeout="2000"
+        :color="snackbarColor"
+      >
         {{ snackbarMessage }}
         <v-btn color="white" text @click="snackbarVisible = false">
           Close
