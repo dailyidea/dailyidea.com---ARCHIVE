@@ -1,13 +1,12 @@
 <template>
-  <Layout
-    v-bind="{
+  <Layout v-bind="{
       loggedInHeader: true,
       mobileTitle: 'My Ideas',
       mobileHamburger: true,
       mobileSearchIcon: true,
-      desktopMenuVisible: true
-    }"
-  >
+      desktopMenuVisible: true,
+      showEditIdeaBtn:false
+    }">
     <v-layout id="ideaListPage">
       <!-- Title Section -->
       <div v-if="ideas && ideas.length > 0" class="titleDiv">
@@ -15,46 +14,14 @@
       </div>
 
       <!-- Idea List -->
-      <!-- <v-layout v-if="ideas && ideas.length > 0" class="ideaList" row wrap>
-        <v-flex v-for="(idea, index) in ideas" :key="index" class="ideaContainer" xs12 sm12 md4 lg4 xl4>
-          <div class="ideaItem" @click="
-              $router.push({
-                name: 'ideas-userId-ideaId',
-                params: {
-                  ideaId: idea.ideaId,
-                  userId: $store.getters['cognito/userSub']
-                },
-                force: true
-              })
-            ">
-
-            <div class="ideaDescription">{{ idea.title }}</div>
-            <div class="engagement">
-              <div class="ups">
-                <img class="logoIcon" src="~/assets/images/logo_icon.png" />
-                {{ idea.likesCount }}
-              </div>
-              <div class="downs">
-                <img class="logoIcon" src="~/assets/images/comments.png" />
-                120
-              </div>
-              <div class="timing">{{ idea.relativeCreatedTime }}</div>
-            </div>
-          </div>
-        </v-flex>
-      </v-layout> -->
 
       <div v-if="ideas && ideas.length > 0" class="publisIdeasSection">
-        <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
+        <div class="sortBy">
+          <v-icon>fas fa-clock</v-icon>Sort by Newest
+        </div>
         <div class="ideaList" wrap>
-          <v-flex
-            v-for="(idea, index) in ideas"
-            :key="index"
-            class="ideaContainer"
-          >
-            <div
-              class="ideaItem"
-              @click="
+          <v-flex v-for="(idea, index) in ideas" :key="index" class="ideaContainer">
+            <div class="ideaItem" @click="
                 $router.push({
                   name: 'ideas-userId-ideaId',
                   params: {
@@ -63,8 +30,7 @@
                   },
                   force: true
                 })
-              "
-            >
+              ">
               <div class="ideaTitle">{{ idea.title }}</div>
               <div class=" ideaDescrpition">
                 <v-layout v-html="idea.content"> </v-layout>
@@ -78,7 +44,12 @@
                   <img class="logoIcon" src="~/assets/images/comments.png" />
                   120
                 </div>
-                <div class="timing">{{ idea.relativeCreatedTime }}</div>
+                <div class="timing">{{ idea.relativeCreatedTime }}
+                  <v-btn text icon color="gray" class="globeImageDiv">
+                    <img alt="image" class="globeSmallImage" src="~/assets/images/globeSmallImage.png" />
+                  </v-btn>
+                </div>
+
               </div>
             </div>
           </v-flex>
@@ -88,10 +59,7 @@
       <!-- No Idea found div -->
       <div v-else class="noIdeaFoundDiv">
         <div>
-          <img
-            class="lampImg"
-            src="~/assets/images/light_gray_lamp_plain.png"
-          />
+          <img class="lampImg" src="~/assets/images/light_gray_lamp_plain.png" />
         </div>
         <div class="text">
           You don't have any ideas right now. <br />
@@ -116,11 +84,7 @@
       </v-btn>
 
       <!-- Bottom snackbar message -->
-      <v-snackbar
-        v-model="snackbarVisible"
-        :timeout="2000"
-        :color="snackbarColor"
-      >
+      <v-snackbar v-model="snackbarVisible" :timeout="2000" :color="snackbarColor">
         {{ snackbarMessage }}
         <v-btn color="white" text @click="snackbarVisible = false">
           Close
@@ -206,8 +170,8 @@ export default {
 
   .addBtn {
     position: fixed;
-    right: 40px;
-    bottom: 30px;
+    right: 15px;
+    bottom: 15px;
   }
 
   .loadMoreBtn {
@@ -222,7 +186,7 @@ export default {
   .titleDiv {
     text-align: center;
     // border: 1px solid red;
-    min-height: 30px;
+    // min-height: 30px;
 
     .titleText {
       display: inline-block;
@@ -235,6 +199,10 @@ export default {
       letter-spacing: 0.51px;
       text-align: center;
       color: #232323;
+
+      @media #{$small-screen} {
+        text-align: center;
+      }
     }
 
     .sortBy {
@@ -253,9 +221,10 @@ export default {
       @media #{$small-screen} {
         float: left;
         text-align: left;
-        padding-left: 5%;
+        // padding-left: 5%;
+        margin: 0px;
         font-size: 12px;
-        padding-top: 10px;
+        // padding-top: 10px;
       }
 
       i {
@@ -386,11 +355,13 @@ export default {
       // text-align: right;
 
       @media #{$small-screen} {
-        float: left;
-        text-align: left;
-        padding-left: 5%;
+        // float: left;
+        // text-align: left;
+        // padding-left: 5%;
         font-size: 12px;
         padding-top: 10px;
+        // padding-bottom: 10px;
+        margin-left: 10px;
       }
 
       i {
@@ -408,6 +379,7 @@ export default {
       @media #{$small-screen} {
         padding-right: 0%;
         padding-left: 0%;
+        margin: 0px;
       }
 
       .ideaContainer {
@@ -423,7 +395,7 @@ export default {
 
         .ideaItem {
           border: solid 1px rgba(228, 228, 228, 0.38);
-          padding: 15px 20px;
+          // padding: 15px 20px;
           cursor: pointer !important;
 
           &:hover {

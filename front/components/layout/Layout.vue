@@ -10,9 +10,7 @@
       </v-toolbar-title>
       <v-spacer />
       <template>
-        <nuxt-link class="helpLink" :to="{ name: 'auth-login' }"
-          >Login</nuxt-link
-        >
+        <nuxt-link class="helpLink" :to="{ name: 'auth-login' }">Login</nuxt-link>
         <nuxt-link class="userLink" :to="{ name: 'auth-signup' }">
           <v-icon>fa-user</v-icon>
         </nuxt-link>
@@ -31,53 +29,22 @@
 
               <!-- Desktop Menu -->
 
-              <v-icon
-                v-if="desktopMenuVisible"
-                class="desktopMenu"
-                @click="openDesktopMenu = true"
-                >fas fa-align-left</v-icon
-              >
+              <v-icon v-if="desktopMenuVisible" class="desktopMenu" @click="openDesktopMenu = true">fas fa-align-left</v-icon>
 
-              <v-icon
-                v-if="backButton"
-                class="icons backButon"
-                @click="onBackClick()"
-                >fas fa-arrow-left</v-icon
-              >
+              <v-icon v-if="backButton" class="icons backButon" @click="onBackClick()">fas fa-arrow-left</v-icon>
               <nuxt-link class="logoLink" :to="{ name: 'index' }">
                 <img class="logoIcon" src="~/assets/images/logo_icon.png" />
-                <img
-                  class="logoIcon logoText"
-                  src="~/assets/images/logo_text.png"
-                />
+                <img class="logoIcon logoText" src="~/assets/images/logo_text.png" />
               </nuxt-link>
             </v-toolbar-title>
 
             <!-- Search Box -->
-            <v-text-field
-              v-if="searchModeForDesktop"
-              class="searchInput"
-              placeholder="What are you looking for?"
-              flat
-              solo
-              label
-              prepend-inner-icon="fas fa-search"
-            ></v-text-field>
-            <v-icon
-              v-if="searchModeForDesktop"
-              class="closeIconForDesktopSearch "
-              @click="searchModeForDesktop = false"
-              >fas fa-times</v-icon
-            >
+            <v-text-field v-if="searchModeForDesktop" class="searchInput" placeholder="What are you looking for?" flat solo label prepend-inner-icon="fas fa-search"></v-text-field>
+            <v-icon v-if="searchModeForDesktop" class="closeIconForDesktopSearch " @click="searchModeForDesktop = false">fas fa-times</v-icon>
             <v-spacer />
             <template>
               <div class="searchIcon">
-                <v-icon
-                  v-if="!searchModeForDesktop"
-                  class="desktopSeachIcon"
-                  @click="onShowDesktopSearchIdeaBox()"
-                  >fas fa-search</v-icon
-                >
+                <v-icon v-if="!searchModeForDesktop" class="desktopSeachIcon" @click="onShowDesktopSearchIdeaBox()">fas fa-search</v-icon>
               </div>
               <v-icon style="color: #c0b7c5;">fas fa-cog</v-icon>
               <span class="userName">{{
@@ -91,12 +58,7 @@
           </v-toolbar>
         </v-layout>
 
-        <v-navigation-drawer
-          v-model="openDesktopMenu"
-          class="menuOfDesktop"
-          absolute
-          temporary
-        >
+        <v-navigation-drawer v-model="openDesktopMenu" class="menuOfDesktop" absolute temporary>
           <v-list dense>
             <v-list-item>
               <v-list-item-content>
@@ -175,71 +137,55 @@
         </v-navigation-drawer>
 
         <!-- Mobile HEader -->
-        <v-toolbar
-          v-if="!searchIdeaMode"
-          flat
-          absolute
-          color="white"
-          class="mobile"
-          hidden-md-and-up
-        >
+        <v-toolbar v-if="!searchIdeaMode" flat absolute color="white" class="mobile" hidden-md-and-up>
           <v-layout class="nonSearchSection" row>
             <!-- Left Side Icon -->
             <v-layout>
               <v-flex v-if="mobileHamburger" xs1 sm1>
-                <v-icon class="icons" @click="$refs.mobileMenu.visible = true"
-                  >fas fa-bars</v-icon
-                >
+                <v-icon class="icons" @click="$refs.mobileMenu.visible = true">fas fa-bars</v-icon>
                 <MobileMenu ref="mobileMenu"></MobileMenu>
               </v-flex>
               <v-flex v-else-if="backButton" xs1 sm1>
-                <v-icon class="icons" @click="onBackClick()"
-                  >fas fa-arrow-left</v-icon
-                >
+                <v-icon class="icons" @click="onBackClick()">fas fa-arrow-left</v-icon>
               </v-flex>
 
               <!-- Center Title -->
               <v-flex xs8 sm8 class="text">{{ mobileTitle }}</v-flex>
+
+              <v-btn v-if="showPrivateIdeaBtn" text icon color="gray" class="globeImageDiv">
+                <!-- <img alt="image" class="globeSmallImage" src="~/assets/images/globeSmallImage.png" /> -->
+                <img alt="image" class="globeImage" @click="$emit('showPrivateIdeaDailog')" src="~/assets/images/globeImage.png" />
+              </v-btn>
+
+              <!-- Edit IDea Button-->
+
+              <v-btn outlined v-if="showEditIdeaBtn" rounded color="gray" class="editIdeaBtn" @click="$emit('onEditIdea')">
+                MY IDEA <v-icon right>fas fa-pen</v-icon>
+              </v-btn>
+
             </v-layout>
 
             <!-- Rightside Icons -->
-            <v-flex xs3 sm3 class="rightSide">
-              <!-- Edit Idea Icon -->
-              <v-icon
-                v-if="editIdeaVisible"
-                class="icons menu"
-                @click="$emit('onEditIdea')"
-                >fas fa-pen</v-icon
-              >
+            <v-flex xs3 sm3 class="rightSide" hidden-md-and-up>
+
+              <v-btn text icon color="gray" class="saveIdeaBtn">
+                <img class="unsaveIdea" v-if="showUnSaveActionBtn" @click="$emit('showSaveIdeaForMobileDailog')" src="~/assets/images/unSaveIdeaImage.png" />
+                <!-- <img v-if="showSaveActionBtn" class="saveIdea" @click="$emit('showSaveIdeaForMobileDailog')" src="~/assets/images/saveIdeaImage.png" /> -->
+              </v-btn>
 
               <!-- Search Idea Button -->
-              <v-icon
-                v-if="mobileSearchIcon"
-                class="icons menu"
-                @click="onShowSearchIdeaBox()"
-                >fas fa-search</v-icon
-              >
+              <v-icon v-if="mobileSearchIcon" class="searchIconForMobile" @click="onShowSearchIdeaBox()">fas fa-search</v-icon>
 
-              <!-- Share idea button and menu-->
-              <v-icon
-                v-if="shareIdeaVisible"
-                class="icons menu"
-                @click="$emit('showShareIdeaDialog')"
-                v-on="on"
-                >fas fa-envelope</v-icon
-              >
               <v-menu v-if="shareIdeaVisible" class="shareIdea">
                 <template v-slot:activator="{ on }">
-                  <v-icon class="icons menu" v-on="on"
-                    >fas fa-ellipsis-v</v-icon
-                  >
+                  <v-icon class="icons menu" v-on="on">fas fa-ellipsis-v</v-icon>
                 </template>
                 <v-list>
                   <v-list-item>
                     <v-list-item-title>Share</v-list-item-title>
                   </v-list-item>
-                  <v-list-item @click="onCopyShareIdeaLink">
-                    <v-list-item-title>Copy Direct Link</v-list-item-title>
+                  <v-list-item @click="$emit('showShareIdeaDialog')">
+                    <v-list-item-title>Share by Email</v-list-item-title>
                   </v-list-item>
                   <v-list-item>
                     <v-list-item-title>Report Idea</v-list-item-title>
@@ -249,24 +195,9 @@
             </v-flex>
           </v-layout>
         </v-toolbar>
-        <v-toolbar
-          v-else
-          flat
-          absolute
-          color="white"
-          class="mobile searchIdeaContainer"
-          hidden-md-and-up
-        >
-          <v-text-field
-            ref="mobileMenuSearchIdeaBox"
-            placeholder="What are you looking for?"
-            hide-details
-            prepend-inner-icon="search"
-            outlined
-          ></v-text-field>
-          <v-icon class="closeIcon " @click="searchIdeaMode = false"
-            >fas fa-times</v-icon
-          >
+        <v-toolbar v-else flat absolute color="white" class="mobile searchIdeaContainer" hidden-md-and-up>
+          <v-text-field ref="mobileMenuSearchIdeaBox" placeholder="What are you looking for?" hide-details prepend-inner-icon="search" outlined></v-text-field>
+          <v-icon class="closeIcon " @click="searchIdeaMode = false">fas fa-times</v-icon>
         </v-toolbar>
       </div>
     </template>
@@ -292,6 +223,22 @@ import MobileMenu from '@/components/menuComponent'
 export default {
   components: { MobileMenu },
   props: {
+    showUnSaveActionBtn: {
+      type: Boolean,
+      default: false
+    },
+    showPrivateIdeaBtn: {
+      type: Boolean,
+      default: false
+    },
+    showSaveActionBtn: {
+      type: Boolean,
+      default: false
+    },
+    showEditIdeaBtn: {
+      type: Boolean,
+      default: false
+    },
     desktopSearchIcon: {
       type: Boolean,
       default: true
@@ -567,33 +514,58 @@ export default {
         padding: 0px 0px;
 
         .text {
-          text-align: left !important;
-          padding-left: 5px;
-          margin-top: 2px;
+          text-align: right !important;
+          // padding-left: 45px;
+          margin-top: 10px;
           font-size: 14px;
           font-weight: 600;
           line-height: 1.57;
           color: #18141c;
         }
+        .globeImageDiv {
+          margin-right: 40px;
+          .globeSmallImage {
+            height: 17px;
+          }
+
+          .globeImage {
+            height: 17px;
+          }
+        }
+
+        .editIdeaBtn {
+          color: #87818a !important;
+          margin-top: 10px;
+          margin-right: 20px;
+          i {
+            color: #87818a !important;
+          }
+        }
 
         .icons {
           color: #c0b7c5 !important;
           font-size: 16px;
+          margin-top: 16px;
         }
 
         .rightSide {
           text-align: right;
 
-          .shareIdea {
-            display: inline-block;
-            margin-right: 6px;
+          .saveIdeaBtn {
+            margin-right: 5px;
+            // display: none;
+          }
+
+          .searchIconForMobile {
+            // margin-left: 60px;
+            font-size: 14px;
           }
 
           i {
             color: #35124e !important;
             padding-bottom: 0px;
             text-align: right;
-            margin-right: 6px;
+            // margin-right: 6px;
           }
         }
       }

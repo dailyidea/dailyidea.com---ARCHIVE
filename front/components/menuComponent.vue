@@ -5,29 +5,31 @@
       <i class="fa fa-times"></i>
     </div>
 
-    <!-- Logo -->
-    <div class="logoText">
-      <span class="dark-font">DAILY</span>
-      <span class="light-font">IDEA</span>
-    </div>
-
     <!-- Menu Items -->
     <div class="menuItemsContainer">
       <div class="menuItems">
         <div class="menuItem">
-          <nuxt-link to="/ideas">My Ideas</nuxt-link>
+          <nuxt-link to="/publicIdeas">Public Ideas</nuxt-link>
         </div>
+        <v-divider></v-divider>
         <div class="menuItem">
-          <nuxt-link to="/ideas">Saved Ideas</nuxt-link>
+          <nuxt-link to="/ideas/myIdeas">My Ideas</nuxt-link>
         </div>
+        <v-divider></v-divider>
         <div class="menuItem">
-          <nuxt-link to="/settings">Settings</nuxt-link>
+          <nuxt-link to="/settings">Saved Ideas</nuxt-link>
         </div>
+        <v-divider></v-divider>
         <div class="menuItem">
           <nuxt-link to="/profile">My Profile</nuxt-link>
         </div>
+        <v-divider></v-divider>
         <div class="menuItem">
-          <nuxt-link to="/ideas">My Groups</nuxt-link>
+          <nuxt-link to="/ideas">Leaderboards</nuxt-link>
+        </div>
+        <v-divider></v-divider>
+        <div class="menuItem">
+          <nuxt-link to="/ideas">Sign Out</nuxt-link>
         </div>
       </div>
       <!-- Social Login Icons -->
@@ -45,9 +47,9 @@
     </div>
 
     <!-- Logout div at bottom -->
-    <div class="logoutDiv">
+    <!-- <div class="logoutDiv">
       <v-btn large class="logoutBtn" dark>LOG OUT</v-btn>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -71,7 +73,8 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  background-image: linear-gradient(#ffdf01, #ffb92d);
+  background: #35124e;
+  // background-image: linear-gradient(#ffdf01, #ffb92d);
 
   .topRightCloseBtn {
     position: absolute;
@@ -99,6 +102,7 @@ export default {
 
   .menuItemsContainer {
     // border: 1px solid red;
+    margin-top: 13vh;
     height: 70vh;
     text-align: center;
     position: relative;
@@ -114,11 +118,16 @@ export default {
       }
     }
     .socialIconContainer {
-      margin-top: 4vh;
+      margin-top: 10vh;
       button {
         border: 1px solid #ebe7ed;
+        height: 50px;
+        width: 50px;
+        margin-left: 10px;
+
         .v-icon {
-          font-size: 12px;
+          color: white;
+          font-size: 14px;
         }
       }
     }
