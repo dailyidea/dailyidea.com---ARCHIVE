@@ -7,10 +7,9 @@
 
     <v-layout row class="gridContainer">
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/person_with_phone.png"
-        />
+        <img class="bigTreeImage" src="~/assets/images/signup/bigTree.png" />
+
+        <img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
       </v-flex>
 
       <!-- Register Div -->
@@ -55,23 +54,17 @@
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <!-- <img class="imgLightGrayLamp" src="~/assets/images/signup/light_gray_lamp.png" /> -->
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/signup/lady_with_phone.png"
-        />
+        <img class="smallTreeImage" src="~/assets/images/signup/smallTree.png" />
+
+        <img class="imgPersonWithPhone" src="~/assets/images/signup/lady_with_phone.png" />
       </v-flex>
     </v-layout>
 
     <!-- Fixed Footer -->
-    <v-layout
-      hidden-sm-and-down
-      class="fixedFooter"
-      :style="{
+    <v-layout hidden-sm-and-down class="fixedFooter" :style="{
         'background-image':
           'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"
-    ></v-layout>
+      }"></v-layout>
   </div>
 </template>
 
@@ -116,10 +109,18 @@ export default {
       position: relative;
       z-index: 10;
 
+      .bigTreeImage {
+        height: 75vh;
+        position: absolute;
+        left: -2%;
+        top: 20vh;
+      }
+
       .imgPersonWithPhone {
         height: 70vh;
         position: absolute;
         right: 0;
+        left: 52%;
         bottom: 5vh;
       }
     }
@@ -128,17 +129,17 @@ export default {
       position: relative;
       z-index: 10;
 
-      .imgLightGrayLamp {
-        height: 50vh;
+      .smallTreeImage {
+        height: 85vh;
         position: absolute;
-        left: 10%;
-        top: 0;
+        left: 50%;
+        bottom: 10vh;
       }
 
       .imgPersonWithPhone {
         height: 70vh;
         position: absolute;
-        left: 0;
+        left: 10%;
         bottom: 5vh;
       }
     }

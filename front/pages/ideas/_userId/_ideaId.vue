@@ -25,6 +25,7 @@
         <v-layout class="sectionHeader" hidden-sm-and-down>
           <!-- Edit IDea Button-->
           <v-btn
+           v-if="!ideaEditorVisible"
             outlined
             rounded
             color="gray"
@@ -34,14 +35,26 @@
             MY IDEA <v-icon right>fas fa-pen</v-icon>
           </v-btn>
 
+
+            <v-btn
+            v-if="ideaEditorVisible"
+            outlined
+            rounded
+            color="gray"
+            class="editIdeaBtnOnEditMode"
+            @click="showIdeaEditor()"
+          >
+            MY IDEA <v-icon right>fas fa-pen</v-icon>
+          </v-btn>
+
           <div class="headerRightSide">
-            <v-btn text icon color="gray" class="globeImageDiv">
+            <!-- <v-btn text icon color="gray" class="globeImageDiv">
               <img
                 alt="image"
                 class="globeSmallImage"
                 src="~/assets/images/globeSmallImage.png"
               />
-            </v-btn>
+            </v-btn> -->
 
             <v-btn
               text
@@ -255,7 +268,7 @@
         </v-layout>
 
         <!-- Comment List -->
-
+<!-- {{commentList}} -->
         <div
           v-for="(item, index) in commentList"
           :key="index"
@@ -485,13 +498,13 @@
 
           <!-- Action Buttons -->
           <div class="btnContainer">
-            <v-btn class="specialButton shareBtn">WRITE A NEW IDEA</v-btn>
+            <v-btn to="/ideas/create" class="specialButton shareBtn">WRITE A NEW IDEA</v-btn>
           </div>
           <div class="btnContainer">
-            <v-btn outlined class="browseBtn">SUBMIT A NEW IDEA</v-btn>
+            <v-btn to="/ideas/create" outlined class="browseBtn">SUBMIT A NEW IDEA</v-btn>
           </div>
           <div class="btnContainer">
-            <v-btn outlined class="browseBtn">BROWSE PUBLIC IDEAS</v-btn>
+            <v-btn to="/ideas/public" outlined class="browseBtn">BROWSE PUBLIC IDEAS</v-btn>
           </div>
         </form>
       </v-dialog>
@@ -499,9 +512,9 @@
       <!-- Popup - Save Idea -->
       <v-dialog
         v-model="showSaveIdeaDailog"
-        content-class="saveIdeaDialog"
+        content-class=" saveIdeaDialog"
         persistent
-        max-width="500px"
+        max-width="450px"
       >
         <div class="closeBtn">
           <v-icon
@@ -515,17 +528,22 @@
         <form>
           <!-- Popup Header -->
           <div class="headerInfo">
-            <div class="saveIdeaDetail">
+            <div class=" row saveIdeaDetail">
+              <div class="col-md-3">
               <img
                 alt="image"
                 class="saveIdeaImage"
                 src="~/assets/images/saveDailogMobile.png"
               />
-
+              </div>
+              <div class="col-md-9">
+                <div class="detailOfSave">
               <div class="mainheader">Save Idea</div>
               <div class="subHeader">
                 To save this idea and get back to it at any time, you need to
                 create an account.Don't worry, all we need is your email.
+              </div>
+                </div>
               </div>
             </div>
           </div>
@@ -560,7 +578,7 @@
             <v-btn
               class="specialButton shareBtn"
               @click="saveIdeaForUserDialog()"
-              >Share</v-btn
+              >SUBMIT</v-btn
             >
           </div>
         </form>
@@ -606,10 +624,10 @@
 
           <!-- Action Buttons -->
           <div class="btnContainer">
-            <v-btn class="specialButton shareBtn">WRITE A NEW IDEA</v-btn>
+            <v-btn to="/ideas/create" class="specialButton shareBtn">WRITE A NEW IDEA</v-btn>
           </div>
           <div class="btnContainer">
-            <v-btn outlined class="browseBtn">BROWSE PUBLIC IDEAS</v-btn>
+            <v-btn to="/ideas/public" outlined class="browseBtn">BROWSE PUBLIC IDEAS</v-btn>
           </div>
         </form>
       </v-dialog>
@@ -1045,7 +1063,6 @@ export default {
         this.errorMsg = 'This field is required.'
         return
       }
-
       this.updatingIdea = true
 
       try {
@@ -1144,6 +1161,15 @@ export default {
 
         i {
           color: #87818a !important;
+        }
+      }
+
+      .editIdeaBtnOnEditMode{
+         margin: 0px;
+        color: #37234d!important;
+
+        i {
+          color: #37234d !important;
         }
       }
 
@@ -1691,8 +1717,13 @@ export default {
   .headerInfo {
     .saveIdeaDetail {
       .saveIdeaImage {
+        position: absolute;
         margin-top: 40px;
+        margin-left: -35px;
       }
+
+      .detailOfSave{
+        margin-left:30px;
       .mainheader {
         font-size: 25px;
         margin-top: 35px;
@@ -1707,6 +1738,7 @@ export default {
         margin-left: 39px;
         line-height: 25px;
         color: #777;
+      }
       }
     }
   }

@@ -7,10 +7,9 @@
       </v-btn>
 
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/person_with_phone.png"
-        />
+        <img class="bigTreeImage" src="~/assets/images/signup/bigTree.png" />
+
+        <img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
       </v-flex>
 
       <!-- Register Div -->
@@ -22,30 +21,10 @@
         <!-- Register Form -->
         <form>
           <!-- Email Input Box -->
-          <v-text-field
-            v-model="name"
-            v-validate="'required|max:100'"
-            :error-messages="errors.collect('name')"
-            data-vv-name="name"
-            class="inputBox name"
-            single-line
-            flat
-            label="Enter name"
-            prepend-inner-icon="fas fa-user"
-          ></v-text-field>
+          <v-text-field v-model="name" v-validate="'required|max:100'" :error-messages="errors.collect('name')" data-vv-name="name" class="inputBox name" single-line flat label="Enter name" prepend-inner-icon="fas fa-user"></v-text-field>
 
           <!-- Email Input Box -->
-          <v-text-field
-            v-model="email"
-            v-validate="'required|email'"
-            class="inputBox email"
-            :error-messages="errors.collect('email')"
-            data-vv-name="email"
-            single-line
-            flat
-            label="Enter email"
-            prepend-inner-icon="email"
-          ></v-text-field>
+          <v-text-field v-model="email" v-validate="'required|email'" class="inputBox email" :error-messages="errors.collect('email')" data-vv-name="email" single-line flat label="Enter email" prepend-inner-icon="email"></v-text-field>
 
           <!-- Continue Button -->
           <v-btn large class="continueBtn" @click="signup">Continue</v-btn>
@@ -74,26 +53,17 @@
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img
-          class="imgLightGrayLamp"
-          src="~/assets/images/signup/light_gray_lamp.png"
-        />
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/signup/lady_with_phone.png"
-        />
+        <img class="smallTreeImage" src="~/assets/images/signup/smallTree.png" />
+
+        <img class="imgPersonWithPhone" src="~/assets/images/signup/lady_with_phone.png" />
       </v-flex>
     </v-layout>
 
     <!-- Fixed Footer -->
-    <v-layout
-      hidden-sm-and-down
-      class="fixedFooter"
-      :style="{
+    <v-layout hidden-sm-and-down class="fixedFooter" :style="{
         'background-image':
           'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"
-    ></v-layout>
+      }"></v-layout>
   </div>
 </template>
 
@@ -176,11 +146,18 @@ export default {
       position: relative;
       z-index: 10;
 
-      .imgPersonWithPhone {
-        height: 70vh;
+      .bigTreeImage {
+        height: 75vh;
         position: absolute;
-        right: 4%;
-        bottom: 3.5vh;
+        left: -3%;
+        top: 20vh;
+      }
+
+      .imgPersonWithPhone {
+        height: 75vh;
+        position: absolute;
+        right: 10%;
+        bottom: 3vh;
       }
     }
 
@@ -188,18 +165,18 @@ export default {
       position: relative;
       z-index: 100;
 
-      .imgLightGrayLamp {
-        height: 55vh;
+      .smallTreeImage {
+        height: 90vh;
         position: absolute;
-        left: 10%;
-        top: 0;
+        left: 58%;
+        bottom: 6vh;
       }
 
       .imgPersonWithPhone {
-        height: 70vh;
+        height: 72vh;
         position: absolute;
-        left: 4%;
-        bottom: 3.5vh;
+        left: 20%;
+        bottom: 3vh;
       }
     }
 
@@ -257,7 +234,7 @@ export default {
         margin-top: 20px;
         background-image: linear-gradient(to left, #ffdf01, #ffb92d);
         color: white;
-        width: 70%;
+        width: 62%;
 
         letter-spacing: 1px;
 
@@ -295,7 +272,7 @@ export default {
         }
 
         .loginBtn {
-          width: 70%;
+          width: 62%;
           max-width: 500px;
           border-radius: 4px;
           letter-spacing: 1px;

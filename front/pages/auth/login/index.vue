@@ -7,43 +7,23 @@
 
     <v-layout class="mainTable" row>
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
-        <img
-          class="imgLightGrayLamp"
-          src="~/assets/images/signup/light_gray_lamp.png"
-        />
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/person_with_phone.png"
-        />
+        <img class="bigTreeImage" src="~/assets/images/signup/bigTree.png" />
+        <img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
       </v-flex>
 
       <!-- login Div -->
       <v-flex class="loginDiv">
-        <img
-          class="logoIcon"
-          src="~/assets/images/bulb_with_light_holder.png"
-        />
+        <img class="logoIcon" src="~/assets/images/bulb_with_light_holder.png" />
         <br />
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
         <!-- Login Form -->
         <v-form>
           <!-- Email Input Box -->
-          <validate-text-field
-            :value.sync="email"
-            single-line
-            flat
-            class="emailInput"
-            name="email"
-            autocomplete="email"
-            type="email"
-            prepend-inner-icon="email"
-            placeholder="Enter Email"
-            validate="required|email"
-          />
+          <validate-text-field :value.sync="email" single-line flat class="emailInput" name="email" autocomplete="email" type="email" prepend-inner-icon="email" placeholder="Enter Email" validate="required|email" />
 
           <!-- Continue Button -->
-          <v-btn large class="continueBtn" @click="login">OK</v-btn>
+          <v-btn large class="continueBtn" :loading="logingUser" @click="login">OK</v-btn>
         </v-form>
 
         <!-- Social Login Icons -->
@@ -63,22 +43,16 @@
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/signup/lady_with_phone.png"
-        />
+        <img class="smallTreeImage" src="~/assets/images/signup/smallTree.png" />
+        <img class="imgPersonWithPhone" src="~/assets/images/signup/lady_with_phone.png" />
       </v-flex>
     </v-layout>
 
     <!-- Fixed Footer -->
-    <v-layout
-      hidden-sm-and-down
-      class="fixedFooter"
-      :style="{
+    <v-layout hidden-sm-and-down class="fixedFooter" :style="{
         'background-image':
           'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"
-    ></v-layout>
+      }"></v-layout>
   </div>
 </template>
 
@@ -92,11 +66,13 @@ export default {
   $_veeValidate: { validator: 'new' },
   mixins: [ActionValidate],
   data: () => ({
-    email: ''
+    email: '',
+    logingUser: false
   }),
   methods: {
     async login() {
       try {
+        this.logingUser = true
         //Validate input fields
         let result = await this.$validator.validateAll()
         if (!result) {
@@ -112,6 +88,7 @@ export default {
           name: 'auth-login-success',
           params: { email: this.email }
         })
+        this.logingUser = false
       } catch (e) {
         this.$snotify.error(getErrorMessage(e), 'Error', {
           timeout: 2000,
@@ -119,6 +96,7 @@ export default {
           closeOnClick: true,
           pauseOnHover: true
         })
+        this.logingUser = false
       }
     }
   }
@@ -154,17 +132,17 @@ export default {
       position: relative;
       z-index: 10;
 
-      .imgLightGrayLamp {
-        height: 55vh;
+      .bigTreeImage {
+        height: 75vh;
         position: absolute;
-        left: 10%;
-        top: 7vh;
+        left: -3%;
+        top: 20vh;
       }
 
       .imgPersonWithPhone {
         height: 75vh;
         position: absolute;
-        right: 0;
+        right: 10%;
         bottom: 3vh;
       }
     }
@@ -173,10 +151,17 @@ export default {
       position: relative;
       z-index: 10;
 
-      .imgPersonWithPhone {
-        height: 65vh;
+      .smallTreeImage {
+        height: 90vh;
         position: absolute;
-        left: 6%;
+        left: 58%;
+        bottom: 6vh;
+      }
+
+      .imgPersonWithPhone {
+        height: 72vh;
+        position: absolute;
+        left: 20%;
         bottom: 3vh;
       }
     }
