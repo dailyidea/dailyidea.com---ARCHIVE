@@ -105,12 +105,14 @@ export default {
         //Validate input fields
         let result = await this.$validator.validateAll()
         if (!result) {
+          this.logingUser = false
           return
         }
 
         await this.$amplifyApi.post('RequestLogin', '', {
           body: { email: this.email }
         })
+        this.logingUser = false
 
         // Redirect to login success page
         this.$router.push({

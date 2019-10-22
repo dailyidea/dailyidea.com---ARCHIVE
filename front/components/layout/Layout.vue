@@ -79,7 +79,9 @@
                   >fas fa-search</v-icon
                 >
               </div>
-              <v-icon style="color: #c0b7c5;">fas fa-cog</v-icon>
+              <v-btn text icon to="/settings" class="settingBtn" fab>
+                <v-icon size="12" class="settingIcon">fas fa-cog</v-icon>
+              </v-btn>
               <span class="userName">{{
                 $store.getters['cognito/username']
               }}</span>
@@ -526,7 +528,6 @@ export default {
 
       .searchIcon {
         // border: 0.8px solid #7777;
-
         .desktopSeachIcon {
           margin-right: 20px;
         }
@@ -669,6 +670,7 @@ export default {
 
           .saveIdeaBtn {
             margin-right: 5px;
+            margin-top: -8px;
             // display: none;
           }
 

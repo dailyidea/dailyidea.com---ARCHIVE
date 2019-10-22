@@ -18,6 +18,7 @@
       <div v-if="ideas && ideas.length > 0" class="publisIdeasSection">
         <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
         <div class="ideaList" wrap>
+          <!-- {{ideas}} -->
           <v-flex
             v-for="(idea, index) in ideas"
             :key="index"
@@ -50,6 +51,7 @@
                   <img class="logoIcon" src="~/assets/images/comments.png" />
                   120
                 </div>
+
                 <div class="timing">{{ idea.relativeCreatedTime }}</div>
               </div>
             </div>
@@ -137,11 +139,10 @@ export default {
     }
   },
   created() {
-    console
     // this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
-    // this.ideas.forEach(idea => {
-    // 	idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
-    // })
+    this.ideas.forEach(idea => {
+      idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
+    })
   },
 
   methods: {

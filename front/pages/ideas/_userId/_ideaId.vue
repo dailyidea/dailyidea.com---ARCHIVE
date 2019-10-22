@@ -529,8 +529,8 @@
         <form>
           <!-- Popup Header -->
           <div class="headerInfo">
-            <div class="saveIdeaDetail">
-              <div class="col-md-8">
+            <div class=" row saveIdeaDetail">
+              <div class="col-md-4">
                 <img
                   alt="image"
                   class="saveIdeaImage"
@@ -538,10 +538,12 @@
                 />
               </div>
               <div class="col-md-8">
+                <div class="detailOfSave">
                 <div class="mainheader">Save Idea</div>
                 <div class="subHeader">
                   To save this idea and get back to it at any time, you need to
                   create an account.Don't worry, all we need is your email.
+                </div>
                 </div>
               </div>
                 </div>
