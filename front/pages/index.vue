@@ -29,11 +29,15 @@
 
           <div class="col-md-7">
             <div class="firstImageContainer">
-              <img
+              <!-- <img
                 alt="image"
                 class="firstImage"
                 src="~/assets/images/homeImage.png"
-              />
+              /> -->
+               <!-- Lamp Image -->
+              <img class="lampImg" src="~/assets/images/bulb_with_light_holder.png" />
+              <img class="personImg person2Img" src="~/assets/images/home/person_2.png" />
+              <img class="personImg person3Img" src="~/assets/images/home/person_3.png" />
             </div>
           </div>
         </div>
@@ -393,7 +397,24 @@ export default {
 
       .firstImageContainer {
         margin-right: 10vh;
-        margin-top: 20px;
+        margin-top: 0px;
+        text-align: right;
+        // border: 1px solid blue;
+        position: relative;
+
+        .personImg{
+          height: 50vh;
+          margin-top: 35vh;
+          margin-right: 10%;
+          // border: 1px solid red;
+        }
+
+        .lampImg{
+          position: absolute;
+          height: 22vh;
+          left: 25%;
+          top: 0%;
+        }
 
         .firstImage {
           height: 60vh;
