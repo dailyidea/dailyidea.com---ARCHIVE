@@ -1,45 +1,70 @@
 <template>
-	<div id="loginPage">
-		<!-- Back button -->
-		<v-btn class="backBtn" text icon color="primary" to="/">
-			<v-icon>fas fa-arrow-left</v-icon>
-		</v-btn>
+  <div id="loginPage">
+    <!-- Back button -->
+    <v-btn class="backBtn" text icon color="primary" to="/">
+      <v-icon>fas fa-arrow-left</v-icon>
+    </v-btn>
 
-		<v-layout class="mainTable" row>
-			<v-flex class="lefgImgContainer" hidden-sm-and-down>
-				<img class="bigTreeImage" src="~/assets/images/bigTree.png" />
-				<img class="imgPersonWithPhone" src="~/assets/images/person_with_phone.png" />
-			</v-flex>
+    <v-layout class="mainTable" row>
+      <v-flex class="lefgImgContainer" hidden-sm-and-down>
+        <img class="bigTreeImage" src="~/assets/images/bigTree.png" />
+        <img
+          class="imgPersonWithPhone"
+          src="~/assets/images/person_with_phone.png"
+        />
+      </v-flex>
 
-			<!-- login Div -->
-			<v-flex class="loginDiv">
-				<img class="logoIcon" src="~/assets/images/bulb_with_light_holder.png" />
-				<br />
-				<img class="logoText" src="~/assets/images/logo_text.png" />
+      <!-- login Div -->
+      <v-flex class="loginDiv">
+        <img
+          class="logoIcon"
+          src="~/assets/images/bulb_with_light_holder.png"
+        />
+        <br />
+        <img class="logoText" src="~/assets/images/logo_text.png" />
 
-				<!-- Login Form -->
-				<v-form>
-					<!-- Email Input Box -->
-					<validate-text-field :value.sync="email" single-line flat class="emailInput" name="email" autocomplete="email" type="email" prepend-inner-icon="email" placeholder="What is your email address?" validate="required|email" />
+        <!-- Login Form -->
+        <v-form>
+          <!-- Email Input Box -->
+          <validate-text-field
+            :value.sync="email"
+            single-line
+            flat
+            class="emailInput"
+            name="email"
+            autocomplete="email"
+            type="email"
+            prepend-inner-icon="email"
+            placeholder="What is your email address?"
+            validate="required|email"
+          />
 
-					<!-- Continue Button -->
-					<v-btn large class="continueBtn" :loading="logingUser" @click="login">Log In</v-btn>
-				</v-form>
+          <!-- Continue Button -->
+          <v-btn large class="continueBtn" :loading="logingUser" @click="login"
+            >Log In</v-btn
+          >
+        </v-form>
+      </v-flex>
 
-			</v-flex>
+      <v-flex class="rightImgContainer" hidden-sm-and-down>
+        <img class="smallTreeImage" src="~/assets/images/smallTree.png" />
+        <img
+          class="imgPersonWithPhone"
+          src="~/assets/images/signup/lady_with_phone.png"
+        />
+      </v-flex>
+    </v-layout>
 
-			<v-flex class="rightImgContainer" hidden-sm-and-down>
-				<img class="smallTreeImage" src="~/assets/images/smallTree.png" />
-				<img class="imgPersonWithPhone" src="~/assets/images/signup/lady_with_phone.png" />
-			</v-flex>
-		</v-layout>
-
-		<!-- Fixed Footer -->
-		<v-layout hidden-sm-and-down class="fixedFooter" :style="{
+    <!-- Fixed Footer -->
+    <v-layout
+      hidden-sm-and-down
+      class="fixedFooter"
+      :style="{
         'background-image':
           'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"></v-layout>
-	</div>
+      }"
+    ></v-layout>
+  </div>
 </template>
 
 <script>
@@ -48,249 +73,249 @@ import ActionValidate from '~/mixins/validatable'
 import { getErrorMessage } from '~/utils'
 
 export default {
-	components: { ValidateTextField },
-	$_veeValidate: { validator: 'new' },
-	mixins: [ActionValidate],
-	data: () => ({
-		email: '',
-		logingUser: false
-	}),
-	methods: {
-		async login() {
-			try {
-				this.logingUser = true
-				//Validate input fields
-				let result = await this.$validator.validateAll()
-				if (!result) {
-					this.logingUser = false
-					return
-				}
+  components: { ValidateTextField },
+  $_veeValidate: { validator: 'new' },
+  mixins: [ActionValidate],
+  data: () => ({
+    email: '',
+    logingUser: false
+  }),
+  methods: {
+    async login() {
+      try {
+        this.logingUser = true
+        //Validate input fields
+        let result = await this.$validator.validateAll()
+        if (!result) {
+          this.logingUser = false
+          return
+        }
 
-				await this.$amplifyApi.post('RequestLogin', '', {
-					body: { email: this.email }
-				})
-				this.logingUser = false
+        await this.$amplifyApi.post('RequestLogin', '', {
+          body: { email: this.email }
+        })
+        this.logingUser = false
 
-				// Redirect to login success page
-				this.$router.push({
-					name: 'auth-login-success',
-					params: { email: this.email }
-				})
-				this.logingUser = false
-			} catch (e) {
-				this.$snotify.error(getErrorMessage(e), 'Error', {
-					timeout: 2000,
-					showProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true
-				})
-				this.logingUser = false
-			}
-		}
-	}
+        // Redirect to login success page
+        this.$router.push({
+          name: 'auth-login-success',
+          params: { email: this.email }
+        })
+        this.logingUser = false
+      } catch (e) {
+        this.$snotify.error(getErrorMessage(e), 'Error', {
+          timeout: 2000,
+          showProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true
+        })
+        this.logingUser = false
+      }
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 #loginPage {
-	height: 100vh;
-	overflow: hidden;
-	background: white;
-	// border: 1px solid red;
-	z-index: 1000;
+  height: 100vh;
+  overflow: hidden;
+  background: white;
+  // border: 1px solid red;
+  z-index: 1000;
 
-	.backBtn {
-		color: $primary-color;
-		position: fixed;
-		top: 0;
-		left: 0;
-		margin: 5px 3px;
-		z-index: 100;
+  .backBtn {
+    color: $primary-color;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 5px 3px;
+    z-index: 100;
 
-		i {
-			font-size: 16px;
-		}
-	}
+    i {
+      font-size: 16px;
+    }
+  }
 
-	.mainTable {
-		margin: 0px;
-		height: 100vh;
+  .mainTable {
+    margin: 0px;
+    height: 100vh;
 
-		.lefgImgContainer {
-			position: relative;
-			z-index: 10;
+    .lefgImgContainer {
+      position: relative;
+      z-index: 10;
 
-			.bigTreeImage {
-				height: 75vh;
-				position: absolute;
-				left: -3%;
-				top: 20vh;
-			}
+      .bigTreeImage {
+        height: 75vh;
+        position: absolute;
+        left: -3%;
+        top: 20vh;
+      }
 
-			.imgPersonWithPhone {
-				height: 75vh;
-				position: absolute;
-				right: 10%;
-				bottom: 3vh;
-			}
-		}
+      .imgPersonWithPhone {
+        height: 75vh;
+        position: absolute;
+        right: 10%;
+        bottom: 3vh;
+      }
+    }
 
-		.rightImgContainer {
-			position: relative;
-			z-index: 10;
+    .rightImgContainer {
+      position: relative;
+      z-index: 10;
 
-			.smallTreeImage {
-				height: 90vh;
-				position: absolute;
-				left: 58%;
-				bottom: 6vh;
-			}
+      .smallTreeImage {
+        height: 90vh;
+        position: absolute;
+        left: 58%;
+        bottom: 6vh;
+      }
 
-			.imgPersonWithPhone {
-				height: 72vh;
-				position: absolute;
-				left: 20%;
-				bottom: 3vh;
-			}
-		}
+      .imgPersonWithPhone {
+        height: 72vh;
+        position: absolute;
+        left: 20%;
+        bottom: 3vh;
+      }
+    }
 
-		.loginDiv {
-			// border: 1px solid red;
-			text-align: center;
-			padding-top: 7vh;
-			z-index: 10;
-			height: 85vh;
-			overflow: hidden;
+    .loginDiv {
+      // border: 1px solid red;
+      text-align: center;
+      padding-top: 7vh;
+      z-index: 10;
+      height: 85vh;
+      overflow: hidden;
 
-			@media #{$small-screen} {
-				padding-top: 10vh;
-			}
+      @media #{$small-screen} {
+        padding-top: 10vh;
+      }
 
-			.logoIcon {
-				width: 20vh;
+      .logoIcon {
+        width: 20vh;
 
-				@media #{$small-screen} {
-					// padding-top: 30vh;
-					// background: red !important;
-					height: 15vh !important;
-					width: auto !important;
-				}
-			}
+        @media #{$small-screen} {
+          // padding-top: 30vh;
+          // background: red !important;
+          height: 15vh !important;
+          width: auto !important;
+        }
+      }
 
-			.logoText {
-				width: 200px;
-			}
+      .logoText {
+        width: 200px;
+      }
 
-			.emailInput {
-				margin-top: 7vh !important;
-				margin-bottom: 20px;
+      .emailInput {
+        margin-top: 7vh !important;
+        margin-bottom: 20px;
 
-				.v-input__prepend-inner {
-					padding-right: 15px;
-				}
-			}
+        .v-input__prepend-inner {
+          padding-right: 15px;
+        }
+      }
 
-			.emailInput {
-				width: 70%;
-				margin: auto;
-				max-width: 400px;
+      .emailInput {
+        width: 70%;
+        margin: auto;
+        max-width: 400px;
 
-				@media #{$medium-screen} {
-					max-width: none;
-					width: 80%;
-				}
-			}
+        @media #{$medium-screen} {
+          max-width: none;
+          width: 80%;
+        }
+      }
 
-			.continueBtn {
-				margin-top: 7vh;
-				border-radius: 4px;
-				background-image: linear-gradient(to left, #ffdf01, #ffb92d);
-				color: white;
-				width: 40%;
+      .continueBtn {
+        margin-top: 7vh;
+        border-radius: 4px;
+        background-image: linear-gradient(to left, #ffdf01, #ffb92d);
+        color: white;
+        width: 40%;
 
-				letter-spacing: 1px;
+        letter-spacing: 1px;
 
-				@media #{$medium-screen} {
-					max-width: none;
-					width: 80%;
-				}
-			}
+        @media #{$medium-screen} {
+          max-width: none;
+          width: 80%;
+        }
+      }
 
-			.socialIconContainer {
-				margin-top: 5vh;
-				margin-bottom: 4vh;
+      .socialIconContainer {
+        margin-top: 5vh;
+        margin-bottom: 4vh;
 
-				button {
-					border: 1px solid #ebe7ed;
-					.v-icon {
-						font-size: 17px;
-					}
+        button {
+          border: 1px solid #ebe7ed;
+          .v-icon {
+            font-size: 17px;
+          }
 
-					i {
-						font-size: 20px;
-					}
-				}
-			}
+          i {
+            font-size: 20px;
+          }
+        }
+      }
 
-			// .loginDiv {
-			//   margin-top: 5vh;
-			//   .loginTitle {
-			//     font-size: 14px;
-			//     font-weight: normal;
-			//     font-style: normal;
-			//     font-stretch: normal;
-			//     line-height: 1.57;
-			//     letter-spacing: normal;
-			//     text-align: center;
-			//     color: #c8c7c7;
-			//   }
-			//   .loginBtn {
-			//     width: 70%;
-			//     max-width: 400px;
-			//     border-radius: 4px;
-			//     letter-spacing: 1px;
-			//   }
-			// }
+      // .loginDiv {
+      //   margin-top: 5vh;
+      //   .loginTitle {
+      //     font-size: 14px;
+      //     font-weight: normal;
+      //     font-style: normal;
+      //     font-stretch: normal;
+      //     line-height: 1.57;
+      //     letter-spacing: normal;
+      //     text-align: center;
+      //     color: #c8c7c7;
+      //   }
+      //   .loginBtn {
+      //     width: 70%;
+      //     max-width: 400px;
+      //     border-radius: 4px;
+      //     letter-spacing: 1px;
+      //   }
+      // }
 
-			@media #{$small-screen} {
-				.loginDiv {
-					position: fixed;
-					bottom: 0px;
-					width: 100%;
+      @media #{$small-screen} {
+        .loginDiv {
+          position: fixed;
+          bottom: 0px;
+          width: 100%;
 
-					.logoIcon {
-						height: 26vh !important;
-					}
+          .logoIcon {
+            height: 26vh !important;
+          }
 
-					.logoText {
-						width: 200px;
-					}
+          .logoText {
+            width: 200px;
+          }
 
-					.loginBtn {
-						width: 100%;
-						max-width: none;
-						margin: 0px;
-						border-radius: 0px;
-						margin-top: 10px;
-						height: 64px;
-						letter-spacing: 2px;
-					}
-				}
-			}
-		}
-	}
+          .loginBtn {
+            width: 100%;
+            max-width: none;
+            margin: 0px;
+            border-radius: 0px;
+            margin-top: 10px;
+            height: 64px;
+            letter-spacing: 2px;
+          }
+        }
+      }
+    }
+  }
 
-	.fixedFooter {
-		height: 30vh;
-		width: 100%;
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		z-index: 0;
-		// border: 1px solid red;
+  .fixedFooter {
+    height: 30vh;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    // border: 1px solid red;
 
-		background-size: cover;
-		background-position-y: 30px;
-	}
+    background-size: cover;
+    background-position-y: 30px;
+  }
 }
 </style>
