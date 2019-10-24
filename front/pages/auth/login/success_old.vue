@@ -18,29 +18,28 @@
       <!-- Register Div -->
       <v-flex class="successMessage">
         <!-- Header Images -->
-        <img class="logoIcon" src="~/assets/images/bublWithBlueHolder.png" />
+        <img
+          class="logoIcon"
+          src="~/assets/images/bulb_with_light_holder.png"
+        />
         <br />
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
         <!-- Hero Message -->
-        <div class="heroMsg">Welcome Back!</div>
+        <div class="heroMsg">Yay !</div>
 
         <!-- Hero Description -->
         <div class="heroDescription">
-          We've sent you a login link. Click<br />
-          that in your inbox to log in<br />
-          to the site
+          Welcome To Daily Idea!<br />
+          WE've sent you an email confirmation link<br /><br />
+          <!-- <span v-if="email">link at {{ email }}.</span> -->
+          <!-- <span v-else>link.</span> -->
+
+          <!-- <a>Din't get it? Request a new Link</a> -->
         </div>
 
-        <div class="requestLink">
-          <a>Didn't get it? Request a new link</a>
-        </div>
-
-        <div class="actionBtn">
-          <!-- Continue Button -->
-          <v-btn large class="okBtn">OK</v-btn>
-        </div>
-        <br />
+        <!-- Continue Button -->
+        <v-btn large class="okBtn">OK</v-btn>
 
         <!-- Social Login Icons -->
         <div class="socialIconContainer">
@@ -157,7 +156,7 @@ export default {
     .successMessage {
       // border: 1px solid red;
       text-align: center;
-      padding-top: 8vh;
+      padding-top: 10vh;
       z-index: 10;
 
       overflow: hidden;
@@ -172,7 +171,7 @@ export default {
         @media #{$small-screen} {
           // padding-top: 30vh;
           // background: red !important;
-          height: 20vh !important;
+          height: 15vh !important;
           width: auto !important;
         }
       }
@@ -183,7 +182,7 @@ export default {
 
       .heroMsg {
         margin-top: 5vh;
-        font-size: 35px;
+        font-size: 40px;
         font-weight: normal;
         font-style: normal;
         font-stretch: normal;
@@ -193,7 +192,7 @@ export default {
         color: #18141c;
 
         @media #{$small-screen} {
-          font-size: 35px;
+          font-size: 44px;
         }
       }
 
@@ -216,41 +215,16 @@ export default {
         }
 
         @media #{$small-screen} {
-          margin-top: 30px;
           font-size: 14px;
         }
       }
 
-      .requestLink {
-        margin-top: 30px;
-        font-size: 15px;
-        a {
-          color: #777;
-          text-decoration: underline;
-        }
-      }
-
-      .actionBtn {
-        .okBtn {
-          border-radius: 4px;
-          background-image: linear-gradient(to left, #ffdf01, #ffb92d);
-          color: white;
-          width: 246px;
-          margin-top: 4vh;
-
-          letter-spacing: 1px;
-
-          @media #{$medium-screen} {
-            width: 10%;
-          }
-        }
-      }
-
-      .browsePublicIdeaBtn {
+      .okBtn {
         border-radius: 4px;
-
+        background-image: linear-gradient(to left, #ffdf01, #ffb92d);
+        color: white;
         width: 246px;
-        margin-top: 2vh;
+        margin-top: 4vh;
 
         letter-spacing: 1px;
 
