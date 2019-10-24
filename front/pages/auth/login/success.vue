@@ -226,35 +226,6 @@ export default {
         }
       }
 
-      // .actionBtn {
-      // 	.okBtn {
-      // 		border-radius: 4px;
-      // 		background-image: linear-gradient(to left, #ffdf01, #ffb92d);
-      // 		color: white;
-      // 		width: 246px;
-      // 		margin-top: 4vh;
-
-      // 		letter-spacing: 1px;
-
-      // 		@media #{$medium-screen} {
-      // 			width: 10%;
-      // 		}
-      // 	}
-      // }
-
-      .browsePublicIdeaBtn {
-        border-radius: 4px;
-
-        width: 246px;
-        margin-top: 2vh;
-
-        letter-spacing: 1px;
-
-        @media #{$medium-screen} {
-          width: 130px;
-        }
-      }
-
       .socialIconContainer {
         margin-top: 7vh;
 

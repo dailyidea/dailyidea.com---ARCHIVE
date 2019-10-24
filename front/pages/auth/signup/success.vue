@@ -254,19 +254,6 @@ export default {
       // 	}
       // }
 
-      .browsePublicIdeaBtn {
-        border-radius: 4px;
-
-        width: 246px;
-        margin-top: 2vh;
-
-        letter-spacing: 1px;
-
-        @media #{$medium-screen} {
-          width: 130px;
-        }
-      }
-
       .socialIconContainer {
         margin-top: 7vh;
 
