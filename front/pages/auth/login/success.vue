@@ -16,7 +16,7 @@
         />
       </v-flex>
 
-      <!-- Centered Register Div -->
+      <!-- Centered Div -->
       <v-flex class="successMessage">
         <!-- Logo Icons -->
         <div class="logoContainer">
@@ -40,7 +40,7 @@
           <a>Didn't get it? Request a new link</a>
         </div>
 
-        <!-- Social Login Icons -->
+        <!-- Social Icons -->
         <div class="socialIconContainer">
           <v-btn outlined fab color="primary">
             <v-icon>fab fa-facebook-f</v-icon>

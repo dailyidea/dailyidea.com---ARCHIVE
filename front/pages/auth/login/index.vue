@@ -40,13 +40,23 @@
             validate="required|email"
           />
 
-          <!-- Continue Button -->
+          <!-- Email Not Found Message -->
+          <div v-if="emailNotFoundMsg != ''" class="emailNotFoundMsg">
+            {{ emailNotFoundMsg }}
+            <div>
+              <v-btn to="/auth/signup" text small color="#827C85"
+                >Create an account?</v-btn
+              >
+            </div>
+          </div>
+
+          <!-- Login Button -->
           <v-btn large class="loginBtn" :loading="logingUser" @click="login"
             >Log In</v-btn
           >
         </v-form>
 
-        <!-- Social Login Icons -->
+        <!-- Social Icons -->
         <div class="socialIconContainer">
           <v-btn outlined fab color="primary">
             <v-icon>fab fa-facebook-f</v-icon>
@@ -59,7 +69,7 @@
           </v-btn>
         </div>
 
-        <!-- Login div at bottom -->
+        <!-- Create account div at bottom -->
         <v-layout class="createAccountDiv">
           <v-btn large dark class="signupBtn" to="/auth/signup"
             >CREATE ACCOUNT</v-btn
@@ -67,6 +77,7 @@
         </v-layout>
       </v-flex>
 
+      <!-- Right side desktop only image -->
       <v-flex class="rightImgContainer" hidden-sm-and-down>
         <img class="smallTreeImage" src="~/assets/images/smallTree.png" />
         <img
@@ -76,7 +87,7 @@
       </v-flex>
     </v-layout>
 
-    <!-- Fixed Footer -->
+    <!-- Fixed Footer - desktop only -->
     <v-layout
       hidden-sm-and-down
       class="fixedFooter"
@@ -99,12 +110,15 @@ export default {
   mixins: [ActionValidate],
   data: () => ({
     email: '',
-    logingUser: false
+    logingUser: false,
+    emailNotFoundMsg: ''
   }),
   methods: {
     async login() {
       try {
         this.logingUser = true
+        this.emailNotFoundMsg = ''
+
         //Validate input fields
         let result = await this.$validator.validateAll()
         if (!result) {
@@ -115,6 +129,7 @@ export default {
         await this.$amplifyApi.post('RequestLogin', '', {
           body: { email: this.email }
         })
+
         this.logingUser = false
 
         // Redirect to login success page
@@ -124,6 +139,15 @@ export default {
         })
         this.logingUser = false
       } catch (e) {
+        this.logingUser = false
+
+        // Handle email not found
+        if (e.response && e.response.data.message == 'Email not found') {
+          this.emailNotFoundMsg =
+            "Sorry, we can't find an account with this email address. Do you want  to"
+          return
+        }
+
         this.$snotify.error(getErrorMessage(e), 'Error', {
           timeout: 2000,
           showProgressBar: false,
@@ -247,6 +271,13 @@ export default {
         }
       }
 
+      .emailNotFoundMsg {
+        width: 70%;
+        margin: auto;
+        max-width: 420px;
+        color: #c8c7c7;
+      }
+
       .loginBtn {
         margin-top: 7vh;
         border-radius: 4px;
@@ -315,6 +346,7 @@ export default {
             position: fixed;
             bottom: 0px;
             width: 100%;
+            padding: 30px;
             border-radius: 0px !important;
           }
         }
