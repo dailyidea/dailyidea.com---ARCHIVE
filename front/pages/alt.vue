@@ -1,721 +1,628 @@
 <template>
-  <Layout>
-    <div id="homePage">
-      <!-- First Section -->
-      <div class="firstSection">
-        <!-- Desktop - Hero Message & Signup Button -->
-        <v-layout
-          class="desktopHero"
-          fluid
-          grid-list-md
-          hidden-sm-and-down
-          row
-          :style="{
-            'background-image':
-              'url(' +
-              require('~/assets/images/home/yellow_background.png') +
-              ')'
-          }"
-        >
-          <v-flex hidden-sm-and-down md7 lg6>
-            <div class="heroTitle">
-              Every Day, Log An Idea
-            </div>
-            <div class="heroSubtitle">
-              A project idea, a startup idea, a work idea
-            </div>
-            <div class="heroDescription">
-              You'll get an email in your inbox reminding you to submit an idea.
-              Just respond to it and we'll save it for you.
-            </div>
+	<Layout>
+		<div id="homePage">
+			<!-- First Section -->
+			<div class="firstSection">
 
-            <!-- Signup Button -->
-            <v-btn
-              large
-              dark
-              class="signupButton"
-              :to="{ name: 'auth-signup' }"
-              color="primary"
-              >Sign up Now</v-btn
-            >
+				<!-- Desktop - Hero Message & Signup Button -->
+				<v-layout class="heroSection" fluid grid-list-md row :style="{'background-image': 'url(' +require('~/assets/images/home/white_hero_bg.png') +')' }">
 
-            <!-- Lamp Image -->
-            <img class="lampImg" src="~/assets/images/white_lamp.png" />
-          </v-flex>
-        </v-layout>
+					<!-- Desktop Left Side -->
+					<v-flex class="leftSide" md6 lg6 sm12>
+						<div class="heroTitle">
+							Every Day, Log An Idea
+						</div>
+						<div class="heroSubtitle">
+							A project idea, a startup idea, a work idea
+						</div>
+						<div class="heroDescription">
+							You'll get an email in your inbox reminding you to submit an idea.
+							Just respond to it and we'll save it for you.
+						</div>
 
-        <!-- Mobile - Hero Message & Signup Button -->
-        <v-layout
-          class="mobileHero"
-          hidden-md-and-up
-          :style="{
-            'background-image':
-              'url(' +
-              require('~/assets/images/home/yellow_background_mobile.png') +
-              ')'
-          }"
-        >
-          <div class="heroTitle">
-            Your Idea
-            <br />Could Be Huge!
-          </div>
-          <div class="heroSubtitle">That is, if you don't forget it!</div>
-          <div class="heroDescription">
-            Submitting an idea every day is as simple as sending an email. We
-            will store your ideas for you, so you can share them with your
-            friends and conquer the world!
-          </div>
+						<!-- Signup Button -->
+						<v-btn large dark class="signupButton" :to="{ name: 'auth-signup' }" color="primary">Sign up Now</v-btn>
 
-          <!-- Signup Button -->
-          <v-btn
-            large
-            dark
-            class="signupButton"
-            :to="{ name: 'auth-signup' }"
-            color="primary"
-            >Sign up Now</v-btn
-          >
+					</v-flex>
 
-          <img class="lampImg" src="~/assets/images/white_lamp.png" />
-        </v-layout>
+					<!-- Desktop Only - Right Side -->
+					<v-flex hidden-sm-and-down>
+						<!-- Lamp Image -->
+						<div class="desktopHeroRightSideImageContainer">
+							<img class="lampImg" src="~/assets/images/yellowBulb.png" />
+							<img class="tree" src="~/assets/images/bigTree.png" />
+							<img class="personImg person1Img" src="~/assets/images/home/person_with_bag.png" />
+							<img class="personImg person2Img" src="~/assets/images/home/person_2.png" />
+							<img class="personImg person3Img" src="~/assets/images/home/person_3.png" />
+						</div>
+					</v-flex>
 
-        <!-- Desktop Reviews -->
-        <div>
-          <v-layout
-            class="desktopReviews"
-            :style="{
+				</v-layout>
+
+				<!-- Desktop Reviews -->
+				<div>
+					<v-layout class="desktopReviews" :style="{
               'background-image':
                 'url(' +
                 require('~/assets/images/home/purple_background.png') +
                 ')'
-            }"
-            hidden-sm-and-down
-            fluid
-            grid-list-md
-            xs12
-            row
-          >
-            <v-flex md4 lg4>
-              <v-card color="white" class="review">
-                Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-                officia deserunt
-                <!-- User Icon -->
-                <div class="reviewerInfo">
-                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name
-                  Surname
-                  <div class="reviewTime">1h ago</div>
-                </div>
-              </v-card>
-            </v-flex>
-            <v-flex md4 lg4>
-              <v-card color="white" class="review">
-                Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-                officia deserunt
-                <!-- User Icon -->
-                <div class="reviewerInfo">
-                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name
-                  Surname
-                  <div class="reviewTime">1h ago</div>
-                </div>
-              </v-card>
-              <div class="browseMoreIdeaBtn">
-                <v-btn large>Browse More Ideas</v-btn>
-              </div>
-            </v-flex>
-            <v-flex md4 lg4 style="position: relative;">
-              <img class="person2Img" src="~/assets/images/home/person_2.png" />
-              <img class="person3Img" src="~/assets/images/home/person_3.png" />
-              <v-card color="white" class="review">
-                Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-                officia deserunt
-                <!-- User Icon -->
-                <div class="reviewerInfo">
-                  <v-icon class="userIcon">fa-user-circle</v-icon>by Name
-                  Surname
-                  <div class="reviewTime">1h ago</div>
-                </div>
-              </v-card>
-            </v-flex>
-          </v-layout>
-        </div>
+            }" hidden-sm-and-down fluid grid-list-md xs12 row>
+						<v-flex md4 lg4 v-for="idea in ideas" :key="idea.ideaId">
+							<v-card color="white" class="review">
+								<div v-html="idea.content"></div>
+								<!-- User Icon -->
+								<div class="reviewerInfo">
+									<v-icon class="userIcon">fa-user-circle</v-icon>by Name
+									Surname
+									<div class="reviewTime">{{ idea.relativeCreatedTime }}</div>
+								</div>
+							</v-card>
+						</v-flex>
 
-        <!-- Mobile Reviews -->
-        <v-layout
-          class="mobileReviews"
-          hidden-md-and-up
-          :style="{
+						<!-- More Ideas Button -->
+						<div class="moreIdeasButtonContainer">
+							<v-btn large class="moreIdeas" to="/ideas/public" color="primary">
+								Browse More Ideas
+							</v-btn>
+						</div>
+
+					</v-layout>
+				</div>
+
+				<!-- Mobile Reviews -->
+				<v-layout class="mobileReviews" hidden-md-and-up :style="{
             'background-image':
               'url(' +
               require('~/assets/images/home/purple_background_mobile.png') +
               ')'
-          }"
-        >
-          <v-carousel
-            interval="600000"
-            :show-arrows="false"
-            delimiter-icon="fa-circle"
-            class="mobileReviewCrousel"
-          >
-            <v-carousel-item class="review">
-              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-              officia deserunt
-              <!-- User Icon -->
-              <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-                <div class="reviewTime">1h ago</div>
-              </div>
-            </v-carousel-item>
-            <v-carousel-item class="review">
-              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-              officia deserunt
-              <!-- User Icon -->
-              <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-                <div class="reviewTime">1h ago</div>
-              </div>
-            </v-carousel-item>
-            <v-carousel-item class="review">
-              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-              officia deserunt
-              <!-- User Icon -->
-              <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-                <div class="reviewTime">1h ago</div>
-              </div>
-            </v-carousel-item>
-            <v-carousel-item class="review">
-              Excepteur sint occaecat cuidatat non proident, sunt in culpa qui
-              officia deserunt
-              <!-- User Icon -->
-              <div class="reviewerInfo">
-                <v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
-                <div class="reviewTime">1h ago</div>
-              </div>
-            </v-carousel-item>
-          </v-carousel>
+          }">
+					<v-carousel interval="600000" hide-delimiter-background cycle :show-arrows="false" delimiter-icon="fa-circle" class="mobileReviewCrousel">
+						<v-carousel-item class="review" v-for="idea in ideas" :key="idea.ideaId">
+							<div v-html="idea.content"></div>
+							<!-- User Icon -->
+							<div class="reviewerInfo">
+								<v-icon class="userIcon">fa-user-circle</v-icon>by Name Surname
+								<div class="reviewTime">1h ago</div>
+							</div>
+						</v-carousel-item>
+					</v-carousel>
 
-          <img class="heroImg" src="~/assets/images/home/person_2_mobile.png" />
-        </v-layout>
-      </div>
+					<img class="lampImg" src="~/assets/images/yellowBulb.png" />
+					<img class="heroImg" src="~/assets/images/home/person_2_mobile.png" />
+				</v-layout>
+			</div>
 
-      <!-- Second Section -->
-      <div class="secondSection">
-        <!-- Desktop View -->
-        <v-container class="desktopView" hidden-sm-and-down>
-          <v-layout row wrap>
-            <!-- Left side image -->
-            <v-flex class="leftImageSection" xs6>
-              <img class="img1" src="~/assets/images/person_with_phone.png" />
-              <img class="img2" src="~/assets/images/home/mail_work.png" />
-              <img
-                class="img3"
-                src="~/assets/images/home/lady_with_phone.png"
-              />
-            </v-flex>
-            <!-- Right side description -->
-            <v-flex class="rightSideDescription" xs5 md6>
-              <div class="ttle">How it works</div>
-              <div class="subTitle">Oh, it's easy!</div>
-              <img class="dotsImg" src="~/assets/images/home/dots.png" />
-              <div class="description">
-                We'll send you an email every day with a reminder for you to
-                submit an idea. Just hit reply, and you'll never again.
-              </div>
-              <v-btn class="buttn" dark outlined>More</v-btn>
-            </v-flex>
-          </v-layout>
-        </v-container>
+			<!-- Second Section -->
+			<div class="secondSection">
+				<!-- Desktop View -->
+				<v-container class="desktopView" hidden-sm-and-down>
+					<v-layout row wrap>
+						<!-- Left side image -->
+						<v-flex class="leftImageSection" xs6>
+							<img class="img1" src="~/assets/images/person_with_phone.png" />
+							<img class="img2" src="~/assets/images/home/mail_work.png" />
+							<img class="img3" src="~/assets/images/home/lady_with_phone.png" />
+						</v-flex>
+						<!-- Right side description -->
+						<v-flex class="rightSideDescription" xs5 md6>
+							<div class="ttle">How it works</div>
+							<div class="subTitle">Oh, it's easy!</div>
+							<img class="dotsImg" src="~/assets/images/home/dots.png" />
+							<div class="description">
+								We'll send you an email every day with a reminder for you to
+								submit an idea. Just hit reply, and you'll never again.
+							</div>
+							<v-btn class="buttn" dark outlined>More</v-btn>
+						</v-flex>
+					</v-layout>
+				</v-container>
 
-        <!-- Mobile View -->
-        <v-container class="mobileView" grid-list-md hidden-md-and-up>
-          <div class="ttle">How it works</div>
-          <div class="subTitle">
-            Oh, it's easy!
-            <img class="dotsImg" src="~/assets/images/home/dots.png" />
-          </div>
-          <div class="description">
-            We'll send you an email every day with a <br />reminder for you to
-            submit an idea. Just hit <br />reply, and you'll never forget an
-            idea ever <br />
-            again.
-          </div>
+				<!-- Mobile View -->
+				<v-container class="mobileView" grid-list-md hidden-md-and-up>
+					<div class="ttle">How it works</div>
+					<div class="subTitle">
+						Oh, it's easy!
+						<img class="dotsImg" src="~/assets/images/home/dots.png" />
+					</div>
+					<div class="description">
+						We'll send you an email every day with a <br />reminder for you to
+						submit an idea. Just hit <br />reply, and you'll never forget an
+						idea ever <br />
+						again.
+					</div>
 
-          <div style="text-align: center;">
-            <img
-              class="ladyMobile"
-              src="~/assets/images/home/lady_with_phone.png"
-            />
-            <img class="img2" src="~/assets/images/home/mail_work_mobile.png" />
-            <img class="img3" src="~/assets/images/person_with_phone.png" />
-          </div>
-          <v-btn class="buttn" dark outlined>More</v-btn>
-        </v-container>
+					<div style="text-align: center;">
+						<img class="ladyMobile" src="~/assets/images/home/lady_with_phone.png" />
+						<img class="img2" src="~/assets/images/home/mail_work_mobile.png" />
+						<img class="img3" src="~/assets/images/person_with_phone.png" />
+					</div>
+					<v-btn class="buttn" dark outlined>More</v-btn>
+				</v-container>
 
-        <!-- Footer -->
-        <div class="homeFooter">
-          <v-layout row wrap>
-            <v-flex md10 lg10 hidden-sm-and-down>&nbsp;</v-flex>
-            <v-flex md2 lg2>
-              <i class="fab fa-instagram"></i>
-              <i class="fab fa-twitter"></i>
-              <i class="fab fa-facebook-f"></i>
-            </v-flex>
-          </v-layout>
-        </div>
-      </div>
-    </div>
-  </Layout>
+				<!-- Footer -->
+				<div class="homeFooter">
+					<v-layout row wrap>
+						<v-flex md10 lg10 hidden-sm-and-down>&nbsp;</v-flex>
+						<v-flex md2 lg2>
+							<i class="fab fa-instagram"></i>
+							<i class="fab fa-twitter"></i>
+							<i class="fab fa-facebook-f"></i>
+						</v-flex>
+					</v-layout>
+				</div>
+			</div>
+		</div>
+	</Layout>
 </template>
 
 <script>
 import Layout from '@/components/layout/Layout'
+
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import getPublicIdeas from '~/graphql/query/getPublicIdeas'
+dayjs.extend(relativeTime)
+
 export default {
-  components: { Layout },
-  methods: {}
+	components: { Layout },
+	async asyncData({ app }) {
+		let result = await app.$amplifyApi.graphql({
+			query: getPublicIdeas,
+			variables: {
+				nextToken: null,
+				limit: 3
+			},
+			authMode: 'API_KEY'
+		})
+
+		result = result.data.getPublicIdeas
+		return {
+			ideas: result.items
+		}
+	},
+	methods: {},
+	created() {
+		this.ideas.forEach(idea => {
+			idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
+		})
+	}
 }
 </script>
 
 <style lang="scss">
 #homePage {
-  .firstSection {
-    width: 100%;
-    min-height: 100vh;
-    text-align: left;
-    background: ebe7ed;
+	.firstSection {
+		width: 100%;
+		text-align: left;
+		background: white;
+		overflow: hidden;
 
-    .desktopHero {
-      padding-left: 11.5%;
-      background-size: cover;
-      background-position-y: -20px;
+		.heroSection {
+			background-size: cover;
+			background-position-y: -20px;
+			height: 90vh;
 
-      .heroTitle {
-        padding-top: 7vh;
+			// border: 1px solid green;
 
-        font-size: 75px;
-        font-family: QuatroLight;
-        font-weight: 600;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.2;
-        letter-spacing: normal;
-        text-align: left;
-        color: #18141c;
-      }
+			background: #ebe7ed;
+			background-repeat: no-repeat;
+			background-size: 230% 70vh;
+			background-position-x: 82%;
 
-      .heroSubtitle {
-        margin-top: 3vh;
-        padding-left: 5px;
+			.leftSide {
+				text-align: left;
+				padding-left: 10%;
+				z-index: 1;
 
-        font-family: QuatroLight;
-        font-size: 25px;
-        font-weight: 600;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 0.73;
-        letter-spacing: normal;
-        text-align: left;
-        color: #18141c;
-      }
+				font-family: QuatroLight;
+				font-weight: 600;
+				color: #18141c;
 
-      .heroDescription {
-        padding-left: 5px;
-        padding-top: 4vh;
-        width: 63%;
+				.heroTitle {
+					padding-top: 15vh;
+					font-size: 55px;
+					line-height: 1.2;
+				}
 
-        // font-family: QuatroLight;
-        font-size: 20px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.5;
-        letter-spacing: normal;
-        text-align: left;
-        color: #18141c;
-      }
+				.heroSubtitle {
+					margin-top: 3vh;
+					font-size: 25px;
+					line-height: 0.73;
+				}
 
-      .signupButton {
-        width: 220px;
-        font-size: 13px;
-        margin-top: 8.5vh;
-        margin-bottom: 2vh;
-      }
+				.heroDescription {
+					padding-top: 4vh;
+					width: 70%;
+					font-size: 20px;
+					line-height: 1.5;
+					color: #827c85;
+				}
 
-      .lampImg {
-        position: absolute;
-        right: 21%;
-        top: 3vh;
-        height: 190px;
-      }
-    }
+				.signupButton {
+					width: 220px;
+					font-size: 13px;
+					margin-top: 8.5vh;
+					margin-bottom: 2vh;
+				}
+			}
 
-    .mobileHero {
-      display: block;
-      width: 100%;
-      padding-left: 7%;
-      padding-right: 7%;
-      padding-bottom: 1vh;
-      margin: auto;
-      background-size: cover;
-      background-position-x: 90%;
-      background-position-y: 0px;
-      position: relative;
-      overflow-x: hidden;
-      overflow-y: hidden;
+			.desktopHeroRightSideImageContainer {
+				// border: 1px solid red;
+				position: relative;
+				height: 100%;
+				img {
+					position: absolute;
+					bottom: 0;
+				}
 
-      .heroTitle {
-        width: 70%;
-        padding-top: 11vh;
-        display: block;
+				.lampImg {
+					position: absolute;
+					top: 3vh;
+					left: 25%;
+					height: 27vh;
+				}
 
-        font-family: QuatroSlab;
-        font-size: 50px;
-        font-weight: 600;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1;
-        letter-spacing: normal;
-        text-align: left;
-        color: #18141c;
-      }
+				.tree {
+					left: 0;
+					height: 80vh;
+					left: -15%;
+					z-index: 0;
+				}
 
-      .heroSubtitle {
-        margin-top: 3vh;
-        padding-left: 5px;
+				.person1Img {
+					left: 5%;
+					width: 18%;
+				}
 
-        font-family: QuatroSlab;
-        font-size: 14px;
-        font-weight: 600;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.57;
-        letter-spacing: normal;
-        text-align: left;
-        color: #18141c;
-      }
+				.person2Img {
+					left: 30%;
+					width: 18%;
+				}
 
-      .heroDescription {
-        padding-left: 5px;
-        padding-top: 3vh;
-        width: 54%;
-        text-align: left;
+				.person3Img {
+					left: 52%;
+					width: 24%;
+				}
+			}
 
-        font-family: Quatro;
-        font-size: 14px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.57;
-        letter-spacing: normal;
-        text-align: left;
-        color: #ffffff;
-      }
+			@media #{$small-screen} {
+				background-size: 275% 70vh;
+				background-position-x: 95%;
+				background-position-x: 70%;
+				height: 75vh;
 
-      .signupButton {
-        width: 150px;
-        font-size: 13px;
-        margin-top: 40px;
-      }
+				.leftSide {
+					padding-left: 7%;
+					padding-right: 30%;
 
-      .lampImg {
-        position: absolute;
-        right: -2%;
-        top: 3vh;
-        height: 170px;
-      }
-    }
+					.heroTitle {
+						padding-top: 5vh;
+						font-size: 35px;
+					}
 
-    .desktopReviews {
-      padding-left: 10px;
-      width: 100%;
-      padding-left: 10%;
-      padding-right: 10%;
-      margin: auto;
-      margin-top: 7vh;
-      padding-bottom: 10vh;
-      background-size: cover;
-      background-position-y: 30px;
+					.heroSubtitle {
+						margin-top: 3vh;
+						font-size: 20px;
+						padding-right: 10%;
+						line-height: 1.2;
+					}
 
-      .browseMoreIdeaBtn {
-        text-align: center;
-        margin-top: 80px;
+					.heroDescription {
+						padding-top: 4vh;
+						font-size: 15px;
+						width: 100%;
+						padding-right: 10%;
+						line-height: 1.5;
+						color: #827c85;
+					}
 
-        button {
-          width: 400px;
-        }
-      }
+					.signupButton {
+						width: 170px;
+						font-size: 13px;
+						margin-top: 8.5vh;
+						margin-bottom: 2vh;
+					}
+				}
+			}
+		}
 
-      .person2Img {
-        position: absolute;
-        margin-top: -300px;
-        right: 163px;
-        height: 450px;
-      }
+		.desktopReviews {
+			// border: 1px solid blue;
+			margin: auto;
+			margin-top: -13vh;
+			padding-bottom: 10vh;
+			width: 100%;
+			padding-left: 8%;
+			padding-right: 8%;
 
-      .person3Img {
-        position: absolute;
-        right: -34px;
-        margin-top: -342px;
-        height: 480px;
-      }
+			background: #ebe7ed;
+			background-size: cover;
+			background-position-y: 30px;
+			text-align: center;
 
-      .review {
-        max-width: 400px !important;
-        width: 90%;
-        padding: 40px 33px;
-        font-size: 16px;
-        margin: auto;
+			.review {
+				max-width: 400px !important;
+				width: 90%;
+				padding: 40px 33px;
+				font-size: 16px;
+				margin: auto;
+				text-align: left;
 
-        .reviewerInfo {
-          font-size: 13px;
-          color: #777;
-          line-height: 30px;
-          margin-top: 30px;
+				.reviewerInfo {
+					font-size: 13px;
+					color: #777;
+					line-height: 30px;
+					margin-top: 30px;
 
-          .userIcon {
-            color: #35124e;
-            font-size: 25px;
-            line-height: 20px;
-            margin-right: 10px;
-          }
+					.userIcon {
+						color: #35124e;
+						font-size: 25px;
+						line-height: 20px;
+						margin-right: 10px;
+					}
 
-          .reviewTime {
-            float: right;
-          }
-        }
-      }
-    }
+					.reviewTime {
+						float: right;
+					}
+				}
+			}
 
-    .mobileReviews {
-      padding-bottom: 7vh;
-      background-size: cover;
-      background-position-y: 10vh;
-      position: relative;
+			.moreIdeasButtonContainer {
+				width: 100%;
+				text-align: center;
+				margin-top: 10vh;
+				// border: 1px solid red;
 
-      .heroImg {
-        position: absolute;
-        right: 0px;
-        // top: -38vh;
-        top: -300px;
-        // height: 71vh;
-        width: 45%;
-        z-index: 0;
-      }
+				.moreIdeas {
+					text-align: center;
+					width: 350px;
+				}
+			}
+		}
 
-      .mobileReviewCrousel {
-        // border: 1px solid red;
-        width: 90%;
-        margin: auto;
-        max-height: 33vh;
-        background: white;
-        margin-top: 25px;
-        padding-bottom: 10px;
-        z-index: 10;
+		.mobileReviews {
+			padding-bottom: 7vh;
+			background-size: cover;
+			background-position-y: 10vh;
+			background-color: #ebe7ed;
+			position: relative;
 
-        .v-carousel__controls {
-          background: white;
-          padding-bottom: 5vh !important;
-          padding-top: 4vh !important;
+			.lampImg {
+				position: absolute;
+				right: 5%;
+				top: -60vh;
+				width: 27%;
+				z-index: 0;
+			}
 
-          .v-icon {
-            color: #777 !important;
-            font-size: 11px !important;
-          }
+			.heroImg {
+				position: absolute;
+				right: 0px;
+				top: -40vh;
+				width: 42%;
+				z-index: 0;
+			}
 
-          .v-btn--active {
-            background-color: white !important;
+			.mobileReviewCrousel {
+				// border: 1px solid red;
+				width: 90%;
+				margin: auto;
+				background: white;
+				margin-top: 25px;
+				padding-bottom: 10px;
+				z-index: 10;
 
-            .v-icon {
-              color: #ffc61e !important;
-            }
-          }
-        }
+				height: auto !important;
 
-        .review {
-          padding: 32px 32px;
-          padding-bottom: 0px;
-          font-size: 18px;
-          margin: auto;
+				.v-carousel__item {
+					min-height: 100px;
+					height: auto !important;
+					padding-bottom: 55px;
+				}
+				.v-carousel__controls {
+					padding-bottom: 5vh !important;
+					padding-top: 4vh !important;
 
-          .reviewerInfo {
-            font-size: px;
-            color: #777;
-            line-height: 30px;
-            margin-top: 20px;
+					.v-icon {
+						color: #777 !important;
+						font-size: 11px !important;
+					}
 
-            .userIcon {
-              color: #35124e;
-              font-size: 25px;
-              line-height: 20px;
-              margin-right: 10px;
-            }
+					.v-btn--active {
+						background-color: white !important;
 
-            .reviewTime {
-              float: right;
-            }
-          }
-        }
-      }
-    }
-  }
+						.v-icon {
+							color: #ffc61e !important;
+						}
+					}
+				}
 
-  .secondSection {
-    text-align: left;
-    padding-top: 0vh;
-    overflow: hidden;
-    position: relative;
+				.review {
+					padding: 32px 32px;
+					padding-bottom: 0px;
+					font-size: 18px;
+					height: auto !important;
+					margin: auto;
 
-    .desktopView {
-      .leftImageSection {
-        display: flex; // make us of Flexbox
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        position: relative;
+					.reviewerInfo {
+						color: #777;
+						line-height: 30px;
+						margin-top: 20px;
 
-        .img1 {
-          position: absolute;
-          overflow: hidden;
-          height: 100vh;
-          top: 1vh;
-          left: -4%;
-        }
+						.userIcon {
+							color: #35124e;
+							font-size: 25px;
+							line-height: 20px;
+							margin-right: 10px;
+						}
 
-        .img2 {
-          width: 70%;
-        }
+						.reviewTime {
+							float: right;
+						}
+					}
+				}
+			}
+		}
+	}
 
-        .img3 {
-          position: absolute;
-          overflow: hidden;
-          height: 60vh;
-          top: 5vh;
-          right: 13%;
-        }
-      }
+	.secondSection {
+		text-align: left;
+		padding-top: 0vh;
+		overflow: hidden;
+		position: relative;
 
-      .rightSideDescription {
-        padding-top: 7vh;
+		.desktopView {
+			.leftImageSection {
+				display: flex; // make us of Flexbox
+				align-items: center;
+				justify-content: center;
+				text-align: center;
+				position: relative;
 
-        .ttle {
-          color: #ffc61e;
-          font-style: italic;
-          font-size: 2vw;
-          line-height: 2.3vw;
-        }
+				.img1 {
+					position: absolute;
+					overflow: hidden;
+					height: 100vh;
+					top: 1vh;
+					left: -4%;
+				}
 
-        .subTitle {
-          font-size: 4vw;
-        }
+				.img2 {
+					width: 70%;
+				}
 
-        .dotsImg {
-          margin-top: 2vh;
-          height: 10px;
-        }
+				.img3 {
+					position: absolute;
+					overflow: hidden;
+					height: 60vh;
+					top: 5vh;
+					right: 13%;
+				}
+			}
 
-        .description {
-          width: 80%;
-          padding-top: 4vh;
-          font-size: 1.3vw;
-          padding-left: 5px;
-          color: #aca7ae;
-        }
+			.rightSideDescription {
+				padding-top: 7vh;
 
-        .buttn {
-          margin-top: 7vh;
-          margin-bottom: 5vh;
-        }
-      }
-    }
+				.ttle {
+					color: #ffc61e;
+					font-style: italic;
+					font-size: 2vw;
+					line-height: 2.3vw;
+				}
 
-    .mobileView {
-      padding: 6vh 8% 0vh 10%;
-      position: relative;
-      overflow: hidden;
+				.subTitle {
+					font-size: 4vw;
+				}
 
-      .ttle {
-        font-family: QuatroSlab;
-        font-size: 14px;
-        font-weight: normal;
-        font-style: italic;
-        font-stretch: normal;
-        line-height: 1.57;
-        letter-spacing: 0.42px;
-        text-align: left;
-        color: #ffbd27;
-      }
+				.dotsImg {
+					margin-top: 2vh;
+					height: 10px;
+				}
 
-      .subTitle {
-        font-size: 9vw;
-        margin-top: 2vh;
-        position: relative;
+				.description {
+					width: 80%;
+					padding-top: 4vh;
+					font-size: 1.3vw;
+					padding-left: 5px;
+					color: #aca7ae;
+				}
 
-        .dotsImg {
-          position: absolute;
-          right: 4%;
-          top: 22px;
-          width: 60px;
-        }
-      }
+				.buttn {
+					margin-top: 7vh;
+					margin-bottom: 5vh;
+				}
+			}
+		}
 
-      .description {
-        width: 70%;
-        padding-top: 3vh;
-        padding-left: 5px;
+		.mobileView {
+			padding: 6vh 8% 0vh 10%;
+			position: relative;
+			overflow: hidden;
 
-        font-family: Quatro;
-        font-size: 12px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.83;
-        letter-spacing: normal;
-        text-align: left;
-        color: #827c85;
-      }
+			.ttle {
+				font-family: QuatroSlab;
+				font-size: 14px;
+				font-weight: normal;
+				font-style: italic;
+				font-stretch: normal;
+				line-height: 1.57;
+				letter-spacing: 0.42px;
+				text-align: left;
+				color: #ffbd27;
+			}
 
-      .buttn {
-        // margin-top: 30vh;
-      }
+			.subTitle {
+				font-size: 9vw;
+				margin-top: 2vh;
+				position: relative;
 
-      .ladyMobile {
-        position: absolute;
-        bottom: 13vh;
-        left: 23px;
-        height: 263px;
-      }
+				.dotsImg {
+					position: absolute;
+					right: 4%;
+					top: 22px;
+					width: 60px;
+				}
+			}
 
-      .img2 {
-        width: 70%;
-        margin: auto;
-      }
+			.description {
+				width: 70%;
+				padding-top: 3vh;
+				padding-left: 5px;
 
-      .img3 {
-        position: absolute;
-        height: 670px;
-        right: -65px;
-        bottom: -250px;
-      }
-    }
+				font-family: Quatro;
+				font-size: 12px;
+				font-weight: normal;
+				font-style: normal;
+				font-stretch: normal;
+				line-height: 1.83;
+				letter-spacing: normal;
+				text-align: left;
+				color: #827c85;
+			}
 
-    .buttn {
-      margin-top: 8vh;
-      margin-bottom: 4vh;
-      color: #3a1852 !important;
-      border: 2px solid #cbc4cf !important;
-    }
-  }
+			.buttn {
+				// margin-top: 30vh;
+			}
 
-  .homeFooter {
-    background: white;
-    color: white;
-    padding: 30px;
-    // padding-top: 20px;
+			.ladyMobile {
+				position: absolute;
+				bottom: 13vh;
+				left: 23px;
+				height: 263px;
+			}
 
-    i {
-      color: #35124e;
-      margin-left: 13px;
-      margin-right: 13px;
-    }
-  }
+			.img2 {
+				width: 70%;
+				margin: auto;
+			}
+
+			.img3 {
+				position: absolute;
+				height: 670px;
+				right: -65px;
+				bottom: -250px;
+			}
+		}
+
+		.buttn {
+			margin-top: 8vh;
+			margin-bottom: 4vh;
+			color: #3a1852 !important;
+			border: 2px solid #cbc4cf !important;
+		}
+	}
+
+	.homeFooter {
+		background: white;
+		color: white;
+		padding: 30px;
+		// padding-top: 20px;
+
+		i {
+			color: #35124e;
+			margin-left: 13px;
+			margin-right: 13px;
+		}
+	}
 }
 </style>
