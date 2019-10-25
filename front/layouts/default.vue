@@ -82,6 +82,7 @@ export default {
 
 #app {
   font-family: Quatro;
+  background: white;
 }
 
 .theme--light.v-list-item {

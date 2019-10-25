@@ -47,13 +47,23 @@
       <!-- No Idea MEssage -->
       <div class="text" v-html="noIdeaMessage"></div>
 
-      <div class="arrowButtonContainer">
+      <!-- Add idea arrow - desktop only -->
+      <v-layout
+        v-if="showArrowToAddButton"
+        class="hidden-sm-and-down desktopArrowButtonContainer"
+      >
         <img
-          v-if="showArrowToAddButton"
           class="arrowImg"
-          src="~/assets/images/arrowImage.png"
+          src="~/assets/images/add_idea_arrow_desktop.png"
         />
-      </div>
+      </v-layout>
+
+      <v-layout
+        v-if="showArrowToAddButton"
+        class="hidden-md-and-up mobileArrowButtonContainer"
+      >
+        <img class="arrowImg" src="~/assets/images/add_idea_arrow_mobile.png" />
+      </v-layout>
     </div>
   </div>
 </template>
@@ -67,11 +77,11 @@ export default {
     },
     showArrowToAddButton: {
       type: Boolean,
-      default: true
+      default: false
     },
     noIdeaMessage: {
       type: String,
-      default: "You You don't have any ideas right now. <br /> Or do you?"
+      default: "You don't have any ideas right now. <br /> Or do you?"
     }
   }
 }
@@ -187,37 +197,48 @@ export default {
     align-items: center;
 
     .lampImg {
-      margin-top: 7vh;
-      height: 17vh;
+      margin-top: 10vh;
+      height: 20vh;
+
+      @media #{$small-screen} {
+        margin-top: 13vh;
+        height: 25vh;
+      }
     }
 
     .text {
-      margin-top: 3vh;
+      margin-top: 4vh;
       margin-bottom: 3vh;
       font-size: 16px;
       color: #c0b7c5;
     }
 
-    .arrowButtonContainer {
+    .desktopArrowButtonContainer {
       $arrowHeight: 29vh;
       position: relative;
       width: 100%;
-      // border: 1px solid red;
       height: $arrowHeight;
 
       .arrowImg {
-        height: 20vh;
+        height: $arrowHeight;
         position: absolute;
         bottom: 0;
         right: -30%;
         width: 80%;
-        height: $arrowHeight;
+        overflow-x: hiden;
+      }
+    }
 
-        @media #{$small-screen} {
-          display: block;
-          width: 20%;
-          margin-left: 30%;
-        }
+    .mobileArrowButtonContainer {
+      $arrowHeight: 31vh;
+      position: relative;
+      width: 100%;
+      height: $arrowHeight;
+
+      .arrowImg {
+        height: $arrowHeight;
+        position: absolute;
+        left: 40%;
       }
     }
   }

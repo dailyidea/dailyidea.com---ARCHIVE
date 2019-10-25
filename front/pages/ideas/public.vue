@@ -16,7 +16,9 @@
       </div>
 
       <!-- Sort Button -->
-      <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
+      <div v-if="ideas && ideas.length > 0" class="sortBy">
+        <v-icon>fas fa-clock</v-icon>Sort by Newest
+      </div>
 
       <!-- Idea List -->
       <IdeaListComponent :ideas="ideas"></IdeaListComponent>
@@ -146,11 +148,6 @@ export default {
 
       font-size: 17px;
       font-weight: 600;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.59;
-      letter-spacing: 0.51px;
-      text-align: center;
       color: #232323;
     }
   }
