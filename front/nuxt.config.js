@@ -128,8 +128,7 @@ module.exports = {
           'v-img': ['src', 'lazy-src'],
           'v-navigation-drawer': 'src',
           'v-parallax': 'src',
-          'v-toolbar': 'src',
-
+          'v-toolbar': 'src'
         }
       }
     },

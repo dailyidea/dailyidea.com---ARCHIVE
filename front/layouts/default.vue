@@ -81,9 +81,9 @@ export default {
 }
 
 #app {
-  font-family: Quatro;
+  font-family: Avenir, sans-serif;
 }
-.theme--light.v-application{
+.theme--light.v-application {
   background-color: #fff;
   /*background-color: gray;*/
 }
