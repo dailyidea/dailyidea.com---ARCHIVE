@@ -74,18 +74,25 @@ export default {
     loadingIdea: false
   }),
 
-  async asyncData({ app }) {
+  async asyncData({ app, store }) {
     const {
       data: { ideas }
     } = await app.$amplifyApi.graphql(
       graphqlOperation(getIdeas, { nextToken: null, limit: 10 })
     )
 
+    // Add logged in user's id in all ideas
+    let ideaList = ideas.items
+    let loggedInUserId = store.getters['cognito/userSub']
+    for (let i = 0; i < ideaList.length; i++) {
+      ideaList[i].userId = loggedInUserId
+    }
+
     return {
       // Set next token for next batch of ideas
       nextToken: ideas.nextToken,
       // Set ideas
-      ideas: ideas.items
+      ideas: ideaList
     }
   },
   created() {

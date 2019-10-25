@@ -89,7 +89,7 @@ export default {
   &:hover {
     background: #ffdf01;
 
-    .v-list-item__title: {
+    .v-list-item__title {
       color: #18141c;
     }
   }

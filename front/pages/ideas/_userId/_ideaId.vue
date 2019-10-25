@@ -5,10 +5,9 @@
       loggedInHeader: true,
       mobile: mobileTitle,
       shareIdeaVisible: true,
-      editIdeaVisible: true,
-      showEditIdeaBtn: editIdeaAllowed,
+      showEditIdeaBtn: editIdeaAllowed, 
       showSaveActionBtn: true,
-      showUnSaveActionBtn: true,
+      showUnSaveActionBtn: false,
       showPrivateIdeaBtn: true,
       onCopyShareIdeaLink: copyShareLink
     }"
