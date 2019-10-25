@@ -11,71 +11,18 @@
   >
     <v-layout id="ideaListPage">
       <!-- Title Section -->
-      <div v-if="ideas && ideas.length > 0" class="titleDiv">
+      <div class="titleDiv">
         <v-layout class="titleText" hidden-sm-and-down>PUBLIC IDEAS</v-layout>
       </div>
 
-      <div v-if="ideas && ideas.length > 0" class="publisIdeasSection">
-        <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
-        <div class="ideaList" wrap>
-          <!-- {{ideas}} -->
-          <v-flex
-            v-for="(idea, index) in ideas"
-            :key="index"
-            class="ideaContainer"
-          >
-            <div
-              class="ideaItem"
-              @click="
-                $router.push({
-                  name: 'ideas-userId-ideaId',
-                  params: {
-                    ideaId: idea.ideaId,
-                    userId: idea.userId
-                  },
-                  force: true
-                })
-              "
-            >
-              <!-- {{idea.ideaId }} -->
-              <div class="ideaTitle">{{ idea.title }}</div>
-              <div class=" ideaDescrpition">
-                <v-layout v-html="idea.content"> </v-layout>
-              </div>
-              <div class="engagement">
-                <div class="ups">
-                  <img class="logoIcon" src="~/assets/images/logo_icon.png" />
-                  {{ idea.likesCount }}
-                </div>
-                <div class="downs">
-                  <img class="logoIcon" src="~/assets/images/comments.png" />
-                  120
-                </div>
+      <!-- Sort Button -->
+      <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
 
-                <div class="timing">{{ idea.relativeCreatedTime }}</div>
-              </div>
-            </div>
-          </v-flex>
-        </div>
-      </div>
-
-      <!-- No Idea found div -->
-      <div v-else class="noIdeaFoundDiv">
-        <div>
-          <img
-            class="lampImg"
-            src="~/assets/images/light_gray_lamp_plain.png"
-          />
-        </div>
-        <div class="text">
-          You don't have any ideas right now. <br />
-          Or do you?
-        </div>
-        <img class="arrowImg" src="~/assets/images/arrowImage.png" />
-      </div>
+      <!-- Idea List -->
+      <IdeaListComponent :ideas="ideas"></IdeaListComponent>
 
       <!-- LodaMore Button -->
-      <div class="loadMoreBtn">
+      <div v-if="ideas && ideas.length > 0" class="loadMoreBtn">
         <v-btn v-if="nextToken" :loading="loadingIdea" @click="loadMoreIdea()">
           Load More Idea
         </v-btn>
@@ -100,15 +47,18 @@
     </v-layout>
   </Layout>
 </template>
+
 <script>
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
 import Layout from '@/components/layout/Layout'
+import IdeaListComponent from '@/components/ideaList'
 dayjs.extend(relativeTime)
 
 export default {
-  components: { Layout },
+  components: { Layout, IdeaListComponent },
 
   data: () => ({
     snackbarVisible: false,
@@ -177,25 +127,9 @@ export default {
 #ideaListPage {
   padding-top: 50px;
   background: white;
-  min-height: 100vh;
   padding-bottom: 2vh;
   display: block;
-  width: 100%;
   overflow-x: hidden;
-
-  padding-right: 3%;
-  padding-left: 2%;
-
-  .addBtn {
-    position: fixed;
-    right: 40px;
-    bottom: 30px;
-  }
-
-  .loadMoreBtn {
-    padding-top: 20px;
-    text-align: center;
-  }
 
   @media #{$small-screen} {
     padding-top: 0vh;
@@ -221,195 +155,33 @@ export default {
     }
   }
 
-  .publisIdeasSection {
-    .sortBy {
-      margin-left: 26%;
-      margin-bottom: 15px;
-      font-size: 14px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.57;
-      letter-spacing: normal;
-      text-align: left;
-      color: #35124e;
+  .sortBy {
+    margin-left: 26%;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #35124e;
 
-      // float: right;
-      // text-align: right;
-
-      @media #{$small-screen} {
-        // float: left;
-        // text-align: left;
-        // padding-left: 5%;
-        font-size: 12px;
-        padding-top: 10px;
-        margin-left: 15px;
-      }
-
-      i {
-        font-size: 17px;
-        padding-right: 7px;
-        color: #35124e;
-      }
+    @media #{$small-screen} {
+      font-size: 12px;
+      padding-top: 10px;
+      margin-left: 15px;
     }
-    .ideaList {
-      text-align: center;
 
-      margin-left: 25%;
-      margin-right: 25%;
-
-      @media #{$small-screen} {
-        padding-right: 0%;
-        padding-left: 0%;
-        margin: 0px;
-      }
-
-      .ideaContainer {
-        padding: 10px 10px;
-
-        @media #{$small-screen} {
-          padding: 0px !important;
-
-          &:last-child {
-            border-bottom: solid 1px rgba(228, 228, 228, 0.38);
-          }
-        }
-
-        .ideaItem {
-          border: solid 1px rgba(228, 228, 228, 0.38);
-          padding: 15px 20px;
-          cursor: pointer !important;
-
-          &:hover {
-            -webkit-box-shadow: 0px 0px 5px 3px #e3e3e361;
-            -moz-box-shadow: 0px 0px 5px 3px #e3e3e361;
-            box-shadow: 0px 0px 5px 3px #e3e3e361;
-          }
-
-          @media #{$small-screen} {
-            border-left: 0px;
-            border-right: 0px;
-            border-bottom: none;
-            margin-top: 0px;
-          }
-
-          .ideaTitle {
-            width: 100%;
-            display: block;
-            overflow-wrap: break-word;
-            min-height: 50px;
-
-            @media #{$small-screen} {
-              padding-top: 3px;
-              min-height: 10px;
-            }
-
-            font-size: 16px;
-            font-weight: normal;
-            font-style: normal;
-            font-stretch: normal;
-            line-height: 1.5;
-            letter-spacing: normal;
-            text-align: left;
-            color: #18141c;
-          }
-
-          .ideaDescrpition {
-            width: 100%;
-            display: block;
-            overflow-wrap: break-word;
-            min-height: 50px;
-
-            @media #{$small-screen} {
-              padding-top: 3px;
-              min-height: 10px;
-            }
-
-            font-size: 16px;
-            font-weight: normal;
-            font-style: normal;
-            font-stretch: normal;
-            line-height: 1.5;
-            letter-spacing: normal;
-            text-align: left;
-            color: #18141c;
-          }
-
-          .engagement {
-            display: block;
-            margin-top: 10px;
-            margin-bottom: 5px;
-            font-size: 14px;
-            font-weight: normal;
-            font-style: normal;
-            font-stretch: normal;
-            letter-spacing: normal;
-            text-align: left;
-            color: #c0b7c5;
-
-            img {
-              height: 14px;
-              margin-right: 5px;
-            }
-
-            .ups {
-              display: inline-block;
-              height: 18px;
-            }
-
-            .downs {
-              margin-left: 20px;
-              display: inline-block;
-            }
-
-            .timing {
-              float: right;
-              font-size: 12px;
-              font-weight: normal;
-              font-style: normal;
-              font-stretch: normal;
-              line-height: 1.83;
-              letter-spacing: normal;
-              text-align: right;
-              color: #c0b7c5;
-              cursor: pointer !important;
-            }
-          }
-        }
-      }
+    i {
+      font-size: 17px;
+      padding-right: 7px;
     }
   }
 
-  .noIdeaFoundDiv {
+  .addBtn {
+    position: fixed;
+    right: 40px;
+    bottom: 30px;
+  }
+
+  .loadMoreBtn {
+    padding-top: 20px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-content: stretch;
-    height: 93vh;
-    padding-bottom: 60px;
-    align-items: center;
-
-    .lampImg {
-      margin-top: 15vh;
-      height: 30vh;
-    }
-
-    .text {
-      margin-top: 3vh;
-      margin-bottom: 3vh;
-      font-size: 20px;
-      color: #c0b7c5;
-    }
-
-    .arrowImg {
-      display: none;
-
-      @media #{$small-screen} {
-        display: block;
-        width: 20%;
-        margin-left: 30%;
-      }
-    }
   }
 }
 </style>
