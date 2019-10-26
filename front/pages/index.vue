@@ -1,5 +1,10 @@
 <template>
-  <Layout>
+  <Layout
+    v-bind="{
+      currentPage: 'Home',
+      pageOptions: mobileHeaderUiOptions
+    }"
+  >
     <div id="newhomePage">
       <!-- Hero Section -->
       <v-row class="section heroSection" no-gutters>
@@ -145,6 +150,10 @@ dayjs.extend(relativeTime)
 export default {
   components: { Layout },
   data: () => ({
+    mobileHeaderUiOptions: {
+      pageTitle: '',
+      leftButtonType: 'hamburder'
+    },
     ideas: null
   }),
   async asyncData({ app }) {

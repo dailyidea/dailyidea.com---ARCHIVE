@@ -1,12 +1,8 @@
 <template>
   <Layout
     v-bind="{
-      loggedInHeader: true,
-      mobileTitle: 'My Ideas',
-      mobileHamburger: true,
-      mobileSearchIcon: true,
-      desktopMenuVisible: true,
-      showEditIdeaBtn: false
+      currentPage: 'IdeaList',
+      pageOptions: mobileHeaderUiOptions
     }"
   >
     <v-layout id="ideaListPage">
@@ -68,6 +64,11 @@ export default {
   components: { Layout, IdeaListComponent },
 
   data: () => ({
+    mobileHeaderUiOptions: {
+      pageTitle: 'MY IDEAS',
+      leftButtonType: 'hamburder'
+    },
+
     snackbarVisible: false,
     snackbarMessage: '',
     snackbarColor: 'success',
