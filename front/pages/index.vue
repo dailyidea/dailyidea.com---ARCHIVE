@@ -183,7 +183,6 @@ export default {
 <style lang="scss">
 #newhomePage {
   background: white;
-  font-family: Avenir;
   width: 100%;
   overflow-x: hidden;
 
@@ -194,10 +193,6 @@ export default {
   @media #{$small-screen} {
     padding-left: 7%;
     padding-right: 7%;
-  }
-
-  // Common style for all sections
-  .section {
   }
 
   .heroSection {
