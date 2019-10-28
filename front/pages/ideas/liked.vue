@@ -56,7 +56,7 @@
                     <img
                       alt="image"
                       class="globeSmallImage"
-                      src="~/assets/images/globeSmallImage.png"
+                      src="~/assets/images/publicIdea.png"
                     />
                   </v-btn>
                 </div>

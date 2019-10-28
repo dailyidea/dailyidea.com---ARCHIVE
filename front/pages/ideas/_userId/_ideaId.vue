@@ -6,10 +6,9 @@
     }"
     @showShareIdeaDialog="showShareIdeaDialog"
     @showSaveIdeaForMobileDailog="showSaveIdeaMobileViewDailog = true"
-    @showPrivateIdeaDailog="privateIdeaDailog = true"
-    @onEditIdea="showIdeaEditor"
-    @onSaveUnSaveIdea="copyShareLink"
-    @onMakeIdeaPublicPrivate="copyShareLink"
+    @toggleIdeaPrivacy="privateIdeaDailog = true"
+    @toggleIdeaEditor="toggleIdeaEditor"
+    @toggleIdeaBookmarked="copyShareLink"
     @onCopyShareIdeaLink="copyShareLink"
   >
     <v-row id="ideaDetailPage" no-gutters>
@@ -18,36 +17,61 @@
         <!-- Header section - only for desktop -->
         <v-toolbar color="white" flat class="desktopHeader hidden-sm-and-down">
           <v-toolbar-title class="pageTitle">
-            <template v-if="isIdeaEditable">
+            <template v-if="!isIdeaEditable">
               Ravi's Idea
             </template>
             <v-btn
               v-else
-              :class="{ lightPinkButton: !isIdeaEditMode }"
+              :class="{ lightPinkButton: !ideaEditorVisible }"
               rounded
               outlined
               class="editIdeaButton"
+              @click="toggleIdeaEditor"
             >
               My Idea &nbsp;
               <v-icon left>mdi-pencil</v-icon>
             </v-btn>
           </v-toolbar-title>
           <v-spacer></v-spacer>
+
+          <!-- Public Private Idea buttons -->
+          <v-btn
+            v-if="idea.isPrivate"
+            text
+            icon
+            color="gray"
+            class="publicPrivateIdeaButton"
+            :disabled="!ideaEditorVisible"
+            @click="idea.isPrivate = false"
+          >
+            <img class="privateIdea" src="~/assets/images/privateIdea.png" />
+          </v-btn>
+          <v-btn
+            v-else
+            text
+            icon
+            color="gray"
+            class="publicPrivateIdeaButton"
+            :disabled="!ideaEditorVisible"
+            @click="idea.isPrivate = true"
+          >
+            <img class="publicIdea" src="~/assets/images/publicIdea.png" />
+          </v-btn>
+
           <!-- Bookmark button -->
           <v-btn text icon color="gray" class="bookmarkIdeaButton">
             <img
-              v-if="isIdeaBookmarked"
+              v-if="idea.isIdeaBookmarked"
               class="saveIdea"
               src="~/assets/images/saveIdeaImage.png"
-              @click="$emit('showSaveIdeaForMobileDailog')"
             />
             <img
-              v-if="!isIdeaBookmarked"
+              v-if="!idea.isIdeaBookmarked"
               class="unsaveIdea"
               src="~/assets/images/unSaveIdeaImage.png"
-              @click="$emit('showSaveIdeaForMobileDailog')"
             />
           </v-btn>
+
           <!-- Idea Detail Mobile Settings Menu -->
           <v-menu>
             <template v-slot:activator="{ on }">
@@ -68,8 +92,9 @@
             </v-list>
           </v-menu>
         </v-toolbar>
+
         <div v-if="!ideaEditorVisible" class="ideaTitle">
-          {{ idea.title }}{{ idea.title }}{{ idea.title }}
+          {{ idea.title }}
         </div>
         <div v-else class="editIdeaTitle">
           <v-textarea
@@ -82,27 +107,19 @@
           >
           </v-textarea>
         </div>
+
         <!-- Metadata -->
         <div class="metadata">
           <span>
             <v-icon class="circle">mdi-checkbox-blank-circle</v-icon>
-            &nbsp;
-            {{ user.email }}
+            &nbsp; dummy@missing_field.com
           </span>
           <span class="timing">{{ idea.relativeCreatedTime }}</span>
         </div>
+
         <!-- Description -->
         <div v-if="!ideaEditorVisible" class="ideaDescription">
-          <!-- <v-layout v-html="idea.content"> </v-layout> -->
-          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-          officia deserunt mollit anim. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim.Excepteur
-          sint occaecat cupidatat non proident, sunt in culpa qui. Excepteur
-          sint occaecat cupidatat non proident, sunt in culpa qui officia
-          deserunt mollit anim. Excepteur sint occaecat cupidatat non provident.
-          Excepteur sint occaecat cupidatat non provident. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-          mollit anim.
+          <v-layout v-html="idea.content"> </v-layout>
         </div>
         <div v-else class="ideaEditor">
           <VueTrix
@@ -124,32 +141,43 @@
             </v-btn>
           </div>
         </div>
+
         <!--submit and cancel btn-->
-        <div v-if="ideaEditorVisible" class="buttons">
+        <div v-if="ideaEditorVisible" class="saveCancelButtons">
           <v-btn
             small
             color="primary"
             :loading="updatingIdea"
-            @click="onSaveIdeaContent()"
+            @click="onSaveIdeaContent"
             >Save</v-btn
           >
-          <v-btn text small color="error" @click="ideaEditorVisible = false"
+          <v-btn text small color="error" @click="toggleIdeaEditor"
             >Cancel</v-btn
           >
         </div>
-        <!-- Engagements & Next Prev -->
+
+        <!-- Mobile Only - Engagements & Next Prev -->
         <v-layout class="engagement-nextPrev" hidden-md-and-up>
-          <!-- Engagement -->
-          <div class="engagement">
-            <div class="ups">
-              <img class="lamp" src="~/assets/images/dark_gray_lamp.png" />
-              <span>609</span>
+          <v-layout class="cmtAndLikeCounters">
+            <div class="counterItem likesCounter">
+              <img
+                v-if="isIdeaLiked"
+                class="lamp"
+                src="~/assets/images/logo_icon.png"
+              />
+              <img
+                v-else
+                class="lamp"
+                src="~/assets/images/dark_gray_lamp.png"
+              />
+              <div>{{ idea.likesCount ? idea.likesCount : '0' }}</div>
             </div>
-            <div class="downs">
+            <div class="counterItem commentsCounter">
               <img class="cmt" src="~/assets/images/comments.png" />
-              <span>120</span>
+              <div>{{ idea.commentsCount ? idea.commentsCount : '0' }}</div>
             </div>
-          </div>
+          </v-layout>
+
           <!-- Mobile Only - next prev button -->
           <div class="arrowBtn">
             <v-btn text small class="leftBtn" fab>
@@ -161,32 +189,32 @@
           </div>
         </v-layout>
       </v-col>
+
       <!-- Right Side Comment List -->
       <v-col cols="12" sm="6" class="rightSideComments">
         <!-- If Comments Found -->
         <div v-if="commentList && commentList.length > 0">
-          <!-- Comment Statistics -->
-          <v-layout class="cmtAndLike" hidden-sm-and-down>
-            <div class="ups">
-              <v-btn text @click="toggleLikeIdea">
-                <img
-                  v-if="isIdeaLiked"
-                  class="lamp"
-                  src="~/assets/images/logo_icon.png"
-                />
-                <img
-                  v-else
-                  class="lamp"
-                  src="~/assets/images/dark_gray_lamp.png"
-                />
-                <span>{{ idea.likesCount }}</span>
-              </v-btn>
+          <!-- Comment Statistics - Desktop Only -->
+          <v-layout class="cmtAndLikeCounters" hidden-sm-and-down>
+            <div class="counterItem likesCounter">
+              <img
+                v-if="isIdeaLiked"
+                class="lamp"
+                src="~/assets/images/logo_icon.png"
+              />
+              <img
+                v-else
+                class="lamp"
+                src="~/assets/images/dark_gray_lamp.png"
+              />
+              <div>{{ idea.likesCount }}</div>
             </div>
-            <div class="downs">
+            <div class="counterItem commentsCounter">
               <img class="cmt" src="~/assets/images/comments.png" />
-              <span>{{ idea.commentsCount }}</span>
+              <div>{{ idea.commentsCount }}</div>
             </div>
           </v-layout>
+
           <!-- Comment List -->
           <div
             v-for="(item, index) in commentList"
@@ -194,16 +222,16 @@
             class="commentItem"
           >
             <div class="header">
-              <div class="commentUser">{{ item.userId }}</div>
+              <div class="commentUser">Name Surname</div>
               <div class="timing">
-                1h
+                00
                 <v-btn
                   class="deleteCommentBtn"
                   color="red"
                   icon
                   text
                   x-small
-                  @click="deleteComment(item.commentId, item.body, index)"
+                  @click="onDeleteComment(item.commentId, item.body, index)"
                 >
                   <v-icon color="red">fas fa-trash-alt</v-icon>
                 </v-btn>
@@ -223,6 +251,7 @@
             </a>
           </div>
         </div>
+
         <!-- No Comments Found Div -->
         <div v-else class="noCommentDiv">
           <div>There are not comments yet. <br />Add the first one?</div>
@@ -230,7 +259,7 @@
       </v-col>
     </v-row>
 
-    <!-- Foter with textbox -->
+    <!-- Footer with textbox -->
     <div class="pageFooter">
       <v-row no-gutters>
         <v-col cols="12" sm="6" class="leftSideTagsSection hidden-sm-and-down">
@@ -247,15 +276,16 @@
           <div v-else class="tagsEditor">
             <v-combobox
               v-model="ideaTags"
-              v-validate="'required|max:100'"
+              placeholder="Add tags here"
               :error-messages="errors.collect('tag')"
               data-vv-name="tag"
               class="ideaTag"
+              hide-details
               times
               chips
               clearable
               outlined
-              label="Add Tags"
+              label=""
               multiple
             >
               <template v-slot:selection="{ attrs, item, select, selected }">
@@ -291,8 +321,8 @@
               text
               icon
               flat
-              :loading="updatingComment"
-              @click="addCommentBox()"
+              :loading="showAddCommentLoader"
+              @click="onAddComment()"
             >
               <v-icon color="#d4bb10">fas fa-arrow-right</v-icon>
             </v-btn>
@@ -312,6 +342,56 @@
         Close
       </v-btn>
     </v-snackbar>
+
+    <v-dialog
+      v-model="showcommentDialog"
+      content-class="commentDialog"
+      persistent
+      max-width="500px"
+    >
+      <!-- Popup Header -->
+      <div class="header">
+        <v-icon
+          text
+          class="cancelIcon"
+          size="20"
+          @click="showcommentDialog = false"
+          >fas fa-times</v-icon
+        >
+      </div>
+
+      <!-- Popup body -->
+      <form>
+        <div class="body">
+          <div class="headlineText1">
+            Oops,
+          </div>
+          <div class="headlineText2">
+            Verify your emailor signin to post your comment.
+          </div>
+
+          <!-- Text Fields -->
+          <div>
+            <v-text-field
+              v-model="commentForm.Email"
+              v-validate="'required|email|max:100'"
+              class="emailInput"
+              single-line
+              flat
+              prepend-inner-icon="email"
+              :error-messages="errors.collect('email')"
+              data-vv-name="email"
+              label="Enter email"
+            ></v-text-field>
+          </div>
+
+          <!-- Submit Buttons -->
+          <div class="specialButton submitBtn">
+            <v-btn>SEND</v-btn>
+          </div>
+        </div>
+      </form>
+    </v-dialog>
   </Layout>
 </template>
 
@@ -345,8 +425,8 @@ export default {
       pageTitle: "Bob's Idea",
       leftButtonType: 'back',
       isIdeaBookmarked: false,
-      isIdeaEditable: true,
-      isIdeaEditMode: false,
+      isIdeaEditable: false,
+      ideaEditorVisible: false,
       isIdeaPrivate: true
     },
 
@@ -355,7 +435,7 @@ export default {
     tagsToRemove: [],
     loadingIdea: false,
 
-    editIdeaAllowed: false,
+    isIdeaEditable: false,
     ideaOwnerId: null,
     loggedInUserId: null,
 
@@ -367,7 +447,7 @@ export default {
     isIdeaLiked: false,
     // commentId: null,
     currentComment: '',
-    updatingComment: false,
+    showAddCommentLoader: false,
 
     showEmailShareDialog: false,
     showSaveIdeaMobileViewDailog: false,
@@ -389,11 +469,7 @@ export default {
     ideaEditorVisible: false,
     ideaEditContents: ''
   }),
-  computed: {
-    mobileTitle: function() {
-      return this.user.email.toUpperCase() + "'S IDEA"
-    }
-  },
+
   async asyncData({ app, route, store }) {
     const { data } = await app.$amplifyApi.graphql({
       query: getUsersIdea,
@@ -422,13 +498,17 @@ export default {
       ideaTags.push(tag.data.ideaTags[i].tag)
     }
 
-    let editIdeaAllowed = false
+    let isIdeaEditable = false
+    console.log(
+      'comparing user idds',
+      route.params.userId,
+      store.getters['cognito/userSub']
+    )
     if (route.params.userId == store.getters['cognito/userSub']) {
-      editIdeaAllowed = true
+      isIdeaEditable = true
     }
     return {
       idea: data.getUsersIdea,
-      user: { email: store.state.cognito.user.attributes.email },
       ideaTags: ideaTags,
       isIdeaLiked: isLiked.data.getIsIdeaLikedByMe.isLiked,
       commentList: result.data.getComments.items,
@@ -436,7 +516,7 @@ export default {
 
       ideaOwnerId: route.params.userId,
       loggedInUserId: store.getters['cognito/userSub'],
-      editIdeaAllowed: editIdeaAllowed
+      isIdeaEditable: isIdeaEditable
     }
   },
 
@@ -445,14 +525,7 @@ export default {
   created() {
     this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
     this.mobileHeaderUiOptions.pageTitle = "Bob's Idea"
-    this.mobileHeaderUiOptions.isIdeaEditable = this.editIdeaAllowed
-    console.log(
-      'deaowner id ',
-      this.ideaOwnerId,
-      'logged in user id',
-      this.loggedInUserId,
-      this.editIdeaAllowed
-    )
+    this.mobileHeaderUiOptions.isIdeaEditable = this.isIdeaEditable
   },
 
   methods: {
@@ -476,7 +549,6 @@ export default {
       }
 
       //TODO: Send email from backend
-
       this.snackbarMessage = 'Email sent successfully.'
       this.showEmailShareDialog = false
       this.snackbarVisible = true
@@ -503,7 +575,15 @@ export default {
       this.loadingIdea = false
     },
 
-    async deleteComment(commentId, body, index) {
+    copyShareLink() {
+      this.$clipboard(window.location.href)
+      this.snackbarMessage = 'Link copied'
+      this.snackbarColor = 'success'
+      this.snackbarVisible = true
+    },
+
+    // Delete Comments
+    async onDeleteComment(commentId, body, index) {
       try {
         await this.$amplifyApi.graphql(
           graphqlOperation(deleteComment, {
@@ -517,6 +597,7 @@ export default {
 
         // remove comment form comment list array
         this.commentList.splice(index, 1)
+        this.idea.commentsCount -= 1
 
         this.snackbarMessage = 'Deleted Comment'
         this.snackbarColor = 'success'
@@ -531,18 +612,11 @@ export default {
       }
     },
 
-    copyShareLink() {
-      this.$clipboard(window.location.href)
-      this.snackbarMessage = 'Link copied'
-      this.snackbarColor = 'success'
-      this.snackbarVisible = true
-    },
-
-    async addCommentBox() {
-      this.updatingComment = true
+    // Add Comments
+    async onAddComment() {
+      this.showAddCommentLoader = true
 
       try {
-        debugger
         const result = await this.$amplifyApi.graphql(
           graphqlOperation(addComment, {
             body: this.currentComment,
@@ -552,20 +626,31 @@ export default {
           })
         )
         this.commentList.push(result.data.addComment.comment)
+        this.idea.commentsCount += 1
 
         // this.fetchCommentList()
-        this.updatingComment = false
+        this.showAddCommentLoader = false
         this.snackbarMessage = 'Added Comment'
         this.snackbarColor = 'success'
         this.snackbarVisible = true
         this.currentComment = ''
       } catch (err) {
         console.error(err)
-        this.updatingComment = false
+        this.showAddCommentLoader = false
         this.snackbarMessage = 'Something went wrong!!'
         this.snackbarColor = 'error'
         this.snackbarVisible = true
       }
+    },
+
+    toggleIdeaEditor() {
+      if (this.ideaEditorVisible) {
+        this.ideaEditorVisible = false
+      } else {
+        this.ideaEditContents = this.idea.content
+        this.ideaEditorVisible = true
+      }
+      this.mobileHeaderUiOptions.ideaEditorVisible = this.ideaEditorVisible
     },
 
     removeTag(item) {
@@ -574,10 +659,9 @@ export default {
       this.tagsToRemove.push(item)
     },
 
-    showIdeaEditor() {
-      this.ideaEditContents = this.idea.content
-      this.ideaEditorVisible = true
-    },
+    async toggleIdeaPrivacy() {},
+
+    async onToggleIdeaBookmarked() {},
 
     async toggleLikeIdea() {
       this.isIdeaLiked = !this.isIdeaLiked
@@ -603,7 +687,7 @@ export default {
       }
     },
 
-    async deleteIdea() {
+    async onDeleteIdea() {
       try {
         let ideaId = this.$route.params.ideaId
         await this.$amplifyApi.graphql(
@@ -630,9 +714,10 @@ export default {
 
     async onSaveIdeaContent() {
       let result = await this.$validator.validateAll()
-
+      // debugger
       this.errorMsg = ''
       if (!result) {
+        console.log('returing from here....')
         this.errorMsg = 'This field is required.'
         return
       }
@@ -643,10 +728,11 @@ export default {
         await this.$amplifyApi.graphql(
           graphqlOperation(updateIdea, {
             ideaId: this.$route.params.ideaId,
-            content: this.idea.content,
+            content: this.ideaEditContents,
             title: this.idea.title
           })
         )
+        this.idea.content = this.ideaEditContents
 
         // save tags
         let tagsToSave = []
@@ -676,6 +762,7 @@ export default {
 
         this.updatingIdea = false
         this.ideaEditorVisible = false
+        this.mobileHeaderUiOptions.ideaEditorVisible = false
         this.snackbarMessage = 'Idea Updated'
         this.snackbarColor = 'success'
         this.snackbarVisible = true
@@ -690,7 +777,7 @@ export default {
           this.ideaTags.push(tag.data.ideaTags[i].tag)
         }
       } catch (err) {
-        console.error(err)
+        console.error('failed to save idea', err)
         this.updatingIdea = false
         this.snackbarMessage = 'Something went wrong!!'
         this.snackbarColor = 'error'
@@ -709,10 +796,12 @@ export default {
   overflow-x: hidden;
   position: relative;
   min-height: 90vh;
+  padding-bottom: 80px;
 
   @media #{$small-screen} {
     padding-right: 0%;
     padding-left: 0%;
+    padding-bottom: 0px !important;
   }
 
   .backgroundLamp {
@@ -765,6 +854,9 @@ export default {
       .bookmarkIdeaButton {
         margin-top: -40px;
         // margin-right: -10px;
+      }
+
+      .publicPrivateIdeaButton {
       }
     }
 
@@ -864,37 +956,32 @@ export default {
       display: flex;
       margin-top: 15px;
 
-      .engagement {
-        flex: 1;
-        padding-top: 12px;
-        margin-bottom: 5px;
-        padding-left: 5px;
+      .cmtAndLikeCounters {
+        color: #231031;
+        padding: 7px 15px 0px 0px;
 
-        font-size: 18px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        letter-spacing: normal;
-        text-align: left;
-        color: #c0b7c5;
+        display: flex;
 
-        .downs {
-          margin-left: 25px;
+        $height: 15px;
+
+        .counterItem {
+          display: inline-flex;
+          img {
+            flex: 1;
+            height: $height;
+            margin-right: 7px;
+          }
+
+          div {
+            flex: 1;
+            font-size: $height;
+            line-height: $height + 2;
+            width: auto;
+          }
         }
 
-        div {
-          display: inline-block;
-          margin-right: 10px;
-        }
-
-        img {
-          height: 14px;
-          margin-right: 5px;
-        }
-
-        img,
-        .lamp {
-          margin-right: 2px;
+        .commentsCounter {
+          margin-left: 20px;
         }
       }
 
@@ -910,37 +997,47 @@ export default {
         }
       }
     }
+
+    .saveCancelButtons {
+      // border: 1px solid red;
+      padding-top: 5px;
+    }
   }
 
   .rightSideComments {
     padding-right: 10px;
     padding-left: 10px;
     padding-top: 15px;
-    padding-bottom: 50px;
     font-size: 16px;
     min-height: 50vh;
 
-    .cmtAndLike {
+    .cmtAndLikeCounters {
       color: #231031;
+      padding: 7px 15px 0px 15px;
+      width: 100%;
       display: flex;
-      font-weight: bold;
-      padding: 10px 15px 0px 15px;
 
-      .ups {
-        flex: 1;
+      $height: 15px;
+
+      .counterItem {
+        display: inline-flex;
+        img {
+          flex: 1;
+          height: $height;
+          margin-right: 7px;
+        }
+
+        div {
+          flex: 1;
+          font-size: $height;
+          line-height: $height + 2;
+          width: auto;
+        }
       }
-    }
 
-    .downs {
-      flex: 1;
-      text-align: right;
-    }
-
-    img {
-      display: inline-block;
-      height: 16px;
-      padding-top: 2px;
-      margin-right: 5px;
+      .commentsCounter {
+        margin-left: auto;
+      }
     }
 
     .noCommentDiv {
@@ -979,27 +1076,16 @@ export default {
 
     .header {
       .commentUser {
-        padding-bottom: 3px;
         display: inline-block;
 
         font-size: 12px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.83;
-        letter-spacing: normal;
-        text-align: left;
+        line-height: 28px;
         color: #b5b5b5;
       }
 
       .timing {
         float: right;
         font-size: 12px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        // line-height: 1.83;
-        letter-spacing: normal;
         text-align: right;
         color: #c0b7c5;
       }
@@ -1007,19 +1093,12 @@ export default {
 
     .commentText {
       width: 100%;
-      display: block;
 
       @media #{$small-screen} {
         padding-top: 3px;
       }
 
       font-size: 14px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.57;
-      letter-spacing: normal;
-      text-align: left;
       color: #827c85;
     }
 
@@ -1051,6 +1130,11 @@ export default {
   height: 13vh;
   background-color: #ffffff;
 
+  @media #{$small-screen} {
+    height: 11vh;
+    bottom: 5px;
+  }
+
   .leftSideTagsSection {
     border-top: 1px solid #ebe7ed;
     padding-left: 10px;
@@ -1067,8 +1151,9 @@ export default {
     }
 
     .tagsEditor {
-      margin-top: 40px;
-
+      fieldset {
+        border: none !important;
+      }
       .ideaTag {
         .v-chip {
           background-color: rgba(192, 183, 197);

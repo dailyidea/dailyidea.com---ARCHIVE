@@ -203,15 +203,16 @@
           <!-- Idea Detail Page UI -->
           <template v-if="currentPage == 'IdeaDetail'" class="ideaDetailHeader">
             <v-toolbar-title class="pageTitle">
-              <template v-if="pageOptions.isIdeaEditable">
+              <template v-if="!pageOptions.isIdeaEditable">
                 {{ pageOptions.pageTitle }}
               </template>
               <v-btn
                 v-else
-                :class="{ lightPinkButton: !pageOptions.isIdeaEditMode }"
+                :class="{ lightPinkButton: !pageOptions.ideaEditorVisible }"
                 rounded
                 outlined
                 class="editIdeaButton"
+                @click="$emit('toggleIdeaEditor')"
               >
                 My Idea &nbsp; <v-icon left>mdi-pencil</v-icon>
               </v-btn>
@@ -331,6 +332,7 @@ export default {
       default: null
     }
   },
+
   data() {
     return {
       searchIdeaMode: false,
@@ -339,6 +341,14 @@ export default {
       //   { title: 'Home', icon: 'dashboard' },
       //   { title: 'About', icon: 'question_answer' }
       // ]
+    }
+  },
+  watch: {
+    pageOptions: {
+      handler(n, o) {
+        this.pageOptions = n
+      },
+      deep: true
     }
   },
   created() {},
