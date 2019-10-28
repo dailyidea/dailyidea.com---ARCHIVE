@@ -112,12 +112,16 @@
           <!-- Left Title Side - Desktop -->
           <v-toolbar-title class="blue--text subheading">
             <!-- Idea detail page -left side - desktop -->
-            <v-icon
+            <v-btn
               v-if="pageOptions.leftButtonType == 'hamburder'"
+              small
+              text
+              icon
               class="desktopMenu"
               @click="showSideMenu = true"
-              >fas fa-align-left</v-icon
             >
+              <img src="~assets/images/menu.png" />
+            </v-btn>
             <v-icon v-else class="icons backButon" @click="onBackClick()"
               >fas fa-arrow-left</v-icon
             >
@@ -258,7 +262,7 @@
           </template>
 
           <!-- Idea List Page UI -->
-          <template v-if="currentPage == 'IdeaList'">
+          <template v-else-if="currentPage == 'IdeaList'">
             <v-toolbar-title class=" pageTitle">
               {{ pageOptions.pageTitle }}
             </v-toolbar-title>
@@ -269,6 +273,29 @@
             <v-btn class="lightPinkButton" icon @click="searchIdeaMode = true">
               <v-icon>mdi-magnify</v-icon>
             </v-btn>
+          </template>
+
+          <!-- Idea List Page UI -->
+          <template v-else-if="currentPage == 'Profile'">
+            <v-toolbar-title class=" pageTitle">
+              {{ pageOptions.pageTitle }}
+            </v-toolbar-title>
+
+            <v-spacer></v-spacer>
+
+            <!-- Settings Button -->
+            <v-btn class="lightPinkButton" icon>
+              <v-icon>mdi-settings</v-icon>
+            </v-btn>
+          </template>
+
+          <!-- Settings Page UI -->
+          <template
+            v-if="currentPage == 'Settings' || currentPage == 'EmailSettings'"
+          >
+            <v-toolbar-title class=" pageTitle">
+              {{ pageOptions.pageTitle }}
+            </v-toolbar-title>
           </template>
         </v-app-bar>
 
@@ -427,8 +454,17 @@ export default {
       z-index: 100;
       width: 100%;
 
+      .desktopMenu {
+        margin-top: -12px;
+        margin-right: 8px;
+        img {
+          height: 17px;
+        }
+      }
+
       .backButon {
         margin-right: 20px;
+        margin-top: -10px;
 
         color: $primary-color;
         font-size: 15px;
@@ -521,11 +557,7 @@ export default {
         margin-left: 8px;
 
         font-size: 20px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
         line-height: 1.5;
-        letter-spacing: normal;
         text-align: left;
         color: #18141c;
       }
@@ -556,6 +588,7 @@ export default {
         text-align: center;
         padding-right: 0px !important;
         padding-left: 0px !important;
+        letter-spacing: 0.5px;
       }
 
       // For Idea Detail PAge

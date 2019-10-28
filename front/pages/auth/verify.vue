@@ -26,7 +26,7 @@ export default {
           user,
           answer: this.$route.query.code
         })
-        this.$router.replace({ name: 'ideas' })
+        this.$router.replace('/ideas/me')
       } catch (e) {
         this.error = e.message
       }
