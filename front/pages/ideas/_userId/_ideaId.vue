@@ -5,7 +5,7 @@
       pageOptions: mobileHeaderUiOptions
     }"
     @showShareIdeaDialog="showShareIdeaDialog"
-    @toggleIdeaPrivacy="privateIdeaDailog = true"
+    @toggleIdeaPrivacy="toggleIdeaPrivacy"
     @toggleIdeaEditor="toggleIdeaEditor"
     @toggleIdeaBookmarked="copyShareLink"
     @onCopyShareIdeaLink="copyShareLink"
@@ -40,8 +40,7 @@
             icon
             color="gray"
             class="publicPrivateIdeaButton"
-            :disabled="!ideaEditorVisible"
-            @click="idea.isPrivate = false"
+            @click="toggleIdeaPrivacy"
           >
             <img class="privateIdea" src="~/assets/images/privateIdea.png" />
           </v-btn>
@@ -51,8 +50,7 @@
             icon
             color="gray"
             class="publicPrivateIdeaButton"
-            :disabled="!ideaEditorVisible"
-            @click="idea.isPrivate = true"
+            @click="toggleIdeaPrivacy"
           >
             <img class="publicIdea" src="~/assets/images/publicIdea.png" />
           </v-btn>
@@ -356,6 +354,10 @@
       :visible.sync="showSaveWithoutLoginDialog"
       @close="showSaveWithoutLoginDialog = false"
     ></SaveIdeaWithoutLoginDialog>
+    <SubsribeForPrivateIdeaDialog
+      :visible.sync="showSubscribeForPrivateIdeaDialog"
+      @close="showSubscribeForPrivateIdeaDialog = false"
+    ></SubsribeForPrivateIdeaDialog>
   </Layout>
 </template>
 
@@ -366,6 +368,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import CommentWithoutLoginDialog from '@/components/dialogs/commentWithoutLogin'
 import SaveIdeaWithoutLoginDialog from '@/components/dialogs/saveIdeaWithoutLogin'
+import SubsribeForPrivateIdeaDialog from '@/components/dialogs/subscribeForPrivateIdea'
 
 import getIsIdeaLikedByMe from '~/graphql/query/getIsIdeaLikedByMe'
 import updateIdea from '~/graphql/mutations/updateIdea'
@@ -383,7 +386,12 @@ import getUsersIdea from '~/graphql/query/getUsersIdea'
 dayjs.extend(relativeTime)
 
 export default {
-  components: { Layout, CommentWithoutLoginDialog, SaveIdeaWithoutLoginDialog },
+  components: {
+    Layout,
+    CommentWithoutLoginDialog,
+    SaveIdeaWithoutLoginDialog,
+    SubsribeForPrivateIdeaDialog
+  },
   $_veeValidate: {
     validator: 'new'
   },
@@ -419,6 +427,7 @@ export default {
     // Variables for dialogs
     showCommentWithoutLoginDialog: false,
     showSaveWithoutLoginDialog: false,
+    showSubscribeForPrivateIdeaDialog: false,
 
     showEmailShareDialog: false,
     privateIdeaDailog: false,
@@ -627,16 +636,20 @@ export default {
       }
     },
 
-    async toggleIdeaPrivacy() {},
+    async toggleIdeaPrivacy() {
+      this.showSubscribeForPrivateIdeaDialog = true
+    },
 
     async onToggleIdeaBookmarked() {
-      // IF user has not logged in, show comment without login dialog
+      // If user has not logged in, show comment without login dialog
       if (!this.$store.getters['cognito/isLoggedIn']) {
         this.showSaveWithoutLoginDialog = true
         return
       }
 
-      alert('idea saved successfully.')
+      this.snackbarMessage = 'Idea Saved'
+      this.snackbarColor = 'success'
+      this.snackbarVisible = true
     },
 
     async toggleLikeIdea() {

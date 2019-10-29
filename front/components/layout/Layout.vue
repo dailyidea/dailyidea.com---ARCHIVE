@@ -206,6 +206,13 @@
 
           <!-- Idea Detail Page UI -->
           <template v-if="currentPage == 'IdeaDetail'" class="ideaDetailHeader">
+            <v-btn
+              class="ideaPrivacyButton"
+              icon
+              @click="$emit('toggleIdeaPrivacy')"
+            >
+              <img src="~assets/images/privateIdea.png" />
+            </v-btn>
             <v-toolbar-title class="pageTitle">
               <template v-if="!pageOptions.isIdeaEditable">
                 {{ pageOptions.pageTitle }}
@@ -596,6 +603,12 @@ export default {
         margin: 0px !important;
         i {
           margin: 0px !important;
+        }
+      }
+
+      .ideaPrivacyButton {
+        img {
+          height: 20px !important;
         }
       }
 
