@@ -75,7 +75,7 @@
             />
           </v-btn>
 
-          <!-- Idea Detail Mobile Settings Menu -->
+          <!-- Desktop Settings Menu -->
           <v-menu>
             <template v-slot:activator="{ on }">
               <v-btn icon v-on="on">
@@ -86,7 +86,7 @@
               <v-list-item>
                 <v-list-item-title>Share</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="$emit('showShareIdeaDialog')">
+              <v-list-item @click.native="showShareIdeaDialog">
                 <v-list-item-title>Share by Email</v-list-item-title>
               </v-list-item>
               <v-list-item>
@@ -358,6 +358,10 @@
       :visible.sync="showSubscribeForPrivateIdeaDialog"
       @close="showSubscribeForPrivateIdeaDialog = false"
     ></SubsribeForPrivateIdeaDialog>
+    <ShareIdeaByEmailDialog
+      :visible.sync="showEmailShareDialog"
+      @close="showEmailShareDialog = false"
+    ></ShareIdeaByEmailDialog>
   </Layout>
 </template>
 
@@ -369,6 +373,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import CommentWithoutLoginDialog from '@/components/dialogs/commentWithoutLogin'
 import SaveIdeaWithoutLoginDialog from '@/components/dialogs/saveIdeaWithoutLogin'
 import SubsribeForPrivateIdeaDialog from '@/components/dialogs/subscribeForPrivateIdea'
+import ShareIdeaByEmailDialog from '@/components/dialogs/shareIdeaByEmail'
 
 import getIsIdeaLikedByMe from '~/graphql/query/getIsIdeaLikedByMe'
 import updateIdea from '~/graphql/mutations/updateIdea'
@@ -390,7 +395,8 @@ export default {
     Layout,
     CommentWithoutLoginDialog,
     SaveIdeaWithoutLoginDialog,
-    SubsribeForPrivateIdeaDialog
+    SubsribeForPrivateIdeaDialog,
+    ShareIdeaByEmailDialog
   },
   $_veeValidate: {
     validator: 'new'
@@ -411,16 +417,21 @@ export default {
     tagsToRemove: [],
     loadingIdea: false,
 
+    // Idea Editor
     isIdeaEditable: false,
     ideaOwnerId: null,
+    updatingIdea: false,
+    ideaEditorVisible: false,
+    ideaEditContents: '',
 
+    // Show message
     snackbarVisible: false,
     snackbarMessage: '',
     snackbarColor: 'success',
-    noAddComment: true,
+
+    // Comments Section
     commentList: [],
     isIdeaLiked: false,
-    // commentId: null,
     currentComment: '',
     showAddCommentLoader: false,
 
@@ -428,20 +439,10 @@ export default {
     showCommentWithoutLoginDialog: false,
     showSaveWithoutLoginDialog: false,
     showSubscribeForPrivateIdeaDialog: false,
+    showEmailShareDialog: false
 
-    showEmailShareDialog: false,
-    privateIdeaDailog: false,
-    saveIdeaFromEmailDialog: false,
-    showSaveIdeaDailog: false,
-    dialog: false,
-    emailShareForm: {
-      name: '',
-      friendName: '',
-      friendEmail: ''
-    },
-    updatingIdea: false,
-    ideaEditorVisible: false,
-    ideaEditContents: ''
+  
+    
   }),
 
   async asyncData({ app, route, store }) {
