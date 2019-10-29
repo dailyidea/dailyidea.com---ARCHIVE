@@ -8,6 +8,7 @@ query ideas($nextToken: String, $limit: Int) {
       createdDate
       ideaDate
       likesCount
+      commentsCount
     }
     nextToken
   }

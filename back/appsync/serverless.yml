@@ -89,6 +89,11 @@ custom:
         response: "followUser-response-mapping-template.txt"
       - dataSource: Users
         type: Mutation
+        field: toggleEmailNotifications
+        request: "toggleEmailNotifications-request-mapping-template.txt"
+        response: "toggleEmailNotifications-response-mapping-template.txt"
+      - dataSource: Users
+        type: Mutation
         field: unfollowUser
         request: "unfollowUser-request-mapping-template.txt"
         response: "unfollowUser-response-mapping-template.txt"

@@ -115,6 +115,21 @@ module.exports = {
     loaders: {
       scss: {
         prependData: `@import "~@/assets/style/variables.scss";`
+      },
+      vue: {
+        transformAssetUrls: {
+          video: 'src',
+          source: 'src',
+          object: 'src',
+          embed: 'src',
+          'v-app-bar': 'src',
+          // v-carousel-item extends v-img
+          'v-carousel-item': ['src', 'lazy-src'],
+          'v-img': ['src', 'lazy-src'],
+          'v-navigation-drawer': 'src',
+          'v-parallax': 'src',
+          'v-toolbar': 'src'
+        }
       }
     },
     /*

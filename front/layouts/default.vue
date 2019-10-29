@@ -85,6 +85,11 @@ export default {
   background: white;
 }
 
+.theme--light.v-application {
+  background-color: #fff;
+  /*background-color: gray;*/
+}
+
 .theme--light.v-list-item {
   &:hover {
     background: #ffdf01;

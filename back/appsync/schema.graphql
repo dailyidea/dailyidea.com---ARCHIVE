@@ -43,6 +43,10 @@ type Mutation {
 	    userId: String!
     ): Result!
 
+    toggleEmailNotifications(
+        enabled: Boolean
+    ): ToggleResult!
+
 	likeIdea(
 	    ideaId: String!
 		ideaOwnerId: String!
@@ -93,6 +97,10 @@ type UserInfoResult @aws_api_key @aws_cognito_user_pools{
 type AddCommentResult {
 	result: Result!
 	comment: Comment
+}
+
+type ToggleResult {
+	state: Boolean
 }
 
 type IsLikedResult {
