@@ -16,7 +16,7 @@ export default {
 <style lang="scss">
 @font-face {
   font-family: 'Avenir';
-  src: url('/fonts/Avenir/AvenirRoman.otf');
+  src: url('~assets/fonts/Avenir/AvenirRoman.otf');
 }
 
 @font-face {
@@ -81,14 +81,18 @@ export default {
 }
 
 #app {
-  font-family: Quatro;
+  font-family: Avenir, sans-serif;
+}
+.theme--light.v-application {
+  background-color: #fff;
+  /*background-color: gray;*/
 }
 
 .theme--light.v-list-item {
   &:hover {
     background: #ffdf01;
 
-    .v-list-item__title: {
+    .v-list-item__title {
       color: #18141c;
     }
   }
