@@ -5,7 +5,6 @@
       pageOptions: mobileHeaderUiOptions
     }"
     @showShareIdeaDialog="showShareIdeaDialog"
-    @showSaveIdeaForMobileDailog="showSaveIdeaMobileViewDailog = true"
     @toggleIdeaPrivacy="privateIdeaDailog = true"
     @toggleIdeaEditor="toggleIdeaEditor"
     @toggleIdeaBookmarked="copyShareLink"
@@ -59,7 +58,13 @@
           </v-btn>
 
           <!-- Bookmark button -->
-          <v-btn text icon color="gray" class="bookmarkIdeaButton">
+          <v-btn
+            text
+            icon
+            color="gray"
+            class="bookmarkIdeaButton"
+            @click="onToggleIdeaBookmarked"
+          >
             <img
               v-if="idea.isIdeaBookmarked"
               class="saveIdea"
@@ -275,7 +280,7 @@
           </div>
           <div v-else class="tagsEditor">
             <v-combobox
-              v-model="ideaTags"
+              v-model="editIdeaTags"
               placeholder="Add tags here"
               :error-messages="errors.collect('tag')"
               data-vv-name="tag"
@@ -343,62 +348,25 @@
       </v-btn>
     </v-snackbar>
 
-    <v-dialog
-      v-model="showcommentDialog"
-      content-class="commentDialog"
-      persistent
-      max-width="500px"
-    >
-      <!-- Popup Header -->
-      <div class="header">
-        <v-icon
-          text
-          class="cancelIcon"
-          size="20"
-          @click="showcommentDialog = false"
-          >fas fa-times</v-icon
-        >
-      </div>
-
-      <!-- Popup body -->
-      <form>
-        <div class="body">
-          <div class="headlineText1">
-            Oops,
-          </div>
-          <div class="headlineText2">
-            Verify your emailor signin to post your comment.
-          </div>
-
-          <!-- Text Fields -->
-          <div>
-            <v-text-field
-              v-model="commentForm.Email"
-              v-validate="'required|email|max:100'"
-              class="emailInput"
-              single-line
-              flat
-              prepend-inner-icon="email"
-              :error-messages="errors.collect('email')"
-              data-vv-name="email"
-              label="Enter email"
-            ></v-text-field>
-          </div>
-
-          <!-- Submit Buttons -->
-          <div class="specialButton submitBtn">
-            <v-btn>SEND</v-btn>
-          </div>
-        </div>
-      </form>
-    </v-dialog>
+    <CommentWithoutLoginDialog
+      :visible.sync="showCommentWithoutLoginDialog"
+      @close="showCommentWithoutLoginDialog = false"
+    ></CommentWithoutLoginDialog>
+    <SaveIdeaWithoutLoginDialog
+      :visible.sync="showSaveWithoutLoginDialog"
+      @close="showSaveWithoutLoginDialog = false"
+    ></SaveIdeaWithoutLoginDialog>
   </Layout>
 </template>
 
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 import dayjs from 'dayjs'
+
 import relativeTime from 'dayjs/plugin/relativeTime'
+import CommentWithoutLoginDialog from '@/components/dialogs/commentWithoutLogin'
+import SaveIdeaWithoutLoginDialog from '@/components/dialogs/saveIdeaWithoutLogin'
+
 import getIsIdeaLikedByMe from '~/graphql/query/getIsIdeaLikedByMe'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import addComment from '~/graphql/mutations/addComment'
@@ -412,11 +380,10 @@ import addTags from '~/graphql/mutations/addTags'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
 import deleteTag from '~/graphql/mutations/deleteTag'
 import getUsersIdea from '~/graphql/query/getUsersIdea'
-
 dayjs.extend(relativeTime)
 
 export default {
-  components: { Layout },
+  components: { Layout, CommentWithoutLoginDialog, SaveIdeaWithoutLoginDialog },
   $_veeValidate: {
     validator: 'new'
   },
@@ -432,12 +399,12 @@ export default {
 
     chips: [],
     ideaTags: [],
+    editIdeaTags: [],
     tagsToRemove: [],
     loadingIdea: false,
 
     isIdeaEditable: false,
     ideaOwnerId: null,
-    loggedInUserId: null,
 
     snackbarVisible: false,
     snackbarMessage: '',
@@ -449,16 +416,14 @@ export default {
     currentComment: '',
     showAddCommentLoader: false,
 
+    // Variables for dialogs
+    showCommentWithoutLoginDialog: false,
+    showSaveWithoutLoginDialog: false,
+
     showEmailShareDialog: false,
-    showSaveIdeaMobileViewDailog: false,
-    savedIdeaConformDailog: false,
     privateIdeaDailog: false,
     saveIdeaFromEmailDialog: false,
     showSaveIdeaDailog: false,
-    showcommentDialog: false,
-    commentForm: {
-      Email: ''
-    },
     dialog: false,
     emailShareForm: {
       name: '',
@@ -479,43 +444,56 @@ export default {
       },
       authMode: 'API_KEY'
     })
-    console.log('idea data: ', data)
 
-    let isLiked = await app.$amplifyApi.graphql(
-      graphqlOperation(getIsIdeaLikedByMe, { ideaId: route.params.ideaId })
-    )
-
-    const tag = await app.$amplifyApi.graphql(
-      graphqlOperation(getIdeaTags, { ideaId: route.params.ideaId })
-    )
-
-    const result = await app.$amplifyApi.graphql(
-      graphqlOperation(getComments, { ideaId: route.params.ideaId, limit: 10 })
-    )
-
-    let ideaTags = []
-    for (let i = 0; i < tag.data.ideaTags.length; i++) {
-      ideaTags.push(tag.data.ideaTags[i].tag)
+    let isLiked = null
+    if (store.getters['cognito/isLoggedIn']) {
+      isLiked = await app.$amplifyApi.graphql({
+        query: getIsIdeaLikedByMe,
+        variables: {
+          ideaId: route.params.ideaId
+        }
+      })
     }
 
+    let ideaTags = []
+    if (store.getters['cognito/isLoggedIn']) {
+      const tag = await app.$amplifyApi.graphql({
+        query: getIdeaTags,
+        variables: {
+          ideaId: route.params.ideaId
+        }
+      })
+
+      for (let i = 0; i < tag.data.ideaTags.length; i++) {
+        ideaTags.push(tag.data.ideaTags[i].tag)
+      }
+    }
+
+    const result = await app.$amplifyApi.graphql({
+      query: getComments,
+      variables: {
+        ideaId: route.params.ideaId,
+        limit: 10
+      },
+      authMode: 'API_KEY'
+    })
+
     let isIdeaEditable = false
-    console.log(
-      'comparing user idds',
-      route.params.userId,
-      store.getters['cognito/userSub']
-    )
-    if (route.params.userId == store.getters['cognito/userSub']) {
+    if (
+      store.getters['cognito/isLoggedIn'] &&
+      route.params.userId == store.getters['cognito/userSub']
+    ) {
       isIdeaEditable = true
     }
     return {
       idea: data.getUsersIdea,
       ideaTags: ideaTags,
-      isIdeaLiked: isLiked.data.getIsIdeaLikedByMe.isLiked,
+      isIdeaLiked:
+        isLiked != null ? isLiked.data.getIsIdeaLikedByMe.isLiked : false,
       commentList: result.data.getComments.items,
       nextToken: result.data.getComments.nextToken,
 
       ideaOwnerId: route.params.userId,
-      loggedInUserId: store.getters['cognito/userSub'],
       isIdeaEditable: isIdeaEditable
     }
   },
@@ -614,6 +592,12 @@ export default {
 
     // Add Comments
     async onAddComment() {
+      // IF user has not logged in, show comment without login dialog
+      if (!this.$store.getters['cognito/isLoggedIn']) {
+        this.showCommentWithoutLoginDialog = true
+        return
+      }
+
       this.showAddCommentLoader = true
 
       try {
@@ -643,25 +627,17 @@ export default {
       }
     },
 
-    toggleIdeaEditor() {
-      if (this.ideaEditorVisible) {
-        this.ideaEditorVisible = false
-      } else {
-        this.ideaEditContents = this.idea.content
-        this.ideaEditorVisible = true
-      }
-      this.mobileHeaderUiOptions.ideaEditorVisible = this.ideaEditorVisible
-    },
-
-    removeTag(item) {
-      this.ideaTags.splice(this.ideaTags.indexOf(item), 1)
-      this.ideaTags = [...this.ideaTags]
-      this.tagsToRemove.push(item)
-    },
-
     async toggleIdeaPrivacy() {},
 
-    async onToggleIdeaBookmarked() {},
+    async onToggleIdeaBookmarked() {
+      // IF user has not logged in, show comment without login dialog
+      if (!this.$store.getters['cognito/isLoggedIn']) {
+        this.showSaveWithoutLoginDialog = true
+        return
+      }
+
+      alert('idea saved successfully.')
+    },
 
     async toggleLikeIdea() {
       this.isIdeaLiked = !this.isIdeaLiked
@@ -712,9 +688,31 @@ export default {
       }
     },
 
+    //# region Edit/Update Idea Methods
+
+    // Show editable idea input
+    toggleIdeaEditor() {
+      if (this.ideaEditorVisible) {
+        this.ideaEditorVisible = false
+      } else {
+        this.ideaEditContents = this.idea.content
+        this.editIdeaTags = this.ideaTags
+        this.tagsToRemove = []
+        this.ideaEditorVisible = true
+      }
+      this.mobileHeaderUiOptions.ideaEditorVisible = this.ideaEditorVisible
+    },
+
+    // Edit Idea Mode - remove ccomment from array
+    removeTag(item) {
+      this.ideaTags.splice(this.ideaTags.indexOf(item), 1)
+      this.ideaTags = [...this.ideaTags]
+      this.tagsToRemove.push(item)
+    },
+
     async onSaveIdeaContent() {
       let result = await this.$validator.validateAll()
-      // debugger
+
       this.errorMsg = ''
       if (!result) {
         console.log('returing from here....')
@@ -734,20 +732,6 @@ export default {
         )
         this.idea.content = this.ideaEditContents
 
-        // save tags
-        let tagsToSave = []
-        for (let i = 0; i < this.ideaTags.length; i++) {
-          tagsToSave.push({
-            tag: this.ideaTags[i],
-            ideaId: this.$route.params.ideaId
-          })
-        }
-        await this.$amplifyApi.graphql(
-          graphqlOperation(addTags, {
-            tags: tagsToSave
-          })
-        )
-
         //delete Tag
         for (let i = 0; i < this.tagsToRemove.length; i++) {
           await this.$amplifyApi.graphql(
@@ -759,6 +743,21 @@ export default {
             })
           )
         }
+
+        // save tags
+        let tagsToSave = []
+        for (let i = 0; i < this.editIdeaTags.length; i++) {
+          tagsToSave.push({
+            tag: this.editIdeaTags[i],
+            ideaId: this.$route.params.ideaId
+          })
+        }
+        await this.$amplifyApi.graphql(
+          graphqlOperation(addTags, {
+            tags: tagsToSave
+          })
+        )
+        this.ideaTags = this.editIdeaTags
 
         this.updatingIdea = false
         this.ideaEditorVisible = false
