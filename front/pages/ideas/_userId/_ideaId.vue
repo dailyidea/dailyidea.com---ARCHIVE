@@ -440,9 +440,6 @@ export default {
     showSaveWithoutLoginDialog: false,
     showSubscribeForPrivateIdeaDialog: false,
     showEmailShareDialog: false
-
-  
-    
   }),
 
   async asyncData({ app, route, store }) {
