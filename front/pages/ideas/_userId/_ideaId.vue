@@ -83,7 +83,7 @@
               </v-btn>
             </template>
             <v-list>
-              <v-list-item>
+              <v-list-item @click.native="copyShareLink">
                 <v-list-item-title>Share</v-list-item-title>
               </v-list-item>
               <v-list-item @click.native="showShareIdeaDialog">
@@ -162,7 +162,12 @@
         <!-- Mobile Only - Engagements & Next Prev -->
         <v-layout class="engagement-nextPrev" hidden-md-and-up>
           <v-layout class="cmtAndLikeCounters">
-            <div class="counterItem likesCounter">
+            <!-- Like/Unlike Button -->
+            <v-btn
+              text
+              class="counterItem likesCounter"
+              @click="toggleLikeIdea"
+            >
               <img
                 v-if="isIdeaLiked"
                 class="lamp"
@@ -174,11 +179,11 @@
                 src="~/assets/images/dark_gray_lamp.png"
               />
               <div>{{ idea.likesCount ? idea.likesCount : '0' }}</div>
-            </div>
-            <div class="counterItem commentsCounter">
+            </v-btn>
+            <v-btn text disabled class="counterItem commentsCounter">
               <img class="cmt" src="~/assets/images/comments.png" />
               <div>{{ idea.commentsCount ? idea.commentsCount : '0' }}</div>
-            </div>
+            </v-btn>
           </v-layout>
 
           <!-- Mobile Only - next prev button -->
@@ -199,7 +204,12 @@
         <div v-if="commentList && commentList.length > 0">
           <!-- Comment Statistics - Desktop Only -->
           <v-layout class="cmtAndLikeCounters" hidden-sm-and-down>
-            <div class="counterItem likesCounter">
+            <!-- Like/Unlike Button -->
+            <v-btn
+              text
+              class="counterItem likesCounter"
+              @click="toggleLikeIdea"
+            >
               <img
                 v-if="isIdeaLiked"
                 class="lamp"
@@ -210,12 +220,14 @@
                 class="lamp"
                 src="~/assets/images/dark_gray_lamp.png"
               />
-              <div>{{ idea.likesCount }}</div>
-            </div>
-            <div class="counterItem commentsCounter">
+              <div>{{ idea.likesCount ? idea.likesCount : '0' }}</div>
+            </v-btn>
+
+            <!-- Comments Count -->
+            <v-btn text disabled class="counterItem commentsCounter">
               <img class="cmt" src="~/assets/images/comments.png" />
-              <div>{{ idea.commentsCount }}</div>
-            </div>
+              <div>{{ idea.commentsCount ? idea.commentsCount : '0' }}</div>
+            </v-btn>
           </v-layout>
 
           <!-- Comment List -->
@@ -360,6 +372,7 @@
     ></SubsribeForPrivateIdeaDialog>
     <ShareIdeaByEmailDialog
       :visible.sync="showEmailShareDialog"
+      @success="onSharedIdeaOverEmail"
       @close="showEmailShareDialog = false"
     ></ShareIdeaByEmailDialog>
   </Layout>
@@ -385,6 +398,7 @@ import likeIdea from '~/graphql/mutations/likeIdea'
 import unlikeIdea from '~/graphql/mutations/unlikeIdea'
 import Layout from '@/components/layout/Layout'
 import addTags from '~/graphql/mutations/addTags'
+import userInfo from '~/graphql/query/userInfo'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
 import deleteTag from '~/graphql/mutations/deleteTag'
 import getUsersIdea from '~/graphql/query/getUsersIdea'
@@ -451,6 +465,16 @@ export default {
       },
       authMode: 'API_KEY'
     })
+
+    // Read user(idea auther) info
+    let userInfoResult = (await app.$amplifyApi.graphql({
+      query: userInfo,
+      variables: {
+        userId: route.params.userId
+      },
+      authMode: 'API_KEY'
+    })).data.userInfo.userInfo
+    console.log('user info is', JSON.stringify(userInfoResult))
 
     let isLiked = null
     if (store.getters['cognito/isLoggedIn']) {
@@ -523,19 +547,10 @@ export default {
       this.showEmailShareDialog = true
     },
 
-    async sendShareEmail() {
-      //Validate input fields
-      this.saveIdeaFromEmailDialog = true
+    onSharedIdeaOverEmail() {
       this.showEmailShareDialog = false
-
-      let result = await this.$validator.validateAll()
-      if (!result) {
-        return
-      }
-
-      //TODO: Send email from backend
-      this.snackbarMessage = 'Email sent successfully.'
-      this.showEmailShareDialog = false
+      this.snackbarMessage = 'Email Sent'
+      this.snackbarColor = 'success'
       this.snackbarVisible = true
     },
 
@@ -560,6 +575,7 @@ export default {
       this.loadingIdea = false
     },
 
+    // Share Link to clipboard
     copyShareLink() {
       this.$clipboard(window.location.href)
       this.snackbarMessage = 'Link copied'
@@ -634,6 +650,7 @@ export default {
       }
     },
 
+    // Private/Public Idea
     async toggleIdeaPrivacy() {
       this.showSubscribeForPrivateIdeaDialog = true
     },
@@ -650,10 +667,12 @@ export default {
       this.snackbarVisible = true
     },
 
+    // Like/Unlike Idea
     async toggleLikeIdea() {
       this.isIdeaLiked = !this.isIdeaLiked
 
       // Increase decrease like counter
+      if (this.idea.likesCount == null) this.idea.likesCount = 0
       if (this.isIdeaLiked) this.idea.likesCount++
       else this.idea.likesCount--
 
@@ -674,6 +693,7 @@ export default {
       }
     },
 
+    // Delete Idea
     async onDeleteIdea() {
       try {
         let ideaId = this.$route.params.ideaId
@@ -699,8 +719,6 @@ export default {
       }
     },
 
-    //# region Edit/Update Idea Methods
-
     // Show editable idea input
     toggleIdeaEditor() {
       if (this.ideaEditorVisible) {
@@ -721,6 +739,7 @@ export default {
       this.tagsToRemove.push(item)
     },
 
+    // On Save Idea
     async onSaveIdeaContent() {
       let result = await this.$validator.validateAll()
 
@@ -991,7 +1010,7 @@ export default {
         }
 
         .commentsCounter {
-          margin-left: 20px;
+          margin-left: 0px;
         }
       }
 
@@ -1045,8 +1064,63 @@ export default {
         }
       }
 
+      .likesCounter {
+      }
+
       .commentsCounter {
         margin-left: auto;
+      }
+    }
+
+    .commentItem {
+      margin: 15px;
+      padding: 10px;
+      background-color: #ffffff;
+      border-radius: 0px 7px 7px 7px;
+
+      @media #{$small-screen} {
+        border-left: 0px;
+        border-right: 0px;
+        border-bottom: none;
+        margin-top: 0px;
+      }
+
+      .header {
+        .commentUser {
+          display: inline-block;
+
+          font-size: 12px;
+          line-height: 28px;
+          color: #b5b5b5;
+        }
+
+        .timing {
+          float: right;
+          font-size: 12px;
+          text-align: right;
+          color: #c0b7c5;
+        }
+      }
+
+      .commentText {
+        width: 100%;
+
+        @media #{$small-screen} {
+          padding-top: 3px;
+        }
+
+        font-size: 14px;
+        color: #827c85;
+      }
+
+      .deleteCommentBtn {
+        display: block;
+        margin-right: -20px;
+        margin-top: 7px;
+
+        i {
+          font-size: 13px !important;
+        }
       }
     }
 
@@ -1056,70 +1130,6 @@ export default {
       text-align: center;
       color: #c0b7c5;
       font-size: 25px;
-    }
-  }
-
-  .commentTotal {
-    padding: 25px 0px 10px 15px;
-
-    font-size: 14px;
-    font-weight: 600;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.57;
-    letter-spacing: 0.42px;
-    color: #232323;
-  }
-
-  .commentItem {
-    margin: 15px;
-    padding: 10px;
-    background-color: #ffffff;
-    border-radius: 0px 7px 7px 7px;
-
-    @media #{$small-screen} {
-      border-left: 0px;
-      border-right: 0px;
-      border-bottom: none;
-      margin-top: 0px;
-    }
-
-    .header {
-      .commentUser {
-        display: inline-block;
-
-        font-size: 12px;
-        line-height: 28px;
-        color: #b5b5b5;
-      }
-
-      .timing {
-        float: right;
-        font-size: 12px;
-        text-align: right;
-        color: #c0b7c5;
-      }
-    }
-
-    .commentText {
-      width: 100%;
-
-      @media #{$small-screen} {
-        padding-top: 3px;
-      }
-
-      font-size: 14px;
-      color: #827c85;
-    }
-
-    .deleteCommentBtn {
-      display: block;
-      margin-right: -20px;
-      margin-top: 7px;
-
-      i {
-        font-size: 13px !important;
-      }
     }
   }
 }

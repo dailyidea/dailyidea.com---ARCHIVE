@@ -29,7 +29,7 @@
             </div>
             <div class="downs">
               <img class="logoIcon" src="~/assets/images/comments.png" />
-              120
+              {{ idea.commentsCount }}
             </div>
 
             <div class="timing">{{ idea.relativeCreatedTime }}</div>

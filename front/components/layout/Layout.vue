@@ -80,7 +80,7 @@
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>Sign Out</v-list-item-title>
+              <v-list-item-title @click="signout">Sign Out</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item class="mediaSection">
@@ -255,7 +255,7 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item>
+                <v-list-item @click="$emit('onCopyShareIdeaLink')">
                   <v-list-item-title>Share</v-list-item-title>
                 </v-list-item>
                 <v-list-item @click="$emit('showShareIdeaDialog')">
@@ -390,18 +390,14 @@ export default {
     onBackClick() {
       this.$router.back()
     },
-    onShareIdea() {
-      this.$root.$emit('share')
-    },
 
-    onShowDesktopSearchIdeaBox() {
-      this.searchModeForDesktop = true
-    },
-    onShowSearchIdeaBox() {
-      this.searchIdeaMode = true
-    },
-    logout() {
+    signout() {
       this.$store.dispatch('cognito/signOut')
+
+      // Redirect user to home page after logout
+      this.$router.push({
+        name: 'index'
+      })
     }
   }
 }

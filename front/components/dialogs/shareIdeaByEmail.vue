@@ -51,9 +51,7 @@
       <!-- Submit Buttons -->
       <div class="btnContainer">
         <v-btn class="cancleBtn" text @click="$emit('close')">Cancel</v-btn>
-        <v-btn class="specialButton shareBtn" @click="sendShareEmail()"
-          >Share</v-btn
-        >
+        <v-btn class="specialButton shareBtn" @click="sendEmail">Share</v-btn>
       </div>
     </form>
   </v-dialog>
@@ -77,7 +75,17 @@ export default {
       friendName: '',
       friendEmail: ''
     }
-  })
+  }),
+  methods: {
+    async sendEmail() {
+      let result = await this.$validator.validateAll()
+      if (!result) {
+        return
+      }
+
+      this.$emit('success')
+    }
+  }
 }
 </script>
 
