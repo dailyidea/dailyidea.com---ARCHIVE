@@ -52,7 +52,7 @@
     "sass": "^1.22.10",
     "nuxt-edge": "2.10.2-26193610.ec7428a0",
     "prettier": "1.18.2",
-    "serverless": "1.51.0",
+    "serverless": "1.55.1",
     "serverless-domain-manager": "3.3.0",
     "serverless-offline": "5.10.1",
     "serverless-prune-plugin": "1.4.0",
