@@ -74,7 +74,7 @@
           Or do you?
         </div>
         <div>
-          <img class="arrowImg" src="~/assets/images/arrowImage.png" />
+          <!-- <img class="arrowImg" src="~/assets/images/arrowImage.png" /> -->
         </div>
       </div>
 

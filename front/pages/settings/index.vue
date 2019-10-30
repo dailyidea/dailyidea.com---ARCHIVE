@@ -1,6 +1,9 @@
 <template>
   <Layout
-    v-bind="{ backButton: true, loggedInHeader: true, mobileTitle: 'Settings' }"
+    v-bind="{
+      currentPage: 'Settings',
+      pageOptions: mobileHeaderUiOptions
+    }"
   >
     <v-layout id="settingsPage">
       <div class="headerOfSetting">
@@ -23,7 +26,7 @@
         <div class="settingsItem">
           <div class="settingsInfo">
             <v-icon>fas fa-envelope</v-icon>
-            <router-link to="/emailSettings">
+            <router-link to="/settings/email">
               Email
             </router-link>
           </div>
@@ -60,10 +63,19 @@
     </v-layout>
   </Layout>
 </template>
+
 <script>
 import Layout from '@/components/layout/Layout'
 export default {
   components: { Layout },
+  data: function() {
+    return {
+      mobileHeaderUiOptions: {
+        pageTitle: 'SETTINGS',
+        leftButtonType: 'back'
+      }
+    }
+  },
   methods: {
     signout() {
       this.$store.dispatch('cognito/signOut')

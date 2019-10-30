@@ -82,7 +82,9 @@ export default {
 
 #app {
   font-family: Avenir, sans-serif;
+  background: white;
 }
+
 .theme--light.v-application {
   background-color: #fff;
   /*background-color: gray;*/

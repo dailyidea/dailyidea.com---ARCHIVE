@@ -1,20 +1,49 @@
 <template>
-  <div class="">
-    <div class="">
-      <!-- Desktop sidebar menu -->
+  <div id="commonHeader">
+    <!-- Non login page header -->
+    <v-toolbar
+      v-if="!$store.getters['cognito/isLoggedIn'] || currentPage == 'Home'"
+      class="toolBar"
+      flat
+      absolute
+    >
+      <v-toolbar-title class="blue--text subheading">
+        <nuxt-link class="logoLink" :to="{ name: 'index' }">
+          <img class="logoIcon" src="~/assets/images/logo_icon.png" />
+          <img class="logoIcon logoText" src="~/assets/images/logo_text.png" />
+        </nuxt-link>
+      </v-toolbar-title>
+      <v-spacer />
+      <template>
+        <nuxt-link class="helpLink" :to="{ name: 'auth-login' }"
+          >Login</nuxt-link
+        >
+        <nuxt-link class="userLink" :to="{ name: 'auth-signup' }">
+          <v-icon>fa-user</v-icon>
+        </nuxt-link>
+      </template>
+    </v-toolbar>
+
+    <!-- Loggedin page header -->
+    <template v-else>
+      <!-- Sidebar menu -->
       <v-navigation-drawer
-        v-model="openDesktopMenu"
-        class="menuOfDesktop"
+        v-model="showSideMenu"
+        class="sidebarMenu"
         absolute
         temporary
       >
         <v-list dense dark>
           <!-- Back button -->
-          <div class="backBtn" @click="openDesktopMenu = false">
-            <i class="fas fa-arrow-left"></i>
+          <div class="backBtn" @click="showSideMenu = false">
+            <i
+              class="fas fa-arrow-left hidden-sm-and-down"
+              hidden-sm-and-small
+            ></i>
+            <i class="fas fa-times  hidden-md-and-up" style="float: right;"></i>
           </div>
 
-          <div class="logoContainer">
+          <div class="logoContainer hidden-sm-and-down">
             <img src="~/assets/images/logo_with_text.png" />
           </div>
 
@@ -51,7 +80,7 @@
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>Sign Out</v-list-item-title>
+              <v-list-item-title @click="signout">Sign Out</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item class="mediaSection">
@@ -71,88 +100,162 @@
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <!-- Mobile HEader -->
-      <v-toolbar
-        v-if="!searchIdeaMode"
-        flat
-        absolute
-        color="white"
-        class="mobile hidden-md-and-up"
-        md-and-up
-      >
-        <v-layout class="nonSearchSection" row>
-          <!-- Left Side Icon -->
-          <v-layout>
-            <v-flex v-if="mobileHamburger" xs1 sm1>
-              <v-icon class="icons" @click="$refs.mobileMenu.visible = true"
-                >fas fa-bars</v-icon
-              >
-              <MobileMenu ref="mobileMenu"></MobileMenu>
-            </v-flex>
-            <v-flex v-else-if="backButton" xs1 sm1>
-              <v-icon class="icons" @click="onBackClick()"
-                >fas fa-arrow-left</v-icon
-              >
-            </v-flex>
 
-            <!-- Center Title -->
-            <v-flex xs8 sm8 class="text">{{ mobileTitle }}</v-flex>
-
+      <div class="loggedInHeader">
+        <!-- Desktop Header -->
+        <v-toolbar
+          class="desktop hidden-sm-and-down"
+          flat
+          absolute
+          color="white"
+        >
+          <!-- Left Title Side - Desktop -->
+          <v-toolbar-title class="blue--text subheading">
+            <!-- Idea detail page -left side - desktop -->
             <v-btn
-              v-if="showPrivateIdeaBtn"
+              v-if="pageOptions.leftButtonType == 'hamburder'"
+              small
               text
               icon
-              color="gray"
-              class="globeImageDiv"
+              class="desktopMenu"
+              @click="showSideMenu = true"
             >
-              <!-- <img alt="image" class="globeSmallImage" src="~/assets/images/globeSmallImage.png" /> -->
+              <img src="~assets/images/menu.png" />
+            </v-btn>
+            <v-icon v-else class="icons backButon" @click="onBackClick()"
+              >fas fa-arrow-left</v-icon
+            >
+
+            <!-- Logo on top left corner -->
+            <nuxt-link class="logoLink" :to="{ name: 'index' }">
+              <img class="logoIcon" src="~/assets/images/logo_icon.png" />
               <img
-                alt="image"
-                class="globeImage"
-                src="~/assets/images/globeImage.png"
-                @click="$emit('showPrivateIdeaDailog')"
+                class="logoIcon logoText"
+                src="~/assets/images/logo_text.png"
               />
-            </v-btn>
+            </nuxt-link>
+          </v-toolbar-title>
 
-            <!-- Edit IDea Button-->
+          <!-- Search Box -->
+          <v-text-field
+            v-if="searchIdeaMode"
+            class="searchInput"
+            placeholder="What are you looking for?"
+            flat
+            solo
+            label
+            prepend-inner-icon="fas fa-search"
+          ></v-text-field>
+          <v-icon
+            v-if="searchIdeaMode"
+            class="closeIconForDesktopSearch "
+            @click="searchIdeaMode = false"
+            >fas fa-times</v-icon
+          >
+
+          <v-spacer></v-spacer>
+
+          <!-- Right Side Desktop Options -->
+          <template>
+            <!-- Search Button -->
             <v-btn
-              v-if="showEditIdeaBtn"
-              outlined
-              rounded
-              color="gray"
-              class="editIdeaBtn"
-              @click="$emit('onEditIdea')"
+              icon
+              class="rightSideIconLight"
+              @click="searchIdeaMode = true"
             >
-              MY IDEA <v-icon right>fas fa-pen</v-icon>
+              <v-icon v-if="!searchIdeaMode">fas fa-search</v-icon>
             </v-btn>
-          </v-layout>
 
-          <!-- Rightside Icons -->
-          <v-flex xs3 sm3 class="rightSide" hidden-md-and-up>
-            <v-btn text icon color="gray" class="saveIdeaBtn">
+            <!-- Settings Button -->
+            <v-btn class="rightSideIconLight" icon to="/settings">
+              <v-icon>fas fa-cog</v-icon>
+            </v-btn>
+
+            <!-- Print Logged-in user's name -->
+            <span class="userName">{{
+              $store.getters['cognito/username']
+            }}</span>
+
+            <!-- Profile Icon -->
+            <v-btn small to="/profile" class="profileBtn" fab>
+              <v-icon>fas fa-user</v-icon>
+            </v-btn>
+          </template>
+        </v-toolbar>
+
+        <!-- Mobile Header -->
+        <v-app-bar
+          v-if="!searchIdeaMode"
+          flat
+          absolute
+          color="white"
+          class="mobileToolbar hidden-md-and-up"
+        >
+          <!-- Hamburber or back button -->
+          <v-btn
+            v-if="pageOptions.leftButtonType == 'hamburder'"
+            class="lightPinkButton"
+            icon
+            @click="showSideMenu = true"
+          >
+            <v-icon>mdi-menu</v-icon>
+          </v-btn>
+          <v-btn v-else class="lightPinkButton" icon @click="onBackClick()">
+            <v-icon>mdi-arrow-left</v-icon>
+          </v-btn>
+
+          <!-- Idea Detail Page UI -->
+          <template v-if="currentPage == 'IdeaDetail'" class="ideaDetailHeader">
+            <v-btn
+              class="ideaPrivacyButton"
+              icon
+              @click="$emit('toggleIdeaPrivacy')"
+            >
+              <img src="~assets/images/privateIdea.png" />
+            </v-btn>
+            <v-toolbar-title class="pageTitle">
+              <template v-if="!pageOptions.isIdeaEditable">
+                {{ pageOptions.pageTitle }}
+              </template>
+              <v-btn
+                v-else
+                :class="{ lightPinkButton: !pageOptions.ideaEditorVisible }"
+                rounded
+                outlined
+                class="editIdeaButton"
+                @click="$emit('toggleIdeaEditor')"
+              >
+                My Idea &nbsp; <v-icon left>mdi-pencil</v-icon>
+              </v-btn>
+            </v-toolbar-title>
+
+            <v-spacer></v-spacer>
+
+            <!-- Bookmark button -->
+            <v-btn text icon color="gray" class="bookmarkIdeaButton">
               <img
-                v-if="showUnSaveActionBtn"
+                v-if="pageOptions.isIdeaBookmarked"
+                class="saveIdea"
+                src="~/assets/images/saveIdeaImage.png"
+                @click="$emit('showSaveIdeaForMobileDailog')"
+              />
+              <img
+                v-if="!pageOptions.isIdeaBookmarked"
                 class="unsaveIdea"
                 src="~/assets/images/unSaveIdeaImage.png"
                 @click="$emit('showSaveIdeaForMobileDailog')"
               />
-              <!-- <img v-if="showSaveActionBtn" class="saveIdea" @click="$emit('showSaveIdeaForMobileDailog')" src="~/assets/images/saveIdeaImage.png" /> -->
             </v-btn>
 
-            <!-- Search Idea Button -->
-            <v-icon
-              v-if="mobileSearchIcon"
-              class="searchIconForMobile"
-              @click="onShowSearchIdeaBox()"
-              >fas fa-search</v-icon
-            >
-
-            <v-menu v-if="shareIdeaVisible" class="shareIdea">
+            <!-- Idea Detail Mobile Settings Menu -->
+            <v-menu>
               <template v-slot:activator="{ on }">
-                <v-icon class="icons menu" v-on="on">fas fa-ellipsis-v</v-icon>
+                <v-btn icon v-on="on">
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
               </template>
               <v-list>
-                <v-list-item>
+                <v-list-item @click="$emit('onCopyShareIdeaLink')">
                   <v-list-item-title>Share</v-list-item-title>
                 </v-list-item>
                 <v-list-item @click="$emit('showShareIdeaDialog')">
@@ -163,228 +266,123 @@
                 </v-list-item>
               </v-list>
             </v-menu>
-          </v-flex>
-        </v-layout>
-      </v-toolbar>
-      <!-- Mobile search toolbar -->
-      <v-toolbar
-        v-else
-        flat
-        absolute
-        color="white"
-        class="mobile searchIdeaContainer hidden-md-and-up"
-      >
-        <v-text-field
-          ref="mobileMenuSearchIdeaBox"
-          placeholder="What are you looking for?"
-          hide-details
-          prepend-inner-icon="search"
-          outlined
-        ></v-text-field>
-        <v-icon class="closeIcon " @click="searchIdeaMode = false"
-          >fas fa-times</v-icon
-        >
-      </v-toolbar>
-    </div>
+          </template>
 
-    <div id="commonHeader">
-      <!-- Non login page header -->
-      <v-toolbar v-if="!userIsLoggedIn" class="toolBar" flat absolute>
-        <v-toolbar-title class="blue--text subheading">
-          <nuxt-link class="logoLink" :to="{ name: 'index' }">
-            <img class="logoIcon" src="~/assets/images/logo_icon.png" />
-            <img
-              class="logoIcon logoText"
-              src="~/assets/images/logo_text.png"
-            />
-          </nuxt-link>
-        </v-toolbar-title>
-        <v-spacer />
-        <template>
-          <nuxt-link class="helpLink" :to="{ name: 'auth-login' }"
-            >Login</nuxt-link
+          <!-- Idea List Page UI -->
+          <template v-else-if="currentPage == 'IdeaList'">
+            <v-toolbar-title class=" pageTitle">
+              {{ pageOptions.pageTitle }}
+            </v-toolbar-title>
+
+            <v-spacer></v-spacer>
+
+            <!-- Search Button -->
+            <v-btn class="lightPinkButton" icon @click="searchIdeaMode = true">
+              <v-icon>mdi-magnify</v-icon>
+            </v-btn>
+          </template>
+
+          <!-- Idea List Page UI -->
+          <template v-else-if="currentPage == 'Profile'">
+            <v-toolbar-title class=" pageTitle">
+              {{ pageOptions.pageTitle }}
+            </v-toolbar-title>
+
+            <v-spacer></v-spacer>
+
+            <!-- Settings Button -->
+            <v-btn class="lightPinkButton" icon>
+              <v-icon>mdi-settings</v-icon>
+            </v-btn>
+          </template>
+
+          <!-- Settings Page UI -->
+          <template
+            v-if="currentPage == 'Settings' || currentPage == 'EmailSettings'"
           >
-          <nuxt-link class="userLink" :to="{ name: 'auth-signup' }">
-            <v-icon>fa-user</v-icon>
-          </nuxt-link>
-        </template>
-      </v-toolbar>
+            <v-toolbar-title class=" pageTitle">
+              {{ pageOptions.pageTitle }}
+            </v-toolbar-title>
+          </template>
+        </v-app-bar>
 
-      <!-- Loggedin page header -->
-      <template v-else>
-        <div class="loggedInHeader">
-          <!-- Desktop Header -->
-          <v-layout hidden-sm-and-down>
-            <v-toolbar class="desktop" flat absolute color="white">
-              <!-- Top Left Side -->
-              <v-toolbar-title class="blue--text subheading">
-                <!-- Desktop Menu Button -->
-                <v-icon class="desktopMenu" @click="openDesktopMenu = true"
-                  >fas fa-align-left</v-icon
-                >
+        <!-- Mobile search toolbar => Position fixed - will hide original mobile header -->
+        <v-toolbar
+          v-else
+          flat
+          absolute
+          color="white"
+          class="mobile searchIdeaContainer hidden-md-and-up"
+        >
+          <v-text-field
+            ref="mobileMenuSearchIdeaBox"
+            placeholder="What are you looking for?"
+            hide-details
+            prepend-inner-icon="search"
+            outlined
+          ></v-text-field>
+          <v-icon class="closeIcon " @click="searchIdeaMode = false"
+            >fas fa-times</v-icon
+          >
+        </v-toolbar>
+      </div>
+    </template>
 
-                <!-- Show Back button if enabled -->
-                <v-icon
-                  v-if="backButton"
-                  class="icons backButon"
-                  @click="onBackClick()"
-                  >fas fa-arrow-left</v-icon
-                >
+    <!-- Router contents -->
+    <v-content class="nuxtContainer">
+      <v-layout>
+        <v-flex>
+          <slot />
+        </v-flex>
+      </v-layout>
+      <vue-snotify />
+    </v-content>
 
-                <!-- Logo on top left corner -->
-                <nuxt-link class="logoLink" :to="{ name: 'index' }">
-                  <img class="logoIcon" src="~/assets/images/logo_icon.png" />
-                  <img
-                    class="logoIcon logoText"
-                    src="~/assets/images/logo_text.png"
-                  />
-                </nuxt-link>
-              </v-toolbar-title>
-
-              <!-- Search Box -->
-              <v-text-field
-                v-if="searchModeForDesktop"
-                class="searchInput"
-                placeholder="What are you looking for?"
-                flat
-                solo
-                label
-                prepend-inner-icon="fas fa-search"
-              ></v-text-field>
-              <v-icon
-                v-if="searchModeForDesktop"
-                class="closeIconForDesktopSearch "
-                @click="searchModeForDesktop = false"
-                >fas fa-times</v-icon
-              >
-              <v-spacer />
-              <template>
-                <div class="searchIcon">
-                  <v-icon
-                    v-if="!searchModeForDesktop"
-                    class="desktopSeachIcon"
-                    @click="onShowDesktopSearchIdeaBox()"
-                    >fas fa-search</v-icon
-                  >
-                </div>
-                <v-btn text icon to="/settings" class="settingBtn" fab>
-                  <v-icon size="12" class="settingIcon">fas fa-cog</v-icon>
-                </v-btn>
-                <span class="userName">{{
-                  $store.getters['cognito/username']
-                }}</span>
-
-                <v-btn small to="/profile" class="profileBtn" fab>
-                  <v-icon>fas fa-user</v-icon>
-                </v-btn>
-              </template>
-            </v-toolbar>
-          </v-layout>
-        </div>
-      </template>
-
-      <!-- Router contents -->
-      <v-container>
-        <v-content class="nuxtContainer">
-          <v-layout>
-            <v-flex>
-              <slot />
-            </v-flex>
-          </v-layout>
-          <vue-snotify />
-        </v-content>
-      </v-container>
-
-      <!-- Footer -->
-      <!-- <v-footer app>
-          <span>Dailyidea &copy; 2018</span>
-        </v-footer>-->
-    </div>
+    <!-- Footer -->
+    <!-- <v-footer app>
+      <span>Dailyidea &copy; 2018</span>
+    </v-footer>-->
   </div>
 </template>
-<script>
-import MobileMenu from '@/components/menuComponent'
-export default {
-  name: 'Layout',
-  components: { MobileMenu },
-  props: {
-    showUnSaveActionBtn: {
-      type: Boolean,
-      default: false
-    },
-    showPrivateIdeaBtn: {
-      type: Boolean,
-      default: false
-    },
-    showSaveActionBtn: {
-      type: Boolean,
-      default: false
-    },
-    showEditIdeaBtn: {
-      type: Boolean,
-      default: false
-    },
-    desktopSearchIcon: {
-      type: Boolean,
-      default: true
-    },
-    desktopMenuVisible: {
-      type: Boolean,
-      default: false
-    },
 
-    backButton: {
-      type: Boolean,
-      default: false
-    },
+<script>
+export default {
+  components: {},
+  props: {
+    // Show loggedin or loggedout header
     loggedInHeader: {
       type: Boolean,
       default: false
     },
-    mobileTitle: {
+
+    // Page specific ui variables
+    currentPage: {
       type: String,
       default: ''
     },
-    mobileHamburger: {
-      type: Boolean,
-      default: true
-    },
-    mobileSearchIcon: {
-      type: Boolean,
-      default: true
-    },
-    shareIdeaVisible: {
-      type: Boolean,
-      default: false
-    },
-    onCopyShareIdeaLink: {
-      default: null,
-      type: Function
-    },
-    editIdeaVisible: {
-      type: Boolean,
-      default: false
-    },
-    settingsIconVisible: {
-      type: Boolean,
-      default: true
+
+    pageOptions: {
+      type: Object,
+      default: null
     }
   },
+
   data() {
     return {
-      mobileMenuVisible: false,
       searchIdeaMode: false,
-      searchModeForDesktop: false,
-      openDesktopMenu: null
+      showSideMenu: null
       // items: [
       //   { title: 'Home', icon: 'dashboard' },
       //   { title: 'About', icon: 'question_answer' }
       // ]
     }
   },
-  computed: {
-    userIsLoggedIn() {
-      return this.$store.getters['cognito/isLoggedIn']
+  watch: {
+    pageOptions: {
+      handler(n, o) {
+        this.pageOptions = n
+      },
+      deep: true
     }
   },
   created() {},
@@ -392,198 +390,21 @@ export default {
     onBackClick() {
       this.$router.back()
     },
-    onShareIdea() {
-      this.$root.$emit('share')
-    },
 
-    onShowDesktopSearchIdeaBox() {
-      this.searchModeForDesktop = true
-    },
-    onShowSearchIdeaBox() {
-      this.searchIdeaMode = true
-    },
-    logout() {
+    signout() {
       this.$store.dispatch('cognito/signOut')
+
+      // Redirect user to home page after logout
+      this.$router.push({
+        name: 'index'
+      })
     }
   }
 }
 </script>
+
 <style lang="scss">
-/*@media (min-width: 1904px){*/
-/*  .container {*/
-/*    max-width: 1704px;*/
-/*  }*/
-/*}*/
-
-.menuOfDesktop {
-  background: rgb(35, 16, 49) !important;
-  z-index: 999;
-
-  .backBtn {
-    margin: 10px 10px;
-    cursor: pointer;
-  }
-
-  .logoContainer {
-    margin-top: 4vh;
-    margin-bottom: 3vh;
-    text-align: center;
-    img {
-      width: 70%;
-      margin-top: 3vh;
-    }
-  }
-
-  // display: none;
-  .v-list-item {
-    .v-list-item__content {
-      height: 7vh;
-      cursor: pointer;
-      border-bottom: 1px solid #827c852e !important;
-
-      .nuxt-link-exact-active.nuxt-link-active {
-        text-decoration: none;
-      }
-
-      .v-list-item__title {
-        font-size: 15px;
-        text-align: center;
-        color: white;
-
-        .mediaBtn {
-          margin-right: 12px;
-          color: white !important;
-
-          .v-icon {
-            font-size: 13px;
-          }
-        }
-      }
-
-      &:hover {
-        .v-list-item__title {
-          color: #ffca19 !important;
-        }
-      }
-    }
-  }
-
-  .mediaSection {
-    margin-top: 4vh;
-    .v-list-item__content {
-      border-bottom: none !important;
-      height: auto;
-    }
-  }
-}
-
-.mobile {
-  padding: 0px 10px;
-  margin-left: 0px;
-  margin-right: 0px;
-  width: 100%;
-
-  .nonSearchSection {
-    padding: 0px 0px;
-
-    .text {
-      text-align: right !important;
-      // padding-left: 45px;
-      margin-top: 10px;
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.57;
-      color: #18141c;
-    }
-    .globeImageDiv {
-      margin-right: 40px;
-      .globeSmallImage {
-        height: 17px;
-      }
-
-      .globeImage {
-        height: 17px;
-      }
-    }
-
-    .editIdeaBtn {
-      color: #87818a !important;
-      margin-top: 10px;
-      margin-right: 20px;
-      i {
-        color: #87818a !important;
-      }
-    }
-
-    .icons {
-      color: #c0b7c5 !important;
-      font-size: 16px;
-      margin-top: 16px;
-    }
-
-    .rightSide {
-      text-align: right;
-
-      .saveIdeaBtn {
-        margin-right: 5px;
-        margin-top: -8px;
-        // display: none;
-      }
-
-      .searchIconForMobile {
-        // margin-left: 60px;
-        font-size: 14px;
-      }
-
-      i {
-        color: #35124e !important;
-        padding-bottom: 0px;
-        text-align: right;
-        // margin-right: 6px;
-      }
-    }
-  }
-}
-
-.mobile.searchIdeaContainer {
-  .v-input__slot {
-    max-height: 40px;
-    min-height: 40px;
-    // border: 2px solid green;
-    padding: 0px 5px;
-
-    .v-input__prepend-inner {
-      margin-top: 8px;
-
-      .v-icon {
-        font-size: 17px;
-      }
-    }
-
-    .v-text-field__slot {
-      max-height: 43px;
-      overflow: hidden;
-
-      fieldset {
-        max-height: 43px;
-      }
-
-      input {
-        // border: 1px solid blue;
-        font-size: 15px;
-      }
-    }
-  }
-
-  .closeIcon {
-    position: absolute;
-    right: 25px;
-    font-size: 12px;
-  }
-}
-
 #commonHeader {
-  position: relative;
   .toolBar {
     background: white !important;
     color: #c0b7c5 !important;
@@ -619,6 +440,15 @@ export default {
     }
   }
 
+  .lightPinkButton {
+    border-color: #c0b7c5 !important;
+    color: #c0b7c5 !important;
+    i,
+    .v-btn__content {
+      color: #c0b7c5 !important;
+    }
+  }
+
   .loggedInHeader {
     width: 100%;
     background: white !important;
@@ -627,14 +457,17 @@ export default {
       z-index: 100;
       width: 100%;
 
-      .helpLink {
-        color: #c0b7c5 !important;
-        font-style: none !important;
-        text-decoration: none !important;
+      .desktopMenu {
+        margin-top: -12px;
+        margin-right: 8px;
+        img {
+          height: 17px;
+        }
       }
 
       .backButon {
         margin-right: 20px;
+        margin-top: -10px;
 
         color: $primary-color;
         font-size: 15px;
@@ -642,10 +475,17 @@ export default {
         cursor: pointer;
       }
 
-      .desktopMenu {
+      .hamburder {
         margin-right: 20px;
         margin-top: -9px;
         font-size: 20px;
+      }
+
+      // For non loggedin user
+      .helpLink {
+        color: #c0b7c5 !important;
+        font-style: none !important;
+        text-decoration: none !important;
       }
 
       .logoLink {
@@ -703,22 +543,24 @@ export default {
         font-size: 13px;
       }
 
-      .searchIcon {
-        // border: 0.8px solid #7777;
+      .desktopSearchIconContainer {
         .desktopSeachIcon {
+          color: #c0b7c5;
           margin-right: 20px;
         }
       }
 
+      .rightSideIconLight {
+        i {
+          color: #c0b7c5;
+        }
+      }
+
       .userName {
-        margin-left: 20px;
+        margin-left: 8px;
 
         font-size: 20px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
         line-height: 1.5;
-        letter-spacing: normal;
         text-align: left;
         color: #18141c;
       }
@@ -736,10 +578,175 @@ export default {
         }
       }
     }
+
+    .mobileToolbar {
+      // Adjust mobile menubar padding
+      .v-toolbar__content {
+        padding: 0px 7px !important;
+      }
+
+      // Make page title aligned to center
+      .pageTitle {
+        width: 100%;
+        text-align: center;
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+        letter-spacing: 0.5px;
+      }
+
+      // For Idea Detail PAge
+      .editIdeaButton {
+        margin: 0px !important;
+        i {
+          margin: 0px !important;
+        }
+      }
+
+      .ideaPrivacyButton {
+        img {
+          height: 20px !important;
+        }
+      }
+
+      // For Idea Detail PAge
+      .bookmarkIdeaButton {
+        margin-top: -8px;
+        margin-right: -10px;
+      }
+    }
+
+    .mobile.searchIdeaContainer {
+      width: 100%;
+
+      .v-input__slot {
+        max-height: 40px;
+        min-height: 40px;
+        // border: 2px solid green;
+        padding: 0px 5px;
+
+        .v-input__prepend-inner {
+          margin-top: 8px;
+
+          .v-icon {
+            font-size: 17px;
+          }
+        }
+
+        .v-text-field__slot {
+          max-height: 43px;
+          overflow: hidden;
+
+          fieldset {
+            max-height: 43px;
+          }
+
+          input {
+            // border: 1px solid blue;
+            font-size: 15px;
+          }
+        }
+      }
+
+      .closeIcon {
+        position: absolute;
+        right: 25px;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .sidebarMenu {
+    background: rgb(35, 16, 49) !important;
+    z-index: 999;
+    width: 320px !important;
+
+    @media #{$small-screen} {
+      width: 100% !important;
+    }
+
+    .backBtn {
+      margin: 10px 15px;
+      height: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      @media #{$small-screen} {
+        margin-bottom: 10vh;
+      }
+    }
+
+    .logoContainer {
+      margin-top: 0vh;
+      margin-bottom: 3vh;
+      text-align: center;
+
+      img {
+        height: 20vh;
+        margin-top: 3vh;
+      }
+    }
+
+    // display: none;
+    .v-list-item {
+      margin-left: 30px;
+      margin-right: 30px;
+
+      @media #{$small-screen} {
+        margin-left: 15%;
+        margin-right: 15%;
+      }
+      border-bottom: 1px solid #827c852e !important;
+
+      .v-list-item__content {
+        // height: 7vh;
+        cursor: pointer;
+
+        margin-top: 2vh !important;
+        margin-bottom: 1.8vh !important;
+
+        @media #{$small-screen} {
+          margin-top: 3vh !important;
+          margin-bottom: 3vh !important;
+        }
+
+        .nuxt-link-exact-active.nuxt-link-active {
+          text-decoration: none;
+        }
+
+        .v-list-item__title {
+          font-size: 15px;
+          text-align: center;
+          color: white;
+
+          @media #{$small-screen} {
+            font-size: 16px;
+          }
+
+          .mediaBtn {
+            margin-right: 12px;
+            color: white !important;
+
+            .v-icon {
+              font-size: 13px;
+            }
+          }
+        }
+
+        &:hover {
+          .v-list-item__title {
+            color: #ffca19 !important;
+          }
+        }
+      }
+    }
+
+    .mediaSection {
+      margin-top: 4vh;
+      border-bottom: none !important;
+    }
   }
 
   .nuxtContainer {
-    padding-top: 56px !important;
+    padding-top: 64px !important;
   }
 }
 </style>

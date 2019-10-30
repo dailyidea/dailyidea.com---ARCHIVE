@@ -1,14 +1,15 @@
 <template>
   <div id="signupPage">
+    <!-- Back button -->
+    <v-btn class="backBtn" text icon color="primary" to="/">
+      <v-icon>fas fa-arrow-left</v-icon>
+    </v-btn>
+
+    <!-- Grid -->
     <v-layout class="mainTable" row>
-      <!-- Back button -->
-      <v-btn class="backBtn" text icon color="primary" to="/">
-        <v-icon>fas fa-arrow-left</v-icon>
-      </v-btn>
-
-      <v-flex class="lefgImgContainer" hidden-sm-and-down>
-        <img class="bigTreeImage" src="~/assets/images/signup/bigTree.png" />
-
+      <!-- Desktop Only - Left Side Image Container -->
+      <v-flex class="leftSideImageContainer" hidden-sm-and-down>
+        <img class="bigTreeImage" src="~/assets/images/bigTree.png" />
         <img
           class="imgPersonWithPhone"
           src="~/assets/images/person_with_phone.png"
@@ -49,11 +50,21 @@
             prepend-inner-icon="email"
           ></v-text-field>
 
+          <!-- Email Already Exists Message -->
+          <div v-if="emailExistsMsg != ''" class="emailExistsMsg">
+            {{ emailExistsMsg }}
+            <div>
+              <v-btn to="/auth/login" text small color="#827C85"
+                >Login instead?</v-btn
+              >
+            </div>
+          </div>
+
           <!-- Continue Button -->
           <v-btn large class="continueBtn" @click="signup">Continue</v-btn>
         </form>
 
-        <!-- Social Login Icons -->
+        <!-- Social Icons -->
         <div class="socialIconContainer">
           <v-btn outlined fab color="primary">
             <v-icon>fab fa-facebook-f</v-icon>
@@ -69,18 +80,15 @@
         </div>
 
         <!-- Login div at bottom -->
-        <div class="loginDiv">
-          <div class="loginTitle">Alreay have an account?</div>
+        <div class="accountExists">
+          <div class="existsTitle">Alreay have an account?</div>
           <v-btn large dark class="loginBtn" to="/auth/login">LOGIN</v-btn>
         </div>
       </v-flex>
 
-      <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img
-          class="smallTreeImage"
-          src="~/assets/images/signup/smallTree.png"
-        />
-
+      <!-- Desktop Only - Right Side Image Container -->
+      <v-flex class="rightSideImageContainer" hidden-sm-and-down>
+        <img class="smallTreeImage" src="~/assets/images/smallTree.png" />
         <img
           class="imgPersonWithPhone"
           src="~/assets/images/signup/lady_with_phone.png"
@@ -106,7 +114,8 @@ import { getErrorMessage } from '~/utils'
 export default {
   data: () => ({
     email: '',
-    name: ''
+    name: '',
+    emailExistsMsg: ''
   }),
   $_veeValidate: {
     validator: 'new'
@@ -117,6 +126,8 @@ export default {
   methods: {
     async signup() {
       try {
+        this.emailExistsMsg = ''
+
         //Validate input fields
         let result = await this.$validator.validateAll()
         if (!result) {
@@ -137,6 +148,13 @@ export default {
           params: { email: this.email }
         })
       } catch (e) {
+        // Handle email already registered
+        if (e.code && e.code == 'UsernameExistsException') {
+          this.emailExistsMsg = 'Sorry, email mentioned already exist.'
+          return
+        }
+
+        console.log('error', e)
         this.$snotify.error(getErrorMessage(e), 'Error', {
           timeout: 2000,
           showProgressBar: false,
@@ -157,25 +175,25 @@ export default {
   background: white;
   overflow: hidden;
 
+  .backBtn {
+    color: $primary-color;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 5px 3px;
+    z-index: 5000;
+
+    i {
+      font-size: 16px;
+    }
+  }
+
   .mainTable {
     margin: 0px;
     height: 100vh;
     z-index: 100;
 
-    .backBtn {
-      color: $primary-color;
-      position: fixed;
-      top: 0;
-      left: 0;
-      margin: 5px 3px;
-      z-index: 5000;
-
-      i {
-        font-size: 16px;
-      }
-    }
-
-    .lefgImgContainer {
+    .leftSideImageContainer {
       position: relative;
       z-index: 10;
 
@@ -194,7 +212,7 @@ export default {
       }
     }
 
-    .rightImgContainer {
+    .rightSideImageContainer {
       position: relative;
       z-index: 100;
 
@@ -219,6 +237,7 @@ export default {
       padding-top: 7vh;
       z-index: 10;
       height: 100vh;
+      overflow-x: auto;
 
       @media #{$small-screen} {
         padding-top: 10vh;
@@ -226,13 +245,6 @@ export default {
 
       .logoIcon {
         width: 70px;
-
-        @media #{$small-screen} {
-          // padding-top: 30vh;
-          // background: red !important;
-          height: 15vh !important;
-          width: auto !important;
-        }
       }
 
       .logoText {
@@ -243,7 +255,7 @@ export default {
       .inputBox {
         width: 70%;
         margin: auto;
-        max-width: 400px;
+        max-width: 420px;
         margin-top: 0.5vh !important;
 
         .v-input__prepend-inner {
@@ -251,30 +263,25 @@ export default {
           font-size: 12px;
 
           i {
-            // color: red !important;
             font-size: 18px;
           }
         }
+      }
 
-        @media #{$medium-screen} {
-          max-width: none;
-          width: 80%;
-        }
+      .emailExistsMsg {
+        width: 70%;
+        margin: auto;
+        max-width: 420px;
+        color: #c8c7c7;
       }
 
       .continueBtn {
         border-radius: 4px;
         margin-top: 20px;
-        background-image: linear-gradient(to left, #ffdf01, #ffb92d);
-        color: white;
-        width: 62%;
+        width: 70%;
+        max-width: 420px;
 
         letter-spacing: 1px;
-
-        @media #{$medium-screen} {
-          max-width: none;
-          width: 80%;
-        }
       }
 
       .socialIconContainer {
@@ -290,50 +297,53 @@ export default {
         }
       }
 
-      .loginDiv {
+      .accountExists {
         margin-top: 2vh;
 
-        .loginTitle {
+        .existsTitle {
           font-size: 14px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
           line-height: 1.57;
-          letter-spacing: normal;
-          text-align: center;
           color: #c8c7c7;
+          margin-bottom: 5px;
         }
 
         .loginBtn {
-          width: 62%;
-          max-width: 500px;
+          width: 70%;
+          max-width: 420px;
           border-radius: 4px;
           letter-spacing: 1px;
         }
       }
 
       @media #{$small-screen} {
-        .loginDiv {
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+
+        .logoIcon {
+          height: 20vh !important;
+          width: auto;
+        }
+
+        .logoText {
+          width: 200px;
+        }
+
+        .inputBox,
+        .continueBtn {
+          width: 80%;
+          max-width: none;
+        }
+
+        .accountExists {
           position: fixed;
-          bottom: 0px;
+          bottom: 0;
           width: 100%;
-
-          .logoIcon {
-            height: 26vh !important;
-          }
-
-          .logoText {
-            width: 200px;
-          }
 
           .loginBtn {
             width: 100%;
-            max-width: none;
-            margin: 0px;
             border-radius: 0px;
-            margin-top: 10px;
-            height: 64px;
-            letter-spacing: 2px;
+            padding: 30px;
           }
         }
       }

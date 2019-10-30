@@ -5,9 +5,10 @@
       <v-icon>fas fa-arrow-left</v-icon>
     </v-btn>
 
-    <v-layout class="mainTable" row>
+    <v-layout class="mainGrid" row>
+      <!-- Left Side Image -->
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
-        <img class="bigTreeImage" src="~/assets/images/signup/bigTree.png" />
+        <img class="bigTreeImage" src="~/assets/images/bigTree.png" />
         <img
           class="imgPersonWithPhone"
           src="~/assets/images/person_with_phone.png"
@@ -39,19 +40,46 @@
             validate="required|email"
           />
 
-          <!-- Continue Button -->
-          <v-btn large class="continueBtn" :loading="logingUser" @click="login"
+          <!-- Email Not Found Message -->
+          <div v-if="emailNotFoundMsg != ''" class="emailNotFoundMsg">
+            {{ emailNotFoundMsg }}
+            <div>
+              <v-btn to="/auth/signup" text small color="#827C85"
+                >Create an account?</v-btn
+              >
+            </div>
+          </div>
+
+          <!-- Login Button -->
+          <v-btn large class="loginBtn" :loading="logingUser" @click="login"
             >Log In</v-btn
           >
         </v-form>
 
+        <!-- Social Icons -->
+        <div class="socialIconContainer">
+          <v-btn outlined fab color="primary">
+            <v-icon>fab fa-facebook-f</v-icon>
+          </v-btn>
+          <v-btn outlined fab color="primary">
+            <v-icon>fab fa-twitter</v-icon>
+          </v-btn>
+          <v-btn outlined fab color="primary">
+            <v-icon>fab fa-google-plus-g</v-icon>
+          </v-btn>
+        </div>
+
+        <!-- Create account div at bottom -->
+        <v-layout class="createAccountDiv">
+          <v-btn large dark class="signupBtn" to="/auth/signup"
+            >CREATE ACCOUNT</v-btn
+          >
+        </v-layout>
       </v-flex>
 
+      <!-- Right side desktop only image -->
       <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img
-          class="smallTreeImage"
-          src="~/assets/images/signup/smallTree.png"
-        />
+        <img class="smallTreeImage" src="~/assets/images/smallTree.png" />
         <img
           class="imgPersonWithPhone"
           src="~/assets/images/signup/lady_with_phone.png"
@@ -59,7 +87,7 @@
       </v-flex>
     </v-layout>
 
-    <!-- Fixed Footer -->
+    <!-- Fixed Footer - desktop only -->
     <v-layout
       hidden-sm-and-down
       class="fixedFooter"
@@ -82,12 +110,15 @@ export default {
   mixins: [ActionValidate],
   data: () => ({
     email: '',
-    logingUser: false
+    logingUser: false,
+    emailNotFoundMsg: ''
   }),
   methods: {
     async login() {
       try {
         this.logingUser = true
+        this.emailNotFoundMsg = ''
+
         //Validate input fields
         let result = await this.$validator.validateAll()
         if (!result) {
@@ -98,6 +129,7 @@ export default {
         await this.$amplifyApi.post('RequestLogin', '', {
           body: { email: this.email }
         })
+
         this.logingUser = false
 
         // Redirect to login success page
@@ -107,6 +139,15 @@ export default {
         })
         this.logingUser = false
       } catch (e) {
+        this.logingUser = false
+
+        // Handle email not found
+        if (e.response && e.response.data.message == 'Email not found') {
+          this.emailNotFoundMsg =
+            "Sorry, we can't find an account with this email address. Do you want  to"
+          return
+        }
+
         this.$snotify.error(getErrorMessage(e), 'Error', {
           timeout: 2000,
           showProgressBar: false,
@@ -141,7 +182,7 @@ export default {
     }
   }
 
-  .mainTable {
+  .mainGrid {
     margin: 0px;
     height: 100vh;
 
@@ -186,9 +227,9 @@ export default {
     .loginDiv {
       // border: 1px solid red;
       text-align: center;
-      padding-top: 7vh;
+      padding-top: 15vh;
       z-index: 10;
-      height: 85vh;
+      height: 100vh;
       overflow: hidden;
 
       @media #{$small-screen} {
@@ -196,7 +237,7 @@ export default {
       }
 
       .logoIcon {
-        width: 20vh;
+        height: 20vh;
 
         @media #{$small-screen} {
           // padding-top: 30vh;
@@ -211,7 +252,7 @@ export default {
       }
 
       .emailInput {
-        margin-top: 7vh !important;
+        margin-top: 10vh !important;
         margin-bottom: 20px;
 
         .v-input__prepend-inner {
@@ -230,11 +271,16 @@ export default {
         }
       }
 
-      .continueBtn {
+      .emailNotFoundMsg {
+        width: 70%;
+        margin: auto;
+        max-width: 420px;
+        color: #c8c7c7;
+      }
+
+      .loginBtn {
         margin-top: 7vh;
         border-radius: 4px;
-        background-image: linear-gradient(to left, #ffdf01, #ffb92d);
-        color: white;
         width: 40%;
 
         letter-spacing: 1px;
@@ -251,6 +297,8 @@ export default {
 
         button {
           border: 1px solid #ebe7ed;
+          margin-left: 10px;
+          margin-right: 10px;
           .v-icon {
             font-size: 17px;
           }
@@ -261,48 +309,45 @@ export default {
         }
       }
 
-      // .loginDiv {
-      //   margin-top: 5vh;
-      //   .loginTitle {
-      //     font-size: 14px;
-      //     font-weight: normal;
-      //     font-style: normal;
-      //     font-stretch: normal;
-      //     line-height: 1.57;
-      //     letter-spacing: normal;
-      //     text-align: center;
-      //     color: #c8c7c7;
-      //   }
-      //   .loginBtn {
-      //     width: 70%;
-      //     max-width: 400px;
-      //     border-radius: 4px;
-      //     letter-spacing: 1px;
-      //   }
-      // }
+      .createAccountDiv {
+        margin-top: 2vh;
+        // border: 1px solid red;
+        width: 100%;
+        text-align: center;
+
+        .signupBtn {
+          width: 40%;
+          margin: auto;
+        }
+      }
 
       @media #{$small-screen} {
-        .loginDiv {
-          position: fixed;
-          bottom: 0px;
-          width: 100%;
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
 
-          .logoIcon {
-            height: 26vh !important;
-          }
+        .logoIcon {
+          height: 26vh !important;
+        }
 
-          .logoText {
-            width: 200px;
-          }
+        .logoText {
+          width: 200px;
+        }
 
-          .loginBtn {
+        .loginBtn {
+          width: 70%;
+          margin-top: 10px;
+        }
+
+        .createAccountDiv {
+          margin-top: 2vh;
+
+          .signupBtn {
+            position: fixed;
+            bottom: 0px;
             width: 100%;
-            max-width: none;
-            margin: 0px;
-            border-radius: 0px;
-            margin-top: 10px;
-            height: 64px;
-            letter-spacing: 2px;
+            padding: 30px;
+            border-radius: 0px !important;
           }
         }
       }

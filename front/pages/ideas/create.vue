@@ -1,10 +1,8 @@
 <template>
   <Layout
     v-bind="{
-      backButton: true,
-      loggedInHeader: true,
-      showPrivateIdeaBtn: true,
-      mobileTitle: 'CREATE IDEA'
+      currentPage: 'Profile',
+      pageOptions: mobileHeaderUiOptions
     }"
   >
     <v-layout id="createIdeaPage">
@@ -18,7 +16,7 @@
             <img
               alt="image"
               class="globeSmallImage"
-              src="~/assets/images/globeSmallImage.png"
+              src="~/assets/images/publicIdea.png"
             />
           </div>
         </v-layout>
@@ -101,6 +99,10 @@ export default {
     validator: 'new'
   },
   data: () => ({
+    mobileHeaderUiOptions: {
+      pageTitle: "Bob's Profile",
+      leftButtonType: 'back'
+    },
     contents: '',
     title: '',
     creatingIdea: false,

@@ -1,55 +1,42 @@
 <template>
-  <Layout
-    v-bind="{
-      backButton: true,
-      loggedInHeader: true,
-      mobileTitle: '',
-      settingsIconVisible: false
-    }"
-  >
-    <v-layout id="pageNotFound">
-      <!--mobile view-->
-      <v-layout inline-block class="mobile" hidden-md-and-up>
-        <div>
-          <img class="imageOfBoy" src="~/assets/images/404.png" />
-          <div class="titleText">
-            404
-          </div>
-          <div class="note2">
-            Grrreat....<br />
-            Now you're stuck.<br />
-            Go back, maybe?
-          </div>
+  <v-layout id="pageNotFound">
+    <!--mobile view-->
+    <v-layout inline-block class="mobile" hidden-md-and-up>
+      <div>
+        <img class="imageOfBoy" src="~/assets/images/404.png" />
+        <div class="titleText">
+          404
         </div>
-      </v-layout>
-
-      <!--desktop view-->
-      <v-layout class="desktop" hidden-sm-and-down>
-        <div class="leftSide">
-          <img
-            class="backgroundLamp"
-            src="~/assets/images/light_gray_lamp.png"
-          />
-          <div class="titleText">
-            404
-          </div>
-          <div class="note2">
-            Grrreat....<br />
-            Now you're stuck.<br />
-            Go back, maybe?
-          </div>
+        <div class="note2">
+          Grrreat....<br />
+          Now you're stuck.<br />
+          Go back, maybe?
         </div>
-        <div class="rightSide" style="width:100%;">
-          <img class="imageOfBoy" src="~/assets/images/404.png" />
-        </div>
-      </v-layout>
+      </div>
     </v-layout>
-  </Layout>
+
+    <!--desktop view-->
+    <v-layout class="desktop" hidden-sm-and-down>
+      <div class="leftSide">
+        <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
+        <div class="titleText">
+          404
+        </div>
+        <div class="note2">
+          Grrreat....<br />
+          Now you're stuck.<br />
+          Go back, maybe?
+        </div>
+      </div>
+      <div class="rightSide" style="width:100%;">
+        <img class="imageOfBoy" src="~/assets/images/404.png" />
+      </div>
+    </v-layout>
+  </v-layout>
 </template>
 <script>
-import Layout from '@/components/layout/Layout'
 export default {
-  components: { Layout }
+  components: {}
 }
 </script>
 <style lang="scss">

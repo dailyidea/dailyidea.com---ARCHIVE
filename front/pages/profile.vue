@@ -1,38 +1,20 @@
 <template>
   <Layout
     v-bind="{
-      loggedInHeader: true,
-      mobileTitle: 'Bob\'s Profile',
-      backButton: true,
-      desktopSearchMode: false
+      currentPage: 'Profile',
+      pageOptions: mobileHeaderUiOptions
     }"
   >
     <v-layout id="profilePage">
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
-      <!-- Headers -->
-      <!-- <div class="pageHeader">
-        <v-layout hidden-sm-and-down>
-          <desktopHeader></desktopHeader>
-        </v-layout>
-        <v-layout class="mobileHeader" row hidden-md-and-up>
-          <v-flex xs2 sm2>
-            <v-icon class="icons">fas fa-arrow-left</v-icon>
-          </v-flex>
-          <v-flex xs8 sm8 class="text">BOB'S PROFILE</v-flex>
-          <v-flex xs2 sm2 class="rightSide">
-            <v-icon class="icons">fas fa-cog</v-icon>
-          </v-flex>
-        </v-layout>
-      </div> -->
-
       <v-layout row wrap>
         <!-- Left Side -->
         <v-flex xs12 sm12 md5 lg5 xl5 class="profileDetails">
           <div class="sectionHeader">
-            <span class="userIcon">
+            <v-btn small to="/profile" class="userIcon" fab disabled>
               <v-icon>fas fa-user</v-icon>
-            </span>
+            </v-btn>
             <div class="userName">Bob Smith</div>
             <v-btn
               v-if="!isFollowUser"
@@ -88,31 +70,20 @@
             me at bob@mail.com
           </v-layout>
 
-          <!-- {{userData.userInfo}} -->
-
-          <!-- <div class="tagsContainer">
+          <!-- Tags -->
+          <div class="tagsContainer">
             <v-chip label class="tag">web</v-chip>
             <v-chip label class="tag">illustration</v-chip>
             <v-chip label class="tag">graphics</v-chip>
             <v-chip label class="tag">ui</v-chip>
             <v-chip label class="tag">adobe</v-chip>
             <v-chip label class="tag">interface</v-chip>
-          </div> -->
+          </div>
         </v-flex>
 
         <!-- Right Side -->
-        <!-- {{ideaList}} -->
         <v-flex class="rightSideComments" xs12 sm12 md7 lg7 xl7>
-          <div class="loadMoreBtn">
-            <v-btn
-              v-if="nextToken"
-              :loading="loadingIdea"
-              @click="loadMoreIdea()"
-            >
-              Load More Idea
-            </v-btn>
-          </div>
-
+          <!-- Idea List -->
           <div
             v-for="(ideas, index) in ideaList"
             :key="index"
@@ -128,18 +99,17 @@
               </div>
               <div class="downs">
                 <img class="logoIcon" src="~/assets/images/comments.png" />
-                120
+                --
               </div>
               <div class="timing">{{ ideas.relativeCreatedTime }}</div>
             </div>
           </div>
 
-          <!-- <div v-if="i > comment" :key="i" class="noCommentItem">
-            <div class="description">
-              Bob hasn't added any ideas yet
-            </div>
+          <div v-if="nextToken" class="loadMoreBtn">
+            <v-btn :loading="loadingIdea" @click="loadMoreIdea()">
+              Load More Idea
+            </v-btn>
           </div>
-          <div v-else></div> -->
         </v-flex>
       </v-layout>
     </v-layout>
@@ -160,65 +130,68 @@ dayjs.extend(relativeTime)
 export default {
   components: { Layout },
   data: () => ({
+    mobileHeaderUiOptions: {
+      pageTitle: "Bob's Profile",
+      leftButtonType: 'back'
+    },
     isFollowUser: false,
     loadingIdea: false,
-    nextToken: null,
+
     profileUserId: ''
   }),
 
   async asyncData({ app, route, store }) {
     let profileUserId = store.getters['cognito/userSub']
-    // if (route.query.id) {
-    // 	profileUserId = 'd331e081-a639-4f14-9a57-2e1380cdcd5e'
-    // }
+
+    let pageSize = 10
 
     const { data } = await app.$amplifyApi.graphql(
       graphqlOperation(userInfo, { userId: profileUserId })
     )
     console.log('profile data', data)
 
-    const userIdeasList = await app.$amplifyApi.graphql(
+    let userIdeasList = (await app.$amplifyApi.graphql(
       graphqlOperation(userIdeas, {
-        userId: profileUserId
-        // nextToken: '',
-        // limit: 5
+        userId: profileUserId,
+        nextToken: null,
+        limit: pageSize
       })
-    )
-    // console.log(userIdeasList)
+    )).data.userIdeas
 
     return {
       nextToken: userIdeasList.nextToken,
       userData: data.userInfo,
-      ideaList: userIdeasList.data.userIdeas.items,
-      profileUserId: profileUserId
+      ideaList: userIdeasList.items,
+      profileUserId: profileUserId,
+      pageSize: pageSize
     }
   },
 
   mounted() {},
 
   created() {
-    this.ideaList.relativeCreatedTime = dayjs(
-      this.ideaList.createdDate
-    ).fromNow()
+    this.ideaList.forEach(idea => {
+      idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
+    })
   },
 
   methods: {
     async loadMoreIdea() {
       this.loadingIdea = true
-      if (!this.nextToken) {
-        return
-      }
-      const {
-        data: { ideas }
-      } = await this.$amplifyApi.graphql(
-        graphqlOperation(userIdeas, { nextToken: this.nextToken, limit: 10 })
-      )
+
+      let response = (await this.$amplifyApi.graphql(
+        graphqlOperation(userIdeas, {
+          userId: this.profileUserId,
+          nextToken: this.nextToken,
+          limit: this.pageSize
+        })
+      )).data.userIdeas
 
       // Set next token for next batch of ideas
-      this.nextToken = ideas.nextToken
+      this.nextToken = response.nextToken
 
       // Push ideas
-      this.ideas = this.ideas.concat(ideas.items)
+      this.ideaList = this.ideaList.concat(response.items)
       this.loadingIdea = false
     },
 
@@ -247,6 +220,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
 #profilePage {
   padding-top: 13px;
@@ -261,70 +235,33 @@ export default {
     padding-top: 0vh;
   }
 
-  .pageHeader {
-    // border: 1px solid red;
-    padding: 25px 15px;
-    width: 100%;
-
-    .mobileHeader {
-      .text {
-        text-align: center;
-        margin-top: 2px;
-        font-size: 14px;
-        font-weight: 600;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.57;
-        letter-spacing: 0.42px;
-        text-align: center;
-        color: #18141c;
-      }
-
-      i {
-        color: #c0b7c5 !important;
-        font-size: 15px;
-      }
-
-      .rightSide {
-        text-align: right;
-      }
-    }
-  }
-
   .profileDetails {
     padding: 20px;
     padding-right: 1%;
     padding-left: 3%;
 
     @media #{$small-screen} {
-      padding-right: 5%;
-      padding-left: 5%;
+      padding-right: 8%;
+      padding-left: 8%;
     }
 
     .sectionHeader {
-      // border: 1px solid red;
       .userName {
         margin-left: 20px;
         padding-top: 5px;
         display: inline-block;
 
         font-size: 20px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.5;
-        letter-spacing: normal;
-        text-align: left;
         color: #18141c;
       }
 
       .userIcon {
-        background: #ebe7ed;
-        padding: 13px 15px;
+        background: #ebe7ed !important;
+        padding: 10px 15px;
         border-radius: 50%;
 
         i {
-          font-size: 15px !important;
+          font-size: 14px !important;
           line-height: 16px !important;
           color: #35124e !important;
         }
@@ -357,22 +294,11 @@ export default {
 
           font-size: 16px;
           font-weight: bold;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: 1.55;
-          letter-spacing: normal;
-          text-align: left;
           color: #35124e;
         }
 
         .text {
           font-size: 16px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: 1.55;
-          letter-spacing: normal;
-          text-align: left;
           color: #c0b7c5;
         }
       }
@@ -388,27 +314,29 @@ export default {
 
     .profileDescription {
       margin-top: 20px;
+      min-height: 45vh;
 
       @media #{$small-screen} {
-        padding-top: 20px;
+        min-height: 0vh;
       }
 
       font-size: 14px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.56;
-      letter-spacing: normal;
-      text-align: left;
       color: #827c85;
     }
 
     .tagsContainer {
-      margin-top: 300px;
+      border-top: 1px solid #ece8ee;
+      padding-top: 20px;
+
+      @media #{$small-screen} {
+        border-top: none;
+      }
 
       .tag {
         border-radius: 6px;
-        background-color: #ffbd27;
+        background-color: #c0b7c5;
+        margin: 5px 5px;
+        color: white;
       }
     }
   }
@@ -430,9 +358,10 @@ export default {
       @media #{$small-screen} {
         border-left: 0px;
         border-right: 0px;
-        border-bottom: none;
+        border-bottom: 0px;
         margin-left: 15px;
         margin-right: 15px;
+        padding-bottom: 0px;
       }
 
       .commentText {
@@ -444,12 +373,6 @@ export default {
         }
 
         font-size: 16px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1.5;
-        letter-spacing: normal;
-        text-align: left;
         color: #18141c;
       }
 
@@ -458,10 +381,6 @@ export default {
         margin-top: 10px;
         margin-bottom: 5px;
         font-size: 14px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        letter-spacing: normal;
         text-align: left;
         color: #c0b7c5;
 
@@ -483,15 +402,16 @@ export default {
         .timing {
           float: right;
           font-size: 12px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: 1.83;
-          letter-spacing: normal;
           text-align: right;
           color: #c0b7c5;
         }
       }
+    }
+
+    .loadMoreBtn {
+      width: 100%;
+      text-align: center;
+      padding-top: 30px;
     }
   }
 

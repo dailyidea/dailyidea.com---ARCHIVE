@@ -16,7 +16,6 @@
       </div>
 
       <!-- Idea List -->
-
       <div v-if="ideas && ideas.length > 0" class="publisIdeasSection">
         <div class="sortBy"><v-icon>fas fa-clock</v-icon>Sort by Newest</div>
         <div class="ideaList" wrap>
@@ -57,7 +56,7 @@
                     <img
                       alt="image"
                       class="globeSmallImage"
-                      src="~/assets/images/globeSmallImage.png"
+                      src="~/assets/images/publicIdea.png"
                     />
                   </v-btn>
                 </div>
@@ -80,7 +79,7 @@
           Or do you?
         </div>
         <div>
-          <img class="arrowImg" src="~/assets/images/arrowImage.png" />
+          <!-- <img class="arrowImg" src="~/assets/images/arrowImage.png" /> -->
         </div>
       </div>
 
