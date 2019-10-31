@@ -329,6 +329,7 @@
     </template>
 
     <!-- Router contents -->
+    <v-container>
     <v-content class="nuxtContainer">
       <v-layout>
         <v-flex>
@@ -337,6 +338,7 @@
       </v-layout>
       <vue-snotify />
     </v-content>
+    </v-container>
 
     <!-- Footer -->
     <!-- <v-footer app>
