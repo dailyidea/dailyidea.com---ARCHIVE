@@ -335,6 +335,7 @@
               class="sendBtn"
               text
               icon
+              :disabled="!currentComment || currentComment.length == 0"
               flat
               :loading="showAddCommentLoader"
               @click="onAddComment()"
