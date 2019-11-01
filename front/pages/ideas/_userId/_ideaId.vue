@@ -895,7 +895,7 @@ export default {
       font-size: 30px;
       color: #18141c;
       word-wrap: auto;
-      word-break: break-all;
+      word-break: break-word;
       text-align: left;
 
       @media #{$small-screen} {
