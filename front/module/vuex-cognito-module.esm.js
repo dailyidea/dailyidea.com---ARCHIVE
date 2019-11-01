@@ -71,7 +71,7 @@ var getters = {
 var mutations = {
   setUser: function setUser(state, user) {
     state.user = Object.assign({}, user)
-    state.session = JSON.parse(JSON.stringify(state.user.signInUserSession))
+    state.session = state && state.user && state.user.signInUserSession ? JSON.parse(JSON.stringify(state.user.signInUserSession)) : {}
   }
 }
 
