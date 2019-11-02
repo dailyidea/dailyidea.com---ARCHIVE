@@ -82,7 +82,7 @@
 
       <div class="loadMoreBtn">
         <v-btn v-if="nextToken" :loading="loadingIdea" @click="loadMoreIdea()">
-          Load More Idea
+          Load More
         </v-btn>
       </div>
 

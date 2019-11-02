@@ -107,7 +107,7 @@
 
           <div v-if="nextToken" class="loadMoreBtn">
             <v-btn :loading="loadingIdea" @click="loadMoreIdea()">
-              Load More Idea
+              Load More
             </v-btn>
           </div>
         </v-flex>

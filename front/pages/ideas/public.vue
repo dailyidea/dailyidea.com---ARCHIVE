@@ -22,7 +22,7 @@
       <!-- LodaMore Button -->
       <div v-if="ideas && ideas.length > 0" class="loadMoreBtn">
         <v-btn v-if="nextToken" :loading="loadingIdea" @click="loadMoreIdea()">
-          Load More Idea
+          Load More
         </v-btn>
       </div>
 
