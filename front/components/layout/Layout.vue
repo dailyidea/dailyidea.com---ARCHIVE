@@ -49,8 +49,8 @@
 
           <v-list-item>
             <v-list-item-content>
-              <router-link to="/ideas/public">
-                <v-list-item-title>Public Ideas</v-list-item-title>
+              <router-link to="/ideas/all">
+                <v-list-item-title>All Ideas</v-list-item-title>
               </router-link>
             </v-list-item-content>
           </v-list-item>

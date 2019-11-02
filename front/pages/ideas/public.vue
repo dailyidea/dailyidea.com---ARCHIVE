@@ -8,7 +8,7 @@
     <v-layout id="ideaListPage">
       <!-- Title Section -->
       <div class="titleDiv">
-        <v-layout class="titleText" hidden-sm-and-down>PUBLIC IDEAS</v-layout>
+        <v-layout class="titleText" hidden-sm-and-down>ALL IDEAS</v-layout>
       </div>
 
       <!-- Sort Button -->
@@ -60,7 +60,7 @@ export default {
 
   data: () => ({
     mobileHeaderUiOptions: {
-      pageTitle: 'PUBLIC IDEAS',
+      pageTitle: 'ALL IDEAS',
       leftButtonType: 'hamburder'
     },
     snackbarVisible: false,
