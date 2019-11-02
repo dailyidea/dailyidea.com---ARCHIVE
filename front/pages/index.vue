@@ -13,14 +13,12 @@
           class="first-section__future-list-container"
         >
           <div class="first-section__future-list-container__feature-list">
-            <div class="firstHeader">Your Idea Could Be Huge!</div>
+            <div class="firstHeader">Every Day, Log An Idea</div>
             <div class="subHeader">
-              That is, if you don't forget it !
+              A project idea, a startup idea, a work idea
             </div>
             <div class="descriptionSection">
-              Submitting an idea every day is as simple as sending an email. We
-              will store your ideas for you, so you can share them with your
-              friends and conquer the world!
+              We'll send you a  daily email reminding you to submit an idea. Just respond to it and we'll save it for you.
             </div>
 
             <!-- Signup Button -->
@@ -32,7 +30,7 @@
                 class="first-section__signup-button"
                 :to="{ name: 'auth-signup' }"
                 color="#326bde"
-                >Sign up Now
+                >Sign Up
               </v-btn>
             </div>
           </div>
@@ -45,7 +43,7 @@
 
       <section class="idea-section">
         <div class="idea-section__header">
-          Your Idea’s
+          Browse Other People's Ideas
         </div>
 
         <v-row>
@@ -90,11 +88,10 @@
         <div class="idea-section__browse-more">
           <v-btn
             color="primary"
-            dark
-            large
+            outlined
             rounded
             class="idea-section__browse-more__btn"
-            >Browse More Ideas
+            >See More
           </v-btn>
         </div>
       </section>
@@ -107,13 +104,17 @@
           </v-col>
           <v-col cols="12" md="6" xl="5">
             <div class="last-section__feature-list">
-              <div class="firstHeader">How it work’s?</div>
-              <div class="subHeader">Oh, its easy!</div>
+              <div class="firstHeader">How Does It Work?</div>
+              <div class="subHeader">Hint: It's super easy!</div>
 
               <div class="descriptionSection">
-                We’ll send you an email every day with a reminder for you to
-                submit an idea. Just hit reply, and you’ll never forget an idea
-                ever again.
+                <p>We send you an email to remind you to submit an idea. You just respond to the email with an idea and we store it for you.</p>
+                <p>You'll also:</p>
+                <ul>
+                  <li>Practice generating ideas to become an idea machine</li>
+                  <li>Get reminded of your best ideas later</li>
+                  <li>Browse other ideas to inspire your own creativity</li>
+                </ul>
               </div>
 
               <!-- View More Button -->
@@ -133,12 +134,12 @@
 
       <footer class="footer-section">
         <div class="footer-section__link-container">
-          <a>About us</a>
+          <a>About</a>
           <a>FAQ</a>
-          <a>Terms % Conditions</a>
+          <a>Terms &amp; Conditions</a>
           <a>Privacy</a>
           <span class="footer-section__copy-right">
-            Copyright @DailyIdea 2019</span
+            Copyright Daily Idea © 2019</span
           >
         </div>
       </footer>
