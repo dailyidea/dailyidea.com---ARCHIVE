@@ -83,21 +83,6 @@
               <v-list-item-title @click="signout">Sign Out</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item class="mediaSection">
-            <v-list-item-content>
-              <v-list-item-title>
-                <v-btn class="mediaBtn" outlined fab color="primary">
-                  <v-icon>fab fa-facebook-f</v-icon>
-                </v-btn>
-                <v-btn class="mediaBtn" outlined fab color="primary">
-                  <v-icon>fab fa-twitter</v-icon>
-                </v-btn>
-                <v-btn class="mediaBtn" outlined fab color="primary">
-                  <v-icon>fab fa-google-plus-g</v-icon>
-                </v-btn>
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
         </v-list>
       </v-navigation-drawer>
 
@@ -678,8 +663,8 @@ export default {
     }
 
     .logoContainer {
-      margin-top: 0vh;
-      margin-bottom: 3vh;
+      margin-top: 5vh;
+      margin-bottom: 4vh;
       text-align: center;
 
       img {
@@ -740,11 +725,6 @@ export default {
           }
         }
       }
-    }
-
-    .mediaSection {
-      margin-top: 4vh;
-      border-bottom: none !important;
     }
   }
 

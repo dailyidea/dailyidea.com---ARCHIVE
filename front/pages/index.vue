@@ -95,6 +95,7 @@
             color="primary"
             outlined
             rounded
+            :to="{ name: 'ideas-all' }"
             class="idea-section__browse-more__btn"
             >See More
           </v-btn>
