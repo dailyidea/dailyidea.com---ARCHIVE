@@ -8,7 +8,7 @@
     <v-layout id="ideaListPage">
       <!-- Title Section -->
       <div class="titleDiv">
-        <v-layout class="titleText" hidden-sm-and-down>PUBLIC IDEAS</v-layout>
+        <v-layout class="titleText" hidden-sm-and-down>ALL IDEAS</v-layout>
       </div>
 
       <!-- Sort Button -->
@@ -22,7 +22,7 @@
       <!-- LodaMore Button -->
       <div v-if="ideas && ideas.length > 0" class="loadMoreBtn">
         <v-btn v-if="nextToken" :loading="loadingIdea" @click="loadMoreIdea()">
-          Load More Idea
+          Load More
         </v-btn>
       </div>
 
@@ -60,7 +60,7 @@ export default {
 
   data: () => ({
     mobileHeaderUiOptions: {
-      pageTitle: 'PUBLIC IDEAS',
+      pageTitle: 'ALL IDEAS',
       leftButtonType: 'hamburder'
     },
     snackbarVisible: false,

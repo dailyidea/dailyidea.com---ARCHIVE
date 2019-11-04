@@ -892,7 +892,7 @@ export default {
 
     .ideaTitle {
       padding-bottom: 10px;
-      font-size: 30px;
+      font-size: 24px;
       color: #18141c;
       word-wrap: auto;
       word-break: break-word;
