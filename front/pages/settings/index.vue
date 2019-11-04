@@ -9,30 +9,24 @@
       <div class="headerOfSetting">
         SETTINGS
       </div>
+
       <v-container class="settingsList">
-        <div class="settingsItem">
+        <router-link class="settingsItem" :to="{ name: 'profile' }">
           <div class="settingsInfo">
             <v-icon>fas fa-pen</v-icon>
             Me
           </div>
           <div class="metadata">John Doe</div>
-        </div>
-        <div class="settingsItem">
-          <div class="settingsInfo">
-            <v-icon>fas fa-bell</v-icon>Notifications
-          </div>
-          <div class="metadata">All</div>
-        </div>
-        <div class="settingsItem">
+        </router-link>
+
+        <router-link class="settingsItem" :to="{ name: 'settings-email' }">
           <div class="settingsInfo">
             <v-icon>fas fa-envelope</v-icon>
-            <router-link to="/settings/email">
-              Email
-            </router-link>
+            Email
           </div>
-
           <div class="metadata">All</div>
-        </div>
+        </router-link>
+
         <div class="settingsItem">
           <div class="settingsInfo">
             <v-icon>fas fa-user</v-icon>
@@ -40,23 +34,21 @@
           </div>
           <div class="metadata">john.doe@mail.com</div>
         </div>
-        <div class="settingsItem">
-          <div class="settingsInfo">
-            <v-icon>fas fa-lock</v-icon>
-            Privacy
-          </div>
-          <div class="metadata">Only me</div>
-        </div>
-        <div class="settingsItem">
-          <div class="settingsInfo">
-            <v-icon>fas fa-question-circle</v-icon>Help
-          </div>
-          <div class="metadata">Questions?</div>
-        </div>
-        <div class="settingsItem">
-          <div class="settingsInfo" @click="signout()">
-            <v-icon>fas fa-ban</v-icon>Sign Out
-          </div>
+        <!-- <div class="settingsItem">
+					<div class="settingsInfo">
+						<v-icon>fas fa-lock</v-icon>
+						Privacy
+					</div>
+					<div class="metadata">Only me</div>
+				</div>
+				<div class="settingsItem">
+					<div class="settingsInfo">
+						<v-icon>fas fa-question-circle</v-icon>Help
+					</div>
+					<div class="metadata">Questions?</div>
+				</div> -->
+        <div class="settingsItem" @click="signout()">
+          <div class="settingsInfo"><v-icon>fas fa-ban</v-icon>Sign Out</div>
           <div class="metadata">Sign Out Now</div>
         </div>
       </v-container>
@@ -65,20 +57,41 @@
 </template>
 
 <script>
+import { graphqlOperation } from '@aws-amplify/api'
+import userInfo from '~/graphql/query/userInfo'
 import Layout from '@/components/layout/Layout'
+
 export default {
   components: { Layout },
   data: function() {
     return {
+      profileInfo: null,
       mobileHeaderUiOptions: {
         pageTitle: 'SETTINGS',
         leftButtonType: 'back'
       }
     }
   },
+  async asyncData({ app, route, store }) {
+    let profileUserId = store.getters['cognito/userSub']
+
+    const { data } = await app.$amplifyApi.graphql(
+      graphqlOperation(userInfo, { userId: profileUserId })
+    )
+    console.log('profile data', data)
+
+    return {
+      profileInfo: data.userInfo
+    }
+  },
   methods: {
     signout() {
       this.$store.dispatch('cognito/signOut')
+
+      // Redirect user to home page after logout
+      this.$router.push({
+        name: 'index'
+      })
     }
   }
 }
@@ -150,6 +163,8 @@ export default {
       padding: 15px;
       display: flex;
       font-size: 13px !important;
+      text-decoration: none;
+      cursor: pointer;
 
       a {
         text-decoration: none;

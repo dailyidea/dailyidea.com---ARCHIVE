@@ -79,7 +79,7 @@ export default {
     const {
       data: { ideas }
     } = await app.$amplifyApi.graphql(
-      graphqlOperation(getIdeas, { nextToken: null, limit: 10 })
+      graphqlOperation(getIdeas, { nextToken: null, limit: 25 })
     )
 
     // Add logged in user's id in all ideas
@@ -112,7 +112,7 @@ export default {
       const {
         data: { ideas }
       } = await this.$amplifyApi.graphql(
-        graphqlOperation(getIdeas, { nextToken: this.nextToken, limit: 10 })
+        graphqlOperation(getIdeas, { nextToken: this.nextToken, limit: 25 })
       )
 
       // Set next token for next batch of ideas

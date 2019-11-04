@@ -18,7 +18,8 @@
               A project idea, a startup idea, a work idea
             </div>
             <div class="descriptionSection">
-              We'll send you a  daily email reminding you to submit an idea. Just respond to it and we'll save it for you.
+              We'll send you a daily email reminding you to submit an idea. Just
+              respond to it and we'll save it for you.
             </div>
 
             <!-- Signup Button -->
@@ -108,7 +109,10 @@
               <div class="subHeader">Hint: It's super easy!</div>
 
               <div class="descriptionSection">
-                <p>We send you an email to remind you to submit an idea. You just respond to the email with an idea and we store it for you.</p>
+                <p>
+                  We send you an email to remind you to submit an idea. You just
+                  respond to the email with an idea and we store it for you.
+                </p>
                 <p>You'll also:</p>
                 <ul>
                   <li>Practice generating ideas to become an idea machine</li>

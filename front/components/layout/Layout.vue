@@ -127,7 +127,7 @@
             >
 
             <!-- Logo on top left corner -->
-            <nuxt-link class="logoLink" :to="{ name: 'index' }">
+            <nuxt-link class="logoLink" :to="{ name: 'ideas-me' }">
               <img class="logoIcon" src="~/assets/images/logo_icon.png" />
               <img
                 class="logoIcon logoText"
