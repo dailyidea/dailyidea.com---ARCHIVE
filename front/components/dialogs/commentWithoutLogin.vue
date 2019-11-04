@@ -13,17 +13,18 @@
     </div>
 
     <!-- Popup body -->
-    <form>
-      <div class="body">
-        <!-- Form -->
-        <div v-if="successMessage == ''">
-          <div class="headerTitle">
-            Oops,
-          </div>
-          <div class="subTitle">
-            Verify your email or signin to post your comment.
-          </div>
 
+    <div class="body">
+      <!-- Form -->
+      <div v-if="successMessage == ''">
+        <div class="headerTitle">
+          Oops,
+        </div>
+        <div class="subTitle">
+          Verify your email or signin to post your comment.
+        </div>
+
+        <form id="comment-on-idea-without-login-form" @submit.prevent="signup">
           <!-- Text Fields -->
           <div>
             <v-text-field
@@ -41,26 +42,32 @@
 
           <!-- Submit Buttons -->
           <div class="specialButton submitBtn">
-            <v-btn :loading="loginInProgress" @click="signup">SEND</v-btn>
+            <v-btn
+              :loading="loginInProgress"
+              type="submit"
+              class="specialButton shareBtn"
+              form="comment-on-idea-without-login-form"
+              >SEND</v-btn
+            >
           </div>
+        </form>
+      </div>
+
+      <!-- Success Message -->
+      <div v-else>
+        <div class="headerTitle">
+          Check your inbox
+        </div>
+        <div class="subTitle">
+          {{ successMessage }}
         </div>
 
-        <!-- Success Message -->
-        <div v-else>
-          <div class="headerTitle">
-            Check your inbox
-          </div>
-          <div class="subTitle">
-            {{ successMessage }}
-          </div>
-
-          <!-- Submit Buttons -->
-          <div class="specialButton submitBtn">
-            <v-btn @click="closeDialog()">OKAY</v-btn>
-          </div>
+        <!-- Submit Buttons -->
+        <div class="specialButton submitBtn">
+          <v-btn @click="closeDialog()">OKAY</v-btn>
         </div>
       </div>
-    </form>
+    </div>
   </v-dialog>
 </template>
 
@@ -138,8 +145,11 @@ export default {
     },
     closeDialog() {
       this.$emit('close')
-      this.successMessage = ''
-      this.form.email = ''
+      setTimeout(() => {
+        this.errors.clear()
+        this.successMessage = ''
+        this.form.email = ''
+      })
     }
   }
 }
