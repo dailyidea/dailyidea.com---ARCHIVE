@@ -1,0 +1,1 @@
+{"state": $util.toJson($context.result.emailNotifications) }
