@@ -1,7 +1,1 @@
-#if($context.result.emailNotifications == "enabled")
-    #set($state = true)
-#else
-    #set($state = false)
-#end
-
-{"state": $state }
+{"state": $util.toJson($context.result.emailNotifications) }
