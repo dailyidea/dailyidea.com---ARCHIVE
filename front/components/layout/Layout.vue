@@ -561,10 +561,10 @@ export default {
       .userName {
         margin-left: 8px;
 
-        font-size: 20px;
+        font-size: 16px;
         line-height: 1.5;
         text-align: left;
-        color: #18141c;
+        color: #c0b7c5;
       }
 
       .profileBtn {
