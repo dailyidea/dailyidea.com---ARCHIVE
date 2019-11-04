@@ -11,21 +11,21 @@
       </div>
 
       <v-container class="settingsList">
-        <router-link class="settingsItem" :to="{ name: 'profile' }">
+        <nuxt-link class="settingsItem" :to="{ name: 'profile' }">
           <div class="settingsInfo">
             <v-icon>fas fa-pen</v-icon>
             Me
           </div>
           <div class="metadata">John Doe</div>
-        </router-link>
+        </nuxt-link>
 
-        <router-link class="settingsItem" :to="{ name: 'settings-email' }">
+        <nuxt-link class="settingsItem" :to="{ name: 'settings-email' }">
           <div class="settingsInfo">
             <v-icon>fas fa-envelope</v-icon>
             Email
           </div>
           <div class="metadata">All</div>
-        </router-link>
+        </nuxt-link>
 
         <div class="settingsItem">
           <div class="settingsInfo">
