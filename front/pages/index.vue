@@ -52,7 +52,11 @@
           <v-col cols="12" xl="10">
             <v-row class="reviews">
               <v-col v-for="idea in ideas" :key="idea.ideaId" cols="12" md="4">
-                <div color="white" class="reviews__review">
+                <div
+                  color="white"
+                  class="reviews__review"
+                  @click="onIdeaClick(idea)"
+                >
                   <div v-html="idea.content"></div>
                   <!-- User Icon -->
                   <div class="reviews__review__info">
@@ -193,7 +197,18 @@ export default {
       idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
     })
   },
-  methods: {}
+  methods: {
+    onIdeaClick(idea) {
+      this.$router.push({
+        name: 'ideas-userId-ideaId',
+        params: {
+          ideaId: idea.ideaId,
+          userId: idea.userId
+        },
+        force: true
+      })
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -349,6 +364,7 @@ export default {
     border: solid 1px #d8e3f9;
     padding-bottom: 60px;
     height: 100%;
+    cursor: pointer;
 
     &__info {
       border-top: 0.8px solid #e8e8e8;

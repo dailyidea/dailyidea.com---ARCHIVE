@@ -207,6 +207,7 @@
           <!-- Idea Detail Page UI -->
           <template v-if="currentPage == 'IdeaDetail'" class="ideaDetailHeader">
             <v-btn
+              v-if="pageOptions.isIdeaEditable"
               class="ideaPrivacyButton"
               icon
               @click="$emit('toggleIdeaPrivacy')"

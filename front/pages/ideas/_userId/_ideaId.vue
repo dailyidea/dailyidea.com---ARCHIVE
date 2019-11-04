@@ -35,7 +35,7 @@
 
           <!-- Public Private Idea buttons -->
           <v-btn
-            v-if="idea.isPrivate"
+            v-if="isIdeaEditable && idea.isPrivate"
             text
             icon
             color="gray"
@@ -45,7 +45,7 @@
             <img class="privateIdea" src="~/assets/images/privateIdea.png" />
           </v-btn>
           <v-btn
-            v-else
+            v-else-if="isIdeaEditable"
             text
             icon
             color="gray"
