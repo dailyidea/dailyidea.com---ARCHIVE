@@ -75,7 +75,9 @@
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>Leaderboards</v-list-item-title>
+              <router-link to="/settings">
+                <v-list-item-title>Settings</v-list-item-title>
+              </router-link>
             </v-list-item-content>
           </v-list-item>
           <v-list-item>
