@@ -81,8 +81,15 @@
 
         <!-- Login div at bottom -->
         <div class="accountExists">
-          <div class="existsTitle">Alreay have an account?</div>
-          <v-btn large dark class="loginBtn" to="/auth/login">LOGIN</v-btn>
+          <div class="existsTitle">
+            Already have an account?
+            <nuxt-link class="hidden-sm-and-down" to="/auth/login"
+              >Login</nuxt-link
+            >
+          </div>
+          <v-btn large dark class="loginBtn hidden-md-and-up" to="/auth/login"
+            >LOGIN</v-btn
+          >
         </div>
       </v-flex>
 
@@ -305,13 +312,10 @@ export default {
           line-height: 1.57;
           color: #c8c7c7;
           margin-bottom: 5px;
-        }
 
-        .loginBtn {
-          width: 70%;
-          max-width: 420px;
-          border-radius: 4px;
-          letter-spacing: 1px;
+          a {
+            text-decoration: none;
+          }
         }
       }
 

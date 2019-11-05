@@ -70,11 +70,22 @@
         </div>
 
         <!-- Create account div at bottom -->
-        <v-layout class="createAccountDiv">
+        <div class="createAccountDiv">
+          <div class="existsTitle">
+            Don't have an account yet?
+            <nuxt-link class="hidden-sm-and-down" to="/auth/signup"
+              >Signup</nuxt-link
+            >
+          </div>
+          <v-btn large dark class="signupBtn hidden-md-and-up" to="/auth/signup"
+            >CREATE ACCOUNT</v-btn
+          >
+        </div>
+        <!-- <v-layout class="createAccountDiv">
           <v-btn large dark class="signupBtn" to="/auth/signup"
             >CREATE ACCOUNT</v-btn
           >
-        </v-layout>
+        </v-layout> -->
       </v-flex>
 
       <!-- Right side desktop only image -->
@@ -311,13 +322,16 @@ export default {
 
       .createAccountDiv {
         margin-top: 2vh;
-        // border: 1px solid red;
-        width: 100%;
-        text-align: center;
 
-        .signupBtn {
-          width: 40%;
-          margin: auto;
+        .existsTitle {
+          font-size: 14px;
+          line-height: 1.57;
+          color: #c8c7c7;
+          margin-bottom: 5px;
+
+          a {
+            text-decoration: none;
+          }
         }
       }
 
@@ -340,14 +354,14 @@ export default {
         }
 
         .createAccountDiv {
-          margin-top: 2vh;
+          position: fixed;
+          bottom: 0;
+          width: 100%;
 
           .signupBtn {
-            position: fixed;
-            bottom: 0px;
             width: 100%;
+            border-radius: 0px;
             padding: 30px;
-            border-radius: 0px !important;
           }
         }
       }
