@@ -1,6 +1,6 @@
 export default `
-mutation toggleEmailNotifications( $enabled: Boolean! ) {
-  toggleEmailNotifications( enabled: $enabled ) {    
+mutation toggleEmailNotifications( $state: EmailNotificationsState! ) {
+  toggleEmailNotifications( state: $state ) {    
     state
   }
 }`

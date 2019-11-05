@@ -17,15 +17,15 @@
       <div class="body">
         <img class="privateIdeaImg" src="~/assets/images/privateIdea.png" />
         <div class="boldBlackText">
-          So you want to keep your ideas to yourself?
+          Want to make your ideas private?
         </div>
         <div class="headlineText2">
-          That's ok. Some things do need to stay private. Turn your idea private
-          with just a click for only.
+          That's ok. Some things aren't ready to be shared. Add private ideas
+          with just one click.
         </div>
 
         <div class="boldBlackText">
-          $2.99/month
+          $4.95/month
         </div>
 
         <!-- Submit Buttons -->

@@ -68,6 +68,11 @@ custom:
         request: "getPublicIdeas-request-mapping-template.txt"
         response: "getPublicIdeas-response-mapping-template.txt"
       - dataSource: Ideas
+        type: Mutation
+        field: toggleIdeaVisibility
+        request: "ideas/toggle-visibility/toggleIdeaVisibility-request-mapping-template.txt"
+        response: "ideas/toggle-visibility/toggleIdeaVisibility-response-mapping-template.txt"
+      - dataSource: Ideas
         type: Query
         field: userIdeas
         request: "userIdeas-request-mapping-template.txt"
@@ -84,19 +89,9 @@ custom:
         response: "userInfo-response-mapping-template.txt"
       - dataSource: Users
         type: Mutation
-        field: followUser
-        request: "followUser-request-mapping-template.txt"
-        response: "followUser-response-mapping-template.txt"
-      - dataSource: Users
-        type: Mutation
         field: toggleEmailNotifications
         request: "toggleEmailNotifications-request-mapping-template.txt"
         response: "toggleEmailNotifications-response-mapping-template.txt"
-      - dataSource: Users
-        type: Mutation
-        field: unfollowUser
-        request: "unfollowUser-request-mapping-template.txt"
-        response: "unfollowUser-response-mapping-template.txt"
       - dataSource: Ideas
         type: Mutation
         field: createIdea
