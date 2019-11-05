@@ -105,8 +105,16 @@
       <section class="last-section">
         <v-row>
           <v-col cols="12" xl="1" class="hidden-lg-and-down"></v-col>
-          <v-col cols="12" md="6" xl="5">
-            <div id="manAndTableImage"></div>
+          <v-col class="last-section__left-side" cols="12" md="6" xl="5">
+            <img
+              class="person-with-phone"
+              src="~/assets/images/person_with_phone.png"
+            />
+            <img class="mail-work" src="~/assets/images/home/mail_work.png" />
+            <img
+              class="lady-with-phone"
+              src="~/assets/images/home/lady_with_phone.png"
+            />
           </v-col>
           <v-col cols="12" md="6" xl="5">
             <div class="last-section__feature-list">
@@ -137,7 +145,7 @@
               </v-btn>
             </div>
           </v-col>
-          <v-col cols="0" xl="1" class="hidden-lg-and-down">></v-col>
+          <v-col cols="0" xl="1" class="hidden-lg-and-down"></v-col>
         </v-row>
       </section>
 
@@ -216,24 +224,6 @@ export default {
 #newhomePage {
   background: white;
   font-family: Avenir;
-}
-
-#manAndTableImage {
-  background-color: #fff;
-  width: 100%;
-  height: 100%;
-  background-image: url('~assets/images/home_footer.png');
-  background-size: contain;
-  background-position: center;
-
-  @media (max-width: $screen-sm-max) {
-    min-height: 40vh;
-    margin-bottom: 5vh;
-  }
-
-  @media (min-width: $screen-md-min) {
-    min-height: 50vh;
-  }
 }
 
 #lampWomanImage {
@@ -427,6 +417,51 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   padding: 0px !important;
+
+  &__left-side {
+    display: flex; // make us of Flexbox
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    @media #{$small-screen} {
+      margin-top: 5vh;
+      height: 45vh;
+      // mrgin-bottom: 5vh;
+    }
+
+    .person-with-phone {
+      position: absolute;
+      overflow: hidden;
+      height: 60vh;
+      top: 1vh;
+      left: 5%;
+
+      @media #{$small-screen} {
+        height: 40vh;
+        left: 10%;
+      }
+    }
+
+    .mail-work {
+      width: 70%;
+      margin-left: 10%;
+    }
+
+    .lady-with-phone {
+      position: absolute;
+      overflow: hidden;
+      height: 55vh;
+      top: 5vh;
+      right: 10%;
+
+      @media #{$small-screen} {
+        height: 40vh;
+        top: 0vh;
+        right: 3%;
+      }
+    }
+  }
 
   &__feature-list {
     @media (min-width: $screen-md-min) {
