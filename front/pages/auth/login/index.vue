@@ -73,19 +73,11 @@
         <div class="createAccountDiv">
           <div class="existsTitle">
             Don't have an account yet?
-            <nuxt-link class="hidden-sm-and-down" to="/auth/signup"
+            <nuxt-link class="signupBtn" text to="/auth/signup"
               >Create Account</nuxt-link
             >
           </div>
-          <v-btn large dark class="signupBtn hidden-md-and-up" to="/auth/signup"
-            >Create Account</v-btn
-          >
         </div>
-        <!-- <v-layout class="createAccountDiv">
-          <v-btn large dark class="signupBtn" to="/auth/signup"
-            >CREATE ACCOUNT</v-btn
-          >
-        </v-layout> -->
       </v-flex>
 
       <!-- Right side desktop only image -->
@@ -327,9 +319,9 @@ export default {
           font-size: 14px;
           line-height: 1.57;
           color: #c8c7c7;
-          margin-bottom: 5px;
+          // margin-bottom: 5px;
 
-          a {
+          .signupBtn {
             text-decoration: none;
           }
         }
@@ -359,9 +351,14 @@ export default {
           width: 100%;
 
           .signupBtn {
+            display: block;
             width: 100%;
             border-radius: 0px;
-            padding: 30px;
+            padding: 20px !important;
+            background-color: $primary-color !important;
+            color: white !important;
+            margin-top: 3px;
+            text-transform: uppercase !important;
           }
         }
       }
