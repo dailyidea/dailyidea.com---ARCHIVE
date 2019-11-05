@@ -74,11 +74,11 @@
           <div class="existsTitle">
             Don't have an account yet?
             <nuxt-link class="hidden-sm-and-down" to="/auth/signup"
-              >Signup</nuxt-link
+              >Create Account</nuxt-link
             >
           </div>
           <v-btn large dark class="signupBtn hidden-md-and-up" to="/auth/signup"
-            >Signup</v-btn
+            >Create Account</v-btn
           >
         </div>
         <!-- <v-layout class="createAccountDiv">
