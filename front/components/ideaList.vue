@@ -19,7 +19,7 @@
 
           <!-- Desktop only - idea description -->
           <div class="ideaDescrpition" hidden-sm-and-down>
-            <v-layout v-html="idea.content"> </v-layout>
+            <div v-html="idea.content"></div>
           </div>
 
           <div class="engagement">
