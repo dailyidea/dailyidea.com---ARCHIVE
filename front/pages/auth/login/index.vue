@@ -78,7 +78,7 @@
             >
           </div>
           <v-btn large dark class="signupBtn hidden-md-and-up" to="/auth/signup"
-            >Create Account</v-btn
+            >Signup</v-btn
           >
         </div>
         <!-- <v-layout class="createAccountDiv">
