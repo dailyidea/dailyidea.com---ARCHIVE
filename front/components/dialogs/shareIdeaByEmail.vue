@@ -7,7 +7,7 @@
     max-width="400px"
   >
     <div class="closeBtn">
-      <v-icon text class="cancelIcon" size="18" @click="$emit('close')"
+      <v-icon text class="cancelIcon" size="18" @click="closeDialog"
         >fas fa-times</v-icon
       >
     </div>
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <form>
+    <form id="share-idea-without-login-form" @submit.prevent="sendEmail">
       <v-text-field
         v-model="form.name"
         v-validate="'required|max:100'"
@@ -50,8 +50,14 @@
 
       <!-- Submit Buttons -->
       <div class="btnContainer">
-        <v-btn class="cancleBtn" text @click="$emit('close')">Cancel</v-btn>
-        <v-btn class="specialButton shareBtn" @click="sendEmail">Share</v-btn>
+        <v-btn class="cancleBtn" text @click="closeDialog">Cancel</v-btn>
+        <v-btn
+          type="submit"
+          class="specialButton shareBtn"
+          form="share-idea-without-login-form"
+          @click="sendEmail"
+          >Share</v-btn
+        >
       </div>
     </form>
   </v-dialog>
@@ -70,6 +76,7 @@ export default {
     }
   },
   data: () => ({
+    valid: true,
     form: {
       name: '',
       friendName: '',
@@ -83,7 +90,21 @@ export default {
         return
       }
 
-      this.$emit('success')
+      // Call shre idea over email api.
+
+      this.closeDialog()
+    },
+    closeDialog() {
+      this.$emit('close')
+
+      setTimeout(() => {
+        this.errors.clear()
+        this.form = {
+          name: '',
+          friendName: '',
+          friendEmail: ''
+        }
+      }, 1000)
     }
   }
 }

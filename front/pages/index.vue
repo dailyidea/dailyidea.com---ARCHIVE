@@ -18,7 +18,8 @@
               A project idea, a startup idea, a work idea
             </div>
             <div class="descriptionSection">
-              We'll send you a  daily email reminding you to submit an idea. Just respond to it and we'll save it for you.
+              We'll send you a daily email reminding you to submit an idea. Just
+              respond to it and we'll save it for you.
             </div>
 
             <!-- Signup Button -->
@@ -51,7 +52,11 @@
           <v-col cols="12" xl="10">
             <v-row class="reviews">
               <v-col v-for="idea in ideas" :key="idea.ideaId" cols="12" md="4">
-                <div color="white" class="reviews__review">
+                <div
+                  color="white"
+                  class="reviews__review"
+                  @click="onIdeaClick(idea)"
+                >
                   <div v-html="idea.content"></div>
                   <!-- User Icon -->
                   <div class="reviews__review__info">
@@ -90,6 +95,7 @@
             color="primary"
             outlined
             rounded
+            :to="{ name: 'ideas-all' }"
             class="idea-section__browse-more__btn"
             >See More
           </v-btn>
@@ -108,7 +114,10 @@
               <div class="subHeader">Hint: It's super easy!</div>
 
               <div class="descriptionSection">
-                <p>We send you an email to remind you to submit an idea. You just respond to the email with an idea and we store it for you.</p>
+                <p>
+                  We send you an email to remind you to submit an idea. You just
+                  respond to the email with an idea and we store it for you.
+                </p>
                 <p>You'll also:</p>
                 <ul>
                   <li>Practice generating ideas to become an idea machine</li>
@@ -189,7 +198,18 @@ export default {
       idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
     })
   },
-  methods: {}
+  methods: {
+    onIdeaClick(idea) {
+      this.$router.push({
+        name: 'ideas-userId-ideaId',
+        params: {
+          ideaId: idea.ideaId,
+          userId: idea.userId
+        },
+        force: true
+      })
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -345,6 +365,7 @@ export default {
     border: solid 1px #d8e3f9;
     padding-bottom: 60px;
     height: 100%;
+    cursor: pointer;
 
     &__info {
       border-top: 0.8px solid #e8e8e8;

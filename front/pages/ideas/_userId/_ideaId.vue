@@ -35,7 +35,7 @@
 
           <!-- Public Private Idea buttons -->
           <v-btn
-            v-if="idea.isPrivate"
+            v-if="isIdeaEditable && idea.isPrivate"
             text
             icon
             color="gray"
@@ -45,7 +45,7 @@
             <img class="privateIdea" src="~/assets/images/privateIdea.png" />
           </v-btn>
           <v-btn
-            v-else
+            v-else-if="isIdeaEditable"
             text
             icon
             color="gray"
@@ -335,6 +335,7 @@
               class="sendBtn"
               text
               icon
+              :disabled="!currentComment || currentComment.length == 0"
               flat
               :loading="showAddCommentLoader"
               @click="onAddComment()"
@@ -894,7 +895,7 @@ export default {
       font-size: 24px;
       color: #18141c;
       word-wrap: auto;
-      word-break: break-all;
+      word-break: break-word;
       text-align: left;
 
       @media #{$small-screen} {

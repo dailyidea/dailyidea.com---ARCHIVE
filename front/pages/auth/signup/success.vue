@@ -155,14 +155,16 @@ export default {
       text-align: center;
       padding-top: 8vh;
       z-index: 10;
-      padding-left: 10%;
-      padding-right: 10%;
+      padding-left: 100px;
+      padding-right: 100px;
       // border: 1px solid red;
 
       overflow: hidden;
 
       @media #{$small-screen} {
         padding-top: 10vh;
+        padding-left: 10%;
+        padding-right: 10%;
       }
 
       .logoContainer {

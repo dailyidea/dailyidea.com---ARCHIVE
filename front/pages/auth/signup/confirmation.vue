@@ -41,7 +41,7 @@
           <v-btn large class="actionBtn" to="/ideas/create"
             >Save a new idea</v-btn
           >
-          <v-btn large dark class="actionBtn" to="/ideas/public"
+          <v-btn large dark class="actionBtn" to="/ideas/all"
             >browse public ideas</v-btn
           >
         </div>

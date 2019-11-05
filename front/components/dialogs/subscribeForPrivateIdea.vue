@@ -20,7 +20,8 @@
           Want to make your ideas private?
         </div>
         <div class="headlineText2">
-          That's ok. Some things aren't ready to be shared. Add private ideas with just one click.
+          That's ok. Some things aren't ready to be shared. Add private ideas
+          with just one click.
         </div>
 
         <div class="boldBlackText">

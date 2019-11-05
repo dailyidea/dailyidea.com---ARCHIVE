@@ -69,7 +69,7 @@ export default {
     loadingIdea: false,
 
     nextToken: null,
-    pagesize: 10
+    pagesize: 25
   }),
 
   async asyncData({ app }) {

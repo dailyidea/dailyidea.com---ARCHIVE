@@ -90,7 +90,7 @@
 
             <!-- More Ideas Button -->
             <div class="moreIdeasButtonContainer">
-              <v-btn large class="moreIdeas" to="/ideas/public" color="primary">
+              <v-btn large class="moreIdeas" to="/ideas/all" color="primary">
                 Browse More Ideas
               </v-btn>
             </div>
