@@ -162,8 +162,6 @@
             <span class="userName">{{
               $store.getters['cognito/username']
             }}</span>
-
-
           </template>
         </v-toolbar>
 
