@@ -45,14 +45,17 @@ def get_idea_tags(idea_id: str):
 def endpoint(event, context):
     # logger.info(event)
     idea_id = event.get('ideaId')
+    idea_owner_id = event.get('ideaOwnerId')
     email = event.get('email')
     user_id = event.get('identity').get('username')
 
     sender_user = get_user_by_id(user_id)
-    idea_to_send = get_idea_by_id(user_id, idea_id)
+    idea_to_send = get_idea_by_id(idea_owner_id, idea_id)
     idea_tags = get_idea_tags(idea_id)
     if idea_to_send is None:
         return {'ok': False, 'error': 'Idea Not Found'}
+    if idea_owner_id != user_id and idea_to_send['visibility']['S'] != 'PUBLIC':
+        return {'ok': False, 'error': 'Idea is private'}
 
     SUBJECT = f"[Daily Idea] {sender_user['email']['S']} sent you Idea!"  # change to name
     BUCKET_URL_PREFIX = os.environ.get('BUCKET_URL_PREFIX')
@@ -63,7 +66,7 @@ def endpoint(event, context):
         "BUCKET_URL_PREFIX": BUCKET_URL_PREFIX,
         "BASE_SITE_URL": f"https://{os.environ['DOMAIN_NAME']}/",
         "idea": loads(idea_to_send),
-        "link_to_idea": f"https://{os.environ['DOMAIN_NAME']}/ideas/{user_id}/{idea_id}",
+        "link_to_idea": f"https://{os.environ['DOMAIN_NAME']}/ideas/{idea_owner_id}/{idea_id}",
         "datetime": datetime,
     }
 

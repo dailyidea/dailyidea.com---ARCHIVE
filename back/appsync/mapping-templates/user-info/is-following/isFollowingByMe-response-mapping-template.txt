@@ -1,0 +1,10 @@
+#if($ctx.stash.isAnonymousRequest)
+    #return($ctx.prev.result)
+#end
+#if($ctx.result.items.isEmpty())
+    $util.qr($ctx.stash.userInfo.put("isFollowingByMe", false))
+#else
+    $util.qr($ctx.stash.userInfo.put("isFollowingByMe", true))
+#end
+
+$util.toJson($ctx.prev.result)

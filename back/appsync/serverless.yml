@@ -104,8 +104,13 @@ custom:
       - dataSource: Users
         type: Query
         field: userInfo
-        request: "userInfo-request-mapping-template.txt"
-        response: "userInfo-response-mapping-template.txt"
+        request: "common/before-mapping-template.txt"
+        response: "common/after-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - userInfo
+          - isFollowingByMe
+          - followsMe
       - dataSource: Users
         type: Mutation
         field: toggleEmailNotifications
@@ -351,6 +356,20 @@ custom:
         name: decreaseFolloweesCount
         request: 'user-following/unfollow-user/decreaseFolloweesCount-request-mapping-template.txt'
         response: 'user-following/unfollow-user/decreaseFolloweesCount-response-mapping-template.txt'
+
+      - dataSource: Users
+        name: userInfo
+        request: 'user-info/user-info/userInfo-request-mapping-template.txt'
+        response: 'user-info/user-info/userInfo-response-mapping-template.txt'
+      - dataSource: Following
+        name: isFollowingByMe
+        request: 'user-info/is-following/isFollowingByMe-request-mapping-template.txt'
+        response: 'user-info/is-following/isFollowingByMe-response-mapping-template.txt'
+      - dataSource: Following
+        name: followsMe
+        request: 'user-info/follows/followsMe-request-mapping-template.txt'
+        response: 'user-info/follows/followsMe-response-mapping-template.txt'
+
 
       - dataSource: Ideas
         name: createIdeaItem

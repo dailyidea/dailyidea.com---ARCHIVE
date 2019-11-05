@@ -4,6 +4,7 @@
   "payload": {
     "identity": $util.toJson($context.identity),
     "ideaId": "${context.arguments.ideaId}",
+    "ideaOwnerId": "${context.arguments.ideaOwnerId}",
     "email": "${context.arguments.email}",
   }
 }
