@@ -32,8 +32,8 @@
 
         <!-- Hero Description -->
         <div class="heroDescription">
-          We've sent you a login link. Click that in your inbox to log in to the
-          site.
+          We've sent a login email to you at <strong>{{ email }}</strong
+          >. Please click the button in that email to log in to daily idea.
         </div>
 
         <div class="requestLink">
