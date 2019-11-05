@@ -122,8 +122,9 @@
 
         <!-- Description -->
         <div v-if="!ideaEditorVisible" class="ideaDescription">
-          <v-layout v-html="idea.content"> </v-layout>
+          <div v-html="idea.content"></div>
         </div>
+
         <div v-else class="ideaEditor">
           <VueTrix
             v-model="ideaEditContents"

@@ -124,21 +124,21 @@
           </v-toolbar-title>
 
           <!-- Search Box -->
-          <v-text-field
-            v-if="searchIdeaMode"
-            class="searchInput"
-            placeholder="What are you looking for?"
-            flat
-            solo
-            label
-            prepend-inner-icon="fas fa-search"
-          ></v-text-field>
-          <v-icon
-            v-if="searchIdeaMode"
-            class="closeIconForDesktopSearch "
-            @click="searchIdeaMode = false"
-            >fas fa-times</v-icon
-          >
+          <div v-if="searchIdeaMode" class="searchBox">
+            <v-text-field
+              class="searchInput"
+              placeholder="What are you looking for?"
+              flat
+              solo
+              label
+              prepend-inner-icon="fas fa-search"
+            ></v-text-field>
+            <v-icon
+              class="closeIconForDesktopSearch"
+              @click="searchIdeaMode = false"
+              >fas fa-times</v-icon
+            >
+          </div>
 
           <v-spacer></v-spacer>
 
@@ -146,11 +146,12 @@
           <template>
             <!-- Search Button -->
             <v-btn
+              v-if="!searchIdeaMode"
               icon
               class="rightSideIconLight"
               @click="searchIdeaMode = true"
             >
-              <v-icon v-if="!searchIdeaMode">fas fa-search</v-icon>
+              <v-icon>fas fa-search</v-icon>
             </v-btn>
 
             <!-- Profile Icon -->
@@ -486,46 +487,50 @@ export default {
         }
       }
 
-      .searchInput {
-        border: solid 1px rgba(228, 228, 228, 0.38);
-
-        padding: 0px;
+      .searchBox {
         margin-left: 15% !important;
         width: 40%;
+        position: relative;
+        .searchInput {
+          border: solid 1px rgba(228, 228, 228, 0.38);
+          width: 100%;
+          padding: 0px;
 
-        .v-input__control {
-          max-height: 35px !important;
-          min-height: 35px !important;
-          //   padding: 5px;
+          .v-input__control {
+            max-height: 35px !important;
+            min-height: 35px !important;
+            //   padding: 5px;
 
-          .v-input__slot {
-            border: none;
-            padding-left: 5px;
-
-            .v-icon {
-              font-size: 20px !important;
-              color: #ebe7ed;
-            }
-
-            .v-text-field__slot {
-              margin-left: 10px !important;
-            }
-
-            &::before {
+            .v-input__slot {
               border: none;
-            }
-          }
+              padding-left: 5px;
 
-          .v-text-field__details {
-            display: none;
+              .v-icon {
+                font-size: 20px !important;
+                color: #ebe7ed;
+              }
+
+              .v-text-field__slot {
+                margin-left: 10px !important;
+              }
+
+              &::before {
+                border: none;
+              }
+            }
+
+            .v-text-field__details {
+              display: none;
+            }
           }
         }
-      }
 
-      .closeIconForDesktopSearch {
-        position: absolute;
-        right: 456px;
-        font-size: 13px;
+        .closeIconForDesktopSearch {
+          position: absolute;
+          right: 10px;
+          top: 11px;
+          font-size: 15px;
+        }
       }
 
       .desktopSearchIconContainer {
