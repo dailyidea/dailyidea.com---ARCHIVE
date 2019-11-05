@@ -1,0 +1,7 @@
+{{ user.email }} sent you an idea!
+
+{{idea.title}}
+
+{{idea.content}}
+
+{{ link_to_idea }}

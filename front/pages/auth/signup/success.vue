@@ -36,20 +36,7 @@
           and get started!
         </div>
 
-        <v-btn large class="okBtn">Okay</v-btn>
-
-        <!-- Social Icons -->
-        <div class="socialIconContainer">
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-facebook-f</v-icon>
-          </v-btn>
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-twitter</v-icon>
-          </v-btn>
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-google-plus-g</v-icon>
-          </v-btn>
-        </div>
+        <v-btn large class="okBtn" to="/">Okay</v-btn>
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
@@ -237,39 +224,6 @@ export default {
         a {
           color: #777;
           text-decoration: underline;
-        }
-      }
-
-      // .actionBtn {
-      // 	.okBtn {
-      // 		border-radius: 4px;
-      // 		background-image: linear-gradient(to left, #ffdf01, #ffb92d);
-      // 		color: white;
-      // 		width: 246px;
-      // 		margin-top: 4vh;
-
-      // 		letter-spacing: 1px;
-
-      // 		@media #{$medium-screen} {
-      // 			width: 10%;
-      // 		}
-      // 	}
-      // }
-
-      .socialIconContainer {
-        margin-top: 7vh;
-
-        button {
-          border: 1px solid #ebe7ed;
-          margin-left: 10px;
-          margin-right: 10px;
-          .v-icon {
-            font-size: 17px;
-          }
-
-          i {
-            font-size: 20px;
-          }
         }
       }
     }

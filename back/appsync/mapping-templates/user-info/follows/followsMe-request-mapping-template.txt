@@ -1,0 +1,18 @@
+#if($ctx.stash.isAnonymousRequest)
+    #return($ctx.prev.result)
+#end
+{
+    "version" : "2017-02-28",
+    "operation" : "Query",
+    "query" : {
+        "expression": "followeeId = :myId and followerId = :userId",
+        "expressionValues" : {
+            ":userId" : {
+                "S" : "${ctx.arguments.userId}"
+            },
+            ":myId": {
+                "S": "${ctx.identity.username}"
+            }
+        }
+    }
+}

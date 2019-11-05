@@ -32,25 +32,12 @@
 
         <!-- Hero Description -->
         <div class="heroDescription">
-          We've sent you a login link. Click that in your inbox to log in to the
-          site.
+          We've sent a login email to you at <strong>{{ email }}</strong
+          >. Please click the button in that email to log in to daily idea.
         </div>
 
         <div class="requestLink">
           <a>Didn't get it? Request a new link</a>
-        </div>
-
-        <!-- Social Icons -->
-        <div class="socialIconContainer">
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-facebook-f</v-icon>
-          </v-btn>
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-twitter</v-icon>
-          </v-btn>
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-google-plus-g</v-icon>
-          </v-btn>
         </div>
       </v-flex>
 
@@ -94,9 +81,8 @@ export default {
 <style lang="scss">
 #loginSuccessPage {
   // border: 1px solid red;
-  height: 100vh;
-  overflow: hidden;
-  background: white;
+  height: 95vh;
+  width: 100%;
   overflow: hidden;
 
   .backBtn {
@@ -223,25 +209,8 @@ export default {
         margin-top: 30px;
         font-size: 15px;
         a {
-          color: #777;
+          color: $accent-color !important;
           text-decoration: underline;
-        }
-      }
-
-      .socialIconContainer {
-        margin-top: 7vh;
-
-        button {
-          border: 1px solid #ebe7ed;
-          margin-left: 10px;
-          margin-right: 10px;
-          .v-icon {
-            font-size: 17px;
-          }
-
-          i {
-            font-size: 20px;
-          }
         }
       }
     }
@@ -255,7 +224,6 @@ export default {
     left: 0;
     z-index: 0;
     // border: 1px solid red;
-
     background-size: cover;
     // background-position-y: 30px;
   }
