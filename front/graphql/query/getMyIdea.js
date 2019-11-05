@@ -8,5 +8,6 @@ query getMyIdea($ideaId: String!) {
     ideaDate
     likesCount
     commentsCount
+    visibility
   }
 }`

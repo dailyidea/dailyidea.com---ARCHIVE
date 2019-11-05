@@ -75,8 +75,8 @@
           />
         </div>
         <div class="text">
-          You don't have any ideas right now. <br />
-          Or do you?
+          You don't have any liked ideas right now. <br />
+          Once you like some ideas on the site, they'll show up here.
         </div>
         <div>
           <!-- <img class="arrowImg" src="~/assets/images/arrowImage.png" /> -->

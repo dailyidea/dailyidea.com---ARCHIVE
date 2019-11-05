@@ -144,7 +144,7 @@ export default {
         // Handle email not found
         if (e.response && e.response.data.message == 'Email not found') {
           this.emailNotFoundMsg =
-            "Sorry, we can't find an account with this email address. Do you want  to"
+            "Sorry, we can't find an account with this email address. Do you want to"
           return
         }
 

@@ -75,7 +75,9 @@
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>Leaderboards</v-list-item-title>
+              <router-link to="/settings">
+                <v-list-item-title>Settings</v-list-item-title>
+              </router-link>
             </v-list-item-content>
           </v-list-item>
           <v-list-item>
@@ -151,9 +153,9 @@
               <v-icon v-if="!searchIdeaMode">fas fa-search</v-icon>
             </v-btn>
 
-            <!-- Settings Button -->
-            <v-btn class="rightSideIconLight" icon to="/settings">
-              <v-icon>fas fa-cog</v-icon>
+            <!-- Profile Icon -->
+            <v-btn class="profileBtn" to="/settings" icon>
+              <v-icon>fas fa-user</v-icon>
             </v-btn>
 
             <!-- Print Logged-in user's name -->
@@ -161,10 +163,7 @@
               $store.getters['cognito/username']
             }}</span>
 
-            <!-- Profile Icon -->
-            <v-btn small to="/profile" class="profileBtn" fab>
-              <v-icon>fas fa-user</v-icon>
-            </v-btn>
+
           </template>
         </v-toolbar>
 
@@ -547,10 +546,10 @@ export default {
       .userName {
         margin-left: 8px;
 
-        font-size: 20px;
+        font-size: 16px;
         line-height: 1.5;
         text-align: left;
-        color: #18141c;
+        color: #c0b7c5;
       }
 
       .profileBtn {
