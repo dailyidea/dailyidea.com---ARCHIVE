@@ -39,19 +39,6 @@
         <div class="requestLink">
           <a>Didn't get it? Request a new link</a>
         </div>
-
-        <!-- Social Icons -->
-        <div class="socialIconContainer">
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-facebook-f</v-icon>
-          </v-btn>
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-twitter</v-icon>
-          </v-btn>
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-google-plus-g</v-icon>
-          </v-btn>
-        </div>
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
@@ -93,11 +80,11 @@ export default {
 
 <style lang="scss">
 #loginSuccessPage {
-  // border: 1px solid red;
-  height: 100vh;
+  border: 1px solid red;
+  height: 80vh;
+  width: 100%;
   overflow: hidden;
-  background: white;
-  overflow: hidden;
+  background: red;
 
   .backBtn {
     z-index: 100;
@@ -223,25 +210,8 @@ export default {
         margin-top: 30px;
         font-size: 15px;
         a {
-          color: #777;
+          color: $accent-color !important;
           text-decoration: underline;
-        }
-      }
-
-      .socialIconContainer {
-        margin-top: 7vh;
-
-        button {
-          border: 1px solid #ebe7ed;
-          margin-left: 10px;
-          margin-right: 10px;
-          .v-icon {
-            font-size: 17px;
-          }
-
-          i {
-            font-size: 20px;
-          }
         }
       }
     }
@@ -255,7 +225,6 @@ export default {
     left: 0;
     z-index: 0;
     // border: 1px solid red;
-
     background-size: cover;
     // background-position-y: 30px;
   }
