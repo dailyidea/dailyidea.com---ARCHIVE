@@ -128,9 +128,9 @@
 
               <!-- View More Button -->
               <v-btn
-                normal
-                outlined
+                dark
                 rounded
+                to="/auth/signup"
                 class="last-section__feature-list__view-more-btn"
                 color="primary"
                 >View More
@@ -436,7 +436,6 @@ export default {
     &__view-more-btn {
       width: 200px;
       margin-top: 5vh;
-      color: #326bde !important;
     }
   }
 }
