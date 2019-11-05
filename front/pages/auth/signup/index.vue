@@ -88,7 +88,7 @@
             >
           </div>
           <v-btn large dark class="loginBtn hidden-md-and-up" to="/auth/login"
-            >LOGIN</v-btn
+            >Login</v-btn
           >
         </div>
       </v-flex>
