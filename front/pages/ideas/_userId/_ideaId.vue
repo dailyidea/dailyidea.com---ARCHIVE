@@ -929,6 +929,7 @@ export default {
       color: #827c85;
       line-height: 1.7;
       letter-spacing: 0.5px;
+      word-break: break-word;
 
       @media #{$small-screen} {
         padding-top: 20px;
