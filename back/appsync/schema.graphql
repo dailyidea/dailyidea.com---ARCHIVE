@@ -53,6 +53,11 @@ type Mutation {
 		state: IdeaVisibilityState
 	): ToggleIdeaVisibilityResult!
 
+    shareIdea(
+		ideaId: String!,
+		email: String!,
+	):Result
+
 	likeIdea(
 	    ideaId: String!
 		ideaOwnerId: String!

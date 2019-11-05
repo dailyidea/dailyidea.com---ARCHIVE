@@ -16,6 +16,7 @@
   "devDependencies": {
     "env-cmd": "^10.0.1",
     "serverless": "^1.51.0",
-    "serverless-offline": "^5.10.1"
+    "serverless-offline": "^5.10.1",
+    "serverless-python-requirements": "^4.3.0"
   }
 }
