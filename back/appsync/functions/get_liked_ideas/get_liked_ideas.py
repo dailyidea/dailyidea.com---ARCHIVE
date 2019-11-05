@@ -1,7 +1,6 @@
-import json
 import logging
 import boto3
-from ..json_util import loads as dynamo_loads
+from ..utils.json_util import loads as dynamo_loads
 import os
 
 logger = logging.getLogger()

@@ -53,6 +53,12 @@ type Mutation {
 		state: IdeaVisibilityState
 	): ToggleIdeaVisibilityResult!
 
+    shareIdea(
+		ideaId: String!,
+		ideaOwnerId: String!,
+		email: String!,
+	):Result
+
 	likeIdea(
 	    ideaId: String!
 		ideaOwnerId: String!
@@ -148,6 +154,9 @@ type UserInfo  @aws_api_key @aws_cognito_user_pools{
 	followersCount: Int
 	followeesCount: Int
 	ideasCreated: Int
+
+	isFollowingByMe: Boolean
+	followsMe: Boolean
 }
 
 type Comment @aws_api_key @aws_cognito_user_pools{
