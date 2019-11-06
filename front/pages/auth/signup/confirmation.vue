@@ -120,7 +120,7 @@ export default {
 		.successMessage {
 			max-width: 700px;
 			text-align: center;
-			padding-top: 8vh;
+			padding-top: 14vh;
 			z-index: 10;
 			padding-left: 10%;
 			padding-right: 10%;
@@ -183,14 +183,14 @@ export default {
 			}
 
 			.actionButtonContainer {
-				margin-top: 4vh;
+				margin-top: 6vh;
 
 				.actionBtn {
 					border-radius: 4px;
 					background-image: linear-gradient(to left, #ffdf01, #ffb92d);
 					color: white;
 					width: 246px;
-					margin-bottom: 13px;
+					margin-bottom: 3vh;
 					letter-spacing: 1px;
 
 					@media #{$medium-screen} {
