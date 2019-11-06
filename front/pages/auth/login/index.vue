@@ -56,19 +56,6 @@
           >
         </v-form>
 
-        <!-- Social Icons -->
-        <div class="socialIconContainer">
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-facebook-f</v-icon>
-          </v-btn>
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-twitter</v-icon>
-          </v-btn>
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-google-plus-g</v-icon>
-          </v-btn>
-        </div>
-
         <!-- Create account div at bottom -->
         <v-layout class="createAccountDiv">
           <v-btn large dark class="signupBtn" to="/auth/signup"
@@ -291,24 +278,7 @@ export default {
         }
       }
 
-      .socialIconContainer {
-        margin-top: 5vh;
-        margin-bottom: 4vh;
-
-        button {
-          border: 1px solid #ebe7ed;
-          margin-left: 10px;
-          margin-right: 10px;
-          .v-icon {
-            font-size: 17px;
-          }
-
-          i {
-            font-size: 20px;
-          }
-        }
-      }
-
+     
       .createAccountDiv {
         margin-top: 2vh;
         // border: 1px solid red;
