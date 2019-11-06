@@ -1,28 +1,26 @@
 <template>
   <div id="commonHeader">
     <!-- Non login page header -->
-    <v-toolbar
-      v-if="!$store.getters['cognito/isLoggedIn'] || currentPage == 'Home'"
-      class="toolBar"
-      flat
-      absolute
-    >
-      <v-toolbar-title class="blue--text subheading">
-        <nuxt-link class="logoLink" :to="{ name: 'index' }">
-          <img class="logoIcon" src="~/assets/images/logo_icon.png" />
-          <img class="logoIcon logoText" src="~/assets/images/logo_text.png" />
-        </nuxt-link>
-      </v-toolbar-title>
-      <v-spacer />
-      <template>
+    <v-container v-if="!$store.getters['cognito/isLoggedIn']">
+      <v-toolbar flat class="nonLoginHeader">
+        <v-toolbar-title class="blue--text subheading">
+          <nuxt-link class="logoLink" :to="{ name: 'index' }">
+            <img class="logoIcon" src="~/assets/images/logo_icon.png" />
+            <img
+              class="logoIcon logoText"
+              src="~/assets/images/logo_text.png"
+            />
+          </nuxt-link>
+        </v-toolbar-title>
+        <v-spacer />
         <nuxt-link class="helpLink" :to="{ name: 'auth-login' }"
           >Login</nuxt-link
         >
         <nuxt-link class="userLink" :to="{ name: 'auth-signup' }">
           <v-icon>fa-user</v-icon>
         </nuxt-link>
-      </template>
-    </v-toolbar>
+      </v-toolbar>
+    </v-container>
 
     <!-- Loggedin page header -->
     <template v-else>
@@ -75,7 +73,9 @@
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>Leaderboards</v-list-item-title>
+              <router-link to="/settings">
+                <v-list-item-title>Settings</v-list-item-title>
+              </router-link>
             </v-list-item-content>
           </v-list-item>
           <v-list-item>
@@ -122,21 +122,21 @@
           </v-toolbar-title>
 
           <!-- Search Box -->
-          <v-text-field
-            v-if="searchIdeaMode"
-            class="searchInput"
-            placeholder="What are you looking for?"
-            flat
-            solo
-            label
-            prepend-inner-icon="fas fa-search"
-          ></v-text-field>
-          <v-icon
-            v-if="searchIdeaMode"
-            class="closeIconForDesktopSearch "
-            @click="searchIdeaMode = false"
-            >fas fa-times</v-icon
-          >
+          <div v-if="searchIdeaMode" class="searchBox">
+            <v-text-field
+              class="searchInput"
+              placeholder="What are you looking for?"
+              flat
+              solo
+              label
+              prepend-inner-icon="fas fa-search"
+            ></v-text-field>
+            <v-icon
+              class="closeIconForDesktopSearch"
+              @click="searchIdeaMode = false"
+              >fas fa-times</v-icon
+            >
+          </div>
 
           <v-spacer></v-spacer>
 
@@ -144,27 +144,23 @@
           <template>
             <!-- Search Button -->
             <v-btn
+              v-if="!searchIdeaMode"
               icon
               class="rightSideIconLight"
               @click="searchIdeaMode = true"
             >
-              <v-icon v-if="!searchIdeaMode">fas fa-search</v-icon>
+              <v-icon>fas fa-search</v-icon>
             </v-btn>
 
-            <!-- Settings Button -->
-            <v-btn class="rightSideIconLight" icon to="/settings">
-              <v-icon>fas fa-cog</v-icon>
+            <!-- Profile Icon -->
+            <v-btn class="profileBtn" to="/settings" icon>
+              <v-icon>fas fa-user</v-icon>
             </v-btn>
 
             <!-- Print Logged-in user's name -->
             <span class="userName">{{
               $store.getters['cognito/username']
             }}</span>
-
-            <!-- Profile Icon -->
-            <v-btn small to="/profile" class="profileBtn" fab>
-              <v-icon>fas fa-user</v-icon>
-            </v-btn>
           </template>
         </v-toolbar>
 
@@ -393,12 +389,11 @@ export default {
 
 <style lang="scss">
 #commonHeader {
-  .toolBar {
+  .nonLoginHeader {
     background: white !important;
     color: #c0b7c5 !important;
     font-style: none !important;
     text-decoration: none !important;
-    width: 100% !important;
 
     .helpLink {
       color: #c0b7c5 !important;
@@ -489,46 +484,50 @@ export default {
         }
       }
 
-      .searchInput {
-        border: solid 1px rgba(228, 228, 228, 0.38);
-
-        padding: 0px;
+      .searchBox {
         margin-left: 15% !important;
         width: 40%;
+        position: relative;
+        .searchInput {
+          border: solid 1px rgba(228, 228, 228, 0.38);
+          width: 100%;
+          padding: 0px;
 
-        .v-input__control {
-          max-height: 35px !important;
-          min-height: 35px !important;
-          //   padding: 5px;
+          .v-input__control {
+            max-height: 35px !important;
+            min-height: 35px !important;
+            //   padding: 5px;
 
-          .v-input__slot {
-            border: none;
-            padding-left: 5px;
-
-            .v-icon {
-              font-size: 20px !important;
-              color: #ebe7ed;
-            }
-
-            .v-text-field__slot {
-              margin-left: 10px !important;
-            }
-
-            &::before {
+            .v-input__slot {
               border: none;
-            }
-          }
+              padding-left: 5px;
 
-          .v-text-field__details {
-            display: none;
+              .v-icon {
+                font-size: 20px !important;
+                color: #ebe7ed;
+              }
+
+              .v-text-field__slot {
+                margin-left: 10px !important;
+              }
+
+              &::before {
+                border: none;
+              }
+            }
+
+            .v-text-field__details {
+              display: none;
+            }
           }
         }
-      }
 
-      .closeIconForDesktopSearch {
-        position: absolute;
-        right: 456px;
-        font-size: 13px;
+        .closeIconForDesktopSearch {
+          position: absolute;
+          right: 10px;
+          top: 11px;
+          font-size: 15px;
+        }
       }
 
       .desktopSearchIconContainer {
@@ -547,10 +546,10 @@ export default {
       .userName {
         margin-left: 8px;
 
-        font-size: 20px;
+        font-size: 16px;
         line-height: 1.5;
         text-align: left;
-        color: #18141c;
+        color: #c0b7c5;
       }
 
       .profileBtn {

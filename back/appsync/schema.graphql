@@ -44,8 +44,20 @@ type Mutation {
     ): Result!
 
     toggleEmailNotifications(
-        enabled: Boolean
-    ): ToggleResult!
+		state: EmailNotificationsState!
+    ): ToggleNotificationsStateResult!
+
+	toggleIdeaVisibility(
+		ideaId: String!,
+		ideaOwnerId: String!,
+		state: IdeaVisibilityState
+	): ToggleIdeaVisibilityResult!
+
+    shareIdea(
+		ideaId: String!,
+		ideaOwnerId: String!,
+		email: String!,
+	):Result
 
 	likeIdea(
 	    ideaId: String!
@@ -56,6 +68,7 @@ type Mutation {
 	    ideaId: String!
     ): LikeResult
 }
+
 
 input TagInput {
    tag: String!
@@ -99,8 +112,12 @@ type AddCommentResult {
 	comment: Comment
 }
 
-type ToggleResult {
-	state: Boolean
+type ToggleNotificationsStateResult {
+	state: EmailNotificationsState!
+}
+
+type ToggleIdeaVisibilityResult {
+	state: IdeaVisibilityState!
 }
 
 type IsLikedResult {
@@ -122,6 +139,7 @@ type Idea @aws_api_key @aws_cognito_user_pools {
 	ideaDate: String
 	likesCount: Int
 	commentsCount: Int
+	visibility: IdeaVisibilityState
 }
 
 
@@ -136,6 +154,9 @@ type UserInfo  @aws_api_key @aws_cognito_user_pools{
 	followersCount: Int
 	followeesCount: Int
 	ideasCreated: Int
+
+	isFollowingByMe: Boolean
+	followsMe: Boolean
 }
 
 type Comment @aws_api_key @aws_cognito_user_pools{
@@ -158,6 +179,18 @@ type  IdeaConnection @aws_api_key @aws_cognito_user_pools {
 type  CommentsConnection @aws_api_key @aws_cognito_user_pools {
 	items: [Comment!]!
 	nextToken: String
+}
+
+enum EmailNotificationsState {
+	DISABLED,
+	DAILY,
+	WEEKLY,
+	DAILY_AND_WEEKLY
+}
+
+enum IdeaVisibilityState {
+	PRIVATE,
+	PUBLIC
 }
 
 schema {

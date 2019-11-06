@@ -1,10 +1,5 @@
 <template>
 	<div id="signupConfirmedPage">
-		<!-- Back button -->
-		<v-btn class="backBtn" text icon color="primary" to="/">
-			<v-icon>fas fa-arrow-left</v-icon>
-		</v-btn>
-
 		<!-- Main Grid -->
 		<v-layout row class="gridContainer">
 			<!-- Desktop Only - Left Side Image Container -->

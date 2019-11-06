@@ -30,8 +30,7 @@
 					and get started!
 				</div>
 
-				<v-btn large class="okBtn">Okay</v-btn>
-
+				<v-btn large class="okBtn" to="/">Okay</v-btn>
 			</v-flex>
 
 			<v-flex class="rightImgContainer" hidden-sm-and-down>

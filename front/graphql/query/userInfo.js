@@ -10,6 +10,8 @@ query userInfo($userId: String!) {
       followersCount
       followeesCount
       ideasCreated
+      isFollowingByMe
+      followsMe
     }    
   }
 }`

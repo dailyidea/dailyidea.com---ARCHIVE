@@ -4,12 +4,17 @@ provider:
   name: aws
   runtime: 'python3.6'
   stage: ${env:STAGE, 'local'}
+  emailStaticBucketName: dailyidea-serverless-email-static-${self:provider.stage}
   region: ${env:AWS_REGION, 'us-east-1'}
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
+  environment:
+    SES_AWS_REGION: ${self:provider.region}
+    MAILBOX_ADDR: ${self:custom.ideasMailBox}@${self:provider.domainName}
 
 plugins:
   - serverless-offline
   - serverless-appsync-plugin
+  - serverless-python-requirements
 
 functions:
   getLikedIdeas:
@@ -23,6 +28,17 @@ functions:
     handler: functions.development_logger.development_logger.endpoint
     role: LambdaDevelopmentLoggerFunctionRole
     memorySize: 128
+  shareIdea:
+    role: LambdaShareIdeaFunctionRole
+    handler: functions.share_idea.share_idea.endpoint
+    memorySize: 512
+    environment:
+      BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
+      DOMAIN_NAME: ${self:provider.domainName}
+      IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
+      TAGS_TABLE_NAME: ${self:custom.tagsTableName}
+
 
 custom:
   cogintoUserPoolId: ${env:COGNITO_POOL_ID}
@@ -34,6 +50,9 @@ custom:
   followingTableName: dailyidea-following-${self:provider.stage}
   ideasMailBox: ${env:IDEAS_MAILBOX, 'ideas-dev'}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
+  pythonRequirements:
+    dockerizePip: non-linux
+    pythonBin: /home/orion/envs/idea36/bin/python
   appSync:
     # name:  # defaults to api
     authenticationType: AMAZON_COGNITO_USER_POOLS # API_KEY is also supported
@@ -68,6 +87,11 @@ custom:
         request: "getPublicIdeas-request-mapping-template.txt"
         response: "getPublicIdeas-response-mapping-template.txt"
       - dataSource: Ideas
+        type: Mutation
+        field: toggleIdeaVisibility
+        request: "ideas/toggle-visibility/toggleIdeaVisibility-request-mapping-template.txt"
+        response: "ideas/toggle-visibility/toggleIdeaVisibility-response-mapping-template.txt"
+      - dataSource: Ideas
         type: Query
         field: userIdeas
         request: "userIdeas-request-mapping-template.txt"
@@ -80,23 +104,18 @@ custom:
       - dataSource: Users
         type: Query
         field: userInfo
-        request: "userInfo-request-mapping-template.txt"
-        response: "userInfo-response-mapping-template.txt"
-      - dataSource: Users
-        type: Mutation
-        field: followUser
-        request: "followUser-request-mapping-template.txt"
-        response: "followUser-response-mapping-template.txt"
+        request: "common/before-mapping-template.txt"
+        response: "common/after-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - userInfo
+          - isFollowingByMe
+          - followsMe
       - dataSource: Users
         type: Mutation
         field: toggleEmailNotifications
         request: "toggleEmailNotifications-request-mapping-template.txt"
         response: "toggleEmailNotifications-response-mapping-template.txt"
-      - dataSource: Users
-        type: Mutation
-        field: unfollowUser
-        request: "unfollowUser-request-mapping-template.txt"
-        response: "unfollowUser-response-mapping-template.txt"
       - dataSource: Ideas
         type: Mutation
         field: createIdea
@@ -182,6 +201,11 @@ custom:
         dataSource: LikedIdeasHandler
         request: "getLikedIdeas-request-mapping-template.txt"
         response: "getLikedIdeas-response-mapping-template.txt"
+      - type: Mutation
+        field: shareIdea
+        dataSource: ShareIdeaHandler
+        request: "shareIdea-request-mapping-template.txt"
+        response: "shareIdea-response-mapping-template.txt"
       - dataSource: Likes
         type: Query
         field: getIsIdeaLikedByMe
@@ -220,6 +244,12 @@ custom:
         description: 'Lambda Liked Ideas Data Source'
         config:
           lambdaFunctionArn: { Fn::GetAtt: [GetLikedIdeasLambdaFunction, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
+      - type: AWS_LAMBDA
+        name: ShareIdeaHandler
+        description: 'Share Idea to email'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [ShareIdeaLambdaFunction, Arn] }
           serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AWS_LAMBDA
         name: DevelopmentLoggerHandler
@@ -327,6 +357,20 @@ custom:
         request: 'user-following/unfollow-user/decreaseFolloweesCount-request-mapping-template.txt'
         response: 'user-following/unfollow-user/decreaseFolloweesCount-response-mapping-template.txt'
 
+      - dataSource: Users
+        name: userInfo
+        request: 'user-info/user-info/userInfo-request-mapping-template.txt'
+        response: 'user-info/user-info/userInfo-response-mapping-template.txt'
+      - dataSource: Following
+        name: isFollowingByMe
+        request: 'user-info/is-following/isFollowingByMe-request-mapping-template.txt'
+        response: 'user-info/is-following/isFollowingByMe-response-mapping-template.txt'
+      - dataSource: Following
+        name: followsMe
+        request: 'user-info/follows/followsMe-request-mapping-template.txt'
+        response: 'user-info/follows/followsMe-response-mapping-template.txt'
+
+
       - dataSource: Ideas
         name: createIdeaItem
         request: 'ideas/create-idea/createIdeaItem-request-mapping-template.txt'
@@ -362,6 +406,7 @@ resources:
   - Resources:
       LambdaGetLikedIdeasFunctionRole: ${file(functions/get_liked_ideas/function_role.yml):LambdaGetLikedIdeasFunctionRole}
       LambdaDevelopmentLoggerFunctionRole: ${file(functions/development_logger/function_role.yml):LambdaDevelopmentLoggerFunctionRole}
+      LambdaShareIdeaFunctionRole: ${file(functions/share_idea/function_role.yml):LambdaShareIdeaFunctionRole}
       AppSyncLambdaServiceRole:
         Type: "AWS::IAM::Role"
         Properties:
@@ -384,10 +429,12 @@ resources:
                     Action:
                       - "lambda:invokeFunction"
                     Resource:
-                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-dev-getLikedIdeas"
-                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-dev-getLikedIdeas:*"
-                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-dev-developmentLogger"
-                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-dev-developmentLogger:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getLikedIdeas"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getLikedIdeas:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-shareIdea"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-shareIdea:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-developmentLogger"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-developmentLogger:*"
 
       AppSyncServiceRole:
         Type: "AWS::IAM::Role"

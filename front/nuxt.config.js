@@ -62,11 +62,7 @@ module.exports = {
     '@/plugins/dayjs',
     '@/plugins/clipboard',
     '@/plugins/vee-validate',
-    '@/plugins/mixins',
-    {
-      src: '~plugins/vue-trix',
-      ssr: false
-    }
+    '@/plugins/mixins'
   ],
 
   /*

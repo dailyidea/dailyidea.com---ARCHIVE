@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build",
+    "build": "nuxt build --analyze",
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path ../.gitignore .",
@@ -22,13 +22,11 @@
     "@aws-amplify/core": "1.2.2",
     "@fortawesome/fontawesome-free": "^5.9.0",
     "@nuxtjs/dotenv": "1.4.0",
-    "@nuxtjs/vuetify": "1.8.3",
-    "@babel/runtime": "7.6.0",
-    "@vuetify/vuex-cognito-module": "0.5.2",
+    "@nuxtjs/vuetify": "1.9.0",
     "dayjs": "^1.8.15",
     "nanoid": "^2.1.0",
     "node-fetch": "2.6.0",
-    "nuxt-start-edge": "2.10.2-26193610.ec7428a0",
+    "nuxt-start-edge": "2.10.3-26215859.8ee99bc2",
     "nuxt-universal-storage": "0.3.1",
     "serverless-http": "2.3.0",
     "v-clipboard": "^2.2.2",
@@ -49,13 +47,12 @@
     "eslint-plugin-vue": "5.2.3",
     "eslint-plugin-prettier": "3.1.0",
     "eslint-plugin-you-dont-need-lodash-underscore": "6.6.0",
-    "sass": "^1.22.10",
-    "nuxt-edge": "2.10.2-26193610.ec7428a0",
+    "nuxt-edge": "2.10.3-26215859.8ee99bc2",
     "prettier": "1.18.2",
-    "serverless": "1.55.1",
+    "serverless": "1.56.1",
     "serverless-domain-manager": "3.3.0",
-    "serverless-offline": "5.10.1",
-    "serverless-prune-plugin": "1.4.0",
-    "serverless-s3-sync": "1.8.0"
+    "serverless-offline": "5.12.0",
+    "serverless-prune-plugin": "1.4.1",
+    "serverless-s3-sync": "1.9.0"
   }
 }

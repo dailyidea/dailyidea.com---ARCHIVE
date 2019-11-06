@@ -122,8 +122,9 @@
 
         <!-- Description -->
         <div v-if="!ideaEditorVisible" class="ideaDescription">
-          <v-layout v-html="idea.content"> </v-layout>
+          <div v-html="idea.content"></div>
         </div>
+
         <div v-else class="ideaEditor">
           <VueTrix
             v-model="ideaEditContents"
@@ -382,6 +383,7 @@
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 import dayjs from 'dayjs'
+import VueTrix from 'vue-trix'
 
 import relativeTime from 'dayjs/plugin/relativeTime'
 import CommentWithoutLoginDialog from '@/components/dialogs/commentWithoutLogin'
@@ -411,7 +413,8 @@ export default {
     CommentWithoutLoginDialog,
     SaveIdeaWithoutLoginDialog,
     SubsribeForPrivateIdeaDialog,
-    ShareIdeaByEmailDialog
+    ShareIdeaByEmailDialog,
+    VueTrix
   },
   $_veeValidate: {
     validator: 'new'
@@ -929,6 +932,7 @@ export default {
       color: #827c85;
       line-height: 1.7;
       letter-spacing: 0.5px;
+      word-break: break-word;
 
       @media #{$small-screen} {
         padding-top: 20px;

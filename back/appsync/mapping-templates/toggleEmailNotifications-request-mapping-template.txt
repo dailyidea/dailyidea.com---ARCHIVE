@@ -10,7 +10,7 @@
            "#emailnotificationsfield" : "emailNotifications"
         },
         "expressionValues" : {
-            ":value" : { "S" : #if($context.arguments.enabled) "enabled" #else "disabled" #end }
+            ":value" : { "S" : "${context.arguments.state}"}
         }
     },
     "condition": {

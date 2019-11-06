@@ -1,0 +1,12 @@
+#if($ctx.result.items.isEmpty())
+{"result":{"ok":false, "error":"User Not Found"}}
+#else
+    #if($ctx.identity)
+        $util.qr($ctx.stash.put('userInfo', $ctx.result.items[0]))
+        {"result":{"ok":true}, "userInfo": $util.toJson($ctx.result.items[0])}
+    #else
+        $util.qr($ctx.stash.put('isAnonymousRequest', true))
+        $util.qr($ctx.stash.put('resultWithoutFollowingInfo', {"result":{"ok":true}, "userInfo": $util.toJson($ctx.result.items[0])}))
+        {"result":{"ok":true}, "userInfo": $util.toJson($ctx.result.items[0])}
+    #end
+#end

@@ -32,8 +32,8 @@
 
         <!-- Hero Description -->
         <div class="heroDescription">
-          We've sent you a login link. Click that in your inbox to log in to the
-          site.
+          We've sent a login email to you at <strong>{{ email }}</strong
+          >. Please click the button in that email to log in to daily idea.
         </div>
 
         <div class="requestLink">
@@ -80,11 +80,10 @@ export default {
 
 <style lang="scss">
 #loginSuccessPage {
-  border: 1px solid red;
-  height: 80vh;
+  // border: 1px solid red;
+  height: 95vh;
   width: 100%;
   overflow: hidden;
-  background: red;
 
   .backBtn {
     z-index: 100;

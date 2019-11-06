@@ -41,8 +41,10 @@
 
 				<!-- Login div at bottom -->
 				<div class="accountExists">
-					<div class="existsTitle">Alreay have an account?</div>
-					<v-btn large dark class="loginBtn" to="/auth/login">LOGIN</v-btn>
+					<div class="existsTitle">
+						Already have an account?
+						<nuxt-link class="loginBtn" text to="/auth/login">Login</nuxt-link>
+					</div>
 				</div>
 			</v-flex>
 
@@ -237,6 +239,19 @@ export default {
 				letter-spacing: 1px;
 			}
 
+			.socialIconContainer {
+				margin-top: 5vh;
+				margin-bottom: 4vh;
+
+				button {
+					border: 1px solid #ebe7ed;
+
+					i {
+						font-size: 16px;
+					}
+				}
+			}
+
 			.accountExists {
 				margin-top: 2vh;
 
@@ -244,14 +259,10 @@ export default {
 					font-size: 14px;
 					line-height: 1.57;
 					color: #c8c7c7;
-					margin-bottom: 5px;
-				}
 
-				.loginBtn {
-					width: 70%;
-					max-width: 420px;
-					border-radius: 4px;
-					letter-spacing: 1px;
+					.loginBtn {
+						text-decoration: none;
+					}
 				}
 			}
 
@@ -281,9 +292,14 @@ export default {
 					width: 100%;
 
 					.loginBtn {
+						display: block;
 						width: 100%;
 						border-radius: 0px;
-						padding: 30px;
+						padding: 20px !important;
+						background-color: $primary-color !important;
+						color: white !important;
+						margin-top: 3px;
+						text-transform: uppercase !important;
 					}
 				}
 			}

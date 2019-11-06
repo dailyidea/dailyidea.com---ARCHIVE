@@ -104,7 +104,6 @@ export default {
         this.loginInProgress = true
 
         // Call register api
-        debugger
         await this.$store.dispatch('cognito/registerUser', {
           username: this.form.email,
           password: nanoid(),

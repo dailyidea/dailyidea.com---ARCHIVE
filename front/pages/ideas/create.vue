@@ -90,11 +90,12 @@
 </template>
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
+import VueTrix from 'vue-trix'
 import Layout from '@/components/layout/Layout'
 import createIdea from '~/graphql/mutations/createIdea'
 
 export default {
-  components: { Layout },
+  components: { Layout, VueTrix },
   $_veeValidate: {
     validator: 'new'
   },
