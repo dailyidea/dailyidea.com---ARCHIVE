@@ -25,7 +25,7 @@
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
         <!-- Login Form -->
-        <v-form>
+        <v-form @submit.prevent="login">
           <!-- Email Input Box -->
           <validate-text-field
             :value.sync="email"
@@ -51,7 +51,12 @@
           </div>
 
           <!-- Login Button -->
-          <v-btn large class="loginBtn" :loading="logingUser" @click="login"
+          <v-btn
+            type="submit"
+            large
+            class="loginBtn"
+            :loading="logingUser"
+            @click="login"
             >Log In</v-btn
           >
         </v-form>
