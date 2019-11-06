@@ -15,9 +15,7 @@
     <!-- Popup Header -->
     <div class="header">
       <v-icon text class="shareIcon" size="60">fas fa-envelope</v-icon>
-      <div class="headlineText">
-        Share Idea by Email
-      </div>
+      <div class="headlineText">Share Idea by Email</div>
     </div>
 
     <form id="share-idea-without-login-form" @submit.prevent="sendEmail">
@@ -54,6 +52,7 @@
         <v-btn
           type="submit"
           class="specialButton shareBtn"
+          :loading="sendingEmail"
           form="share-idea-without-login-form"
           @click="sendEmail"
           >Share</v-btn
@@ -64,6 +63,8 @@
 </template>
 
 <script>
+import shareIdea from '~/graphql/mutations/shareIdea'
+
 export default {
   $_veeValidate: {
     validator: 'new'
@@ -73,6 +74,14 @@ export default {
     visible: {
       type: Boolean,
       default: true
+    },
+    ideaId: {
+      type: String,
+      default: null
+    },
+    ideaOwnerId: {
+      type: String,
+      default: null
     }
   },
   data: () => ({
@@ -81,7 +90,8 @@ export default {
       name: '',
       friendName: '',
       friendEmail: ''
-    }
+    },
+    sendingEmail: false
   }),
   methods: {
     async sendEmail() {
@@ -90,15 +100,26 @@ export default {
         return
       }
 
-      // Call shre idea over email api.
+      this.sendingEmail = true
 
-      this.closeDialog()
+      // Call shre idea over email api.
+      await this.$amplifyApi.graphql({
+        query: shareIdea,
+        variables: {
+          ideaId: this.ideaId,
+          ideaOwnerId: this.ideaOwnerId,
+          email: this.form.friendEmail
+        }
+      })
+
+      this.closeDialog('success')
     },
-    closeDialog() {
-      this.$emit('close')
+    closeDialog(status) {
+      this.$emit(status ? status : 'close')
 
       setTimeout(() => {
         this.errors.clear()
+        this.sendingEmail()
         this.form = {
           name: '',
           friendName: '',

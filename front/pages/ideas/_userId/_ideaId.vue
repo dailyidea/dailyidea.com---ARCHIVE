@@ -373,6 +373,8 @@
       @close="showSubscribeForPrivateIdeaDialog = false"
     ></SubsribeForPrivateIdeaDialog>
     <ShareIdeaByEmailDialog
+      :idea-id="$route.params.ideaId"
+      :idea-owner-id="$route.params.userId"
       :visible.sync="showEmailShareDialog"
       @success="onSharedIdeaOverEmail"
       @close="showEmailShareDialog = false"
