@@ -32,11 +32,10 @@
 
         <!-- Hero Description -->
         <div class="heroDescription">
-          We've sent you a register link. Click the link to confirm your email
-          and get started!
+          We've sent a magic link to <strong>{{ email }}</strong
+          >. Please check your your inbox and click on the email confirmation
+          link in the email to get started!
         </div>
-
-        <v-btn large class="okBtn" to="/">Okay</v-btn>
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
@@ -140,7 +139,7 @@ export default {
     .successMessage {
       max-width: 600px;
       text-align: center;
-      padding-top: 8vh;
+      padding-top: 16vh;
       z-index: 10;
       padding-left: 100px;
       padding-right: 100px;
@@ -149,7 +148,7 @@ export default {
       overflow: hidden;
 
       @media #{$small-screen} {
-        padding-top: 10vh;
+        padding-top: 15vh;
         padding-left: 10%;
         padding-right: 10%;
       }
