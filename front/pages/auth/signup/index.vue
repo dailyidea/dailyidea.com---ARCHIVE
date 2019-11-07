@@ -64,21 +64,6 @@
           <v-btn large class="continueBtn" @click="signup">Continue</v-btn>
         </form>
 
-        <!-- Social Icons -->
-        <div class="socialIconContainer">
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-facebook-f</v-icon>
-          </v-btn>
-          &nbsp;&nbsp;&nbsp;
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-twitter</v-icon>
-          </v-btn>
-          &nbsp;&nbsp;&nbsp;
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-google-plus-g</v-icon>
-          </v-btn>
-        </div>
-
         <!-- Login div at bottom -->
         <div class="accountExists">
           <div class="existsTitle">
@@ -236,7 +221,7 @@ export default {
     .registerDiv {
       // border: 1px solid red;
       text-align: center;
-      padding-top: 7vh;
+      padding-top: 15vh;
       z-index: 10;
       height: 100vh;
       overflow-x: auto;
@@ -279,28 +264,15 @@ export default {
 
       .continueBtn {
         border-radius: 4px;
-        margin-top: 20px;
+        margin-top: 5vh;
         width: 70%;
         max-width: 420px;
 
         letter-spacing: 1px;
       }
 
-      .socialIconContainer {
-        margin-top: 5vh;
-        margin-bottom: 4vh;
-
-        button {
-          border: 1px solid #ebe7ed;
-
-          i {
-            font-size: 16px;
-          }
-        }
-      }
-
       .accountExists {
-        margin-top: 2vh;
+        margin-top: 6vh;
 
         .existsTitle {
           font-size: 14px;

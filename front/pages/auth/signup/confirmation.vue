@@ -40,19 +40,6 @@
             >browse public ideas</v-btn
           >
         </div>
-
-        <!-- Social Icons -->
-        <div class="socialIconContainer">
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-facebook-f</v-icon>
-          </v-btn>
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-twitter</v-icon>
-          </v-btn>
-          <v-btn outlined fab color="primary">
-            <v-icon>fab fa-google-plus-g</v-icon>
-          </v-btn>
-        </div>
       </v-flex>
 
       <!-- Right side images -->
@@ -149,7 +136,7 @@ export default {
     .successMessage {
       max-width: 700px;
       text-align: center;
-      padding-top: 8vh;
+      padding-top: 14vh;
       z-index: 10;
       padding-left: 10%;
       padding-right: 10%;
@@ -212,14 +199,14 @@ export default {
       }
 
       .actionButtonContainer {
-        margin-top: 4vh;
+        margin-top: 6vh;
 
         .actionBtn {
           border-radius: 4px;
           background-image: linear-gradient(to left, #ffdf01, #ffb92d);
           color: white;
           width: 246px;
-          margin-bottom: 13px;
+          margin-bottom: 3vh;
           letter-spacing: 1px;
 
           @media #{$medium-screen} {
@@ -238,23 +225,6 @@ export default {
 
         @media #{$medium-screen} {
           width: 130px;
-        }
-      }
-
-      .socialIconContainer {
-        margin-top: 4vh;
-
-        button {
-          border: 1px solid #ebe7ed;
-          margin-left: 10px;
-          margin-right: 10px;
-          .v-icon {
-            font-size: 17px;
-          }
-
-          i {
-            font-size: 20px;
-          }
         }
       }
     }

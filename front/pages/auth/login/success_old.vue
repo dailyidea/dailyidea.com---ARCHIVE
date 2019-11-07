@@ -40,19 +40,6 @@
 
         <!-- Continue Button -->
         <v-btn large class="okBtn">OK</v-btn>
-
-        <!-- Social Login Icons -->
-        <div class="socialIconContainer">
-          <v-btn small outlined fab color="primary">
-            <v-icon>fab fa-facebook-f</v-icon>
-          </v-btn>
-          <v-btn small outlined fab color="primary">
-            <v-icon>fab fa-twitter</v-icon>
-          </v-btn>
-          <v-btn small outlined fab color="primary">
-            <v-icon>fab fa-google-plus-g</v-icon>
-          </v-btn>
-        </div>
       </v-flex>
 
       <v-flex class="rightImgContainer" hidden-sm-and-down>
@@ -230,18 +217,6 @@ export default {
 
         @media #{$medium-screen} {
           width: 130px;
-        }
-      }
-
-      .socialIconContainer {
-        margin-top: 4vh;
-
-        button {
-          border: 1px solid #ebe7ed;
-
-          .v-icon {
-            font-size: 14px;
-          }
         }
       }
     }
