@@ -23,7 +23,7 @@
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
         <!-- Register Form -->
-        <form>
+        <form @submit.prevent="signup">
           <!-- Email Input Box -->
           <v-text-field
             v-model="name"
@@ -61,7 +61,14 @@
           </div>
 
           <!-- Continue Button -->
-          <v-btn large class="continueBtn" @click="signup">Continue</v-btn>
+          <v-btn
+            type="submit"
+            large
+            class="continueBtn"
+            :loading="registerInProgress"
+            @click="signup"
+            >Continue</v-btn
+          >
         </form>
 
         <!-- Login div at bottom -->
@@ -102,7 +109,8 @@ export default {
   data: () => ({
     email: '',
     name: '',
-    emailExistsMsg: ''
+    emailExistsMsg: '',
+    registerInProgress: false
   }),
   $_veeValidate: {
     validator: 'new'
@@ -121,6 +129,8 @@ export default {
           return
         }
 
+        this.registerInProgress = true
+
         await this.$store.dispatch('cognito/registerUser', {
           username: this.email,
           password: nanoid(),
@@ -135,6 +145,8 @@ export default {
           params: { email: this.email }
         })
       } catch (e) {
+        this.registerInProgress = false
+
         // Handle email already registered
         if (e.code && e.code == 'UsernameExistsException') {
           this.emailExistsMsg = 'Sorry, email mentioned already exist.'
