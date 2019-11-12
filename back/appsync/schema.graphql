@@ -47,6 +47,10 @@ type Mutation {
 		state: EmailNotificationsState!
     ): ToggleNotificationsStateResult!
 
+	updateProfileInfo(
+		name: String
+	): UserInfo
+
 	toggleIdeaVisibility(
 		ideaId: String!,
 		ideaOwnerId: String!,
@@ -154,6 +158,7 @@ type UserInfo  @aws_api_key @aws_cognito_user_pools{
 	followersCount: Int
 	followeesCount: Int
 	ideasCreated: Int
+	name: String
 
 	isFollowingByMe: Boolean
 	followsMe: Boolean

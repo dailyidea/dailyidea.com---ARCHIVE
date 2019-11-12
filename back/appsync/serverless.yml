@@ -113,6 +113,11 @@ custom:
           - followsMe
       - dataSource: Users
         type: Mutation
+        field: updateProfileInfo
+        request: "updateProfileInfo-request-mapping-template.txt"
+        response: "updateProfileInfo-response-mapping-template.txt"
+      - dataSource: Users
+        type: Mutation
         field: toggleEmailNotifications
         request: "toggleEmailNotifications-request-mapping-template.txt"
         response: "toggleEmailNotifications-response-mapping-template.txt"

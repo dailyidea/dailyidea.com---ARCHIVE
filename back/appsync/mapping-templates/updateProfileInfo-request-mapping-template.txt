@@ -1,0 +1,29 @@
+#set( $expression = "" )
+
+#if($context.arguments.name)
+    #if($context.arguments.name.length() > 128)
+        $util.error("Name too long")
+    #end
+    #set($expression = "SET #namefield = :name")
+#end
+
+#if($expression == "")
+    $util.error("Nothing to update")
+#end
+
+{
+    "version" : "2017-02-28",
+    "operation" : "UpdateItem",
+    "key": {
+        "userId" : { "S" : "${context.identity.username}" },
+    },
+    "update" : {
+        "expression" : "${expression}",
+        "expressionNames" : {
+           "#namefield" : "name"
+        },
+        "expressionValues" : {
+            ":name" : { "S" : "${context.arguments.name}"}
+        }
+    }
+}
