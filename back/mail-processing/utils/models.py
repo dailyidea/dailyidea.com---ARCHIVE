@@ -1,5 +1,5 @@
 import os
-from pynamodb.attributes import BooleanAttribute, UnicodeAttribute, UTCDateTimeAttribute
+from pynamodb.attributes import BooleanAttribute, UnicodeAttribute, UTCDateTimeAttribute, NumberAttribute
 from pynamodb.indexes import GlobalSecondaryIndex, AllProjection
 from pynamodb.models import Model
 
@@ -19,6 +19,8 @@ class IdeaModel(Model):
     visibility = UnicodeAttribute(null=True)
     createdDate = UTCDateTimeAttribute(null=True)
     ideaDate = UTCDateTimeAttribute(null=True)
+    likesCount = NumberAttribute(default=0)
+    commentsCount = NumberAttribute(default=0)
 
 
 class UserEmailIndex(GlobalSecondaryIndex):

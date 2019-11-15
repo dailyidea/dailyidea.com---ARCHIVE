@@ -63,17 +63,8 @@ import Layout from '@/components/layout/Layout'
 
 export default {
   components: { Layout },
-  data: function() {
-    return {
-      profileInfo: null,
-      mobileHeaderUiOptions: {
-        pageTitle: 'SETTINGS',
-        leftButtonType: 'back'
-      }
-    }
-  },
   async asyncData({ app, route, store }) {
-    let profileUserId = store.getters['cognito/userSub']
+    const profileUserId = store.getters['cognito/userSub']
 
     const { data } = await app.$amplifyApi.graphql(
       graphqlOperation(userInfo, { userId: profileUserId })
@@ -82,6 +73,15 @@ export default {
 
     return {
       profileInfo: data.userInfo
+    }
+  },
+  data() {
+    return {
+      profileInfo: null,
+      mobileHeaderUiOptions: {
+        pageTitle: 'SETTINGS',
+        leftButtonType: 'back'
+      }
     }
   },
   methods: {

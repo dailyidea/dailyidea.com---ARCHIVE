@@ -52,16 +52,31 @@
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-
 import getIdeas from '~/graphql/query/getIdeas'
 import Layout from '@/components/layout/Layout'
 import IdeaListComponent from '@/components/ideaList'
-dayjs.extend(relativeTime)
 
 export default {
   components: { Layout, IdeaListComponent },
+  middleware: 'authenticated',
+
+  async asyncData({ app, store }) {
+    const {
+      data: { ideas }
+    } = await app.$amplifyApi.graphql(
+      graphqlOperation(getIdeas, { nextToken: null, limit: 25 })
+    )
+
+    // Add logged in user's id in all ideas
+    const ideaList = ideas.items
+
+    return {
+      // Set next token for next batch of ideas
+      nextToken: ideas.nextToken,
+      // Set ideas
+      ideas: ideaList
+    }
+  },
 
   data: () => ({
     mobileHeaderUiOptions: {
@@ -74,33 +89,7 @@ export default {
     snackbarColor: 'success',
     loadingIdea: false
   }),
-
-  async asyncData({ app, store }) {
-    const {
-      data: { ideas }
-    } = await app.$amplifyApi.graphql(
-      graphqlOperation(getIdeas, { nextToken: null, limit: 25 })
-    )
-
-    // Add logged in user's id in all ideas
-    let ideaList = ideas.items
-    let loggedInUserId = store.getters['cognito/userSub']
-    for (let i = 0; i < ideaList.length; i++) {
-      ideaList[i].userId = loggedInUserId
-    }
-
-    return {
-      // Set next token for next batch of ideas
-      nextToken: ideas.nextToken,
-      // Set ideas
-      ideas: ideaList
-    }
-  },
   created() {
-    // this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
-    this.ideas.forEach(idea => {
-      idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
-    })
   },
 
   methods: {

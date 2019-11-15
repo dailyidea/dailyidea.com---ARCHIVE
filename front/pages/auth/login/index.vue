@@ -114,8 +114,8 @@ export default {
         this.logingUser = true
         this.emailNotFoundMsg = ''
 
-        //Validate input fields
-        let result = await this.$validator.validateAll()
+        // Validate input fields
+        const result = await this.$validator.validateAll()
         if (!result) {
           this.logingUser = false
           return
@@ -137,7 +137,7 @@ export default {
         this.logingUser = false
 
         // Handle email not found
-        if (e.response && e.response.data.message == 'Email not found') {
+        if (e.response && e.response.data.message === 'Email not found') {
           this.emailNotFoundMsg =
             "Sorry, we can't find an account with this email address. Do you want to"
           return

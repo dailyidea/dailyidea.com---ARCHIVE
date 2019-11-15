@@ -62,6 +62,7 @@ module.exports = {
     '@/plugins/dayjs',
     '@/plugins/clipboard',
     '@/plugins/vee-validate',
+    '@/plugins/toRelativeDate',
     '@/plugins/mixins'
   ],
 

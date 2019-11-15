@@ -83,7 +83,7 @@
                 <div class="reviewerInfo">
                   <v-icon class="userIcon">fa-user-circle</v-icon>by Name
                   Surname
-                  <div class="reviewTime">{{ idea.relativeCreatedTime }}</div>
+                  <div class="reviewTime">{{ idea.createdDate | toRelativeDate }}</div>
                 </div>
               </v-card>
             </v-flex>
@@ -205,11 +205,8 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import Layout from '@/components/layout/Layout'
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
-dayjs.extend(relativeTime)
 
 export default {
   components: { Layout },
@@ -229,9 +226,6 @@ export default {
     }
   },
   created() {
-    this.ideas.forEach(idea => {
-      idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
-    })
   },
   methods: {}
 }

@@ -19,9 +19,6 @@
 import { getErrorMessage } from '~/utils'
 
 export default {
-  data: () => ({
-    error: 'This confirmation link is not valid'
-  }),
   async asyncData({ store, route, redirect }) {
     const { code, username } = route.query
     try {
@@ -35,6 +32,9 @@ export default {
         error: getErrorMessage(e)
       }
     }
-  }
+  },
+  data: () => ({
+    error: 'This confirmation link is not valid'
+  })
 }
 </script>

@@ -51,7 +51,7 @@
                   120
                 </div>
                 <div class="timing">
-                  {{ idea.relativeCreatedTime }}
+                  {{ idea.createdDate | toRelativeDate }}
                   <v-btn text icon color="gray" class="globeImageDiv">
                     <img
                       alt="image"
@@ -114,21 +114,11 @@
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import getLikedIdeas from '~/graphql/query/getLikedIdeas'
 import Layout from '@/components/layout/Layout'
-dayjs.extend(relativeTime)
 
 export default {
   components: { Layout },
-
-  data: () => ({
-    snackbarVisible: false,
-    snackbarMessage: '',
-    snackbarColor: 'success',
-    loadingIdea: false
-  }),
 
   async asyncData({ app }) {
     let ideas = await app.$amplifyApi.graphql(
@@ -143,11 +133,14 @@ export default {
       ideas: ideas.items
     }
   },
+
+  data: () => ({
+    snackbarVisible: false,
+    snackbarMessage: '',
+    snackbarColor: 'success',
+    loadingIdea: false
+  }),
   created() {
-    // this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
-    this.ideas.forEach(idea => {
-      idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
-    })
   },
 
   methods: {

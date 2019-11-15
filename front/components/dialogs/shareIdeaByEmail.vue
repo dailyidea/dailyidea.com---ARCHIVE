@@ -95,7 +95,7 @@ export default {
   }),
   methods: {
     async sendEmail() {
-      let result = await this.$validator.validateAll()
+      const result = await this.$validator.validateAll()
       if (!result) {
         return
       }
@@ -115,7 +115,7 @@ export default {
       this.closeDialog('success')
     },
     closeDialog(status) {
-      this.$emit(status ? status : 'close')
+      this.$emit(status || 'close')
 
       setTimeout(() => {
         this.errors.clear()

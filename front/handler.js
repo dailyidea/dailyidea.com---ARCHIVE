@@ -8,7 +8,7 @@ const nuxtConfig = require('./nuxt.config')
 const config = { dev: false, ...nuxtConfig }
 const nuxt = new Nuxt(config)
 
-let handler = undefined
+let handler
 
 exports.render = function(event, context, callback) {
   if (!handler) {

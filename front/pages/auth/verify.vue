@@ -13,7 +13,7 @@ export default {
   data: () => ({
     error: ''
   }),
-  async mounted() {
+  mounted() {
     this.login()
   },
   methods: {

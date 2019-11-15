@@ -95,7 +95,7 @@ export default {
     async signup() {
       try {
         // Validate input fields
-        let result = await this.$validator.validateAll()
+        const result = await this.$validator.validateAll()
         if (!result) {
           return
         }
@@ -114,7 +114,7 @@ export default {
         this.loginInProgress = false
       } catch (e) {
         // Handle email already registered
-        if (e.code && e.code == 'UsernameExistsException') {
+        if (e.code && e.code === 'UsernameExistsException') {
           // If email has already registered, send login link instead.
           await this.$amplifyApi.post('RequestLogin', '', {
             body: { email: this.form.email }

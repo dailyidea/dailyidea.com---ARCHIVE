@@ -117,7 +117,7 @@
             <v-icon class="circle">mdi-checkbox-blank-circle</v-icon>
             &nbsp; dummy@missing_field.com
           </span>
-          <span class="timing">{{ idea.relativeCreatedTime }}</span>
+          <span class="timing">{{ idea.createdDate | toRelativeDate }}</span>
         </div>
 
         <!-- Description -->
@@ -126,11 +126,13 @@
         </div>
 
         <div v-else class="ideaEditor">
-          <VueTrix
-            v-model="ideaEditContents"
-            class="editor"
-            placeholder="Enter content"
-          />
+          <client-only>
+            <trix
+              v-model="ideaEditContents"
+              class="editor"
+              placeholder="Enter content"
+            />
+          </client-only>
           <div v-if="!ideaEditContents" class="errorMsg">
             {{ errorMsg }}
           </div>
@@ -384,14 +386,11 @@
 
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
-import dayjs from 'dayjs'
-import VueTrix from 'vue-trix'
-
-import relativeTime from 'dayjs/plugin/relativeTime'
 import CommentWithoutLoginDialog from '@/components/dialogs/commentWithoutLogin'
 import SaveIdeaWithoutLoginDialog from '@/components/dialogs/saveIdeaWithoutLogin'
 import SubsribeForPrivateIdeaDialog from '@/components/dialogs/subscribeForPrivateIdea'
 import ShareIdeaByEmailDialog from '@/components/dialogs/shareIdeaByEmail'
+import TrixWrapper from '@/components/TrixWrapper'
 
 import getIsIdeaLikedByMe from '~/graphql/query/getIsIdeaLikedByMe'
 import updateIdea from '~/graphql/mutations/updateIdea'
@@ -407,7 +406,6 @@ import userInfo from '~/graphql/query/userInfo'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
 import deleteTag from '~/graphql/mutations/deleteTag'
 import getUsersIdea from '~/graphql/query/getUsersIdea'
-dayjs.extend(relativeTime)
 
 export default {
   components: {
@@ -416,10 +414,85 @@ export default {
     SaveIdeaWithoutLoginDialog,
     SubsribeForPrivateIdeaDialog,
     ShareIdeaByEmailDialog,
-    VueTrix
+    Trix: TrixWrapper
   },
   $_veeValidate: {
     validator: 'new'
+  },
+
+  async asyncData({ app, route, store }) {
+    const { data } = await app.$amplifyApi.graphql({
+      query: getUsersIdea,
+      variables: {
+        userId: route.params.userId,
+        ideaId: route.params.ideaId
+      },
+      authMode: 'API_KEY'
+    })
+
+    // Read user(idea auther) info
+    const userInfoResult = (
+      await app.$amplifyApi.graphql({
+        query: userInfo,
+        variables: {
+          userId: route.params.userId
+        },
+        authMode: 'API_KEY'
+      })
+    ).data.userInfo.userInfo
+    console.log('user info is', JSON.stringify(userInfoResult))
+
+    let isLiked = null
+    if (store.getters['cognito/isLoggedIn']) {
+      isLiked = await app.$amplifyApi.graphql({
+        query: getIsIdeaLikedByMe,
+        variables: {
+          ideaId: route.params.ideaId
+        }
+      })
+    }
+
+    const ideaTags = []
+    if (store.getters['cognito/isLoggedIn']) {
+      const tag = await app.$amplifyApi.graphql({
+        query: getIdeaTags,
+        variables: {
+          ideaId: route.params.ideaId
+        }
+      })
+
+      for (let i = 0; i < tag.data.ideaTags.length; i++) {
+        ideaTags.push(tag.data.ideaTags[i].tag)
+      }
+    }
+
+    const result = await app.$amplifyApi.graphql({
+      query: getComments,
+      variables: {
+        ideaId: route.params.ideaId,
+        limit: 10
+      },
+      authMode: 'API_KEY'
+    })
+
+    let isIdeaEditable = false
+    if (
+      store.getters['cognito/isLoggedIn'] &&
+      route.params.userId === store.getters['cognito/userSub']
+    ) {
+      isIdeaEditable = true
+    }
+    return {
+      idea: data.getUsersIdea,
+      ideaTags,
+      isIdeaLiked:
+        isLiked != null ? isLiked.data.getIsIdeaLikedByMe.isLiked : false,
+      commentList: result.data.getComments.items,
+      nextToken: result.data.getComments.nextToken,
+
+      ideaOwnerId: route.params.userId,
+      isIdeaEditable
+    }
   },
   data: () => ({
     mobileHeaderUiOptions: {
@@ -462,89 +535,15 @@ export default {
     showEmailShareDialog: false
   }),
 
-  async asyncData({ app, route, store }) {
-    const { data } = await app.$amplifyApi.graphql({
-      query: getUsersIdea,
-      variables: {
-        userId: route.params.userId,
-        ideaId: route.params.ideaId
-      },
-      authMode: 'API_KEY'
-    })
-
-    // Read user(idea auther) info
-    let userInfoResult = (await app.$amplifyApi.graphql({
-      query: userInfo,
-      variables: {
-        userId: route.params.userId
-      },
-      authMode: 'API_KEY'
-    })).data.userInfo.userInfo
-    console.log('user info is', JSON.stringify(userInfoResult))
-
-    let isLiked = null
-    if (store.getters['cognito/isLoggedIn']) {
-      isLiked = await app.$amplifyApi.graphql({
-        query: getIsIdeaLikedByMe,
-        variables: {
-          ideaId: route.params.ideaId
-        }
-      })
-    }
-
-    let ideaTags = []
-    if (store.getters['cognito/isLoggedIn']) {
-      const tag = await app.$amplifyApi.graphql({
-        query: getIdeaTags,
-        variables: {
-          ideaId: route.params.ideaId
-        }
-      })
-
-      for (let i = 0; i < tag.data.ideaTags.length; i++) {
-        ideaTags.push(tag.data.ideaTags[i].tag)
-      }
-    }
-
-    const result = await app.$amplifyApi.graphql({
-      query: getComments,
-      variables: {
-        ideaId: route.params.ideaId,
-        limit: 10
-      },
-      authMode: 'API_KEY'
-    })
-
-    let isIdeaEditable = false
-    if (
-      store.getters['cognito/isLoggedIn'] &&
-      route.params.userId == store.getters['cognito/userSub']
-    ) {
-      isIdeaEditable = true
-    }
-    return {
-      idea: data.getUsersIdea,
-      ideaTags: ideaTags,
-      isIdeaLiked:
-        isLiked != null ? isLiked.data.getIsIdeaLikedByMe.isLiked : false,
-      commentList: result.data.getComments.items,
-      nextToken: result.data.getComments.nextToken,
-
-      ideaOwnerId: route.params.userId,
-      isIdeaEditable: isIdeaEditable
-    }
-  },
-
   mounted() {},
 
   created() {
-    this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
     this.mobileHeaderUiOptions.pageTitle = "Bob's Idea"
     this.mobileHeaderUiOptions.isIdeaEditable = this.isIdeaEditable
   },
 
   methods: {
-    async saveIdeaForUserDialog() {
+    saveIdeaForUserDialog() {
       this.savedIdeaConformDailog = true
       this.showSaveIdeaDailog = false
     },
@@ -598,7 +597,7 @@ export default {
             // userId: this.$store.getters['cognito/userSub'],
             ideaId: this.$route.params.ideaId,
             ideaOwnerId: this.$route.params.userId,
-            commentId: commentId
+            commentId
           })
         )
 
@@ -657,11 +656,11 @@ export default {
     },
 
     // Private/Public Idea
-    async toggleIdeaPrivacy() {
+    toggleIdeaPrivacy() {
       this.showSubscribeForPrivateIdeaDialog = true
     },
 
-    async onToggleIdeaBookmarked() {
+    onToggleIdeaBookmarked() {
       // If user has not logged in, show comment without login dialog
       if (!this.$store.getters['cognito/isLoggedIn']) {
         this.showSaveWithoutLoginDialog = true
@@ -683,11 +682,11 @@ export default {
       else this.idea.likesCount--
 
       try {
-        let ideaId = this.$route.params.ideaId
-        let mutationToCall = this.isIdeaLiked ? likeIdea : unlikeIdea
+        const ideaId = this.$route.params.ideaId
+        const mutationToCall = this.isIdeaLiked ? likeIdea : unlikeIdea
         await this.$amplifyApi.graphql(
           graphqlOperation(mutationToCall, {
-            ideaId: ideaId,
+            ideaId,
             ideaOwnerId: this.$route.params.userId
           })
         )
@@ -702,10 +701,10 @@ export default {
     // Delete Idea
     async onDeleteIdea() {
       try {
-        let ideaId = this.$route.params.ideaId
+        const ideaId = this.$route.params.ideaId
         await this.$amplifyApi.graphql(
           graphqlOperation(deleteIdea, {
-            ideaId: ideaId
+            ideaId
           })
         )
 
@@ -747,7 +746,7 @@ export default {
 
     // On Save Idea
     async onSaveIdeaContent() {
-      let result = await this.$validator.validateAll()
+      const result = await this.$validator.validateAll()
 
       this.errorMsg = ''
       if (!result) {
@@ -768,7 +767,7 @@ export default {
         )
         this.idea.content = this.ideaEditContents
 
-        //delete Tag
+        // delete Tag
         for (let i = 0; i < this.tagsToRemove.length; i++) {
           await this.$amplifyApi.graphql(
             graphqlOperation(deleteTag, {
@@ -781,7 +780,7 @@ export default {
         }
 
         // save tags
-        let tagsToSave = []
+        const tagsToSave = []
         for (let i = 0; i < this.editIdeaTags.length; i++) {
           tagsToSave.push({
             tag: this.editIdeaTags[i],

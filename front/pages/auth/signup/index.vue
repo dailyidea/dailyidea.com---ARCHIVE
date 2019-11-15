@@ -123,8 +123,8 @@ export default {
       try {
         this.emailExistsMsg = ''
 
-        //Validate input fields
-        let result = await this.$validator.validateAll()
+        // Validate input fields
+        const result = await this.$validator.validateAll()
         if (!result) {
           return
         }
@@ -148,7 +148,7 @@ export default {
         this.registerInProgress = false
 
         // Handle email already registered
-        if (e.code && e.code == 'UsernameExistsException') {
+        if (e.code && e.code === 'UsernameExistsException') {
           this.emailExistsMsg = 'Sorry, email mentioned already exist.'
           return
         }
