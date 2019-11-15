@@ -123,7 +123,7 @@ export default {
       this.chips = [...this.chips]
     },
     async onCreateIdea() {
-      let result = await this.$validator.validateAll()
+      const result = await this.$validator.validateAll()
       if (!result) {
         this.errorMsg = 'This field is required.'
         return
@@ -132,7 +132,7 @@ export default {
       this.creatingIdea = true
 
       try {
-        let result = await this.$amplifyApi.graphql(
+        const result = await this.$amplifyApi.graphql(
           graphqlOperation(createIdea, {
             content: this.contents,
             title: this.title
@@ -147,7 +147,7 @@ export default {
         this.snackbarVisible = true
 
         // Redirect to idea deail page
-        let ideaId = result.data.createIdea.ideaId
+        const ideaId = result.data.createIdea.ideaId
         this.$router.push({
           name: 'ideas-userId-ideaId',
           params: { ideaId, userId: this.$store.getters['cognito/userSub'] },

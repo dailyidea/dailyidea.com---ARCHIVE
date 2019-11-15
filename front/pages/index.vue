@@ -77,7 +77,7 @@
                           Boniface Esanji
                         </div>
                         <div class="reviews__review__info__detail__time">
-                          {{ idea.relativeCreatedTime }}
+                          {{ idea.createdDate | toRelativeDate }}
                         </div>
                       </div>
                     </div>
@@ -141,7 +141,7 @@
                 to="/auth/signup"
                 class="last-section__feature-list__view-more-btn"
                 color="primary"
-                >View More
+                >Sign Up
               </v-btn>
             </div>
           </v-col>
@@ -151,10 +151,10 @@
 
       <footer class="footer-section">
         <div class="footer-section__link-container">
-          <a>About</a>
-          <a>FAQ</a>
-          <a>Terms &amp; Conditions</a>
-          <a>Privacy</a>
+          <a class="footer-section__link">About</a>
+          <a class="footer-section__link">FAQ</a>
+          <a class="footer-section__link">Terms &amp; Conditions</a>
+          <a class="footer-section__link">Privacy</a>
           <span class="footer-section__copy-right">
             Copyright Daily Idea © 2019</span
           >
@@ -166,26 +166,11 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import Layout from '@/components/layout/Layout'
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
 
-dayjs.extend(relativeTime)
 export default {
   components: { Layout },
-  data: () => ({
-    mobileHeaderUiOptions: {
-      pageTitle: '',
-      leftButtonType: 'hamburder'
-    },
-    ideas: null
-  }),
-  computed: {
-    lampsAndWomanImgUrl() {
-      return require('~/assets/images/homeImage.png')
-    }
-  },
   async asyncData({ app }) {
     let result = await app.$amplifyApi.graphql({
       query: getPublicIdeas,
@@ -201,10 +186,19 @@ export default {
       ideas: result.items
     }
   },
+  data: () => ({
+    mobileHeaderUiOptions: {
+      pageTitle: '',
+      leftButtonType: 'hamburder'
+    },
+    ideas: null
+  }),
+  computed: {
+    lampsAndWomanImgUrl() {
+      return require('~/assets/images/homeImage.png')
+    }
+  },
   created() {
-    this.ideas.forEach(idea => {
-      idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
-    })
   },
   methods: {
     onIdeaClick(idea) {
@@ -246,7 +240,11 @@ export default {
       #{$mobile-height / 2.5};
     min-height: $mobile-height;
   }
-  @media (min-width: $screen-md-min) {
+  @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+    background-position: 38% 100%, bottom right, top left;
+    background-size: auto 70%, auto 70%, auto 25%;
+  }
+  @media (min-width: $screen-lg-min) {
     background-position: 38% 100%, bottom right, top left;
     background-size: auto 100%, auto 100%, auto 30%;
   }
@@ -485,25 +483,26 @@ export default {
       text-align: center;
     }
     // text-align: center;
-    a {
-      font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 2.33;
-      letter-spacing: normal;
-      color: #4a4a4a;
-      @media (max-width: $screen-sm-max) {
-        height: 56px;
-        font-size: 12px;
-        margin-left: 10px;
-        margin-right: 10px;
-      }
-      @media (min-width: $screen-md-min) {
-        height: 56px;
-        font-size: 16px;
-        margin-left: 20px;
-        margin-right: 20px;
-      }
+  }
+
+  &__link {
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2.33;
+    letter-spacing: normal;
+    color: #4a4a4a;
+    @media (max-width: $screen-sm-max) {
+      height: 56px;
+      font-size: 12px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    @media (min-width: $screen-md-min) {
+      height: 56px;
+      font-size: 16px;
+      margin-left: 20px;
+      margin-right: 20px;
     }
 
     &__copy-right {

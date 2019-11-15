@@ -32,7 +32,7 @@
               {{ idea.commentsCount }}
             </div>
 
-            <div class="timing">{{ idea.relativeCreatedTime }}</div>
+            <div class="timing">{{ idea.createdDate | toRelativeDate }}</div>
           </div>
         </div>
       </v-flex>

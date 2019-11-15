@@ -1,0 +1,9 @@
+Great work! Just letting you know we got your idea!
+Here's a link for you to view it online: {{ IDEA_LINK }}
+You can always add on to it or edit it later by logging in.
+---------------------
+Title: {{idea.title}}
+Detail:
+{{idea.content}}
+---------------------
+View all your previous ideas here: {{ BASE_SITE_URL }}/ideas/me

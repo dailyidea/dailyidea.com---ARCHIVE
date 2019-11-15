@@ -38,7 +38,7 @@ export default (ctx, inject) => {
 
   Amplify.register(API)
 
-  const aws_config = {
+  const awsConfig = {
     aws_appsync_graphqlEndpoint: process.env.APPSYNC_ENDPOINT,
     aws_appsync_region: process.env.AWS_REGION,
     aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
@@ -53,5 +53,5 @@ export default (ctx, inject) => {
 
   inject('amplifyApi', API)
 
-  Amplify.API.configure(aws_config)
+  Amplify.API.configure(awsConfig)
 }

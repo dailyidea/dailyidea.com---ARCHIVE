@@ -32,3 +32,14 @@ Resources:
             ProvisionedThroughput:
               ReadCapacityUnits: 1
               WriteCapacityUnits: 1
+          - IndexName: myIdeasByDate
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: createdDate
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1

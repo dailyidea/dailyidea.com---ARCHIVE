@@ -74,7 +74,7 @@ export default {
   },
   watch: {
     value: {
-      handler: function(v) {
+      handler(v) {
         this.localValue = v
       }
     }

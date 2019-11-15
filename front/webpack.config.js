@@ -10,7 +10,7 @@ module.exports = {
     alias: {
       '~': resolve(__dirname),
       '@': resolve(__dirname),
-      ['assets']: resolve(__dirname, 'assets')
+      assets: resolve(__dirname, 'assets')
       // your aliases go here.
     }
   }

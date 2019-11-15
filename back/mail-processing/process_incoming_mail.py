@@ -5,8 +5,9 @@ from datetime import datetime
 import boto3
 import mailparser
 
-from utils.mail_sender import send_mail_to_user
 from utils.models import IdeaModel, UserModel
+
+from mail_templates.idea_received_confirmation.send_confirmation_idea_received import send_confirmation
 
 AWS_REGION = os.environ['SES_AWS_REGION']
 SES_S3_BUCKET_NAME = os.environ['SES_S3_BUCKET_NAME']
@@ -15,21 +16,6 @@ BASE_SITE_URL = f"https://{os.environ['DOMAIN_NAME']}/"
 
 s3 = boto3.client('s3')
 ses = boto3.client('ses', region_name=AWS_REGION)
-
-def get_confirm_mail_text(idea):
-    return f"""
-Great work! Just letting you know we got your idea!
-Here's a link for you to view it online: {BASE_SITE_URL}ideas/{idea.ideaId}
-You can always add on to it or edit it later by logging in.
----------------------
-Title: {idea.title}
-Detail:
-{idea.content}
----------------------
-View all your previous ideas [here](login link).
-
-"""
-
 
 def processIncomingMail(parsed_email):
     from_email = parsed_email.from_
@@ -52,9 +38,11 @@ def processIncomingMail(parsed_email):
     idea.content = "\n".join(content_lines)
     idea.title = content_parsed.splitlines()[0]
     idea.createdDate = datetime.now()
-    idea.visibility = 'public'
+    idea.visibility = 'PUBLIC'
     idea_date_str = parsed_email.subject.split('[Daily Idea] Idea for ', 1)[1]
     idea.ideaDate = datetime.strptime(idea_date_str, '%a %b %d %Y')
+    idea.likesCount = 0
+    idea.commentsCount = 0
     idea.save()
     return idea
 
@@ -72,7 +60,7 @@ def endpoint(event, context):
         raw_email = data['Body'].read()
         parsed_email = mailparser.parse_from_string(raw_email.decode('utf-8'))
         idea = processIncomingMail(parsed_email)
-        send_mail_to_user(parsed_email.from_[0][1], f"Re: {parsed_email.subject}", get_confirm_mail_text(idea), None)
+        send_confirmation(parsed_email.from_[0][1], idea, f"Re: {parsed_email.subject}")
     except Exception as e:
         print(e)
         raise e

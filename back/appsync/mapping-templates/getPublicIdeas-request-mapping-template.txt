@@ -5,7 +5,7 @@
         "expression": "visibility = :public",
         "expressionValues": {
             ":public": {
-                "S": "public"
+                "S": "PUBLIC"
             }
         }
     },

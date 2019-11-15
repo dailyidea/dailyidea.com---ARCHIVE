@@ -101,7 +101,7 @@
                 <img class="logoIcon" src="~/assets/images/comments.png" />
                 --
               </div>
-              <div class="timing">{{ ideas.relativeCreatedTime }}</div>
+              <div class="timing">{{ ideas.createdDate | toRelativeDate }}</div>
             </div>
           </div>
 
@@ -118,17 +118,43 @@
 
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import Layout from '@/components/layout/Layout'
 import followUser from '~/graphql/mutations/followUser'
 import unfollowUser from '~/graphql/mutations/unfollowUser'
 import userInfo from '~/graphql/query/userInfo'
 import userIdeas from '~/graphql/query/userIdeas'
-dayjs.extend(relativeTime)
 
 export default {
   components: { Layout },
+
+  async asyncData({ app, route, store }) {
+    const profileUserId = store.getters['cognito/userSub']
+
+    const pageSize = 25
+
+    const { data } = await app.$amplifyApi.graphql(
+      graphqlOperation(userInfo, { userId: profileUserId })
+    )
+    console.log('profile data', data)
+
+    const userIdeasList = (
+      await app.$amplifyApi.graphql(
+        graphqlOperation(userIdeas, {
+          userId: profileUserId,
+          nextToken: null,
+          limit: pageSize
+        })
+      )
+    ).data.userIdeas
+
+    return {
+      nextToken: userIdeasList.nextToken,
+      userData: data.userInfo,
+      ideaList: userIdeasList.items,
+      profileUserId,
+      pageSize
+    }
+  },
   data: () => ({
     mobileHeaderUiOptions: {
       pageTitle: "Bob's Profile",
@@ -140,52 +166,24 @@ export default {
     profileUserId: ''
   }),
 
-  async asyncData({ app, route, store }) {
-    let profileUserId = store.getters['cognito/userSub']
-
-    let pageSize = 10
-
-    const { data } = await app.$amplifyApi.graphql(
-      graphqlOperation(userInfo, { userId: profileUserId })
-    )
-    console.log('profile data', data)
-
-    let userIdeasList = (await app.$amplifyApi.graphql(
-      graphqlOperation(userIdeas, {
-        userId: profileUserId,
-        nextToken: null,
-        limit: pageSize
-      })
-    )).data.userIdeas
-
-    return {
-      nextToken: userIdeasList.nextToken,
-      userData: data.userInfo,
-      ideaList: userIdeasList.items,
-      profileUserId: profileUserId,
-      pageSize: pageSize
-    }
-  },
-
   mounted() {},
 
   created() {
-    this.ideaList.forEach(idea => {
-      idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
-    })
   },
 
   methods: {
     async loadMoreIdea() {
       this.loadingIdea = true
 
-      let response = (await this.$amplifyApi.graphql(
-        graphqlOperation(userIdeas, {
-          userId: this.profileUserId,
-          nextToken: this.nextToken,
-          limit: this.pageSize
-        })
-      )).data.userIdeas
+      const response = (
+        await this.$amplifyApi.graphql(
+          graphqlOperation(userIdeas, {
+            userId: this.profileUserId,
+            nextToken: this.nextToken,
+            limit: this.pageSize
+          })
+        )
+      ).data.userIdeas
 
       // Set next token for next batch of ideas
       this.nextToken = response.nextToken
@@ -199,7 +197,7 @@ export default {
       this.isFollowUser = !this.isFollowUser
 
       try {
-        let mutationToCall = this.isFollowUser ? followUser : unfollowUser
+        const mutationToCall = this.isFollowUser ? followUser : unfollowUser
         await this.$amplifyApi.graphql(
           graphqlOperation(mutationToCall, {
             userId: this.profileUserId

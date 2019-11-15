@@ -47,37 +47,22 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
 import Layout from '@/components/layout/Layout'
 import IdeaListComponent from '@/components/ideaList'
-dayjs.extend(relativeTime)
+
+const pageSize = 25
 
 export default {
   components: { Layout, IdeaListComponent },
-
-  data: () => ({
-    mobileHeaderUiOptions: {
-      pageTitle: 'ALL IDEAS',
-      leftButtonType: 'hamburder'
-    },
-    snackbarVisible: false,
-    snackbarMessage: '',
-    snackbarColor: 'success',
-    loadingIdea: false,
-
-    nextToken: null,
-    pagesize: 25
-  }),
 
   async asyncData({ app }) {
     let result = await app.$amplifyApi.graphql({
       query: getPublicIdeas,
       variables: {
         nextToken: null,
-        limit: app.pagesize
+        limit: pageSize
       },
       authMode: 'API_KEY'
     })
@@ -90,11 +75,21 @@ export default {
       ideas: result.items
     }
   },
+
+  data: () => ({
+    mobileHeaderUiOptions: {
+      pageTitle: 'ALL IDEAS',
+      leftButtonType: 'hamburder'
+    },
+    snackbarVisible: false,
+    snackbarMessage: '',
+    snackbarColor: 'success',
+    loadingIdea: false,
+
+    nextToken: null,
+    pagesize: pageSize
+  }),
   created() {
-    // this.idea.relativeCreatedTime = dayjs(this.idea.createdDate).fromNow()
-    this.ideas.forEach(idea => {
-      idea.relativeCreatedTime = dayjs(idea.createdDate).fromNow()
-    })
   },
 
   methods: {
@@ -105,7 +100,7 @@ export default {
         return
       }
 
-      let result = await this.$amplifyApi.graphql({
+      const result = await this.$amplifyApi.graphql({
         query: getPublicIdeas,
         variables: {
           nextToken: this.nextToken,
@@ -113,7 +108,7 @@ export default {
         },
         authMode: 'API_KEY'
       })
-      let ideas = result.data.getPublicIdeas
+      const ideas = result.data.getPublicIdeas
 
       // Set next token for next batch of ideas
       this.nextToken = ideas.nextToken

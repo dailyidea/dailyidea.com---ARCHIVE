@@ -110,7 +110,7 @@ export default {
   }),
   methods: {
     async onSubmit() {
-      let result = await this.$validator.validateAll()
+      const result = await this.$validator.validateAll()
       this.errorMsg = ''
       if (!result) {
         return

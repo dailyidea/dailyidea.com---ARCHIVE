@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="emailContainer">
+    <p>Great work! Just letting you know we got your idea!</p>
+    <p>Here's a link for you to view it online: <a href="{{ IDEA_LINK }}">{{ IDEA_LINK }}</a></p>
+    <p>You can always add on to it or edit it later by logging in.</p>
+
+    <hr>
+
+    <p>Title: <strong>{{idea.title}}</strong></p>
+    <p>Detail:</p>
+    <div id="ideaContent">
+        {{ idea.content }}
+    </div>
+
+    <hr>
+
+    <p>
+        View all your previous ideas <a href="{{ BASE_SITE_URL }}/ideas/me">here</a>.
+    </p>
+
+</div>
+</body>
+
+</html>
