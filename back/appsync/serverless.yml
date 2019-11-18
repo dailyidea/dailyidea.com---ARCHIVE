@@ -129,6 +129,7 @@ custom:
         kind: PIPELINE
         functions:
           - createIdeaItem
+          - logResults
           - increaseIdeasCreatedCount
       - dataSource: IdeaComments
         type: Mutation

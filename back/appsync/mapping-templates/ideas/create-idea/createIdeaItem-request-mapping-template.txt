@@ -6,8 +6,8 @@
         "userId" : { "S" : "${ctx.identity.username}" }
     },
     "attributeValues" : {
-        "content" : { "S" : "${ctx.arguments.content}" },
         "title" : { "S" : "${ctx.arguments.title}" },
+        "content" : #if(!$util.isNullOrEmpty($ctx.arguments.content)) { "S" : "${ctx.arguments.content}" } #else {"NULL": null} #end,
         "ideaDate" : $util.dynamodb.toDynamoDBJson($util.time.nowISO8601()),
         "createdDate" : $util.dynamodb.toDynamoDBJson($util.time.nowISO8601()),
         "likesCount" : {"N": "0"},
