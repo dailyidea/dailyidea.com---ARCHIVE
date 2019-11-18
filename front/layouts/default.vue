@@ -103,6 +103,9 @@ export default {
 /* light theme styles */
 .theme--light.v-btn {
   background: linear-gradient(to right, #ffbb2a, #ffdf01) !important;
+  &[disabled] {
+    opacity: 0.6;
+  }
   box-shadow: none;
   color: white !important;
 

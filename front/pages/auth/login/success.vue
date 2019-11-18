@@ -37,7 +37,7 @@
         </div>
 
         <div class="requestLink">
-          <a>Didn't get it? Request a new link</a>
+          <a @click="showPopup">Didn't get it? Request a new link</a>
         </div>
       </v-flex>
 
@@ -60,21 +60,29 @@
           'url(' + require('~/assets/images/signup/footer_background.png') + ')'
       }"
     ></v-layout>
+    <resend-auth-email-dialog ref="resend-auth-email-dialog">
+    </resend-auth-email-dialog>
   </div>
 </template>
 
 <script>
+import resendAuthEmailDialog from '@/components/dialogs/resendAuthEmail'
 export default {
+  components: { resendAuthEmailDialog },
   data: () => ({
     email: null,
     success: false
   }),
   mounted() {
-    if (this.$route.params.email) {
-      this.email = this.$route.params.email
+    if (this.$route.query.email) {
+      this.email = this.$route.query.email
     }
   },
-  methods: {}
+  methods: {
+    showPopup() {
+        this.$refs['resend-auth-email-dialog'].open(this.email)
+    }
+  }
 }
 </script>
 

@@ -1,9 +1,8 @@
 type Mutation {
 
     createIdea(
-		content: String!,
 		title: String!,
-		ideaDate: String
+		content: String
 	): Idea!
 
 	deleteIdea(

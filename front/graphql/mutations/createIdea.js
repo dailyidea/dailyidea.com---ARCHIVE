@@ -1,6 +1,6 @@
 export default `
-mutation createIdea( $content: String!, $title: String!) {
-  createIdea( content: $content, title: $title) {
+mutation createIdea($title: String!, $content: String) {
+  createIdea(title: $title, content: $content) {
     ideaId
   }
 }`

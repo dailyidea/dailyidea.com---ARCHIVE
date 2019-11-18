@@ -34,20 +34,18 @@
 
         <!-- Descriptiion = trix editor -->
         <div class="ideaEditor">
-          <VueTrix v-model="contents" class="editor" />
-        </div>
-        <div v-if="!contents" class="errorMsg">
-          {{ errorMsg }}
+          <client-only>
+            <trix v-model="contents" class="editor" />
+          </client-only>
         </div>
 
         <!-- Tags -->
         <v-combobox
           v-model="chips"
-          v-validate="'required|max:100'"
+          v-validate="'max:100'"
           :error-messages="errors.collect('tag')"
           data-vv-name="tag"
           class="ideaTag"
-          :items="items"
           chips
           clearable
           multiple
@@ -90,12 +88,13 @@
 </template>
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
-import VueTrix from 'vue-trix'
+import TrixWrapper from '@/components/TrixWrapper'
 import Layout from '@/components/layout/Layout'
 import createIdea from '~/graphql/mutations/createIdea'
 
 export default {
-  components: { Layout, VueTrix },
+  components: { Layout, Trix: TrixWrapper },
+  middleware: 'authenticated',
   $_veeValidate: {
     validator: 'new'
   },

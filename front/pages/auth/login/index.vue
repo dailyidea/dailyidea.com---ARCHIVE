@@ -24,6 +24,12 @@
         <br />
         <img class="logoText" src="~/assets/images/logo_text.png" />
 
+        <div class="additional-message">
+          <div class="additional-message__text">
+            {{ additionalMessageText }}
+          </div>
+        </div>
+
         <!-- Login Form -->
         <v-form @submit.prevent="login">
           <!-- Email Input Box -->
@@ -56,7 +62,7 @@
             large
             class="loginBtn"
             :loading="logingUser"
-            @click="login"
+            @click.stop.prevent="login"
             >Log In</v-btn
           >
         </v-form>
@@ -99,6 +105,11 @@ import ValidateTextField from '../../../components/ValidateTextField'
 import ActionValidate from '~/mixins/validatable'
 import { getErrorMessage } from '~/utils'
 
+const AdditionalMessages = {
+  '/ideas/create':
+    "Oops, you're not logged in. Please log in first to enter an idea."
+}
+
 export default {
   components: { ValidateTextField },
   $_veeValidate: { validator: 'new' },
@@ -108,6 +119,17 @@ export default {
     logingUser: false,
     emailNotFoundMsg: ''
   }),
+  computed: {
+    additionalMessageText() {
+      if (this.$route.query && this.$route.query.r) {
+        const additionalMessage = AdditionalMessages[this.$route.query.r]
+        if (additionalMessage) {
+          return additionalMessage
+        }
+      }
+      return ''
+    }
+  },
   methods: {
     async login() {
       try {
@@ -130,7 +152,7 @@ export default {
         // Redirect to login success page
         this.$router.push({
           name: 'auth-login-success',
-          params: { email: this.email }
+          query: { email: this.email }
         })
         this.logingUser = false
       } catch (e) {
@@ -157,6 +179,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.additional-message {
+  &__text {
+    color: #777777;
+    max-width: 300px;
+    margin: auto;
+    min-height: 50px;
+  }
+}
 #loginPage {
   height: 100vh;
   overflow: hidden;
@@ -247,7 +277,7 @@ export default {
       }
 
       .emailInput {
-        margin-top: 10vh !important;
+        margin-top: 60px !important;
         margin-bottom: 20px;
 
         .v-input__prepend-inner {
