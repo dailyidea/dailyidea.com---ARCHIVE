@@ -1,12 +1,11 @@
 <template>
   <Layout
     v-bind="{
-      loggedInHeader: true,
-      mobileTitle: 'My Ideas',
-      mobileHamburger: true,
-      mobileSearchIcon: true,
-      desktopMenuVisible: true,
-      showEditIdeaBtn: false
+      currentPage: 'IdeaList',
+      pageOptions: {
+        pageTitle: 'LIKED IDEAS',
+        leftButtonType: 'hamburder'
+      }
     }"
   >
     <v-layout id="ideaListPage">

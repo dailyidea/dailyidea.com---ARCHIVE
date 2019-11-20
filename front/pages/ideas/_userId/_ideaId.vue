@@ -56,24 +56,10 @@
           </v-btn>
 
           <!-- Bookmark button -->
-          <v-btn
-            text
-            icon
-            color="gray"
-            class="bookmarkIdeaButton"
-            @click="onToggleIdeaBookmarked"
-          >
-            <img
-              v-if="idea.isIdeaBookmarked"
-              class="saveIdea"
-              src="~/assets/images/saveIdeaImage.png"
-            />
-            <img
-              v-if="!idea.isIdeaBookmarked"
-              class="unsaveIdea"
-              src="~/assets/images/unSaveIdeaImage.png"
-            />
-          </v-btn>
+
+          <save-idea-bookmark
+            @savedStateChanged="onIdeaSaveStateChanged"
+          ></save-idea-bookmark>
 
           <!-- Desktop Settings Menu -->
           <v-menu>
@@ -351,25 +337,13 @@
     </div>
 
     <!-- Bottom snackbar message -->
-    <v-snackbar
-      v-model="snackbarVisible"
-      :timeout="2000"
-      :color="snackbarColor"
-    >
-      {{ snackbarMessage }}
-      <v-btn color="white" text @click="snackbarVisible = false">
-        Close
-      </v-btn>
-    </v-snackbar>
+    <visual-notifier ref="notifier"></visual-notifier>
 
     <CommentWithoutLoginDialog
       :visible.sync="showCommentWithoutLoginDialog"
       @close="showCommentWithoutLoginDialog = false"
     ></CommentWithoutLoginDialog>
-    <SaveIdeaWithoutLoginDialog
-      :visible.sync="showSaveWithoutLoginDialog"
-      @close="showSaveWithoutLoginDialog = false"
-    ></SaveIdeaWithoutLoginDialog>
+
     <SubsribeForPrivateIdeaDialog
       :visible.sync="showSubscribeForPrivateIdeaDialog"
       @close="showSubscribeForPrivateIdeaDialog = false"
@@ -387,10 +361,12 @@
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 import CommentWithoutLoginDialog from '@/components/dialogs/commentWithoutLogin'
-import SaveIdeaWithoutLoginDialog from '@/components/dialogs/saveIdeaWithoutLogin'
+
 import SubsribeForPrivateIdeaDialog from '@/components/dialogs/subscribeForPrivateIdea'
 import ShareIdeaByEmailDialog from '@/components/dialogs/shareIdeaByEmail'
+import SaveIdeaBookmark from '@/components/SaveIdeaBookmark'
 import TrixWrapper from '@/components/TrixWrapper'
+import VisualNotifier from '~/components/VisualNotifier'
 
 import getIsIdeaLikedByMe from '~/graphql/query/getIsIdeaLikedByMe'
 import updateIdea from '~/graphql/mutations/updateIdea'
@@ -398,8 +374,6 @@ import addComment from '~/graphql/mutations/addComment'
 import deleteComment from '~/graphql/mutations/deleteComment'
 import getIdeaTags from '~/graphql/query/getIdeaTags'
 import getComments from '~/graphql/query/getComments'
-import likeIdea from '~/graphql/mutations/likeIdea'
-import unlikeIdea from '~/graphql/mutations/unlikeIdea'
 import Layout from '@/components/layout/Layout'
 import addTags from '~/graphql/mutations/addTags'
 import userInfo from '~/graphql/query/userInfo'
@@ -411,10 +385,11 @@ export default {
   components: {
     Layout,
     CommentWithoutLoginDialog,
-    SaveIdeaWithoutLoginDialog,
     SubsribeForPrivateIdeaDialog,
     ShareIdeaByEmailDialog,
-    Trix: TrixWrapper
+    Trix: TrixWrapper,
+    SaveIdeaBookmark,
+    VisualNotifier
   },
   $_veeValidate: {
     validator: 'new'
@@ -517,11 +492,6 @@ export default {
     ideaEditorVisible: false,
     ideaEditContents: '',
 
-    // Show message
-    snackbarVisible: false,
-    snackbarMessage: '',
-    snackbarColor: 'success',
-
     // Comments Section
     commentList: [],
     isIdeaLiked: false,
@@ -554,9 +524,7 @@ export default {
 
     onSharedIdeaOverEmail() {
       this.showEmailShareDialog = false
-      this.snackbarMessage = 'Email Sent'
-      this.snackbarColor = 'success'
-      this.snackbarVisible = true
+      this.$refs.notifier.success('Email Sent')
     },
 
     async loadMoreComments() {
@@ -583,9 +551,7 @@ export default {
     // Share Link to clipboard
     copyShareLink() {
       this.$clipboard(window.location.href)
-      this.snackbarMessage = 'Link copied'
-      this.snackbarColor = 'success'
-      this.snackbarVisible = true
+      this.$refs.notifier.success('Link copied')
     },
 
     // Delete Comments
@@ -605,16 +571,11 @@ export default {
         this.commentList.splice(index, 1)
         this.idea.commentsCount -= 1
 
-        this.snackbarMessage = 'Deleted Comment'
-        this.snackbarColor = 'success'
-        this.snackbarVisible = true
         this.currentComment = ''
+        this.$refs.notifier.success('Deleted Comment')
       } catch (err) {
         console.error(err)
-
-        this.snackbarMessage = 'Something went wrong!!'
-        this.snackbarColor = 'error'
-        this.snackbarVisible = true
+        this.$refs.notifier.error('Something went wrong!!')
       }
     },
 
@@ -642,16 +603,11 @@ export default {
 
         // this.fetchCommentList()
         this.showAddCommentLoader = false
-        this.snackbarMessage = 'Added Comment'
-        this.snackbarColor = 'success'
-        this.snackbarVisible = true
+        this.$refs.notifier.success('Added Comment')
         this.currentComment = ''
       } catch (err) {
-        console.error(err)
         this.showAddCommentLoader = false
-        this.snackbarMessage = 'Something went wrong!!'
-        this.snackbarColor = 'error'
-        this.snackbarVisible = true
+        this.$refs.notifier.error('Something went wrong!!')
       }
     },
 
@@ -660,42 +616,8 @@ export default {
       this.showSubscribeForPrivateIdeaDialog = true
     },
 
-    onToggleIdeaBookmarked() {
-      // If user has not logged in, show comment without login dialog
-      if (!this.$store.getters['cognito/isLoggedIn']) {
-        this.showSaveWithoutLoginDialog = true
-        return
-      }
-
-      this.snackbarMessage = 'Idea Saved'
-      this.snackbarColor = 'success'
-      this.snackbarVisible = true
-    },
-
-    // Like/Unlike Idea
-    async toggleLikeIdea() {
-      this.isIdeaLiked = !this.isIdeaLiked
-
-      // Increase decrease like counter
-      if (this.idea.likesCount == null) this.idea.likesCount = 0
-      if (this.isIdeaLiked) this.idea.likesCount++
-      else this.idea.likesCount--
-
-      try {
-        const ideaId = this.$route.params.ideaId
-        const mutationToCall = this.isIdeaLiked ? likeIdea : unlikeIdea
-        await this.$amplifyApi.graphql(
-          graphqlOperation(mutationToCall, {
-            ideaId,
-            ideaOwnerId: this.$route.params.userId
-          })
-        )
-      } catch (err) {
-        console.error(err)
-        this.snackbarMessage = 'Something went wrong!!'
-        this.snackbarColor = 'error'
-        this.snackbarVisible = true
-      }
+    onIdeaSaveStateChanged({ liked, likesCount }) {
+      this.$refs.notifier.success(liked ? 'Liked' : 'Unliked')
     },
 
     // Delete Idea
@@ -708,19 +630,14 @@ export default {
           })
         )
 
-        this.snackbarMessage = 'Idea deleted'
-        this.snackbarColor = 'success'
-        this.snackbarVisible = true
+        this.$refs.notifier.success('Idea deleted')
 
         this.$router.push({
           name: 'ideas',
           force: true
         })
       } catch (err) {
-        console.error(err)
-        this.snackbarMessage = 'Something went wrong!!'
-        this.snackbarColor = 'error'
-        this.snackbarVisible = true
+        this.$refs.notifier.error('Something went wrong!!')
       }
     },
 
@@ -797,9 +714,7 @@ export default {
         this.updatingIdea = false
         this.ideaEditorVisible = false
         this.mobileHeaderUiOptions.ideaEditorVisible = false
-        this.snackbarMessage = 'Idea Updated'
-        this.snackbarColor = 'success'
-        this.snackbarVisible = true
+        this.$refs.notifier.success('Idea Updated')
 
         // Fetch tags
         const tag = await this.$amplifyApi.graphql(
@@ -813,9 +728,7 @@ export default {
       } catch (err) {
         console.error('failed to save idea', err)
         this.updatingIdea = false
-        this.snackbarMessage = 'Something went wrong!!'
-        this.snackbarColor = 'error'
-        this.snackbarVisible = true
+        this.$refs.notifier.error('Something went wrong!!')
       }
     }
   }
@@ -875,7 +788,7 @@ export default {
 
       // Make page title aligned to center
       .pageTitle {
-        width: 100%;
+        /*width: 100%;*/
       }
 
       .editIdeaButton {

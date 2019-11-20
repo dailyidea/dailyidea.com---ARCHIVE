@@ -1,7 +1,7 @@
 <template>
   <div id="commonHeader">
     <!-- Non login page header -->
-    <v-container v-if="!$store.getters['cognito/isLoggedIn']">
+    <template v-if="!$store.getters['cognito/isLoggedIn']">
       <v-toolbar flat class="nonLoginHeader">
         <v-toolbar-title class="blue--text subheading">
           <nuxt-link class="logoLink" :to="{ name: 'index' }">
@@ -20,7 +20,7 @@
           <v-icon>fa-user</v-icon>
         </nuxt-link>
       </v-toolbar>
-    </v-container>
+    </template>
 
     <!-- Loggedin page header -->
     <template v-else>
@@ -61,7 +61,9 @@
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>Saved Ideas</v-list-item-title>
+              <router-link to="/ideas/liked">
+              <v-list-item-title>Liked Ideas</v-list-item-title>
+              </router-link>
             </v-list-item-content>
           </v-list-item>
           <v-list-item>
