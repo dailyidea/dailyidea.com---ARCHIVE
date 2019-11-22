@@ -87,6 +87,11 @@ custom:
         request: "getPublicIdeas-request-mapping-template.txt"
         response: "getPublicIdeas-response-mapping-template.txt"
       - dataSource: Ideas
+        type: Query
+        field: getUsersIdeas
+        request: "getUsersIdeas-request-mapping-template.txt"
+        response: "getUsersIdeas-response-mapping-template.txt"
+      - dataSource: Ideas
         type: Mutation
         field: toggleIdeaVisibility
         request: "ideas/toggle-visibility/toggleIdeaVisibility-request-mapping-template.txt"

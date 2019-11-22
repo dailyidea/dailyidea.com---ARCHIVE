@@ -9349,6 +9349,13 @@ serverless-offline@5.12.0:
     update-notifier "^3.0.1"
     velocityjs "^1.1.5"
 
+serverless-plugin-warmup@^4.7.1-rc.1:
+  version "4.7.1-rc.1"
+  resolved "https://registry.yarnpkg.com/serverless-plugin-warmup/-/serverless-plugin-warmup-4.7.1-rc.1.tgz#33bbf2355e74295a29ef8a3482f7c30cae88b724"
+  integrity sha512-Z63tdBeHPZJGKYUF6HtkGEFzL4SDg5ghq3g0/NaR+mJxRi/xYr5/76CfPDBJKN5EnBC1kdpZiKnMCnoSE8z1Dg==
+  dependencies:
+    fs-extra "^8.1.0"
+
 serverless-prune-plugin@1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/serverless-prune-plugin/-/serverless-prune-plugin-1.4.1.tgz#94f43e69989de39647e7dc3e7e0c86db1999aba7"

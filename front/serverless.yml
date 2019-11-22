@@ -27,8 +27,10 @@ provider:
 functions:
   nuxtRenderer:
     handler: handler.render
-    memorySize: ${env:LAMBDA_MEMORY, '512'}
+    memorySize: ${env:LAMBDA_MEMORY, '1536'}
     timeout: 30
+    warmup:
+      enabled: true
     package:
       exclude:
         - src/**
@@ -58,11 +60,14 @@ plugins:
   - serverless-s3-sync
   - serverless-domain-manager
   - serverless-prune-plugin
+  - serverless-plugin-warmup
 
 custom:
   serverless-offline:
     port: 4001
   myStage: ${self:provider.stage}
+  warmup:
+    prewarm: true
   s3Sync:
     - bucketName: ${self:provider.bucketName} # Retype the bucket name specified above
       localDir: .nuxt/dist

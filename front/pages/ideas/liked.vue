@@ -30,7 +30,7 @@
                   name: 'ideas-userId-ideaId',
                   params: {
                     ideaId: idea.ideaId,
-                    userId: $store.getters['cognito/userSub']
+                    userId: idea.userId
                   },
                   force: true
                 })

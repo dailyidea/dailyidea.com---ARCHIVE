@@ -7,14 +7,14 @@ Resources:
           AttributeType: S
         - AttributeName: userId
           AttributeType: S
+        - AttributeName: likedTime
+          AttributeType: S
       KeySchema:
         - AttributeName: ideaId
           KeyType: HASH
         - AttributeName: userId
           KeyType: RANGE
-      ProvisionedThroughput:
-        ReadCapacityUnits: 1
-        WriteCapacityUnits: 1
+      BillingMode: PAY_PER_REQUEST
       TableName: ${self:custom.likesTableName}
       GlobalSecondaryIndexes:
         - IndexName: userLikes
@@ -23,6 +23,11 @@ Resources:
               KeyType: HASH
           Projection:
             ProjectionType: ALL
-          ProvisionedThroughput:
-            ReadCapacityUnits: 1
-            WriteCapacityUnits: 1
+        - IndexName: userLikesByDate
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+            - AttributeName: likedTime
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL

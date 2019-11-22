@@ -24,10 +24,11 @@ def endpoint(event, context):
     resp = client.query(
         TableName=os.environ.get('LIKES_TABLE_NAME'),
         KeyConditionExpression="userId = :userId",
-        IndexName='userLikes',
+        IndexName='userLikesByDate',
         ExpressionAttributeValues={":userId": {"S": userId}},
         ProjectionExpression='ideaId,ideaOwnerId',
         Limit=limit,
+        ScanIndexForward=False,
         **likes_query_additional_params
     )
 
@@ -37,6 +38,7 @@ def endpoint(event, context):
         next_token = last_evaluated_key['ideaId']['S']  # userId is constant.
 
     ideas_keys = resp["Items"]
+    ideas_id_list = list(map(lambda i: i['ideaId']['S'], ideas_keys))
     if len(ideas_keys) == 0:
         return {'items': [], 'nextToken': None}
     ideas = client.batch_get_item(
@@ -49,4 +51,5 @@ def endpoint(event, context):
     )
     raw_ideas = ideas['Responses']['dailyidea-ideas-dev']
     clean_ideas = dynamo_loads(raw_ideas)
+    clean_ideas = sorted(clean_ideas, key=lambda i: ideas_id_list.index(i['ideaId']))
     return {'items': clean_ideas, 'nextToken': next_token}
