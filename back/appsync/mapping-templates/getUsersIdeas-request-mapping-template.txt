@@ -1,0 +1,25 @@
+{
+    "version": "2017-02-28",
+    "operation": "Query",
+    "query": {
+        "expression": "userId = :handle",
+        "expressionValues": {
+            ":handle": {
+                "S": "${context.arguments.userId}"
+            }
+        }
+    },
+    "index": "myIdeasByDate",
+    "limit": #if($context.arguments.limit) $context.arguments.limit #else 10 #end,
+    "nextToken": #if($context.arguments.nextToken) "$context.arguments.nextToken" #else null #end,
+    "scanIndexForward": false,
+    "filter":{
+        "expression" : "#visibility = :public",
+        "expressionNames" : {
+            "#visibility" : "visibility"
+        }
+        "expressionValues" : {
+            ":public" : { "S" : "PUBLIC" }
+        }
+    }
+}
