@@ -22,8 +22,15 @@ functions:
     role: LambdaGetLikedIdeasFunctionRole
     memorySize: 512
     environment:
-      LIKES_TABLE_NAME: dailyidea-likes-${self:provider.stage}
-      IDEAS_TABLE_NAME: dailyidea-ideas-${self:provider.stage}
+      LIKES_TABLE_NAME: ${self:custom.likesTableName}
+      IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
+  createIdea:
+    handler: functions.create_idea.create_idea.endpoint
+    role: LambdaCreateIdeaFunctionRole
+    environment:
+      IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
+      TAGS_TABLE_NAME: ${self:custom.tagsTableName}
   developmentLogger:
     handler: functions.development_logger.development_logger.endpoint
     role: LambdaDevelopmentLoggerFunctionRole
@@ -96,6 +103,7 @@ custom:
         field: toggleIdeaVisibility
         request: "ideas/toggle-visibility/toggleIdeaVisibility-request-mapping-template.txt"
         response: "ideas/toggle-visibility/toggleIdeaVisibility-response-mapping-template.txt"
+
       - dataSource: Ideas
         type: Query
         field: userIdeas
@@ -126,16 +134,6 @@ custom:
         field: toggleEmailNotifications
         request: "toggleEmailNotifications-request-mapping-template.txt"
         response: "toggleEmailNotifications-response-mapping-template.txt"
-      - dataSource: Ideas
-        type: Mutation
-        field: createIdea
-        request: "common/before-mapping-template.txt"
-        response: "common/after-mapping-template.txt"
-        kind: PIPELINE
-        functions:
-          - createIdeaItem
-          - logResults
-          - increaseIdeasCreatedCount
       - dataSource: IdeaComments
         type: Mutation
         field: deleteComment
@@ -197,7 +195,7 @@ custom:
         functions:
           - createLikedIdeaItem
           - increaseIdeaLikesCount
-#          - logResults
+      #          - logResults
       - dataSource: Likes
         type: Mutation
         field: unlikeIdea
@@ -212,6 +210,11 @@ custom:
         dataSource: LikedIdeasHandler
         request: "getLikedIdeas-request-mapping-template.txt"
         response: "getLikedIdeas-response-mapping-template.txt"
+      - dataSource: CreateIdeaHandler
+        type: Mutation
+        field: createIdea
+        request: "createIdea-request-mapping-template.txt"
+        response: "createIdea-response-mapping-template.txt"
       - type: Mutation
         field: shareIdea
         dataSource: ShareIdeaHandler
@@ -243,10 +246,10 @@ custom:
           - decreaseFollowersCount
           - decreaseFolloweesCount
     #      - dataSource: RequestLink
-#        type: Mutation
-#        field: requestLogin
-#        request: "requestLogin-request-mapping-template.txt"
-#        response: "requestLogin-response-mapping-template.txt"
+    #        type: Mutation
+    #        field: requestLogin
+    #        request: "requestLogin-request-mapping-template.txt"
+    #        response: "requestLogin-response-mapping-template.txt"
     # schema: # defaults schema.graphql
     serviceRole: "AppSyncServiceRole"
     dataSources:
@@ -255,6 +258,12 @@ custom:
         description: 'Lambda Liked Ideas Data Source'
         config:
           lambdaFunctionArn: { Fn::GetAtt: [GetLikedIdeasLambdaFunction, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
+      - type: AWS_LAMBDA
+        name: CreateIdeaHandler
+        description: 'Create Idea and Tags'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [CreateIdeaLambdaFunction, Arn] }
           serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AWS_LAMBDA
         name: ShareIdeaHandler
@@ -381,19 +390,11 @@ custom:
         request: 'user-info/follows/followsMe-request-mapping-template.txt'
         response: 'user-info/follows/followsMe-response-mapping-template.txt'
 
-
-      - dataSource: Ideas
-        name: createIdeaItem
-        request: 'ideas/create-idea/createIdeaItem-request-mapping-template.txt'
-        response: 'ideas/create-idea/createIdeaItem-response-mapping-template.txt'
       - dataSource: Ideas
         name: deleteIdeaItem
         request: 'ideas/delete-idea/deleteIdeaItem-request-mapping-template.txt'
         response: 'ideas/delete-idea/deleteIdeaItem-response-mapping-template.txt'
-      - dataSource: Users
-        name: increaseIdeasCreatedCount
-        request: 'ideas/create-idea/increaseIdeasCreatedCount-request-mapping-template.txt'
-        response: 'ideas/create-idea/increaseIdeasCreatedCount-response-mapping-template.txt'
+
       - dataSource: Users
         name: decreaseIdeasCreatedCount
         request: 'ideas/delete-idea/decreaseIdeasCreatedCount-request-mapping-template.txt'
@@ -416,6 +417,7 @@ custom:
 resources:
   - Resources:
       LambdaGetLikedIdeasFunctionRole: ${file(functions/get_liked_ideas/function_role.yml):LambdaGetLikedIdeasFunctionRole}
+      LambdaCreateIdeaFunctionRole: ${file(functions/create_idea/function_role.yml):LambdaCreateIdeaFunctionRole}
       LambdaDevelopmentLoggerFunctionRole: ${file(functions/development_logger/function_role.yml):LambdaDevelopmentLoggerFunctionRole}
       LambdaShareIdeaFunctionRole: ${file(functions/share_idea/function_role.yml):LambdaShareIdeaFunctionRole}
       AppSyncLambdaServiceRole:
@@ -442,6 +444,8 @@ resources:
                     Resource:
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getLikedIdeas"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getLikedIdeas:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-createIdea"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-createIdea:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-shareIdea"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-shareIdea:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-developmentLogger"

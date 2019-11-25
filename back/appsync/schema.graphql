@@ -2,7 +2,9 @@ type Mutation {
 
     createIdea(
 		title: String!,
-		content: String
+		content: String,
+		isPrivate: Boolean,
+		tags: [String]
 	): Idea!
 
 	deleteIdea(

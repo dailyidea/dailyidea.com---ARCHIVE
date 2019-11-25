@@ -9,7 +9,7 @@
     "update" : {
         "expression" : "SET content = :content, title = :title, ideaDate = :ideaDate",
         "expressionValues": {
-        	":content" : { "S" : "${context.arguments.content}" },
+        	":content" : { "S" : "${util.escapeJavaScript($context.arguments.content)}" },
         	":title" : { "S" : "${context.arguments.title}" },
         	":ideaDate" : { "S" : "${context.arguments.ideaDate}" }
         }

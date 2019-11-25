@@ -10,32 +10,32 @@
 
       <div class="createIdeaBox">
         <!-- Header -->
-        <v-layout class="text" hidden-sm-and-down>
-          My idea:
-          <div class="privateIcon">
+        <v-row>
+          <v-col cols="6">
+            MY IDEA
+          </v-col>
+          <v-col cols="6" style="text-align: right">
             <img
               alt="image"
-              class="globeSmallImage"
               src="~/assets/images/publicIdea.png"
             />
-          </div>
-        </v-layout>
+          </v-col>
+        </v-row>
 
         <!-- title -->
-        <v-textarea
+        <v-text-field
           v-model="title"
           v-validate="'required|max:100'"
+          label="Idea Title"
           :error-messages="errors.collect('title')"
           data-vv-name="title"
-          outlined
-          label="Idea Title"
-        >
-        </v-textarea>
+          name="idea_title"
+        ></v-text-field>
 
         <!-- Descriptiion = trix editor -->
         <div class="ideaEditor">
           <client-only>
-            <trix v-model="contents" class="editor" />
+            <trix v-model="contents" class="editor" placeholder="My Idea" />
           </client-only>
         </div>
 
@@ -49,7 +49,6 @@
           chips
           clearable
           multiple
-          outlined
           label="Add Tags"
         >
           <template v-slot:selection="{ attrs, item, select, selected }">
@@ -134,7 +133,8 @@ export default {
         const result = await this.$amplifyApi.graphql(
           graphqlOperation(createIdea, {
             content: this.contents,
-            title: this.title
+            title: this.title,
+            tags: this.chips
           })
         )
 
@@ -153,7 +153,8 @@ export default {
           force: true
         })
       } catch (err) {
-        this.creatingIdea = false
+          console.log(err);
+          this.creatingIdea = false
         this.snackbarMessage = 'Something went wrong!!'
         this.snackbarColor = 'error'
         this.snackbarVisible = true
@@ -186,15 +187,6 @@ export default {
       font-size: 16px;
       margin-bottom: 10px;
     }
-    .privateIcon {
-      width: 90%;
-      float: right;
-      text-align: right;
-      // margin-left: 89%;
-      .privateIcon {
-        font-size: 15px;
-      }
-    }
 
     .ideaEditor {
       font-size: 14px;
@@ -204,9 +196,14 @@ export default {
       }
 
       .editor {
+        trix-editor {
+          border: 1px solid #949494;
+          &:active,&:focus{
+            border: 1px solid #35124e
+          }
+        }
         .trix-content {
-          height: 170px !important;
-          max-height: 200px !important;
+          height: 250px !important;
           overflow-y: auto;
         }
       }
