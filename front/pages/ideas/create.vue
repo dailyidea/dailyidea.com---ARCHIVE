@@ -15,10 +15,7 @@
             MY IDEA
           </v-col>
           <v-col cols="6" style="text-align: right">
-            <img
-              alt="image"
-              src="~/assets/images/publicIdea.png"
-            />
+            <img alt="image" src="~/assets/images/publicIdea.png" />
           </v-col>
         </v-row>
 
@@ -35,7 +32,11 @@
         <!-- Descriptiion = trix editor -->
         <div class="ideaEditor">
           <client-only>
-            <trix v-model="contents" class="editor" placeholder="My Idea" />
+            <trix-wrapper
+              v-model="contents"
+              class="editor"
+              placeholder="My Idea"
+            />
           </client-only>
         </div>
 
@@ -92,7 +93,7 @@ import Layout from '@/components/layout/Layout'
 import createIdea from '~/graphql/mutations/createIdea'
 
 export default {
-  components: { Layout, Trix: TrixWrapper },
+  components: { Layout, TrixWrapper },
   middleware: 'authenticated',
   $_veeValidate: {
     validator: 'new'
@@ -153,8 +154,8 @@ export default {
           force: true
         })
       } catch (err) {
-          console.log(err);
-          this.creatingIdea = false
+        console.log(err)
+        this.creatingIdea = false
         this.snackbarMessage = 'Something went wrong!!'
         this.snackbarColor = 'error'
         this.snackbarVisible = true
@@ -198,8 +199,9 @@ export default {
       .editor {
         trix-editor {
           border: 1px solid #949494;
-          &:active,&:focus{
-            border: 1px solid #35124e
+          &:active,
+          &:focus {
+            border: 1px solid #35124e;
           }
         }
         .trix-content {

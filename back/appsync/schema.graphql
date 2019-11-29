@@ -13,10 +13,11 @@ type Mutation {
 
 	updateIdea(
 	    ideaId: String!,
-	    content: String!,
-		title: String!,
-		ideaDate: String
-    ): Idea!
+	    ideaOwnerId: String!,
+		title: String!
+	    content: String,
+		tags:[String],
+    ): IdeaUpdateRusult!
 
 	addComment(
 	    body: String!,
@@ -180,6 +181,10 @@ type Result  @aws_api_key @aws_cognito_user_pools{
 	ok: Boolean!
 }
 
+type IdeaUpdateRusult{
+	idea: Idea!
+	result: Result!
+}
 
 type  IdeaConnection @aws_api_key @aws_cognito_user_pools {
 	items: [Idea!]!

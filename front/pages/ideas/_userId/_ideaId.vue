@@ -113,7 +113,7 @@
 
         <div v-else class="ideaEditor">
           <client-only>
-            <trix
+            <trix-wrapper
               v-model="ideaEditContents"
               class="editor"
               placeholder="Enter content"
@@ -298,7 +298,7 @@
                   :input-value="selected"
                   close
                   label
-                  @click="select;"
+                  @click="() => {}"
                   @click:close="removeTag(item)"
                 >
                   <strong>{{ item }}</strong>
@@ -368,17 +368,15 @@ import SaveIdeaBookmark from '@/components/SaveIdeaBookmark'
 import TrixWrapper from '@/components/TrixWrapper'
 import VisualNotifier from '~/components/VisualNotifier'
 
-import getIsIdeaLikedByMe from '~/graphql/query/getIsIdeaLikedByMe'
+// import getIsIdeaLikedByMe from '~/graphql/query/getIsIdeaLikedByMe'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import addComment from '~/graphql/mutations/addComment'
 import deleteComment from '~/graphql/mutations/deleteComment'
 import getIdeaTags from '~/graphql/query/getIdeaTags'
 import getComments from '~/graphql/query/getComments'
 import Layout from '@/components/layout/Layout'
-import addTags from '~/graphql/mutations/addTags'
-import userInfo from '~/graphql/query/userInfo'
+// import userInfo from '~/graphql/query/userInfo'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
-import deleteTag from '~/graphql/mutations/deleteTag'
 import getUsersIdea from '~/graphql/query/getUsersIdea'
 
 export default {
@@ -387,7 +385,7 @@ export default {
     CommentWithoutLoginDialog,
     SubsribeForPrivateIdeaDialog,
     ShareIdeaByEmailDialog,
-    Trix: TrixWrapper,
+    TrixWrapper,
     SaveIdeaBookmark,
     VisualNotifier
   },
@@ -405,50 +403,6 @@ export default {
       authMode: 'API_KEY'
     })
 
-    // Read user(idea auther) info
-    const userInfoResult = (
-      await app.$amplifyApi.graphql({
-        query: userInfo,
-        variables: {
-          userId: route.params.userId
-        },
-        authMode: 'API_KEY'
-      })
-    ).data.userInfo.userInfo
-    console.log('user info is', JSON.stringify(userInfoResult))
-
-    let isLiked = null
-    if (store.getters['cognito/isLoggedIn']) {
-      isLiked = await app.$amplifyApi.graphql({
-        query: getIsIdeaLikedByMe,
-        variables: {
-          ideaId: route.params.ideaId
-        }
-      })
-    }
-
-    const ideaTags = []
-    if (store.getters['cognito/isLoggedIn']) {
-      const tag = await app.$amplifyApi.graphql({
-        query: getIdeaTags,
-        variables: {
-          ideaId: route.params.ideaId
-        }
-      })
-
-      for (let i = 0; i < tag.data.ideaTags.length; i++) {
-        ideaTags.push(tag.data.ideaTags[i].tag)
-      }
-    }
-
-    const result = await app.$amplifyApi.graphql({
-      query: getComments,
-      variables: {
-        ideaId: route.params.ideaId,
-        limit: 10
-      },
-      authMode: 'API_KEY'
-    })
 
     let isIdeaEditable = false
     if (
@@ -459,11 +413,9 @@ export default {
     }
     return {
       idea: data.getUsersIdea,
-      ideaTags,
-      isIdeaLiked:
-        isLiked != null ? isLiked.data.getIsIdeaLikedByMe.isLiked : false,
-      commentList: result.data.getComments.items,
-      nextToken: result.data.getComments.nextToken,
+      ideaTags: [],
+      commentList: [],
+      nextToken: undefined,
 
       ideaOwnerId: route.params.userId,
       isIdeaEditable
@@ -482,7 +434,6 @@ export default {
     chips: [],
     ideaTags: [],
     editIdeaTags: [],
-    tagsToRemove: [],
     loadingIdea: false,
 
     // Idea Editor
@@ -505,7 +456,9 @@ export default {
     showEmailShareDialog: false
   }),
 
-  mounted() {},
+  mounted() {
+    this.loadSecondaryData()
+  },
 
   created() {
     this.mobileHeaderUiOptions.pageTitle = "Bob's Idea"
@@ -647,8 +600,7 @@ export default {
         this.ideaEditorVisible = false
       } else {
         this.ideaEditContents = this.idea.content
-        this.editIdeaTags = this.ideaTags
-        this.tagsToRemove = []
+        this.editIdeaTags = this.ideaTags.map(t => t)
         this.ideaEditorVisible = true
       }
       this.mobileHeaderUiOptions.ideaEditorVisible = this.ideaEditorVisible
@@ -656,9 +608,8 @@ export default {
 
     // Edit Idea Mode - remove ccomment from array
     removeTag(item) {
-      this.ideaTags.splice(this.ideaTags.indexOf(item), 1)
-      this.ideaTags = [...this.ideaTags]
-      this.tagsToRemove.push(item)
+      console.log(item)
+      this.editIdeaTags.splice(this.editIdeaTags.indexOf(item), 1)
     },
 
     // On Save Idea
@@ -667,69 +618,64 @@ export default {
 
       this.errorMsg = ''
       if (!result) {
-        console.log('returing from here....')
         this.errorMsg = 'This field is required.'
         return
       }
       this.updatingIdea = true
-
-      try {
-        // save content
-        await this.$amplifyApi.graphql(
-          graphqlOperation(updateIdea, {
-            ideaId: this.$route.params.ideaId,
-            content: this.ideaEditContents,
-            title: this.idea.title
-          })
-        )
-        this.idea.content = this.ideaEditContents
-
-        // delete Tag
-        for (let i = 0; i < this.tagsToRemove.length; i++) {
+      setTimeout(async () => {
+        try {
           await this.$amplifyApi.graphql(
-            graphqlOperation(deleteTag, {
-              tag: {
-                ideaId: this.$route.params.ideaId,
-                tag: this.tagsToRemove[i]
-              }
+            graphqlOperation(updateIdea, {
+              ideaId: this.$route.params.ideaId,
+              ideaOwnerId: this.$route.params.userId,
+              content: this.ideaEditContents,
+              title: this.idea.title,
+              tags: this.editIdeaTags
             })
           )
-        }
+          this.idea.content = this.ideaEditContents
+          this.ideaTags = this.editIdeaTags
+          this.updatingIdea = false
+          this.ideaEditorVisible = false
+          this.mobileHeaderUiOptions.ideaEditorVisible = false
 
-        // save tags
-        const tagsToSave = []
-        for (let i = 0; i < this.editIdeaTags.length; i++) {
-          tagsToSave.push({
-            tag: this.editIdeaTags[i],
+          this.$refs.notifier.success('Idea Updated')
+        } catch (err) {
+          this.updatingIdea = false
+          this.$refs.notifier.error('Something went wrong!!')
+        }
+      }, 10) // if last tag not saved yet editor needs time to process outer click event
+    },
+    async loadIdeaTags() {
+      const ideaTags = []
+      if (this.$store.getters['cognito/isLoggedIn']) {
+        const tag = await this.$amplifyApi.graphql({
+          query: getIdeaTags,
+          variables: {
             ideaId: this.$route.params.ideaId
-          })
-        }
-        await this.$amplifyApi.graphql(
-          graphqlOperation(addTags, {
-            tags: tagsToSave
-          })
-        )
-        this.ideaTags = this.editIdeaTags
+          }
+        })
 
-        this.updatingIdea = false
-        this.ideaEditorVisible = false
-        this.mobileHeaderUiOptions.ideaEditorVisible = false
-        this.$refs.notifier.success('Idea Updated')
-
-        // Fetch tags
-        const tag = await this.$amplifyApi.graphql(
-          graphqlOperation(getIdeaTags, { ideaId: this.$route.params.ideaId })
-        )
-
-        this.ideaTags = []
         for (let i = 0; i < tag.data.ideaTags.length; i++) {
-          this.ideaTags.push(tag.data.ideaTags[i].tag)
+          ideaTags.push(tag.data.ideaTags[i].tag)
         }
-      } catch (err) {
-        console.error('failed to save idea', err)
-        this.updatingIdea = false
-        this.$refs.notifier.error('Something went wrong!!')
       }
+      this.ideaTags = ideaTags
+    },
+    async loadComments() {
+      const result = await this.$amplifyApi.graphql({
+        query: getComments,
+        variables: {
+          ideaId: this.$route.params.ideaId,
+          limit: 10
+        },
+        authMode: 'API_KEY'
+      })
+      this.commentList = result.data.getComments.items
+    },
+    loadSecondaryData() {
+      this.loadComments()
+      this.loadIdeaTags()
     }
   }
 }

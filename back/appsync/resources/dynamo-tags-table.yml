@@ -7,6 +7,8 @@ Resources:
           AttributeType: S
         - AttributeName: ideaId
           AttributeType: S
+        - AttributeName: index
+          AttributeType: N
       KeySchema:
         - AttributeName: tag
           KeyType: HASH
@@ -19,5 +21,13 @@ Resources:
           KeySchema:
             - AttributeName: ideaId
               KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+        - IndexName: ideaTagsByIndex
+          KeySchema:
+            - AttributeName: ideaId
+              KeyType: HASH
+            - AttributeName: index
+              KeyType: RANGE
           Projection:
             ProjectionType: ALL

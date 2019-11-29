@@ -1,9 +1,13 @@
 import boto3
 import logging
-import bleach
+
 import uuid
 import datetime
 import os
+
+from ..utils.common_db_utils import chunks, BATCH_WRITE_CHUNK_SIZE
+from ..utils.idea_utils import sanitize_idea_content, prepare_idea_tags_for_put_request
+
 
 # logger = logging.getLogger()
 # logger.setLevel(logging.INFO)
@@ -13,16 +17,10 @@ def endpoint(event, lambda_context):
     ctx = event.get('ctx')
     arguments = ctx.get('arguments')
     title = arguments.get('title')
-    content = arguments.get('content', None)
-    if content and len(content):
-        cleaned_content = bleach.clean(content,
-                                       tags=['b', 'strong', 'p', 'br', 'a', 's', 'em', 'u',
-                                             'ol', 'ul', 'li',
-                                             'h1', 'h2', 'h3', 'h4',
-                                             'sub', 'sup',
-                                             'div', 'del', 'blockquote', 'pre'],
-                                       attributes={'a': ['href', 'target']}, strip_comments=False)
+    content = sanitize_idea_content(arguments.get('content', None))
     tags = arguments.get('tags', list())
+    if len(tags) > 100:
+        raise Exception('Too much tags')
     is_private = arguments.get('isPrivate', False)
 
     client = boto3.client('dynamodb', region_name='us-east-1')
@@ -34,7 +32,7 @@ def endpoint(event, lambda_context):
             'ideaId': {"S": idea_id},
             'userId': {"S": creator_id},
             "title": {"S": title},
-            "content": {"S": cleaned_content} if (content and len(content)) else {"NULL": True},
+            "content": {"S": content} if content else {"NULL": True},
             "ideaDate": {"S": datetime.datetime.now().isoformat()},
             "createdDate": {"S": datetime.datetime.now().isoformat()},
             "likesCount": {"N": "0"},
@@ -49,14 +47,12 @@ def endpoint(event, lambda_context):
         ExpressionAttributeValues={":plusOne": {"N": '1'}},
     )
     if len(tags):
-        prepared_tags = [
-            {'PutRequest': {'Item': {'userId': {"S": creator_id}, "ideaId": {"S": idea_id}, "tag": {"S": tag}}}}
-            for tag in tags
-        ]
-        client.batch_write_item(
-            RequestItems={
-                os.environ.get('TAGS_TABLE_NAME'): prepared_tags
-            }
-        )
+        prepared_tags = prepare_idea_tags_for_put_request(tags, creator_id, idea_id)
+        for tags_chunk in chunks(prepared_tags, BATCH_WRITE_CHUNK_SIZE):
+            client.batch_write_item(
+                RequestItems={
+                    os.environ.get('TAGS_TABLE_NAME'): tags_chunk
+                }
+            )
 
     return {'ideaId': idea_id}
