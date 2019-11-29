@@ -31,6 +31,13 @@ functions:
       IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
       USERS_TABLE_NAME: ${self:custom.usersTableName}
       TAGS_TABLE_NAME: ${self:custom.tagsTableName}
+  updateIdea:
+    handler: functions.update_idea.update_idea.endpoint
+    role: LambdaUpdateIdeaFunctionRole
+    environment:
+      IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
+      TAGS_TABLE_NAME: ${self:custom.tagsTableName}
   developmentLogger:
     handler: functions.development_logger.development_logger.endpoint
     role: LambdaDevelopmentLoggerFunctionRole
@@ -166,7 +173,7 @@ custom:
         functions:
           - deleteIdeaItem
           - decreaseIdeasCreatedCount
-      - dataSource: Ideas
+      - dataSource: UpdateIdeaHandler
         type: Mutation
         field: updateIdea
         request: "updateIdea-request-mapping-template.txt"
@@ -264,6 +271,12 @@ custom:
         description: 'Create Idea and Tags'
         config:
           lambdaFunctionArn: { Fn::GetAtt: [CreateIdeaLambdaFunction, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
+      - type: AWS_LAMBDA
+        name: UpdateIdeaHandler
+        description: 'Update Idea and Tags'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [UpdateIdeaLambdaFunction, Arn] }
           serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AWS_LAMBDA
         name: ShareIdeaHandler
@@ -418,6 +431,7 @@ resources:
   - Resources:
       LambdaGetLikedIdeasFunctionRole: ${file(functions/get_liked_ideas/function_role.yml):LambdaGetLikedIdeasFunctionRole}
       LambdaCreateIdeaFunctionRole: ${file(functions/create_idea/function_role.yml):LambdaCreateIdeaFunctionRole}
+      LambdaUpdateIdeaFunctionRole: ${file(functions/update_idea/function_role.yml):LambdaUpdateIdeaFunctionRole}
       LambdaDevelopmentLoggerFunctionRole: ${file(functions/development_logger/function_role.yml):LambdaDevelopmentLoggerFunctionRole}
       LambdaShareIdeaFunctionRole: ${file(functions/share_idea/function_role.yml):LambdaShareIdeaFunctionRole}
       AppSyncLambdaServiceRole:
@@ -446,6 +460,8 @@ resources:
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getLikedIdeas:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-createIdea"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-createIdea:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-updateIdea"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-updateIdea:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-shareIdea"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-shareIdea:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-developmentLogger"

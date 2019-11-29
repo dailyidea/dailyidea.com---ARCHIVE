@@ -9,6 +9,6 @@
             },
         }
     },
-    "index": "ideaTags",
+    "index": "ideaTagsByIndex",
     "limit": 100
 }

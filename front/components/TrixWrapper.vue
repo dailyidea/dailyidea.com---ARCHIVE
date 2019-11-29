@@ -96,8 +96,8 @@ export default {
   }
   trix-toolbar {
     .trix-button--icon {
-      width: 1.8em;
-      height: 1.8em;
+      width: 25px;
+      height: 25px;
       margin: 0 3px;
       &:first-child {
         margin-left: 0;
