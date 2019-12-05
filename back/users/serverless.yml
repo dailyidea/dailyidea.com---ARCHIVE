@@ -6,10 +6,12 @@ provider:
   stage: ${env:STAGE, 'dev'}
   region: ${env:AWS_REGION, 'us-east-1'}
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
+  emailStaticBucketName: dailyidea-serverless-email-static-${self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
         - ses:SendEmail
+        - lambda:InvokeFunction
       Resource: "*"
 
 custom:
@@ -38,6 +40,7 @@ functions:
     role: CustomUserOnboardingRole
     environment:
       DOMAIN_NAME: ${self:provider.domainName}
+      BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
       SES_REGION: ${self:provider.region}
       DYNAMO_REGION: ${self:provider.region}
       SOURCE_EMAIL: ${self:custom.ideasMailBox}@${self:provider.domainName}

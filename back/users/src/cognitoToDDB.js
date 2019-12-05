@@ -1,5 +1,5 @@
-var aws = require("aws-sdk");
-var ddb = new aws.DynamoDB({ apiVersion: "2012-10-08" });
+const aws = require("aws-sdk");
+const ddb = new aws.DynamoDB({ apiVersion: "2012-10-08" });
 
 /**
  *
@@ -39,21 +39,22 @@ var ddb = new aws.DynamoDB({ apiVersion: "2012-10-08" });
  */
 
 exports.handler = async (event, context) => {
-  let date = new Date();
+  const date = new Date();
 
   const tableName = process.env.TABLE_NAME;
   const region = process.env.REGION;
-  var lambda = new aws.Lambda({
-    region: region
+  const lambda = new aws.Lambda({
+    region,
+    apiVersion: "2015-03-31"
   });
   console.log("table=" + tableName + " -- region=" + region);
 
-  aws.config.update({ region: region });
+  aws.config.update({ region });
 
   // If the required parameters are present, proceed
   if (event.request.userAttributes.sub) {
     // -- Write data to DDB
-    let ddbParams = {
+    const ddbParams = {
       TableName: tableName,
       Item: {
         userId: { S: event.request.userAttributes.sub },
@@ -74,24 +75,23 @@ exports.handler = async (event, context) => {
     }
 
     console.log("Success: Everything executed correctly");
-    lambda.invoke(
-      {
-        FunctionName: "sendDailyToUser",
-        Payload: JSON.stringify(
-          { email: event.request.userAttributes.email },
-          null,
-          2
-        ) // pass params
-      },
-      function(error, data) {
-        if (error) {
-          context.done("error", error);
-        }
-        if (data.Payload) {
-          context.succeed(null, event);
-        }
-      }
-    );
+    const request = lambda.invoke({
+      FunctionName:
+        "arn:aws:lambda:us-east-1:133662108267:function:dailyidea-mail-processing-dev-sendDailyToUser",
+      Payload: JSON.stringify(
+        { email: event.request.userAttributes.email },
+        null,
+        2
+      ), // pass params
+      LogType: "Tail"
+    });
+    try {
+      // request.send()
+      await request.promise();
+      context.done(null, event);
+    } catch (err) {
+      context.done("error", err);
+    }
   } else {
     // Nothing to do, the user's email ID is unknown
     console.log("Error: Nothing was written to DDB or SQS");

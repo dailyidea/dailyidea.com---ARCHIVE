@@ -86,4 +86,5 @@ Resources:
                 - Effect: Allow
                   Action:
                     - ses:SendEmail
+                    - lambda:InvokeFunction
                   Resource: "*"
