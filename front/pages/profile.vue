@@ -15,8 +15,9 @@
             <v-btn small to="/profile" class="userIcon" fab disabled>
               <v-icon>fas fa-user</v-icon>
             </v-btn>
-            <div class="userName">Bob Smith</div>
-            <v-btn
+            <div class="userName">{{ userData.name }}</div>
+            <span v-if="!isMe">
+              <v-btn
               v-if="!isFollowUser"
               class="followAndUnFollowBtn"
               dark
@@ -32,6 +33,8 @@
               @click="followAndUnFollow()"
               >UNFOLLOW</v-btn
             >
+            </span>
+
           </div>
 
           <!-- Mobile - Profile Description -->
@@ -45,19 +48,19 @@
           <v-layout class="boxContainer" row>
             <v-flex xs4 sm4 md4 lg4 xl4>
               <div class="box first">
-                <div class="number">{{ userData.userInfo.ideasCreated }}</div>
+                <div class="number">{{ userData.ideasCreated }}</div>
                 <div class="text">Ideas</div>
               </div>
             </v-flex>
             <v-flex xs4 sm4 md4 lg4 xl4>
               <div class="box">
-                <div class="number">{{ userData.userInfo.followersCount }}</div>
+                <div class="number">{{ userData.followersCount }}</div>
                 <div class="text">Followers</div>
               </div>
             </v-flex>
             <v-flex xs4 sm4 md4 lg4 xl4>
               <div class="box last">
-                <div class="number">{{ userData.userInfo.followeesCount }}</div>
+                <div class="number">{{ userData.followeesCount }}</div>
                 <div class="text">Following</div>
               </div>
             </v-flex>
@@ -132,10 +135,9 @@ export default {
 
     const pageSize = 25
 
-    const { data } = await app.$amplifyApi.graphql(
+    const {data} = await app.$amplifyApi.graphql(
       graphqlOperation(userInfo, { userId: profileUserId })
     )
-    console.log('profile data', data)
 
     const userIdeasList = (
       await app.$amplifyApi.graphql(
@@ -149,7 +151,7 @@ export default {
 
     return {
       nextToken: userIdeasList.nextToken,
-      userData: data.userInfo,
+      userData: data.userInfo.userInfo,
       ideaList: userIdeasList.items,
       profileUserId,
       pageSize
@@ -165,11 +167,20 @@ export default {
 
     profileUserId: ''
   }),
+  computed: {
+    isMe() {
+        console.log(this.$store.getters['cognito/userSub']);
+        console.log(this.$store.getters['cognito/userSub']);
+        return (
+        this.$store.getters['cognito/userSub'] &&
+        this.$store.getters['cognito/userSub'] === this.userData.userId
+      )
+    }
+  },
 
   mounted() {},
 
-  created() {
-  },
+  created() {},
 
   methods: {
     async loadMoreIdea() {
@@ -204,9 +215,9 @@ export default {
           })
         )
         if (this.isFollowUser) {
-          this.userData.userInfo.followersCount++
+          this.userData.followersCount++
         } else {
-          this.userData.userInfo.followersCount--
+          this.userData.followersCount--
         }
       } catch (err) {
         console.error(err)

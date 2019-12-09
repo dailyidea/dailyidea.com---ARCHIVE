@@ -17,7 +17,7 @@
         <v-toolbar color="white" flat class="desktopHeader hidden-sm-and-down">
           <v-toolbar-title class="pageTitle">
             <template v-if="!isIdeaEditable">
-              Ravi's Idea
+              {{ idea.authorName }}'s Idea
             </template>
             <v-btn
               v-else
@@ -99,10 +99,10 @@
 
         <!-- Metadata -->
         <div class="metadata">
-          <span>
-            <v-icon class="circle">mdi-checkbox-blank-circle</v-icon>
-            &nbsp; dummy@missing_field.com
-          </span>
+<!--          <span>-->
+<!--            <v-icon class="circle">mdi-checkbox-blank-circle</v-icon>-->
+<!--            &nbsp; dummy@missing_field.com-->
+<!--          </span>-->
           <span class="timing">{{ idea.createdDate | toRelativeDate }}</span>
         </div>
 

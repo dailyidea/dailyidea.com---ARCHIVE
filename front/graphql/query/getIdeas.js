@@ -4,6 +4,7 @@ query ideas($nextToken: String, $limit: Int) {
     items {
       userId
       ideaId
+      authorName
       content
       title
       createdDate

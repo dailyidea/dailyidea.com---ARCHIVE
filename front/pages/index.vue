@@ -57,6 +57,7 @@
                   class="reviews__review"
                   @click="onIdeaClick(idea)"
                 >
+                  <div><strong>{{idea.title}}</strong></div>
                   <div v-html="idea.content"></div>
                   <!-- User Icon -->
                   <div class="reviews__review__info">
@@ -74,7 +75,7 @@
                         class="reviews__review__info__detail__name-container"
                       >
                         <div class="reviews__review__info__detail__name">
-                          Boniface Esanji
+                          {{ idea.authorName }}
                         </div>
                         <div class="reviews__review__info__detail__time">
                           {{ idea.createdDate | toRelativeDate }}

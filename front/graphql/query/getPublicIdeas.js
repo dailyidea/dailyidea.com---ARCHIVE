@@ -3,6 +3,7 @@ query getPublicIdeas($nextToken: String, $limit: Int) {
   getPublicIdeas(nextToken: $nextToken, limit: $limit) {
     items {
       ideaId
+      authorName
       content
       title
       createdDate

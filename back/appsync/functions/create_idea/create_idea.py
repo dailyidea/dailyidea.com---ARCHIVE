@@ -26,6 +26,14 @@ def endpoint(event, lambda_context):
     client = boto3.client('dynamodb', region_name='us-east-1')
     idea_id = str(uuid.uuid4())
     creator_id = ctx.get('identity').get('username')
+
+    creator_account = client.get_item(
+        TableName=os.environ.get('USERS_TABLE_NAME'),
+        Key={'userId': {"S": creator_id}},
+    )['Item']
+    creator_name_raw = creator_account.get('name', None)
+    creator_name = creator_name_raw.get('S') if creator_name_raw else 'Anonymous User'
+
     client.put_item(
         TableName=os.environ.get('IDEAS_TABLE_NAME'),
         Item={
@@ -37,6 +45,7 @@ def endpoint(event, lambda_context):
             "createdDate": {"S": datetime.datetime.now().isoformat()},
             "likesCount": {"N": "0"},
             "commentsCount": {"N": "0"},
+            "authorName": {"S": creator_name},
             "visibility": {"S": "PRIVATE" if is_private else "PUBLIC"},
         })
     client.update_item(

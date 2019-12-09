@@ -86,6 +86,7 @@ functions:
           trigger: CustomMessage
     environment:
       DOMAIN_NAME: ${self:provider.domainName}
+      BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
   userToDynamoDB:
     handler: src/cognitoToDDB.handler
     role: CustomUserOnboardingRole

@@ -3,6 +3,7 @@ query getUsersIdeas($userId: String!) {
   getUsersIdeas(userId: $userId) {
     items:{
       ideaId
+      authorName
       content
       title
       createdDate

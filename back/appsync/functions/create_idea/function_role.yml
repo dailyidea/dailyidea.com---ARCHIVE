@@ -20,6 +20,7 @@ LambdaCreateIdeaFunctionRole:
                 - "logs:PutLogEvents"
                 - "logs:DescribeLogStreams"
                 - "dynamodb:PutItem"
+                - "dynamodb:GetItem"
                 - "dynamodb:UpdateItem"
                 - "dynamodb:BatchWriteItem"
               Effect: Allow

@@ -1,8 +1,23 @@
+const fs = require("fs");
+const path = require("path");
 const AWS = require("aws-sdk");
 const jwt = require("jsonwebtoken");
 const middy = require("middy");
 const { cors, jsonBodyParser, httpErrorHandler } = require("middy/middlewares");
-const loginTemplateHTML = require("../mail-templates/loginTemplateHTML");
+const Sqrl = require("squirrelly");
+
+const templatePath = path.join(
+  __dirname,
+  "../mail-templates/require_login_template.html"
+);
+const requireLoginTemplateHTMLTemplateRAw = fs.readFileSync(
+  templatePath,
+  "utf8"
+);
+
+const requireLoginTemplateHTMLCompiled = Sqrl.Compile(
+  requireLoginTemplateHTMLTemplateRAw
+);
 
 const generateToken = function(email) {
   return jwt.sign(
@@ -18,7 +33,7 @@ const generateToken = function(email) {
 //   region: process.env.DYNAMO_REGION
 // })
 
-const sendEmail = function(email, token) {
+const sendEmail = function(email, token, name = undefined) {
   const emailEncoded = encodeURIComponent(email);
   const ses = new AWS.SES({
     region: process.env.SES_REGION
@@ -31,12 +46,16 @@ const sendEmail = function(email, token) {
       Body: {
         Html: {
           Charset: "UTF-8",
-          Data: loginTemplateHTML.loginTemplateHTML(
-            process.env.BUCKET_URL_PREFIX,
-            process.env.DOMAIN_NAME,
-            email,
-            token,
-            emailEncoded
+          Data: requireLoginTemplateHTMLCompiled(
+            {
+              BUCKET_URL_PREFIX: process.env.BUCKET_URL_PREFIX,
+              DOMAIN_NAME: process.env.DOMAIN_NAME,
+              email,
+              token,
+              emailEncoded,
+              name
+            },
+            Sqrl
           )
         },
         Text: {
@@ -90,7 +109,8 @@ const sendMail = async (event, context) => {
     } else {
       console.log("Found", email);
       const token = generateToken(email);
-      await sendEmail(email, token, context);
+      const name = result.Items[0].name;
+      await sendEmail(email, token, name, context);
       return {
         body: JSON.stringify({ result: "success" })
       };

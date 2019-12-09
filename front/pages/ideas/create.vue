@@ -10,24 +10,28 @@
 
       <div class="createIdeaBox">
         <!-- Header -->
-        <v-row>
-          <v-col cols="6">
-            MY IDEA
-          </v-col>
-          <v-col cols="6" style="text-align: right">
-            <img alt="image" src="~/assets/images/publicIdea.png" />
-          </v-col>
-        </v-row>
+<!--        <v-row>-->
+<!--          <v-col cols="6">-->
+<!--            MY IDEA-->
+<!--          </v-col>-->
+<!--          <v-col cols="6" style="text-align: right">-->
+<!--            <img alt="image" src="~/assets/images/publicIdea.png" />-->
+<!--          </v-col>-->
+<!--        </v-row>-->
 
         <!-- title -->
         <v-text-field
           v-model="title"
           v-validate="'required|max:100'"
-          label="Idea Title"
+          label="Type your idea title"
           :error-messages="errors.collect('title')"
           data-vv-name="title"
           name="idea_title"
+          class="idea-name-field"
+          :single-line="true"
+          :solo="true"
         ></v-text-field>
+<!--        <input type="text">-->
 
         <!-- Descriptiion = trix editor -->
         <div class="ideaEditor">
@@ -35,7 +39,7 @@
             <trix-wrapper
               v-model="contents"
               class="editor"
-              placeholder="My Idea"
+              placeholder="Type your idea text"
             />
           </client-only>
         </div>
@@ -46,11 +50,12 @@
           v-validate="'max:100'"
           :error-messages="errors.collect('tag')"
           data-vv-name="tag"
-          class="ideaTag"
+          class="ideaTag idea-tags-field"
           chips
           clearable
           multiple
           label="Add Tags"
+          solo
         >
           <template v-slot:selection="{ attrs, item, select, selected }">
             <v-chip
@@ -100,7 +105,7 @@ export default {
   },
   data: () => ({
     mobileHeaderUiOptions: {
-      pageTitle: "Bob's Profile",
+      pageTitle: "SUBMIT AN IDEA",
       leftButtonType: 'back'
     },
     contents: '',
@@ -169,9 +174,37 @@ export default {
 <style lang="scss">
 #createIdeaPage {
   background: white;
-  min-height: 94vh;
+  /*min-height: 94vh;*/
   width: 100%;
   overflow-x: hidden;
+
+  .idea-name-field{
+    font-size: 18px;
+    .v-text-field__details{
+      padding: 0;
+    }
+    .v-input__slot{
+      box-shadow: none;
+      padding: 0;
+      margin: 0;
+      label{
+        color: #c1b8c6;
+        font-size: 22px;
+      }
+    }
+  }
+  .idea-tags-field{
+    .v-input__slot{
+      box-shadow: none;
+      padding: 0;
+      margin: 0;
+      font-size: 16px;
+      label{
+        color: #c1b8c6;
+        font-size: 22px;
+      }
+    }
+  }
 
   .createIdeaBox {
     width: 45%;
@@ -198,14 +231,24 @@ export default {
 
       .editor {
         trix-editor {
-          border: 1px solid #949494;
+          font-size: 16px;
+          border: none;
+          padding: 0;
           &:active,
           &:focus {
-            border: 1px solid #35124e;
+            border: none;
+          }
+          &:empty::before{
+            font-size: 18px;
+            color: #c1b8c6;
+            content: attr(placeholder);
+            position: relative;
+            top: -2px;
           }
         }
         .trix-content {
-          height: 250px !important;
+
+          height: 32vh;
           overflow-y: auto;
         }
       }

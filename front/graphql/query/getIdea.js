@@ -1,14 +1,13 @@
 export default `
-query getMyIdea($ideaId: String!) {
-  getMyIdea(ideaId: $ideaId) {
+query getIdea($ideaId: String!) {
+  getIdea(ideaId: $ideaId) {
     ideaId
-    authorName
     content
     title
     createdDate
     ideaDate
     likesCount
+    userId
     commentsCount
-    visibility
   }
 }`

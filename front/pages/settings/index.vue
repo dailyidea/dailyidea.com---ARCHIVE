@@ -16,7 +16,7 @@
             <v-icon>fas fa-pen</v-icon>
             Me
           </div>
-          <div class="metadata">John Doe</div>
+          <div class="metadata">{{ profileInfo.name }}</div>
         </nuxt-link>
 
         <nuxt-link class="settingsItem" :to="{ name: 'settings-email' }">
@@ -32,7 +32,7 @@
             <v-icon>fas fa-user</v-icon>
             Account
           </div>
-          <div class="metadata">john.doe@mail.com</div>
+          <div class="metadata">{{ userEmail }}</div>
         </div>
         <!-- <div class="settingsItem">
 					<div class="settingsInfo">
@@ -69,10 +69,9 @@ export default {
     const { data } = await app.$amplifyApi.graphql(
       graphqlOperation(userInfo, { userId: profileUserId })
     )
-    console.log('profile data', data)
 
     return {
-      profileInfo: data.userInfo
+      profileInfo: data.userInfo.userInfo
     }
   },
   data() {
@@ -82,6 +81,11 @@ export default {
         pageTitle: 'SETTINGS',
         leftButtonType: 'back'
       }
+    }
+  },
+  computed: {
+    userEmail() {
+      return this.$store.state.cognito.user.username
     }
   },
   methods: {

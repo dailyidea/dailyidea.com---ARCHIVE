@@ -7,6 +7,7 @@ query userInfo($userId: String!) {
     }
     userInfo {
       userId
+      name
       followersCount
       followeesCount
       ideasCreated
