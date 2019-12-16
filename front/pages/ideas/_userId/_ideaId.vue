@@ -99,10 +99,10 @@
 
         <!-- Metadata -->
         <div class="metadata">
-<!--          <span>-->
-<!--            <v-icon class="circle">mdi-checkbox-blank-circle</v-icon>-->
-<!--            &nbsp; dummy@missing_field.com-->
-<!--          </span>-->
+          <!--          <span>-->
+          <!--            <v-icon class="circle">mdi-checkbox-blank-circle</v-icon>-->
+          <!--            &nbsp; dummy@missing_field.com-->
+          <!--          </span>-->
           <span class="timing">{{ idea.createdDate | toRelativeDate }}</span>
         </div>
 
@@ -403,7 +403,6 @@ export default {
       authMode: 'API_KEY'
     })
 
-
     let isIdeaEditable = false
     if (
       store.getters['cognito/isLoggedIn'] &&
@@ -690,6 +689,12 @@ export default {
   position: relative;
   min-height: 90vh;
   padding-bottom: 80px;
+
+  blockquote {
+    margin: 0 0 0 0.3em;
+    padding: 0 0 0 0.6em;
+    border-left: 0.3em solid #ccc;
+  }
 
   @media #{$small-screen} {
     padding-right: 0%;

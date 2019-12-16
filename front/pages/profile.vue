@@ -18,23 +18,22 @@
             <div class="userName">{{ userData.name }}</div>
             <span v-if="!isMe">
               <v-btn
-              v-if="!isFollowUser"
-              class="followAndUnFollowBtn"
-              dark
-              color="primary"
-              @click="followAndUnFollow()"
-              >FOLLOW</v-btn
-            >
-            <v-btn
-              v-else
-              class="followAndUnFollowBtn"
-              dark
-              color="primary"
-              @click="followAndUnFollow()"
-              >UNFOLLOW</v-btn
-            >
+                v-if="!isFollowUser"
+                class="followAndUnFollowBtn"
+                dark
+                color="primary"
+                @click="followAndUnFollow()"
+                >FOLLOW</v-btn
+              >
+              <v-btn
+                v-else
+                class="followAndUnFollowBtn"
+                dark
+                color="primary"
+                @click="followAndUnFollow()"
+                >UNFOLLOW</v-btn
+              >
             </span>
-
           </div>
 
           <!-- Mobile - Profile Description -->
@@ -135,7 +134,7 @@ export default {
 
     const pageSize = 25
 
-    const {data} = await app.$amplifyApi.graphql(
+    const { data } = await app.$amplifyApi.graphql(
       graphqlOperation(userInfo, { userId: profileUserId })
     )
 
@@ -169,9 +168,9 @@ export default {
   }),
   computed: {
     isMe() {
-        console.log(this.$store.getters['cognito/userSub']);
-        console.log(this.$store.getters['cognito/userSub']);
-        return (
+      console.log(this.$store.getters['cognito/userSub'])
+      console.log(this.$store.getters['cognito/userSub'])
+      return (
         this.$store.getters['cognito/userSub'] &&
         this.$store.getters['cognito/userSub'] === this.userData.userId
       )

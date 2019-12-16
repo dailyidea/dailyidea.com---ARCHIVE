@@ -1,21 +1,36 @@
-from utils.mail_sender import send_mail_to_user
-from jinja2 import Template
 import os
 from datetime import date
+import json
+import boto3
+from utils.common import chunks, SEND_BATCH_EMAIL_CHUNK_SIZE
+
+AWS_REGION = os.environ['SES_AWS_REGION']
+MAILBOX_ADDR = os.environ['MAILBOX_ADDR']
+
+SENDER = f"Daily Idea <{MAILBOX_ADDR}>"
 
 
-def send_daily(user):
+def send_daily_bulk(users_list):
+    REQUEST_DAILY_EMAIL_TEMPLATE_NAME = os.environ.get('REQUEST_DAILY_EMAIL_TEMPLATE_NAME')
     BUCKET_URL_PREFIX = os.environ.get('BUCKET_URL_PREFIX')
     DOMAIN_NAME = os.environ.get('DOMAIN_NAME')
-    SUBJECT = f"[Daily Idea] Idea for {date.today().strftime('%a %b %d %Y')}"
-    render_context = {
-        "BUCKET_URL_PREFIX": BUCKET_URL_PREFIX,
-        "DOMAIN_NAME": DOMAIN_NAME,
-    }
-    with open('./mail_templates/request_daily_idea/daily_idea.html') as html_template_file:
-        html_template = Template(html_template_file.read())
-        with open('./mail_templates/request_daily_idea/daily_idea.txt') as txt_template_file:
-            txt_template = Template(txt_template_file.read())
-            html_content = html_template.render(**render_context)
-            txt_content = txt_template.render(**render_context)
-            send_mail_to_user(user.email, SUBJECT, txt_content, html_content)
+    TODAY = date.today().strftime('%a %b %d %Y')
+    client = boto3.client('ses', region_name=AWS_REGION)
+    for users_chunk in chunks([u for u in users_list], SEND_BATCH_EMAIL_CHUNK_SIZE):
+        client.send_bulk_templated_email(
+            Source=SENDER,
+            Template=REQUEST_DAILY_EMAIL_TEMPLATE_NAME,
+            DefaultTemplateData=json.dumps(
+                {"BUCKET_URL_PREFIX": BUCKET_URL_PREFIX, "DOMAIN_NAME": DOMAIN_NAME, "TODAY": TODAY, }),
+            Destinations=[
+                {
+                    'Destination': {
+                        'ToAddresses': [
+                            user.email,
+                        ],
+                    },
+                    'ReplacementTemplateData': json.dumps(
+                        {"USERNAME": user.name})
+                } for user in users_chunk
+            ]
+        )

@@ -33,6 +33,15 @@ Resources:
                 - ProcessIncomingMailLambdaFunction
                 - Arn
 
+  DailyIdeaRequestTemplate:
+    Type: AWS::SES::Template
+    Properties:
+      Template:
+        TemplateName: ${self:provider.requestDailyIdeaEmailTemplateName}
+        SubjectPart: '[Daily Idea] Idea for {{ TODAY }}'
+        TextPart: ${file(mail_templates/request_daily_idea/daily_idea.txt)}
+        HtmlPart: ${file(mail_templates/request_daily_idea/daily_idea.html)}
+
   SesEmailStorageS3Bucket:
     Type: AWS::S3::Bucket
     Properties:

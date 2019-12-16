@@ -147,14 +147,11 @@ export default {
           body: { email: this.email }
         })
 
-        this.logingUser = false
-
         // Redirect to login success page
         this.$router.push({
           name: 'auth-login-success',
           query: { email: this.email }
         })
-        this.logingUser = false
       } catch (e) {
         this.logingUser = false
 
