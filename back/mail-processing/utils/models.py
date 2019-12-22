@@ -17,6 +17,8 @@ class IdeaModel(Model):
     content = UnicodeAttribute(null=True)
     title = UnicodeAttribute(null=True)
     visibility = UnicodeAttribute(null=True)
+    authorName = UnicodeAttribute(null=True)
+    authorSlug = UnicodeAttribute(null=True)
     createdDate = UTCDateTimeAttribute(null=True)
     ideaDate = UTCDateTimeAttribute(null=True)
     likesCount = NumberAttribute(default=0)

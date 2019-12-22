@@ -43,6 +43,8 @@ exports.handler = async (event, context) => {
 
   const tableName = process.env.TABLE_NAME;
   const region = process.env.REGION;
+  const setUsersSlug = process.env.SET_USERS_SLUG_FUNCTION_NAME;
+  const sendDailyToUser = process.env.SEND_DAILY_TO_USER_FUNCTION_NAME;
   const lambda = new aws.Lambda({
     region,
     apiVersion: "2015-03-31"
@@ -75,9 +77,8 @@ exports.handler = async (event, context) => {
     }
 
     console.log("Success: Everything executed correctly");
-    const request = lambda.invoke({
-      FunctionName:
-        "arn:aws:lambda:us-east-1:133662108267:function:dailyidea-mail-processing-dev-sendDailyToUser",
+    const requestSendDaily = lambda.invoke({
+      FunctionName: sendDailyToUser,
       Payload: JSON.stringify(
         { email: event.request.userAttributes.email },
         null,
@@ -85,9 +86,22 @@ exports.handler = async (event, context) => {
       ), // pass params
       LogType: "Tail"
     });
+    const requestCreateSlug = lambda.invoke({
+      FunctionName: setUsersSlug,
+      Payload: JSON.stringify(
+        {
+          userId: event.request.userAttributes.sub,
+          userName: event.request.userAttributes.name
+        },
+        null,
+        2
+      ), // pass params
+      LogType: "Tail"
+    });
     try {
       // request.send()
-      await request.promise();
+      await requestSendDaily.promise();
+      await requestCreateSlug.promise();
       context.done(null, event);
     } catch (err) {
       context.done("error", err);

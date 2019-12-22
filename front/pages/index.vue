@@ -345,6 +345,7 @@ export default {
 
 .reviews {
   &__review {
+    word-break: break-word;
     position: relative;
     padding: 18px 25px;
     margin: auto;

@@ -32,6 +32,7 @@ def endpoint(event, lambda_context):
         Key={'userId': {"S": creator_id}},
     )['Item']
     creator_name_raw = creator_account.get('name', None)
+    creator_slug = creator_account.get('slug').get('S')
     creator_name = creator_name_raw.get('S') if creator_name_raw else 'Anonymous User'
 
     client.put_item(
@@ -46,6 +47,7 @@ def endpoint(event, lambda_context):
             "likesCount": {"N": "0"},
             "commentsCount": {"N": "0"},
             "authorName": {"S": creator_name},
+            "authorSlug": {"S": creator_slug},
             "visibility": {"S": "PRIVATE" if is_private else "PUBLIC"},
         })
     client.update_item(

@@ -50,8 +50,9 @@ type Mutation {
     ): ToggleNotificationsStateResult!
 
 	updateProfileInfo(
-		name: String
-	): UserInfo
+		name: String,
+		bio: String,
+	): UserUpdateInfoResult!
 
 	toggleIdeaVisibility(
 		ideaId: String!,
@@ -122,6 +123,17 @@ type AddCommentResult {
 	comment: Comment
 }
 
+type UserUpdateInfoResult {
+	result: Result!
+	updatedInfo: UserUpdatedInfo
+}
+
+type UserUpdatedInfo {
+	name: String
+	bio: String
+	slug: String
+}
+
 type ToggleNotificationsStateResult {
 	state: EmailNotificationsState!
 }
@@ -160,12 +172,20 @@ type User {
 	ideas(limit: Int!, nextToken: String): IdeaConnection
 }
 
+type UserUpdateProfileResult{
+	bio:String
+	name: String
+	slug:String
+}
+
 type UserInfo  @aws_api_key @aws_cognito_user_pools{
 	userId: String!
 	followersCount: Int
 	followeesCount: Int
 	ideasCreated: Int
 	name: String
+	bio: String
+	slug: String
 
 	isFollowingByMe: Boolean
 	followsMe: Boolean

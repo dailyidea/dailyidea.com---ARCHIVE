@@ -9,8 +9,8 @@ Resources:
 #          AttributeType: S
         - AttributeName: email
           AttributeType: S
-#        - AttributeName: createdDate
-#          AttributeType: S
+        - AttributeName: slug
+          AttributeType: S
 #        - AttributeName: firstLogin
 #          AttributeType: B
       KeySchema:
@@ -23,12 +23,13 @@ Resources:
               KeyType: HASH
           Projection:
             ProjectionType: ALL
-          ProvisionedThroughput:
-            ReadCapacityUnits: 1
-            WriteCapacityUnits: 1
-      ProvisionedThroughput:
-        ReadCapacityUnits: 1
-        WriteCapacityUnits: 1
+        - IndexName: slugIndex
+          KeySchema:
+            - AttributeName: slug
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST
       TableName: ${self:custom.usersTableName}
   CustomUserOnboardingRole:
       Type: AWS::IAM::Role

@@ -6,16 +6,37 @@
     }"
   >
     <v-layout id="profilePage">
+      <visual-notifier ref="notifier"></visual-notifier>
       <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
 
       <v-layout row wrap>
         <!-- Left Side -->
         <v-flex xs12 sm12 md5 lg5 xl5 class="profileDetails">
           <div class="sectionHeader">
-            <v-btn small to="/profile" class="userIcon" fab disabled>
+            <v-btn small to="/profile" class="userIcon" fab>
               <v-icon>fas fa-user</v-icon>
             </v-btn>
-            <div class="userName">{{ userData.name }}</div>
+            <div class="userName" style="vertical-align: top">
+              <span v-if="!editProfileInfoMode">
+                <v-btn rounded outlined @click="enableEditProfileInfo"
+                  >{{ userData.name }} <v-icon right>mdi-pencil</v-icon></v-btn
+                >
+              </span>
+              <v-row v-else>
+                <v-form v-model="nameIsValid">
+                  <v-text-field
+                    v-model="nameForEdit"
+                    :disabled="savingChanges"
+                    maxlength="128"
+                    :rules="nameRules"
+                    class="username-edit"
+                    dense
+                    autofocus
+                    placeholder="Yor Name"
+                  ></v-text-field>
+                </v-form>
+              </v-row>
+            </div>
             <span v-if="!isMe">
               <v-btn
                 v-if="!isFollowUser"
@@ -38,10 +59,27 @@
 
           <!-- Mobile - Profile Description -->
           <v-layout class="profileDescription" hidden-md-and-up>
-            Hi! My name is Bob, I’m a creative geek from San Francisco, CA. I
-            enjoy creating eye candy solutions for web and mobile apps. Contact
-            me at bob@mail.com
+            <span v-if="!editProfileInfoMode">{{ userData.bio }}</span>
+            <v-textarea
+              v-else
+              v-model="bioForEdit"
+              :rows="3"
+              maxlength="1000"
+              placeholder="Tell few words about yourself"
+              :disabled="savingChanges"
+            ></v-textarea>
           </v-layout>
+          <v-row v-if="editProfileInfoMode" class="hidden-md-and-up">
+            <v-col class="text-right">
+              <v-btn outlined @click="cancelEditProfileInfo">Cancel</v-btn>
+              <v-btn
+                :disabled="!allowSave"
+                :loading="savingChanges"
+                @click="saveProfileChanges"
+                >Save</v-btn
+              >
+            </v-col>
+          </v-row>
 
           <!-- 3 Boxes -->
           <v-layout class="boxContainer" row>
@@ -66,11 +104,34 @@
           </v-layout>
 
           <!-- Desktop - Profile Description -->
-          <v-layout class="profileDescription" hidden-sm-and-down>
-            Hi! My name is Bob, I’m a creative geek from San Francisco, CA. I
-            enjoy creating eye candy solutions for web and mobile apps. Contact
-            me at bob@mail.com
-          </v-layout>
+          <v-row class="profileDescription hidden-sm-and-down">
+            <v-col>
+              <v-row>
+                <v-col>
+                  <span v-if="!editProfileInfoMode">{{ userData.bio }}</span>
+                  <v-textarea
+                    v-else
+                    v-model="bioForEdit"
+                    :rows="3"
+                    maxlength="1000"
+                    :disabled="savingChanges"
+                    placeholder="Tell few words about yourself"
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+              <v-row v-if="editProfileInfoMode">
+                <v-col class="text-right">
+                  <v-btn outlined @click="cancelEditProfileInfo">Cancel</v-btn>
+                  <v-btn
+                    :disabled="!allowSave"
+                    :loading="savingChanges"
+                    @click="saveProfileChanges"
+                    >Save</v-btn
+                  >
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
 
           <!-- Tags -->
           <div class="tagsContainer">
@@ -125,9 +186,11 @@ import followUser from '~/graphql/mutations/followUser'
 import unfollowUser from '~/graphql/mutations/unfollowUser'
 import userInfo from '~/graphql/query/userInfo'
 import userIdeas from '~/graphql/query/userIdeas'
+import updateProfileInfo from '@/graphql/mutations/updateProfileInfo'
+import VisualNotifier from '~/components/VisualNotifier'
 
 export default {
-  components: { Layout },
+  components: { Layout, VisualNotifier },
 
   async asyncData({ app, route, store }) {
     const profileUserId = store.getters['cognito/userSub']
@@ -164,15 +227,32 @@ export default {
     isFollowUser: false,
     loadingIdea: false,
 
-    profileUserId: ''
+    profileUserId: '',
+
+    editProfileInfoMode: false,
+
+    bioForEdit: undefined,
+    nameForEdit: undefined,
+    nameIsValid: undefined,
+    nameRules: [
+      v => !!v || 'Name is required',
+      v => (v && v.length > 3) || 'Name must be more than 3 characters'
+    ],
+    savingChanges: false
   }),
   computed: {
     isMe() {
-      console.log(this.$store.getters['cognito/userSub'])
-      console.log(this.$store.getters['cognito/userSub'])
       return (
         this.$store.getters['cognito/userSub'] &&
         this.$store.getters['cognito/userSub'] === this.userData.userId
+      )
+    },
+    allowSave() {
+      return (
+        this.editProfileInfoMode &&
+        this.nameIsValid &&
+        (this.userData.name !== this.nameForEdit ||
+          (this.userData.bio || '') !== (this.bioForEdit || ''))
       )
     }
   },
@@ -224,6 +304,41 @@ export default {
         this.snackbarColor = 'error'
         this.snackbarVisible = true
       }
+    },
+    enableEditProfileInfo() {
+      this.nameForEdit = this.userData.name
+      this.bioForEdit = this.userData.bio
+      this.editProfileInfoMode = true
+    },
+    cancelEditProfileInfo() {
+      this.editProfileInfoMode = false
+    },
+    async saveProfileChanges() {
+      try {
+        this.savingChanges = true
+        const resp = await this.$amplifyApi.graphql(
+          graphqlOperation(updateProfileInfo, {
+            bio: this.bioForEdit,
+            name: this.nameForEdit
+          })
+        )
+
+        if (resp.data.updateProfileInfo.result.ok) {
+          this.userData.bio = resp.data.updateProfileInfo.updatedInfo.bio
+          this.userData.name = resp.data.updateProfileInfo.updatedInfo.name
+          this.userData.slug = resp.data.updateProfileInfo.updatedInfo.slug
+          this.editProfileInfoMode = false
+          this.$refs.notifier.success('Profile Updated')
+        } else {
+          this.$refs.notifier.error(
+            resp.data.updateProfileInfo.result.error || 'Something went wrong!!'
+          )
+        }
+      } catch (err) {
+        console.log(err)
+        // this.$refs.notifier.error('Something went wrong!!')
+      }
+      this.savingChanges = false
     }
   }
 }
@@ -254,9 +369,10 @@ export default {
     }
 
     .sectionHeader {
+      min-height: 50px;
       .userName {
         margin-left: 20px;
-        padding-top: 5px;
+        /*padding-top: 5px;*/
         display: inline-block;
 
         font-size: 20px;
@@ -435,6 +551,14 @@ export default {
       left: -48%;
       width: 100%;
       height: 60vh;
+    }
+  }
+
+  .username-edit {
+    padding-top: 0;
+    margin-top: 0;
+    .v-input__slot {
+      margin-bottom: 0;
     }
   }
 }

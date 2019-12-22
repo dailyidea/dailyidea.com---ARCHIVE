@@ -49,6 +49,7 @@ functions:
     handler: request_daily_idea_user.endpoint
     environment:
       BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
+      REQUEST_DAILY_EMAIL_TEMPLATE_NAME: ${self:provider.requestDailyIdeaEmailTemplateName}
   sendWeeklyDigest:
     handler: test_send_weekly_digest.handler
     environment:

@@ -4,6 +4,8 @@
     :absolute="true"
     :timeout="2000"
     :color="color"
+    right
+    top
   >
     {{ message }}
     <v-btn color="white" text @click="close">

@@ -24,6 +24,25 @@ functions:
     environment:
       LIKES_TABLE_NAME: ${self:custom.likesTableName}
       IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
+  updateProfileInfo:
+    handler: functions.update_profile_info.update_profile_info.endpoint
+    role: LambdaUpdateProfileInfoFunctionRole
+    environment:
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
+      SET_USERS_SLUG_FUNCTION_NAME: ${self:custom.setUsersSlugFunctionName}
+      UPDATE_PROFILE_INFO_IN_CREATED_IDEAS_FUNCTION_NAME: ${self:custom.updateProfileInfoInCreatedIdeasFunctionName}
+  setUsersSlug:
+    handler: functions.set_users_slug.set_users_slug.endpoint
+    role: LambdaSetUsersSlugFunctionRole
+    environment:
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
+  updateProfileInfoInCreatedIdeas:
+    handler: functions.update_profile_info_in_created_ideas.update_profile_info_in_created_ideas.endpoint
+    role: LambdaUpdateProfileInfoInCreatedIdeasFunctionRole
+    memorySize: 512
+    timeout: 60
+    environment:
+      IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
   createIdea:
     handler: functions.create_idea.create_idea.endpoint
     role: LambdaCreateIdeaFunctionRole
@@ -64,6 +83,8 @@ custom:
   followingTableName: dailyidea-following-${self:provider.stage}
   ideasMailBox: ${env:IDEAS_MAILBOX, 'ideas-dev'}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
+  setUsersSlugFunctionName: dailyidea-appsync-backend-${self:provider.stage}-setUsersSlug
+  updateProfileInfoInCreatedIdeasFunctionName: dailyidea-appsync-backend-${self:provider.stage}-updateProfileInfoInCreatedIdeas
   pythonRequirements:
     dockerizePip: non-linux
     pythonBin: /home/orion/envs/idea36/bin/python
@@ -131,11 +152,6 @@ custom:
           - userInfo
           - isFollowingByMe
           - followsMe
-      - dataSource: Users
-        type: Mutation
-        field: updateProfileInfo
-        request: "updateProfileInfo-request-mapping-template.txt"
-        response: "updateProfileInfo-response-mapping-template.txt"
       - dataSource: Users
         type: Mutation
         field: toggleEmailNotifications
@@ -222,6 +238,11 @@ custom:
         field: createIdea
         request: "createIdea-request-mapping-template.txt"
         response: "createIdea-response-mapping-template.txt"
+      - dataSource: UpdateProfileInfoHandler
+        type: Mutation
+        field: updateProfileInfo
+        request: "common/before-invoke-mapping-template.txt"
+        response: "common/after-invoke-mapping-template.txt"
       - type: Mutation
         field: shareIdea
         dataSource: ShareIdeaHandler
@@ -283,6 +304,12 @@ custom:
         description: 'Share Idea to email'
         config:
           lambdaFunctionArn: { Fn::GetAtt: [ShareIdeaLambdaFunction, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
+      - type: AWS_LAMBDA
+        name: UpdateProfileInfoHandler
+        description: 'Update profile name and bio'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [UpdateProfileInfoLambdaFunction, Arn] }
           serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AWS_LAMBDA
         name: DevelopmentLoggerHandler
@@ -431,6 +458,9 @@ resources:
   - Resources:
       LambdaGetLikedIdeasFunctionRole: ${file(functions/get_liked_ideas/function_role.yml):LambdaGetLikedIdeasFunctionRole}
       LambdaCreateIdeaFunctionRole: ${file(functions/create_idea/function_role.yml):LambdaCreateIdeaFunctionRole}
+      LambdaUpdateProfileInfoFunctionRole: ${file(functions/update_profile_info/function_role.yml):LambdaUpdateProfileInfoFunctionRole}
+      LambdaSetUsersSlugFunctionRole: ${file(functions/set_users_slug/function_role.yml):LambdaSetUsersSlugFunctionRole}
+      LambdaUpdateProfileInfoInCreatedIdeasFunctionRole: ${file(functions/update_profile_info_in_created_ideas/function_role.yml):LambdaUpdateProfileInfoInCreatedIdeasFunctionRole}
       LambdaUpdateIdeaFunctionRole: ${file(functions/update_idea/function_role.yml):LambdaUpdateIdeaFunctionRole}
       LambdaDevelopmentLoggerFunctionRole: ${file(functions/development_logger/function_role.yml):LambdaDevelopmentLoggerFunctionRole}
       LambdaShareIdeaFunctionRole: ${file(functions/share_idea/function_role.yml):LambdaShareIdeaFunctionRole}
@@ -466,6 +496,8 @@ resources:
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-shareIdea:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-developmentLogger"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-developmentLogger:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-updateProfileInfo"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-updateProfileInfo:*"
 
       AppSyncServiceRole:
         Type: "AWS::IAM::Role"
