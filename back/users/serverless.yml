@@ -59,6 +59,28 @@ functions:
           trigger: DefineAuthChallenge
     environment:
       SES_REGION: ${self:provider.region}
+  preSignUp:
+    handler: src/preSignUp.handler
+    role: CustomUserOnboardingRole
+    events:
+      - cognitoUserPool:
+          pool: Daily
+          trigger: PreSignUp
+          existing: true
+    environment:
+      USER_POOL_ID:  !ImportValue "CognitoUserPool::Id"
+  postAuthentication:
+    handler: src/postAuthentication.handler
+    role: CustomUserOnboardingRole
+    events:
+      - cognitoUserPool:
+          pool: Daily
+          trigger: PostAuthentication
+          existing: true
+    environment:
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
+      SEND_DAILY_TO_USER_FUNCTION_NAME: arn:aws:lambda:${self:provider.region}:133662108267:function:dailyidea-mail-processing-${self:provider.stage}-sendDailyToUser
+      REGION: ${self:provider.region}
   createAuthChallenge:
     handler: src/createAuthChallenge.handler
     events:
@@ -98,7 +120,7 @@ functions:
       TABLE_NAME: ${self:custom.usersTableName}
       REGION: ${self:provider.region}
       SET_USERS_SLUG_FUNCTION_NAME: arn:aws:lambda:${self:provider.region}:133662108267:function:dailyidea-appsync-backend-${self:provider.stage}-setUsersSlug
-      SEND_DAILY_TO_USER_FUNCTION_NAME: arn:aws:lambda:${self:provider.region}:133662108267:function:dailyidea-mail-processing-${self:provider.stage}-sendDailyToUser
+
 
 plugins:
   - serverless-localstack

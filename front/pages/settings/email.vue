@@ -22,15 +22,26 @@
           </div>
           <div class="settingsInput">
             <v-switch
-              v-model="ideaReminders"
+              v-model="emailNotificationsState.ideaReminders"
               small
               hide-message
               class="swithBtn"
               inset
               :label="``"
+              @change="changeNotificationsState"
             ></v-switch>
-            <div v-if="ideaReminders" class="statusLabel active">ON</div>
-            <div v-if="!ideaReminders" class="statusLabel">OFF</div>
+            <div
+              v-if="emailNotificationsState.ideaReminders"
+              class="statusLabel active"
+            >
+              ON
+            </div>
+            <div
+              v-if="!emailNotificationsState.ideaReminders"
+              class="statusLabel"
+            >
+              OFF
+            </div>
           </div>
         </div>
 
@@ -41,15 +52,23 @@
           </div>
           <div class="settingsInput">
             <v-switch
-              v-model="hotStreaks"
+              v-model="emailNotificationsState.hotStreaks"
               small
               hide-message
               class="swithBtn"
               inset
               :label="``"
+              @change="changeNotificationsState"
             ></v-switch>
-            <div v-if="hotStreaks" class="statusLabel active">ON</div>
-            <div v-if="!hotStreaks" class="statusLabel">OFF</div>
+            <div
+              v-if="emailNotificationsState.hotStreaks"
+              class="statusLabel active"
+            >
+              ON
+            </div>
+            <div v-if="!emailNotificationsState.hotStreaks" class="statusLabel">
+              OFF
+            </div>
           </div>
         </div>
 
@@ -60,15 +79,26 @@
           </div>
           <div class="settingsInput">
             <v-switch
-              v-model="dailyDigests"
+              v-model="emailNotificationsState.dailyDigests"
               small
               hide-message
               class="swithBtn"
               inset
               :label="``"
+              @change="changeNotificationsState"
             ></v-switch>
-            <div v-if="dailyDigests" class="statusLabel active">ON</div>
-            <div v-if="!dailyDigests" class="statusLabel">OFF</div>
+            <div
+              v-if="emailNotificationsState.dailyDigests"
+              class="statusLabel active"
+            >
+              ON
+            </div>
+            <div
+              v-if="!emailNotificationsState.dailyDigests"
+              class="statusLabel"
+            >
+              OFF
+            </div>
           </div>
         </div>
 
@@ -79,40 +109,87 @@
           </div>
           <div class="settingsInput">
             <v-switch
-              v-model="weeklyDigests"
+              v-model="emailNotificationsState.weeklyDigests"
               small
               hide-message
               class="swithBtn"
               inset
               :label="``"
+              @change="changeNotificationsState"
             ></v-switch>
-            <div v-if="weeklyDigests" class="statusLabel active">ON</div>
-            <div v-if="!weeklyDigests" class="statusLabel">OFF</div>
+            <div
+              v-if="emailNotificationsState.weeklyDigests"
+              class="statusLabel active"
+            >
+              ON
+            </div>
+            <div
+              v-if="!emailNotificationsState.weeklyDigests"
+              class="statusLabel"
+            >
+              OFF
+            </div>
           </div>
         </div>
+        <visual-notifier ref="notifier"></visual-notifier>
       </v-container>
     </v-layout>
   </Layout>
 </template>
 <script>
+import { graphqlOperation } from '@aws-amplify/api'
 import Layout from '@/components/layout/Layout'
+import updateEmailNotificationsSettings from '@/graphql/mutations/updateEmailNotificationsSettings'
+import VisualNotifier from '~/components/VisualNotifier'
+import getEmailNotificationsSettings from '@/graphql/query/getEmailNotificationsSettings'
 export default {
-  components: { Layout },
+  components: { Layout, VisualNotifier },
+  async asyncData({ app, route, store }) {
+    try {
+      const { data } = await app.$amplifyApi.graphql(
+        graphqlOperation(getEmailNotificationsSettings, {})
+      )
+      return {
+        emailNotificationsState: data.getEmailNotificationsSettings
+      }
+    } catch (e) {
+      this.$refs.notifier.error("Can't load Email Settings")
+    }
+  },
   data() {
     return {
       mobileHeaderUiOptions: {
         pageTitle: 'EMAIL SETTINGS',
         leftButtonType: 'back'
-      },
-      ideaReminders: false,
-      hotStreaks: false,
-      dailyDigests: false,
-      weeklyDigests: false
+      }
     }
   },
+  watch: {},
+  mounted() {
+    // this.loadSettings()
+  },
   methods: {
-    signout() {
-      this.$store.dispatch('cognito/signOut')
+    async loadSettings() {
+      try {
+        const res = await this.$amplifyApi.graphql(
+          graphqlOperation(getEmailNotificationsSettings, {})
+        )
+        this.emailNotificationsState = res.data.getEmailNotificationsSettings
+      } catch (e) {
+        this.$refs.notifier.error("Can't update Email Settings")
+      }
+    },
+    async changeNotificationsState() {
+      try {
+        await this.$amplifyApi.graphql(
+          graphqlOperation(updateEmailNotificationsSettings, {
+            state: this.emailNotificationsState
+          })
+        )
+        this.$refs.notifier.success('Email Settings Updated')
+      } catch (e) {
+        this.$refs.notifier.error("Can't update Email Settings")
+      }
     }
   }
 }

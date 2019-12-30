@@ -138,6 +138,9 @@ export default {
             name: this.name
           }
         })
+        await this.$amplifyApi.post('RequestLogin', '', {
+          body: { email: this.email }
+        })
 
         // Redirect to registeration success page
         this.$router.push({
@@ -145,10 +148,10 @@ export default {
           params: { email: this.email }
         })
       } catch (e) {
-        this.registerInProgress = false
 
         // Handle email already registered
         if (e.code && e.code === 'UsernameExistsException') {
+            this.registerInProgress = false
           this.emailExistsMsg = 'Sorry, email mentioned already exist.'
           return
         }

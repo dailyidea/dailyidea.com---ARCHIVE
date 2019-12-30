@@ -44,7 +44,7 @@ exports.handler = async (event, context) => {
   const tableName = process.env.TABLE_NAME;
   const region = process.env.REGION;
   const setUsersSlug = process.env.SET_USERS_SLUG_FUNCTION_NAME;
-  const sendDailyToUser = process.env.SEND_DAILY_TO_USER_FUNCTION_NAME;
+
   const lambda = new aws.Lambda({
     region,
     apiVersion: "2015-03-31"
@@ -64,7 +64,12 @@ exports.handler = async (event, context) => {
         email: { S: event.request.userAttributes.email },
         name: { S: event.request.userAttributes.name },
         createdDate: { S: date.toISOString() },
-        firstLogin: { BOOL: true }
+        firstLogin: { BOOL: false },
+        // email settings:
+        ideaReminders: { BOOL: true },
+        hotStreaks: { BOOL: true },
+        dailyDigests: { BOOL: true },
+        weeklyDigests: { BOOL: true },
       }
     };
 
@@ -77,15 +82,7 @@ exports.handler = async (event, context) => {
     }
 
     console.log("Success: Everything executed correctly");
-    const requestSendDaily = lambda.invoke({
-      FunctionName: sendDailyToUser,
-      Payload: JSON.stringify(
-        { email: event.request.userAttributes.email },
-        null,
-        2
-      ), // pass params
-      LogType: "Tail"
-    });
+
     const requestCreateSlug = lambda.invoke({
       FunctionName: setUsersSlug,
       Payload: JSON.stringify(
@@ -100,7 +97,7 @@ exports.handler = async (event, context) => {
     });
     try {
       // request.send()
-      await requestSendDaily.promise();
+
       await requestCreateSlug.promise();
       context.done(null, event);
     } catch (err) {

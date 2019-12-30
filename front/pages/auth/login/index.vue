@@ -132,6 +132,9 @@ export default {
   },
   methods: {
     async login() {
+      if (this.logingUser) {
+        return
+      }
       try {
         this.logingUser = true
         this.emailNotFoundMsg = ''

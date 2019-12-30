@@ -69,6 +69,8 @@ Resources:
                   Action:
                     - dynamodb:PutItem
                     - dynamodb:Query
+                    - dynamodb:UpdateItem
+                    - dynamodb:GetItem
                   Resource:
                     - 'Fn::Join':
                       - ':'
@@ -88,4 +90,5 @@ Resources:
                   Action:
                     - ses:SendEmail
                     - lambda:InvokeFunction
+                    - cognito-idp:ListUsers
                   Resource: "*"

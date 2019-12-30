@@ -45,9 +45,9 @@ type Mutation {
 	    userId: String!
     ): Result!
 
-    toggleEmailNotifications(
-		state: EmailNotificationsState!
-    ): ToggleNotificationsStateResult!
+	updateEmailNotificationsSettings(
+		state: EmailNotificationsInput!
+	): EmailNotificationsState!
 
 	updateProfileInfo(
 		name: String,
@@ -84,6 +84,8 @@ input TagInput {
 
 type Query {
 	meInfo: User!
+
+	getEmailNotificationsSettings: EmailNotificationsState!
 
 	userInfo(userId: String!): UserInfoResult!
 	@aws_api_key @aws_cognito_user_pools
@@ -217,11 +219,18 @@ type  CommentsConnection @aws_api_key @aws_cognito_user_pools {
 	nextToken: String
 }
 
-enum EmailNotificationsState {
-	DISABLED,
-	DAILY,
-	WEEKLY,
-	DAILY_AND_WEEKLY
+input EmailNotificationsInput{
+	ideaReminders: Boolean!
+	hotStreaks: Boolean!
+	dailyDigests: Boolean!
+	weeklyDigests: Boolean!
+}
+
+type EmailNotificationsState {
+	ideaReminders: Boolean!
+	hotStreaks: Boolean!
+	dailyDigests: Boolean!
+	weeklyDigests: Boolean!
 }
 
 enum IdeaVisibilityState {

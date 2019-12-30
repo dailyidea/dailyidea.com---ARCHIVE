@@ -1,5 +1,9 @@
 <template>
-  <Layout mobile-title="Daily Idea" :page-options="mobileHeaderUiOptions">
+  <Layout
+    mobile-title="Daily Idea"
+    :page-options="mobileHeaderUiOptions"
+    hidden
+  >
     <!--    <v-container>-->
     <div id="newhomePage">
       <!-- desktop view -->
@@ -57,7 +61,9 @@
                   class="reviews__review"
                   @click="onIdeaClick(idea)"
                 >
-                  <div><strong>{{idea.title}}</strong></div>
+                  <div>
+                    <strong>{{ idea.title }}</strong>
+                  </div>
                   <div v-html="idea.content"></div>
                   <!-- User Icon -->
                   <div class="reviews__review__info">
@@ -199,7 +205,9 @@ export default {
       return require('~/assets/images/homeImage.png')
     }
   },
-  created() {
+  created() {},
+  mounted() {
+    this.$el.removeAttribute('hidden')
   },
   methods: {
     onIdeaClick(idea) {

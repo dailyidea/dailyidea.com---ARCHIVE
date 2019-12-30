@@ -144,6 +144,11 @@ custom:
         response: "meInfo-response-mapping-template.txt"
       - dataSource: Users
         type: Query
+        field: getEmailNotificationsSettings
+        request: "getEmailNotificationsSettings-request-mapping-template.txt"
+        response: "getEmailNotificationsSettings-response-mapping-template.txt"
+      - dataSource: Users
+        type: Query
         field: userInfo
         request: "common/before-mapping-template.txt"
         response: "common/after-mapping-template.txt"
@@ -154,9 +159,9 @@ custom:
           - followsMe
       - dataSource: Users
         type: Mutation
-        field: toggleEmailNotifications
-        request: "toggleEmailNotifications-request-mapping-template.txt"
-        response: "toggleEmailNotifications-response-mapping-template.txt"
+        field: updateEmailNotificationsSettings
+        request: "updateEmailNotificationsSettings-request-mapping-template.txt"
+        response: "updateEmailNotificationsSettings-response-mapping-template.txt"
       - dataSource: IdeaComments
         type: Mutation
         field: deleteComment

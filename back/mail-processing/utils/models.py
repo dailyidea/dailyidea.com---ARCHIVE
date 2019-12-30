@@ -28,8 +28,6 @@ class IdeaModel(Model):
 class UserEmailIndex(GlobalSecondaryIndex):
     class Meta:
         index_name = 'emailIndex'
-        read_capacity_units = 2
-        write_capacity_units = 1
         projection = AllProjection()
     email = UnicodeAttribute(hash_key=True)
 
@@ -47,4 +45,10 @@ class UserModel(Model):
     # sortKey = UnicodeAttribute(range_key=True)
     createdDate = UTCDateTimeAttribute(null=True)
     firstLogin = BooleanAttribute(null=True)
+
+    ideaReminders = BooleanAttribute(null=True)
+    hotStreaks = BooleanAttribute(null=True)
+    dailyDigests = BooleanAttribute(null=True)
+    weeklyDigests = BooleanAttribute(null=True)
+
     emailIndex = UserEmailIndex()
