@@ -44,10 +44,14 @@ def get_idea_tags(idea_id: str):
 
 def endpoint(event, context):
     # logger.info(event)
-    idea_id = event.get('ideaId')
-    idea_owner_id = event.get('ideaOwnerId')
-    email = event.get('email')
-    user_id = event.get('identity').get('username')
+    ctx = event.get('ctx')
+    arguments = ctx.get('arguments')
+    idea_id = arguments.get('ideaId')
+    idea_owner_id = arguments.get('ideaOwnerId')
+    sender_name = arguments.get('senderName')
+    friend_name = arguments.get('friendName')
+    email = arguments.get('email')
+    user_id = ctx.get('identity').get('username')
 
     sender_user = get_user_by_id(user_id)
     idea_to_send = get_idea_by_id(idea_owner_id, idea_id)
@@ -60,12 +64,18 @@ def endpoint(event, context):
     SUBJECT = f"[Daily Idea] {sender_user['email']['S']} sent you Idea!"  # change to name
     BUCKET_URL_PREFIX = os.environ.get('BUCKET_URL_PREFIX')
 
+    idea_created_time = idea_to_send['createdDate']['S'][:10]
+    idea_created_time_formatted = datetime.strptime(idea_created_time, '%Y-%m-%d').strftime('%m/%d/%Y')
+
     render_context = {
         "user": loads(sender_user),
         "tags": idea_tags,
+        "friend_name": friend_name,
+        "sender_name": sender_name,
         "BUCKET_URL_PREFIX": BUCKET_URL_PREFIX,
         "BASE_SITE_URL": f"https://{os.environ['DOMAIN_NAME']}/",
         "idea": loads(idea_to_send),
+        "idea_created_time": idea_created_time_formatted,
         "link_to_idea": f"https://{os.environ['DOMAIN_NAME']}/ideas/{idea_owner_id}/{idea_id}",
         "datetime": datetime,
     }

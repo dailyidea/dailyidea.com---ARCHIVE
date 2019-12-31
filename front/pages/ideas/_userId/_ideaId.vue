@@ -7,8 +7,8 @@
     @showShareIdeaDialog="showShareIdeaDialog"
     @toggleIdeaPrivacy="toggleIdeaPrivacy"
     @toggleIdeaEditor="toggleIdeaEditor"
-    @toggleIdeaBookmarked="copyShareLink"
-    @onCopyShareIdeaLink="copyShareLink"
+    @toggleIdeaBookmarked="onCopyShareLink"
+    @onCopyShareIdeaLink="onCopyShareLink"
   >
     <v-row id="ideaDetailPage" no-gutters>
       <!-- Left Side Idea Information -->
@@ -62,24 +62,9 @@
           ></save-idea-bookmark>
 
           <!-- Desktop Settings Menu -->
-          <v-menu>
-            <template v-slot:activator="{ on }">
-              <v-btn icon v-on="on">
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item @click.native="copyShareLink">
-                <v-list-item-title>Share</v-list-item-title>
-              </v-list-item>
-              <v-list-item @click.native="showShareIdeaDialog">
-                <v-list-item-title>Share by Email</v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-title>Report Idea</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+          <v-btn icon @click.native="showShareIdeaDialog">
+            <v-icon>share</v-icon>
+          </v-btn>
         </v-toolbar>
 
         <div v-if="!ideaEditorVisible" class="ideaTitle">
@@ -351,9 +336,10 @@
     <ShareIdeaByEmailDialog
       :idea-id="$route.params.ideaId"
       :idea-owner-id="$route.params.userId"
-      :visible.sync="showEmailShareDialog"
+      :visible="showEmailShareDialog"
       @success="onSharedIdeaOverEmail"
       @close="showEmailShareDialog = false"
+      @onCopyShareLink="onCopyShareLink"
     ></ShareIdeaByEmailDialog>
   </Layout>
 </template>
@@ -465,6 +451,7 @@ export default {
   },
 
   methods: {
+    toggleLikeIdea() {},
     saveIdeaForUserDialog() {
       this.savedIdeaConformDailog = true
       this.showSaveIdeaDailog = false
@@ -475,7 +462,6 @@ export default {
     },
 
     onSharedIdeaOverEmail() {
-      this.showEmailShareDialog = false
       this.$refs.notifier.success('Email Sent')
     },
 
@@ -501,8 +487,7 @@ export default {
     },
 
     // Share Link to clipboard
-    copyShareLink() {
-      this.$clipboard(window.location.href)
+    onCopyShareLink() {
       this.$refs.notifier.success('Link copied')
     },
 

@@ -62,7 +62,7 @@
           <v-list-item>
             <v-list-item-content>
               <router-link to="/ideas/liked">
-              <v-list-item-title>Liked Ideas</v-list-item-title>
+                <v-list-item-title>Liked Ideas</v-list-item-title>
               </router-link>
             </v-list-item-content>
           </v-list-item>
@@ -232,24 +232,9 @@
             </v-btn>
 
             <!-- Idea Detail Mobile Settings Menu -->
-            <v-menu>
-              <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on">
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </template>
-              <v-list>
-                <v-list-item @click="$emit('onCopyShareIdeaLink')">
-                  <v-list-item-title>Share</v-list-item-title>
-                </v-list-item>
-                <v-list-item @click="$emit('showShareIdeaDialog')">
-                  <v-list-item-title>Share by Email</v-list-item-title>
-                </v-list-item>
-                <v-list-item>
-                  <v-list-item-title>Report Idea</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
+            <v-btn icon @click="$emit('showShareIdeaDialog')">
+              <v-icon>share</v-icon>
+            </v-btn>
           </template>
 
           <!-- Idea List Page UI -->

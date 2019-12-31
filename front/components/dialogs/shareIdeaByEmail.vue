@@ -18,7 +18,7 @@
       <div class="headlineText">Share Idea by Email</div>
     </div>
 
-    <form id="share-idea-without-login-form" @submit.prevent="sendEmail">
+    <form id="share-idea-without-login-form" @submit.stop.prevent="sendEmail">
       <v-text-field
         v-model="form.name"
         v-validate="'required|max:100'"
@@ -45,16 +45,25 @@
         label="Your Friend's email "
         outlined
       ></v-text-field>
+      <div class="">
+        <client-only>
+          <a
+            v-clipboard="() => getShareUrl()"
+            href="#"
+            @click.prevent.stop="onCopyShareLink"
+            >Copy link to clipboard instead</a
+          >
+        </client-only>
+      </div>
 
       <!-- Submit Buttons -->
       <div class="btnContainer">
-        <v-btn class="cancleBtn" text @click="closeDialog">Cancel</v-btn>
+        <v-btn class="cancelBtn" text @click="closeDialog">Cancel</v-btn>
         <v-btn
           type="submit"
-          class="specialButton shareBtn"
+          class="specialButton"
           :loading="sendingEmail"
-          form="share-idea-without-login-form"
-          @click="sendEmail"
+          @click.stop.prevent="sendEmail"
           >Share</v-btn
         >
       </div>
@@ -94,6 +103,18 @@ export default {
     sendingEmail: false
   }),
   methods: {
+    cleanData() {
+      this.sendingEmail = false
+      this.form = {
+        name: '',
+        friendName: '',
+        friendEmail: ''
+      }
+      this.errors.items = []
+    },
+    getShareUrl() {
+      return document.location.href
+    },
     async sendEmail() {
       const result = await this.$validator.validateAll()
       if (!result) {
@@ -108,24 +129,24 @@ export default {
         variables: {
           ideaId: this.ideaId,
           ideaOwnerId: this.ideaOwnerId,
-          email: this.form.friendEmail
+          email: this.form.friendEmail,
+          senderName: this.form.name,
+          friendName: this.form.friendName
         }
       })
-
-      this.closeDialog('success')
+      this.$emit('success')
+      this.close()
     },
-    closeDialog(status) {
-      this.$emit(status || 'close')
-
-      setTimeout(() => {
-        this.errors.clear()
-        this.sendingEmail()
-        this.form = {
-          name: '',
-          friendName: '',
-          friendEmail: ''
-        }
-      }, 1000)
+    close() {
+      this.$emit('close')
+      this.cleanData()
+    },
+    closeDialog() {
+      this.close()
+    },
+    onCopyShareLink() {
+      this.$emit('onCopyShareLink')
+      this.close()
     }
   }
 }

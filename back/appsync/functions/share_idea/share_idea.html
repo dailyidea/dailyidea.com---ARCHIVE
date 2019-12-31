@@ -192,14 +192,15 @@
 <body>
 	<div id="sentIdea">
 		<img class="dailyIdeaImg" src="{{ BUCKET_URL_PREFIX }}/email/images/Group18.png" />
-		<div class="name">{{ user.email }} sent you an idea!</div>
+
+		<div class="name">Hi,{{ friend_name }}! {{ sender_name }} sent you an idea!</div>
 		<div class="ideaDetails">
 			<div class="title"><a href="{{ link_to_idea }}">{{idea.title}}</a></div>
 			<div class="author">
 				<div class="authorImg"></div>
 				<div class="authorName">
-					<div>{{ user.email }}</div>
-					<div class="time"> {{ datetime.strptime(idea.createdDate[:10],'%Y-%m-%d').strftime('%m/%d/%Y') }}</div>
+					<div>{{ user.name }}</div>
+					<div class="time"> {{ idea_created_time }}</div>
 				</div>
 
 			</div>

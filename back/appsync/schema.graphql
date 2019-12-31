@@ -64,6 +64,8 @@ type Mutation {
 		ideaId: String!,
 		ideaOwnerId: String!,
 		email: String!,
+		senderName: String!,
+		friendName: String!,
 	):Result
 
 	likeIdea(
