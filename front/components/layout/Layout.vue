@@ -1,5 +1,5 @@
 <template>
-  <div id="commonHeader">
+  <div id="commonHeader" hidden>
     <!-- Non login page header -->
     <template v-if="!$store.getters['cognito/isLoggedIn']">
       <v-toolbar flat class="nonLoginHeader">
@@ -355,6 +355,9 @@ export default {
       },
       deep: true
     }
+  },
+  mounted() {
+    this.$el.removeAttribute('hidden')
   },
   created() {},
   methods: {

@@ -2,7 +2,6 @@
   <Layout
     mobile-title="Daily Idea"
     :page-options="mobileHeaderUiOptions"
-    hidden
   >
     <!--    <v-container>-->
     <div id="newhomePage">
@@ -206,9 +205,6 @@ export default {
     }
   },
   created() {},
-  mounted() {
-    this.$el.removeAttribute('hidden')
-  },
   methods: {
     onIdeaClick(idea) {
       this.$router.push({

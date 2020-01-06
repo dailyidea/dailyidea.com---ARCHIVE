@@ -1,4 +1,4 @@
-{{ user.email }} sent you an idea!
+Hi, {{ friend_name }}! {{ sender_name }} sent you an idea!
 
 {{idea.title}}
 

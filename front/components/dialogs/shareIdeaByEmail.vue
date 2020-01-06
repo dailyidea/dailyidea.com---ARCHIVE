@@ -124,17 +124,22 @@ export default {
       this.sendingEmail = true
 
       // Call shre idea over email api.
-      await this.$amplifyApi.graphql({
-        query: shareIdea,
-        variables: {
-          ideaId: this.ideaId,
-          ideaOwnerId: this.ideaOwnerId,
-          email: this.form.friendEmail,
-          senderName: this.form.name,
-          friendName: this.form.friendName
-        }
-      })
-      this.$emit('success')
+      try {
+        const res = await this.$amplifyApi.graphql({
+          query: shareIdea,
+          variables: {
+            ideaId: this.ideaId,
+            ideaOwnerId: this.ideaOwnerId,
+            email: this.form.friendEmail,
+            senderName: this.form.name,
+            friendName: this.form.friendName
+          }
+        })
+        this.$emit('success')
+          console.error(res)
+      } catch (e) {
+        this.$emit('error')
+      }
       this.close()
     },
     close() {

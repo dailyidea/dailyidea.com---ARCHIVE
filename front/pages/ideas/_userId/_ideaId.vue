@@ -338,6 +338,7 @@
       :idea-owner-id="$route.params.userId"
       :visible="showEmailShareDialog"
       @success="onSharedIdeaOverEmail"
+      @error="onSharedIdeaOverEmailError"
       @close="showEmailShareDialog = false"
       @onCopyShareLink="onCopyShareLink"
     ></ShareIdeaByEmailDialog>
@@ -463,6 +464,9 @@ export default {
 
     onSharedIdeaOverEmail() {
       this.$refs.notifier.success('Email Sent')
+    },
+    onSharedIdeaOverEmailError() {
+      this.$refs.notifier.error('Can\'t share Idea')
     },
 
     async loadMoreComments() {
