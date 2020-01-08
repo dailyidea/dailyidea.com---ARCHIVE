@@ -9,7 +9,7 @@ SUBJECT = f"[Daily Idea] Weekly Digest"
 
 def endpoint(event, context):
     today = datetime.now()
-    for user in UserModel.scan(UserModel.firstLogin == True & UserModel.weeklyDigests == True):
+    for user in UserModel.scan((UserModel.firstLogin == True) & (UserModel.weeklyDigests == True)):
         week_ago = today - timedelta(weeks=1)
         ideas_last_week = IdeaModel.scan(
             (IdeaModel.ideaDate > week_ago) & (

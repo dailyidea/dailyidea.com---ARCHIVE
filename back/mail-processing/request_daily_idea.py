@@ -11,7 +11,7 @@ from mail_templates.request_daily_idea.send_request_daily import send_daily_bulk
 def endpoint(event, context):
     # today = date.today().weekday()
     send_daily_bulk(UserModel.scan(
-        UserModel.firstLogin == True & UserModel.ideaReminders == True))
+        (UserModel.firstLogin == True) & (UserModel.ideaReminders == True)))
     # for user in UserModel.scan():
     #     if user.email:
     #         send_daily(user)
