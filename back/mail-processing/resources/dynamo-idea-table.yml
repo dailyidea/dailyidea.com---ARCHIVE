@@ -9,6 +9,8 @@ Resources:
             AttributeType: S
           - AttributeName: visibility
             AttributeType: S
+          - AttributeName: authorSlug
+            AttributeType: S
           - AttributeName: createdDate
             AttributeType: S
         KeySchema:
@@ -22,6 +24,14 @@ Resources:
           - IndexName: publicIdeasByDate
             KeySchema:
               - AttributeName: visibility
+                KeyType: HASH
+              - AttributeName: createdDate
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: ideasBySlugAndDate
+            KeySchema:
+              - AttributeName: authorSlug
                 KeyType: HASH
               - AttributeName: createdDate
                 KeyType: RANGE

@@ -2,14 +2,14 @@
     "version": "2017-02-28",
     "operation": "Query",
     "query": {
-        "expression": "userId = :handle",
+        "expression": "authorSlug = :authorSlug",
         "expressionValues": {
-            ":handle": {
-                "S": "${context.arguments.userId}"
+            ":authorSlug": {
+                "S": "${context.arguments.authorSlug}"
             }
         }
     },
-    "index": "myIdeasByDate",
+    "index": "ideasBySlugAndDate",
     "limit": #if($context.arguments.limit) $context.arguments.limit #else 10 #end,
     "nextToken": #if($context.arguments.nextToken) "$context.arguments.nextToken" #else null #end,
     "scanIndexForward": false,
@@ -17,7 +17,7 @@
         "expression" : "#visibility = :public",
         "expressionNames" : {
             "#visibility" : "visibility"
-        }
+        },
         "expressionValues" : {
             ":public" : { "S" : "PUBLIC" }
         }

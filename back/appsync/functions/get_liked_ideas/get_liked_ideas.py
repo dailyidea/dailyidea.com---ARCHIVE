@@ -2,6 +2,8 @@ import logging
 import boto3
 from ..utils.json_util import loads as dynamo_loads
 import os
+import json
+import datetime
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -51,5 +53,9 @@ def endpoint(event, context):
     )
     raw_ideas = ideas['Responses']['dailyidea-ideas-dev']
     clean_ideas = dynamo_loads(raw_ideas)
+    for clean_idea in clean_ideas:
+        if type(clean_idea['createdDate']) == datetime.datetime:
+            clean_idea['createdDate'] = clean_idea['createdDate'].isoformat()
+            clean_idea['ideaDate'] = clean_idea['ideaDate'].isoformat()
     clean_ideas = sorted(clean_ideas, key=lambda i: ideas_id_list.index(i['ideaId']))
     return {'items': clean_ideas, 'nextToken': next_token}

@@ -97,7 +97,7 @@ type Query {
 	getMyIdea(ideaId: String!): Idea!
 
 	@aws_api_key @aws_cognito_user_pools
-	getUsersIdeas(userId: String!): IdeaConnection!
+	getUsersIdeas(authorSlug: String!, nextToken: String, limit: Int): IdeaConnection!
 	@aws_api_key @aws_cognito_user_pools
 	getUsersIdea(userId: String!, ideaId: String!): Idea!
 	@aws_api_key @aws_cognito_user_pools
@@ -159,6 +159,7 @@ type Tag {
 type Idea @aws_api_key @aws_cognito_user_pools {
 	ideaId: String!
 	authorName: String
+	authorSlug: String
 	content: String
 	title: String
 	userId: String

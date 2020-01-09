@@ -1,9 +1,11 @@
 export default `
-query getUsersIdeas($userId: String!) {
-  getUsersIdeas(userId: $userId) {
-    items:{
+query getUsersIdeas($authorSlug: String!, $nextToken: String, $limit: Int) {
+  getUsersIdeas(authorSlug: $authorSlug, nextToken: $nextToken, limit: $limit) {
+    items {
       ideaId
+      userId
       authorName
+      authorSlug
       content
       title
       createdDate
@@ -12,6 +14,6 @@ query getUsersIdeas($userId: String!) {
       commentsCount
       visibility
     }
-    nextToken: String
+    nextToken
   }
 }`

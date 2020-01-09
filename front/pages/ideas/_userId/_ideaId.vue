@@ -17,7 +17,11 @@
         <v-toolbar color="white" flat class="desktopHeader hidden-sm-and-down">
           <v-toolbar-title class="pageTitle">
             <template v-if="!isIdeaEditable">
-              {{ idea.authorName }}'s Idea
+              <router-link
+                :to="{name: 'ideas-userSlug',
+                    params: {
+                      userSlug: this.idea.authorSlug
+                    }}">{{ idea.authorName }}</router-link>'s Idea
             </template>
             <v-btn
               v-else

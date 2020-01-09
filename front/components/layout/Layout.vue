@@ -100,7 +100,6 @@
           <v-toolbar-title class="blue--text subheading">
             <!-- Idea detail page -left side - desktop -->
             <v-btn
-              v-if="pageOptions.leftButtonType == 'hamburder'"
               small
               text
               icon
@@ -109,9 +108,6 @@
             >
               <img src="~assets/images/menu.png" />
             </v-btn>
-            <v-icon v-else class="icons backButon" @click="onBackClick()"
-              >fas fa-arrow-left</v-icon
-            >
 
             <!-- Logo on top left corner -->
             <nuxt-link class="logoLink" :to="{ name: 'ideas-me' }">
