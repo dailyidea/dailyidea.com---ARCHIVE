@@ -83,6 +83,8 @@ export default {
           user,
           answer: this.$route.query.code
         })
+        await this.$store.commit('userData/setUserIsAuthenticated')
+        this.$store.dispatch('userData/fetchUserData', {})
         this.progressBarActive = false
         this.progressBarUndetermined = false
         this.authCompleted = true

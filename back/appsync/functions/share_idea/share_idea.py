@@ -51,24 +51,24 @@ def endpoint(event, context):
     sender_name = arguments.get('senderName')
     friend_name = arguments.get('friendName')
     email = arguments.get('email')
-    user_id = ctx.get('identity').get('username')
-
-    sender_user = get_user_by_id(user_id)
+    identity = ctx.get('identity')
+    sender_id = None
+    if identity:
+        sender_id = identity.get('username')
     idea_to_send = get_idea_by_id(idea_owner_id, idea_id)
     idea_tags = list(get_idea_tags(idea_id))
     if idea_to_send is None:
         return {'ok': False, 'error': 'Idea Not Found'}
-    if idea_owner_id != user_id and idea_to_send['visibility']['S'] != 'PUBLIC':
+    if idea_owner_id != sender_id and idea_to_send['visibility']['S'] != 'PUBLIC':
         return {'ok': False, 'error': 'Idea is private'}
 
-    SUBJECT = f"[Daily Idea] {sender_user['email']['S']} sent you Idea!"  # change to name
+    SUBJECT = f"[Daily Idea] {sender_name} sent you Idea!"  # change to name
     BUCKET_URL_PREFIX = os.environ.get('BUCKET_URL_PREFIX')
 
     idea_created_time = idea_to_send['createdDate']['S'][:10]
     idea_created_time_formatted = datetime.strptime(idea_created_time, '%Y-%m-%d').strftime('%m/%d/%Y')
 
     render_context = {
-        "user": loads(sender_user),
         "tags": idea_tags,
         "friend_name": friend_name,
         "sender_name": sender_name,

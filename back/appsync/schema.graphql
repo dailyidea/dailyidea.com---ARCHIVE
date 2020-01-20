@@ -67,6 +67,7 @@ type Mutation {
 		senderName: String!,
 		friendName: String!,
 	):Result
+	@aws_api_key @aws_cognito_user_pools
 
 	likeIdea(
 	    ideaId: String!
@@ -85,7 +86,7 @@ input TagInput {
 }
 
 type Query {
-	meInfo: User!
+	meInfo: MyInfo!
 
 	getEmailNotificationsSettings: EmailNotificationsState!
 
@@ -194,6 +195,10 @@ type UserInfo  @aws_api_key @aws_cognito_user_pools{
 
 	isFollowingByMe: Boolean
 	followsMe: Boolean
+}
+
+type MyInfo{
+	name: String
 }
 
 type Comment @aws_api_key @aws_cognito_user_pools{

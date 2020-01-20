@@ -15,7 +15,7 @@
     <!-- Popup Header -->
     <div class="header">
       <v-icon text class="shareIcon" size="60">fas fa-envelope</v-icon>
-      <div class="headlineText">Share Idea by Email</div>
+      <div class="headlineText">Share Idea</div>
     </div>
 
     <form id="share-idea-without-login-form" @submit.stop.prevent="sendEmail">
@@ -24,7 +24,7 @@
         v-validate="'required|max:100'"
         :error-messages="errors.collect('name')"
         data-vv-name="name"
-        label=" Your name"
+        label="Your Name"
         outlined
       >
       </v-text-field>
@@ -33,7 +33,7 @@
         v-validate="'required|max:100'"
         :error-messages="errors.collect('friend name')"
         data-vv-name="friend name"
-        label=" Your Friend's name"
+        label=" Your Friend's Name"
         outlined
       ></v-text-field>
       <v-text-field
@@ -42,19 +42,9 @@
         append-icon="email"
         :error-messages="errors.collect('email')"
         data-vv-name="email"
-        label="Your Friend's email "
+        label="Your Friend's Email "
         outlined
       ></v-text-field>
-      <div class="">
-        <client-only>
-          <a
-            v-clipboard="() => getShareUrl()"
-            href="#"
-            @click.prevent.stop="onCopyShareLink"
-            >Copy link to clipboard instead</a
-          >
-        </client-only>
-      </div>
 
       <!-- Submit Buttons -->
       <div class="btnContainer">
@@ -66,6 +56,16 @@
           @click.stop.prevent="sendEmail"
           >Share</v-btn
         >
+      </div>
+      <div class="" style="text-align: center">
+        <client-only>
+          <a
+            v-clipboard="() => getShareUrl()"
+            href="#"
+            @click.prevent.stop="onCopyShareLink"
+            >Copy link to clipboard instead</a
+          >
+        </client-only>
       </div>
     </form>
   </v-dialog>
@@ -102,15 +102,23 @@ export default {
     },
     sendingEmail: false
   }),
+  computed: {
+    initialName() {
+      return this.$store.getters['userData/userName']
+    }
+  },
+  mounted() {
+    this.form.name = this.initialName
+  },
   methods: {
     cleanData() {
       this.sendingEmail = false
       this.form = {
-        name: '',
+        name: this.initialName,
         friendName: '',
         friendEmail: ''
       }
-      this.errors.items = []
+      this.errors.clear()
     },
     getShareUrl() {
       return document.location.href
@@ -133,10 +141,13 @@ export default {
             email: this.form.friendEmail,
             senderName: this.form.name,
             friendName: this.form.friendName
-          }
+          },
+          authMode: this.$store.state['userData/isAuthenticated']
+            ? undefined
+            : 'API_KEY'
         })
         this.$emit('success')
-          console.error(res)
+        console.error(res)
       } catch (e) {
         this.$emit('error')
       }
@@ -190,11 +201,14 @@ export default {
   }
 
   .btnContainer {
-    margin-top: 20px;
+    /*margin-top: 20px;*/
     margin-bottom: 20px;
     text-align: right;
     .shareBtn {
       width: 170px;
+    }
+    .cancelBtn {
+      background-color: #ebe7ed !important;
     }
   }
 }

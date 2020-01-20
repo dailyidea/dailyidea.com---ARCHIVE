@@ -18,10 +18,14 @@
           <v-toolbar-title class="pageTitle">
             <template v-if="!isIdeaEditable">
               <router-link
-                :to="{name: 'ideas-userSlug',
-                    params: {
-                      userSlug: this.idea.authorSlug
-                    }}">{{ idea.authorName }}</router-link>'s Idea
+                :to="{
+                  name: 'ideas-userSlug',
+                  params: {
+                    userSlug: this.idea.authorSlug
+                  }
+                }"
+                >{{ idea.authorName }}</router-link
+              >'s Idea
             </template>
             <v-btn
               v-else
@@ -467,10 +471,10 @@ export default {
     },
 
     onSharedIdeaOverEmail() {
-      this.$refs.notifier.success('Email Sent')
+      this.$refs.notifier.success('Idea shared!')
     },
     onSharedIdeaOverEmailError() {
-      this.$refs.notifier.error('Can\'t share Idea')
+      this.$refs.notifier.error("Can't share Idea")
     },
 
     async loadMoreComments() {

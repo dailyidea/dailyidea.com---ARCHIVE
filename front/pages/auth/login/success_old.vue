@@ -1,9 +1,5 @@
 <template>
   <div id="loginSuccessPage">
-    <!-- Back button -->
-    <v-btn class="backBtn" text icon color="primary" to="/">
-      <v-icon>fas fa-arrow-left</v-icon>
-    </v-btn>
 
     <v-layout row class="gridContainer">
       <v-flex class="lefgImgContainer" hidden-sm-and-down>

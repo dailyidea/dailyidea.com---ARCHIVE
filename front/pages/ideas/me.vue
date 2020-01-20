@@ -15,6 +15,7 @@ import loadIdeas from '@/components/ideasList/loadIdeas'
 
 export default {
   components: { ideasListPage },
+    middleware: 'authenticated',
   asyncData({ app, store }) {
     return loadIdeas(app.$amplifyApi, 'ideas', getIdeas)
   },

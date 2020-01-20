@@ -1,9 +1,5 @@
 <template>
   <div id="loginPage">
-    <!-- Back button -->
-    <v-btn class="backBtn" text icon color="primary" to="/">
-      <v-icon>fas fa-arrow-left</v-icon>
-    </v-btn>
 
     <v-layout class="mainGrid" row>
       <!-- Left Side Image -->
