@@ -2,7 +2,7 @@
   <ideas-list-page
     :initial-ideas="ideas"
     :initial-next-token="nextToken"
-    title="ALL IDEAS"
+    title="MY IDEAS"
     :end-point="endPoint"
     :end-point-name="endPointName"
   ></ideas-list-page>

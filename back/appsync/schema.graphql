@@ -23,6 +23,8 @@ type Mutation {
 	    body: String!,
 	    ideaId: String!,
 		ideaOwnerId: String!,
+		userName: String!,
+		userSlug: String!
     ): AddCommentResult!
 
 	deleteComment(
@@ -198,13 +200,18 @@ type UserInfo  @aws_api_key @aws_cognito_user_pools{
 }
 
 type MyInfo{
-	name: String
+	name: String!
+	userId: String!
+	slug: String
 }
 
 type Comment @aws_api_key @aws_cognito_user_pools{
 	body: String!
 	userId: String!
 	commentId: String!
+	createdDate: String!
+	userName: String
+	userSlug: String
 }
 
 type Result  @aws_api_key @aws_cognito_user_pools{
