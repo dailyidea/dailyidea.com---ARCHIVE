@@ -9,6 +9,8 @@
             "ideaOwnerId": {"S": "${ctx.arguments.ideaOwnerId}"},
             "body": {"S": "${ctx.arguments.body}"},
             "userId": {"S": "${ctx.identity.username}"},
+            "userName": {"S": "${ctx.arguments.userName}"},
+            "userSlug": {"S": "${ctx.arguments.userSlug}"},
             "createdDate" : $util.dynamodb.toDynamoDBJson($util.time.nowISO8601()),
     }
 }

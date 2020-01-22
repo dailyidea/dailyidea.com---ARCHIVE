@@ -4,6 +4,10 @@ query getComments($ideaId: String!, $nextToken: String, $limit: Int) {
     items {
       commentId
       body
+      userId
+      userName
+      userSlug
+      createdDate
     }
     nextToken
   }

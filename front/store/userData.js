@@ -35,5 +35,14 @@ export const actions = {
 export const getters = {
   userName(state) {
     return state.isAuthenticated ? state.userData.name : '';
+  },
+  isAuthenticated(state) {
+    return state.isAuthenticated;
+  },
+  userId(state) {
+    return state.isAuthenticated ? state.userData.userId : undefined;
+  },
+  slug(state) {
+    return state.isAuthenticated ? state.userData.slug : undefined;
   }
 }

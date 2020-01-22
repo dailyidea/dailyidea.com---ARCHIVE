@@ -133,7 +133,7 @@ export default {
 
       // Call shre idea over email api.
       try {
-        const res = await this.$amplifyApi.graphql({
+        await this.$amplifyApi.graphql({
           query: shareIdea,
           variables: {
             ideaId: this.ideaId,
@@ -147,13 +147,15 @@ export default {
             : 'API_KEY'
         })
         this.$emit('success')
-        console.error(res)
+
       } catch (e) {
         this.$emit('error')
       }
       this.close()
+        this.cleanData()
     },
     close() {
+        this.$validator.reset()
       this.$emit('close')
       this.cleanData()
     },
