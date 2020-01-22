@@ -3,13 +3,7 @@
 
     <v-layout class="mainGrid" row>
       <!-- Left Side Image -->
-      <v-flex class="lefgImgContainer" hidden-sm-and-down>
-        <img class="bigTreeImage" src="~/assets/images/bigTree.png" />
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/person_with_phone.png"
-        />
-      </v-flex>
+      <left-container></left-container>
 
       <!-- login Div -->
       <v-flex class="loginDiv">
@@ -75,29 +69,19 @@
       </v-flex>
 
       <!-- Right side desktop only image -->
-      <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img class="smallTreeImage" src="~/assets/images/smallTree.png" />
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/signup/lady_with_phone.png"
-        />
-      </v-flex>
+      <right-container></right-container>
     </v-layout>
 
     <!-- Fixed Footer - desktop only -->
-    <v-layout
-      hidden-sm-and-down
-      class="fixedFooter"
-      :style="{
-        'background-image':
-          'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"
-    ></v-layout>
+    <auth-footer></auth-footer>
   </div>
 </template>
 
 <script>
 import ValidateTextField from '../../../components/ValidateTextField'
+import leftContainer from '~/components/auth/leftContainer'
+import rightContainer from '~/components/auth/rightContainer'
+import authFooter from '~/components/auth/authFooter'
 import ActionValidate from '~/mixins/validatable'
 import { getErrorMessage } from '~/utils'
 
@@ -107,7 +91,7 @@ const AdditionalMessages = {
 }
 
 export default {
-  components: { ValidateTextField },
+  components: { ValidateTextField, leftContainer, rightContainer, authFooter },
   $_veeValidate: { validator: 'new' },
   mixins: [ActionValidate],
   data: () => ({

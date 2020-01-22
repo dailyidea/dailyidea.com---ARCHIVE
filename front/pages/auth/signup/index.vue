@@ -4,13 +4,7 @@
     <!-- Grid -->
     <v-layout class="mainTable" row>
       <!-- Desktop Only - Left Side Image Container -->
-      <v-flex class="leftSideImageContainer" hidden-sm-and-down>
-        <img class="bigTreeImage" src="~/assets/images/bigTree.png" />
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/person_with_phone.png"
-        />
-      </v-flex>
+      <left-container></left-container>
 
       <!-- Register Div -->
       <v-flex class="registerDiv">
@@ -77,31 +71,22 @@
       </v-flex>
 
       <!-- Desktop Only - Right Side Image Container -->
-      <v-flex class="rightSideImageContainer" hidden-sm-and-down>
-        <img class="smallTreeImage" src="~/assets/images/smallTree.png" />
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/signup/lady_with_phone.png"
-        />
-      </v-flex>
+      <right-container></right-container>
     </v-layout>
 
     <!-- Fixed Footer -->
-    <v-layout
-      hidden-sm-and-down
-      class="fixedFooter"
-      :style="{
-        'background-image':
-          'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"
-    ></v-layout>
+    <auth-footer></auth-footer>
   </div>
 </template>
 
 <script>
 import nanoid from 'nanoid'
+import leftContainer from '~/components/auth/leftContainer'
+import rightContainer from '~/components/auth/rightContainer'
+import authFooter from '~/components/auth/authFooter'
 import { getErrorMessage } from '~/utils'
 export default {
+  components: { leftContainer, rightContainer, authFooter },
   data: () => ({
     email: '',
     name: '',
