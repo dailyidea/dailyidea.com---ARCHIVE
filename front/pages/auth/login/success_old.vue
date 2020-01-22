@@ -1,6 +1,5 @@
 <template>
   <div id="loginSuccessPage">
-
     <v-layout row class="gridContainer">
       <v-flex class="lefgImgContainer" hidden-sm-and-down>
         <img class="bigTreeImage" src="~/assets/images/bigTree.png" />

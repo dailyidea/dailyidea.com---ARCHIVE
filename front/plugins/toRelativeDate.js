@@ -6,9 +6,6 @@ import customParseFormat from 'dayjs/plugin/customParseFormat'
 dayjs.extend(relativeTime)
 dayjs.extend(customParseFormat)
 
-Vue.filter('toRelativeDate', (value) => {
-  return dayjs(
-    value.substr(0, 19) + '+0000',
-    'YYYY-MM-DDTHH:mm:ssZ'
-  ).fromNow()
+Vue.filter('toRelativeDate', value => {
+  return dayjs(value.substr(0, 19) + '+0000', 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
 })

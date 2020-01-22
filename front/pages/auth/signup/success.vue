@@ -1,6 +1,5 @@
 <template>
   <div id="registerSuccessPage">
-
     <!-- Main Grid -->
     <v-layout row class="gridContainer">
       <!-- Desktop Only - Left Side Image Container -->
@@ -29,8 +28,8 @@
         <!-- Hero Description -->
         <div class="heroDescription">
           We've sent a sign in link to <strong>{{ email }}</strong
-          >. Please check your inbox and click on the email confirmation
-          link in the email to get started!
+          >. Please check your inbox and click on the email confirmation link in
+          the email to get started!
         </div>
       </v-flex>
 

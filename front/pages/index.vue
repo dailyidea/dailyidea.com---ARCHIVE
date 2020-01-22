@@ -1,8 +1,5 @@
 <template>
-  <Layout
-    mobile-title="Daily Idea"
-    :page-options="mobileHeaderUiOptions"
-  >
+  <Layout mobile-title="Daily Idea" :page-options="mobileHeaderUiOptions">
     <!--    <v-container>-->
     <div id="newhomePage">
       <!-- desktop view -->

@@ -1,16 +1,9 @@
 <template>
   <div id="signupPage">
-
     <!-- Grid -->
     <v-layout class="mainTable" row>
       <!-- Desktop Only - Left Side Image Container -->
-      <v-flex class="leftSideImageContainer" hidden-sm-and-down>
-        <img class="bigTreeImage" src="~/assets/images/bigTree.png" />
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/person_with_phone.png"
-        />
-      </v-flex>
+      <left-container></left-container>
 
       <!-- Register Div -->
       <v-flex class="registerDiv">
@@ -77,31 +70,23 @@
       </v-flex>
 
       <!-- Desktop Only - Right Side Image Container -->
-      <v-flex class="rightSideImageContainer" hidden-sm-and-down>
-        <img class="smallTreeImage" src="~/assets/images/smallTree.png" />
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/signup/lady_with_phone.png"
-        />
-      </v-flex>
+      <right-container></right-container>
     </v-layout>
 
     <!-- Fixed Footer -->
-    <v-layout
-      hidden-sm-and-down
-      class="fixedFooter"
-      :style="{
-        'background-image':
-          'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"
-    ></v-layout>
+    <auth-footer></auth-footer>
   </div>
 </template>
 
 <script>
 import nanoid from 'nanoid'
+import leftContainer from '~/components/auth/leftContainer'
+import rightContainer from '~/components/auth/rightContainer'
+import authFooter from '~/components/auth/authFooter'
 import { getErrorMessage } from '~/utils'
+
 export default {
+  components: { leftContainer, rightContainer, authFooter },
   data: () => ({
     email: '',
     name: '',
@@ -144,10 +129,9 @@ export default {
           params: { email: this.email }
         })
       } catch (e) {
-
         // Handle email already registered
         if (e.code && e.code === 'UsernameExistsException') {
-            this.registerInProgress = false
+          this.registerInProgress = false
           this.emailExistsMsg = 'Sorry, email mentioned already exist.'
           return
         }
@@ -334,19 +318,6 @@ export default {
         }
       }
     }
-  }
-
-  .fixedFooter {
-    height: 30vh;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 0;
-    // border: 1px solid red;
-
-    background-size: cover;
-    // background-position-y: 30px;
   }
 }
 </style>

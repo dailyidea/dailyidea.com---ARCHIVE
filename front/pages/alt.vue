@@ -83,7 +83,9 @@
                 <div class="reviewerInfo">
                   <v-icon class="userIcon">fa-user-circle</v-icon>by Name
                   Surname
-                  <div class="reviewTime">{{ idea.createdDate | toRelativeDate }}</div>
+                  <div class="reviewTime">
+                    {{ idea.createdDate | toRelativeDate }}
+                  </div>
                 </div>
               </v-card>
             </v-flex>
@@ -225,8 +227,7 @@ export default {
       ideas: result.items
     }
   },
-  created() {
-  },
+  created() {},
   methods: {}
 }
 </script>

@@ -1,15 +1,8 @@
 <template>
   <div id="loginPage">
-
     <v-layout class="mainGrid" row>
       <!-- Left Side Image -->
-      <v-flex class="lefgImgContainer" hidden-sm-and-down>
-        <img class="bigTreeImage" src="~/assets/images/bigTree.png" />
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/person_with_phone.png"
-        />
-      </v-flex>
+      <left-container></left-container>
 
       <!-- login Div -->
       <v-flex class="loginDiv">
@@ -75,29 +68,19 @@
       </v-flex>
 
       <!-- Right side desktop only image -->
-      <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img class="smallTreeImage" src="~/assets/images/smallTree.png" />
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/signup/lady_with_phone.png"
-        />
-      </v-flex>
+      <right-container></right-container>
     </v-layout>
 
     <!-- Fixed Footer - desktop only -->
-    <v-layout
-      hidden-sm-and-down
-      class="fixedFooter"
-      :style="{
-        'background-image':
-          'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"
-    ></v-layout>
+    <auth-footer></auth-footer>
   </div>
 </template>
 
 <script>
-import ValidateTextField from '../../../components/ValidateTextField'
+import ValidateTextField from '~/components/ValidateTextField'
+import leftContainer from '~/components/auth/leftContainer'
+import rightContainer from '~/components/auth/rightContainer'
+import authFooter from '~/components/auth/authFooter'
 import ActionValidate from '~/mixins/validatable'
 import { getErrorMessage } from '~/utils'
 
@@ -107,7 +90,7 @@ const AdditionalMessages = {
 }
 
 export default {
-  components: { ValidateTextField },
+  components: { ValidateTextField, leftContainer, rightContainer, authFooter },
   $_veeValidate: { validator: 'new' },
   mixins: [ActionValidate],
   data: () => ({
@@ -190,60 +173,9 @@ export default {
   // border: 1px solid red;
   z-index: 1000;
 
-  .backBtn {
-    color: $primary-color;
-    position: fixed;
-    top: 0;
-    left: 0;
-    margin: 5px 3px;
-    z-index: 100;
-
-    i {
-      font-size: 16px;
-    }
-  }
-
   .mainGrid {
     margin: 0px;
     height: 100vh;
-
-    .lefgImgContainer {
-      position: relative;
-      z-index: 10;
-
-      .bigTreeImage {
-        height: 75vh;
-        position: absolute;
-        left: -3%;
-        top: 20vh;
-      }
-
-      .imgPersonWithPhone {
-        height: 75vh;
-        position: absolute;
-        right: 10%;
-        bottom: 3vh;
-      }
-    }
-
-    .rightImgContainer {
-      position: relative;
-      z-index: 10;
-
-      .smallTreeImage {
-        height: 90vh;
-        position: absolute;
-        left: 58%;
-        bottom: 6vh;
-      }
-
-      .imgPersonWithPhone {
-        height: 72vh;
-        position: absolute;
-        left: 20%;
-        bottom: 3vh;
-      }
-    }
 
     .loginDiv {
       // border: 1px solid red;
