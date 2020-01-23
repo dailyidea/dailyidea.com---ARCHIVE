@@ -21,7 +21,7 @@
                 :to="{
                   name: 'ideas-userSlug',
                   params: {
-                    userSlug: this.idea.authorSlug
+                    userSlug: idea.authorSlug
                   }
                 }"
                 >{{ idea.authorName }}</router-link
@@ -101,7 +101,7 @@
 
         <!-- Description -->
         <div v-if="!ideaEditorVisible" class="ideaDescription">
-          <div v-html="idea.content"></div>
+          <idea-content :content="idea.content"></idea-content>
         </div>
 
         <div v-else class="ideaEditor">
@@ -357,6 +357,7 @@
 // JUST in case I've forgotten something. let it be for now. #FIXME Delete this file later
 import { graphqlOperation } from '@aws-amplify/api'
 import CommentWithoutLoginDialog from '@/components/dialogs/commentWithoutLogin'
+import IdeaContent from '~/components/IdeaContent'
 
 import SubsribeForPrivateIdeaDialog from '@/components/dialogs/subscribeForPrivateIdea'
 import ShareIdeaByEmailDialog from '@/components/dialogs/shareIdeaByEmail'
@@ -383,7 +384,8 @@ export default {
     ShareIdeaByEmailDialog,
     TrixWrapper,
     SaveIdeaBookmark,
-    VisualNotifier
+    VisualNotifier,
+    IdeaContent
   },
   $_veeValidate: {
     validator: 'new'
@@ -524,7 +526,6 @@ export default {
         this.currentComment = ''
         this.$refs.notifier.success('Deleted Comment')
       } catch (err) {
-        console.error(err)
         this.$refs.notifier.error('Something went wrong!!')
       }
     },
@@ -605,7 +606,6 @@ export default {
 
     // Edit Idea Mode - remove ccomment from array
     removeTag(item) {
-      console.log(item)
       this.editIdeaTags.splice(this.editIdeaTags.indexOf(item), 1)
     },
 

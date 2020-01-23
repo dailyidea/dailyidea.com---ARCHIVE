@@ -1,6 +1,5 @@
 <template>
   <div id="loginPage">
-
     <v-layout class="mainGrid" row>
       <!-- Left Side Image -->
       <v-flex class="lefgImgContainer" hidden-sm-and-down>

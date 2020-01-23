@@ -16,7 +16,7 @@
 
     <div class="body">
       <!-- Form -->
-      <div v-if="successMessage == ''">
+      <div v-if="successMessage === ''">
         <div class="headerTitle">
           Oops,
         </div>
@@ -130,7 +130,6 @@ export default {
         }
 
         // If any other issue, show error message
-        console.log('error', e)
         this.$snotify.error('Someting went wrong!', 'Error', {
           timeout: 2000,
           showProgressBar: false,

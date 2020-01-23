@@ -1,6 +1,5 @@
 <template>
   <div id="signupPage">
-
     <!-- Grid -->
     <v-layout class="mainTable" row>
       <!-- Desktop Only - Left Side Image Container -->
@@ -144,15 +143,13 @@ export default {
           params: { email: this.email }
         })
       } catch (e) {
-
         // Handle email already registered
         if (e.code && e.code === 'UsernameExistsException') {
-            this.registerInProgress = false
+          this.registerInProgress = false
           this.emailExistsMsg = 'Sorry, email mentioned already exist.'
           return
         }
 
-        console.log('error', e)
         this.$snotify.error(getErrorMessage(e), 'Error', {
           timeout: 2000,
           showProgressBar: false,

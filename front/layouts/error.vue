@@ -14,7 +14,12 @@ import PageNotFound from '@/components/404'
 
 export default {
   components: { PageNotFound },
-  props: ['error'],
+  props: {
+    error: {
+      type: Object,
+      required: true
+    }
+  },
   layout: 'blog' // you can set a custom layout for the error page
 }
 </script>

@@ -41,7 +41,7 @@
             class="comments-part__container__table__col"
           >
             <div
-              v-if="idea.commentsCount > commentList.length"
+              v-if="idea.commentsCount > commentList.length && !deletingComment"
               style="text-align: center; padding: 5px 0; cursor: pointer;"
               @click="loadComments"
             >
@@ -84,14 +84,13 @@
               >fa-paper-plane</v-icon
             >
           </v-slide-y-transition>
-          <v-icon
-            v-if="readyForSend && showAddCommentLoader"
-            @click="sendComment"
+          <v-icon v-if="showAddCommentLoader" @click="sendComment"
             >fas fa-circle-notch fa-spin flag-icon
           </v-icon>
         </template>
       </v-text-field>
     </div>
+    <simple-dialog-popup ref="simpleDialogPopup"></simple-dialog-popup>
   </div>
 </template>
 
@@ -101,14 +100,18 @@ import IdeaCommentsComment from './IdeaCommentsComment'
 import addComment from '~/graphql/mutations/addComment'
 import getComments from '~/graphql/query/getComments'
 import deleteComment from '~/graphql/mutations/deleteComment'
+import simpleDialogPopup from '~/components/dialogs/simpleDialogPopup'
 
 const COMMENTS_COUNT = 25
 
 export default {
   name: 'IdeaComments',
-  components: { IdeaCommentsComment },
+  components: { IdeaCommentsComment, simpleDialogPopup },
   props: {
-    idea: Object,
+    idea: {
+      type: Object,
+      required: true
+    },
     commentsDeletable: {
       type: Boolean,
       default: false
@@ -120,7 +123,8 @@ export default {
       showAddCommentLoader: false,
       commentList: [],
       nextToken: null,
-      loadingMore: false
+      loadingMore: false,
+      deletingComment: false
     }
   },
   computed: {
@@ -158,6 +162,15 @@ export default {
       this.loadComments()
     },
     async onDeleteComment(comment) {
+      const confirmed = await this.$refs.simpleDialogPopup.show(
+        'Delete Comment',
+        'Are you sure you want to delete this Comment?'
+      )
+      if (!confirmed) {
+        return
+      }
+      this.deletingComment = true
+      this.$store.commit('layoutState/showProgressBar')
       try {
         this.commentList = this.commentList.filter(
           c => c.commentId !== comment.commentId
@@ -183,10 +196,13 @@ export default {
           message: "Can't Delete Comment!"
         })
       }
+      this.deletingComment = false
+      this.$store.commit('layoutState/hideProgressBar')
     },
     async sendComment() {
       this.showAddCommentLoader = true
       const commentText = this.newCommentText
+      this.newCommentText = ''
 
       try {
         const result = await this.$amplifyApi.graphql(
@@ -203,7 +219,6 @@ export default {
 
         // this.fetchCommentList()
         this.showAddCommentLoader = false
-        this.newCommentText = ''
         this.scrollToBottom()
         this.$emit('onNotification', {
           type: 'success',

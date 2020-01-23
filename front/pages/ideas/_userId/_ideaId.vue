@@ -41,7 +41,7 @@
                       :to="{
                         name: 'ideas-userSlug',
                         params: {
-                          userSlug: this.idea.authorSlug
+                          userSlug: idea.authorSlug
                         }
                       }"
                       >{{ idea.authorName }}</router-link
@@ -66,7 +66,9 @@
                 />
               </client-only>
             </div>
-            <div v-else class="" v-html="idea.content"></div>
+            <div v-else>
+              <idea-content :content="idea.content"></idea-content>
+            </div>
           </div>
           <div class="idea-part__tags-panel">
             <div v-if="!editMode" class="tagsContainer">
@@ -131,6 +133,7 @@
       </v-col>
     </v-row>
     <visual-notifier ref="notifier"></visual-notifier>
+    <simple-dialog-popup ref="simpleDialogPopup"></simple-dialog-popup>
   </layout>
 </template>
 
@@ -146,9 +149,19 @@ import getIdeaTags from '~/graphql/query/getIdeaTags'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import VisualNotifier from '~/components/VisualNotifier'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
+import simpleDialogPopup from '~/components/dialogs/simpleDialogPopup'
+import IdeaContent from '~/components/IdeaContent'
 
 export default {
-  components: { Layout, MenuPanel, IdeaComments, TrixWrapper, VisualNotifier },
+  components: {
+    Layout,
+    MenuPanel,
+    IdeaComments,
+    TrixWrapper,
+    VisualNotifier,
+    simpleDialogPopup,
+    IdeaContent
+  },
   $_veeValidate: {
     validator: 'new'
   },
@@ -212,6 +225,15 @@ export default {
     },
     // Delete Idea
     async onDeleteIdea() {
+      const confirmed = await this.$refs.simpleDialogPopup.show(
+        'Delete Idea',
+        'Are you sure you want to delete this Idea?',
+        'Delete'
+      )
+      if (!confirmed) {
+        return
+      }
+      this.$store.commit('layoutState/showProgressBar')
       try {
         const ideaId = this.$route.params.ideaId
         await this.$amplifyApi.graphql(
@@ -224,6 +246,7 @@ export default {
       } catch (err) {
         this.$refs.notifier.error('Something went wrong!!')
       }
+      this.$store.commit('layoutState/hideProgressBar')
     },
     async saveIdeaContent() {
       const result = await this.$validator.validateAll()
@@ -249,7 +272,6 @@ export default {
           this.updatingIdea = false
           this.$refs.notifier.success('Idea Updated!')
         } catch (e) {
-          console.log(e)
           this.updatingIdea = false
           this.$refs.notifier.error("Can't update Idea!")
         }

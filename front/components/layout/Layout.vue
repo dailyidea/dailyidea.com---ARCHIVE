@@ -1,5 +1,11 @@
 <template>
   <div id="commonHeader" hidden>
+    <v-progress-linear
+      :indeterminate="true"
+      :active="progressBarActive"
+      :height="2"
+      absolute
+    ></v-progress-linear>
     <template>
       <navigation-menu ref="sideMenu" @signOut="signOut"></navigation-menu>
       <div class="loggedInHeader">
@@ -37,6 +43,9 @@ export default {
   computed: {
     isAuthenticated() {
       return this.$store.state.userData.isAuthenticated
+    },
+    progressBarActive() {
+      return this.$store.getters['layoutState/progressBarActive']
     }
   },
   mounted() {

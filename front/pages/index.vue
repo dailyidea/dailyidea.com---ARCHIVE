@@ -1,8 +1,5 @@
 <template>
-  <Layout
-    mobile-title="Daily Idea"
-    :page-options="mobileHeaderUiOptions"
-  >
+  <Layout>
     <!--    <v-container>-->
     <div id="newhomePage">
       <!-- desktop view -->
@@ -63,7 +60,9 @@
                   <div>
                     <strong>{{ idea.title }}</strong>
                   </div>
-                  <div v-html="idea.content"></div>
+                  <div>
+                    <idea-content :content="idea.content"></idea-content>
+                  </div>
                   <!-- User Icon -->
                   <div class="reviews__review__info">
                     <div class="reviews__review__info__detail">
@@ -174,9 +173,10 @@
 <script>
 import Layout from '@/components/layout/Layout'
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
+import IdeaContent from '~/components/IdeaContent'
 
 export default {
-  components: { Layout },
+  components: { Layout, IdeaContent },
   async asyncData({ app }) {
     let result = await app.$amplifyApi.graphql({
       query: getPublicIdeas,

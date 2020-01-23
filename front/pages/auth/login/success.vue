@@ -1,6 +1,5 @@
 <template>
   <div id="loginSuccessPage">
-
     <!-- Main Grid -->
     <v-layout row class="gridContainer">
       <!-- Desktop Only - Left Side Image Container -->
@@ -76,7 +75,7 @@ export default {
   },
   methods: {
     showPopup() {
-        this.$refs['resend-auth-email-dialog'].open(this.email)
+      this.$refs['resend-auth-email-dialog'].open(this.email)
     }
   }
 }

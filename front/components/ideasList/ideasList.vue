@@ -35,7 +35,10 @@ export default {
   name: 'IdeasList',
   components: { ideasListIdea, ideasListEmptyMessage },
   props: {
-    ideas: Array,
+    ideas: {
+      type: Array,
+      required: true
+    },
     allowLoadMore: {
       type: Boolean,
       default: false

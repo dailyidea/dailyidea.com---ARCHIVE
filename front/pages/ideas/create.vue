@@ -10,14 +10,14 @@
 
       <div class="createIdeaBox">
         <!-- Header -->
-<!--        <v-row>-->
-<!--          <v-col cols="6">-->
-<!--            MY IDEA-->
-<!--          </v-col>-->
-<!--          <v-col cols="6" style="text-align: right">-->
-<!--            <img alt="image" src="~/assets/images/publicIdea.png" />-->
-<!--          </v-col>-->
-<!--        </v-row>-->
+        <!--        <v-row>-->
+        <!--          <v-col cols="6">-->
+        <!--            MY IDEA-->
+        <!--          </v-col>-->
+        <!--          <v-col cols="6" style="text-align: right">-->
+        <!--            <img alt="image" src="~/assets/images/publicIdea.png" />-->
+        <!--          </v-col>-->
+        <!--        </v-row>-->
 
         <!-- title -->
         <v-text-field
@@ -31,7 +31,7 @@
           :single-line="true"
           :solo="true"
         ></v-text-field>
-<!--        <input type="text">-->
+        <!--        <input type="text">-->
 
         <!-- Descriptiion = trix editor -->
         <div class="ideaEditor">
@@ -105,7 +105,7 @@ export default {
   },
   data: () => ({
     mobileHeaderUiOptions: {
-      pageTitle: "SUBMIT AN IDEA",
+      pageTitle: 'SUBMIT AN IDEA',
       leftButtonType: 'back'
     },
     contents: '',
@@ -159,7 +159,6 @@ export default {
           force: true
         })
       } catch (err) {
-        console.log(err)
         this.creatingIdea = false
         this.snackbarMessage = 'Something went wrong!!'
         this.snackbarColor = 'error'
@@ -178,28 +177,28 @@ export default {
   width: 100%;
   overflow-x: hidden;
 
-  .idea-name-field{
+  .idea-name-field {
     font-size: 18px;
-    .v-text-field__details{
+    .v-text-field__details {
       padding: 0;
     }
-    .v-input__slot{
+    .v-input__slot {
       box-shadow: none;
       padding: 0;
       margin: 0;
-      label{
+      label {
         color: #c1b8c6;
         font-size: 22px;
       }
     }
   }
-  .idea-tags-field{
-    .v-input__slot{
+  .idea-tags-field {
+    .v-input__slot {
       box-shadow: none;
       padding: 0;
       margin: 0;
       font-size: 16px;
-      label{
+      label {
         color: #c1b8c6;
         font-size: 22px;
       }
@@ -238,7 +237,7 @@ export default {
           &:focus {
             border: none;
           }
-          &:empty::before{
+          &:empty::before {
             font-size: 18px;
             color: #c1b8c6;
             content: attr(placeholder);
@@ -247,7 +246,6 @@ export default {
           }
         }
         .trix-content {
-
           height: 32vh;
           overflow-y: auto;
         }
