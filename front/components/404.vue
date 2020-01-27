@@ -101,7 +101,7 @@ export default {
     .imageOfBoy {
       padding-top: 10px;
       position: fixed;
-      width: 100%;
+      max-height: 50%;
       bottom: 0px;
       background: white;
     }

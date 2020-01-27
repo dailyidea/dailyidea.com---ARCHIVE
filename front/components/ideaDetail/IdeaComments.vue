@@ -328,10 +328,10 @@ $counters-font-size: 18px;
 .comments-part {
   /*background-color: #aed242;*/
   @media (max-width: $screen-sm-max) {
-    height: calc(80vh - 84px);
+    height: calc(80vh - 88px);
   }
   @media (min-width: $screen-md-min) {
-    height: calc(100vh - 84px);
+    height: calc(100vh - 88px);
   }
 
   overflow: hidden;
@@ -345,10 +345,10 @@ $counters-font-size: 18px;
   &__container {
     background-color: #ebe7ed;
     @media (max-width: $screen-sm-max) {
-      height: calc(80vh - 88px - 64px - 64px);
+      height: calc(80vh - 92px - 64px - 64px);
     }
     @media (min-width: $screen-md-min) {
-      height: calc(100vh - 88px - 64px - 64px);
+      height: calc(100vh - 92px - 64px - 64px);
     }
     overflow: auto;
     /*height: 100%;*/

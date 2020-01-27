@@ -6,11 +6,13 @@
           <div class="idea-part__header">
             <menu-panel
               :editable="isMyIdea"
-              :is-private="idea.visibility === 'PRIVATE'"
+              :idea="idea"
               @enableEditMode="enableEditMode"
               @savedStateChanged="onIdeaSaveStateChanged"
               @onNotification="onNotification"
               @onDeleteIdea="onDeleteIdea"
+              @onIdeaVisibilityChanged="onIdeaVisibilityChanged"
+              @onIdeaVisibilityChangeError="onIdeaVisibilityChangeError"
             ></menu-panel>
             <div class="idea-part__header__title">
               <v-text-field
@@ -125,11 +127,13 @@
         </div>
       </v-col>
       <v-col cols="12" md="4">
-        <idea-comments
-          :idea="idea"
-          :comments-deletable="isMyIdea"
-          @onNotification="onNotification"
-        ></idea-comments>
+        <client-only>
+          <idea-comments
+            :idea="idea"
+            :comments-deletable="isMyIdea"
+            @onNotification="onNotification"
+          ></idea-comments>
+        </client-only>
       </v-col>
     </v-row>
     <visual-notifier ref="notifier"></visual-notifier>
@@ -145,6 +149,7 @@ import TrixWrapper from '@/components/TrixWrapper'
 import IdeaComments from '@/components/ideaDetail/IdeaComments'
 import MenuPanel from '@/components/ideaDetail/MenuPanel'
 import getUsersIdea from '~/graphql/query/getUsersIdea'
+import getMyIdea from '~/graphql/query/getMyIdea'
 import getIdeaTags from '~/graphql/query/getIdeaTags'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import VisualNotifier from '~/components/VisualNotifier'
@@ -165,19 +170,23 @@ export default {
   $_veeValidate: {
     validator: 'new'
   },
-  async asyncData({ app, route, store }) {
+  async asyncData({ app, route, store, error }) {
     const isMyIdea = store.getters['userData/userId'] === route.params.userId
-    const { data } = await app.$amplifyApi.graphql({
-      query: getUsersIdea,
-      variables: {
-        userId: route.params.userId,
-        ideaId: route.params.ideaId
-      },
-      authMode: 'API_KEY'
-    })
-    return {
-      idea: data.getUsersIdea,
-      isMyIdea
+    try {
+      const { data } = await app.$amplifyApi.graphql({
+        query: isMyIdea ? getMyIdea : getUsersIdea,
+        variables: {
+          userId: route.params.userId,
+          ideaId: route.params.ideaId
+        },
+        authMode: isMyIdea ? undefined : 'API_KEY'
+      })
+      return {
+        idea: data[isMyIdea ? 'getMyIdea' : 'getUsersIdea'],
+        isMyIdea
+      }
+    } catch (e) {
+      error({ statusCode: 404, message: 'Idea not found' })
     }
   },
   data() {
@@ -204,7 +213,6 @@ export default {
       this.idea.likesCount = likesCount
       this.$refs.notifier.success(liked ? 'Liked' : 'Unliked')
     },
-    toggleIdeaPrivacy() {},
     copyIdeaDataForEdit() {
       this.ideaEditData.content = this.idea.content
       this.ideaEditData.ideaTags = this.ideaTags.map(t => t)
@@ -247,6 +255,15 @@ export default {
         this.$refs.notifier.error('Something went wrong!!')
       }
       this.$store.commit('layoutState/hideProgressBar')
+    },
+    onIdeaVisibilityChanged({ isPrivate }) {
+      this.idea.visibility = isPrivate ? 'PRIVATE' : 'PUBLIC'
+      this.$refs.notifier.success(
+        `Your Idea is ${isPrivate ? 'private' : 'public'} now!`
+      )
+    },
+    onIdeaVisibilityChangeError({ isPrivate }) {
+      this.$refs.notifier.error(`can't change Idea visibility!`)
     },
     async saveIdeaContent() {
       const result = await this.$validator.validateAll()

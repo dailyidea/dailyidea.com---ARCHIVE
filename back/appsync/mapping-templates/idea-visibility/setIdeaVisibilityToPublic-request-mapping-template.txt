@@ -1,0 +1,17 @@
+{
+    "version" : "2017-02-28",
+    "operation" : "UpdateItem",
+    "key": {
+        "userId" : { "S" : "${ctx.identity.username}" },
+        "ideaId" : { "S" : "${ctx.arguments.ideaId}" },
+    },
+    "update" : {
+        "expression" : "SET #visibilityfield = :public",
+        "expressionNames" : {
+           "#visibilityfield" : "visibility"
+        },
+        "expressionValues" : {
+            ":public" : { "S" : "PUBLIC" }
+        }
+    },
+}

@@ -11,5 +11,14 @@
                 "S": "${context.arguments.userId}"
             }
         }
+    },
+    "filter" : {
+        "expression" : "#visibilityfield = :public",
+        "expressionNames" : {
+           "#visibilityfield" : "visibility",
+        },
+        "expressionValues" : {
+                ":public" : {"S": "PUBLIC"}
+        },
     }
 }

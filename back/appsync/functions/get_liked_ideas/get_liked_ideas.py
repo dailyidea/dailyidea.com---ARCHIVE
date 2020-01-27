@@ -53,9 +53,13 @@ def endpoint(event, context):
     )
     raw_ideas = ideas['Responses']['dailyidea-ideas-dev']
     clean_ideas = dynamo_loads(raw_ideas)
+    clean_ideas = list(filter(lambda i: (i['userId'] == userId or i['visibility'] == 'PUBLIC'), clean_ideas))
     for clean_idea in clean_ideas:
         if type(clean_idea['createdDate']) == datetime.datetime:
             clean_idea['createdDate'] = clean_idea['createdDate'].isoformat()
+        if type(clean_idea['ideaDate']) == datetime.datetime:
             clean_idea['ideaDate'] = clean_idea['ideaDate'].isoformat()
+        if type(clean_idea.get('updatedDate', None)) == datetime.datetime:
+            clean_idea['updatedDate'] = clean_idea['updatedDate'].isoformat()
     clean_ideas = sorted(clean_ideas, key=lambda i: ideas_id_list.index(i['ideaId']))
     return {'items': clean_ideas, 'nextToken': next_token}
