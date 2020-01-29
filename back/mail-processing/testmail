@@ -1,0 +1,58 @@
+Return-Path: <shaper.int@gmail.com>
+Received: from mail-it1-f177.google.com (mail-it1-f177.google.com [209.85.166.177])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id vv9rq3psfp3u9lj5htcecchauc94hkd3mlpe1ng1
+ for ideas-dev@dailyidea.com;
+ Wed, 26 Sep 2018 16:31:56 +0000 (UTC)
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.166.177 as permitted sender) client-ip=209.85.166.177; envelope-from=shaper.int@gmail.com; helo=mail-it1-f177.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.166.177 as permitted sender) client-ip=209.85.166.177; envelope-from=shaper.int@gmail.com; helo=mail-it1-f177.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFIeitzd1UrREZXS0pWMm5tbVVnazdXMFlacU5BZjhNTUdzR2NXcUpFNXNkQXZKUEVwT0pKbzR2U2Q5V0VuMG54b3M3ZWZkL3FBSHdPQ3orNkh4Ykhmb2l0SFU4Tng1K2RiNmdTeU90UGJLSTB3bDZBWTRWN01Wb203cko3OWw1d2lMSE9SeWxpL0FZa0N6NFVzUHdXa2FMcHlmY2lVWGkxM2tHa3lQMzNzdzZzRG5XdlkwRnBGaXVrQnliYWJSdlpDNnRpa0dkbCtKZVZaUzFucnZqK3hHV3FFRDNCQ2tab1FzZEpPVm9TY0hFUXoyRWtHQk5nTDQ4N2NqVDVkU2VKeW5YaHRUQWl1Y3pxMUllUGVvcHM1cERqTm5ya3VreG5yeCtyUHRENW9SZUE9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=KI3UNApuHU6BK3SXN/ujb+vwvN0jRzjoWpRs5S+4VHXPxhy1MTzBpDcezvvd1fKkC3oPBnY9XdlvK0nZ8Ki85uCnTScJK5PNqrq64LlJ6EHtUWEPu8aWuuQdX9QsHX6mLFvNozK3meAVqV/IQjPuGUl5ZFgDiD0omCx86nVsecw=; c=relaxed/simple; s=ug7nbtf4gccmlpwj322ax3p6ow6yfsug; d=amazonses.com; t=1537979516; v=1; bh=mXcx/SgFNSZkr0OF3PJ8j68vc/K2rTle/If01TFmWoU=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-it1-f177.google.com with SMTP id p129-v6so3708854ite.3
+        for <ideas-dev@dailyidea.com>; Wed, 26 Sep 2018 09:31:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=mXcx/SgFNSZkr0OF3PJ8j68vc/K2rTle/If01TFmWoU=;
+        b=k3Qv/gxsbaOlz482SDQTujOMpbD7/1hnjos0uLN5J3WRDqK9mwVNTSMW7Td/TZ2wcp
+         u7ubs0ftOZ+IGTFVRhUZVjNZoHbO3AhczquBQU6T/ElAfbt/ZqDGCjJ1ALtVPp1wKiQy
+         nOGdEzJqwUPlzG5lXimn+4kexTCwaFg/1Te+wHysb/vlyR3XfzblGjW2KFM+aGbQY428
+         4yqVObSJpu510FmGEeGK9MG/soZ9F68rMMa1MF6VjMiuQk71UJ9AhO5o8wrtmnoV1kfR
+         q/OQuFSNjwPDTJoqHpkmJF4+bplXZKZGjlbZdF2nS6JXl+D7XL8MORdSm7bTAzudFcd8
+         FwDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=mXcx/SgFNSZkr0OF3PJ8j68vc/K2rTle/If01TFmWoU=;
+        b=sZF7OUQnCnQIExNnIQ+9XbGprJMOTwD/Egn9vFmOEsbXL6+P+iLDE1eRC2AYgFAVGM
+         wSR5WuwzWvhdr1HWhwzx58oO4uJrXEIWPRqod29v5e3BusMv8H+SwgB2aoMVVvUJ01ej
+         BmosEYtpKp+PS/7F/yASN/BAkJry4/c4JxDtKQK1373kCutikPN0S1QazGFaAIh8Qil7
+         QMWCt6q3sHcw2JfqeQDDO+HzvF5o7/NAIw+nKrdRCV+FPbjDpsrNNPqXi9UNkjsvoP/K
+         2NaKKvS1rCNPpqQzftLvoLjuHIUd6isfqAoCNOgP15tAm2lyEWBfkeqjZjbRXov5AdC6
+         hNYA==
+X-Gm-Message-State: ABuFfoh0gRzBzHLgMdTnfj4ZZoMpDO8IHkuIMATGlqFOoiSdOBMcvXjO
+	uiHgFgFMduqYMkieog2EuZCkDx76e1JLHwE0qa4bKw==
+X-Google-Smtp-Source: ACcGV62q8jprCDZQ7XXeXl4CcJaAMZnVBtgY1f45VkaXoKQILBMsOnFCAMNKfGPK9iFcvLXI7jIEo+e22piO1z+x1KI=
+X-Received: by 2002:a02:1c48:: with SMTP id c69-v6mr6332513jac.65.1537979515568;
+ Wed, 26 Sep 2018 09:31:55 -0700 (PDT)
+MIME-Version: 1.0
+From: ShapeR <shaper.int@gmail.com>
+Date: Wed, 26 Sep 2018 19:34:09 +0300
+Message-ID: <CADfhRDL=rzz3ALYDQM+hD2bA=efC=Y=VfHpZoLRzzvW-JLNJfg@mail.gmail.com>
+Subject: sadas
+To: ideas-dev@dailyidea.com
+Content-Type: multipart/alternative; boundary="000000000000b28e6d0576c8c21f"
+
+--000000000000b28e6d0576c8c21f
+Content-Type: text/plain; charset="UTF-8"
+
+dddasd
+
+--000000000000b28e6d0576c8c21f
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr">dddasd</div>
+
+--000000000000b28e6d0576c8c21f--

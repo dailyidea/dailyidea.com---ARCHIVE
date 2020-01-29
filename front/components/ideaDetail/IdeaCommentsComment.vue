@@ -40,7 +40,8 @@ export default {
   name: 'IdeaCommentsComment',
   props: {
     comment: {
-      type: Object
+      type: Object,
+      required: true
     },
     deletable: {
       type: Boolean,

@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     showPopup() {
-        this.$refs['resend-auth-email-dialog'].open(this.email)
+      this.$refs['resend-auth-email-dialog'].open(this.email)
     }
   }
 }

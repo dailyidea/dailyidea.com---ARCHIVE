@@ -79,6 +79,10 @@ type Mutation {
 	unlikeIdea(
 	    ideaId: String!
     ): LikeResult
+
+	makeIdeaPrivate(ideaId:String!): Result!
+
+	makeIdeaPublic(ideaId:String!): Result!
 }
 
 

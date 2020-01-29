@@ -299,7 +299,6 @@ export default {
           this.userData.followersCount--
         }
       } catch (err) {
-        console.error(err)
         this.snackbarMessage = 'Something went wrong!!'
         this.snackbarColor = 'error'
         this.snackbarVisible = true
@@ -335,7 +334,6 @@ export default {
           )
         }
       } catch (err) {
-        console.log(err)
         // this.$refs.notifier.error('Something went wrong!!')
       }
       this.savingChanges = false

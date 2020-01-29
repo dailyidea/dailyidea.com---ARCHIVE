@@ -3,7 +3,9 @@
     <div class="idea-item__idea-title-row">
       {{ idea.title }}
     </div>
-    <div class="idea-item__idea-content-row" v-html="idea.content"></div>
+    <div class="idea-item__idea-content-row">
+      <idea-content :content="idea.content"></idea-content>
+    </div>
     <div class="idea-item__idea-footer-row">
       <div class="idea-item__idea-footer-row__counters">
         <div class="idea-item__idea-footer-row__likes-counter">
@@ -32,10 +34,15 @@
 </template>
 
 <script>
+import IdeaContent from '~/components/IdeaContent'
 export default {
   name: 'IdeasListIdea',
+  components: { IdeaContent },
   props: {
-    idea: Object
+    idea: {
+      type: Object,
+      required: true
+    }
   },
   methods: {
     onIdeaClick() {

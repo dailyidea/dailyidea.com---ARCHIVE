@@ -268,6 +268,22 @@ custom:
           - addFollowingItem
           - increaseFollowersCount
           - increaseFolloweesCount
+      - dataSource: Ideas
+        type: Mutation
+        field: makeIdeaPrivate
+        request: "common/before-mapping-template.txt"
+        response: "common/after-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - setIdeaVisibilityToPrivate
+      - dataSource: Ideas
+        type: Mutation
+        field: makeIdeaPublic
+        request: "common/before-mapping-template.txt"
+        response: "common/after-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - setIdeaVisibilityToPublic
       - dataSource: Users
         type: Mutation
         field: unfollowUser
@@ -444,6 +460,14 @@ custom:
         name: decreaseIdeasCreatedCount
         request: 'ideas/delete-idea/decreaseIdeasCreatedCount-request-mapping-template.txt'
         response: 'ideas/delete-idea/decreaseIdeasCreatedCount-response-mapping-template.txt'
+      - dataSource: Ideas
+        name: setIdeaVisibilityToPrivate
+        request: 'idea-visibility/setIdeaVisibilityToPrivate-request-mapping-template.txt'
+        response: 'idea-visibility/setIdeaVisibilityToPrivate-response-mapping-template.txt'
+      - dataSource: Ideas
+        name: setIdeaVisibilityToPublic
+        request: 'idea-visibility/setIdeaVisibilityToPublic-request-mapping-template.txt'
+        response: 'idea-visibility/setIdeaVisibilityToPublic-response-mapping-template.txt'
 
 #      - type: AWS_LAMBDA
 #        name: RequestLink

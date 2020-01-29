@@ -11,7 +11,9 @@
     >
       fa fa-plus flag-icon</v-icon
     >
-    <v-icon v-if="isLoading" color="white"> fas fa-circle-notch fa-spin flag-icon</v-icon>
+    <v-icon v-if="isLoading" color="white"
+      >fas fa-circle-notch fa-spin flag-icon</v-icon
+    >
     <div class="save-idea-bookmark__inner-triangle"></div>
     <SaveIdeaWithoutLoginDialog
       :visible.sync="showSaveWithoutLoginDialog"
@@ -152,7 +154,7 @@ export default {
 
     /*background-color: red;*/
   }
-  .flag-icon{
+  .flag-icon {
     margin-top: 10px;
   }
   .plus-icon {

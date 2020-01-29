@@ -147,15 +147,14 @@ export default {
             : 'API_KEY'
         })
         this.$emit('success')
-
       } catch (e) {
         this.$emit('error')
       }
       this.close()
-        this.cleanData()
+      this.cleanData()
     },
     close() {
-        this.$validator.reset()
+      this.$validator.reset()
       this.$emit('close')
       this.cleanData()
     },

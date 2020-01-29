@@ -46,20 +46,25 @@ export default {
     },
     initialNextToken: {
       type: String,
-      required: false
+      required: false,
+      default: null
     },
     title: {
-      type: String
+      type: String,
+      default: 'Ideas'
     },
     endPoint: {
-      type: String
+      type: String,
+      required: true
     },
     endPointName: {
-      type: String
+      type: String,
+      required: true
     },
     endPointMode: {
       type: String,
-      required: false
+      required: false,
+      default: undefined
     },
     endPointVariables: {
       type: Object,

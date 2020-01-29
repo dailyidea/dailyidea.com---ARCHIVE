@@ -5,6 +5,7 @@
     </div>
 
     <!-- No Idea MEssage -->
+    <!-- eslint-disable-next-line -->
     <div class="text" v-html="noIdeaMessage"></div>
 
     <!-- Add idea arrow - desktop only -->

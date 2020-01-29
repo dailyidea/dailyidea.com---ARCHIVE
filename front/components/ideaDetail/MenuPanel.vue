@@ -30,8 +30,8 @@
         <v-list-item @click="enableEditMode">
           <v-list-item-title>
             <v-icon size="18" style="vertical-align: middle; width: 21px"
-              >mdi-pencil</v-icon
-            >
+              >mdi-pencil
+            </v-icon>
             <span style="vertical-align: middle">
               Edit Idea</span
             ></v-list-item-title
@@ -40,8 +40,8 @@
         <v-list-item @click="deleteIdea">
           <v-list-item-title>
             <v-icon size="18" style="vertical-align: middle; width: 21px"
-              >fas fa-trash</v-icon
-            >
+              >fas fa-trash
+            </v-icon>
             <span style="vertical-align: middle">
               Delete Idea</span
             ></v-list-item-title
@@ -61,29 +61,50 @@
       @close="showEmailShareDialog = false"
       @onCopyShareLink="onCopyShareLink"
     ></ShareIdeaByEmailDialog>
+    <make-idea-private-dialog
+      ref="makeIdeaPrivateDialog"
+    ></make-idea-private-dialog>
+    <make-idea-public-dialog
+      ref="makeIdeaPublicDialog"
+    ></make-idea-public-dialog>
   </div>
 </template>
 
 <script>
+import { graphqlOperation } from '@aws-amplify/api'
+import makeIdeaPrivate from '~/graphql/mutations/makeIdeaPrivate'
+import makeIdeaPublic from '~/graphql/mutations/makeIdeaPublic'
 import ShareIdeaByEmailDialog from '@/components/dialogs/shareIdeaByEmail'
 import SaveIdeaBookmark from '@/components/ideaDetail/SaveIdeaBookmark'
+import makeIdeaPrivateDialog from '~/components/dialogs/makeIdeaPrivateDialog'
+import makeIdeaPublicDialog from '~/components/dialogs/makeIdeaPublicDialog'
 
 export default {
   name: 'MenuPanel',
-  components: { SaveIdeaBookmark, ShareIdeaByEmailDialog },
+  components: {
+    SaveIdeaBookmark,
+    ShareIdeaByEmailDialog,
+    makeIdeaPrivateDialog,
+    makeIdeaPublicDialog
+  },
   props: {
     editable: {
       type: Boolean,
       default: false
     },
-    isPrivate: {
-      type: Boolean,
-      default: false
+    idea: {
+      type: Object,
+      required: true
     }
   },
   data() {
     return {
       showEmailShareDialog: false
+    }
+  },
+  computed: {
+    isPrivate() {
+      return this.idea.visibility === 'PRIVATE'
     }
   },
   methods: {
@@ -93,7 +114,59 @@ export default {
     onIdeaSaveStateChanged(val) {
       this.$emit('savedStateChanged', val)
     },
-    toggleIdeaPrivacy() {},
+    async makeIdeaPrivate() {
+      const confirmed = await this.$refs.makeIdeaPrivateDialog.show()
+      if (!confirmed) {
+        return
+      }
+      this.$store.commit('layoutState/showProgressBar')
+      try {
+        const ideaId = this.idea.ideaId
+        const result = await this.$amplifyApi.graphql(
+          graphqlOperation(makeIdeaPrivate, {
+            ideaId
+          })
+        )
+        if (result.data.makeIdeaPrivate.ok) {
+          this.$emit('onIdeaVisibilityChanged', { isPrivate: true })
+        } else {
+          this.$emit('onIdeaVisibilityChangeError', { isPrivate: true })
+        }
+      } catch (err) {
+        this.$emit('onIdeaVisibilityChangeError', { isPrivate: true })
+      }
+      this.$store.commit('layoutState/hideProgressBar')
+    },
+    async makeIdeaPublic() {
+      const confirmed = await this.$refs.makeIdeaPublicDialog.show()
+      if (!confirmed) {
+        return
+      }
+      this.$store.commit('layoutState/showProgressBar')
+      try {
+        const ideaId = this.idea.ideaId
+        const result = await this.$amplifyApi.graphql(
+          graphqlOperation(makeIdeaPublic, {
+            ideaId
+          })
+        )
+        if (result.data.makeIdeaPublic.ok) {
+          this.$emit('onIdeaVisibilityChanged', { isPrivate: false })
+        } else {
+          this.$emit('onIdeaVisibilityChangeError', { isPrivate: false })
+        }
+      } catch (err) {
+        this.$emit('onIdeaVisibilityChangeError', { isPrivate: false })
+      }
+      this.$store.commit('layoutState/hideProgressBar')
+    },
+    toggleIdeaPrivacy() {
+      if (this.isPrivate) {
+        this.makeIdeaPublic()
+      } else {
+        this.makeIdeaPrivate()
+      }
+    },
     showShareIdeaDialog() {
       this.showEmailShareDialog = true
     },
