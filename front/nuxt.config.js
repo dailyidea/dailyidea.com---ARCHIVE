@@ -104,7 +104,6 @@ module.exports = {
       runInNewContext: false
     }
   },
-
   /*
    ** Build configuration
    */
