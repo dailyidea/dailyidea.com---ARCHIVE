@@ -1,67 +1,40 @@
 <template>
-  <div id="loginSuccessPage">
+  <auth-layout>
 
-    <v-layout row class="gridContainer">
-      <v-flex class="lefgImgContainer" hidden-sm-and-down>
-        <img class="bigTreeImage" src="~/assets/images/bigTree.png" />
+    <!-- Register Div -->
+    <v-flex class="successMessage">
+      <!-- Header Images -->
+      <img
+        class="logoIcon"
+        src="~/assets/images/bulb_with_light_holder.png"
+      />
+      <br />
+      <img class="logoText" src="~/assets/images/logo_text.png" />
 
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/person_with_phone.png"
-        />
-      </v-flex>
+      <!-- Hero Message -->
+      <div class="heroMsg">Yay !</div>
 
-      <!-- Register Div -->
-      <v-flex class="successMessage">
-        <!-- Header Images -->
-        <img
-          class="logoIcon"
-          src="~/assets/images/bulb_with_light_holder.png"
-        />
-        <br />
-        <img class="logoText" src="~/assets/images/logo_text.png" />
+      <!-- Hero Description -->
+      <div class="heroDescription">
+        Welcome To Daily Idea!<br />
+        WE've sent you an email confirmation link<br /><br />
+        <!-- <span v-if="email">link at {{ email }}.</span> -->
+        <!-- <span v-else>link.</span> -->
 
-        <!-- Hero Message -->
-        <div class="heroMsg">Yay !</div>
+        <!-- <a>Din't get it? Request a new Link</a> -->
+      </div>
 
-        <!-- Hero Description -->
-        <div class="heroDescription">
-          Welcome To Daily Idea!<br />
-          WE've sent you an email confirmation link<br /><br />
-          <!-- <span v-if="email">link at {{ email }}.</span> -->
-          <!-- <span v-else>link.</span> -->
+      <!-- Continue Button -->
+      <v-btn large class="okBtn">OK</v-btn>
+    </v-flex>
 
-          <!-- <a>Din't get it? Request a new Link</a> -->
-        </div>
-
-        <!-- Continue Button -->
-        <v-btn large class="okBtn">OK</v-btn>
-      </v-flex>
-
-      <v-flex class="rightImgContainer" hidden-sm-and-down>
-        <img class="smallTreeImage" src="~/assets/images/smallTree.png" />
-
-        <img
-          class="imgPersonWithPhone"
-          src="~/assets/images/signup/lady_with_phone.png"
-        />
-      </v-flex>
-    </v-layout>
-
-    <!-- Fixed Footer -->
-    <v-layout
-      hidden-sm-and-down
-      class="fixedFooter"
-      :style="{
-        'background-image':
-          'url(' + require('~/assets/images/signup/footer_background.png') + ')'
-      }"
-    ></v-layout>
-  </div>
+  </auth-layout>
 </template>
 
 <script>
+import authLayout from '~/components/auth/authLayout'
 export default {
+  components: { authLayout },
   data: () => ({
     email: null,
     success: false

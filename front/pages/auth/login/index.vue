@@ -1,87 +1,72 @@
 <template>
-  <div id="loginPage">
+  <auth-layout>
+    <v-flex class="loginDiv">
+      <img
+        class="logoIcon"
+        src="~/assets/images/bulb_with_light_holder.png"
+      />
+      <br />
+      <img class="logoText" src="~/assets/images/logo_text.png" />
 
-    <v-layout class="mainGrid" row>
-      <!-- Left Side Image -->
-      <left-container></left-container>
-
-      <!-- login Div -->
-      <v-flex class="loginDiv">
-        <img
-          class="logoIcon"
-          src="~/assets/images/bulb_with_light_holder.png"
-        />
-        <br />
-        <img class="logoText" src="~/assets/images/logo_text.png" />
-
-        <div class="additional-message">
-          <div class="additional-message__text">
-            {{ additionalMessageText }}
-          </div>
+      <div class="additional-message">
+        <div class="additional-message__text">
+          {{ additionalMessageText }}
         </div>
+      </div>
 
-        <!-- Login Form -->
-        <v-form @submit.prevent="login">
-          <!-- Email Input Box -->
-          <validate-text-field
-            :value.sync="email"
-            single-line
-            flat
-            class="emailInput"
-            name="email"
-            autocomplete="email"
-            type="email"
-            prepend-inner-icon="email"
-            placeholder="What is your email address?"
-            validate="required|email"
-          />
+      <!-- Login Form -->
+      <v-form @submit.prevent="login">
+        <!-- Email Input Box -->
+        <validate-text-field
+          :value.sync="email"
+          single-line
+          flat
+          class="emailInput"
+          name="email"
+          autocomplete="email"
+          type="email"
+          prepend-inner-icon="email"
+          placeholder="What is your email address?"
+          validate="required|email"
+        />
 
-          <!-- Email Not Found Message -->
-          <div v-if="emailNotFoundMsg != ''" class="emailNotFoundMsg">
-            {{ emailNotFoundMsg }}
-            <div>
-              <v-btn to="/auth/signup" text small color="#827C85"
-                >Create an account?</v-btn
-              >
-            </div>
-          </div>
-
-          <!-- Login Button -->
-          <v-btn
-            type="submit"
-            large
-            class="loginBtn"
-            :loading="logingUser"
-            @click.stop.prevent="login"
-            >Log In</v-btn
-          >
-        </v-form>
-
-        <!-- Create account div at bottom -->
-        <div class="createAccountDiv">
-          <div class="existsTitle">
-            Don't have an account yet?
-            <nuxt-link class="signupBtn" text to="/auth/signup"
-              >Create Account</nuxt-link
+        <!-- Email Not Found Message -->
+        <div v-if="emailNotFoundMsg != ''" class="emailNotFoundMsg">
+          {{ emailNotFoundMsg }}
+          <div>
+            <v-btn to="/auth/signup" text small color="#827C85"
+              >Create an account?</v-btn
             >
           </div>
         </div>
-      </v-flex>
 
-      <!-- Right side desktop only image -->
-      <right-container></right-container>
-    </v-layout>
+        <!-- Login Button -->
+        <v-btn
+          type="submit"
+          large
+          class="loginBtn"
+          :loading="logingUser"
+          @click.stop.prevent="login"
+          >Log In</v-btn
+        >
+      </v-form>
 
-    <!-- Fixed Footer - desktop only -->
-    <auth-footer></auth-footer>
-  </div>
+      <!-- Create account div at bottom -->
+      <div class="createAccountDiv">
+        <div class="existsTitle">
+          Don't have an account yet?
+          <nuxt-link class="signupBtn" text to="/auth/signup"
+            >Create Account</nuxt-link
+          >
+        </div>
+      </div>
+    </v-flex>
+  </auth-layout>
 </template>
 
 <script>
 import ValidateTextField from '../../../components/ValidateTextField'
-import leftContainer from '~/components/auth/leftContainer'
-import rightContainer from '~/components/auth/rightContainer'
-import authFooter from '~/components/auth/authFooter'
+import authLayout from '~/components/auth/authLayout'
 import ActionValidate from '~/mixins/validatable'
 import { getErrorMessage } from '~/utils'
 
@@ -91,7 +76,7 @@ const AdditionalMessages = {
 }
 
 export default {
-  components: { ValidateTextField, leftContainer, rightContainer, authFooter },
+  components: { ValidateTextField, authLayout },
   $_veeValidate: { validator: 'new' },
   mixins: [ActionValidate],
   data: () => ({
@@ -167,199 +152,123 @@ export default {
     min-height: 50px;
   }
 }
-#loginPage {
+
+.loginDiv {
+  // border: 1px solid red;
+  text-align: center;
+  padding-top: 15vh;
+  z-index: 10;
   height: 100vh;
   overflow: hidden;
-  background: white;
-  // border: 1px solid red;
-  z-index: 1000;
 
-  .backBtn {
-    color: $primary-color;
+  @media #{$small-screen} {
+    padding-top: 10vh;
+  }
+
+  .logoIcon {
+    height: 20vh;
+
+    @media #{$small-screen} {
+      // padding-top: 30vh;
+      // background: red !important;
+      height: 15vh !important;
+      width: auto !important;
+    }
+  }
+
+  .logoText {
+    width: 200px;
+  }
+
+  .emailInput {
+    margin-top: 60px !important;
+    margin-bottom: 20px;
+
+    .v-input__prepend-inner {
+      padding-right: 15px;
+    }
+  }
+
+  .emailInput {
+    width: 70%;
+    margin: auto;
+    max-width: 400px;
+
+    @media #{$medium-screen} {
+      max-width: none;
+      width: 80%;
+    }
+  }
+
+  .emailNotFoundMsg {
+    width: 70%;
+    margin: auto;
+    max-width: 420px;
+    color: #c8c7c7;
+  }
+
+  .loginBtn {
+    margin-top: 7vh;
+    border-radius: 4px;
+    width: 40%;
+
+    letter-spacing: 1px;
+
+    @media #{$medium-screen} {
+      max-width: none;
+      width: 80%;
+    }
+  }
+
+  .createAccountDiv {
+    margin-top: 6vh;
+
+    .existsTitle {
+      font-size: 14px;
+      line-height: 1.57;
+      color: #c8c7c7;
+      // margin-bottom: 5px;
+
+      .signupBtn {
+        text-decoration: none;
+      }
+    }
+  }
+
+  @media #{$small-screen} {
     position: fixed;
-    top: 0;
-    left: 0;
-    margin: 5px 3px;
-    z-index: 100;
-
-    i {
-      font-size: 16px;
-    }
-  }
-
-  .mainGrid {
-    margin: 0px;
-    height: 100vh;
-
-    .lefgImgContainer {
-      position: relative;
-      z-index: 10;
-
-      .bigTreeImage {
-        height: 75vh;
-        position: absolute;
-        left: -3%;
-        top: 20vh;
-      }
-
-      .imgPersonWithPhone {
-        height: 75vh;
-        position: absolute;
-        right: 10%;
-        bottom: 3vh;
-      }
-    }
-
-    .rightImgContainer {
-      position: relative;
-      z-index: 10;
-
-      .smallTreeImage {
-        height: 90vh;
-        position: absolute;
-        left: 58%;
-        bottom: 6vh;
-      }
-
-      .imgPersonWithPhone {
-        height: 72vh;
-        position: absolute;
-        left: 20%;
-        bottom: 3vh;
-      }
-    }
-
-    .loginDiv {
-      // border: 1px solid red;
-      text-align: center;
-      padding-top: 15vh;
-      z-index: 10;
-      height: 100vh;
-      overflow: hidden;
-
-      @media #{$small-screen} {
-        padding-top: 10vh;
-      }
-
-      .logoIcon {
-        height: 20vh;
-
-        @media #{$small-screen} {
-          // padding-top: 30vh;
-          // background: red !important;
-          height: 15vh !important;
-          width: auto !important;
-        }
-      }
-
-      .logoText {
-        width: 200px;
-      }
-
-      .emailInput {
-        margin-top: 60px !important;
-        margin-bottom: 20px;
-
-        .v-input__prepend-inner {
-          padding-right: 15px;
-        }
-      }
-
-      .emailInput {
-        width: 70%;
-        margin: auto;
-        max-width: 400px;
-
-        @media #{$medium-screen} {
-          max-width: none;
-          width: 80%;
-        }
-      }
-
-      .emailNotFoundMsg {
-        width: 70%;
-        margin: auto;
-        max-width: 420px;
-        color: #c8c7c7;
-      }
-
-      .loginBtn {
-        margin-top: 7vh;
-        border-radius: 4px;
-        width: 40%;
-
-        letter-spacing: 1px;
-
-        @media #{$medium-screen} {
-          max-width: none;
-          width: 80%;
-        }
-      }
-
-      .createAccountDiv {
-        margin-top: 6vh;
-
-        .existsTitle {
-          font-size: 14px;
-          line-height: 1.57;
-          color: #c8c7c7;
-          // margin-bottom: 5px;
-
-          .signupBtn {
-            text-decoration: none;
-          }
-        }
-      }
-
-      @media #{$small-screen} {
-        position: fixed;
-        bottom: 0px;
-        width: 100%;
-
-        .logoIcon {
-          height: 26vh !important;
-        }
-
-        .logoText {
-          width: 200px;
-        }
-
-        .loginBtn {
-          width: 70%;
-          margin-top: 10px;
-        }
-
-        .createAccountDiv {
-          position: fixed;
-          bottom: 0;
-          width: 100%;
-
-          .signupBtn {
-            display: block;
-            width: 100%;
-            border-radius: 0px;
-            padding: 20px !important;
-            background-color: $primary-color !important;
-            color: white !important;
-            margin-top: 3px;
-            text-transform: uppercase !important;
-          }
-        }
-      }
-    }
-  }
-
-  .fixedFooter {
-    height: 30vh;
+    bottom: 0px;
     width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 0;
-    // border: 1px solid red;
 
-    background-size: cover;
-    background-position-y: 30px;
+    .logoIcon {
+      height: 26vh !important;
+    }
+
+    .logoText {
+      width: 200px;
+    }
+
+    .loginBtn {
+      width: 70%;
+      margin-top: 10px;
+    }
+
+    .createAccountDiv {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+
+      .signupBtn {
+        display: block;
+        width: 100%;
+        border-radius: 0px;
+        padding: 20px !important;
+        background-color: $primary-color !important;
+        color: white !important;
+        margin-top: 3px;
+        text-transform: uppercase !important;
+      }
+    }
   }
 }
 </style>

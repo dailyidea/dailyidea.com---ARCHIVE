@@ -1,10 +1,5 @@
 <template>
-  <div id="signupPage">
-
-    <!-- Grid -->
-    <v-layout class="mainTable" row>
-      <!-- Desktop Only - Left Side Image Container -->
-      <left-container></left-container>
+  <auth-layout>
 
       <!-- Register Div -->
       <v-flex class="registerDiv">
@@ -69,24 +64,15 @@
           </div>
         </div>
       </v-flex>
-
-      <!-- Desktop Only - Right Side Image Container -->
-      <right-container></right-container>
-    </v-layout>
-
-    <!-- Fixed Footer -->
-    <auth-footer></auth-footer>
-  </div>
+  </auth-layout>
 </template>
 
 <script>
 import nanoid from 'nanoid'
-import leftContainer from '~/components/auth/leftContainer'
-import rightContainer from '~/components/auth/rightContainer'
-import authFooter from '~/components/auth/authFooter'
+import authLayout  from '~/components/auth/authLayout'
 import { getErrorMessage } from '~/utils'
 export default {
-  components: { leftContainer, rightContainer, authFooter },
+  components: { authLayout },
   data: () => ({
     email: '',
     name: '',
@@ -151,187 +137,109 @@ export default {
 </script>
 
 <style lang="scss">
-#signupPage {
+.registerDiv {
   // border: 1px solid red;
+  text-align: center;
+  padding-top: 15vh;
+  z-index: 10;
   height: 100vh;
-  overflow: hidden;
-  background: white;
-  overflow: hidden;
+  overflow-x: auto;
 
-  .backBtn {
-    color: $primary-color;
+  @media #{$small-screen} {
+    padding-top: 10vh;
+  }
+
+  .logoIcon {
+    width: 70px;
+  }
+
+  .logoText {
+    width: 200px;
+    margin-bottom: 7vh !important;
+  }
+
+  .inputBox {
+    width: 70%;
+    margin: auto;
+    max-width: 420px;
+    margin-top: 0.5vh !important;
+
+    .v-input__prepend-inner {
+      padding-right: 15px;
+      font-size: 12px;
+
+      i {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .emailExistsMsg {
+    width: 70%;
+    margin: auto;
+    max-width: 420px;
+    color: #c8c7c7;
+  }
+
+  .continueBtn {
+    border-radius: 4px;
+    margin-top: 5vh;
+    width: 70%;
+    max-width: 420px;
+
+    letter-spacing: 1px;
+  }
+
+  .accountExists {
+    margin-top: 6vh;
+
+    .existsTitle {
+      font-size: 14px;
+      line-height: 1.57;
+      color: #c8c7c7;
+
+      .loginBtn {
+        text-decoration: none;
+      }
+    }
+  }
+
+  @media #{$small-screen} {
     position: fixed;
-    top: 0;
-    left: 0;
-    margin: 5px 3px;
-    z-index: 5000;
-
-    i {
-      font-size: 16px;
-    }
-  }
-
-  .mainTable {
-    margin: 0px;
-    height: 100vh;
-    z-index: 100;
-
-    .leftSideImageContainer {
-      position: relative;
-      z-index: 10;
-
-      .bigTreeImage {
-        height: 75vh;
-        position: absolute;
-        left: -3%;
-        top: 20vh;
-      }
-
-      .imgPersonWithPhone {
-        height: 75vh;
-        position: absolute;
-        right: 10%;
-        bottom: 3vh;
-      }
-    }
-
-    .rightSideImageContainer {
-      position: relative;
-      z-index: 100;
-
-      .smallTreeImage {
-        height: 90vh;
-        position: absolute;
-        left: 58%;
-        bottom: 6vh;
-      }
-
-      .imgPersonWithPhone {
-        height: 72vh;
-        position: absolute;
-        left: 20%;
-        bottom: 3vh;
-      }
-    }
-
-    .registerDiv {
-      // border: 1px solid red;
-      text-align: center;
-      padding-top: 15vh;
-      z-index: 10;
-      height: 100vh;
-      overflow-x: auto;
-
-      @media #{$small-screen} {
-        padding-top: 10vh;
-      }
-
-      .logoIcon {
-        width: 70px;
-      }
-
-      .logoText {
-        width: 200px;
-        margin-bottom: 7vh !important;
-      }
-
-      .inputBox {
-        width: 70%;
-        margin: auto;
-        max-width: 420px;
-        margin-top: 0.5vh !important;
-
-        .v-input__prepend-inner {
-          padding-right: 15px;
-          font-size: 12px;
-
-          i {
-            font-size: 18px;
-          }
-        }
-      }
-
-      .emailExistsMsg {
-        width: 70%;
-        margin: auto;
-        max-width: 420px;
-        color: #c8c7c7;
-      }
-
-      .continueBtn {
-        border-radius: 4px;
-        margin-top: 5vh;
-        width: 70%;
-        max-width: 420px;
-
-        letter-spacing: 1px;
-      }
-
-      .accountExists {
-        margin-top: 6vh;
-
-        .existsTitle {
-          font-size: 14px;
-          line-height: 1.57;
-          color: #c8c7c7;
-
-          .loginBtn {
-            text-decoration: none;
-          }
-        }
-      }
-
-      @media #{$small-screen} {
-        position: fixed;
-        bottom: 0px;
-        width: 100%;
-
-        .logoIcon {
-          height: 20vh !important;
-          width: auto;
-        }
-
-        .logoText {
-          width: 200px;
-        }
-
-        .inputBox,
-        .continueBtn {
-          width: 80%;
-          max-width: none;
-        }
-
-        .accountExists {
-          position: fixed;
-          bottom: 0;
-          width: 100%;
-
-          .loginBtn {
-            display: block;
-            width: 100%;
-            border-radius: 0px;
-            padding: 20px !important;
-            background-color: $primary-color !important;
-            color: white !important;
-            margin-top: 3px;
-            text-transform: uppercase !important;
-          }
-        }
-      }
-    }
-  }
-
-  .fixedFooter {
-    height: 30vh;
+    bottom: 0px;
     width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 0;
-    // border: 1px solid red;
 
-    background-size: cover;
-    // background-position-y: 30px;
+    .logoIcon {
+      height: 20vh !important;
+      width: auto;
+    }
+
+    .logoText {
+      width: 200px;
+    }
+
+    .inputBox,
+    .continueBtn {
+      width: 80%;
+      max-width: none;
+    }
+
+    .accountExists {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+
+      .loginBtn {
+        display: block;
+        width: 100%;
+        border-radius: 0px;
+        padding: 20px !important;
+        background-color: $primary-color !important;
+        color: white !important;
+        margin-top: 3px;
+        text-transform: uppercase !important;
+      }
+    }
   }
 }
 </style>
