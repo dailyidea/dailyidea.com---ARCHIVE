@@ -137,6 +137,7 @@ def processIncomingMail(parsed_email):
     idea.title = title
     idea.authorName = user.name
     idea.authorSlug = user.slug
+    idea.authorAvatar = user.avatar
     idea.createdDate = datetime.now()
     idea.visibility = 'PUBLIC'
     idea_date_str = parsed_email.subject.split('[Daily Idea] Idea for ', 1)[1]

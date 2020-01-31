@@ -4,6 +4,7 @@ query getLikedIdeas($nextToken: String, $limit: Int) {
     items {
       ideaId
       authorName
+      authorSlug
       userId
       content
       title

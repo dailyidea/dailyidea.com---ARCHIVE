@@ -1,18 +1,19 @@
 <template>
-  <Layout
-    v-bind="{
-      currentPage: 'IdeasList',
-      pageOptions: mobileHeaderUiOptions
-    }"
-  >
+  <Layout>
     <v-layout class="ideas-list">
       <!-- Title Section -->
-      <div class="titleDiv" hidden-sm-and-down>
+      <v-img
+        src="~/assets/images/light_gray_lamp.png"
+        height="100"
+        contain
+      ></v-img>
+      <div class="titleDiv">
         <v-layout class="titleText">{{ title }}</v-layout>
       </div>
 
       <!-- Idea List -->
       <ideas-list
+        :show-author="showAuthor"
         :ideas="ideas"
         :loading="loadingIdea"
         :allow-load-more="!!nextToken"
@@ -69,6 +70,10 @@ export default {
     endPointVariables: {
       type: Object,
       default: () => ({})
+    },
+    showAuthor: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -114,7 +119,7 @@ export default {
 
 <style scoped lang="scss">
 .ideas-list {
-  padding-top: 50px;
+  /*padding-top: 50px;*/
   background: white;
   padding-bottom: 2vh;
   display: block;
@@ -124,6 +129,7 @@ export default {
   }
 
   .titleDiv {
+    margin-top: 15px;
     text-align: center;
     // border: 1px solid red;
     min-height: 30px;

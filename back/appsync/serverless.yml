@@ -7,6 +7,8 @@ provider:
   emailStaticBucketName: dailyidea-serverless-email-static-${self:provider.stage}
   region: ${env:AWS_REGION, 'us-east-1'}
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
+  avatarsStaticBucketName: dailyidea-serverless-avatars-static-${self:provider.stage}
+  avatarsStaticBucketURL: https://${self:provider.avatarsStaticBucketName}.s3.amazonaws.com
   environment:
     SES_AWS_REGION: ${self:provider.region}
     MAILBOX_ADDR: ${self:custom.ideasMailBox}@${self:provider.domainName}
@@ -61,6 +63,14 @@ functions:
     handler: functions.development_logger.development_logger.endpoint
     role: LambdaDevelopmentLoggerFunctionRole
     memorySize: 128
+  uploadAvatar:
+    handler: functions.upload_avatar.upload_avatar.endpoint
+    role: LambdaUploadAvatarFunctionRole
+    environment:
+      AVATAR_STATIC_BUCKET_URL: ${self:provider.avatarsStaticBucketURL}
+      AVATAR_STATIC_BUCKET_NAME: ${self:provider.avatarsStaticBucketName}
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
+      UPDATE_PROFILE_INFO_IN_CREATED_IDEAS_FUNCTION_NAME: ${self:custom.updateProfileInfoInCreatedIdeasFunctionName}
   shareIdea:
     role: LambdaShareIdeaFunctionRole
     handler: functions.share_idea.share_idea.endpoint
@@ -158,6 +168,11 @@ custom:
           - isFollowingByMe
           - followsMe
       - dataSource: Users
+        type: Query
+        field: userInfoBySlug
+        request: "user-info/by-slug/userInfoBySlug-request-mapping-template.txt"
+        response: "user-info/by-slug/userInfoBySlug-response-mapping-template.txt"
+      - dataSource: Users
         type: Mutation
         field: updateEmailNotificationsSettings
         request: "updateEmailNotificationsSettings-request-mapping-template.txt"
@@ -199,6 +214,11 @@ custom:
         field: updateIdea
         request: "updateIdea-request-mapping-template.txt"
         response: "updateIdea-response-mapping-template.txt"
+      - dataSource: UploadAvatarHandler
+        type: Mutation
+        field: uploadAvatar
+        request: "uploadAvatar-request-mapping-template.txt"
+        response: "uploadAvatar-response-mapping-template.txt"
       - dataSource: Tags
         type: Mutation
         field: deleteTag
@@ -319,6 +339,12 @@ custom:
         description: 'Update Idea and Tags'
         config:
           lambdaFunctionArn: { Fn::GetAtt: [UpdateIdeaLambdaFunction, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
+      - type: AWS_LAMBDA
+        name: UploadAvatarHandler
+        description: 'Upload users avatar'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [UploadAvatarLambdaFunction, Arn] }
           serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AWS_LAMBDA
         name: ShareIdeaHandler
@@ -493,6 +519,7 @@ resources:
       LambdaUpdateIdeaFunctionRole: ${file(functions/update_idea/function_role.yml):LambdaUpdateIdeaFunctionRole}
       LambdaDevelopmentLoggerFunctionRole: ${file(functions/development_logger/function_role.yml):LambdaDevelopmentLoggerFunctionRole}
       LambdaShareIdeaFunctionRole: ${file(functions/share_idea/function_role.yml):LambdaShareIdeaFunctionRole}
+      LambdaUploadAvatarFunctionRole: ${file(functions/upload_avatar/function_role.yml):LambdaUploadAvatarFunctionRole}
       AppSyncLambdaServiceRole:
         Type: "AWS::IAM::Role"
         Properties:
@@ -527,6 +554,8 @@ resources:
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-developmentLogger:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-updateProfileInfo"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-updateProfileInfo:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-uploadAvatar"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-uploadAvatar:*"
 
       AppSyncServiceRole:
         Type: "AWS::IAM::Role"
@@ -626,3 +655,4 @@ resources:
   - ${file(resources/dynamo-likes-table.yml)}
   - ${file(resources/dynamo-comments-table.yml)}
   - ${file(resources/dynamo-following-table.yml)}
+  - ${file(resources/s3-avatars.yml)}

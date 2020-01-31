@@ -6,6 +6,7 @@
     :end-point="endPoint"
     :end-point-name="endPointName"
     end-point-mode="API_KEY"
+    show-author
   ></ideas-list-page>
 </template>
 

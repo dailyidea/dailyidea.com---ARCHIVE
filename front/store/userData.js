@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 import API from '@aws-amplify/api'
 // eslint-disable-next-line
-import { graphqlOperation } from '@aws-amplify/api'
+import {graphqlOperation} from '@aws-amplify/api'
 import meInfo from '~/graphql/query/meInfo'
 
 export const state = () => ({
@@ -19,6 +19,15 @@ export const mutations = {
   resetUserData(state, data) {
     state.isAuthenticated = false
     state.userData = {}
+  },
+  updateUserAvatar(state, avatar) {
+    state.userData.avatar = avatar
+  },
+  updateUserName(state, name) {
+    state.userData.name = name
+  },
+  updateUserSlug(state, slug) {
+    state.userData.slug = slug
   }
 }
 
@@ -46,5 +55,11 @@ export const getters = {
   },
   slug(state) {
     return state.isAuthenticated ? state.userData.slug : undefined
+  },
+  avatar(state) {
+    return state.isAuthenticated ? state.userData.avatar : undefined
+  },
+  email(state) {
+    return state.isAuthenticated ? state.userData.email : undefined
   }
 }

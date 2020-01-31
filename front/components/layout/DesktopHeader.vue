@@ -64,6 +64,7 @@
             <template v-slot:activator="{ on }">
               <span>
                 <v-btn
+                  v-if="!userAvatar"
                   class="profileBtn"
                   x-small
                   icon
@@ -75,6 +76,12 @@
                 >
                   <v-icon color="#4a4a4a" size="18">fas fa-user</v-icon>
                 </v-btn>
+                <span
+                  v-else
+                  class="userAvatarContainer"
+                  :style="avatarStyle"
+                  v-on="on"
+                ></span>
                 <!-- Print Logged-in user's name -->
                 <span v-if="isAuthenticated" class="userName">{{
                   userName
@@ -119,6 +126,18 @@ export default {
   computed: {
     userName() {
       return this.$store.getters['userData/userName']
+    },
+    userAvatar() {
+      return this.$store.getters['userData/avatar']
+    },
+    avatarStyle() {
+      if (!this.userAvatar) {
+        return {}
+      } else {
+        return {
+          'background-image': `url(${this.userAvatar})`
+        }
+      }
     },
     isAuthenticated() {
       return this.$store.state.userData.isAuthenticated
@@ -203,7 +222,24 @@ a {
     }
   }
 
+  .userAvatarContainer {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    background-color: #ebe7ed;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
   .userName {
+    vertical-align: middle;
     margin-left: 8px;
     font-size: 16px;
     line-height: 38px;

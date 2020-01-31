@@ -5,8 +5,8 @@ import json
 
 import os
 
-dynamodb = boto3.client('dynamodb', region_name='us-east-1')
-lambda_client = boto3.client('lambda', region_name='us-east-1')
+dynamodb = boto3.client('dynamodb', region_name=os.environ['AWS_REGION'])
+lambda_client = boto3.client('lambda', region_name=os.environ['AWS_REGION'])
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
@@ -22,6 +22,7 @@ def endpoint(event, lambda_context):
 
     name = arguments.get('name')
     bio = arguments.get('bio')
+    interestedInTags = arguments.get('interestedInTags')
     profile_id = ctx.get('identity').get('username')
 
     if not name:
@@ -59,7 +60,7 @@ def endpoint(event, lambda_context):
             FunctionName=UPDATE_PROFILE_INFO_IN_CREATED_IDEAS_FUNCTION_NAME,
             InvocationType='Event',
             LogType='Tail',
-            Payload=json.dumps({'userName': name, 'userId': profile_id, 'userSlug': slug}),
+            Payload=json.dumps({'userId': profile_id, 'authorName': name, 'authorSlug': slug}),
         )
     if bio and profile.get('bio') is None or (profile.get('bio') and profile.get('bio').get('S') != bio):
         dynamodb.update_item(
@@ -72,7 +73,30 @@ def endpoint(event, lambda_context):
                 },
             }
         )
+    if interestedInTags and len(interestedInTags):
+        dynamodb.update_item(
+            TableName=USERS_TABLE_NAME,
+            Key={'userId': {"S": profile_id}},
+            AttributeUpdates={
+                "interestedInTags": {
+                    'Value': {'SS': interestedInTags[:50]},
+                    'Action': 'PUT',
+                },
+            }
+        )
+    elif profile.get('interestedInTags') and profile.get('interestedInTags').get('SS') is not None:
+        dynamodb.update_item(
+            TableName=USERS_TABLE_NAME,
+            Key={'userId': {"S": profile_id}},
+            AttributeUpdates={
+                "interestedInTags": {
+                    'Value': {'NULL': True},
+                    'Action': 'PUT',
+                },
+            }
+        )
 
     return {
-        'result': {'ok': True}, 'updatedInfo': {'name': name, 'slug': slug, 'bio': bio}
+        'result': {'ok': True},
+        'updatedInfo': {'name': name, 'slug': slug, 'bio': bio, 'interestedInTags': interestedInTags}
     }

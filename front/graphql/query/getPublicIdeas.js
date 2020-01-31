@@ -5,6 +5,7 @@ query getPublicIdeas($nextToken: String, $limit: Int) {
       ideaId
       userId
       authorName
+      authorAvatar
       authorSlug
       content
       title

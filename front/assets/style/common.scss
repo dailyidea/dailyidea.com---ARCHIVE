@@ -1,0 +1,51 @@
+@import "variables";
+
+@mixin pageMargin() {
+  @media (min-width: $screen-lg-min) {
+    margin-left: 27%;
+    margin-right: 27%;
+  }
+  @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+    margin-left: 15%;
+    margin-right: 15%;
+  }
+}
+
+@mixin authLoginSuccessStyle() {
+  .heroMsg {
+    margin-top: 10vh;
+    font-size: 35px;
+    line-height: 1.66;
+    color: #18141c;
+
+    @media #{$small-screen} {
+      font-size: 35px;
+    }
+  }
+
+  .heroDescription {
+    margin-top: 2vh;
+    line-height: 1.59;
+    color: #827c85;
+
+    a {
+      font-size: 18px;
+      color: #7777;
+    }
+
+    @media #{$small-screen} {
+      margin-top: 30px;
+      font-size: 14px;
+    }
+  }
+
+  .successMessage {
+    max-width: 500px;
+    text-align: center;
+    z-index: 10;
+    padding-left: 10%;
+    padding-right: 10%;
+    margin: auto;
+    overflow: hidden;
+  }
+}

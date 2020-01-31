@@ -2,8 +2,8 @@
   <div class="ideas-list">
     <!-- Sort Button -->
     <div v-if="ideas && ideas.length > 0" class="ideas-list__sort-by-panel">
-      <v-icon>fas fa-clock</v-icon>
-      Sort by Newest
+      <span>Sort by Newest</span>
+      <v-icon size="16">fas fa-exchange-alt fa-rotate-90</v-icon>
     </div>
 
     <div v-if="ideas && ideas.length">
@@ -11,6 +11,7 @@
         v-for="idea in ideas"
         :key="idea.ideaId"
         :idea="idea"
+        :show-author="showAuthor"
       ></ideas-list-idea>
     </div>
 
@@ -46,6 +47,10 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    showAuthor: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -60,30 +65,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~assets/style/common';
 .ideas-list {
-  @media (min-width: $screen-lg-min) {
-    margin-left: 25%;
-    margin-right: 25%;
-  }
-  @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
-    margin-left: 15%;
-    margin-right: 15%;
-  }
+  $main-text-color: #4a4a4a;
+  @include pageMargin;
 
   &__sort-by-panel {
-    margin-bottom: 15px;
-    font-size: 14px;
-    color: #35124e;
+    vertical-align: middle;
+    margin-bottom: 10px;
+    font-size: 16px;
+    text-align: right;
+    color: $main-text-color;
 
     @media #{$small-screen} {
       font-size: 12px;
       padding-top: 10px;
       margin-left: 15px;
-    }
-
-    i {
-      font-size: 17px;
-      padding-right: 7px;
     }
   }
 

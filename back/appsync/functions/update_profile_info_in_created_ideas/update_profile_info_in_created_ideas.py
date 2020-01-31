@@ -38,7 +38,21 @@ def get_all_users_ideas_id_list(user_id):
     return all_items
 
 
-def update_user_info_in_ideas(user_id, ideas_id_list, name, slug):
+def update_user_info_in_ideas(user_id, ideas_id_list, name=None, slug=None, avatar=None):
+    expression = "SET"
+    attribute_values = {}
+
+    if name:
+        expression += ' authorName=:authorName,'
+        attribute_values[':authorName'] = {"S": name}
+    if slug:
+        expression += ' authorSlug=:authorSlug,'
+        attribute_values[':authorSlug'] = {"S": slug}
+    if avatar:
+        expression += ' authorAvatar=:authorAvatar,'
+        attribute_values[':authorAvatar'] = {"S": avatar}
+    assert len(expression) > 3
+    expression = expression[:-1]  # remove last comma
     for idea_id in ideas_id_list:
         dynamodb.update_item(
             TableName=IDEAS_TABLE_NAME,
@@ -46,22 +60,17 @@ def update_user_info_in_ideas(user_id, ideas_id_list, name, slug):
                 "userId": {'S': user_id},
                 'ideaId': {'S': idea_id}
             },
-            UpdateExpression="SET authorName=:authorName, authorSlug=:authorSlug",
-            ExpressionAttributeValues={
-                ":authorName": {
-                    "S": name
-                },
-                ":authorSlug": {
-                    "S": slug
-                },
-            }
+            UpdateExpression=expression,
+            ExpressionAttributeValues=attribute_values
         )
 
 
 def endpoint(payload, lambda_context):
-    user_name = payload.get('userName')
+    user_name = payload.get('authorName')
     user_id = payload.get('userId')
-    user_slug = payload.get('userSlug')
-    assert user_name and user_slug and user_id and len(user_name) >= 3
+    user_slug = payload.get('authorSlug')
+    user_avatar = payload.get('authorAvatar')
+    assert user_id is not None
+    assert (user_name and user_slug) or user_avatar
     users_ideas_id_list = get_all_users_ideas_id_list(user_id)
-    update_user_info_in_ideas(user_id, users_ideas_id_list, user_name, user_slug)
+    update_user_info_in_ideas(user_id, users_ideas_id_list, user_name, user_slug, user_avatar)

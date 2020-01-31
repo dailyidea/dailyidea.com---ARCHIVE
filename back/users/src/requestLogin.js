@@ -3,21 +3,28 @@ const path = require("path");
 const AWS = require("aws-sdk");
 const jwt = require("jsonwebtoken");
 const middy = require("middy");
+const ddb = new AWS.DynamoDB({ apiVersion: "2012-10-08" });
 const { cors, jsonBodyParser, httpErrorHandler } = require("middy/middlewares");
 const Sqrl = require("squirrelly");
 
-const templatePath = path.join(
+const requireLoginTemplatePath = path.join(
   __dirname,
   "../mail-templates/require_login_template.html"
 );
+const magicLinkTemplatePath = path.join(
+  __dirname,
+  "../mail-templates/magic_link_template.html"
+);
 const requireLoginTemplateHTMLTemplateRAw = fs.readFileSync(
-  templatePath,
+  requireLoginTemplatePath,
   "utf8"
 );
+const magicLinkTemplateHTMLRAw = fs.readFileSync(magicLinkTemplatePath, "utf8");
 
 const requireLoginTemplateHTMLCompiled = Sqrl.Compile(
   requireLoginTemplateHTMLTemplateRAw
 );
+const magicLinkTemplateHTMLCompiled = Sqrl.Compile(magicLinkTemplateHTMLRAw);
 
 const generateToken = function(email) {
   return jwt.sign(
@@ -33,11 +40,33 @@ const generateToken = function(email) {
 //   region: process.env.DYNAMO_REGION
 // })
 
-const sendEmail = function(email, token, name = undefined) {
+const sendEmail = async function(email, token, name = undefined) {
   const emailEncoded = encodeURIComponent(email);
   const ses = new AWS.SES({
     region: process.env.SES_REGION
   });
+  const ddbParams = {
+    KeyConditionExpression: "email = :email",
+    ExpressionAttributeValues: {
+      ":email": {
+        S: email
+      }
+    },
+    IndexName: "emailIndex",
+    TableName: process.env.USERS_TABLE_NAME
+  };
+  let firstLogin = false;
+  try {
+    const resp = await ddb.query(ddbParams).promise();
+    const profile = resp.Items[0];
+    firstLogin = !profile.firstLogin.BOOL;
+  } catch (err) {
+    console.log("Error", err);
+  }
+  const htmlTemplate = firstLogin
+    ? magicLinkTemplateHTMLCompiled
+    : requireLoginTemplateHTMLCompiled;
+
   const eParams = {
     Destination: {
       ToAddresses: [email]
@@ -46,7 +75,7 @@ const sendEmail = function(email, token, name = undefined) {
       Body: {
         Html: {
           Charset: "UTF-8",
-          Data: requireLoginTemplateHTMLCompiled(
+          Data: htmlTemplate(
             {
               BUCKET_URL_PREFIX: process.env.BUCKET_URL_PREFIX,
               DOMAIN_NAME: process.env.DOMAIN_NAME,
@@ -60,7 +89,14 @@ const sendEmail = function(email, token, name = undefined) {
         },
         Text: {
           Charset: "UTF-8",
-          Data: `
+          Data: firstLogin
+            ? `
+            Welcome!
+            
+            Ready to share your rides? Simply follow the magic link below, and that's it. You're done!
+            https://${process.env.DOMAIN_NAME}/auth/verify?code=${token}&email=${emailEncoded}
+          `
+            : `
             Hi!
             
             We received a request to log in to your Daily Idea account ${email}. 
@@ -70,7 +106,9 @@ const sendEmail = function(email, token, name = undefined) {
         }
       },
       Subject: {
-        Data: `[Daily Idea] Log in link for ${email}`
+        Data: firstLogin
+          ? `[Daily Idea] Magic link for ${email}`
+          : `[Daily Idea] Log in link for ${email}`
       }
     },
     // environment variable

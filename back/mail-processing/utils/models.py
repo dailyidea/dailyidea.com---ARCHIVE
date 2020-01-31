@@ -19,6 +19,7 @@ class IdeaModel(Model):
     visibility = UnicodeAttribute(null=True)
     authorName = UnicodeAttribute(null=True)
     authorSlug = UnicodeAttribute(null=True)
+    authorAvatar = UnicodeAttribute(null=True)
     createdDate = UTCDateTimeAttribute(null=True)
     ideaDate = UTCDateTimeAttribute(null=True)
     likesCount = NumberAttribute(default=0)
@@ -40,6 +41,8 @@ class UserModel(Model):
     userId = UnicodeAttribute(hash_key=True)
     email = UnicodeAttribute(null=True)
     name = UnicodeAttribute(null=True)
+    slug = UnicodeAttribute(null=True)
+    avatar = UnicodeAttribute(null=True)
     ideasMailSchedule = UnicodeAttribute(null=True, default="1,2,3,4,5,6,7")
     lastRequestedIdeaDate = UTCDateTimeAttribute(null=True)
     # sortKey = UnicodeAttribute(range_key=True)
@@ -50,5 +53,9 @@ class UserModel(Model):
     hotStreaks = BooleanAttribute(null=True)
     dailyDigests = BooleanAttribute(null=True)
     weeklyDigests = BooleanAttribute(null=True)
+
+    followersCount = NumberAttribute(default=0)
+    ideasCreated = NumberAttribute(default=0)
+    followeesCount = NumberAttribute(default=0)
 
     emailIndex = UserEmailIndex()

@@ -26,7 +26,18 @@
           </div>
         </div>
       </div>
-      <div class="idea-item__idea-footer-row__time">
+      <div class="idea-item__idea-footer-row__time" @click.stop.prevent>
+        <span v-if="showAuthor"
+          >By
+          <router-link
+            class="idea-item__idea-footer-row__author-link"
+            :to="{
+              name: 'profile-userSlug',
+              params: { userSlug: idea.authorSlug }
+            }"
+            >{{ idea.authorName }}</router-link
+          >
+        </span>
         {{ idea.createdDate | toRelativeDate }}
       </div>
     </div>
@@ -42,6 +53,10 @@ export default {
     idea: {
       type: Object,
       required: true
+    },
+    showAuthor: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -62,6 +77,8 @@ export default {
 
 <style scoped lang="scss">
 .idea-item {
+  $main-text-color: #4a4a4a;
+  $light-text-color: #c0b7c5;
   padding: 15px 20px;
   margin-bottom: 20px;
   border: solid 1px rgba(228, 228, 228, 0.38);
@@ -74,6 +91,9 @@ export default {
   }
 
   &__idea-title-row {
+    font-weight: bolder;
+    color: $main-text-color;
+    font-size: 19px;
     /*background-color: rgba(119, 119, 119, 0.3);*/
   }
 
@@ -81,9 +101,9 @@ export default {
     /*background-color: rgba(6, 75, 13, 0.35);*/
     margin-bottom: 15px;
     margin-top: 10px;
-    font-size: 14px;
+    font-size: 16px;
     text-align: left;
-    color: #827c85;
+    color: $main-text-color;
     overflow: hidden;
     word-break: break-all;
   }
@@ -99,7 +119,7 @@ export default {
       height: 14px;
       font-size: 14px;
       line-height: 18px;
-      color: #c0b7c5;
+      color: $main-text-color;
     }
     @mixin image-style {
       vertical-align: bottom;
@@ -136,12 +156,17 @@ export default {
       width: 50%;
       text-align: left;
     }
-
+    &__author-link {
+      text-decoration: none;
+      color: $main-text-color;
+      font-weight: bolder;
+    }
     &__time {
       width: 50%;
       display: inline-block;
       text-align: right;
       @include label-style;
+      color: $light-text-color;
     }
 
     &__comments-counter {

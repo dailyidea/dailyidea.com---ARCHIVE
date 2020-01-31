@@ -33,6 +33,7 @@ def endpoint(event, lambda_context):
     )['Item']
     creator_name_raw = creator_account.get('name', None)
     creator_slug = creator_account.get('slug').get('S')
+    creator_avatar = creator_account.get('avatar').get('S') if creator_account.get('avatar') else None
     creator_name = creator_name_raw.get('S') if creator_name_raw else 'Anonymous User'
 
     client.put_item(
@@ -48,6 +49,7 @@ def endpoint(event, lambda_context):
             "commentsCount": {"N": "0"},
             "authorName": {"S": creator_name},
             "authorSlug": {"S": creator_slug},
+            "authorAvatar": {"S": creator_avatar} if creator_avatar else {"NULL": True},
             "visibility": {"S": "PRIVATE" if is_private else "PUBLIC"},
         })
     client.update_item(

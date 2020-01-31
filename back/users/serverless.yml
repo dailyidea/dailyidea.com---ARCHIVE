@@ -46,6 +46,7 @@ functions:
       SOURCE_EMAIL: ${self:custom.ideasMailBox}@${self:provider.domainName}
       SECRET_TOKEN: ${self:custom.secretToken}
       TABLE_NAME: ${self:custom.usersTableName}
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
     events:
       - http:
           path: requestLogin

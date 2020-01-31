@@ -70,6 +70,10 @@ exports.handler = async (event, context) => {
         hotStreaks: { BOOL: true },
         dailyDigests: { BOOL: true },
         weeklyDigests: { BOOL: true },
+
+        followersCount: {N: '0'},
+        ideasCreated: {N: '0'},
+        followeesCount: {N: '0'},
       }
     };
 

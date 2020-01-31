@@ -1,6 +1,6 @@
 export default `
-mutation updateProfileInfo( $bio: String, $name: String!) {
-  updateProfileInfo( name: $name, bio: $bio) {    
+mutation updateProfileInfo( $bio: String, $name: String!, $interestedInTags: [String]) {
+  updateProfileInfo( name: $name, bio: $bio, interestedInTags: $interestedInTags) {    
       result {
         ok
         error
@@ -9,6 +9,7 @@ mutation updateProfileInfo( $bio: String, $name: String!) {
         name
         bio
         slug
+        interestedInTags
       }
   }
 }`

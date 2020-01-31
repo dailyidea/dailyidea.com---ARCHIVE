@@ -41,7 +41,7 @@
                     <router-link
                       class="idea-part__info__author__link"
                       :to="{
-                        name: 'ideas-userSlug',
+                        name: 'profile-userSlug',
                         params: {
                           userSlug: idea.authorSlug
                         }

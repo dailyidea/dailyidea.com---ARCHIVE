@@ -32,6 +32,7 @@
     "serverless-plugin-warmup": "^4.7.1-rc.1",
     "v-clipboard": "^2.2.2",
     "vee-validate": "2.2.15",
+    "vue-advanced-cropper": "^0.16.0",
     "vue-notifications": "1.0.2",
     "vue-snotify": "3.2.1",
     "vue-trix": "^0.9.0"

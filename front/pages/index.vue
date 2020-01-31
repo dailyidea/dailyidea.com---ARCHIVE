@@ -68,12 +68,15 @@
                     <div class="reviews__review__info__detail">
                       <div
                         class="reviews__review__info__detail__image-container"
+                        :style="
+                          idea.authorAvatar
+                            ? {
+                                'background-image': `url(${idea.authorAvatar})`
+                              }
+                            : {}
+                        "
                       >
-                        <img
-                          alt="image"
-                          class="reviews__review__info__detail__image"
-                          src="~/assets/images/Oval.png"
-                        />
+                        <v-icon v-if="!idea.authorAvatar">fas fa-user</v-icon>
                       </div>
                       <div
                         class="reviews__review__info__detail__name-container"
@@ -376,12 +379,20 @@ export default {
         font-size: 0;
 
         &__image-container {
+          vertical-align: middle;
           display: inline-block;
           width: 40px;
           height: 40px;
+          line-height: 40px;
+          text-align: center;
+          background-color: #ebe7ed;
+          border-radius: 50%;
+          background-size: cover;
+          background-repeat: no-repeat;
         }
 
         &__name-container {
+          vertical-align: middle;
           margin-left: 10px;
           display: inline-block;
           width: calc(100% - 50px);
