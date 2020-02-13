@@ -1,2 +1,4 @@
-Hey, what's your idea?
-It's really easy to submit an idea. Just hit reply!
+Hey, {{ USERNAME }} what's your idea?
+It's really easy to submit an idea. Just hit reply or follow the link below!
+
+https://{{DOMAIN_NAME}}/ideas/create

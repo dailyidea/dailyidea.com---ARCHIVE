@@ -1,7 +1,7 @@
 LambdaDevelopmentLoggerFunctionRole:
   Type: AWS::IAM::Role
   Properties:
-    RoleName: "Lambda-DevelopmentLoggerFunctionRole"
+    RoleName: "Lambda-DevelopmentLoggerFunctionRole-${self:provider.stage}"
     AssumeRolePolicyDocument:
       Version: "2012-10-17"
       Statement:
@@ -10,7 +10,7 @@ LambdaDevelopmentLoggerFunctionRole:
             Service: "lambda.amazonaws.com"
           Action: "sts:AssumeRole"
     Policies:
-      - PolicyName: "Lambda-DevelopmentLoggerFunctionRole-Policy"
+      - PolicyName: "Lambda-DevelopmentLoggerFunctionRole-${self:provider.stage}-Policy"
         PolicyDocument:
           Version: "2012-10-17"
           Statement:

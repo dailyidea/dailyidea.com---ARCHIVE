@@ -2,7 +2,7 @@ service: dailyidea-users-service
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs10.x
   stage: ${env:STAGE, 'dev'}
   region: ${env:AWS_REGION, 'us-east-1'}
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
@@ -16,23 +16,7 @@ provider:
 
 custom:
   usersTableName: dailyidea-users-${self:provider.stage}
-  ideasMailBox: ${env:IDEAS_MAILBOX, 'ideas-dev'}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
-  localstack:
-    host: http://localhost
-    debug: true
-    stages:
-      - local
-    endpoints:
-      S3: http://localhost:4572
-      DynamoDB: http://localhost:4570
-      CloudFormation: http://localhost:4581
-      Elasticsearch: http://localhost:4571
-      ES: http://localhost:4578
-      SNS: http://localhost:4575
-      SQS: http://localhost:4576
-      Lambda: http://localhost:4574
-      Kinesis: http://localhost:4568
 
 functions:
   requestLogin:
@@ -43,7 +27,7 @@ functions:
       BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
       SES_REGION: ${self:provider.region}
       DYNAMO_REGION: ${self:provider.region}
-      SOURCE_EMAIL: ${self:custom.ideasMailBox}@${self:provider.domainName}
+      SOURCE_EMAIL: ${env:MAILBOX}
       SECRET_TOKEN: ${self:custom.secretToken}
       TABLE_NAME: ${self:custom.usersTableName}
       USERS_TABLE_NAME: ${self:custom.usersTableName}
@@ -69,7 +53,7 @@ functions:
           trigger: PreSignUp
           existing: true
     environment:
-      USER_POOL_ID:  !ImportValue "CognitoUserPool::Id"
+      USER_POOL_ID:  ${env:COGNITO_POOL_ID}
   postAuthentication:
     handler: src/postAuthentication.handler
     role: CustomUserOnboardingRole
@@ -80,7 +64,14 @@ functions:
           existing: true
     environment:
       USERS_TABLE_NAME: ${self:custom.usersTableName}
-      SEND_DAILY_TO_USER_FUNCTION_NAME: arn:aws:lambda:${self:provider.region}:133662108267:function:dailyidea-mail-processing-${self:provider.stage}-sendDailyToUser
+      SEND_DAILY_TO_USER_FUNCTION_NAME:
+        'Fn::Join':
+        - ':'
+        - - 'arn:aws:lambda'
+          - Ref: 'AWS::Region'
+          - Ref: 'AWS::AccountId'
+          - 'function:dailyidea-mail-processing-${self:provider.stage}-sendDailyToUser'
+
       REGION: ${self:provider.region}
   createAuthChallenge:
     handler: src/createAuthChallenge.handler
@@ -120,7 +111,13 @@ functions:
     environment:
       TABLE_NAME: ${self:custom.usersTableName}
       REGION: ${self:provider.region}
-      SET_USERS_SLUG_FUNCTION_NAME: arn:aws:lambda:${self:provider.region}:133662108267:function:dailyidea-appsync-backend-${self:provider.stage}-setUsersSlug
+      SET_USERS_SLUG_FUNCTION_NAME:
+        'Fn::Join':
+          - ':'
+          - - 'arn:aws:lambda'
+            - Ref: 'AWS::Region'
+            - Ref: 'AWS::AccountId'
+            - 'function:dailyidea-appsync-backend-${self:provider.stage}-setUsersSlug'
 
 
 plugins:

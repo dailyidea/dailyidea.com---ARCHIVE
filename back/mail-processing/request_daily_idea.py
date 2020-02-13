@@ -1,5 +1,6 @@
 # from datetime import date
 # import logging
+from utils.common import progressive_chunks, SEND_BATCH_EMAIL_CHUNK_SIZE
 from utils.models import UserModel
 from mail_templates.request_daily_idea.send_request_daily import send_daily_bulk
 
@@ -9,12 +10,11 @@ from mail_templates.request_daily_idea.send_request_daily import send_daily_bulk
 
 
 def endpoint(event, context):
-    # today = date.today().weekday()
-    send_daily_bulk(UserModel.scan(
-        (UserModel.firstLogin == True) & (UserModel.ideaReminders == True)))
-    # for user in UserModel.scan():
-    #     if user.email:
-    #         send_daily(user)
+    users_iterator = UserModel.scan(
+        (UserModel.firstLogin == True) & (UserModel.ideaReminders == True), page_size=SEND_BATCH_EMAIL_CHUNK_SIZE,
+        attributes_to_get=['name', 'email'])
+    for chunk_to_send in progressive_chunks(users_iterator, SEND_BATCH_EMAIL_CHUNK_SIZE):
+        send_daily_bulk(chunk_to_send)
 #
 # if __name__ == '__main__':
 #     endpoint('1','2')

@@ -8,7 +8,7 @@ Resources:
     # Only create if ExistingSesRulesetName is empty
     #Condition: CreateNewSesRuleset
     Properties:
-      RuleSetName: DailyIdeaSesReceiverRuleSet
+      RuleSetName: DailyIdeaSesReceiverRuleSet-${self:provider.stage}
 
   DailyIdeaSesReceiverRule:
     Type: AWS::SES::ReceiptRule
@@ -41,6 +41,15 @@ Resources:
         SubjectPart: '[Daily Idea] Idea for {{ TODAY }}'
         TextPart: ${file(mail_templates/request_daily_idea/daily_idea.txt)}
         HtmlPart: ${file(mail_templates/request_daily_idea/daily_idea.html)}
+
+  DailyIdeaWeeklyDigestTemplate:
+    Type: AWS::SES::Template
+    Properties:
+      Template:
+        TemplateName: ${self:provider.weeklyDigestEmailTemplateName}
+        SubjectPart: '[Daily Idea] Weekly Digest'
+        TextPart: ${file(mail_templates/weekly_digest/weekly_digest.txt)}
+        HtmlPart: ${file(mail_templates/weekly_digest/weekly_digest.html)}
 
   SesEmailStorageS3Bucket:
     Type: AWS::S3::Bucket

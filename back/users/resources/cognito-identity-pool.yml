@@ -46,7 +46,7 @@ Resources:
               "ForAnyValue:StringLike":
                 "cognito-identity.amazonaws.com:amr": unauthenticated
       Policies:
-        - PolicyName: "CognitoUnauthorizedPolicy"
+        - PolicyName: ${self:provider.stage}CognitoUnauthorizedPolicy
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
@@ -76,7 +76,7 @@ Resources:
               "ForAnyValue:StringLike":
                 "cognito-identity.amazonaws.com:amr": authenticated
       Policies:
-        - PolicyName: "CognitoAuthorizedPolicy"
+        - PolicyName: ${self:provider.stage}CognitoAuthorizedPolicy
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
@@ -98,4 +98,4 @@ Outputs:
     Value:
       Ref: CognitoIdentityPool
     Export:
-      Name: "CognitoIdentityPool::Id"
+      Name: ${self:provider.stage}CognitoIdentityPool::Id

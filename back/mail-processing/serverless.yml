@@ -51,9 +51,11 @@ functions:
       BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
       REQUEST_DAILY_EMAIL_TEMPLATE_NAME: ${self:provider.requestDailyIdeaEmailTemplateName}
   sendWeeklyDigest:
+    memorySize: 512
     handler: test_send_weekly_digest.handler
     environment:
       BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
+      WEEKLY_DIGEST_TEMPLATE_NAME: ${self:provider.weeklyDigestEmailTemplateName}
   requestIdeasMail:
     handler: request_daily_idea.endpoint
     memorySize: 512
@@ -67,8 +69,11 @@ functions:
           enabled: true
   weeklyDigest:
     handler: weekly_digest.endpoint
+    memorySize: 512
+    timeout: 120
     environment:
       BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
+      WEEKLY_DIGEST_TEMPLATE_NAME: ${self:provider.weeklyDigestEmailTemplateName}
     events:
       - schedule:
           rate: cron(0 12 ? * SUN *)
@@ -88,11 +93,12 @@ provider:
   stage: ${env:STAGE, 'local'}
   region: ${env:AWS_REGION, 'us-east-1'}
   emailStaticBucketName: dailyidea-serverless-email-static-${self:provider.stage}
-  requestDailyIdeaEmailTemplateName: requestDailyIdeaEmailTemplate
+  requestDailyIdeaEmailTemplateName: requestDailyIdeaEmailTemplate-${self:provider.stage}
+  weeklyDigestEmailTemplateName: weeklyDigestEmailTemplate-${self:provider.stage}
   environment:
     AWS_DEPLOY_REGION: ${self:provider.region}
     SES_S3_BUCKET_NAME: ${self:custom.mailBucket}
-    MAILBOX_ADDR: ${self:custom.ideasMailBox}@${self:custom.domainName}
+    MAILBOX_ADDR: ${env:MAILBOX, 'ideas@beta.dailyidea.com'}
     DOMAIN_NAME: ${self:custom.domainName}
     SES_AWS_REGION: ${self:provider.region}
     USERS_TABLE_NAME: ${self:custom.usersTableName}
@@ -121,6 +127,18 @@ provider:
               - Ref: 'AWS::Region'
               - Ref: 'AWS::AccountId'
               - 'table/${self:custom.usersTableName}/index/emailIndex'
+        - 'Fn::Join':
+            - ':'
+            - - 'arn:aws:dynamodb'
+              - Ref: 'AWS::Region'
+              - Ref: 'AWS::AccountId'
+              - 'table/${self:custom.ideasTableName}'
+        - 'Fn::Join':
+            - ':'
+            - - 'arn:aws:dynamodb'
+              - Ref: 'AWS::Region'
+              - Ref: 'AWS::AccountId'
+              - 'table/${self:custom.ideasTableName}/index/*'
     - Effect: Allow
       Action:
         - s3:GetObject

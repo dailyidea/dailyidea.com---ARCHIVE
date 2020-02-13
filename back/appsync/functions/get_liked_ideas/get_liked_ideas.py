@@ -51,7 +51,7 @@ def endpoint(event, context):
             }
         }
     )
-    raw_ideas = ideas['Responses']['dailyidea-ideas-dev']
+    raw_ideas = ideas['Responses'][os.environ.get('IDEAS_TABLE_NAME')]
     clean_ideas = dynamo_loads(raw_ideas)
     clean_ideas = list(filter(lambda i: (i['userId'] == userId or i['visibility'] == 'PUBLIC'), clean_ideas))
     for clean_idea in clean_ideas:

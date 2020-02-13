@@ -7,9 +7,21 @@ USERS_TABLE_NAME = os.environ['USERS_TABLE_NAME']
 IDEAS_TABLE_NAME = os.environ['IDEAS_TABLE_NAME']
 
 
+class UsersIdeasByDateIndex(GlobalSecondaryIndex):
+    class Meta:
+        index_name = 'myIdeasByDate'
+        projection = AllProjection()
+        write_capacity_units = 100
+        read_capacity_units = 100
+    userId = UnicodeAttribute(hash_key=True)
+    createdDate = UTCDateTimeAttribute(range_key=True)
+
+
 class IdeaModel(Model):
     class Meta:
         table_name = IDEAS_TABLE_NAME
+        write_capacity_units = 100
+        read_capacity_units = 100
         # host = "http://localhost:4569"
 
     ideaId = UnicodeAttribute(range_key=True)
@@ -25,17 +37,23 @@ class IdeaModel(Model):
     likesCount = NumberAttribute(default=0)
     commentsCount = NumberAttribute(default=0)
 
+    usersIdeasByDateIndex = UsersIdeasByDateIndex()
+
 
 class UserEmailIndex(GlobalSecondaryIndex):
     class Meta:
         index_name = 'emailIndex'
         projection = AllProjection()
+        write_capacity_units = 100
+        read_capacity_units = 100
     email = UnicodeAttribute(hash_key=True)
 
 
 class UserModel(Model):
     class Meta:
         table_name = USERS_TABLE_NAME
+        write_capacity_units = 100
+        read_capacity_units = 100
         # host = "http://localhost:4569"
 
     userId = UnicodeAttribute(hash_key=True)

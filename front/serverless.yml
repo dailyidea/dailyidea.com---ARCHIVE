@@ -2,7 +2,7 @@ service: "dailyidea-serverless-n" # Edit service name
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs10.x
   stage: ${env:STAGE}
   region: ${env:AWS_REGION, 'us-east-1'} # Edit region name
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
@@ -11,11 +11,15 @@ provider:
   bucketName: dailyidea-serverless-${env:STAGE}
   environment:
     NODE_ENV: production
-    APPSYNC_ENDPOINT: ${env:APPSYNC_ENDPOINT, 'https://pdf3pg7nmngzvmwir6dfsw3vye.appsync-api.us-east-1.amazonaws.com/graphql'}
-    REQUEST_LOGIN_ENDPOINT: ${env:REQUEST_LOGIN_ENDPOINT, 'https://pjtzx5m8mk.execute-api.us-east-1.amazonaws.com/dev/requestLogin'}
+    APPSYNC_ENDPOINT: ${env:APPSYNC_ENDPOINT}
+    APPSYNC_API_KEY: ${env:APPSYNC_API_KEY}
+    S3_DOMAIN: ${env:S3_DOMAIN}
     COGNITO_POOL_ID: ${env:COGNITO_POOL_ID, 'us-east-1_JLoaRtnOl'}
     COGNITO_IDENTITY_POOL_ID: ${env:COGNITO_IDENTITY_POOL_ID, 'us-east-1:0c8780c2-b03a-4751-bce7-06ce942dde78'}
     COGNITO_POOL_WEB_CLIENT_ID: ${env:COGNITO_POOL_WEB_CLIENT_ID, '6eojplv1g5h1nrvdtho56s3g7f'}
+
+    REQUEST_LOGIN_ENDPOINT: ${env:REQUEST_LOGIN_ENDPOINT, 'https://pjtzx5m8mk.execute-api.us-east-1.amazonaws.com/dev/requestLogin'}
+
   iamRoleStatements:
     - Effect: 'Allow'
       Action:

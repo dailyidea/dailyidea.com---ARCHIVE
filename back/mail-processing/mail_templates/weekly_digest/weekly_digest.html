@@ -1,246 +1,207 @@
 <!DOCTYPE html>
-
+<html lang="en">
 <head>
-    <!-- Fonts -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
     <style>
         @font-face {
-            font-family: "QuatroBold";
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot");
+            font-family: 'Quatro';
+            src: url('{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot');
             /* IE9*/
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot?#iefix") format("embedded-opentype");
+            src: url('{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot?#iefix') format('embedded-opentype');
             /* IE6-IE8 */
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff2") format("woff2");
+            src: url('{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff2') format('woff2');
             /* chrome、firefox */
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.woff") format("woff");
+            src: url('{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff') format('woff');
             /* chrome、firefox */
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.ttf") format("truetype");
+            src: url('{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.ttf') format('truetype');
             /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.svg#QuatroBold") format("svg");
-            /* iOS 4.1- */
+            src: url('{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.svg#Quatro');
         }
 
-        @font-face {
-            font-family: "Quatro";
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot");
-            /* IE9*/
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.eot?#iefix") format("embedded-opentype");
-            /* IE6-IE8 */
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff2") format("woff2");
-            /* chrome、firefox */
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.woff") format("woff");
-            /* chrome、firefox */
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.ttf") format("truetype");
-            /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_regular/17ae0aa7804ff40b20696df1008501d7.svg#Quatro");
+        @media (min-width: 550px) {
+        .side-padding-right{
+            width: 70px !important;
         }
-
-        @font-face {
-            font-family: "QuatroLight";
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot");
-            /* IE9*/
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.eot?#iefix") format("embedded-opentype");
-            /* IE6-IE8 */
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff2") format("woff2");
-            /* chrome、firefox */
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.woff") format("woff");
-            /* chrome、firefox */
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.ttf") format("truetype");
-            /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-            src: url("{{BUCKET_URL_PREFIX}}/email/fonts/quatro_light/969b2305b96bde01825b0b368bc2c181.svg#QuatroLight") format("svg");
-            /* iOS 4.1- */
+             .content-width{
+                min-width: 380px!important;
+            }
+        }
+        @media (max-width: 420px) {
+        .side-padding{
+            width: 5px !important;
+        }
+            .idea-title{
+                font-size: 26px !important;
+                line-height: 30px !important;
+            }
+        }
+        @media (min-width: 421px) and (max-width: 549px) {
+        .side-padding{
+            width: 10px !important;
+        }
         }
     </style>
 
-    <!-- Page Style -->
-    <style>
-        body {
-            font-family: Quatro;
-        }
-
-        #emailContainer {
-            margin: auto;
-            width: 45%;
-            background-color: white;
-            background-image: url("{{BUCKET_URL_PREFIX}}/email/images/Path733.png");
-            background-repeat: no-repeat;
-            background-position-x: -85px;
-            background-position-y: 304px;
-        }
-
-        .headerDiv {
-            display: flex;
-            padding-top: 20px;
-            padding-left: 20px;
-            height: 74vh;
-        }
-
-        .dailyIdea {
-            flex: 4;
-            padding: 20px 0px 20px 20px;
-            color: #29103b;
-        }
-
-        .dailyIdeaImg {
-            margin-bottom: 30px;
-            height: 6vh;
-        }
-
-        .topTitle {
-            line-height: 26px;
-            font-size: 17px;
-        }
-
-        .title {
-            font-size: 30px;
-            width: 70%;
-            padding-top: 5px;
-            margin-bottom: 20px;
-        }
-
-        .description {
-            font-size: 18px;
-            font-family: QuatroLight;
-            letter-spacing: 1px;
-            width: 95%;
-            line-height: 30px;
-            color: #827c85;
-        }
-
-        .button {
-            background-image: linear-gradient(to left, #ffdf01, #ffb92d);
-            color: white;
-            border-radius: 4px;
-            padding: 20px 30px;
-            font-size: 17px;
-            letter-spacing: 2px;
-            border: none;
-            margin-top: 20px;
-        }
-
-        .rightSideImg {
-            flex: 2.2;
-            padding: 25px 10px 0px 0px;
-        }
-
-        .rightImg {
-            height: 67vh;
-        }
-
-        .commentList {
-            background: #ebe7ed;
-            padding-bottom: 20px;
-        }
-
-        .commentItem {
-            background: white;
-            margin: 0 15px 10px 15px;
-            padding: 20px;
-        }
-
-        .commentText {
-            font-size: 14px;
-            margin-bottom: 13px;
-        }
-
-        .engagement {
-            display: block;
-
-            font-size: 14px;
-            font-weight: normal;
-            font-style: normal;
-            font-stretch: normal;
-            letter-spacing: normal;
-            text-align: left;
-            color: #c0b7c5;
-        }
-
-        .engagement img {
-            height: 14px;
-            margin-right: 3px;
-        }
-
-        .ups {
-            display: inline-block;
-            height: 18px;
-        }
-
-        .downs {
-            margin-left: 20px;
-            display: inline-block;
-        }
-
-        .timing {
-            float: right;
-            font-size: 12px;
-            font-weight: normal;
-            font-style: normal;
-            font-stretch: normal;
-            letter-spacing: normal;
-            text-align: right;
-            color: #c0b7c5;
-        }
-    </style>
 </head>
-
-<html>
-
 <body>
 
-<div id="emailContainer">
-    <div class="headerDiv">
-        <div class="dailyIdea">
-            <img class="dailyIdeaImg" src="{{BUCKET_URL_PREFIX}}/email/images/Group181.png" />
+<table cellpadding="0" cellspacing="0" border="0" width="100%"
+       style="background: #ffffff; min-width: 340px; font-size: 1px; line-height: normal;">
+    <tr>
+        <td align="center" valign="top">
+            <table cellpadding="0" cellspacing="0" border="0" class="table700"
+                   style="max-width: 700px; min-width: 320px; background: #ffffff;">
+                <tr>
+                    <td align="center" valign="top">
+                        <table class="main-table"
+                               style='width: 97%; min-height: 400px; background-size: 175% 75%; background-image: url("{{BUCKET_URL_PREFIX}}/email/images/Path733.png"); background-position: 50% 132%; background-repeat: no-repeat;'>
+                            <tr>
+                                <td width="15" class="side-padding"></td>
+                                <td style="vertical-align: top;" class="content-width">
+                                    <table cellpadding="0" cellspacing="0" border="0" style="height: 100%;width: 100%;">
+                                        <tr height="40">
+                                            <td height="40">
 
-            {% if num_days > 0 %}
-            <div class="topTitle">Last week, you responded to</div>
-            <div class="title">{{ num_days }} ideas!</div>
-            {% else %}
-            <div class="topTitle">Awww</div>
-            <div class="title">We missed you last week :(</div>
-            <div class="description">Anything we can do to help you with responding for ideas? :)</div>
-            {% endif %}
+                                            </td>
+                                        </tr>
+                                        <tr height="40">
+                                            <td height="40">
+                                                <img height="40" src="{{BUCKET_URL_PREFIX}}/email/images/Group181.png" alt="">
+                                            </td>
+                                        </tr>
+                                        <tr height="10">
+                                            <td height="10"></td>
+                                        </tr>
+                                        <tr height="60">
+                                            <td height="60">
+                                                <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #333; font-size: 28px; line-height: 32px;" class="idea-title">{{title}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #333; font-size: 20px; line-height: 25px;">{{subtitle}}</span>
+                                            </td>
+                                        </tr>
+                                        {{#if subsubtitle}}
+                                        <tr height="10">
+                                            <td height="10"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #827c85; font-size: 18px; line-height: 23px;">{{subsubtitle}}</span>
+                                            </td>
+                                        </tr>
+                                        {{/if}}
+                                        {{#if text}}
+                                        <tr height="30">
+                                            <td height="30"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #827c85; font-size: 18px; line-height: 23px;">{{text}}</span>
+                                            </td>
+                                        </tr>
+                                        {{/if}}
+                                        <tr height="50">
+                                            <td height="50"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <table cellpadding="0" cellspacing="0" border="0" style="height: 100%;">
+                                                    <tr>
+                                                        <td height="60" width="220" style="border-radius: 5px; background-image: linear-gradient(to left, #ffdf01, #ffb92d); background-color: #ffb92d;">
+                                                            <a href="https://{{DOMAIN_NAME}}/ideas/create" style="display: block; width: 100%; height: 100%; line-height: 60px; color: white!important;text-align: center; font-size: 18px; text-decoration: none; font-family: Quatro, Arial, Tahoma, Geneva, sans-serif;">SUBMIT AN IDEA</a>
+                                                        </td>
+                                                        <td>
 
-            {% if num_days > 6 %}
-            <p class="description">Wow, perfect!</p>
-            {% elif num_days > 3 %}
-            <p class="description">Great job!</p>
-            {% elif num_days > 0 %}
-            <p class="description">Let's aim for {{ num_days + 1 }} this week!</p>
-            {% else %}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr height="100">
+                                            <td height="100"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="30" class="side-padding side-padding-right"></td>
+                                <td width="121">
+                                    <img height="350" src="{{BUCKET_URL_PREFIX}}/email/images/Group179.png" alt="">
+                                </td>
+                                <td width="15" class="side-padding"></td>
+                            </tr>
+                            {{#if ideasToSend}}
+                            {{#each ideasToSend}}
+                            <tr style="background-color: #ebe7ed">
+                                <td colspan="5">
+                                    <table cellpadding="0" cellspacing="0" border="0" style=" background-color: white; width: 100%">
+                                        <tr style="min-height: 200px">
+                                            <td width="15" class="side-padding"></td>
+                                            <td style="background-color: white; min-width: 260px">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                                                       style="width: 100%; height: 100%">
+                                                    <tr>
+                                                        <td colspan="2" style=" padding: 10px 10px;">
+                                                            <a href="https://{{DOMAIN_NAME}}/ideas/{{userId}}/{{ideaId}}" style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #5c5c5c; font-size: 20px; line-height: 22px; text-decoration: none;">{{ ideaTitle}}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="height: 25px">
+                                                        <td style="text-align: left; padding: 10px 10px;">
+                                                            <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #bfbfbf; font-size: 14px; line-height: 16px;">{{ authorName}}</span>
+                                                        </td>
+                                                        <td style="text-align: right; padding: 10px 10px;">
+                                                            <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #bfbfbf; font-size: 14px; line-height: 16px;">{{ createdDay}}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2" style="padding: 10px">
+                                                            <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #5c5c5c; font-size: 18px; line-height: 20px;">{{ content}}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2" style="padding: 20px 5px;">
+                                                            <img src="{{BUCKET_URL_PREFIX}}/email/images/lamp_on.png"
+                                                                 width="20"
+                                                                 height="20" alt=""
+                                                                 style="display: inline; vertical-align: bottom">
+                                                            <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #5c5c5c; font-size: 18px; line-height: 18px;vertical-align: bottom">&nbsp;&nbsp;{{ likesCount}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                            <img src="{{BUCKET_URL_PREFIX}}/email/images/comment.png"
+                                                                 width="18"
+                                                                 height="18" alt=""
+                                                                 style="display: inline;vertical-align: bottom">
+                                                            <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #5c5c5c; font-size: 18px; line-height: 18px;vertical-align: bottom">&nbsp;&nbsp;{{ commentsCount}}</span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td width="15" class="side-padding"></td>
+                                        </tr>
 
-            {% endif %}
-            <a href="{{BASE_SITE_URL}}/ideas/create">
-                <button class="button">SUBMIT AN IDEA</button>
-            </a>
-        </div>
-        <div class="rightSideImg">
-            <img class="rightImg" src="{{BUCKET_URL_PREFIX}}/email/images/Group179.png" />
-        </div>
-    </div>
-    {% if ideas_last_week|length >0 %}
-    <div class="commentList">
-        {% for idea in ideas_last_week %}
-        <div class="commentItem">
-            <div class="commentText">{{ idea.title }}</div>
-            <div class="engagement">
-                <div class="ups">
-                    <img class="lamp" src="{{BUCKET_URL_PREFIX}}/email/images/logo_icon.png" />
-                    {{idea.likesCount}}
-                </div>
-                <div class="downs">
-                    <img class src="{{BUCKET_URL_PREFIX}}/email/images/comments.png" />
-                    {{idea.commentsCount}}
-                </div>
-                <div class="timing">
-                    {{ datetime.strptime(idea.createdDate[:10],'%Y-%m-%d').strftime('%A') }}
-                </div>
-            </div>
-            <!-- <img class="chatIcon" src="{{BUCKET_URL_PREFIX}}/email/images/Chat.png" /> -->
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-</div>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr><td colspan="5" height="10"></td></tr>
+                            {{/each}}
+                            {{/if}}
+                            {{#if footer}}
+                            <tr><td colspan="5" height="10"></td></tr>
+                            <tr>
+                                <td width="15" class="side-padding"></td>
+                                <td colspan="3">
+                                    <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #333; font-size: 15px; line-height: 17px;">{{footer}}</span>
+                                </td>
+                                <td width="15" class="side-padding"></td>
+                            </tr>
+                            <tr><td colspan="5" height="10"></td></tr>
+                            {{/if}}
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
 </body>
-
 </html>
