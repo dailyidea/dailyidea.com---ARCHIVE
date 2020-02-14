@@ -69,7 +69,7 @@ module.exports = {
   /*
    ** Nuxt.js modules
    */
-  modules: ['@nuxtjs/dotenv', '@nuxtjs/vuetify', 'nuxt-universal-storage'],
+  modules: ['@nuxtjs/dotenv', '@nuxtjs/vuetify', 'nuxt-universal-storage', '@nuxtjs/sentry'],
 
   vuetify: {
     icons: {
@@ -148,5 +148,10 @@ module.exports = {
         })
       }
     }
+  },
+
+  sentry: {
+    dsn: process.env.SENTRY_DSN,
+    config: {}, // Additional config
   }
 }

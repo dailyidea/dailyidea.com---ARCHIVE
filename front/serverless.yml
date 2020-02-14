@@ -16,6 +16,7 @@ provider:
     COGNITO_POOL_ID: ${env:COGNITO_POOL_ID, 'us-east-1_JLoaRtnOl'}
     COGNITO_IDENTITY_POOL_ID: ${env:COGNITO_IDENTITY_POOL_ID, 'us-east-1:0c8780c2-b03a-4751-bce7-06ce942dde78'}
     COGNITO_POOL_WEB_CLIENT_ID: ${env:COGNITO_POOL_WEB_CLIENT_ID, '6eojplv1g5h1nrvdtho56s3g7f'}
+    SENTRY_DSN: ${env:SENTRY_DSN}
   iamRoleStatements:
     - Effect: 'Allow'
       Action:
