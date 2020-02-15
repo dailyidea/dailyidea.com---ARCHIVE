@@ -1,7 +1,7 @@
 LambdaShareIdeaFunctionRole:
   Type: AWS::IAM::Role
   Properties:
-    RoleName: "Lambda-ShareIdeaFunctionRole"
+    RoleName: "Lambda-ShareIdeaFunctionRole-${self:provider.stage}"
     AssumeRolePolicyDocument:
       Version: "2012-10-17"
       Statement:
@@ -10,7 +10,7 @@ LambdaShareIdeaFunctionRole:
             Service: "lambda.amazonaws.com"
           Action: "sts:AssumeRole"
     Policies:
-      - PolicyName: "Lambda-ShareIdeaFunctionRole-Policy"
+      - PolicyName: "Lambda-ShareIdeaFunctionRole-${self:provider.stage}-Policy"
         PolicyDocument:
           Version: "2012-10-17"
           Statement:

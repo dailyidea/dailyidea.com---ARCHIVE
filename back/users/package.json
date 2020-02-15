@@ -4,7 +4,8 @@
   "main": "mailparser.js",
   "scripts": {
     "sls": "sls",
-    "sls:deploy-dev": "serverless deploy --stage dev"
+    "sls:deploy-dev": "env-cmd -f ./conf/dev.env serverless deploy",
+    "sls:deploy-prod": "env-cmd -f ./conf/prod.env serverless deploy"
   },
   "author": "",
   "license": "MIT",
@@ -15,6 +16,7 @@
     "squirrelly": "^7.9.0"
   },
   "devDependencies": {
+    "env-cmd": "10.1.0",
     "serverless": "1.46.0",
     "serverless-dynamodb-local": "0.2.38",
     "serverless-localstack": "0.4.15",

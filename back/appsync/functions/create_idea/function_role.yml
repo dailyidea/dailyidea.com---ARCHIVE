@@ -1,7 +1,7 @@
 LambdaCreateIdeaFunctionRole:
   Type: AWS::IAM::Role
   Properties:
-    RoleName: "Lambda-CreateIdeaFunctionRole"
+    RoleName: "Lambda-CreateIdeaFunctionRole-${self:provider.stage}"
     AssumeRolePolicyDocument:
       Version: "2012-10-17"
       Statement:
@@ -10,7 +10,7 @@ LambdaCreateIdeaFunctionRole:
             Service: "lambda.amazonaws.com"
           Action: "sts:AssumeRole"
     Policies:
-      - PolicyName: "Lambda-CreateIdeaFunctionRole-Policy"
+      - PolicyName: "Lambda-CreateIdeaFunctionRole-${self:provider.stage}-Policy"
         PolicyDocument:
           Version: "2012-10-17"
           Statement:

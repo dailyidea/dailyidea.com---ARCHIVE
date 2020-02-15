@@ -1,21 +1,21 @@
-from mail_templates.weekly_digest.send_weekly_digest import send_weekly_digest
-from datetime import date
-import random
+from datetime import date, datetime
+from datetime import timedelta
+
+from utils.common import progressive_chunks, SEND_BATCH_EMAIL_CHUNK_SIZE
+from utils.models import UserModel, IdeaModel
+
+from mail_templates.weekly_digest.send_weekly_digest import bulk_send_weekly_digest
+
+
+def get_mails_to_send():
+    today = datetime.now()
+    for user in UserModel.scan((UserModel.firstLogin == True) & (UserModel.userId == '9229eeeb-4b8d-4c72-b938-260f87968461')):
+        week_ago = today - timedelta(weeks=1)
+        ideas_last_week = IdeaModel.usersIdeasByDateIndex.query(user.userId, (IdeaModel.createdDate > week_ago),
+                                                                limit=100, scan_index_forward=False)
+        yield (user, list(ideas_last_week))
 
 
 def handler(event, context):
-    class User:
-        email = 'orion.cx@gmail.com'
-        createdDate = str(date.today())
-
-    class Idea:
-        def __init__(self):
-            self.title = 'test title {}'.format(random.randrange(1, 10000))
-            self.id = random.randrange(1,100)
-            self.createdDate = '2018-09-26T16:04:11.173995+0000'
-            self.likesCount = random.randrange(1,100)
-            self.commentsCount = random.randrange(1,100)
-
-    user = User()
-    ideas_last_week = [Idea() for _ in range(7)]
-    send_weekly_digest(user, ideas_last_week, 3)
+    for chunk_to_send in progressive_chunks(get_mails_to_send(), SEND_BATCH_EMAIL_CHUNK_SIZE):
+        bulk_send_weekly_digest(chunk_to_send)

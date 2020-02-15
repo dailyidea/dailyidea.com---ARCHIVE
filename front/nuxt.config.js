@@ -1,8 +1,7 @@
 require('dotenv').config()
 // const { VuetifyProgressiveModule } = require('vuetify-loader')
 const path = require('path')
-// const resolve = dir => path.join(__dirname, dir)
-
+const resolve = require('path').resolve; // eslint-disable-line
 module.exports = {
   mode: 'universal',
 
@@ -68,8 +67,16 @@ module.exports = {
 
   /*
    ** Nuxt.js modules
-   */
-  modules: ['@nuxtjs/dotenv', '@nuxtjs/vuetify', 'nuxt-universal-storage', '@nuxtjs/sentry'],
+  */
+  modules: [
+    [
+      '@nuxtjs/dotenv',
+      { path: resolve(__dirname, 'conf'), filename: process.env.STAGE + '.env' }
+    ],
+    '@nuxtjs/vuetify',
+    'nuxt-universal-storage',
+    '@nuxtjs/sentry'
+  ],
 
   vuetify: {
     icons: {

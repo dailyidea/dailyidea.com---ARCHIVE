@@ -1,7 +1,7 @@
 LambdaUploadAvatarFunctionRole:
   Type: AWS::IAM::Role
   Properties:
-    RoleName: "Lambda-UploadAvatarFunctionRole"
+    RoleName: "Lambda-UploadAvatarFunctionRole-${self:provider.stage}"
     AssumeRolePolicyDocument:
       Version: "2012-10-17"
       Statement:
@@ -10,7 +10,7 @@ LambdaUploadAvatarFunctionRole:
             Service: "lambda.amazonaws.com"
           Action: "sts:AssumeRole"
     Policies:
-      - PolicyName: "Lambda-UploadAvatarFunctionRole-Policy"
+      - PolicyName: "Lambda-UploadAvatarFunctionRole-${self:provider.stage}-Policy"
         PolicyDocument:
           Version: "2012-10-17"
           Statement:

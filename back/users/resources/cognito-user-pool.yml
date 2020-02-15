@@ -34,9 +34,9 @@ Outputs:
     Value:
       Ref: CognitoUserPoolDaily
     Export:
-      Name: "CognitoUserPool::Id"
+      Name: "${self:provider.stage}CognitoUserPool::Id"
   UserPoolClientId:
     Value:
       Ref: CognitoUserPoolClient
     Export:
-      Name: "CognitoUserPoolClient::Id"
+      Name: "${self:provider.stage}CognitoUserPoolClient::Id"

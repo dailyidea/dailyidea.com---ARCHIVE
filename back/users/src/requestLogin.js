@@ -3,7 +3,7 @@ const path = require("path");
 const AWS = require("aws-sdk");
 const jwt = require("jsonwebtoken");
 const middy = require("middy");
-const ddb = new AWS.DynamoDB({ apiVersion: "2012-10-08" });
+const ddb = new AWS.DynamoDB({apiVersion: "2012-10-08"});
 const { cors, jsonBodyParser, httpErrorHandler } = require("middy/middlewares");
 const Sqrl = require("squirrelly");
 
@@ -62,6 +62,11 @@ const sendEmail = async function(email, token, name = undefined) {
     firstLogin = !profile.firstLogin.BOOL;
   } catch (err) {
     console.log("Error", err);
+  }
+  if (firstLogin) {
+    console.log('this is first login. faking sign up');
+  }else{
+    console.log('this is simple log in');
   }
   const htmlTemplate = firstLogin
     ? magicLinkTemplateHTMLCompiled
@@ -125,7 +130,7 @@ const sendMail = async (event, context) => {
   const { email } = event.body;
   console.log("generating log token", email);
   const docClient = new AWS.DynamoDB.DocumentClient();
-
+  console.log(process.env.TABLE_NAME);
   try {
     const result = await docClient
       .query({
@@ -137,7 +142,7 @@ const sendMail = async (event, context) => {
         }
       })
       .promise();
-
+    console.log(result);
     if (result.Count === 0) {
       console.log("Not Found", email);
       return {
@@ -148,7 +153,10 @@ const sendMail = async (event, context) => {
       console.log("Found", email);
       const token = generateToken(email);
       const name = result.Items[0].name;
-      await sendEmail(email, token, name, context);
+      const sendMailResp = await sendEmail(email, token, name, context);
+      console.log('---------mail sending------');
+      console.log(sendMailResp);
+      console.log('---------end mail sending-------');
       return {
         body: JSON.stringify({ result: "success" })
       };

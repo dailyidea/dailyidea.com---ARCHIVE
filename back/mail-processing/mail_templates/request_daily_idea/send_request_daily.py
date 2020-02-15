@@ -2,7 +2,6 @@ import os
 from datetime import date
 import json
 import boto3
-from utils.common import chunks, SEND_BATCH_EMAIL_CHUNK_SIZE
 
 AWS_REGION = os.environ['SES_AWS_REGION']
 MAILBOX_ADDR = os.environ['MAILBOX_ADDR']
@@ -16,8 +15,7 @@ def send_daily_bulk(users_list):
     DOMAIN_NAME = os.environ.get('DOMAIN_NAME')
     TODAY = date.today().strftime('%a %b %d %Y')
     client = boto3.client('ses', region_name=AWS_REGION)
-    for users_chunk in chunks([u for u in users_list], SEND_BATCH_EMAIL_CHUNK_SIZE):
-        client.send_bulk_templated_email(
+    client.send_bulk_templated_email(
             Source=SENDER,
             Template=REQUEST_DAILY_EMAIL_TEMPLATE_NAME,
             DefaultTemplateData=json.dumps(
@@ -31,6 +29,6 @@ def send_daily_bulk(users_list):
                     },
                     'ReplacementTemplateData': json.dumps(
                         {"USERNAME": user.name})
-                } for user in users_chunk
+                } for user in users_list
             ]
         )

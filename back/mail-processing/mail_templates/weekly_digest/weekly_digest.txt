@@ -1,15 +1,19 @@
-Hi {{ user.email }}!
-{% if num_days > 6 %}
-Wow, perfect! You responded to 7 emails last week with ideas!
-{% elif num_days > 3 %}
-Great job! You responded to {{ num_days }} emails last week with ideas!
-{% elif num_days > 0 %}
-You responded to {{ num_days }} idea last week! Let's aim for {{ num_days + 1 }} this week!
-{% else %}
-Awww we missed you last week :( Anything we can do to help you with responding for ideas? :)
-{% endif %}
-Here are the ideas you submitted:
-{% for idea in ideas_last_week %}
-  Monday Jun 20 - > {{idea.title}} {{BASE_SITE_URL}}ideas/{{idea.id}}
-{% endfor %}
-You've now submitted a total of {{num_ideas}} ideas to Daily Idea since you joined on {{user.createdDate}}!
+{{title}}
+{{subtitle}}
+{{#if subsubtitle}}
+{{subsubtitle}}
+{{/if}}
+{{#if text}}
+{{text}}
+{{/if}}
+
+{{#if ideasToSend}}
+{{#each ideasToSend}}
+  {{ideaTitle}} - https://{{DOMAIN_NAME}}/ideas/{{userId}}/{{ideaId}}
+{{/each}}
+{{/if}}
+
+{{#if footer}}
+{{footer}}
+{{/if}}
+

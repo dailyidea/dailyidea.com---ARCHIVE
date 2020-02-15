@@ -1,7 +1,7 @@
 LambdaGetLikedIdeasFunctionRole:
   Type: AWS::IAM::Role
   Properties:
-    RoleName: "Lambda-GetLikedIdeasFunctionRole"
+    RoleName: "Lambda-GetLikedIdeasFunctionRole-${self:provider.stage}"
     AssumeRolePolicyDocument:
       Version: "2012-10-17"
       Statement:
@@ -10,7 +10,7 @@ LambdaGetLikedIdeasFunctionRole:
             Service: "lambda.amazonaws.com"
           Action: "sts:AssumeRole"
     Policies:
-      - PolicyName: "Lambda-GetLikedIdeasFunctionRole-Policy"
+      - PolicyName: "Lambda-GetLikedIdeasFunctionRole-${self:provider.stage}-Policy"
         PolicyDocument:
           Version: "2012-10-17"
           Statement:

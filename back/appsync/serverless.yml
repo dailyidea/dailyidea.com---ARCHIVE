@@ -11,7 +11,7 @@ provider:
   avatarsStaticBucketURL: https://${self:provider.avatarsStaticBucketName}.s3.amazonaws.com
   environment:
     SES_AWS_REGION: ${self:provider.region}
-    MAILBOX_ADDR: ${self:custom.ideasMailBox}@${self:provider.domainName}
+    MAILBOX_ADDR: ${env:MAILBOX, 'ideas@beta.dailyidea.com'}
 
 plugins:
   - serverless-offline
@@ -84,6 +84,7 @@ functions:
 
 
 custom:
+  myStage: ${self:provider.stage}
   cogintoUserPoolId: ${env:COGNITO_POOL_ID}
   usersTableName: dailyidea-users-${self:provider.stage}
   ideasTableName: dailyidea-ideas-${self:provider.stage}
@@ -91,7 +92,6 @@ custom:
   ideaCommentsTableName: dailyidea-comments-${self:provider.stage}
   likesTableName: dailyidea-likes-${self:provider.stage}
   followingTableName: dailyidea-following-${self:provider.stage}
-  ideasMailBox: ${env:IDEAS_MAILBOX, 'ideas-dev'}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
   setUsersSlugFunctionName: dailyidea-appsync-backend-${self:provider.stage}-setUsersSlug
   updateProfileInfoInCreatedIdeasFunctionName: dailyidea-appsync-backend-${self:provider.stage}-updateProfileInfoInCreatedIdeas
@@ -523,7 +523,7 @@ resources:
       AppSyncLambdaServiceRole:
         Type: "AWS::IAM::Role"
         Properties:
-          RoleName: "Lambda-AppSyncServiceRole"
+          RoleName: "Lambda-AppSyncServiceRole-${self:provider.stage}"
           AssumeRolePolicyDocument:
             Version: "2012-10-17"
             Statement:
@@ -534,7 +534,7 @@ resources:
                 Action:
                   - "sts:AssumeRole"
           Policies:
-            - PolicyName: "Lambda-AppSyncServiceRole-Policy"
+            - PolicyName: "Lambda-AppSyncServiceRole-${self:provider.stage}-Policy"
               PolicyDocument:
                 Version: "2012-10-17"
                 Statement:
@@ -560,7 +560,7 @@ resources:
       AppSyncServiceRole:
         Type: "AWS::IAM::Role"
         Properties:
-          RoleName: "Dynamo-Lambda-AppSyncServiceRole"
+          RoleName: "Dynamo-Lambda-AppSyncServiceRole-${self:provider.stage}"
           AssumeRolePolicyDocument:
             Version: "2012-10-17"
             Statement:
@@ -571,7 +571,7 @@ resources:
                 Action:
                   - "sts:AssumeRole"
           Policies:
-            - PolicyName: "Dynamo-AppSyncServiceRole-Policy"
+            - PolicyName: "Dynamo-AppSyncServiceRole-${self:provider.stage}-Policy"
               PolicyDocument:
                 Version: "2012-10-17"
                 Statement:
@@ -637,7 +637,7 @@ resources:
                             - Ref: 'AWS::Region'
                             - Ref: 'AWS::AccountId'
                             - 'table/${self:custom.ideaCommentsTableName}/*'
-            - PolicyName: "Lambda-AppSyncServiceRole-Policy"
+            - PolicyName: "Lambda-AppSyncServiceRole-${self:provider.stage}-Policy"
               PolicyDocument:
                 Version: "2012-10-17"
                 Statement:

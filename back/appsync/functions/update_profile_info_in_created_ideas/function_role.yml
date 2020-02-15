@@ -1,7 +1,7 @@
 LambdaUpdateProfileInfoInCreatedIdeasFunctionRole:
   Type: AWS::IAM::Role
   Properties:
-    RoleName: "Lambda-UpdateProfileInfoInCreatedIdeasFunctionRole"
+    RoleName: "Lambda-UpdateProfileInfoInCreatedIdeasFunctionRole-${self:provider.stage}"
     AssumeRolePolicyDocument:
       Version: "2012-10-17"
       Statement:
@@ -10,7 +10,7 @@ LambdaUpdateProfileInfoInCreatedIdeasFunctionRole:
             Service: "lambda.amazonaws.com"
           Action: "sts:AssumeRole"
     Policies:
-      - PolicyName: "Lambda-UpdateProfileInfoInCreatedIdeasFunctionRole-Policy"
+      - PolicyName: "Lambda-UpdateProfileInfoInCreatedIdeasFunctionRole-${self:provider.stage}-Policy"
         PolicyDocument:
           Version: "2012-10-17"
           Statement:

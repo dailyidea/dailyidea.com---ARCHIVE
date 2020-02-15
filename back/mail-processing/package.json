@@ -4,11 +4,13 @@
   "main": "mailparser.js",
   "scripts": {
     "test": "jest",
-    "sls:deploy-dev": "cross-env STAGE=dev npx sls deploy"
+    "sls:deploy-dev": "env-cmd -f ./conf/dev.env sls deploy",
+    "sls:deploy-prod": "env-cmd -f ./conf/prod.env sls deploy"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "env-cmd": "10.1.0",
     "cross-env": "5.2.0",
     "serverless": "1.46.1",
     "serverless-dynamodb-local": "0.2.38",

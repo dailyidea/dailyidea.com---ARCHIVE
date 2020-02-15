@@ -3,14 +3,15 @@
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:provider.bucketName} # Specify a new bucket name for client assets
-#        CorsConfiguration:
-#          CorsRules:
-#            - AllowedHeaders:
-#                - "*"
-#              AllowedMethods:
-#                - GET
-#              AllowedOrigins:
-#                - ${self:provider.allowedOrigin}
+        AccessControl: PublicRead
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders:
+                - "*"
+              AllowedMethods:
+                - GET
+              AllowedOrigins:
+                - ${self:provider.allowedOrigin}
     AssetsBucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:

@@ -34,7 +34,7 @@ Resources:
   CustomUserOnboardingRole:
       Type: AWS::IAM::Role
       Properties:
-        RoleName: CustomUserOnboardingRole
+        RoleName: ${self:provider.stage}CustomUserOnboardingRole
         AssumeRolePolicyDocument:
           Version: '2012-10-17'
           Statement:
@@ -44,7 +44,7 @@ Resources:
                   - lambda.amazonaws.com
               Action: sts:AssumeRole
         Policies:
-          - PolicyName: CustomCloudWatchLogsPolicy
+          - PolicyName: ${self:provider.stage}CustomCloudWatchLogsPolicy-
             PolicyDocument:
               Version: '2012-10-17'
               Statement:
@@ -61,7 +61,7 @@ Resources:
                         - Ref: 'AWS::Region'
                         - Ref: 'AWS::AccountId'
                         - 'log-group:/aws/lambda/*:*:*'
-          - PolicyName: CustomUserOnboardingPolicy
+          - PolicyName: ${self:provider.stage}CustomUserOnboardingPolicy
             PolicyDocument:
               Version: '2012-10-17'
               Statement:

@@ -1,7 +1,7 @@
 LambdaSetUsersSlugFunctionRole:
   Type: AWS::IAM::Role
   Properties:
-    RoleName: "Lambda-SetUsersSlugFunctionRole"
+    RoleName: "Lambda-SetUsersSlugFunctionRole-${self:provider.stage}"
     AssumeRolePolicyDocument:
       Version: "2012-10-17"
       Statement:
@@ -10,7 +10,7 @@ LambdaSetUsersSlugFunctionRole:
             Service: "lambda.amazonaws.com"
           Action: "sts:AssumeRole"
     Policies:
-      - PolicyName: "Lambda-SetUsersSlugFunctionRole-Policy"
+      - PolicyName: "Lambda-SetUsersSlugFunctionRole-${self:provider.stage}-Policy"
         PolicyDocument:
           Version: "2012-10-17"
           Statement:
