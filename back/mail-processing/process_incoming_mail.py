@@ -4,21 +4,25 @@ from datetime import datetime
 
 import boto3
 import mailparser
+import bleach
+import talon
+from talon.signature.bruteforce import extract_signature
 
 from utils.models import IdeaModel, UserModel
-
 from mail_templates.idea_received_confirmation.send_confirmation_idea_received import send_confirmation
 
 AWS_REGION = os.environ['SES_AWS_REGION']
 SES_S3_BUCKET_NAME = os.environ['SES_S3_BUCKET_NAME']
 MAILBOX_ADDR = os.environ['MAILBOX_ADDR']
 BASE_SITE_URL = f"https://{os.environ['DOMAIN_NAME']}/"
+PUBLIC_VISIBILITY = 'PUBLIC'
 
 s3 = boto3.client('s3')
 ses = boto3.client('ses', region_name=AWS_REGION)
+talon.init()
 
-import bleach
-
+# TODO rename file to 'email_processor' or 'email_worker'
+# or 'incoming_email'
 
 def sanitize_title(raw_text):
     if not raw_text or not len(raw_text):
@@ -78,6 +82,7 @@ def clean_email_html(email_html_content):
     content_lines = []
     while len(raw_content_lines) and not raw_content_lines[0]:
         raw_content_lines = raw_content_lines[1:]
+
     title = None
     if len(raw_content_lines):
         title = sanitize_title(raw_content_lines[0])
@@ -88,7 +93,11 @@ def clean_email_html(email_html_content):
                         content_lines = content_lines[:-1]  # last line before quote is usually "XXX wrote:" or spacer.
                     break
                 content_lines.append(line)
-    return title, ('<div>' + '\n'.join(content_lines) + '</div>').replace('\n', '').replace('<br><br>', '<br>')
+
+    text1 = f"<div>{'\n'.join(content_lines)}</div>"
+    res = text1.replace('\n', '').replace('<br><br>', '<br>')
+
+    return title, res
 
 
 def clean_email_text(email_text_content):
@@ -106,7 +115,11 @@ def clean_email_text(email_text_content):
                         content_lines = content_lines[:-1]  # last line before quote is usually "XXX wrote:" or spacer.
                     break
                 content_lines.append(line + '<br>')
-    return title, '<div>' + sanitize_no_html_text('\n'.join(content_lines)) + '</div>'
+
+    text1 = sanitize_no_html_text('\n'.join(content_lines))
+    res = f"<div>{text1}</div>"
+
+    return title, res
 
 
 def get_cleaned_email(parsed_email):
@@ -115,11 +128,20 @@ def get_cleaned_email(parsed_email):
     if not text_part and not html_part:
         return None, None
     if text_part:
-        return clean_email_text(text_part)
-    return clean_email_html(html_part)
+        res = clean_email_text(text_part)
+    else:
+        res = clean_email_html(html_part)
 
 
-def processIncomingMail(parsed_email):
+    # TODO strip out signature
+    res2, signature = extract_signature(res)
+
+
+    return res2
+
+
+# TODO rename to 'process_incoming_email'
+def process_incoming_mail(parsed_email):
     from_email = parsed_email.from_
     found_users = UserModel.emailIndex.query(from_email[0][1])
     user = None
@@ -133,18 +155,20 @@ def processIncomingMail(parsed_email):
     title, content = get_cleaned_email(parsed_email)
     if title is None:
         return  # may be send notification about error?
+
     idea.content = content
     idea.title = title
     idea.authorName = user.name
     idea.authorSlug = user.slug
     idea.authorAvatar = user.avatar
     idea.createdDate = datetime.now()
-    idea.visibility = 'PUBLIC'
+    idea.visibility = PUBLIC_VISIBILITY
     idea_date_str = parsed_email.subject.split('[Daily Idea] Idea for ', 1)[1]
     idea.ideaDate = datetime.strptime(idea_date_str, '%a %b %d %Y')
     idea.likesCount = 0
     idea.commentsCount = 0
     idea.save()
+
     return idea
 
 
@@ -160,7 +184,7 @@ def endpoint(event, context):
         data = s3.get_object(Bucket=SES_S3_BUCKET_NAME, Key=mail_message_id)
         raw_email = data['Body'].read()
         parsed_email = mailparser.parse_from_string(raw_email.decode('utf-8'))
-        idea = processIncomingMail(parsed_email)
+        idea = process_incoming_mail(parsed_email)
         send_confirmation(parsed_email.from_[0][1], idea, f"Re: {parsed_email.subject}")
     except Exception as e:
         print(e)
