@@ -96,6 +96,9 @@ def clean_email_html(email_html_content):
 
     text1 = f"<div>{'\n'.join(content_lines)}</div>"
     res = text1.replace('\n', '').replace('<br><br>', '<br>')
+    
+    # FIX take into account: <br >, <br />
+
 
     return title, res
 
@@ -127,17 +130,25 @@ def get_cleaned_email(parsed_email):
     html_part = parsed_email.text_html[0] if parsed_email.text_html else None
     if not text_part and not html_part:
         return None, None
+
+    body = None
     if text_part:
-        res = clean_email_text(text_part)
+        body = clean_email_text(text_part)
     else:
-        res = clean_email_html(html_part)
+        body = clean_email_html(html_part)
 
 
-    # TODO strip out signature
-    res2, signature = extract_signature(res)
+    body2, signature = extract_signature(body)
+    print(f"striped out signature in the email: {signature}")
+
+    # TODO optionally: if signature == None which may be 
+    # because it's not been recognized, apply additionally:
+
+    # from talon import signature
+    # body3, signature = signature.extract(body2, sender='senders_email@example.com')
 
 
-    return res2
+    return body2
 
 
 # TODO rename to 'process_incoming_email'
@@ -174,7 +185,7 @@ def process_incoming_mail(parsed_email):
 
 def endpoint(event, context):
     if 'ses' not in event['Records'][0]:
-        print('this was not an SES event.  event["Records"][0]["ses"] not found')
+        print('this was not an SES event. event["Records"][0]["ses"] not found')
         return
     ses_notification = event['Records'][0]['ses']
     mail_message_id = ses_notification['mail']['messageId']
