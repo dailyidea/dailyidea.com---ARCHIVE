@@ -67,6 +67,7 @@ def clean_email_html(email_html_content):
         .replace('</P>', '</p>')
         .replace('<P>', '<p>')
 
+        # FIX take into account: <br >, <br /> --> with a whitespace
         .replace('<br/>', '<br>')
         .replace('<BR/>', '<br>')
         .replace('<BR>', '<br>')
@@ -96,8 +97,8 @@ def clean_email_html(email_html_content):
 
     text1 = f"<div>{'\n'.join(content_lines)}</div>"
     res = text1.replace('\n', '').replace('<br><br>', '<br>')
-    
-    # FIX take into account: <br >, <br />
+
+    # FIX take into account: <br >, <br /> --> with a whitespace
 
 
     return title, res
