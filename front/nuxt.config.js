@@ -144,6 +144,7 @@ module.exports = {
       : undefined,
     cache: true,
     modern: true,
+    sourceMap: true,
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
@@ -159,6 +160,8 @@ module.exports = {
 
   sentry: {
     dsn: process.env.SENTRY_DSN,
-    config: {}, // Additional config
+    webpackConfig: {
+      //TODO
+    }
   }
 }
