@@ -2,6 +2,7 @@ require('dotenv').config()
 // const { VuetifyProgressiveModule } = require('vuetify-loader')
 const path = require('path')
 const resolve = require('path').resolve; // eslint-disable-line
+const SentryPlugin = require("@sentry/webpack-plugin");
 module.exports = {
   mode: 'universal',
 
@@ -145,6 +146,12 @@ module.exports = {
     cache: true,
     modern: true,
     sourceMap: true,
+    plugins: [
+      new SentryPlugin({
+        release: (process.env.STAGE === 'prod'),
+        include: "./dist",
+      })
+    ],
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
@@ -152,16 +159,13 @@ module.exports = {
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          include: path.join(__dirname)
+          include: path.join(__dirname),
         })
       }
     }
   },
-
   sentry: {
     dsn: process.env.SENTRY_DSN,
-    webpackConfig: {
-      //TODO
-    }
+    release: (process.env.STAGE === 'prod'),
   }
 }

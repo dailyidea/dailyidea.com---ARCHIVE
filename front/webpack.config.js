@@ -13,5 +13,5 @@ module.exports = {
       assets: resolve(__dirname, 'assets')
       // your aliases go here.
     }
-  }
+  },
 }
