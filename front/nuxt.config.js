@@ -146,12 +146,6 @@ module.exports = {
     cache: true,
     modern: true,
     sourceMap: true,
-    plugins: [
-      new SentryPlugin({
-        release: (process.env.STAGE === 'prod'),
-        include: "./dist",
-      })
-    ],
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
@@ -167,5 +161,6 @@ module.exports = {
   sentry: {
     dsn: process.env.SENTRY_DSN,
     release: (process.env.STAGE === 'prod'),
+    publishRelease: true,
   }
 }
