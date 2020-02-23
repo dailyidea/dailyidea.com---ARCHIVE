@@ -2,7 +2,7 @@ require('dotenv').config()
 // const { VuetifyProgressiveModule } = require('vuetify-loader')
 const path = require('path')
 const resolve = require('path').resolve; // eslint-disable-line
-const SentryPlugin = require("@sentry/webpack-plugin");
+
 module.exports = {
   mode: 'universal',
 
