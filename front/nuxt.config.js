@@ -2,6 +2,7 @@ require('dotenv').config()
 // const { VuetifyProgressiveModule } = require('vuetify-loader')
 const path = require('path')
 const resolve = require('path').resolve; // eslint-disable-line
+
 module.exports = {
   mode: 'universal',
 
@@ -67,14 +68,15 @@ module.exports = {
 
   /*
    ** Nuxt.js modules
-   */
+  */
   modules: [
     [
       '@nuxtjs/dotenv',
       { path: resolve(__dirname, 'conf'), filename: process.env.STAGE + '.env' }
     ],
     '@nuxtjs/vuetify',
-    'nuxt-universal-storage'
+    'nuxt-universal-storage',
+    '@nuxtjs/sentry'
   ],
 
   vuetify: {
@@ -143,6 +145,7 @@ module.exports = {
       : undefined,
     cache: true,
     modern: true,
+    sourceMap: true,
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
@@ -150,9 +153,13 @@ module.exports = {
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          include: path.join(__dirname)
+          include: path.join(__dirname),
         })
       }
     }
+  },
+  sentry: {
+    release: (process.env.STAGE === 'prod'),
+    publishRelease: true,
   }
 }
