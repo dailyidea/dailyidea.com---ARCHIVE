@@ -72,7 +72,6 @@
         flat
         height="64"
         hide-details
-        :disabled="!isAuthenticated"
         solo
         @keydown.enter="sendComment"
       >
