@@ -16,6 +16,7 @@ SES_S3_BUCKET_NAME = os.environ['SES_S3_BUCKET_NAME']
 MAILBOX_ADDR = os.environ['MAILBOX_ADDR']
 BASE_SITE_URL = f"https://{os.environ['DOMAIN_NAME']}/"
 PUBLIC_VISIBILITY = 'PUBLIC'
+NEW_TEXT_LINE = '\n'
 
 s3 = boto3.client('s3')
 ses = boto3.client('ses', region_name=AWS_REGION)
@@ -95,9 +96,8 @@ def clean_email_html(email_html_content):
                     break
                 content_lines.append(line)
 
-    text1 = f"<div>{'\n'.join(content_lines)}</div>"
-    res = text1.replace('\n', '').replace('<br><br>', '<br>')
-
+    text1 = f"<div>{NEW_TEXT_LINE.join(content_lines)}</div>"
+    res = text1.replace(NEW_TEXT_LINE, '').replace('<br><br>', '<br>')
     # FIX take into account: <br >, <br /> --> with a whitespace
 
 
@@ -120,7 +120,7 @@ def clean_email_text(email_text_content):
                     break
                 content_lines.append(line + '<br>')
 
-    text1 = sanitize_no_html_text('\n'.join(content_lines))
+    text1 = sanitize_no_html_text(NEW_TEXT_LINE.join(content_lines))
     res = f"<div>{text1}</div>"
 
     return title, res
