@@ -110,10 +110,6 @@ export default {
     idea: {
       type: Object,
       required: true
-    },
-    commentsDeletable: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
