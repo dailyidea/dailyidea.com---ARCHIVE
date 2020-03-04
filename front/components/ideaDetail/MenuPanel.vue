@@ -72,10 +72,10 @@
 
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
-import makeIdeaPrivate from '~/graphql/mutations/makeIdeaPrivate'
-import makeIdeaPublic from '~/graphql/mutations/makeIdeaPublic'
 import ShareIdeaByEmailDialog from '@/components/dialogs/shareIdeaByEmail'
 import SaveIdeaBookmark from '@/components/ideaDetail/SaveIdeaBookmark'
+import makeIdeaPrivate from '~/graphql/mutations/makeIdeaPrivate'
+import makeIdeaPublic from '~/graphql/mutations/makeIdeaPublic'
 import makeIdeaPrivateDialog from '~/components/dialogs/makeIdeaPrivateDialog'
 import makeIdeaPublicDialog from '~/components/dialogs/makeIdeaPublicDialog'
 

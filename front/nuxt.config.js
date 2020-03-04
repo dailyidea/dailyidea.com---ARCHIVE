@@ -1,8 +1,5 @@
-require('dotenv').config()
 // const { VuetifyProgressiveModule } = require('vuetify-loader')
 const path = require('path')
-const resolve = require('path').resolve; // eslint-disable-line
-
 module.exports = {
   mode: 'universal',
 
@@ -68,12 +65,8 @@ module.exports = {
 
   /*
    ** Nuxt.js modules
-  */
+   */
   modules: [
-    [
-      '@nuxtjs/dotenv',
-      { path: resolve(__dirname, 'conf'), filename: process.env.STAGE + '.env' }
-    ],
     '@nuxtjs/vuetify',
     'nuxt-universal-storage',
     '@nuxtjs/sentry'
@@ -153,13 +146,23 @@ module.exports = {
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          include: path.join(__dirname),
+          include: path.join(__dirname)
         })
       }
     }
   },
   sentry: {
-    release: (process.env.STAGE === 'prod'),
-    publishRelease: true,
+    release: process.env.STAGE === 'prod',
+    publishRelease: !!parseInt(process.env.SENTRY_PUBLISH_RELEASE)
+  },
+  env: {
+    NODE_ENV: process.env.NODE_ENV,
+    COGNITO_POOL_ID: process.env.COGNITO_POOL_ID,
+    COGNITO_IDENTITY_POOL_ID: process.env.COGNITO_IDENTITY_POOL_ID,
+    COGNITO_POOL_WEB_CLIENT_ID: process.env.COGNITO_POOL_WEB_CLIENT_ID,
+    AWS_REGION: process.env.AWS_REGION,
+    APPSYNC_ENDPOINT: process.env.APPSYNC_ENDPOINT,
+    APPSYNC_API_KEY: process.env.APPSYNC_API_KEY,
+    REQUEST_LOGIN_ENDPOINT: process.env.REQUEST_LOGIN_ENDPOINT
   }
 }

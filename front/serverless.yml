@@ -6,7 +6,7 @@ provider:
   stage: ${env:STAGE}
   region: ${env:AWS_REGION, 'us-east-1'} # Edit region name
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
-  certificateName: '*.dailyidea.com' # TODO https://github.com/serverless/serverless/issues/4959
+  certificateName: ${env:CERTIFICATE_NAME, '*.dailyidea.com'} # TODO https://github.com/serverless/serverless/issues/4959
   allowedOrigin: '*'
   bucketName: dailyidea-serverless-${env:STAGE}
   environment:

@@ -5,7 +5,8 @@
   "author": "aldarund",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "env-cmd -f ./conf/local.env nuxt",
+    "build-local": "env-cmd -f ./conf/local.env nuxt build",
     "build-prod": "env-cmd -f ./conf/prod.env nuxt build",
     "build-dev": "env-cmd -f ./conf/dev.env nuxt build",
     "start": "nuxt start",
@@ -23,7 +24,7 @@
     "@aws-amplify/auth": "1.4.2",
     "@aws-amplify/core": "1.2.2",
     "@fortawesome/fontawesome-free": "^5.9.0",
-    "@nuxtjs/dotenv": "1.4.0",
+    "@nuxtjs/sentry": "3.2.4",
     "@nuxtjs/vuetify": "1.9.0",
     "dayjs": "^1.8.15",
     "nanoid": "^2.1.6",
@@ -37,14 +38,12 @@
     "vue-advanced-cropper": "^0.16.0",
     "vue-notifications": "1.0.2",
     "vue-snotify": "3.2.1",
-    "vue-trix": "^0.9.0",
-    "@nuxtjs/sentry": "3.2.4"
+    "vue-trix": "^0.9.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "1.1.2",
     "@vue/eslint-config-prettier": "5.0.0",
     "babel-eslint": "10.0.3",
-    "cross-env": "5.2.0",
     "env-cmd": "9.0.2",
     "eslint": "6.6.0",
     "eslint-config-standard": "14.1.0",

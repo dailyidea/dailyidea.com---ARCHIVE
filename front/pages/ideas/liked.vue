@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import getLikedIdeas from '~/graphql/query/getLikedIdeas'
 import ideasListPage from '@/components/ideasList/ideasListPage'
 import loadIdeas from '@/components/ideasList/loadIdeas'
+import getLikedIdeas from '~/graphql/query/getLikedIdeas'
 
 export default {
   components: { ideasListPage },

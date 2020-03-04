@@ -13,9 +13,9 @@
 </template>
 
 <script>
-import getUsersIdeas from '~/graphql/query/getUsersIdeas'
 import ideasListPage from '@/components/ideasList/ideasListPage'
 import loadIdeas from '@/components/ideasList/loadIdeas'
+import getUsersIdeas from '~/graphql/query/getUsersIdeas'
 
 export default {
   components: { ideasListPage },
