@@ -16,7 +16,7 @@ custom:
 #      inMemory: true
 #      migrate: true
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
-  mailBucket: dailyidea-ses-${env:STAGE}
+  mailBucket: dailyidea-ses-${self:provider.stage}
   ideasMailBox: ${env:IDEAS_MAILBOX, 'ideas-dev'}
   localstack:
     host: http://localhost
@@ -45,6 +45,9 @@ custom:
 functions:
   processIncomingMail:
     handler: process_incoming_mail.endpoint
+    role: LambdaProcessIncomingMailFunctionRole
+    environment:
+      SES_S3_BUCKET_NAME: dailyidea-ses-${env:ACTIVE_SES_RULE_SET_STAGE}
   sendDailyToUser:
     handler: request_daily_idea_user.endpoint
     environment:
@@ -97,7 +100,6 @@ provider:
   weeklyDigestEmailTemplateName: weeklyDigestEmailTemplate-${self:provider.stage}
   environment:
     AWS_DEPLOY_REGION: ${self:provider.region}
-    SES_S3_BUCKET_NAME: ${self:custom.mailBucket}
     MAILBOX_ADDR: ${env:MAILBOX, 'ideas@beta.dailyidea.com'}
     DOMAIN_NAME: ${self:custom.domainName}
     SES_AWS_REGION: ${self:provider.region}
@@ -141,17 +143,6 @@ provider:
               - 'table/${self:custom.ideasTableName}/index/*'
     - Effect: Allow
       Action:
-        - s3:GetObject
-      Resource:
-        Fn::Join:
-          - ""
-          -
-            - "arn:aws:s3:::"
-            -
-              Ref: SesEmailStorageS3Bucket
-            - "/*"
-    - Effect: Allow
-      Action:
         - ses:SendEmail
         - ses:SendBulkTemplatedEmail
       Resource: "*"
@@ -159,4 +150,5 @@ resources:
   - ${file(resources/dynamo-idea-table.yml)}
   - ${file(resources/ses.yml)}
   - ${file(resources/s3.yml)}
+  - ${file(resources/process-incoming-mail-function-role.yml)}
 

@@ -21,6 +21,7 @@ s3 = boto3.client('s3')
 ses = boto3.client('ses', region_name=AWS_REGION)
 talon.init()
 
+
 # TODO rename file to 'email_processor' or 'email_worker'
 # or 'incoming_email'
 
@@ -30,6 +31,7 @@ def sanitize_title(raw_text):
     return bleach.clean(raw_text,
                         tags=[],
                         strip_comments=True, strip=True)
+
 
 def sanitize_no_html_text(raw_text):
     if not raw_text or not len(raw_text):
@@ -51,6 +53,23 @@ def sanitize_idea_content(content):
                         attributes={'a': ['href']}, strip_comments=True, strip=True)
 
 
+def normalize_email_tags(raw_email_html_content):
+    email_html_content = raw_email_html_content \
+        .replace('<DIV>', '<div>') \
+        .replace('</DIV>', '</div>') \
+        .replace('</P>', '</p>') \
+        .replace('<P>', '<p>')
+    br_variations = ('<br/>', '<br />', '<BR/>', '<BR />', '<BR>', '<BR >', '<br >',)
+    for br_variation in br_variations:
+        email_html_content = email_html_content.replace(br_variation, '<br>')
+    email_html_content = email_html_content.replace('<div>', '<br>') \
+        .replace('</div>', '<br>') \
+        .replace('<p>', '<br>') \
+        .replace('</p>', '<br>') \
+        .replace('<br>', '<br>\n')
+    return email_html_content
+
+
 def clean_email_html(email_html_content):
     """ Email clients have various tags case and ways to split lines.
     1) lowering tags case
@@ -61,23 +80,7 @@ def clean_email_html(email_html_content):
     6) pack into div for compatibility with trix editor
     """
     text_like_html = sanitize_idea_content(
-        email_html_content
-        .replace('<DIV>', '<div>')
-        .replace('</DIV>', '</div>')
-        .replace('</P>', '</p>')
-        .replace('<P>', '<p>')
-
-        # FIX take into account: <br >, <br /> --> with a whitespace
-        .replace('<br/>', '<br>')
-        .replace('<BR/>', '<br>')
-        .replace('<BR>', '<br>')
-
-        .replace('<div>', '<br>')
-        .replace('<div>', '')
-        .replace('</div>', '<br>')
-        .replace('<p>', '')
-        .replace('</p>', '<br>')
-        .replace('<br>', '<br>\n')
+        normalize_email_tags(email_html_content)
     )
     raw_content_lines = text_like_html.splitlines()
     content_lines = []
@@ -95,11 +98,8 @@ def clean_email_html(email_html_content):
                     break
                 content_lines.append(line)
 
-    text1 = f"<div>{'\n'.join(content_lines)}</div>"
+    text1 = "<div>{}</div>".format('\n'.join(content_lines))
     res = text1.replace('\n', '').replace('<br><br>', '<br>')
-
-    # FIX take into account: <br >, <br /> --> with a whitespace
-
 
     return title, res
 
@@ -138,7 +138,6 @@ def get_cleaned_email(parsed_email):
     else:
         body = clean_email_html(html_part)
 
-
     body2, signature = extract_signature(body)
     print(f"striped out signature in the email: {signature}")
 
@@ -147,7 +146,6 @@ def get_cleaned_email(parsed_email):
 
     # from talon import signature
     # body3, signature = signature.extract(body2, sender='senders_email@example.com')
-
 
     return body2
 

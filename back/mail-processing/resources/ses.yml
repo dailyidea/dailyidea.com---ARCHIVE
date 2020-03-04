@@ -10,28 +10,50 @@ Resources:
     Properties:
       RuleSetName: DailyIdeaSesReceiverRuleSet-${self:provider.stage}
 
-  DailyIdeaSesReceiverRule:
+  DailyIdeaSesReceiverRuleProd:
     Type: AWS::SES::ReceiptRule
     Properties:
-      # determine whether to use existing or newly created rule set.
-      # https://amzn.to/2NGKRVl
-      # RuleSetName: !If [CreateNewSesRuleset, !Ref DailyIdeaSesReceiverRuleSet, !Ref ExistingSesRulesetName]
       RuleSetName:
         Ref: DailyIdeaSesReceiverRuleSet
       Rule:
-        Name: ReceiptRule
+        Name: ReceiptRuleProd
         Recipients:
-          - ${self:custom.ideasMailBox}@${self:custom.domainName}
+          - ${env:PROD_MAILBOX}
         Enabled: true
         Actions:
-        - S3Action:
-            BucketName:
-              Ref: SesEmailStorageS3Bucket
-        - LambdaAction:
-            FunctionArn:
-              Fn::GetAtt:
-                - ProcessIncomingMailLambdaFunction
-                - Arn
+          - S3Action:
+              BucketName:
+                Ref: SesEmailStorageS3Bucket
+          - LambdaAction:
+              FunctionArn:
+                Fn::Join:
+                  - ':'
+                  - - 'arn:aws:lambda'
+                    - Ref: 'AWS::Region'
+                    - Ref: 'AWS::AccountId'
+                    - 'function:dailyidea-mail-processing-prod-processIncomingMail'
+  DailyIdeaSesReceiverRuleDev:
+    Type: AWS::SES::ReceiptRule
+    Properties:
+      RuleSetName:
+        Ref: DailyIdeaSesReceiverRuleSet
+      Rule:
+        Name: ReceiptRuleDev
+        Recipients:
+          - ${env:DEV_MAILBOX}
+        Enabled: true
+        Actions:
+          - S3Action:
+              BucketName:
+                Ref: SesEmailStorageS3Bucket
+          - LambdaAction:
+              FunctionArn:
+                Fn::Join:
+                  - ':'
+                  - - 'arn:aws:lambda'
+                    - Ref: 'AWS::Region'
+                    - Ref: 'AWS::AccountId'
+                    - 'function:dailyidea-mail-processing-dev-processIncomingMail'
 
   DailyIdeaRequestTemplate:
     Type: AWS::SES::Template
@@ -66,6 +88,7 @@ Resources:
         Statement:
         - Action:
           - "s3:PutObject"
+          - "s3:GetObject"
           Effect: "Allow"
           Resource:
             Fn::Join:
