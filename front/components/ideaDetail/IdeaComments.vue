@@ -51,7 +51,6 @@
             <idea-comments-comment
               v-for="comment in commentList"
               :key="comment.commentId"
-              :deletable="commentsDeletable"
               :comment="comment"
               @onDeleteComment="onDeleteComment"
             ></idea-comments-comment>
@@ -111,10 +110,6 @@ export default {
     idea: {
       type: Object,
       required: true
-    },
-    commentsDeletable: {
-      type: Boolean,
-      default: false
     }
   },
   data() {

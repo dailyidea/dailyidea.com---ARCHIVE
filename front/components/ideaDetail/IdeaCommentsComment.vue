@@ -42,10 +42,24 @@ export default {
     comment: {
       type: Object,
       required: true
-    },
-    deletable: {
-      type: Boolean,
-      default: false
+    }
+  },
+  computed: {
+    deletable() {
+      const currUsrId = this.$store.getters['userData/userId']
+      if (currUsrId === undefined) {
+        return false
+      }
+
+      const commentUsrId = this.comment.userId
+      if (commentUsrId === undefined) {
+        return false
+      }
+
+      // I can delete all the comments from my own ideas
+      // and any user can delete their own comments from any idea too
+      const isMyIdea = currUsrId === this.$route.params.userId
+      return isMyIdea || (currUsrId === commentUsrId)
     }
   },
   methods: {
