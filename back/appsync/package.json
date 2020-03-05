@@ -7,8 +7,8 @@
   },
   "scripts": {
     "start": "yarn dynamodb-generate-seed-data && serverless dynamodb install && serverless offline start",
-    "sls:deploy-dev": "env-cmd -f ./env/dev.env sls deploy",
-    "sls:deploy-prod": "env-cmd -f ./env/prod.env sls deploy"
+    "sls:deploy-dev": "env-cmd -f ./conf/dev.env sls deploy",
+    "sls:deploy-prod": "env-cmd -f ./conf/prod.env sls deploy"
   },
   "dependencies": {
     "aws-sdk": "^2.521.0",
