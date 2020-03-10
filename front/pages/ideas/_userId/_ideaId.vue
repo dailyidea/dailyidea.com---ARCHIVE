@@ -130,7 +130,6 @@
         <client-only>
           <idea-comments
             :idea="idea"
-            :comments-deletable="isMyIdea"
             @onNotification="onNotification"
           ></idea-comments>
         </client-only>
