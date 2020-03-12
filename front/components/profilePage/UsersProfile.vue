@@ -213,10 +213,10 @@
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 
+import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
 import Layout from '@/components/layout/Layout'
 import updateProfileInfo from '@/graphql/mutations/updateProfileInfo'
 import IdeasListIdea from '@/components/ideasList/ideasListIdea'
-import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
 import VisualNotifier from '~/components/VisualNotifier'
 import uploadAvatar from '~/graphql/mutations/uploadAvatar'
 
