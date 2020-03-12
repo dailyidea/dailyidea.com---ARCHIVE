@@ -50,7 +50,7 @@
                     >
                   </template>
                   <span
-                    >Click to update your name, bio, or interested in tags</span
+                    >Click to update your name or bio</span
                   >
                 </v-tooltip>
               </span>
