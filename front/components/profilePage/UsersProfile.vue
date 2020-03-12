@@ -49,8 +49,7 @@
                       >mdi-pencil</v-icon
                     >
                   </template>
-                  <span>Click to update your name or bio</span
-                  >
+                  <span>Click to update your name or bio</span>
                 </v-tooltip>
               </span>
             </div>
