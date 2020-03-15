@@ -37,8 +37,6 @@
         }"
       >
         <div v-text="message">
-          We are currently checking your credentials. You will be forwarded to
-          Ideas page shortly...
         </div>
         <div v-if="errorOccurred" class="">
           <a href="/auth/login" @click.stop.prevent="goToLogin"
