@@ -331,9 +331,7 @@ export default {
     enableEditMode() {
       this.editData.name = this.profileData.name
       this.editData.bio = this.profileData.bio
-      this.editData.interestedInTags = this.profileData.interestedInTags.map(
-        t => t
-      )
+      this.editData.interestedInTags = this.profileData.interestedInTags
       this.editMode = true
     },
     disableEditMode() {
