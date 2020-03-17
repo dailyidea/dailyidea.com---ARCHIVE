@@ -10,6 +10,7 @@
               @enableEditMode="enableEditMode"
               @savedStateChanged="onIdeaSaveStateChanged"
               @onNotification="onNotification"
+              @onIdeaShared="onIdeaShared"
               @onDeleteIdea="onDeleteIdea"
               @onIdeaVisibilityChanged="onIdeaVisibilityChanged"
               @onIdeaVisibilityChangeError="onIdeaVisibilityChangeError"
@@ -137,6 +138,9 @@
     </v-row>
     <visual-notifier ref="notifier"></visual-notifier>
     <simple-dialog-popup ref="simpleDialogPopup"></simple-dialog-popup>
+    <register-encourage-dialog
+      ref="registerEncourageDialog"
+    ></register-encourage-dialog>
   </layout>
 </template>
 
@@ -154,6 +158,7 @@ import updateIdea from '~/graphql/mutations/updateIdea'
 import VisualNotifier from '~/components/VisualNotifier'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
 import simpleDialogPopup from '~/components/dialogs/simpleDialogPopup'
+import registerEncourageDialog from '~/components/dialogs/registerEncourageDialog'
 import IdeaContent from '~/components/IdeaContent'
 
 export default {
@@ -164,6 +169,7 @@ export default {
     TrixWrapper,
     VisualNotifier,
     simpleDialogPopup,
+    registerEncourageDialog,
     IdeaContent
   },
   $_veeValidate: {
@@ -205,6 +211,16 @@ export default {
     this.loadSecondaryData()
   },
   methods: {
+    showRegisterEncourageDialog() {
+      this.$refs.registerEncourageDialog.show()
+    },
+    onIdeaShared() {
+      if (!this.$store.getters['cognito/isLoggedIn']) {
+        setTimeout(() => {
+          this.showRegisterEncourageDialog()
+        }, 1000)
+      }
+    },
     onNotification({ type, message }) {
       this.$refs.notifier[type](message)
     },

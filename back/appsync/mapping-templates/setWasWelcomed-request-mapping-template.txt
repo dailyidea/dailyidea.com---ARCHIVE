@@ -1,0 +1,16 @@
+{
+    "version" : "2017-02-28",
+    "operation" : "UpdateItem",
+    "key": {
+        "userId" : { "S" : "${ctx.identity.username}" },
+    },
+    "update" : {
+        "expression" : "SET #welcomedfield = :true",
+        "expressionNames" : {
+           "#welcomedfield" : "wasWelcomed"
+        },
+        "expressionValues" : {
+            ":true" : { "BOOL" : true }
+        }
+    },
+}

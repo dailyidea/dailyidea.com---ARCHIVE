@@ -36,8 +36,11 @@ functions:
     warmup:
       enabled: true
     package:
+      individually: true
       exclude:
         - src/**
+        - pages/**
+        - assets/**
         - tests/**
         - .nuxt/dist/client/*.js.map
         - node_modules/.cache/**

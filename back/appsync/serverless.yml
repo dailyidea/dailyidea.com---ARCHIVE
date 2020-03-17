@@ -153,6 +153,11 @@ custom:
         request: "meInfo-request-mapping-template.txt"
         response: "meInfo-response-mapping-template.txt"
       - dataSource: Users
+        type: Mutation
+        field: setWasWelcomed
+        request: "setWasWelcomed-request-mapping-template.txt"
+        response: "setWasWelcomed-response-mapping-template.txt"
+      - dataSource: Users
         type: Query
         field: getEmailNotificationsSettings
         request: "getEmailNotificationsSettings-request-mapping-template.txt"

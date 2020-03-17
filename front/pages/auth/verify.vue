@@ -36,10 +36,7 @@
           'has-success': !errorOccurred && authCompleted
         }"
       >
-        <div v-text="message">
-          We are currently checking your credentials. You will be forwarded to
-          Ideas page shortly...
-        </div>
+        <div v-text="message"></div>
         <div v-if="errorOccurred" class="">
           <a href="/auth/login" @click.stop.prevent="goToLogin"
             >Back to Log In Page</a
@@ -77,19 +74,28 @@ export default {
         this.progressBarActive = true
         this.progressBarUndetermined = true
         const user = await this.$store.dispatch('cognito/signInUser', {
-          username: this.$route.query.email
+          username: this.$route.query.email.toLowerCase()
         })
         await this.$store.dispatch('cognito/answerCustomChallenge', {
           user,
           answer: this.$route.query.code
         })
         await this.$store.commit('userData/setUserIsAuthenticated')
-        this.$store.dispatch('userData/fetchUserData', {})
+        const userData = await this.$store.dispatch(
+          'userData/fetchUserData',
+          {}
+        )
+
         this.progressBarActive = false
         this.progressBarUndetermined = false
         this.authCompleted = true
-        this.message = "Success! We're redirecting to your dashboard."
-        this.$router.replace('/ideas/me')
+        if (!userData.wasWelcomed) {
+          this.message = 'Success! You have been successfully registered.'
+          this.$router.replace('/auth/welcome')
+        } else {
+          this.message = "Success! We're redirecting to your dashboard."
+          this.$router.replace('/ideas/me')
+        }
       } catch (e) {
         this.progressBarActive = false
         this.message = e.message + ' Try again Please.'

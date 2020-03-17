@@ -61,7 +61,9 @@
                     <strong>{{ idea.title }}</strong>
                   </div>
                   <div>
-                    <idea-content :content="idea.content"></idea-content>
+                    <idea-content
+                      :content="getTruncatedIdeaContent(idea)"
+                    ></idea-content>
                   </div>
                   <!-- User Icon -->
                   <div class="reviews__review__info">
@@ -174,6 +176,7 @@
 </template>
 
 <script>
+import clip from 'text-clipper'
 import Layout from '@/components/layout/Layout'
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
 import IdeaContent from '~/components/IdeaContent'
@@ -209,6 +212,13 @@ export default {
   },
   created() {},
   methods: {
+    getTruncatedIdeaContent(idea) {
+      return clip(idea.content, 250, {
+        html: true,
+        maxLines: 8,
+        indicator: '... (see more)'
+      })
+    },
     onIdeaClick(idea) {
       this.$router.push({
         name: 'ideas-userId-ideaId',

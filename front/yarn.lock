@@ -9801,6 +9801,11 @@ terser@^4.1.2, terser@^4.4.3:
     source-map "~0.6.1"
     source-map-support "~0.5.12"
 
+text-clipper@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/text-clipper/-/text-clipper-1.3.0.tgz#9cdda9a36f955b3600d73dfffd7487143aac890f"
+  integrity sha512-6MjWFsTsXI8VyqqpGxTkb7685IPUInyJzG8sNhHHD2xbrnwv9xENQg5dAAabaFLIUa1QXDtRd406HYTauM010Q==
+
 text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"

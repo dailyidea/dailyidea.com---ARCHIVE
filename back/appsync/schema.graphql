@@ -47,6 +47,10 @@ type Mutation {
 	    userId: String!
     ): Result!
 
+	setWasWelcomed(
+		userId: String!
+	): Result!
+
 	unfollowUser(
 	    userId: String!
     ): Result!
@@ -223,6 +227,7 @@ type MyInfo{
 	name: String!
 	email: String!
 	userId: String!
+	wasWelcomed: Boolean
 	slug: String
 	avatar: String
 }

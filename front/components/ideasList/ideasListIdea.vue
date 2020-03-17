@@ -4,7 +4,7 @@
       {{ idea.title }}
     </div>
     <div class="idea-item__idea-content-row">
-      <idea-content :content="idea.content"></idea-content>
+      <idea-content :content="truncatedIdeaContent"></idea-content>
     </div>
     <div class="idea-item__idea-footer-row">
       <div class="idea-item__idea-footer-row__counters">
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import clip from 'text-clipper'
 import IdeaContent from '~/components/IdeaContent'
 export default {
   name: 'IdeasListIdea',
@@ -57,6 +58,15 @@ export default {
     showAuthor: {
       type: Boolean,
       default: false
+    }
+  },
+  computed: {
+    truncatedIdeaContent() {
+      return clip(this.idea.content, 340, {
+        html: true,
+        maxLines: 8,
+        indicator: '... (see more)'
+      })
     }
   },
   methods: {

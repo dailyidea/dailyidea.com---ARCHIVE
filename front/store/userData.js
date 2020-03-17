@@ -36,6 +36,7 @@ export const actions = {
     try {
       const { data } = await API.graphql(graphqlOperation(meInfo, {}))
       context.commit('setUserData', data.meInfo)
+      return data.meInfo
     } catch (e) {
       // eslint-disable-next-line
       console.log(e);

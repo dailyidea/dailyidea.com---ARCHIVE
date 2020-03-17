@@ -101,13 +101,13 @@ export default {
         }
 
         await this.$amplifyApi.post('RequestLogin', '', {
-          body: { email: this.email }
+          body: { email: this.email.toLowerCase() }
         })
 
         // Redirect to login success page
         this.$router.push({
           name: 'auth-login-success',
-          query: { email: this.email }
+          query: { email: this.email.toLowerCase() }
         })
       } catch (e) {
         this.logingUser = false

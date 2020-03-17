@@ -1,0 +1,5 @@
+Hi, it looks like you tried to submit an idea to Daily Idea from this email address: {{from_email}}
+
+We don't have an account with that email address, so we don't know where to save it.
+
+Please resend this idea from your account on Daily Idea or if you need to, you can create a new account by following this link: {{LOGIN_URL}}
