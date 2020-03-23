@@ -131,6 +131,7 @@
           <idea-comments
             :idea="idea"
             @onNotification="onNotification"
+            v-if="!editMode"
           ></idea-comments>
         </client-only>
       </v-col>
