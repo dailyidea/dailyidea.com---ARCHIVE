@@ -319,10 +319,41 @@ export default {
 <style lang="scss" scoped>
 .idea-name-field {
   font-size: 24px;
+
+
+/*todo */
+  .v-text-field__details {
+    padding: 0;
+  }
+  .v-input__slot {
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    label {
+      color: #c1b8c6;
+      font-size: 22px;
+    }
+  }
+
+
+
+
+  
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 .idea-part {
-  /*background-color: tan;*/
   @media (min-width: $screen-md-min) {
     min-height: calc(100vh - 88px);
   }
@@ -330,8 +361,6 @@ export default {
   position: relative;
 
   &__info {
-    /*margin-top: 10px;*/
-    /*padding: 0 5px;*/
     color: #c0b7c5;
     @media (min-width: $screen-sm-min) {
       margin: 30px 0;
@@ -361,6 +390,7 @@ export default {
       ::v-deep .trix-content {
         height: 240px;
         overflow-y: auto;
+        border: none;
       }
     }
   }
@@ -394,14 +424,11 @@ export default {
       }
 
       min-height: 50px;
-      /*background-color: #b98dd2;*/
       vertical-align: top;
     }
   }
 
   &__tags-panel {
-    /*border-top: 1px solid #ebe7ed;*/
-    /*padding-left: 10px;*/
     padding-right: 5px;
 
     .tagsContainer {
