@@ -4,7 +4,10 @@
       <v-col>
         <div class="profile-page">
           <div class="profile-page__header">
-            <v-tooltip top :disabled="!allowEdit">
+            <v-tooltip
+              :disabled="!allowEdit"
+              right
+            >
               <template v-slot:activator="{ on }">
                 <div
                   class="user-avatar__container"
@@ -18,7 +21,9 @@
                   </span>
                 </div>
               </template>
-              <span>Click to update your avatar</span>
+              <span>
+                  Click to update your avatar
+                </span>
             </v-tooltip>
 
             <!--            <v-btn icon height="60" width="60" color="#ebe7ed"><v-icon>fas fa-user</v-icon></v-btn>-->
