@@ -21,9 +21,7 @@
                   </span>
                 </div>
               </template>
-              <span>
-                  Click to update your avatar
-                </span>
+              <span>Click to update your avatar</span>
             </v-tooltip>
 
             <!--            <v-btn icon height="60" width="60" color="#ebe7ed"><v-icon>fas fa-user</v-icon></v-btn>-->
