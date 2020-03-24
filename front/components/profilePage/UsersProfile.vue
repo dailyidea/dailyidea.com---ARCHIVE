@@ -6,7 +6,7 @@
           <div class="profile-page__header">
             <v-tooltip
               :disabled="!allowEdit"
-              top
+              right
             >
               <template v-slot:activator="{ on }">
                 <div
@@ -426,9 +426,6 @@ export default {
 
   &__header {
     text-align: center;
-
-      padding-top: 30px;
-
 
     &__username {
       font-size: 22px;
