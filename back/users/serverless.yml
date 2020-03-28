@@ -7,6 +7,7 @@ provider:
   region: ${env:AWS_REGION, 'us-east-1'}
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
   emailStaticBucketName: dailyidea-serverless-email-static-${self:provider.stage}
+  userUploadsStaticBucketName: dailyidea-appsync-user-uploads-static-${self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:

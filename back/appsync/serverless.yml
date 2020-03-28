@@ -8,6 +8,7 @@ provider:
   region: ${env:AWS_REGION, 'us-east-1'}
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
   avatarsStaticBucketName: dailyidea-serverless-avatars-static-${self:provider.stage}
+  userUploadsBucketName: dailyidea-appsync-user-uploads-static-${self:provider.stage}
   avatarsStaticBucketURL: https://${self:provider.avatarsStaticBucketName}.s3.amazonaws.com
   environment:
     SES_AWS_REGION: ${self:provider.region}
@@ -661,3 +662,4 @@ resources:
   - ${file(resources/dynamo-comments-table.yml)}
   - ${file(resources/dynamo-following-table.yml)}
   - ${file(resources/s3-avatars.yml)}
+  - ${file(resources/s3-user-uploads.yml)}

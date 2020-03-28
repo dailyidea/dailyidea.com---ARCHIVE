@@ -40,6 +40,9 @@
               v-model="contents"
               class="editor"
               placeholder="Type your idea text"
+              :auto-delete-attachments="true"
+              @attachmentsUploadStarted="onAttachmentsUploadStarted"
+              @attachmentsUploadCompleted="onAttachmentsUploadCompleted"
             />
           </client-only>
         </div>
@@ -73,7 +76,12 @@
 
         <!-- Submit -->
         <div class="submitBtn">
-          <v-btn :loading="creatingIdea" @click="onCreateIdea">Submit</v-btn>
+          <v-btn
+            :loading="creatingIdea"
+            :disabled="!allowCreateIdea"
+            @click="onCreateIdea"
+            >Submit</v-btn
+          >
         </div>
       </div>
 
@@ -117,11 +125,23 @@ export default {
 
     snackbarVisible: false,
     snackbarMessage: '',
-    snackbarColor: 'success'
+    snackbarColor: 'success',
+    uploadingAttachment: false
   }),
+  computed: {
+    allowCreateIdea() {
+      return this.title && !this.uploadingAttachment
+    }
+  },
   created() {},
   mounted() {},
   methods: {
+    onAttachmentsUploadStarted() {
+      this.uploadingAttachment = true
+    },
+    onAttachmentsUploadCompleted() {
+      this.uploadingAttachment = false
+    },
     remove(item) {
       this.chips.splice(this.chips.indexOf(item), 1)
       this.chips = [...this.chips]

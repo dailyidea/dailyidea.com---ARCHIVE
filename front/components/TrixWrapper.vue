@@ -4,13 +4,30 @@
       v-model="value"
       class="editor"
       :placeholder="placeholder"
+      @trix-file-accept="checkFileAcceptance"
+      @trix-attachment-add="handleAttachmentAdd"
+      @trix-attachment-remove="handleAttachmentRemove"
       @input="input"
     />
+    <simple-dialog-popup ref="simple-dialog-popup"></simple-dialog-popup>
   </div>
 </template>
 
 <script>
+import Autolinker from 'autolinker'
+import { Credentials } from '@aws-amplify/core'
+import SimpleDialogPopup from '@/components/dialogs/simpleDialogPopup'
+
 const VueTrix = () => import('vue-trix')
+
+const MAX_ATTACHMENT_SIZE_BYTES = 1024 * 1024 * 100
+
+const BUCKET_URL = `https://${process.env.USER_UPLOADS_S3_DOMAIN}.s3.amazonaws.com/`
+
+function createStorageKey(file) {
+  const date = new Date()
+  return date.getTime() + '-' + file.name
+}
 
 function customizeTrixPanel(event) {
   const BUTTON_ACTIVE_CLASS = 'trix-active'
@@ -63,7 +80,7 @@ function customizeTrixPanel(event) {
 
 export default {
   name: 'TrixWrapper',
-  components: { VueTrix },
+  components: { SimpleDialogPopup, VueTrix },
   props: {
     value: {
       type: String,
@@ -72,8 +89,33 @@ export default {
     placeholder: {
       type: String,
       default: 'Enter content'
+    },
+    autoDeleteAttachments: {
+      type: Boolean,
+      default: false
     }
   },
+  data() {
+    return {
+      attachmentsProcessing: 0
+    }
+  },
+  computed: {
+    userId() {
+      return this.$store.getters['userData/userId']
+    }
+  },
+  watch: {
+    attachmentsProcessing(n, o) {
+      if (n > 0 && o === 0) {
+        this.$emit('attachmentsUploadStarted')
+      }
+      if (n === 0) {
+        this.$emit('attachmentsUploadCompleted')
+      }
+    }
+  },
+
   created() {
     addEventListener('trix-initialize', customizeTrixPanel)
   },
@@ -82,7 +124,62 @@ export default {
   },
   methods: {
     input(val) {
-      this.$emit('input', val)
+      this.$emit('input', Autolinker.link(val, { truncate: 30 }))
+    },
+    checkFileAcceptance(event) {
+      if (event.file) {
+        if (event.file.size > MAX_ATTACHMENT_SIZE_BYTES) {
+          this.$refs['simple-dialog-popup'].show(
+            'File too large',
+            'Max acceptable file size is 100Mb',
+            'OK',
+            null
+          )
+          event.preventDefault()
+        }
+      }
+    },
+    handleAttachmentAdd(event) {
+      const progressCallback = progressEvent => {
+        event.attachment.setUploadProgress(
+          Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        )
+      }
+      const successCallback = ({ key }) => {
+        Credentials.get().then(cr => {
+          const prefix = `${BUCKET_URL}protected/${cr.data.IdentityId}/`
+          event.attachment.setAttributes({
+            url: prefix + key,
+            href: prefix + key
+          })
+          this.attachmentsProcessing--
+        })
+      }
+      const uploadFileAttachment = attachment => {
+        this.attachmentsProcessing++
+        this.$amplifyS3Storage
+          .put(createStorageKey(attachment.file), attachment.file, {
+            contentType: attachment.file.type,
+            level: 'protected',
+            progressCallback
+          })
+          .then(successCallback)
+      }
+      uploadFileAttachment(event.attachment)
+    },
+    handleAttachmentRemove(event) {
+      if (!this.autoDeleteAttachments) {
+        return
+      }
+      const href = event.attachment.getAttributes().href
+      if (!href) {
+        return // not processed yet
+      }
+      const key = href.replace(BUCKET_URL, '')
+      this.attachmentsProcessing++
+      this.$amplifyS3Storage.remove(key).then(() => {
+        this.attachmentsProcessing--
+      })
     }
   }
 }
@@ -94,11 +191,13 @@ export default {
   .trix-button-group {
     border: none !important;
   }
+
   trix-toolbar {
     .trix-button--icon {
       width: 25px;
       height: 25px;
       margin: 0 3px;
+
       &:first-child {
         margin-left: 0;
       }
@@ -106,36 +205,51 @@ export default {
       border-radius: 3px;
     }
   }
+
+  trix-editor {
+    img {
+      height: auto !important;
+      width: auto !important;
+      max-width: 100%;
+      max-height: 400px;
+    }
+  }
+
   .trix-button {
     border-radius: 3px;
     line-height: 27px;
     transition: visibility 0.2s ease, background-color 0.2s ease,
       opacity 0.2s ease;
+
     &:not(#toggle-trix-panel) {
       visibility: hidden;
     }
   }
+
   .trix-button.trix-active {
     background-color: #ffbd27;
   }
+
   #toggle-trix-panel {
     font-size: 16px;
   }
-  .trix-button--icon-heading-1 {
-    display: none;
-  }
+
   .trix-button--icon-undo {
     display: none;
   }
+
   .trix-button--icon-redo {
     display: none;
   }
+
   .trix-button--icon-decrease-nesting-level {
     display: none;
   }
+
   .trix-button--icon-increase-nesting-level {
     display: none;
   }
+
   /*.trix-button-group--history-tools {*/
   /*  display: none;*/
   /*}*/

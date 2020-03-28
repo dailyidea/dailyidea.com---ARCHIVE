@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable vue/no-v-html -->
-  <div v-html="content"></div>
+  <div class="idea-content" v-html="content"></div>
 </template>
 
 <script>
@@ -15,4 +15,34 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.idea-content {
+  max-width: 100%;
+}
+.idea-content ::v-deep {
+  h1 {
+    font-size: 22px;
+    line-height: 25px;
+  }
+  textarea,
+  .trix-button {
+    display: none;
+  }
+  img {
+    height: auto !important;
+    width: auto !important;
+  }
+  @media (min-width: $screen-md-min) {
+    img {
+      max-height: 500px;
+      max-width: 80%;
+    }
+  }
+  @media (max-width: $screen-sm-max) {
+    img {
+      max-height: 400px;
+      max-width: 100%;
+    }
+  }
+}
+</style>

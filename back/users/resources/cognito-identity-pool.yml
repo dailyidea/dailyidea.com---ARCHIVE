@@ -86,6 +86,30 @@ Resources:
                   - "cognito-sync:*"
                   - "cognito-identity:*"
                 Resource: "*"
+              - Effect: "Allow"
+                Action:
+                  - "s3:GetObject"
+                  - "s3:PutObject"
+                  - "s3:DeleteObject"
+                Resource:
+                    - Fn::Join:
+                        - ''
+                        - - "arn:aws:s3:::${self:provider.userUploadsStaticBucketName}"
+                          - '/private/'
+                          - '$'
+                          - '{cognito-identity.amazonaws.com:sub}/*'
+                    - Fn::Join:
+                        - ''
+                        - - "arn:aws:s3:::${self:provider.userUploadsStaticBucketName}"
+                          - '/protected/'
+                          - '$'
+                          - '{cognito-identity.amazonaws.com:sub}/*'
+              - Effect: "Allow"
+                Resource:
+                  - "arn:aws:s3:::${self:provider.userUploadsStaticBucketName}/protected/*"
+                Action:
+                  - "s3:GetObject"
+
 #              - Effect: "Allow"
 #                Action:
 #                  - "lambda:InvokeFunction"
