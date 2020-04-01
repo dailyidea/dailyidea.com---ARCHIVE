@@ -11,5 +11,9 @@ query getUsersIdea($userId: String!, $ideaId: String!) {
     likesCount
     commentsCount
     visibility
+    
+    fileAttachments
+    imageAttachments
+    previewImage
   }
 }`

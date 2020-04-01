@@ -43,6 +43,8 @@
               :auto-delete-attachments="true"
               @attachmentsUploadStarted="onAttachmentsUploadStarted"
               @attachmentsUploadCompleted="onAttachmentsUploadCompleted"
+              @fileAttached="onFileAttached"
+              @fileRemoved="onFileRemoved"
             />
           </client-only>
         </div>
@@ -118,6 +120,8 @@ export default {
     },
     contents: '',
     title: '',
+    imageAttachments: [],
+    fileAttachments: [],
     creatingIdea: false,
     chips: [],
     // sjahj: true,
@@ -142,6 +146,18 @@ export default {
     onAttachmentsUploadCompleted() {
       this.uploadingAttachment = false
     },
+    onFileAttached({ type, key }) {
+      if (type.substr(0, 5) === 'image') {
+        this.imageAttachments.push(key)
+      }
+      this.fileAttachments.push(key)
+    },
+    onFileRemoved({ type, key }) {
+      if (type.substr(0, 5) === 'image') {
+        this.imageAttachments.splice(this.imageAttachments.indexOf(key), 1)
+      }
+      this.fileAttachments.splice(this.fileAttachments.indexOf(key), 1)
+    },
     remove(item) {
       this.chips.splice(this.chips.indexOf(item), 1)
       this.chips = [...this.chips]
@@ -160,7 +176,9 @@ export default {
           graphqlOperation(createIdea, {
             content: this.contents,
             title: this.title,
-            tags: this.chips
+            tags: this.chips,
+            fileAttachments: this.fileAttachments,
+            imageAttachments: this.imageAttachments
           })
         )
 

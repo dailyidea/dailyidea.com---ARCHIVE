@@ -4,7 +4,9 @@ type Mutation {
 		title: String!,
 		content: String,
 		isPrivate: Boolean,
-		tags: [String]
+		tags: [String],
+		imageAttachments: [String],
+		fileAttachments: [String],
 	): Idea!
 
 	deleteIdea(
@@ -20,7 +22,9 @@ type Mutation {
 	    ideaOwnerId: String!,
 		title: String!
 	    content: String,
-		tags:[String],
+		tags: [String],
+		imageAttachments: [String],
+		fileAttachments: [String],
     ): IdeaUpdateRusult!
 
 	addComment(
@@ -193,6 +197,10 @@ type Idea @aws_api_key @aws_cognito_user_pools {
 	likesCount: Int
 	commentsCount: Int
 	visibility: IdeaVisibilityState
+
+	imageAttachments: [String]
+	fileAttachments: [String]
+	previewImage: String
 }
 
 

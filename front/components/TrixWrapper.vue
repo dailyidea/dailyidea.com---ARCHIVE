@@ -20,7 +20,7 @@ import SimpleDialogPopup from '@/components/dialogs/simpleDialogPopup'
 
 const VueTrix = () => import('vue-trix')
 
-const MAX_ATTACHMENT_SIZE_BYTES = 1024 * 1024 * 100
+const MAX_ATTACHMENT_SIZE_BYTES = 1024 * 1024 * 5
 
 const BUCKET_URL = `https://${process.env.USER_UPLOADS_S3_DOMAIN}.s3.amazonaws.com/`
 
@@ -131,7 +131,7 @@ export default {
         if (event.file.size > MAX_ATTACHMENT_SIZE_BYTES) {
           this.$refs['simple-dialog-popup'].show(
             'File too large',
-            'Max acceptable file size is 100Mb',
+            'Max acceptable file size is 5Mb',
             'OK',
             null
           )
@@ -147,12 +147,34 @@ export default {
       }
       const successCallback = ({ key }) => {
         Credentials.get().then(cr => {
-          const prefix = `${BUCKET_URL}protected/${cr.data.IdentityId}/`
+          const BUCKET_FOLDER = `protected/${cr.data.IdentityId}/`
+          const prefix = `${BUCKET_URL}${BUCKET_FOLDER}`
+          const source = prefix + encodeURIComponent(key)
+          if (event.attachment.file.type.substr(0, 5) === 'image') {
+            const img = new Image()
+            const source = prefix + encodeURIComponent(key)
+            img.onload = () => {
+              this.$emit('fileAttached', {
+                type: event.attachment.file.type,
+                key: `${BUCKET_FOLDER}${key}`
+              })
+              this.attachmentsProcessing--
+            }
+            img.src = source
+          } else {
+            this.$emit('fileAttached', {
+              type: event.attachment.file.type,
+              key: `${BUCKET_FOLDER}${key}`
+            })
+            this.attachmentsProcessing--
+          }
+
           event.attachment.setAttributes({
-            url: prefix + key,
-            href: prefix + key
+            src: source,
+            url: source,
+            href: source,
+            key
           })
-          this.attachmentsProcessing--
         })
       }
       const uploadFileAttachment = attachment => {
@@ -167,19 +189,27 @@ export default {
       }
       uploadFileAttachment(event.attachment)
     },
-    handleAttachmentRemove(event) {
-      if (!this.autoDeleteAttachments) {
-        return
-      }
+    async handleAttachmentRemove(event) {
       const href = event.attachment.getAttributes().href
       if (!href) {
         return // not processed yet
       }
-      const key = href.replace(BUCKET_URL, '')
-      this.attachmentsProcessing++
-      this.$amplifyS3Storage.remove(key).then(() => {
+      const CredentialsData = await Credentials.get()
+      const IdentityId = CredentialsData.data.IdentityId
+      console.log(IdentityId)
+      const BUCKET_FOLDER = `protected/${IdentityId}/`
+      const key = event.attachment.getAttributes().key
+      console.log(event.attachment.attachment.attributes.values.contentType)
+      if (!this.autoDeleteAttachments) {
+        this.$emit('fileRemoved', {
+          type: event.attachment.attachment.attributes.values.contentType,
+          key: `${BUCKET_FOLDER}${key}`
+        })
+      } else {
+        this.attachmentsProcessing++
+        await this.$amplifyS3Storage.remove(key, { level: 'protected' })
         this.attachmentsProcessing--
-      })
+      }
     }
   }
 }

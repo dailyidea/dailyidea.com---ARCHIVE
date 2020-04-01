@@ -60,6 +60,7 @@ functions:
       IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
       USERS_TABLE_NAME: ${self:custom.usersTableName}
       TAGS_TABLE_NAME: ${self:custom.tagsTableName}
+      USER_UPLOADS_BUCKET: ${self:provider.userUploadsBucketName}
   developmentLogger:
     handler: functions.development_logger.development_logger.endpoint
     role: LambdaDevelopmentLoggerFunctionRole

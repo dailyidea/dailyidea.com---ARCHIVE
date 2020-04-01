@@ -43,7 +43,7 @@ def sanitize_no_html_text(raw_text):
                         strip_comments=True, strip=True)
 
 
-def sanitize_idea_content(content):
+def sanitize_idea_content_email(content):
     if not content or not len(content):
         return None
     return bleach.clean(content,
@@ -81,7 +81,7 @@ def clean_email_html(email_html_content):
     5) getting content from rest lines
     6) pack into div for compatibility with trix editor
     """
-    text_like_html = sanitize_idea_content(
+    text_like_html = sanitize_idea_content_email(
         normalize_email_tags(email_html_content)
     )
     raw_content_lines = text_like_html.splitlines()
