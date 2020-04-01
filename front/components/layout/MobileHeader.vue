@@ -32,16 +32,7 @@
               />
             </nuxt-link>
           </v-col>
-          <v-col style="padding: 0; text-align: right">
-            <v-btn
-              small
-              icon
-              style="vertical-align: top"
-              @click="searchIdeaMode = true"
-            >
-              <v-icon size="18">fa-search</v-icon>
-            </v-btn>
-          </v-col>
+          <v-col style="padding: 0; text-align: right"></v-col>
         </template>
         <v-col v-else cols="12" style="padding: 0">
           <v-text-field
