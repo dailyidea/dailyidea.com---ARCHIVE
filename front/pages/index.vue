@@ -58,7 +58,7 @@
                   class="reviews__review"
                   @click="onIdeaClick(idea)"
                 >
-                  <div>
+                  <div style="padding-bottom: 20px;">
                     <strong>{{ idea.title }}</strong>
                   </div>
                   <div>
@@ -368,11 +368,12 @@ export default {
     padding: 18px 25px;
     margin: auto;
     font-size: 14px;
-    border-radius: 4px;
-    background-color: #ffffff;
+    border-radius: 8px;
+    background-color: #f0f0f0;
     border: solid 1px #d8e3f9;
     padding-bottom: 60px;
     height: 100%;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
     cursor: pointer;
 
     &__info {
