@@ -115,7 +115,7 @@ export default {
     text-align: left;
     color: $main-text-color;
     overflow: hidden;
-    word-break: break-all;
+    word-break: break-word;
   }
 
   &__idea-footer-row {

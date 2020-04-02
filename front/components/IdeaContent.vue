@@ -24,6 +24,24 @@ export default {
     font-size: 22px;
     line-height: 25px;
   }
+  blockquote {
+    margin: 0.3em 0 0.3em 0.3em;
+    padding: 0 0 0 0.6em;
+    border-left: 0.3em solid #a7a2a2;
+    color: #a7a2a2;
+  }
+  pre {
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+    font-family: monospace;
+    font-size: 0.9em;
+    margin: 0;
+    padding: 0.5em;
+    white-space: pre;
+    background-color: #eee;
+    overflow-x: auto;
+  }
   textarea,
   .trix-button {
     display: none;

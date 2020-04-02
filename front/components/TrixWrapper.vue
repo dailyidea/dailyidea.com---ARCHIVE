@@ -124,7 +124,10 @@ export default {
   },
   methods: {
     input(val) {
-      this.$emit('input', Autolinker.link(val, { truncate: 30 }))
+      this.$emit(
+        'input',
+        Autolinker.link(val, { truncate: 30, stripPrefix: false })
+      )
     },
     checkFileAcceptance(event) {
       if (event.file) {
