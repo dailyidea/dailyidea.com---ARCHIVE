@@ -49,6 +49,16 @@
           </template>
         </v-col>
         <v-col style="text-align: right">
+          <v-btn
+            icon
+            height="36"
+            width="36"
+            :input-value="searchIdeaMode"
+            @click="searchIdeaMode = !searchIdeaMode"
+          >
+            <v-icon size="18" color="#5a5a5a">fas fa-search</v-icon>
+          </v-btn>
+
           <!-- Profile Icon -->
           <v-menu offset-y nudge-bottom="15" left :disabled="!isAuthenticated">
             <template v-slot:activator="{ on }">

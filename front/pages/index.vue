@@ -27,8 +27,7 @@
               <v-btn
                 normal
                 dark
-                depressed
-                style="border-radius: 10px;"
+                rounded
                 class="first-section__signup-button"
                 :to="{ name: 'auth-signup' }"
                 color="#326bde"
@@ -289,7 +288,7 @@ export default {
   @media (max-width: $screen-sm-max) {
     margin-top: 5vh;
   }
-  font-size: 16px;
+  font-size: 18px;
   color: #4a4a4a;
   max-width: 500px;
 }
