@@ -82,8 +82,12 @@
                   :style="avatarStyle"
                   v-on="on"
                 ></span>
+
                 <!-- Print Logged-in user's name -->
-                <span v-if="isAuthenticated" class="userName">{{
+                <span v-if="isAuthenticated"
+                  class="userName"
+                  v-on="on"
+                >{{
                   userName
                 }}</span>
                 <span v-else class="userName"
@@ -245,6 +249,7 @@ a {
     line-height: 38px;
     text-align: left;
     color: #5a5a5a;
+    cursor: pointer;
   }
 
   .profileBtn {

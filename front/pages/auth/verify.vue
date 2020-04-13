@@ -36,7 +36,8 @@
           'has-success': !errorOccurred && authCompleted
         }"
       >
-        <div v-text="message"></div>
+        <div v-text="message">
+        </div>
         <div v-if="errorOccurred" class="">
           <a href="/auth/login" @click.stop.prevent="goToLogin"
             >Back to Log In Page</a
