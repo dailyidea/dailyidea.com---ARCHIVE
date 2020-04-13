@@ -85,16 +85,23 @@ export default {
           'userData/fetchUserData',
           {}
         )
-
+        const next = this.$route.query.next
+          ? decodeURIComponent(this.$route.query.next)
+          : undefined
+        const fromComment = !!this.$route.query.fc
         this.progressBarActive = false
         this.progressBarUndetermined = false
         this.authCompleted = true
         if (!userData.wasWelcomed) {
-          this.message = 'Success! You have been successfully registered.'
-          this.$router.replace('/auth/welcome')
+          this.message = fromComment
+            ? "Success! You have been successfully registered. We're redirecting to idea page."
+            : 'Success! You have been successfully registered.'
+          this.$router.replace(next || '/auth/welcome')
         } else {
-          this.message = "Success! We're redirecting to your dashboard."
-          this.$router.replace('/ideas/me')
+          this.message = fromComment
+            ? "Success! We're redirecting to idea page."
+            : "Success! We're redirecting to your dashboard."
+          this.$router.replace(next || '/ideas/me')
         }
       } catch (e) {
         this.progressBarActive = false

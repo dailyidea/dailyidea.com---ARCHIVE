@@ -1,5 +1,5 @@
 <template>
-  <div class="commentItem">
+  <div class="commentItem" :class="{ temporary: comment.temporary }">
     <div class="header">
       <div class="commentUser">
         <span v-if="!comment.fake">{{ comment.userName }}</span>
@@ -7,10 +7,16 @@
         </v-skeleton-loader>
       </div>
       <div class="timing">
-        <span v-if="!comment.fake">{{
+        <span v-if="!comment.fake && comment.createdDate">{{
           comment.createdDate | toRelativeDate
         }}</span>
-        <v-skeleton-loader v-else light height="14" type="text" min-width="90">
+        <v-skeleton-loader
+          v-else-if="comment.fake"
+          light
+          height="14"
+          type="text"
+          min-width="90"
+        >
         </v-skeleton-loader>
         <v-btn
           v-if="deletable && !comment.fake"
@@ -59,7 +65,7 @@ export default {
       // I can delete all the comments from my own ideas
       // and any user can delete their own comments from any idea too
       const isMyIdea = currUsrId === this.$route.params.userId
-      return isMyIdea || (currUsrId === commentUsrId)
+      return isMyIdea || currUsrId === commentUsrId
     }
   },
   methods: {
@@ -76,6 +82,10 @@ export default {
   padding: 10px;
   background-color: #ffffff;
   border-radius: 0px 7px 7px 7px;
+  transition: background-color ease 3s;
+  &.temporary {
+    background-color: #ffebbf;
+  }
 
   @media #{$small-screen} {
     border-left: 0px;

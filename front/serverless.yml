@@ -24,6 +24,7 @@ provider:
     - Effect: 'Allow'
       Action:
         - 'lambda:InvokeFunction'
+        - 'logs:*'
         - lambda:ListAliases
         - lambda:ListFunctions
       Resource: "*"

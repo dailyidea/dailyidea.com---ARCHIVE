@@ -4,10 +4,7 @@
       <v-col>
         <div class="profile-page">
           <div class="profile-page__header">
-            <v-tooltip
-              :disabled="!allowEdit"
-              right
-            >
+            <v-tooltip :disabled="!allowEdit" right>
               <template v-slot:activator="{ on }">
                 <div
                   class="user-avatar__container"

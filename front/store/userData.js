@@ -62,5 +62,8 @@ export const getters = {
   },
   email(state) {
     return state.isAuthenticated ? state.userData.email : undefined
+  },
+  wasWelcomed(state) {
+    return state.isAuthenticated ? state.userData.wasWelcomed : undefined
   }
 }

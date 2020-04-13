@@ -26,8 +26,7 @@ export default (ctx, inject) => {
     }
 
     // clear out the storage
-    static clear() {
-    }
+    static clear() {}
   }
 
   inject('amplifyStorage', AmplifyStorage)

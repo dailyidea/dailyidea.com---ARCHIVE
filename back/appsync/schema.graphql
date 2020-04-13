@@ -35,6 +35,15 @@ type Mutation {
 		userSlug: String!
     ): AddCommentResult!
 
+	addIdeaTemporaryComment(
+	    body: String!,
+		ideaName: String!,
+	    ideaId: String!,
+		ideaOwnerId: String!,
+		userId: String!,
+    ): AddCommentResult!
+	@aws_api_key @aws_cognito_user_pools
+
 	deleteComment(
 		ideaId: String!,
 		ideaOwnerId: String!,
@@ -132,6 +141,18 @@ type Query {
 	): IsLikedResult
 	getComments(ideaId: String!, nextToken: String, limit: Int): CommentsConnection!
 	@aws_api_key @aws_cognito_user_pools
+
+	getIdeaTemporaryComment(commentId: String!): GetTemporaryCommentResult!
+	@aws_api_key @aws_cognito_user_pools
+
+	checkEmailBelongsToExistingUser(email: String!): EmailBelongsToExistingUserResult!
+	@aws_api_key @aws_cognito_user_pools
+}
+
+type EmailBelongsToExistingUserResult @aws_api_key @aws_cognito_user_pools{
+	result: Result!
+	belongsToExistingUser: Boolean
+	userId: String
 }
 
 type LikeResult {
@@ -144,7 +165,12 @@ type UserInfoResult @aws_api_key @aws_cognito_user_pools{
 	userInfo: UserInfo
 }
 
-type AddCommentResult {
+type AddCommentResult @aws_api_key @aws_cognito_user_pools{
+	result: Result!
+	comment: Comment
+}
+
+type GetTemporaryCommentResult @aws_api_key @aws_cognito_user_pools{
 	result: Result!
 	comment: Comment
 }

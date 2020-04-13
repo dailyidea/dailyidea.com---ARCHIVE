@@ -199,10 +199,8 @@ export default {
       }
       const CredentialsData = await Credentials.get()
       const IdentityId = CredentialsData.data.IdentityId
-      console.log(IdentityId)
       const BUCKET_FOLDER = `protected/${IdentityId}/`
       const key = event.attachment.getAttributes().key
-      console.log(event.attachment.attachment.attributes.values.contentType)
       if (!this.autoDeleteAttachments) {
         this.$emit('fileRemoved', {
           type: event.attachment.attachment.attributes.values.contentType,

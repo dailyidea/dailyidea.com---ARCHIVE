@@ -1,0 +1,5 @@
+#if($context.result.items.size() > 0)
+    #return({"result": {"ok": true}, "belongsToExistingUser": true, "userId": $context.result.items[0].userId})
+#else
+    #return({"result": {"ok": true}, "belongsToExistingUser": false})
+#end

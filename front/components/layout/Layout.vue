@@ -4,6 +4,7 @@
       :indeterminate="true"
       :active="progressBarActive"
       :height="2"
+      style="z-index: 999"
       absolute
     ></v-progress-linear>
     <template>
@@ -76,6 +77,7 @@ export default {
 
 <style lang="scss">
 #commonHeader {
+  position: relative;
   .loggedInHeader {
     width: 100%;
     background: white !important;
