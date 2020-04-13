@@ -28,7 +28,7 @@ export default {
       app.$amplifyApi,
       isMyProfile ? 'ideas' : 'getUsersIdeas',
       isMyProfile ? getIdeas : getUsersIdeas,
-      isMyProfile ? { limit: 3 } : { authorSlug: userSlug, limit: 3 },
+      isMyProfile ? { limit: 25 } : { authorSlug: userSlug, limit: 25 },
       isMyProfile ? undefined : 'API_KEY'
     )
     const [userInfoResponse, userIdeasResponse] = await Promise.all([

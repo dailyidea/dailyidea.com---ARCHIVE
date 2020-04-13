@@ -75,19 +75,35 @@ export default {
         this.progressBarActive = true
         this.progressBarUndetermined = true
         const user = await this.$store.dispatch('cognito/signInUser', {
-          username: this.$route.query.email
+          username: this.$route.query.email.toLowerCase()
         })
         await this.$store.dispatch('cognito/answerCustomChallenge', {
           user,
           answer: this.$route.query.code
         })
         await this.$store.commit('userData/setUserIsAuthenticated')
-        this.$store.dispatch('userData/fetchUserData', {})
+        const userData = await this.$store.dispatch(
+          'userData/fetchUserData',
+          {}
+        )
+        const next = this.$route.query.next
+          ? decodeURIComponent(this.$route.query.next)
+          : undefined
+        const fromComment = !!this.$route.query.fc
         this.progressBarActive = false
         this.progressBarUndetermined = false
         this.authCompleted = true
-        this.message = "Success! We're redirecting to your dashboard."
-        this.$router.replace('/ideas/me')
+        if (!userData.wasWelcomed) {
+          this.message = fromComment
+            ? "Success! You have been successfully registered. We're redirecting to idea page."
+            : 'Success! You have been successfully registered.'
+          this.$router.replace(next || '/auth/welcome')
+        } else {
+          this.message = fromComment
+            ? "Success! We're redirecting to idea page."
+            : "Success! We're redirecting to your dashboard."
+          this.$router.replace(next || '/ideas/me')
+        }
       } catch (e) {
         this.progressBarActive = false
         this.message = e.message + ' Try again Please.'

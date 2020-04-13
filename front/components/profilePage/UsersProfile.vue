@@ -4,7 +4,7 @@
       <v-col>
         <div class="profile-page">
           <div class="profile-page__header">
-            <v-tooltip top :disabled="!allowEdit">
+            <v-tooltip :disabled="!allowEdit" right>
               <template v-slot:activator="{ on }">
                 <div
                   class="user-avatar__container"
@@ -49,9 +49,7 @@
                       >mdi-pencil</v-icon
                     >
                   </template>
-                  <span
-                    >Click to update your name, bio, or interested in tags</span
-                  >
+                  <span>Click to update your name or bio</span>
                 </v-tooltip>
               </span>
             </div>
@@ -331,9 +329,9 @@ export default {
     enableEditMode() {
       this.editData.name = this.profileData.name
       this.editData.bio = this.profileData.bio
-      this.editData.interestedInTags = this.profileData.interestedInTags.map(
-        t => t
-      )
+      this.editData.interestedInTags = this.profileData.interestedInTags
+        ? this.profileData.interestedInTags.map(t => t)
+        : []
       this.editMode = true
     },
     disableEditMode() {

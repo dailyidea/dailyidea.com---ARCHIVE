@@ -57,63 +57,13 @@
 </template>
 
 <script>
-import nanoid from 'nanoid'
 import AuthPage from '@/components/authPage/AuthPage'
+import registerPageMixin from '@/plugins/registerPageMixin'
 
 export default {
   name: 'Index',
   components: { AuthPage },
-  data: () => ({
-    email: '',
-    name: '',
-    emailExistsMsg: '',
-    registerInProgress: false
-  }),
-  $_veeValidate: {
-    validator: 'new'
-  },
-  mounted() {
-    this.$validator.localize('en', this.dictionary)
-  },
-  methods: {
-    async signup() {
-      try {
-        this.emailExistsMsg = ''
-
-        // Validate input fields
-        const result = await this.$validator.validateAll()
-        if (!result) {
-          return
-        }
-
-        this.registerInProgress = true
-
-        await this.$store.dispatch('cognito/registerUser', {
-          username: this.email,
-          password: nanoid(),
-          attributes: {
-            name: this.name
-          }
-        })
-        await this.$amplifyApi.post('RequestLogin', '', {
-          body: { email: this.email }
-        })
-
-        // Redirect to registeration success page
-        this.$router.push({
-          name: 'auth-signup-success',
-          params: { email: this.email }
-        })
-      } catch (e) {
-        // Handle email already registered
-        if (e.code && e.code === 'UsernameExistsException') {
-          this.registerInProgress = false
-          this.emailExistsMsg =
-            "Oops! It looks like there's already an account with that email address."
-        }
-      }
-    }
-  }
+  mixins: [registerPageMixin]
 }
 </script>
 

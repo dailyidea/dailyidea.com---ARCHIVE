@@ -24,6 +24,7 @@ provider:
     - Effect: 'Allow'
       Action:
         - 'lambda:InvokeFunction'
+        - 'logs:*'
         - lambda:ListAliases
         - lambda:ListFunctions
       Resource: "*"
@@ -36,8 +37,11 @@ functions:
     warmup:
       enabled: true
     package:
+      individually: true
       exclude:
         - src/**
+        - pages/**
+        - assets/**
         - tests/**
         - .nuxt/dist/client/*.js.map
         - node_modules/.cache/**

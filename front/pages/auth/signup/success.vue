@@ -23,7 +23,7 @@ export default {
   }),
   mounted() {
     if (this.$route.params.email) {
-      this.email = this.$route.params.email
+      this.email = this.$route.params.email.toLowerCase()
     }
   }
 }

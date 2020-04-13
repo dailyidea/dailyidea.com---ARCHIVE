@@ -66,11 +66,7 @@ module.exports = {
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    '@nuxtjs/vuetify',
-    'nuxt-universal-storage',
-    '@nuxtjs/sentry'
-  ],
+  modules: ['@nuxtjs/vuetify', 'nuxt-universal-storage', '@nuxtjs/sentry'],
 
   vuetify: {
     icons: {
@@ -163,6 +159,7 @@ module.exports = {
     AWS_REGION: process.env.AWS_REGION,
     APPSYNC_ENDPOINT: process.env.APPSYNC_ENDPOINT,
     APPSYNC_API_KEY: process.env.APPSYNC_API_KEY,
-    REQUEST_LOGIN_ENDPOINT: process.env.REQUEST_LOGIN_ENDPOINT
+    REQUEST_LOGIN_ENDPOINT: process.env.REQUEST_LOGIN_ENDPOINT,
+    USER_UPLOADS_S3_DOMAIN: process.env.USER_UPLOADS_S3_DOMAIN
   }
 }

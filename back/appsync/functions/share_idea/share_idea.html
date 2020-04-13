@@ -94,11 +94,39 @@
             font-family: Quatro, Arial, Tahoma, Geneva, sans-serif;
         }
 
-        blockquote {
-            margin: 0 0 0 0.3em;
-            padding: 0 0 0 0.6em;
-            border-left: 0.3em solid #ccc;
+        .idea-content-container blockquote {
+            margin: 0.3em 0 0.3em 0.3em !important;
+            padding: 0 0 0 0.6em !important;
+            border-left: 0.3em solid #a7a2a2 !important;
+            color: #a7a2a2 !important;
         }
+
+        .idea-content-container pre {
+            display: inline-block !important;
+            width: 98% !important;
+            vertical-align: top !important;
+            font-family: monospace !important;
+            font-size: 0.9em !important;
+            margin: 0 !important;
+            padding: 0.5em !important;
+            white-space: pre !important;
+            background-color: #eee !important;
+            overflow-x: auto !important;
+        }
+
+        .idea-content-container li{
+            margin-left: 20px !important;
+        }
+
+        .idea-content-container textarea,
+        .idea-content-container .trix-button {
+            display: none;
+        }
+
+        .idea-content-container h1 {
+                font-size: 22px !important;
+                line-height: 25px !important;
+              }
 
         ul, ol, pre {
             padding: 0 !important;
@@ -155,7 +183,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2" style="padding: 10px">
-                                                <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #5c5c5c; font-size: 18px; line-height: 20px;">{{ idea.content | safe }}</span>
+                                                <span class="idea-content-container" style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #5c5c5c; font-size: 18px; line-height: 20px;">{{ idea.content | safe }}</span>
                                             </td>
                                         </tr>
                                         {% if tags|length > 0 %}

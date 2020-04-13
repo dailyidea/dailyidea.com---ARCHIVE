@@ -7,6 +7,7 @@ provider:
   region: ${env:AWS_REGION, 'us-east-1'}
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
   emailStaticBucketName: dailyidea-serverless-email-static-${self:provider.stage}
+  userUploadsStaticBucketName: dailyidea-appsync-user-uploads-static-${self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -16,6 +17,7 @@ provider:
 
 custom:
   usersTableName: dailyidea-users-${self:provider.stage}
+  ideaCommentsTemporaryTableName: dailyidea-comments-temporary-${self:provider.stage}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
 
 functions:
@@ -31,6 +33,7 @@ functions:
       SECRET_TOKEN: ${self:custom.secretToken}
       TABLE_NAME: ${self:custom.usersTableName}
       USERS_TABLE_NAME: ${self:custom.usersTableName}
+      IDEA_COMMENTS_TEMPORARY_TABLE_NAME: ${self:custom.ideaCommentsTemporaryTableName}
     events:
       - http:
           path: requestLogin

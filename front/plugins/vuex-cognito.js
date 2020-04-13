@@ -1,5 +1,7 @@
 import Amplify from '@aws-amplify/core'
 import API from '@aws-amplify/api'
+import Auth from '@aws-amplify/auth'
+import Storage from '@aws-amplify/storage'
 import attachCognitoModule from '~/module/vuex-cognito-module.esm.js'
 
 export default (ctx, inject) => {
@@ -7,21 +9,26 @@ export default (ctx, inject) => {
 
   class AmplifyStorage {
     static syncPromise = null
+
     // set item with the key
     static setItem(key, value) {
       return ctx.app.$storage.setUniversal(key, value)
     }
+
     // get item with the key
     static getItem(key) {
       return ctx.app.$storage.getUniversal(key)
     }
+
     // remove item with the key
     static removeItem(key) {
       return ctx.app.$storage.removeUniversal(key)
     }
+
     // clear out the storage
     static clear() {}
   }
+
   inject('amplifyStorage', AmplifyStorage)
 
   attachCognitoModule(
@@ -37,6 +44,8 @@ export default (ctx, inject) => {
   )
 
   Amplify.register(API)
+  Amplify.register(Auth)
+  Amplify.register(Storage)
 
   const awsConfig = {
     aws_appsync_graphqlEndpoint: process.env.APPSYNC_ENDPOINT,
@@ -52,6 +61,11 @@ export default (ctx, inject) => {
   }
 
   inject('amplifyApi', API)
-
   Amplify.API.configure(awsConfig)
+  Amplify.Storage.configure({
+    AWSS3: {
+      bucket: process.env.USER_UPLOADS_S3_DOMAIN
+    }
+  })
+  inject('amplifyS3Storage', Storage)
 }

@@ -1,0 +1,12 @@
+Resources:
+  IdeaCommentsTemporaryTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: commentId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: commentId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      TableName: ${self:custom.ideaCommentsTemporaryTableName}

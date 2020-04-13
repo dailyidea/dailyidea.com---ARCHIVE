@@ -6,6 +6,7 @@ query meInfo {
       userId
       slug
       avatar
+      wasWelcomed
     }    
   }
 `

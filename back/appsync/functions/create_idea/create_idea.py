@@ -19,6 +19,8 @@ def endpoint(event, lambda_context):
     title = arguments.get('title')
     content = sanitize_idea_content(arguments.get('content', None))
     tags = arguments.get('tags', list())
+    image_attachments = arguments.get('imageAttachments', list())
+    file_attachments = arguments.get('fileAttachments', list())
     if len(tags) > 100:
         raise Exception('Too much tags')
     is_private = arguments.get('isPrivate', False)
@@ -51,6 +53,9 @@ def endpoint(event, lambda_context):
             "authorSlug": {"S": creator_slug},
             "authorAvatar": {"S": creator_avatar} if creator_avatar else {"NULL": True},
             "visibility": {"S": "PRIVATE" if is_private else "PUBLIC"},
+            "imageAttachments": {"SS": image_attachments} if len(image_attachments) else {"NULL": True},
+            "fileAttachments": {"SS": file_attachments} if len(image_attachments) else {"NULL": True},
+            "previewImage": {"S": image_attachments[0]} if len(image_attachments) else {"NULL": True},
         })
     client.update_item(
         TableName=os.environ.get('USERS_TABLE_NAME'),

@@ -10,6 +10,7 @@
               @enableEditMode="enableEditMode"
               @savedStateChanged="onIdeaSaveStateChanged"
               @onNotification="onNotification"
+              @onIdeaShared="onIdeaShared"
               @onDeleteIdea="onDeleteIdea"
               @onIdeaVisibilityChanged="onIdeaVisibilityChanged"
               @onIdeaVisibilityChangeError="onIdeaVisibilityChangeError"
@@ -65,6 +66,10 @@
                   v-model="ideaEditData.content"
                   class="editor"
                   placeholder="Type your idea text"
+                  @attachmentsUploadStarted="onAttachmentsUploadStarted"
+                  @attachmentsUploadCompleted="onAttachmentsUploadCompleted"
+                  @fileAttached="onFileAttached"
+                  @fileRemoved="onFileRemoved"
                 />
               </client-only>
             </div>
@@ -137,6 +142,9 @@
     </v-row>
     <visual-notifier ref="notifier"></visual-notifier>
     <simple-dialog-popup ref="simpleDialogPopup"></simple-dialog-popup>
+    <register-encourage-dialog
+      ref="registerEncourageDialog"
+    ></register-encourage-dialog>
   </layout>
 </template>
 
@@ -154,6 +162,7 @@ import updateIdea from '~/graphql/mutations/updateIdea'
 import VisualNotifier from '~/components/VisualNotifier'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
 import simpleDialogPopup from '~/components/dialogs/simpleDialogPopup'
+import registerEncourageDialog from '~/components/dialogs/registerEncourageDialog'
 import IdeaContent from '~/components/IdeaContent'
 
 export default {
@@ -164,6 +173,7 @@ export default {
     TrixWrapper,
     VisualNotifier,
     simpleDialogPopup,
+    registerEncourageDialog,
     IdeaContent
   },
   $_veeValidate: {
@@ -195,6 +205,8 @@ export default {
       ideaEditData: {
         title: '',
         ideaTags: [],
+        fileAttachments: [],
+        imageAttachments: [],
         content: ''
       },
 
@@ -205,6 +217,16 @@ export default {
     this.loadSecondaryData()
   },
   methods: {
+    showRegisterEncourageDialog() {
+      this.$refs.registerEncourageDialog.show()
+    },
+    onIdeaShared() {
+      if (!this.$store.getters['cognito/isLoggedIn']) {
+        setTimeout(() => {
+          this.showRegisterEncourageDialog()
+        }, 1000)
+      }
+    },
     onNotification({ type, message }) {
       this.$refs.notifier[type](message)
     },
@@ -214,7 +236,15 @@ export default {
     },
     copyIdeaDataForEdit() {
       this.ideaEditData.content = this.idea.content
-      this.ideaEditData.ideaTags = this.ideaTags.map(t => t)
+      this.ideaEditData.ideaTags = this.ideaTags
+        ? this.ideaTags.map(t => t)
+        : []
+      this.ideaEditData.imageAttachments = this.idea.imageAttachments
+        ? this.idea.imageAttachments.map(t => t)
+        : []
+      this.ideaEditData.fileAttachments = this.idea.fileAttachments
+        ? this.idea.fileAttachments.map(t => t)
+        : []
       this.ideaEditData.title = this.idea.title
     },
     removeTag(item) {
@@ -278,11 +308,15 @@ export default {
               ideaOwnerId: this.$route.params.userId,
               content: this.ideaEditData.content,
               title: this.ideaEditData.title,
-              tags: this.ideaEditData.ideaTags
+              tags: this.ideaEditData.ideaTags,
+              imageAttachments: this.ideaEditData.imageAttachments,
+              fileAttachments: this.ideaEditData.fileAttachments
             })
           )
           this.idea.content = this.ideaEditData.content
           this.idea.title = this.ideaEditData.title
+          this.idea.fileAttachments = this.ideaEditData.fileAttachments
+          this.idea.imageAttachments = this.ideaEditData.imageAttachments
           this.ideaTags = this.ideaEditData.ideaTags
           this.editMode = false
           this.updatingIdea = false
@@ -311,6 +345,52 @@ export default {
     },
     loadSecondaryData() {
       this.loadIdeaTags()
+    },
+    onFileAttached({ type, key }) {
+      if (!this.editMode) {
+        return
+      }
+      if (type.substr(0, 5) === 'image') {
+        this.ideaEditData.imageAttachments.push(key)
+      }
+      this.ideaEditData.fileAttachments.push(key)
+    },
+    onFileRemoved({ type, key }) {
+      if (!this.editMode) {
+        return
+      }
+      if (type.substr(0, 5) === 'image') {
+        this.ideaEditData.imageAttachments.splice(
+          this.ideaEditData.imageAttachments.indexOf(key),
+          1
+        )
+      }
+      this.ideaEditData.fileAttachments.splice(
+        this.ideaEditData.fileAttachments.indexOf(key),
+        1
+      )
+    },
+    onAttachmentsUploadStarted() {
+      this.updatingIdea = true
+    },
+    onAttachmentsUploadCompleted() {
+      this.updatingIdea = false
+    }
+  },
+  head() {
+    const defaultLogo = require('~/assets/images/bulb_with_light_holder.png')
+    return {
+      title: `${this.idea.title} - Daily Idea`,
+      meta: [
+        { hid: 'og:title', property: 'og:title', content: this.idea.title },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: this.idea.previewImage
+            ? `https://${process.env.USER_UPLOADS_S3_DOMAIN}.s3.amazonaws.com/${this.idea.previewImage}`
+            : defaultLogo
+        }
+      ]
     }
   }
 }

@@ -10,6 +10,8 @@ from talon.signature.bruteforce import extract_signature
 
 from utils.models import IdeaModel, UserModel
 from mail_templates.idea_received_confirmation.send_confirmation_idea_received import send_confirmation
+from mail_templates.idea_sender_not_is_not_registered.idea_sender_not_is_not_registered import \
+    send_not_registered_error_message
 
 AWS_REGION = os.environ['SES_AWS_REGION']
 SES_S3_BUCKET_NAME = os.environ['SES_S3_BUCKET_NAME']
@@ -41,7 +43,7 @@ def sanitize_no_html_text(raw_text):
                         strip_comments=True, strip=True)
 
 
-def sanitize_idea_content(content):
+def sanitize_idea_content_email(content):
     if not content or not len(content):
         return None
     return bleach.clean(content,
@@ -79,7 +81,7 @@ def clean_email_html(email_html_content):
     5) getting content from rest lines
     6) pack into div for compatibility with trix editor
     """
-    text_like_html = sanitize_idea_content(
+    text_like_html = sanitize_idea_content_email(
         normalize_email_tags(email_html_content)
     )
     raw_content_lines = text_like_html.splitlines()
@@ -132,33 +134,33 @@ def get_cleaned_email(parsed_email):
     if not text_part and not html_part:
         return None, None
 
-    body = None
     if text_part:
-        body = clean_email_text(text_part)
+        title_and_body = clean_email_text(text_part)
+        title, body = title_and_body
+        body, signature = extract_signature(body)
+        # extract_signature seems to not support html code as input
+        title_and_body = (title, body)
+        print(f"striped out signature in the email: {signature}")
+        # TODO optionally: if signature == None which may be
+        # because it's not been recognized, apply additionally:
+
+        # from talon import signature
+        # body3, signature = signature.extract(body2, sender='senders_email@example.com')
     else:
-        body = clean_email_html(html_part)
-
-    body2, signature = extract_signature(body)
-    print(f"striped out signature in the email: {signature}")
-
-    # TODO optionally: if signature == None which may be 
-    # because it's not been recognized, apply additionally:
-
-    # from talon import signature
-    # body3, signature = signature.extract(body2, sender='senders_email@example.com')
-
-    return body2
+        title_and_body = clean_email_html(html_part)
+    return title_and_body
 
 
 # TODO rename to 'process_incoming_email'
 def process_incoming_mail(parsed_email):
-    from_email = parsed_email.from_
-    found_users = UserModel.emailIndex.query(from_email[0][1])
+    from_email = parsed_email.from_[0][1].lower()
+    found_users = UserModel.emailIndex.query(from_email)
     user = None
     for found_user in found_users:
         user = found_user
     if not user:
-        # TOdo process email from user that dont registered
+        print('email not found. {}'.format(from_email))
+        send_not_registered_error_message(from_email, f"Re: {parsed_email.subject}")
         return
 
     idea = IdeaModel(user.userId, str(uuid.uuid4()))
@@ -173,13 +175,14 @@ def process_incoming_mail(parsed_email):
     idea.authorAvatar = user.avatar
     idea.createdDate = datetime.now()
     idea.visibility = PUBLIC_VISIBILITY
-    idea_date_str = parsed_email.subject.split('[Daily Idea] Idea for ', 1)[1]
-    idea.ideaDate = datetime.strptime(idea_date_str, '%a %b %d %Y')
+    TOPIC_INDICATOR = '[Daily Idea] Idea for '
+    idea_date_str = parsed_email.subject.split(TOPIC_INDICATOR, 1)[
+        1] if TOPIC_INDICATOR in parsed_email.subject else None
+    idea.ideaDate = datetime.strptime(idea_date_str, '%a %b %d %Y') if idea_date_str else datetime.today()
     idea.likesCount = 0
     idea.commentsCount = 0
     idea.save()
-
-    return idea
+    send_confirmation(parsed_email.from_[0][1], idea, f"Re: {parsed_email.subject}")
 
 
 def endpoint(event, context):
@@ -194,8 +197,7 @@ def endpoint(event, context):
         data = s3.get_object(Bucket=SES_S3_BUCKET_NAME, Key=mail_message_id)
         raw_email = data['Body'].read()
         parsed_email = mailparser.parse_from_string(raw_email.decode('utf-8'))
-        idea = process_incoming_mail(parsed_email)
-        send_confirmation(parsed_email.from_[0][1], idea, f"Re: {parsed_email.subject}")
+        process_incoming_mail(parsed_email)
     except Exception as e:
         print(e)
         raise e

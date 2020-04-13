@@ -29,12 +29,12 @@ export default {
   }),
   mounted() {
     if (this.$route.query.email) {
-      this.email = this.$route.query.email
+      this.email = this.$route.query.email.toLowerCase()
     }
   },
   methods: {
     showPopup() {
-      this.$refs['resend-auth-email-dialog'].open(this.email)
+      this.$refs['resend-auth-email-dialog'].open(this.email.toLowerCase())
     }
   }
 }

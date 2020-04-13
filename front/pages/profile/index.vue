@@ -26,7 +26,7 @@ export default {
       app.$amplifyApi,
       'getUsersIdeas',
       getUsersIdeas,
-      { authorSlug: userSlug, limit: 4 }
+      { authorSlug: userSlug, limit: 25 }
     )
     const [userInfoResponse, userIdeasResponse] = await Promise.all([
       userInfoRequest,

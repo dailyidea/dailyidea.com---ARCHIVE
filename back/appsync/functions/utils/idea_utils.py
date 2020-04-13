@@ -5,12 +5,25 @@ def sanitize_idea_content(content):
     if not content or not len(content):
         return None
     return bleach.clean(content,
-                        tags=['b', 'strong', 'p', 'br', 'a', 's', 'em', 'u',
+                        tags=['b', 'strong', 'p', 'br', 'a', 's', 'em', 'u', 'span',
                               'ol', 'ul', 'li',
                               'h1', 'h2', 'h3', 'h4',
                               'sub', 'sup',
-                              'div', 'del', 'blockquote', 'pre'],
-                        attributes={'a': ['href', 'target']}, strip_comments=False)
+                              'div', 'del', 'blockquote', 'pre',
+                              'figure', 'figcaption',
+                              'img', 'textarea', 'button'
+                              ],
+                        attributes={
+                            'a': ['href', 'target', 'rel'],
+                            'span': ['class', 'data-trix-cursor-target', 'data-trix-serialize',
+                                     'data-trix-cursor-target', 'data-trix-serialize'],
+                            'figure': ['contenteditable', 'class', 'data-trix-attachment', 'data-trix-content-type',
+                                       'data-trix-id', 'data-trix-attributes', 'data-trix-mutable'],
+                            'figcaption': ['class', ],
+                            'textarea': ['class', 'placeholder', 'data-trix-mutable', 'tabindex', ],
+                            'img': ['src', 'width', 'height', 'data-trix-store-key', 'data-trix-mutable'],
+                            'button': ['type', 'class', 'title', 'data-trix-action', ]
+                        }, strip_comments=False)
 
 
 def prepare_idea_tags_for_put_request(tags: list, idea_owner_id, idea_id):

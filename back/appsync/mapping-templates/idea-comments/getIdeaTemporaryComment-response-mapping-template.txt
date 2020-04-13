@@ -1,0 +1,5 @@
+#if($context.result.items.size() > 0)
+    {"result": {"ok": true}, "comment": $util.toJson($context.result.items[0])}
+#else
+    {"result": {"ok": false, "error": "Comment not found"}}
+#end

@@ -4,7 +4,9 @@ type Mutation {
 		title: String!,
 		content: String,
 		isPrivate: Boolean,
-		tags: [String]
+		tags: [String],
+		imageAttachments: [String],
+		fileAttachments: [String],
 	): Idea!
 
 	deleteIdea(
@@ -20,7 +22,9 @@ type Mutation {
 	    ideaOwnerId: String!,
 		title: String!
 	    content: String,
-		tags:[String],
+		tags: [String],
+		imageAttachments: [String],
+		fileAttachments: [String],
     ): IdeaUpdateRusult!
 
 	addComment(
@@ -30,6 +34,15 @@ type Mutation {
 		userName: String!,
 		userSlug: String!
     ): AddCommentResult!
+
+	addIdeaTemporaryComment(
+	    body: String!,
+		ideaName: String!,
+	    ideaId: String!,
+		ideaOwnerId: String!,
+		userId: String!,
+    ): AddCommentResult!
+	@aws_api_key @aws_cognito_user_pools
 
 	deleteComment(
 		ideaId: String!,
@@ -46,6 +59,10 @@ type Mutation {
 	followUser(
 	    userId: String!
     ): Result!
+
+	setWasWelcomed(
+		userId: String!
+	): Result!
 
 	unfollowUser(
 	    userId: String!
@@ -124,6 +141,18 @@ type Query {
 	): IsLikedResult
 	getComments(ideaId: String!, nextToken: String, limit: Int): CommentsConnection!
 	@aws_api_key @aws_cognito_user_pools
+
+	getIdeaTemporaryComment(commentId: String!): GetTemporaryCommentResult!
+	@aws_api_key @aws_cognito_user_pools
+
+	checkEmailBelongsToExistingUser(email: String!): EmailBelongsToExistingUserResult!
+	@aws_api_key @aws_cognito_user_pools
+}
+
+type EmailBelongsToExistingUserResult @aws_api_key @aws_cognito_user_pools{
+	result: Result!
+	belongsToExistingUser: Boolean
+	userId: String
 }
 
 type LikeResult {
@@ -136,7 +165,12 @@ type UserInfoResult @aws_api_key @aws_cognito_user_pools{
 	userInfo: UserInfo
 }
 
-type AddCommentResult {
+type AddCommentResult @aws_api_key @aws_cognito_user_pools{
+	result: Result!
+	comment: Comment
+}
+
+type GetTemporaryCommentResult @aws_api_key @aws_cognito_user_pools{
 	result: Result!
 	comment: Comment
 }
@@ -189,6 +223,10 @@ type Idea @aws_api_key @aws_cognito_user_pools {
 	likesCount: Int
 	commentsCount: Int
 	visibility: IdeaVisibilityState
+
+	imageAttachments: [String]
+	fileAttachments: [String]
+	previewImage: String
 }
 
 
@@ -223,6 +261,7 @@ type MyInfo{
 	name: String!
 	email: String!
 	userId: String!
+	wasWelcomed: Boolean
 	slug: String
 	avatar: String
 }

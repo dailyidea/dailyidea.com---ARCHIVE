@@ -7,24 +7,29 @@ const ddb = new AWS.DynamoDB({apiVersion: "2012-10-08"});
 const { cors, jsonBodyParser, httpErrorHandler } = require("middy/middlewares");
 const Sqrl = require("squirrelly");
 
-const requireLoginTemplatePath = path.join(
-  __dirname,
-  "../mail-templates/require_login_template.html"
-);
-const magicLinkTemplatePath = path.join(
-  __dirname,
-  "../mail-templates/magic_link_template.html"
-);
-const requireLoginTemplateHTMLTemplateRAw = fs.readFileSync(
-  requireLoginTemplatePath,
-  "utf8"
-);
-const magicLinkTemplateHTMLRAw = fs.readFileSync(magicLinkTemplatePath, "utf8");
+const getCompiledTemplateFromPath = (templatePath) => {
+  const fullTemplatePath = path.join(__dirname, templatePath);
+  const templateHTMLRAw = fs.readFileSync(fullTemplatePath,"utf8");
+  return Sqrl.Compile(templateHTMLRAw);
+}
 
-const requireLoginTemplateHTMLCompiled = Sqrl.Compile(
-  requireLoginTemplateHTMLTemplateRAw
-);
-const magicLinkTemplateHTMLCompiled = Sqrl.Compile(magicLinkTemplateHTMLRAw);
+const getLoginTemplate = (firstLogin, withComment = false) => {
+  let activePath;
+  if (firstLogin) {
+    if (withComment) {
+      activePath =  "../mail-templates/magic_link_template_with_comment.html";
+    } else {
+      activePath =  "../mail-templates/magic_link_template.html";
+    }
+  } else {
+    if (withComment) {
+      activePath =   "../mail-templates/require_login_template_with_comment.html"
+    } else {
+      activePath =   "../mail-templates/require_login_template.html";
+    }
+  }
+  return getCompiledTemplateFromPath(activePath)
+};
 
 const generateToken = function(email) {
   return jwt.sign(
@@ -40,7 +45,7 @@ const generateToken = function(email) {
 //   region: process.env.DYNAMO_REGION
 // })
 
-const sendEmail = async function(email, token, name = undefined) {
+const sendEmail = async function(email, token, name = undefined, commentId = undefined) {
   const emailEncoded = encodeURIComponent(email);
   const ses = new AWS.SES({
     region: process.env.SES_REGION
@@ -63,14 +68,46 @@ const sendEmail = async function(email, token, name = undefined) {
   } catch (err) {
     console.log("Error", err);
   }
-  if (firstLogin) {
-    console.log('this is first login. faking sign up');
-  }else{
-    console.log('this is simple log in');
+
+  let comment;
+
+  if (commentId) {
+    const ddbParams = {
+      KeyConditionExpression: "commentId = :commentId",
+      ExpressionAttributeValues: {
+        ":commentId": {
+          S: commentId
+        }
+      },
+      TableName: process.env.IDEA_COMMENTS_TEMPORARY_TABLE_NAME
+    };
+    try {
+      const resp = await ddb.query(ddbParams).promise()
+      comment = resp.Items[0]
+    } catch (err) {
+      console.log("Error when fetching comment", err)
+    }
   }
-  const htmlTemplate = firstLogin
-    ? magicLinkTemplateHTMLCompiled
-    : requireLoginTemplateHTMLCompiled;
+
+
+  const templateParams = {
+    BUCKET_URL_PREFIX: process.env.BUCKET_URL_PREFIX,
+    DOMAIN_NAME: process.env.DOMAIN_NAME,
+    email,
+    token,
+    emailEncoded,
+    name
+  }
+
+  if (comment) {
+    const ideaURLPath = `/ideas/${comment.ideaOwnerId.S}/${comment.ideaId.S}`
+    templateParams.verifyAdditionalUrlParams = `&fc=1&next=${encodeURIComponent(`${ideaURLPath}?aa=itc&tci=${comment.commentId.S}`)}`
+    templateParams.commentText = comment.body.S
+    templateParams.ideaHref = `https://${templateParams.DOMAIN_NAME}${ideaURLPath}`
+    templateParams.ideaName = comment.ideaName.S // tmp. add ideaName to comment model
+  }
+
+  const htmlTemplate = getLoginTemplate(firstLogin, !!comment)
 
   const eParams = {
     Destination: {
@@ -81,14 +118,7 @@ const sendEmail = async function(email, token, name = undefined) {
         Html: {
           Charset: "UTF-8",
           Data: htmlTemplate(
-            {
-              BUCKET_URL_PREFIX: process.env.BUCKET_URL_PREFIX,
-              DOMAIN_NAME: process.env.DOMAIN_NAME,
-              email,
-              token,
-              emailEncoded,
-              name
-            },
+            templateParams,
             Sqrl
           )
         },
@@ -127,7 +157,8 @@ const sendEmail = async function(email, token, name = undefined) {
 // This is your common handler, no way different than what you are used to do every day
 // in AWS Lambda
 const sendMail = async (event, context) => {
-  const { email } = event.body;
+  const { email, commentId } = event.body; // commentId is defined in case when user logs in after unauth comment attempt
+  console.log(commentId);
   console.log("generating log token", email);
   const docClient = new AWS.DynamoDB.DocumentClient();
   console.log(process.env.TABLE_NAME);
@@ -153,7 +184,7 @@ const sendMail = async (event, context) => {
       console.log("Found", email);
       const token = generateToken(email);
       const name = result.Items[0].name;
-      const sendMailResp = await sendEmail(email, token, name, context);
+      const sendMailResp = await sendEmail(email, token, name, commentId, context);
       console.log('---------mail sending------');
       console.log(sendMailResp);
       console.log('---------end mail sending-------');
