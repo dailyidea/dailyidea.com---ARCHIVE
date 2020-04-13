@@ -5,7 +5,6 @@
     <!--    <v-spacer></v-spacer>-->
     <v-container fluid>
       <v-row>
-        <v-col md="1" xl="1"></v-col>
         <v-col>
           <v-toolbar-title class="blue--text subheading">
             <!-- Logo on top left corner -->
@@ -38,6 +37,9 @@
             </template>
           </v-text-field>
           <template v-else>
+            <span class="ideas-navigation-item">
+              <router-link to="/ideas/all">All Ideas</router-link>
+            </span>
             <span v-if="isAuthenticated" class="ideas-navigation-item">
               <router-link to="/ideas/me">My Ideas</router-link>
             </span>
@@ -55,7 +57,6 @@
                   v-if="!userAvatar"
                   class="profileBtn"
                   x-small
-                  :hidden="!isAuthenticated"
                   icon
                   fab
                   dark
@@ -98,7 +99,6 @@
             </v-list>
           </v-menu>
         </v-col>
-        <v-col md="1" xl="1"></v-col>
       </v-row>
     </v-container>
   </v-toolbar>
