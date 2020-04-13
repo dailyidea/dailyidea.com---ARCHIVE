@@ -130,6 +130,7 @@
           <v-col cols="12" md="6" xl="5">
             <div class="last-section__feature-list">
               <div class="firstHeader">How Does It Work?</div>
+              <div class="subHeader">Hint: It's super easy!</div>
 
               <div class="descriptionSection">
                 <p>
@@ -147,8 +148,7 @@
               <!-- View More Button -->
               <v-btn
                 dark
-                style="border-radius: 10px;"
-                depressed
+                rounded
                 to="/auth/signup"
                 class="last-section__feature-list__view-more-btn"
                 color="primary"
