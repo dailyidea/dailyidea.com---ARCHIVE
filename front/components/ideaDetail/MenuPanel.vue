@@ -5,42 +5,32 @@
       icon
       v-if="editable"
       color="gray"
-      width="48"
-      height="48"
       @click="toggleIdeaPrivacy"
     >
       <v-icon v-if="isPrivate">mdi-lock</v-icon>
       <v-icon v-else>mdi-lock-open-variant-outline</v-icon>
     </v-btn>
-    <v-btn icon width="48" height="48" @click="showShareIdeaDialog">
+    <v-btn icon @click="showShareIdeaDialog">
       <v-icon>share</v-icon>
     </v-btn>
     <v-menu v-if="editable" offset-y left transition="slide-y-transition">
       <template v-slot:activator="{ on }">
-        <v-btn icon width="48" height="48" v-on="on">
-          <v-icon size="22">fas fa-ellipsis-v</v-icon>
+        <v-btn icon v-on="on">
+          <v-icon>fas fa-ellipsis-v</v-icon>
         </v-btn>
       </template>
       <v-list>
         <v-list-item @click="enableEditMode">
           <v-list-item-title>
-            <v-icon size="18" style="vertical-align: middle; width: 21px"
-              >mdi-pencil
-            </v-icon>
-            <span style="vertical-align: middle">
-              Edit Idea</span
-            ></v-list-item-title
-          >
+            <v-icon>mdi-pencil</v-icon>
+            <span>Edit Idea</span>
+          </v-list-item-title>
         </v-list-item>
         <v-list-item @click="deleteIdea">
           <v-list-item-title>
-            <v-icon size="18" style="vertical-align: middle; width: 21px"
-              >fas fa-trash
-            </v-icon>
-            <span style="vertical-align: middle">
-              Delete Idea</span
-            ></v-list-item-title
-          >
+            <v-icon>fas fa-trash</v-icon>
+            <span>Delete Idea</span>
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
