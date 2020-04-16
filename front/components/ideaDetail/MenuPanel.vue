@@ -3,7 +3,7 @@
     <v-btn
       text
       icon
-      :disabled="!editable"
+      v-if="editable"
       color="gray"
       width="48"
       height="48"
