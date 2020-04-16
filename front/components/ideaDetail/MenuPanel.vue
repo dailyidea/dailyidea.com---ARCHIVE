@@ -35,6 +35,7 @@
       </v-list>
     </v-menu>
     <save-idea-bookmark
+      v-if="!editable"
       @savedStateChanged="onIdeaSaveStateChanged"
     ></save-idea-bookmark>
     <ShareIdeaByEmailDialog
