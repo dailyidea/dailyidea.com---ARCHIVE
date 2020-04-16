@@ -9,13 +9,8 @@
       height="48"
       @click="toggleIdeaPrivacy"
     >
-      <img
-        v-if="isPrivate"
-        class=""
-        height="22"
-        src="~/assets/images/privateIdea.png"
-      />
-      <img v-else class="" height="22" src="~/assets/images/publicIdea.png" />
+      <v-icon v-if="isPrivate">mdi-lock</v-icon>
+      <v-icon v-else>mdi-lock-open-variant-outline</v-icon>
     </v-btn>
     <v-btn icon width="48" height="48" @click="showShareIdeaDialog">
       <v-icon>share</v-icon>
