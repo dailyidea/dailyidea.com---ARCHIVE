@@ -37,28 +37,27 @@
             <v-row no-gutters>
               <v-col>
                 <span class="idea-part__info__author">
-                  <span v-if="isMyIdea">My Idea</span>
-                  <span v-else>
-                    <router-link
-                      class="idea-part__info__author__link"
-                      :to="{
-                        name: 'profile-userSlug',
-                        params: {
-                          userSlug: idea.authorSlug
-                        }
-                      }"
-                      >{{ idea.authorName }}</router-link
-                    >'s Idea
-                  </span>
+                  <router-link
+                    class="idea-part__info__author__link muted"
+                    :to="{
+                      name: 'profile-userSlug',
+                      params: {
+                        userSlug: idea.authorSlug
+                      }
+                    }"
+                    >{{ idea.authorName }}</router-link
+                  >
                 </span>
               </v-col>
-              <v-col style="text-align: right">
-                <span class="idea-part__info__created-time">{{
+            </v-row>
+            <v-row no-gutters>
+              <v-col>
+                <span class="idea-part__info__created-time muted">{{
                   idea.createdDate | toRelativeDate
                 }}</span>
               </v-col>
             </v-row>
-          </div>
+          </div><!-- /idea-part__info -->
           <div class="idea-part__content">
             <div v-if="editMode" class="idea-part__content__idea-editor">
               <client-only>
@@ -401,8 +400,12 @@ export default {
   font-size: 24px;
 }
 
+.muted {
+  /*color: #857f88;*/
+  color: #c0b7c5;
+}
+
 .idea-part {
-  /*background-color: tan;*/
   @media (min-width: $screen-md-min) {
     min-height: calc(100vh - 88px);
   }
@@ -412,20 +415,18 @@ export default {
   &__info {
     /*margin-top: 10px;*/
     /*padding: 0 5px;*/
-    color: #c0b7c5;
     &__author {
       &__link {
-        color: #857f88 !important;
+        text-transform: capitalize;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
       }
-    }
-
-    &__created-time {
-      margin-right: 5px;
     }
   }
 
   &__content {
-    color: #827c85;
     line-height: 1.7;
     letter-spacing: 0.5px;
     word-break: break-word;
@@ -458,7 +459,6 @@ export default {
         margin-top: 10px;
         display: inline-block;
         font-size: 24px;
-        color: #18141c;
       }
 
       @media (max-width: $screen-xs-max) {
@@ -471,7 +471,6 @@ export default {
       }
 
       min-height: 50px;
-      /*background-color: #b98dd2;*/
       vertical-align: top;
     }
   }
