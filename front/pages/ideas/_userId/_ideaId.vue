@@ -413,9 +413,6 @@ export default {
     /*margin-top: 10px;*/
     /*padding: 0 5px;*/
     color: #c0b7c5;
-    @media (min-width: $screen-sm-min) {
-      margin: 30px 0;
-    }
     &__author {
       &__link {
         color: #857f88 !important;
