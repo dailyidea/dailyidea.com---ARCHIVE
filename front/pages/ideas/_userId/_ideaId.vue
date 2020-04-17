@@ -3,7 +3,7 @@
     <v-row no-gutters align="stretch">
       <v-col cols="12" md="8" class="idea-part">
         <div>
-          <v-row class="idea-part__header" no-gutters align-content="start" align-content-sm="end">
+          <v-row class="idea-part__header" no-gutters>
             <v-col class="idea-part__header__title">
               <v-text-field
                 v-if="editMode"
@@ -48,11 +48,7 @@
                     >{{ idea.authorName }}</router-link
                   >
                 </span>
-              </v-col>
-            </v-row>
-            <v-row no-gutters>
-              <v-col>
-                <span class="idea-part__info__created-time muted">{{
+                <span class="idea-part__info__created-time">{{
                   idea.createdDate | toRelativeDate
                 }}</span>
               </v-col>
@@ -415,6 +411,7 @@ export default {
   &__info {
     /*margin-top: 10px;*/
     /*padding: 0 5px;*/
+
     &__author {
       &__link {
         text-transform: capitalize;
@@ -423,6 +420,10 @@ export default {
           text-decoration: underline;
         }
       }
+    }
+
+    &__created-time {
+      color: rgb(255, 185, 45);
     }
   }
 
