@@ -1,6 +1,6 @@
 <template>
   <layout>
-    <v-row no-gutters align="stretch">
+    <v-row align="stretch">
       <v-col cols="12" md="8" class="idea-part">
         <div>
           <v-row class="idea-part__header" no-gutters>
@@ -412,9 +412,6 @@ export default {
   position: relative;
 
   &__info {
-    /*margin-top: 10px;*/
-    /*padding: 0 5px;*/
-
     &__author {
       &__link {
         text-transform: capitalize;
@@ -436,7 +433,6 @@ export default {
     margin-top: 3rem;
     @media (min-width: $screen-md-min) {
       min-height: 300px;
-      padding-right: 5px;
     }
     &__idea-editor {
       ::v-deep .trix-content {
@@ -456,14 +452,12 @@ export default {
     &__title {
       vertical-align: top;
       text-transform: capitalize;
-      padding-bottom: 0.5rem;
     }
   }
 
   &__tags-panel {
     /*border-top: 1px solid #ebe7ed;*/
     /*padding-left: 10px;*/
-    padding-right: 5px;
 
     .tagsContainer {
       margin-top: 20px;
