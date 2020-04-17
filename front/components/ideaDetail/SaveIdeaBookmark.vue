@@ -1,25 +1,15 @@
 <template>
-  <div
-    class="save-idea-bookmark"
-    :class="{ liked: isLiked }"
-    @click="toggleIdeaLiked"
-  >
-    <v-icon
-      v-if="!isLiked && !isLoading"
-      color="white"
-      :class="{ hidden: isLiked, 'plus-icon': true }"
-    >
-      fa fa-plus flag-icon</v-icon
-    >
-    <v-icon v-if="isLoading" color="white"
-      >fas fa-circle-notch fa-spin flag-icon</v-icon
-    >
-    <div class="save-idea-bookmark__inner-triangle"></div>
+  <span>
+    <v-btn small icon @click="toggleIdeaLiked">
+      <v-icon v-if="isLoading">fas fa-circle-notch fa-spin</v-icon>
+      <v-icon v-else-if="!isLoading && isLiked" class="liked">mdi-bookmark</v-icon>
+      <v-icon v-else>mdi-bookmark-plus-outline</v-icon>
+    </v-btn>
     <SaveIdeaWithoutLoginDialog
       :visible.sync="showSaveWithoutLoginDialog"
       @close="showSaveWithoutLoginDialog = false"
     ></SaveIdeaWithoutLoginDialog>
-  </div>
+  </span>
 </template>
 
 <script>
@@ -118,51 +108,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.save-idea-bookmark {
-  margin: 0 5px;
-  cursor: pointer;
-  text-align: center;
-  /*padding-top: 34px;*/
-  display: inline-block;
-  width: 42px;
-  height: 70px;
-  vertical-align: top;
-  background-color: #ebe7ed;
+.liked {
+  color: #ffb92d !important;
   &:hover {
-    background-color: #e0dce2;
-  }
-  &.liked {
-    background-color: #ffb92d;
-    &:hover {
-      background-color: rgba(255, 185, 45, 0.76);
-    }
-  }
-  transition: background-color 0.5s ease;
-  border-radius: 0 0 5px 5px;
-  position: relative;
-  /*<!--top: -10px;-->*/
-  &__inner-triangle {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-
-    border-left: 21px solid transparent;
-    border-right: 21px solid transparent;
-    border-bottom: 16px solid white;
-
-    /*background-color: red;*/
-  }
-  .flag-icon {
-    margin-top: 10px;
-  }
-  .plus-icon {
-    opacity: 1;
-    /*transition: opacity 0.1s ease;*/
-    &.hidden {
-      opacity: 0;
-    }
+    color: rgba(255, 185, 45, 0.76) !important;
   }
 }
 </style>

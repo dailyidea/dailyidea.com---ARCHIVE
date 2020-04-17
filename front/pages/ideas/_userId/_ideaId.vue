@@ -1,21 +1,10 @@
 <template>
   <layout>
-    <v-row no-gutters align="stretch">
+    <v-row align="stretch">
       <v-col cols="12" md="8" class="idea-part">
         <div>
-          <div class="idea-part__header">
-            <menu-panel
-              :editable="isMyIdea"
-              :idea="idea"
-              @enableEditMode="enableEditMode"
-              @savedStateChanged="onIdeaSaveStateChanged"
-              @onNotification="onNotification"
-              @onIdeaShared="onIdeaShared"
-              @onDeleteIdea="onDeleteIdea"
-              @onIdeaVisibilityChanged="onIdeaVisibilityChanged"
-              @onIdeaVisibilityChangeError="onIdeaVisibilityChangeError"
-            ></menu-panel>
-            <div class="idea-part__header__title">
+          <v-row class="idea-part__header" no-gutters>
+            <v-col class="idea-part__header__title">
               <v-text-field
                 v-if="editMode"
                 v-model="ideaEditData.title"
@@ -28,37 +17,44 @@
                 :single-line="true"
                 :disabled="updatingIdea"
               ></v-text-field>
-              <span v-else class="idea-part__header__title__label">{{
-                idea.title
-              }}</span>
-            </div>
-          </div>
+              <h2 v-else class="idea-part__header__title__label">{{ idea.title }}</h2>
+            </v-col>
+            <v-col cols="12" sm="auto" offset-sm="1">
+              <menu-panel
+                :editable="isMyIdea"
+                :idea="idea"
+                @enableEditMode="enableEditMode"
+                @savedStateChanged="onIdeaSaveStateChanged"
+                @onNotification="onNotification"
+                @onIdeaShared="onIdeaShared"
+                @onDeleteIdea="onDeleteIdea"
+                @onIdeaVisibilityChanged="onIdeaVisibilityChanged"
+                @onIdeaVisibilityChangeError="onIdeaVisibilityChangeError"
+              ></menu-panel>
+            </v-col>
+          </v-row>
           <div class="idea-part__info">
             <v-row no-gutters>
               <v-col>
+                <span class="muted">By</span>
                 <span class="idea-part__info__author">
-                  <span v-if="isMyIdea">My Idea</span>
-                  <span v-else>
-                    <router-link
-                      class="idea-part__info__author__link"
-                      :to="{
-                        name: 'profile-userSlug',
-                        params: {
-                          userSlug: idea.authorSlug
-                        }
-                      }"
-                      >{{ idea.authorName }}</router-link
-                    >'s Idea
-                  </span>
+                  <router-link
+                    class="idea-part__info__author__link muted"
+                    :to="{
+                      name: 'profile-userSlug',
+                      params: {
+                        userSlug: idea.authorSlug
+                      }
+                    }"
+                    >{{ idea.authorName }}</router-link
+                  >
                 </span>
-              </v-col>
-              <v-col style="text-align: right">
                 <span class="idea-part__info__created-time">{{
                   idea.createdDate | toRelativeDate
                 }}</span>
               </v-col>
             </v-row>
-          </div>
+          </div><!-- /idea-part__info -->
           <div class="idea-part__content">
             <div v-if="editMode" class="idea-part__content__idea-editor">
               <client-only>
@@ -232,7 +228,7 @@ export default {
     },
     onIdeaSaveStateChanged({ liked, likesCount }) {
       this.idea.likesCount = likesCount
-      this.$refs.notifier.success(liked ? 'Liked' : 'Unliked')
+      this.$refs.notifier.success(liked ? 'Idea saved!' : 'Idea unsaved!')
     },
     copyIdeaDataForEdit() {
       this.ideaEditData.content = this.idea.content
@@ -401,8 +397,14 @@ export default {
   font-size: 24px;
 }
 
+.muted {
+  /*color: #857f88;*/
+  color: #c0b7c5;
+}
+
+.yellow {
+}
 .idea-part {
-  /*background-color: tan;*/
   @media (min-width: $screen-md-min) {
     min-height: calc(100vh - 88px);
   }
@@ -410,32 +412,27 @@ export default {
   position: relative;
 
   &__info {
-    /*margin-top: 10px;*/
-    /*padding: 0 5px;*/
-    color: #c0b7c5;
-    @media (min-width: $screen-sm-min) {
-      margin: 30px 0;
-    }
     &__author {
       &__link {
-        color: #857f88 !important;
+        text-transform: capitalize;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
 
     &__created-time {
-      margin-right: 5px;
+      color: rgb(255, 185, 45);
     }
+
   }
 
   &__content {
-    color: #827c85;
-    line-height: 1.7;
-    letter-spacing: 0.5px;
     word-break: break-word;
-    margin-top: 10px;
+    margin-top: 3rem;
     @media (min-width: $screen-md-min) {
       min-height: 300px;
-      padding-right: 5px;
     }
     &__idea-editor {
       ::v-deep .trix-content {
@@ -452,37 +449,15 @@ export default {
   }
 
   &__header {
-    $base-height: 50px;
-    min-height: $base-height;
-    font-size: 0;
-
     &__title {
-      &__label {
-        margin-top: 10px;
-        display: inline-block;
-        font-size: 24px;
-        color: #18141c;
-      }
-
-      @media (max-width: $screen-xs-max) {
-        padding-top: 14px;
-        font-size: 20px;
-      }
-      @media (min-width: $screen-sm-min) {
-        display: inline-block;
-        width: calc(100% - 200px);
-      }
-
-      min-height: 50px;
-      /*background-color: #b98dd2;*/
       vertical-align: top;
+      text-transform: capitalize;
     }
   }
 
   &__tags-panel {
     /*border-top: 1px solid #ebe7ed;*/
     /*padding-left: 10px;*/
-    padding-right: 5px;
 
     .tagsContainer {
       margin-top: 20px;

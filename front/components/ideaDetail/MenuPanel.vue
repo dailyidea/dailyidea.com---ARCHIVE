@@ -1,55 +1,48 @@
 <template>
   <div class="idea-part__header__buttons-panel">
     <v-btn
+      x-small
       text
       icon
-      :disabled="!editable"
+      v-if="editable"
       color="gray"
-      width="48"
-      height="48"
       @click="toggleIdeaPrivacy"
+      class="privacyButton"
     >
-      <img
-        v-if="isPrivate"
-        class=""
-        height="22"
-        src="~/assets/images/privateIdea.png"
-      />
-      <img v-else class="" height="22" src="~/assets/images/publicIdea.png" />
+      <v-icon v-if="isPrivate">mdi-lock</v-icon>
+      <v-icon v-else>mdi-lock-open-variant-outline</v-icon>
     </v-btn>
-    <v-btn icon width="48" height="48" @click="showShareIdeaDialog">
+    <v-btn
+      x-small
+      icon
+      @click="showShareIdeaDialog"
+      class="shareButton"
+    >
       <v-icon>share</v-icon>
     </v-btn>
     <v-menu v-if="editable" offset-y left transition="slide-y-transition">
       <template v-slot:activator="{ on }">
-        <v-btn icon width="48" height="48" v-on="on">
-          <v-icon size="22">fas fa-ellipsis-v</v-icon>
+        <v-btn x-small icon v-on="on">
+          <v-icon class="moreActionsButton">fas fa-ellipsis-v</v-icon>
         </v-btn>
       </template>
       <v-list>
         <v-list-item @click="enableEditMode">
           <v-list-item-title>
-            <v-icon size="18" style="vertical-align: middle; width: 21px"
-              >mdi-pencil
-            </v-icon>
-            <span style="vertical-align: middle">
-              Edit Idea</span
-            ></v-list-item-title
-          >
+            <v-icon small class="editButton">mdi-pencil</v-icon>
+            <span>Edit Idea</span>
+          </v-list-item-title>
         </v-list-item>
         <v-list-item @click="deleteIdea">
           <v-list-item-title>
-            <v-icon size="18" style="vertical-align: middle; width: 21px"
-              >fas fa-trash
-            </v-icon>
-            <span style="vertical-align: middle">
-              Delete Idea</span
-            ></v-list-item-title
-          >
+            <v-icon small class="deleteButton">mdi-trash-can-outline</v-icon>
+            <span>Delete Idea</span>
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
     <save-idea-bookmark
+      v-if="!editable"
       @savedStateChanged="onIdeaSaveStateChanged"
     ></save-idea-bookmark>
     <ShareIdeaByEmailDialog
@@ -191,21 +184,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$base-height: 50px;
-.idea-part__header__buttons-panel {
-  @media (max-width: $screen-xs-max) {
+  .idea-part__header__buttons-panel {
+    padding-right: 10px;
+    .privacyButton {
+      /* color: #1867c0 !important; */
+      color: #5cbbf6 !important;
+    }
+    .shareButton {
+      color: #2cbe4e !important;
+    }
+    .moreActionsButton {
+      color: silver !important;
+    }
   }
-  @media (min-width: $screen-sm-min) {
-    display: inline-block;
-    float: right;
-    width: 200px;
-  }
-  height: $base-height;
-  text-align: right;
-  vertical-align: top;
-
-  /*font-size: 22px;*/
-  /*background-color: #d2a7af;*/
-  min-height: 50px;
-}
 </style>
