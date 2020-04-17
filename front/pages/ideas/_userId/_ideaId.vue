@@ -3,19 +3,8 @@
     <v-row no-gutters align="stretch">
       <v-col cols="12" md="8" class="idea-part">
         <div>
-          <div class="idea-part__header">
-            <menu-panel
-              :editable="isMyIdea"
-              :idea="idea"
-              @enableEditMode="enableEditMode"
-              @savedStateChanged="onIdeaSaveStateChanged"
-              @onNotification="onNotification"
-              @onIdeaShared="onIdeaShared"
-              @onDeleteIdea="onDeleteIdea"
-              @onIdeaVisibilityChanged="onIdeaVisibilityChanged"
-              @onIdeaVisibilityChangeError="onIdeaVisibilityChangeError"
-            ></menu-panel>
-            <div class="idea-part__header__title">
+          <v-row class="idea-part__header" no-gutters align-content="start" align-content-sm="end">
+            <v-col class="idea-part__header__title">
               <v-text-field
                 v-if="editMode"
                 v-model="ideaEditData.title"
@@ -28,11 +17,22 @@
                 :single-line="true"
                 :disabled="updatingIdea"
               ></v-text-field>
-              <span v-else class="idea-part__header__title__label">{{
-                idea.title
-              }}</span>
-            </div>
-          </div>
+              <h2 v-else class="idea-part__header__title__label">{{ idea.title }}</h2>
+            </v-col>
+            <v-col cols="12" sm="auto" offset-sm="1">
+              <menu-panel
+                :editable="isMyIdea"
+                :idea="idea"
+                @enableEditMode="enableEditMode"
+                @savedStateChanged="onIdeaSaveStateChanged"
+                @onNotification="onNotification"
+                @onIdeaShared="onIdeaShared"
+                @onDeleteIdea="onDeleteIdea"
+                @onIdeaVisibilityChanged="onIdeaVisibilityChanged"
+                @onIdeaVisibilityChangeError="onIdeaVisibilityChangeError"
+              ></menu-panel>
+            </v-col>
+          </v-row>
           <div class="idea-part__info">
             <v-row no-gutters>
               <v-col>
@@ -452,26 +452,10 @@ export default {
   &__header {
     $base-height: 50px;
     min-height: $base-height;
-    font-size: 0;
 
     &__title {
-      &__label {
-        margin-top: 10px;
-        display: inline-block;
-        font-size: 24px;
-      }
-
-      @media (max-width: $screen-xs-max) {
-        padding-top: 14px;
-        font-size: 20px;
-      }
-      @media (min-width: $screen-sm-min) {
-        display: inline-block;
-        width: calc(100% - 200px);
-      }
-
-      min-height: 50px;
       vertical-align: top;
+      text-transform: capitalize;
     }
   }
 

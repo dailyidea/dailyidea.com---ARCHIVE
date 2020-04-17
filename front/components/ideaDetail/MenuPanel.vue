@@ -177,21 +177,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$base-height: 50px;
-.idea-part__header__buttons-panel {
-  @media (max-width: $screen-xs-max) {
-  }
-  @media (min-width: $screen-sm-min) {
-    display: inline-block;
-    float: right;
-    width: 200px;
-  }
-  height: $base-height;
-  text-align: right;
-  vertical-align: top;
-
-  /*font-size: 22px;*/
-  /*background-color: #d2a7af;*/
-  min-height: 50px;
-}
 </style>
