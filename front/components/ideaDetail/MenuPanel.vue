@@ -1,34 +1,41 @@
 <template>
   <div class="idea-part__header__buttons-panel">
     <v-btn
+      x-small
       text
       icon
       v-if="editable"
       color="gray"
       @click="toggleIdeaPrivacy"
+      class="privacyButton"
     >
       <v-icon v-if="isPrivate">mdi-lock</v-icon>
       <v-icon v-else>mdi-lock-open-variant-outline</v-icon>
     </v-btn>
-    <v-btn icon @click="showShareIdeaDialog">
+    <v-btn
+      x-small
+      icon
+      @click="showShareIdeaDialog"
+      class="shareButton"
+    >
       <v-icon>share</v-icon>
     </v-btn>
     <v-menu v-if="editable" offset-y left transition="slide-y-transition">
       <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on">
-          <v-icon>fas fa-ellipsis-v</v-icon>
+        <v-btn x-small icon v-on="on">
+          <v-icon class="moreActionsButton">fas fa-ellipsis-v</v-icon>
         </v-btn>
       </template>
       <v-list>
         <v-list-item @click="enableEditMode">
           <v-list-item-title>
-            <v-icon>mdi-pencil</v-icon>
+            <v-icon small class="editButton">mdi-pencil</v-icon>
             <span>Edit Idea</span>
           </v-list-item-title>
         </v-list-item>
         <v-list-item @click="deleteIdea">
           <v-list-item-title>
-            <v-icon>fas fa-trash</v-icon>
+            <v-icon small class="deleteButton">mdi-trash-can-outline</v-icon>
             <span>Delete Idea</span>
           </v-list-item-title>
         </v-list-item>
@@ -177,4 +184,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .idea-part__header__buttons-panel {
+    padding-right: 10px;
+    .privacyButton {
+      color: #1867c0 !important;
+    }
+    .shareButton {
+      color: #2cbe4e !important;
+    }
+    .moreActionsButton {
+      color: silver !important;
+    }
+  }
 </style>
