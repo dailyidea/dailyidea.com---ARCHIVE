@@ -187,7 +187,8 @@ export default {
   .idea-part__header__buttons-panel {
     padding-right: 10px;
     .privacyButton {
-      color: #1867c0 !important;
+      /* color: #1867c0 !important; */
+      color: #5cbbf6 !important;
     }
     .shareButton {
       color: #2cbe4e !important;
