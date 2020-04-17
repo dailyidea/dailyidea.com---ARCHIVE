@@ -228,7 +228,7 @@ export default {
     },
     onIdeaSaveStateChanged({ liked, likesCount }) {
       this.idea.likesCount = likesCount
-      this.$refs.notifier.success(liked ? 'Liked' : 'Unliked')
+      this.$refs.notifier.success(liked ? 'Idea saved!' : 'Idea unsaved!')
     },
     copyIdeaDataForEdit() {
       this.ideaEditData.content = this.idea.content
