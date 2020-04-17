@@ -36,6 +36,7 @@
           <div class="idea-part__info">
             <v-row no-gutters>
               <v-col>
+                <span class="muted">By</span>
                 <span class="idea-part__info__author">
                   <router-link
                     class="idea-part__info__author__link muted"
@@ -401,6 +402,8 @@ export default {
   color: #c0b7c5;
 }
 
+.yellow {
+}
 .idea-part {
   @media (min-width: $screen-md-min) {
     min-height: calc(100vh - 88px);
@@ -425,6 +428,7 @@ export default {
     &__created-time {
       color: rgb(255, 185, 45);
     }
+
   }
 
   &__content {
