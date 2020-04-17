@@ -428,10 +428,8 @@ export default {
   }
 
   &__content {
-    line-height: 1.7;
-    letter-spacing: 0.5px;
     word-break: break-word;
-    margin-top: 10px;
+    margin-top: 3rem;
     @media (min-width: $screen-md-min) {
       min-height: 300px;
       padding-right: 5px;
@@ -451,12 +449,10 @@ export default {
   }
 
   &__header {
-    $base-height: 50px;
-    min-height: $base-height;
-
     &__title {
       vertical-align: top;
       text-transform: capitalize;
+      padding-bottom: 0.5rem;
     }
   }
 
