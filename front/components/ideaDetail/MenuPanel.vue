@@ -185,7 +185,6 @@ export default {
 
 <style scoped lang="scss">
   .idea-part__header__buttons-panel {
-    padding-right: 10px;
     .privacyButton {
       /* color: #1867c0 !important; */
       color: #5cbbf6 !important;
