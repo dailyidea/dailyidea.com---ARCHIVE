@@ -185,6 +185,7 @@ export default {
 
 <style scoped lang="scss">
   .idea-part__header__buttons-panel {
+    padding-top: 4px; /* this is just to offset the buttons to match the baseline of the title, because the title font is a different height than the button icon height */
     .privacyButton {
       /* color: #1867c0 !important; */
       color: #5cbbf6 !important;

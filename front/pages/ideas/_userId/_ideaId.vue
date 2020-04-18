@@ -19,7 +19,7 @@
               ></v-text-field>
               <h2 v-else class="idea-part__header__title__label">{{ idea.title }}</h2>
             </v-col>
-            <v-col cols="12" sm="auto" offset-sm="1">
+            <v-col cols="auto" offset="1">
               <menu-panel
                 :editable="isMyIdea"
                 :idea="idea"
@@ -450,7 +450,6 @@ export default {
 
   &__header {
     &__title {
-      vertical-align: top;
       text-transform: capitalize;
     }
   }
