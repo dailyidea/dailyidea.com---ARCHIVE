@@ -11,20 +11,22 @@
         >
           <div>
             <h1>Every Day, Log An Idea</h1>
-            <p>A project idea, a startup idea, a work idea</p>
+            <p>A project idea, a startup idea, a work idea.</p>
             <p>
               We'll send you a daily email reminding you to submit an idea. Just
               respond to it and we'll save it for you.
             </p>
 
             <!-- Signup Button -->
-            <v-btn
-              normal
-              dark
-              rounded
-              :to="{ name: 'auth-signup' }"
-              >Sign Up
-            </v-btn>
+            <div class="text-center text-md-left">
+              <v-btn
+                dark
+                rounded
+                class="wider"
+                :to="{ name: 'auth-signup' }"
+                >Sign Up
+              </v-btn>
+            </div>
           </div>
         </v-col>
         <v-col md="6" cols="12" class="text-center">
@@ -32,8 +34,8 @@
         </v-col>
       </v-row>
 
-      <section id="idea-section">
-        <h2>Browse Popular Ideas</h2>
+      <section>
+        <h2 class="text-center">Browse Popular Ideas</h2>
 
         <!-- Display idea cards -->
         <v-row>
@@ -87,13 +89,12 @@
         </v-row>
 
         <!-- See More Button -->
-        <div class="idea-section__browse-more">
+        <div class="text-center">
           <v-btn
-            color="primary"
             outlined
             rounded
+            class="wider"
             :to="{ name: 'ideas-all' }"
-            class="idea-section__browse-more__btn"
             >See More
           </v-btn>
         </div>
@@ -106,10 +107,14 @@
           </v-col>
           <v-col cols="12" md="6">
             <div class="last-section__feature-list">
-              <h2>How Does It Work?</h2>
+              <h2 class="mb-4">How Does It Work?</h2>
               <p>
-                We send you an email to remind you to submit an idea. You just
-                respond to the email with an idea and we store it for you.
+                <v-icon small>mdi-calendar-star</v-icon>
+                <span>We send you an email to remind you to submit an idea.</span>
+              </p>
+              <p>
+                <v-icon small>mdi-email-send-outline</v-icon>
+                <span>You just respond to the email with an idea and we store it for you.</span>
               </p>
               <p>You'll also:</p>
               <ul>
@@ -118,14 +123,15 @@
                 <li>Browse other ideas to inspire your own creativity</li>
               </ul>
 
-              <v-btn
-                dark
-                rounded
-                :to="{ name: 'auth-signup' }"
-                class="last-section__feature-list__view-more-btn"
-                color="primary"
-                >Sign Up
-              </v-btn>
+              <div class="text-center text-md-left">
+                <v-btn
+                  dark
+                  rounded
+                  class="wider"
+                  :to="{ name: 'auth-signup' }"
+                  >Sign Up
+                </v-btn>
+              </div>
             </div>
           </v-col>
         </v-row>
@@ -207,14 +213,19 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-#newhomePage {
-  background: white;
-  font-family: Avenir;
-  /* TODO: This should probably be somewhere global instead */
+#hero h1 {
+  padding-bottom: 3rem;
 }
 
 .hero__image, .img2 {
   max-width: 300px;
+}
+
+a.v-btn.wider {
+  margin-top: 3em;
+  margin-bottom: 3rem;
+  padding-left: 5rem;
+  padding-right: 5rem;
 }
 
 .reviews {
