@@ -9,10 +9,10 @@
           <v-toolbar-title class="blue--text subheading">
             <!-- Logo on top left corner -->
             <nuxt-link class="logoLink" :to="logoLink">
-              <img class="logoIcon" src="~/assets/images/logo_icon.png" />
+              <img class="logoIcon" src="~/assets/images/logo_icon.svg" />
               <img
                 class="logoIcon logoText"
-                src="~/assets/images/logo_text.png"
+                src="~/assets/images/logo_text.svg"
               />
             </nuxt-link>
           </v-toolbar-title>
@@ -221,8 +221,9 @@ a {
     }
 
     .logoText {
-      margin-top: 4px;
-      height: 19px;
+      margin-bottom: 5px;
+      margin-left: 5px;
+      height: 13px;
     }
   }
 
