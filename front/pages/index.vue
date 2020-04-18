@@ -121,7 +121,7 @@
               <v-btn
                 dark
                 rounded
-                to="/auth/signup"
+                :to="{ name: 'auth-signup' }"
                 class="last-section__feature-list__view-more-btn"
                 color="primary"
                 >Sign Up
