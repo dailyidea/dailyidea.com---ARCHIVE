@@ -100,7 +100,7 @@
         </div>
       </section>
 
-      <section>
+      <section id="how-does-it-work">
         <v-row>
           <v-col cols="12" md="6" class="text-center">
             <img class="img2" src="~/assets/images/home/undraw_donut_love_kau1.svg" />
@@ -110,18 +110,25 @@
               <h2 class="mb-4">How Does It Work?</h2>
               <p>
                 <v-icon small>mdi-calendar-star</v-icon>
-                <span>We send you an email to remind you to submit an idea.</span>
+                We send you an email to remind you to submit an idea.
               </p>
               <p>
                 <v-icon small>mdi-email-send-outline</v-icon>
-                <span>You just respond to the email with an idea and we store it for you.</span>
+                You just respond to the email with an idea and we store it for you.
               </p>
               <p>You'll also:</p>
-              <ul>
-                <li>Practice generating ideas to become an idea machine</li>
-                <li>Get reminded of your best ideas later</li>
-                <li>Browse other ideas to inspire your own creativity</li>
-              </ul>
+              <p>
+                <v-icon small>mdi-head-dots-horizontal-outline</v-icon>
+                Practice generating ideas to become an idea machine
+              </p>
+              <p>
+                <v-icon small>mdi-alarm</v-icon>
+                Get reminded of your best ideas later
+              </p>
+              <p>
+                <v-icon small>mdi-thought-bubble-outline</v-icon>
+                Browse other ideas to inspire your own creativity
+              </p>
 
               <div class="text-center text-md-left">
                 <v-btn
@@ -297,6 +304,14 @@ a.v-btn.wider {
         }
       }
     }
+  }
+}
+
+#how-does-it-work {
+  i.v-icon {
+    color: $primary-color;
+    padding-right: 0.5rem;
+    vertical-align: baseline;
   }
 }
 
