@@ -18,24 +18,12 @@
           </v-toolbar-title>
         </v-col>
         <v-col style="text-align: center; line-height: 38px">
-          <v-text-field
+          <search-component
             v-if="searchIdeaMode"
-            v-model="label"
-            label="What are you looking for?"
-            solo
-            dense
-            autofocus
-            hide-details
-          >
-            <template v-slot:append>
-              <v-icon @click="searchIdeaMode = false">fa-times</v-icon>
-            </template>
-            <template v-slot:prepend-inner>
-              <v-icon size="22" @click="searchIdeaMode = false"
-                >fa-search</v-icon
-              >
-            </template>
-          </v-text-field>
+            :search-idea-mode="searchIdeaMode"
+            :label="label"
+            @onToggleSearchIdeaMode="onToggleSearchIdeaMode"
+          ></search-component>
           <template v-else>
             <span class="ideas-navigation-item">
               <router-link to="/ideas/all">All Ideas</router-link>
@@ -107,8 +95,13 @@
 </template>
 
 <script>
+import SearchComponent from './SearchComponent'
+
 export default {
   name: 'DesktopHeader',
+  components: {
+    SearchComponent
+  },
   data() {
     return {
       searchIdeaMode: false,
@@ -145,6 +138,9 @@ export default {
   methods: {
     signOut() {
       this.$emit('signOut')
+    },
+    onToggleSearchIdeaMode(value) {
+      this.searchIdeaMode = value
     }
   }
 }
