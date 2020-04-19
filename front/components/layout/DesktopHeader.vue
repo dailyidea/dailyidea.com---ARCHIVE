@@ -4,7 +4,7 @@
 
     <!--    <v-spacer></v-spacer>-->
     <v-container fluid>
-      <v-row style="background-color: #ffe;">
+      <v-row>
         <v-col cols="auto">
           <v-toolbar-title>
             <!-- Logo on top left corner -->
@@ -17,20 +17,20 @@
             </nuxt-link>
           </v-toolbar-title>
         </v-col>
-        <v-col style="background-color: #eff">
-          <template v-if="!searchIdeaMode">
-            <span class="ideas-navigation-item">
-              <router-link to="/ideas/all">All Ideas</router-link>
-            </span>
-            <span v-if="isAuthenticated" class="ideas-navigation-item">
-              <router-link to="/ideas/me">My Ideas</router-link>
-            </span>
-            <span v-if="isAuthenticated" class="ideas-navigation-item">
-              <router-link to="/ideas/liked">Saved Ideas</router-link>
-            </span>
-          </template>
+        <!--
+        <v-col style="background-color: #eff" v-if="!searchIdeaMode">
+          <span class="ideas-navigation-item">
+            <router-link to="/ideas/all">All Ideas</router-link>
+          </span>
+          <span v-if="isAuthenticated" class="ideas-navigation-item">
+            <router-link to="/ideas/me">My Ideas</router-link>
+          </span>
+          <span v-if="isAuthenticated" class="ideas-navigation-item">
+            <router-link to="/ideas/liked">Saved Ideas</router-link>
+          </span>
         </v-col>
-        <v-col style="background-color: #fef">
+        -->
+        <v-col>
           <search-component
             :search-idea-mode="searchIdeaMode"
             :label="label"
@@ -38,7 +38,6 @@
           ></search-component>
         </v-col>
         <v-col cols="auto">
-
           <!-- Profile Icon -->
           <v-menu offset-y nudge-bottom="15" left :disabled="!isAuthenticated">
             <template v-slot:activator="{ on }">

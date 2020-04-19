@@ -31,7 +31,7 @@
             </nuxt-link>
           </v-col>
         </template>
-        <v-col style="background-color: #eff">
+        <v-col>
           <search-component
             :search-idea-mode="searchIdeaMode"
             :label="label"
