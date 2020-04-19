@@ -191,15 +191,6 @@ a {
   z-index: 100;
   width: 100%;
 
-  .desktopMenu {
-    margin-top: -12px;
-    margin-right: 8px;
-
-    img {
-      height: 17px;
-    }
-  }
-
   .backButon {
     margin-right: 20px;
     margin-top: -10px;
