@@ -5,19 +5,16 @@
     absolute
     temporary
   >
+    <div class="logo-container">
+      <v-icon class="logo-container__icon" @click.native="close"
+        >fa-times</v-icon
+      >
+      <span class="logo-container__text">DAILYIDEA</span>
+    </div>
+
     <v-list dense dark>
       <!-- Back button -->
 
-      <div class="logo-container">
-        <v-icon class="logo-container__icon" @click.native="close"
-          >fa-times</v-icon
-        >
-        <img
-          src="~/assets/images/bulb_white_on.png"
-          class="logo-container__image"
-        />
-        <span class="logo-container__text">D A I L Y I D E A</span>
-      </div>
       <v-list-item @click.native="openPage('/ideas/all')"
       active-class="highlighted"
       :class="'/ideas/all' === $route.path ? 'highlighted' : ''"
@@ -128,30 +125,21 @@ export default {
   z-index: 999;
 
   .logo-container {
-    margin-top: 3vh;
-    margin-bottom: 4vh;
-    padding-left: 16px;
-    /*text-align: center;*/
-
-    &__image {
-      height: 20px;
-      vertical-align: top;
-      margin-right: 3px;
-      padding-left: 10px;
-    }
+    margin-top: 18px;
+    padding-left: 28px;
+    margin-bottom: 1rem;
 
     &__text {
       vertical-align: top;
       line-height: 22px;
       font-size: 14px;
+      letter-spacing: 0.6rem;
     }
 
     &__icon {
       margin-right: 16px;
-      float: left;
-      display: inline-block;
       font-size: 21px;
-      vertical-align: top;
+      vertical-align: baseline;
       cursor: pointer;
     }
   }
