@@ -8,10 +8,10 @@
         <v-col>
           <v-toolbar-title>
             <!-- Logo on top left corner -->
-            <nuxt-link class="logoLink" :to="logoLink">
-              <img class="logoIcon" src="~/assets/images/logo_icon.svg" />
+            <nuxt-link class="logo" :to="logoLink">
+              <img class="logo__icon" src="~/assets/images/logo_icon.svg" />
               <img
-                class="logoIcon logoText"
+                class="logo__text"
                 src="~/assets/images/logo_text.svg"
               />
             </nuxt-link>
@@ -189,19 +189,14 @@ a {
     cursor: pointer;
   }
 
-  // For non loggedin user
-
-  .logoLink {
-    text-decoration: none;
-
-    .logoIcon {
-      height: 24px;
+  .logo {
+    img.logo__icon {
+      height: 32px;
+      margin-right: 10px;
+      margin-bottom: -6px;
     }
-
-    .logoText {
-      margin-bottom: 5px;
-      margin-left: 5px;
-      height: 13px;
+    img.logo__text {
+      height: 16px;
     }
   }
 
