@@ -62,43 +62,35 @@
           <!-- Profile Icon -->
           <v-menu offset-y nudge-bottom="15" left :disabled="!isAuthenticated">
             <template v-slot:activator="{ on }">
-              <span>
-                <v-btn
+              <a v-if="isAuthenticated" v-on="on">
+                <span
                   v-if="!userAvatar"
                   class="profileBtn"
                   icon
                   fab
-                  v-on="on"
                 >
                   <v-icon>mdi-account-circle</v-icon>
-                </v-btn>
+                </span>
                 <span
                   v-else
                   class="userAvatarContainer"
                   :style="avatarStyle"
-                  v-on="on"
                 ></span>
-
-                <!-- Print Logged-in user's name -->
-                <span v-if="isAuthenticated"
-                  class="userName"
-                  v-on="on"
-                >{{
-                  userName
-                }}</span>
-                <span v-else class="userName"
-                  ><router-link to="/auth/login">Log In</router-link></span
-                >
-              </span>
+                <span class="userName">{{ userName }}</span>
+              </a>
+              <router-link v-else
+                :to="{ name: 'auth-login' }"
+                >Log In
+              </router-link>
             </template>
             <v-list>
-              <router-link to="/profile" style="text-decoration: none">
+              <router-link to="/profile">
                 <v-list-item>
                   <v-list-item-title>My Profile</v-list-item-title>
                 </v-list-item>
               </router-link>
 
-              <router-link to="/settings" style="text-decoration: none">
+              <router-link to="/settings">
                 <v-list-item>
                   <v-list-item-title>Settings</v-list-item-title>
                 </v-list-item>
@@ -228,10 +220,5 @@ a {
       opacity: 0.8;
     }
   }
-
-  .userName {
-    cursor: pointer;
-  }
-
 }
 </style>
