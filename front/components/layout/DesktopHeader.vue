@@ -243,8 +243,5 @@ a {
     cursor: pointer;
   }
 
-  .profileBtn {
-    background: #ebe7ed !important;
-  }
 }
 </style>
