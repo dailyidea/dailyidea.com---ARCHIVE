@@ -66,15 +66,11 @@
                 <v-btn
                   v-if="!userAvatar"
                   class="profileBtn"
-                  x-small
                   icon
                   fab
-                  dark
-                  :height="36"
-                  :width="36"
                   v-on="on"
                 >
-                  <v-icon color="#4a4a4a" size="18">fas fa-user</v-icon>
+                  <v-icon>mdi-account-circle</v-icon>
                 </v-btn>
                 <span
                   v-else
@@ -234,12 +230,6 @@ a {
   }
 
   .userName {
-    vertical-align: middle;
-    margin-left: 8px;
-    font-size: 16px;
-    line-height: 38px;
-    text-align: left;
-    color: #5a5a5a;
     cursor: pointer;
   }
 
