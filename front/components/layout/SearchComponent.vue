@@ -1,7 +1,5 @@
 <template>
   <div>
-  <v-row>
-  <v-col>
           <!-- when search mode is on, show text input field -->
           <v-text-field
             v-if="searchIdeaMode"
@@ -21,11 +19,10 @@
               >
             </template>
           </v-text-field>
-    </v-col>
-    <v-col cols="auto">
 
           <!-- always visible search icon that toggles mode -->
           <v-btn
+            v-else
             icon
             height="36"
             width="36"
@@ -34,8 +31,6 @@
           >
             <v-icon>fas fa-search</v-icon>
           </v-btn>
-    </v-col>
-    </v-row>
   </div>
 </template>
 
