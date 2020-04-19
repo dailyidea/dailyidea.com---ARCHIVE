@@ -1,6 +1,10 @@
 <template>
   <div>
+  <v-row>
+  <v-col>
+          <!-- when search mode is on, show text input field -->
           <v-text-field
+            v-if="searchIdeaMode"
             v-model="label"
             label="What are you looking for?"
             solo
@@ -17,6 +21,21 @@
               >
             </template>
           </v-text-field>
+    </v-col>
+    <v-col cols="auto">
+
+          <!-- always visible search icon that toggles mode -->
+          <v-btn
+            icon
+            height="36"
+            width="36"
+            :input-value="searchIdeaMode"
+            @click="toggleSearchIdeaMode"
+          >
+            <v-icon>fas fa-search</v-icon>
+          </v-btn>
+    </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -35,7 +54,7 @@ export default {
   },
   methods: {
     toggleSearchIdeaMode() {
-      this.$emit('onToggleSearchIdeaMode', false)
+      this.$emit('onToggleSearchIdeaMode', !this.searchIdeaMode)
     }
   }
 
