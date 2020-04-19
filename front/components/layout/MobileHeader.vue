@@ -8,7 +8,6 @@
           <v-col cols="2">
             <v-btn
               small
-              class="lightPinkButton"
               icon
               style="vertical-align: top"
               @click="showSideMenu()"
