@@ -3,7 +3,7 @@
     <!-- Hamburber or back button -->
 
     <v-container fluid style="padding: 0">
-      <v-row style="padding: 0 8px">
+      <v-row>
         <template v-if="!searchIdeaMode">
           <v-col cols="2">
             <v-btn
@@ -31,45 +31,27 @@
               />
             </nuxt-link>
           </v-col>
-          <v-col cols="2" class="text-right">
-            <v-btn
-              small
-              icon
-              style="vertical-align: top"
-              @click="searchIdeaMode = true"
-            >
-              <v-icon size="18">fa-search</v-icon>
-            </v-btn>
-          </v-col>
         </template>
-        <v-col v-else cols="12" style="padding: 0">
-          <v-text-field
-            v-if="searchIdeaMode"
-            v-model="label"
-            label="What are you looking for?"
-            solo
-            dense
-            autofocus
-            hide-details
-          >
-            <template v-slot:append>
-              <v-icon @click="searchIdeaMode = false">fa-times</v-icon>
-            </template>
-            <template v-slot:prepend-inner>
-              <v-icon size="22" @click="searchIdeaMode = false"
-                >fa-search</v-icon
-              >
-            </template>
-          </v-text-field>
-        </v-col>
+          <v-col style="background-color: #eff">
+            <search-component
+              :search-idea-mode="searchIdeaMode"
+              :label="label"
+              @onToggleSearchIdeaMode="onToggleSearchIdeaMode"
+            ></search-component>
+          </v-col>
       </v-row>
     </v-container>
   </v-app-bar>
 </template>
 
 <script>
+import SearchComponent from './SearchComponent'
+
 export default {
   name: 'MobileHeader',
+  components: {
+    SearchComponent
+  },
   data() {
     return {
       searchIdeaMode: false,
@@ -79,6 +61,9 @@ export default {
   methods: {
     showSideMenu() {
       this.$emit('showSideMenu')
+    },
+    onToggleSearchIdeaMode(value) {
+      this.searchIdeaMode = value
     }
   }
 }
