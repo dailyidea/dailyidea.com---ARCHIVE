@@ -5,7 +5,7 @@
     <v-container fluid style="padding: 0">
       <v-row style="padding: 0 8px">
         <template v-if="!searchIdeaMode">
-          <v-col style="padding: 0" cols="10">
+          <v-col cols="2">
             <v-btn
               small
               class="lightPinkButton"
@@ -15,24 +15,24 @@
             >
               <v-icon>mdi-menu</v-icon>
             </v-btn>
+          </v-col>
+          <v-col cols="8" class="text-center">
             <nuxt-link
-              class="logoLink"
+              class="logo"
               :to="{ name: 'ideas-me' }"
               style="text-decoration: none; vertical-align: top"
             >
               <img
-                class="logoIcon"
-                width="18"
-                src="~/assets/images/logo_icon.png"
+                class="logo__icon"
+                src="~/assets/images/logo_icon.svg"
               />
               <img
-                width="100"
-                class="logoIcon logoText"
-                src="~/assets/images/logo_text.png"
+                class="logo__text"
+                src="~/assets/images/logo_text.svg"
               />
             </nuxt-link>
           </v-col>
-          <v-col style="padding: 0; text-align: right">
+          <v-col cols="2" class="text-right">
             <v-btn
               small
               icon
@@ -86,9 +86,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.logoLink {
+.logo {
   display: inline-block;
   height: 28px;
   padding: 3px;
+
+  img.logo__icon {
+    height: 24px;
+    margin-right: 6px;
+    margin-bottom: -6px;
+  }
+  img.logo__text {
+    height: 12px;
+  }
 }
 </style>
