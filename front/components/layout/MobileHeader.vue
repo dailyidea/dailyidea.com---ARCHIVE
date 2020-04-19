@@ -1,14 +1,13 @@
 <template>
   <v-app-bar flat color="white" class="mobileToolbar hidden-md-and-up">
     <!-- Hamburber or back button -->
-    <v-container fluid style="padding: 0">
+    <v-container fluid class="pl-0">
       <v-row>
         <template v-if="!searchIdeaMode">
           <v-col cols="2">
             <v-btn
               small
               icon
-              style="vertical-align: top"
               @click="showSideMenu()"
             >
               <v-icon>mdi-menu</v-icon>
@@ -18,7 +17,7 @@
             <nuxt-link
               class="logo"
               :to="{ name: 'ideas-me' }"
-              style="text-decoration: none; vertical-align: top"
+              style="text-decoration: none;"
             >
               <img
                 class="logo__icon"
