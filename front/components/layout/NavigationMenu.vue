@@ -6,21 +6,19 @@
     temporary
   >
     <div class="logo-container">
-      <v-icon class="logo-container__icon" @click.native="close"
+      <v-icon small class="logo-container__icon" @click.native="close"
         >fa-times</v-icon
       >
       <span class="logo-container__text">DAILYIDEA</span>
     </div>
 
     <v-list dense dark>
-      <!-- Back button -->
-
       <v-list-item @click.native="openPage('/ideas/all')"
       active-class="highlighted"
       :class="'/ideas/all' === $route.path ? 'highlighted' : ''"
       >
         <v-list-item-content>
-          <v-list-item-title>All Ideas</v-list-item-title>
+          <v-list-item-title><v-icon small>mdi-lightbulb-on</v-icon>All Ideas</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item
@@ -29,7 +27,7 @@
       :class="'/ideas/me' === $route.path ? 'highlighted' : ''"
       >
         <v-list-item-content>
-          <v-list-item-title>My Ideas</v-list-item-title>
+          <v-list-item-title><v-icon small>mdi-head-lightbulb</v-icon>My Ideas</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item
@@ -39,7 +37,7 @@
       :class="'/ideas/liked' === $route.path ? 'highlighted' : ''"
       >
         <v-list-item-content>
-          <v-list-item-title>Favorite Ideas</v-list-item-title>
+          <v-list-item-title><v-icon small>mdi-bookmark</v-icon>Saved Ideas</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item v-if="isAuthenticated" @click.native="openPage('/profile')"
@@ -47,7 +45,7 @@
       :class="'/profile' === $route.path ? 'highlighted' : ''"
       >
         <v-list-item-content>
-          <v-list-item-title>My Profile</v-list-item-title>
+          <v-list-item-title><v-icon small>mdi-account-circle</v-icon>My Profile</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item v-if="isAuthenticated" @click.native="openPage('/settings')"
@@ -55,12 +53,12 @@
       :class="'/settings' === $route.path ? 'highlighted' : ''"
       >
         <v-list-item-content>
-          <v-list-item-title>Settings</v-list-item-title>
+          <v-list-item-title><v-icon small>mdi-cog</v-icon>Settings</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item v-if="isAuthenticated" @click.native="signOut">
         <v-list-item-content>
-          <v-list-item-title>Sign Out</v-list-item-title>
+          <v-list-item-title><v-icon small>mdi-exit-run</v-icon>Sign Out</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item
@@ -138,7 +136,6 @@ export default {
 
     &__icon {
       margin-right: 16px;
-      font-size: 21px;
       vertical-align: baseline;
       cursor: pointer;
     }
@@ -147,6 +144,11 @@ export default {
   // display: none;
   .v-list-item {
     cursor: pointer;
+
+    i.v-icon {
+      vertical-align: baseline;
+      margin-right: 0.5rem;
+    }
 
     &:hover,
     &:active {
@@ -167,7 +169,12 @@ export default {
     }
   }
 }
-.highlighted{
+.highlighted {
   border-left: 4px solid $secondary-color;
+
+  .v-list-item__title,
+  .v-list-item__title i.v-icon {
+    color: $secondary-color !important;
+  }
 }
 </style>
