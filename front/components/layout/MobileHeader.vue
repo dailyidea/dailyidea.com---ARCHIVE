@@ -1,7 +1,6 @@
 <template>
   <v-app-bar flat color="white" class="mobileToolbar hidden-md-and-up">
     <!-- Hamburber or back button -->
-
     <v-container fluid style="padding: 0">
       <v-row>
         <template v-if="!searchIdeaMode">
@@ -32,13 +31,13 @@
             </nuxt-link>
           </v-col>
         </template>
-          <v-col style="background-color: #eff">
-            <search-component
-              :search-idea-mode="searchIdeaMode"
-              :label="label"
-              @onToggleSearchIdeaMode="onToggleSearchIdeaMode"
-            ></search-component>
-          </v-col>
+        <v-col style="background-color: #eff">
+          <search-component
+            :search-idea-mode="searchIdeaMode"
+            :label="label"
+            @onToggleSearchIdeaMode="onToggleSearchIdeaMode"
+          ></search-component>
+        </v-col>
       </v-row>
     </v-container>
   </v-app-bar>
