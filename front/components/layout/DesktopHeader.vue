@@ -6,12 +6,12 @@
     <v-container fluid>
       <v-row>
         <v-col>
-          <v-toolbar-title class="blue--text subheading">
+          <v-toolbar-title>
             <!-- Logo on top left corner -->
-            <nuxt-link class="logoLink" :to="logoLink">
-              <img class="logoIcon" src="~/assets/images/logo_icon.svg" />
+            <nuxt-link class="logo" :to="logoLink">
+              <img class="logo__icon" src="~/assets/images/logo_icon.svg" />
               <img
-                class="logoIcon logoText"
+                class="logo__text"
                 src="~/assets/images/logo_text.svg"
               />
             </nuxt-link>
@@ -62,47 +62,35 @@
           <!-- Profile Icon -->
           <v-menu offset-y nudge-bottom="15" left :disabled="!isAuthenticated">
             <template v-slot:activator="{ on }">
-              <span>
-                <v-btn
+              <a v-if="isAuthenticated" v-on="on">
+                <span
                   v-if="!userAvatar"
                   class="profileBtn"
-                  x-small
                   icon
                   fab
-                  dark
-                  :height="36"
-                  :width="36"
-                  v-on="on"
                 >
-                  <v-icon color="#4a4a4a" size="18">fas fa-user</v-icon>
-                </v-btn>
+                  <v-icon>mdi-account-circle</v-icon>
+                </span>
                 <span
                   v-else
                   class="userAvatarContainer"
                   :style="avatarStyle"
-                  v-on="on"
                 ></span>
-
-                <!-- Print Logged-in user's name -->
-                <span v-if="isAuthenticated"
-                  class="userName"
-                  v-on="on"
-                >{{
-                  userName
-                }}</span>
-                <span v-else class="userName"
-                  ><router-link to="/auth/login">Log In</router-link></span
-                >
-              </span>
+                <span class="userName">{{ userName }}</span>
+              </a>
+              <router-link v-else
+                :to="{ name: 'auth-login' }"
+                >Log In
+              </router-link>
             </template>
             <v-list>
-              <router-link to="/profile" style="text-decoration: none">
+              <router-link to="/profile">
                 <v-list-item>
                   <v-list-item-title>My Profile</v-list-item-title>
                 </v-list-item>
               </router-link>
 
-              <router-link to="/settings" style="text-decoration: none">
+              <router-link to="/settings">
                 <v-list-item>
                   <v-list-item-title>Settings</v-list-item-title>
                 </v-list-item>
@@ -191,15 +179,6 @@ a {
   z-index: 100;
   width: 100%;
 
-  .desktopMenu {
-    margin-top: -12px;
-    margin-right: 8px;
-
-    img {
-      height: 17px;
-    }
-  }
-
   .backButon {
     margin-right: 20px;
     margin-top: -10px;
@@ -210,19 +189,14 @@ a {
     cursor: pointer;
   }
 
-  // For non loggedin user
-
-  .logoLink {
-    text-decoration: none;
-
-    .logoIcon {
-      height: 24px;
+  .logo {
+    img.logo__icon {
+      height: 32px;
+      margin-right: 10px;
+      margin-bottom: -6px;
     }
-
-    .logoText {
-      margin-bottom: 5px;
-      margin-left: 5px;
-      height: 13px;
+    img.logo__text {
+      height: 16px;
     }
   }
 
@@ -240,20 +214,6 @@ a {
     &:hover {
       opacity: 0.8;
     }
-  }
-
-  .userName {
-    vertical-align: middle;
-    margin-left: 8px;
-    font-size: 16px;
-    line-height: 38px;
-    text-align: left;
-    color: #5a5a5a;
-    cursor: pointer;
-  }
-
-  .profileBtn {
-    background: #ebe7ed !important;
   }
 }
 </style>
