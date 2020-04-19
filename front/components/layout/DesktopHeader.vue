@@ -6,7 +6,7 @@
     <v-container fluid>
       <v-row>
         <v-col>
-          <v-toolbar-title class="blue--text subheading">
+          <v-toolbar-title>
             <!-- Logo on top left corner -->
             <nuxt-link class="logoLink" :to="logoLink">
               <img class="logoIcon" src="~/assets/images/logo_icon.svg" />
