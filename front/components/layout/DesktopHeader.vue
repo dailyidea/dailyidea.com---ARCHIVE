@@ -168,8 +168,6 @@ a {
 }
 
 .ideas-navigation-item {
-  font-size: 18px;
-
   &:not(:last-child) {
     @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
       margin-right: 18px;
@@ -183,7 +181,8 @@ a {
     color: #9f9f9f;
 
     &.nuxt-link-active {
-      color: #4a4a4a;
+      color: $primary-color;
+      border-bottom: 2px solid $primary-color;
     }
   }
 }
