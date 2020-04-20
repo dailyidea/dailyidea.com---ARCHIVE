@@ -1,44 +1,47 @@
 <template>
-  <div class="idea-item" @click="onIdeaClick">
-    <div class="idea-item__idea-title-row">
-      {{ idea.title }}
+  <div
+    color="white"
+    class="idea-item"
+    @click="onIdeaClick(idea)"
+  >
+    <div class="idea-item__title-row">
+      <strong>{{ idea.title }}</strong>
     </div>
-    <div class="idea-item__idea-content-row">
-      <idea-content :content="truncatedIdeaContent"></idea-content>
+    <div>
+      <idea-content
+        :content="truncatedIdeaContent"
+      ></idea-content>
     </div>
-    <div class="idea-item__idea-footer-row">
-      <div class="idea-item__idea-footer-row__counters">
-        <div class="idea-item__idea-footer-row__likes-counter">
-          <div
-            class="idea-item__idea-footer-row__likes-counter__image"
-            :class="{ active: idea.likesCount > 0 }"
-          ></div>
-          <div class="idea-item__idea-footer-row__likes-counter__label">
-            <span>{{ idea.likesCount }}</span>
+
+    <!-- Idea metadata -->
+    <div class="idea-item__info muted">
+      <div class="idea-item__info__detail">
+        <div
+          class="idea-item__info__detail__image-container"
+          :style="
+            idea.authorAvatar
+              ? {
+                  'background-image': `url(${idea.authorAvatar})`
+                }
+              : {}
+          "
+        >
+          <v-icon v-if="!idea.authorAvatar">fas fa-user</v-icon>
+        </div>
+        <div
+          class="idea-item__info__detail__name-container"
+        >
+          <div class="idea-item__info__detail__name">
+            {{ idea.authorName }}
+          </div>
+          <div class="idea-item__info__detail__time">
+            {{ idea.createdDate | toRelativeDate }}
+            <div class="comments-and-likes">
+              <span>{{ idea.likesCount }} <v-icon small>mdi-bookmark-outline</v-icon></span>
+              <span>{{ idea.commentsCount }} <v-icon small>mdi-comment-multiple-outline</v-icon></span>
+            </div>
           </div>
         </div>
-        <div class="idea-item__idea-footer-row__comments-counter">
-          <div
-            class="idea-item__idea-footer-row__comments-counter__image"
-          ></div>
-          <div class="idea-item__idea-footer-row__comments-counter__label">
-            <span>{{ idea.commentsCount }}</span>
-          </div>
-        </div>
-      </div>
-      <div class="idea-item__idea-footer-row__time" @click.stop.prevent>
-        <span v-if="showAuthor"
-          >By
-          <router-link
-            class="idea-item__idea-footer-row__author-link"
-            :to="{
-              name: 'profile-userSlug',
-              params: { userSlug: idea.authorSlug }
-            }"
-            >{{ idea.authorName }}</router-link
-          >
-        </span>
-        {{ idea.createdDate | toRelativeDate }}
       </div>
     </div>
   </div>
@@ -86,13 +89,20 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~assets/style/common';
+
 .idea-item {
-  $main-text-color: #4a4a4a;
-  $light-text-color: #c0b7c5;
-  padding: 15px 20px;
+  position: relative;
+  border: solid 1px #d8e3f9;
+  border-radius: 4px;
+
   margin-bottom: 20px;
-  border: solid 1px rgba(228, 228, 228, 0.38);
+  padding: 18px 25px 60px;
+
   cursor: pointer;
+  word-break: break-word;
+  font-size: 14px;
+  height: 100%;
 
   &:hover {
     -webkit-box-shadow: 0 0 5px 3px #e3e3e361;
@@ -100,101 +110,79 @@ export default {
     box-shadow: 0 0 5px 3px #e3e3e361;
   }
 
-  &__idea-title-row {
-    font-weight: bolder;
-    color: $main-text-color;
-    font-size: 19px;
-    /*background-color: rgba(119, 119, 119, 0.3);*/
+  &__title-row {
+    font-weight: bold;
+    font-size: 1.25em;
+    text-transform: capitalize;
+    margin-bottom: 1.5rem;
   }
 
-  &__idea-content-row {
-    /*background-color: rgba(6, 75, 13, 0.35);*/
-    margin-bottom: 15px;
-    margin-top: 10px;
-    font-size: 16px;
-    text-align: left;
-    color: $main-text-color;
-    overflow: hidden;
-    word-break: break-word;
-  }
+  &__info {
+    border-top: 0.8px solid #e8e8e8;
+    font-size: 12px;
+    padding-top: 5px;
 
-  &__idea-footer-row {
-    /*background-color: rgba(74, 46, 4, 0.22);*/
-    height: 30px;
-    padding: 5px 0;
-    font-size: 0;
-    @mixin label-style {
-      display: inline-block;
-      vertical-align: bottom;
-      height: 14px;
-      font-size: 14px;
-      line-height: 18px;
-      color: $main-text-color;
-    }
-    @mixin image-style {
-      vertical-align: bottom;
-      display: inline-block;
-      background-position: bottom center;
-      background-repeat: no-repeat;
-      margin-right: 5px;
-    }
+    position: absolute;
+    bottom: 5px;
+    left: 25px;
+    width: calc(100% - 50px);
 
-    &__likes-counter {
-      display: inline-block;
+    &__detail {
+      font-size: 0;
+
+      &__image-container {
+        vertical-align: middle;
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        background-color: #ebe7ed;
+        border-radius: 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      &__name-container {
+        vertical-align: middle;
+        margin-left: 10px;
+        display: inline-block;
+        width: calc(100% - 50px);
+      }
 
       &__image {
-        @include image-style;
-        background-image: url('~assets/images/lamp_off.svg');
-        background-size: 8px 11px;
+        height: 37px;
+      }
 
-        &.active {
-          background-image: url('~assets/images/lamp_on.svg');
-          background-size: 14px 14px;
+      &__name {
+        height: 16px;
+        font-size: 12px;
+        font-weight: 900;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #4a4a4a;
+      }
+
+      &__time {
+        margin-top: 3px;
+        font-size: 12px;
+
+        .comments-and-likes {
+          float: right;
+          margin-top: 3px;
+          font-size: 12px;
+
+          i.v-icon {
+            vertical-align: text-top;
+            color: $secondary-color;
+          }
         }
-
-        width: 14px;
-        height: 14px;
-      }
-
-      &__label {
-        @include label-style;
-      }
-    }
-
-    &__counters {
-      display: inline-block;
-      width: 50%;
-      text-align: left;
-    }
-    &__author-link {
-      text-decoration: none;
-      color: $main-text-color;
-      font-weight: bolder;
-    }
-    &__time {
-      width: 50%;
-      display: inline-block;
-      text-align: right;
-      @include label-style;
-      color: $light-text-color;
-    }
-
-    &__comments-counter {
-      margin-left: 15px;
-      display: inline-block;
-
-      &__image {
-        @include image-style;
-        background-image: url('~assets/images/comment.svg');
-        background-size: 14px 12px;
-        width: 14px;
-        height: 12px;
-      }
-
-      &__label {
-        @include label-style;
       }
     }
   }
 }
+
+
 </style>
