@@ -1,4 +1,5 @@
 <template>
+<div v-if="false"><!-- removing the search bar entirely for now since we don't have the functionality -->
   <div class="text-right">
     <!-- when search mode is on, show text input field -->
     <v-text-field
@@ -11,10 +12,10 @@
       hide-details
     >
       <template v-slot:append>
-        <v-icon @click="toggleSearchIdeaMode">fa-times</v-icon>
+        <v-icon small @click="toggleSearchIdeaMode">fa-times</v-icon>
       </template>
       <template v-slot:prepend-inner>
-        <v-icon size="22" @click="toggleSearchIdeaMode"
+        <v-icon small @click="toggleSearchIdeaMode"
           >fa-search</v-icon
         >
       </template>
@@ -24,14 +25,13 @@
     <v-btn
       v-else
       icon
-      height="36"
-      width="36"
       :input-value="searchIdeaMode"
       @click="toggleSearchIdeaMode"
     >
-      <v-icon>fas fa-search</v-icon>
+      <v-icon small>fas fa-search</v-icon>
     </v-btn>
   </div>
+</div>
 </template>
 
 <script>
