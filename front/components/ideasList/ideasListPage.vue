@@ -1,10 +1,19 @@
 <template>
   <Layout>
     <v-layout class="ideas-list">
-      <!-- Title Section -->
-      <div class="titleDiv">
-        <v-layout class="titleText">{{ title }}</v-layout>
-      </div>
+
+      <!-- Links -->
+      <section id="ideas-navigation-section" class="text-center d-none d-sm-block">
+        <span class="ideas-navigation-item">
+          <router-link to="/ideas/all">All Ideas</router-link>
+        </span>
+        <span v-if="isAuthenticated" class="ideas-navigation-item">
+          <router-link to="/ideas/me">My Ideas</router-link>
+        </span>
+        <span v-if="isAuthenticated" class="ideas-navigation-item">
+          <router-link to="/ideas/liked">Saved Ideas</router-link>
+        </span>
+      </section>
 
       <!-- Idea List -->
       <ideas-list
@@ -84,6 +93,9 @@ export default {
       return {
         pageTitle: this.title
       }
+    },
+    isAuthenticated() {
+      return this.$store.state.userData.isAuthenticated
     }
   },
   created() {
@@ -123,26 +135,35 @@ export default {
     padding-top: 0;
   }
 
-  .titleDiv {
-    margin-top: 15px;
-    text-align: center;
-    // border: 1px solid red;
-    min-height: 30px;
-
-    .titleText {
-      display: inline-block;
-      margin-bottom: 20px;
-
-      font-size: 17px;
-      font-weight: 600;
-      color: #232323;
-    }
-  }
-
   .addBtn {
     position: fixed;
     right: 40px;
     bottom: 30px;
+  }
+}
+
+section#ideas-navigation-section {
+  margin: 3rem auto;
+
+  .ideas-navigation-item {
+    &:not(:last-child) {
+      @media (min-width: $screen-sm-min) and (max-width: $screen-md-max) {
+        margin-right: 2rem;
+      }
+      @media (min-width: $screen-lg-min) {
+        margin-right: 3rem;
+      }
+    }
+
+    a {
+      text-decoration: none;
+
+      &.nuxt-link-active {
+        color: $primary-color;
+        font-weight: bold;
+        border-bottom: 2px solid $primary-color;
+      }
+    }
   }
 }
 </style>
