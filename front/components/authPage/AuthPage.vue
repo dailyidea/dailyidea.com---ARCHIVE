@@ -35,7 +35,7 @@
         <div class="auth-page__content__header__logo-image-container">
           <img
             class="auth-page__content__header__logo-image-container__image"
-            src="~/assets/images/logo_text.png"
+            src="~/assets/images/logo_text.svg"
           />
         </div>
       </div>
@@ -110,6 +110,7 @@ export default {
             width: auto;
             display: block;
             margin: auto;
+            padding-top: 2rem;
           }
         }
       }
@@ -120,6 +121,7 @@ export default {
 
         &__image {
           display: inline-block;
+          padding-top: 1rem;
           width: 200px;
         }
       }
