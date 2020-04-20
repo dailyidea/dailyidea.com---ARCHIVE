@@ -5,7 +5,7 @@
     <!--    <v-spacer></v-spacer>-->
     <v-container fluid>
       <v-row>
-        <v-col>
+        <v-col cols="auto">
           <v-toolbar-title>
             <!-- Logo on top left corner -->
             <nuxt-link class="logo" :to="logoLink">
@@ -17,48 +17,27 @@
             </nuxt-link>
           </v-toolbar-title>
         </v-col>
-        <v-col style="text-align: center; line-height: 38px">
-          <v-text-field
-            v-if="searchIdeaMode"
-            v-model="label"
-            label="What are you looking for?"
-            solo
-            dense
-            autofocus
-            hide-details
-          >
-            <template v-slot:append>
-              <v-icon @click="searchIdeaMode = false">fa-times</v-icon>
-            </template>
-            <template v-slot:prepend-inner>
-              <v-icon size="22" @click="searchIdeaMode = false"
-                >fa-search</v-icon
-              >
-            </template>
-          </v-text-field>
-          <template v-else>
-            <span class="ideas-navigation-item">
-              <router-link to="/ideas/all">All Ideas</router-link>
-            </span>
-            <span v-if="isAuthenticated" class="ideas-navigation-item">
-              <router-link to="/ideas/me">My Ideas</router-link>
-            </span>
-            <span v-if="isAuthenticated" class="ideas-navigation-item">
-              <router-link to="/ideas/liked">Saved Ideas</router-link>
-            </span>
-          </template>
+        <!--
+        <v-col style="background-color: #eff" v-if="!searchIdeaMode">
+          <span class="ideas-navigation-item">
+            <router-link to="/ideas/all">All Ideas</router-link>
+          </span>
+          <span v-if="isAuthenticated" class="ideas-navigation-item">
+            <router-link to="/ideas/me">My Ideas</router-link>
+          </span>
+          <span v-if="isAuthenticated" class="ideas-navigation-item">
+            <router-link to="/ideas/liked">Saved Ideas</router-link>
+          </span>
         </v-col>
-        <v-col style="text-align: right">
-          <v-btn
-            icon
-            height="36"
-            width="36"
-            :input-value="searchIdeaMode"
-            @click="searchIdeaMode = !searchIdeaMode"
-          >
-            <v-icon size="18" color="#5a5a5a">fas fa-search</v-icon>
-          </v-btn>
-
+        -->
+        <v-col>
+          <search-component
+            :search-idea-mode="searchIdeaMode"
+            :label="label"
+            @onToggleSearchIdeaMode="onToggleSearchIdeaMode"
+          ></search-component>
+        </v-col>
+        <v-col cols="auto">
           <!-- Profile Icon -->
           <v-menu offset-y nudge-bottom="15" left :disabled="!isAuthenticated">
             <template v-slot:activator="{ on }">
@@ -107,8 +86,13 @@
 </template>
 
 <script>
+import SearchComponent from './SearchComponent'
+
 export default {
   name: 'DesktopHeader',
+  components: {
+    SearchComponent
+  },
   data() {
     return {
       searchIdeaMode: false,
@@ -145,6 +129,9 @@ export default {
   methods: {
     signOut() {
       this.$emit('signOut')
+    },
+    onToggleSearchIdeaMode(value) {
+      this.searchIdeaMode = value
     }
   }
 }

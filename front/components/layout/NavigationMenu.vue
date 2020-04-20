@@ -123,8 +123,8 @@ export default {
   z-index: 999;
 
   .logo-container {
-    margin-top: 18px;
-    padding-left: 28px;
+    margin-top: 14px;
+    padding-left: 18px;
     margin-bottom: 1rem;
 
     &__text {
