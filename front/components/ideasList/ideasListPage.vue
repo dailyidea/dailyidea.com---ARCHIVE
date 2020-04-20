@@ -5,13 +5,13 @@
       <!-- Links -->
       <section id="ideas-navigation-section" class="text-center d-none d-sm-block">
         <span class="ideas-navigation-item">
-          <router-link to="/ideas/all">All Ideas</router-link>
+          <router-link to="/ideas/all" class="muted">All Ideas</router-link>
         </span>
         <span v-if="isAuthenticated" class="ideas-navigation-item">
-          <router-link to="/ideas/me">My Ideas</router-link>
+          <router-link to="/ideas/me" class="muted">My Ideas</router-link>
         </span>
         <span v-if="isAuthenticated" class="ideas-navigation-item">
-          <router-link to="/ideas/liked">Saved Ideas</router-link>
+          <router-link to="/ideas/liked" class="muted">Saved Ideas</router-link>
         </span>
       </section>
 
@@ -125,6 +125,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~assets/style/common';
+
 .ideas-list {
   /*padding-top: 50px;*/
   background: white;
