@@ -1,8 +1,5 @@
 <template>
   <v-toolbar class="desktop hidden-sm-and-down" flat color="white">
-    <!-- Left Title Side - Desktop -->
-
-    <!--    <v-spacer></v-spacer>-->
     <v-container fluid>
       <v-row>
         <v-col cols="auto">
@@ -17,19 +14,6 @@
             </nuxt-link>
           </v-toolbar-title>
         </v-col>
-        <!--
-        <v-col style="background-color: #eff" v-if="!searchIdeaMode">
-          <span class="ideas-navigation-item">
-            <router-link to="/ideas/all">All Ideas</router-link>
-          </span>
-          <span v-if="isAuthenticated" class="ideas-navigation-item">
-            <router-link to="/ideas/me">My Ideas</router-link>
-          </span>
-          <span v-if="isAuthenticated" class="ideas-navigation-item">
-            <router-link to="/ideas/liked">Saved Ideas</router-link>
-          </span>
-        </v-col>
-        -->
         <v-col>
           <search-component
             :search-idea-mode="searchIdeaMode"
@@ -138,30 +122,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-a {
-  text-decoration: none;
-}
-
-.ideas-navigation-item {
-  &:not(:last-child) {
-    @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
-      margin-right: 18px;
-    }
-    @media (min-width: $screen-lg-min) {
-      margin-right: 40px;
-    }
-  }
-
-  a {
-    color: #9f9f9f;
-
-    &.nuxt-link-active {
-      color: $primary-color;
-      border-bottom: 2px solid $primary-color;
-    }
-  }
-}
-
 .desktop {
   z-index: 100;
   width: 100%;
