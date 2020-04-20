@@ -20,12 +20,8 @@
               style="text-decoration: none;"
             >
               <img
-                class="logo__icon"
-                src="~/assets/images/logo_icon.svg"
-              />
-              <img
-                class="logo__text"
-                src="~/assets/images/logo_text.svg"
+                class="logo"
+                src="~/assets/images/logo_full.svg"
               />
             </nuxt-link>
           </v-col>
@@ -69,17 +65,7 @@ export default {
 
 <style scoped lang="scss">
 .logo {
-  display: inline-block;
-  height: 28px;
-  padding: 3px;
-
-  img.logo__icon {
-    height: 24px;
-    margin-right: 6px;
-    margin-bottom: -6px;
-  }
-  img.logo__text {
-    height: 12px;
-  }
+  height: 24px;
+  vertical-align: middle;
 }
 </style>
