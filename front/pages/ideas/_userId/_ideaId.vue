@@ -393,17 +393,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~assets/style/common';
 .idea-name-field {
   font-size: 24px;
 }
 
-.muted {
-  /*color: #857f88;*/
-  color: #c0b7c5;
-}
-
-.yellow {
-}
 .idea-part {
   @media (min-width: $screen-md-min) {
     min-height: calc(100vh - 88px);
