@@ -42,47 +42,11 @@
           <v-col>
             <v-row class="reviews">
               <v-col v-for="idea in ideas" :key="idea.ideaId" cols="12" md="4">
-                <div
-                  color="white"
-                  class="reviews__review"
-                  @click="onIdeaClick(idea)"
-                >
-                  <div>
-                    <strong>{{ idea.title }}</strong>
-                  </div>
-                  <div>
-                    <idea-content
-                      :content="getTruncatedIdeaContent(idea)"
-                    ></idea-content>
-                  </div>
-                  <!-- User Icon -->
-                  <div class="reviews__review__info">
-                    <div class="reviews__review__info__detail">
-                      <div
-                        class="reviews__review__info__detail__image-container"
-                        :style="
-                          idea.authorAvatar
-                            ? {
-                                'background-image': `url(${idea.authorAvatar})`
-                              }
-                            : {}
-                        "
-                      >
-                        <v-icon v-if="!idea.authorAvatar">fas fa-user</v-icon>
-                      </div>
-                      <div
-                        class="reviews__review__info__detail__name-container"
-                      >
-                        <div class="reviews__review__info__detail__name">
-                          {{ idea.authorName }}
-                        </div>
-                        <div class="reviews__review__info__detail__time">
-                          {{ idea.createdDate | toRelativeDate }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <ideas-list-idea
+                  :key="idea.ideaId"
+                  :idea="idea"
+                  :show-author="showAuthor"
+                ></ideas-list-idea>
               </v-col>
             </v-row>
           </v-col>
@@ -166,10 +130,13 @@
 import clip from 'text-clipper'
 import Layout from '@/components/layout/Layout'
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
-import IdeaContent from '~/components/IdeaContent'
+import ideasListIdea from '~/components/ideasList/ideasListIdea'
 
 export default {
-  components: { Layout, IdeaContent },
+  components: {
+    ideasListIdea,
+    Layout
+  },
   async asyncData({ app }) {
     let result = await app.$amplifyApi.graphql({
       query: getPublicIdeas,
@@ -233,78 +200,6 @@ a.v-btn.wider {
   margin-bottom: 3rem;
   padding-left: 5rem;
   padding-right: 5rem;
-}
-
-.reviews {
-  &__review {
-    word-break: break-word;
-    position: relative;
-    padding: 18px 25px;
-    margin: auto;
-    font-size: 14px;
-    border-radius: 4px;
-    background-color: #ffffff;
-    border: solid 1px #d8e3f9;
-    padding-bottom: 60px;
-    height: 100%;
-    cursor: pointer;
-
-    &__info {
-      border-top: 0.8px solid #e8e8e8;
-      font-size: 12px;
-      color: #777;
-      padding-top: 5px;
-
-      position: absolute;
-      bottom: 5px;
-      left: 25px;
-      width: calc(100% - 50px);
-
-      &__detail {
-        font-size: 0;
-
-        &__image-container {
-          vertical-align: middle;
-          display: inline-block;
-          width: 40px;
-          height: 40px;
-          line-height: 40px;
-          text-align: center;
-          background-color: #ebe7ed;
-          border-radius: 50%;
-          background-size: cover;
-          background-repeat: no-repeat;
-        }
-
-        &__name-container {
-          vertical-align: middle;
-          margin-left: 10px;
-          display: inline-block;
-          width: calc(100% - 50px);
-        }
-
-        &__image {
-          height: 37px;
-        }
-
-        &__name {
-          height: 16px;
-          font-size: 12px;
-          font-weight: 900;
-          font-stretch: normal;
-          font-style: normal;
-          line-height: normal;
-          letter-spacing: normal;
-          color: #4a4a4a;
-        }
-
-        &__time {
-          margin-top: 3px;
-          font-size: 12px;
-        }
-      }
-    }
-  }
 }
 
 #how-does-it-work {
