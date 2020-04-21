@@ -84,10 +84,7 @@
                 ></span>
 
                 <!-- Print Logged-in user's name -->
-                <span v-if="isAuthenticated"
-                  class="userName"
-                  v-on="on"
-                >{{
+                <span v-if="isAuthenticated" class="userName" v-on="on">{{
                   userName
                 }}</span>
                 <span v-else class="userName"
@@ -183,7 +180,8 @@ a {
     color: #9f9f9f;
 
     &.nuxt-link-active {
-      color: #4a4a4a;
+      color: purple;
+      border-bottom: purple soild 2px;
     }
   }
 }

@@ -57,7 +57,7 @@
           >Share</v-btn
         >
       </div>
-      <div class="" style="text-align: center">
+      <div class="" style="text-align: center; color: grey;">
         <client-only>
           <a
             v-clipboard="() => getShareUrl()"

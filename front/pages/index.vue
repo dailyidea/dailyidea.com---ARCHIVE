@@ -530,25 +530,25 @@ export default {
       margin-left: 20px;
       margin-right: 20px;
     }
-
-    &__copy-right {
-      @media (max-width: $screen-sm-max) {
-        font-size: 12px;
-        margin-bottom: 10px;
-        text-align: center;
-      }
-      @media (min-width: $screen-md-min) {
-        float: right;
-        font-size: 16px;
-      }
-      height: 28px;
-      font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 2.8;
-      letter-spacing: normal;
-      color: #4a4a4a;
+  }
+  &__copy-right {
+    @media (max-width: $screen-sm-max) {
+      font-size: 12px;
+      margin-bottom: 10px;
+      text-align: center;
+      display: block;
     }
+    @media (min-width: $screen-md-min) {
+      float: right;
+      font-size: 16px;
+    }
+    height: 28px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2.8;
+    letter-spacing: normal;
+    color: #4a4a4a;
   }
 }
 </style>
