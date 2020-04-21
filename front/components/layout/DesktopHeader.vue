@@ -6,11 +6,7 @@
           <v-toolbar-title>
             <!-- Logo on top left corner -->
             <nuxt-link class="logo" :to="logoLink">
-              <img class="logo__icon" src="~/assets/images/logo_icon.svg" />
-              <img
-                class="logo__text"
-                src="~/assets/images/logo_text.svg"
-              />
+              <img class="logo" src="~/assets/images/logo_full.svg" />
             </nuxt-link>
           </v-toolbar-title>
         </v-col>
@@ -137,14 +133,8 @@ export default {
   }
 
   .logo {
-    img.logo__icon {
-      height: 32px;
-      margin-right: 10px;
-      margin-bottom: -6px;
-    }
-    img.logo__text {
-      height: 16px;
-    }
+    height: 32px;
+    vertical-align: middle;
   }
 
   .userAvatarContainer {

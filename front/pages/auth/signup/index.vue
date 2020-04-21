@@ -7,47 +7,44 @@
         v-validate="'required|max:100'"
         :error-messages="errors.collect('name')"
         data-vv-name="name"
-        class="inputBox name"
+        class="name"
         single-line
         flat
-        label="Enter name"
-        prepend-inner-icon="fas fa-user"
+        placeholder="What is your name?"
+        prepend-inner-icon="mdi-account-circle-outline"
       ></v-text-field>
 
       <!-- Email Input Box -->
       <v-text-field
         v-model="email"
         v-validate="'required|email'"
-        class="inputBox email"
+        class="email"
         :error-messages="errors.collect('email')"
         data-vv-name="email"
         single-line
         flat
-        label="Enter email"
-        prepend-inner-icon="email"
+        placeholder="What is your email address?"
+        prepend-inner-icon="mdi-email-outline"
       ></v-text-field>
 
       <!-- Email Already Exists Message -->
-      <div v-if="emailExistsMsg != ''" class="emailExistsMsg">
+      <div v-if="emailExistsMsg != ''" class="red--text smaller">
         {{ emailExistsMsg }}
-        <div>
-          <v-btn to="/auth/login" text small color="#827C85"
-            >Login instead?
-          </v-btn>
-        </div>
       </div>
 
       <!-- Continue Button -->
       <v-btn
         type="submit"
-        large
-        class="continueBtn"
+        rounded
+        block
+        class="mt-10"
         :loading="registerInProgress"
         @click="signup"
         >Continue
       </v-btn>
-      <div class="accountExists">
-        <div class="existsTitle">
+
+      <div class="text-center pt-6">
+        <div class="muted smaller">
           Already have an account?
           <nuxt-link class="loginBtn" text to="/auth/login">Login</nuxt-link>
         </div>
@@ -68,6 +65,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~assets/style/common';
+
 .mainForm {
   max-width: 420px;
   margin: auto;
@@ -75,46 +74,11 @@ export default {
   padding: 5px 20px;
 }
 
-.inputBox {
-  margin: auto;
-
-  ::v-deep .v-input__prepend-inner {
-    padding-right: 15px !important;
-    font-size: 12px;
-
-    i {
-      font-size: 18px;
-    }
+form ::v-deep .v-input__prepend-inner {
+  padding-right: 15px !important;
+  i {
+    font-size: 18px;
+    color: $primary-color;
   }
-}
-
-.continueBtn {
-  border-radius: 4px;
-  margin-top: 7vh;
-  width: 100%;
-  letter-spacing: 1px;
-}
-
-.accountExists {
-  text-align: center;
-  margin-top: 6vh;
-
-  .existsTitle {
-    font-size: 14px;
-    line-height: 1.57;
-    color: #c8c7c7;
-
-    .loginBtn {
-      text-decoration: none;
-    }
-  }
-}
-
-.emailExistsMsg {
-  text-align: center;
-  width: 70%;
-  margin: auto;
-  max-width: 420px;
-  color: #c8c7c7;
 }
 </style>

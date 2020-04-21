@@ -11,46 +11,11 @@
   }
 }
 
-@mixin authLoginSuccessStyle() {
-  .heroMsg {
-    margin-top: 10vh;
-    font-size: 35px;
-    line-height: 1.66;
-    color: #18141c;
-
-    @media #{$small-screen} {
-      font-size: 35px;
-    }
-  }
-
-  .heroDescription {
-    margin-top: 2vh;
-    line-height: 1.59;
-    color: #827c85;
-
-    a {
-      font-size: 18px;
-      color: #7777;
-    }
-
-    @media #{$small-screen} {
-      margin-top: 30px;
-      font-size: 14px;
-    }
-  }
-
-  .successMessage {
-    max-width: 500px;
-    text-align: center;
-    z-index: 10;
-    padding-left: 10%;
-    padding-right: 10%;
-    margin: auto;
-    overflow: hidden;
-  }
-}
-
 .muted {
   /*color: #857f88;*/
   color: #c0b7c5;
+}
+
+.smaller {
+  font-size: 0.85rem;
 }

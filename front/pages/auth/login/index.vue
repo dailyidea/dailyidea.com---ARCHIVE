@@ -11,43 +11,35 @@
         :value.sync="email"
         single-line
         flat
-        class="emailInput"
         name="email"
         autocomplete="email"
         type="email"
-        prepend-inner-icon="email"
+        prepend-inner-icon="mdi-email-outline"
         placeholder="What is your email address?"
         validate="required|email"
       />
 
       <!-- Email Not Found Message -->
-      <div v-if="emailNotFoundMsg !== ''" class="emailNotFoundMsg">
+      <div v-if="emailNotFoundMsg !== ''" class="red--text smaller">
         {{ emailNotFoundMsg }}
-        <div>
-          <v-btn to="/auth/signup" text small color="#827C85"
-            >Create an account?
-          </v-btn>
-        </div>
       </div>
 
       <!-- Login Button -->
       <v-btn
         type="submit"
-        large
-        class="loginBtn"
+        rounded
+        block
+        class="mt-10"
         :loading="logingUser"
         @click.stop.prevent="login"
         >Log In
       </v-btn>
     </v-form>
 
-    <!-- Create account div at bottom -->
-    <div class="createAccountDiv">
-      <div class="existsTitle">
+    <div class="text-center pt-6">
+      <div class="muted smaller">
         Don't have an account yet?
-        <nuxt-link class="signupBtn" text to="/auth/signup"
-          >Create Account
-        </nuxt-link>
+        <nuxt-link class="signupBtn" text to="/auth/signup">Create Account</nuxt-link>
       </div>
     </div>
   </auth-page>
@@ -142,50 +134,12 @@ export default {
   }
 }
 
-.emailInput {
-  margin-top: 16px !important;
-  margin-bottom: 20px;
-  ::v-deep .v-input__prepend-inner {
-    padding-right: 15px !important;
-    font-size: 12px;
-    i {
-      font-size: 18px;
-    }
+form ::v-deep .v-input__prepend-inner {
+  padding-right: 15px !important;
+  i {
+    font-size: 18px;
+  color: $primary-color;
   }
 }
 
-.emailInput {
-  margin: auto;
-  max-width: 400px;
-}
-
-.emailNotFoundMsg {
-  text-align: center;
-  margin: auto;
-  max-width: 420px;
-  color: #c8c7c7;
-}
-
-.loginBtn {
-  margin-top: 7vh;
-  border-radius: 4px;
-  width: 100%;
-  letter-spacing: 1px;
-}
-
-.createAccountDiv {
-  margin-top: 6vh;
-  text-align: center;
-
-  .existsTitle {
-    font-size: 14px;
-    line-height: 1.57;
-    color: #c8c7c7;
-    // margin-bottom: 5px;
-
-    .signupBtn {
-      text-decoration: none;
-    }
-  }
-}
 </style>

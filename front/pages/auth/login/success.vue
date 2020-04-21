@@ -1,17 +1,18 @@
 <template>
   <auth-page lamp-on>
-    <div class="successMessage">
-      <div class="heroMsg">Welcome Back!</div>
-      <!-- Hero Description -->
-      <div class="heroDescription">
-        We've sent a login email to you at <strong>{{ email }}</strong
-        >. Please click the button in that email to log in to daily idea.
-      </div>
+    <div class="text-center">
+      <h1 class="pt-10 pb-6">Welcome Back!</h1>
+      <p>We've sent a login email to you at <strong>{{ email }}</strong>.</p>
+      <p>Please click the button in that email to log in to daily idea.</p>
 
-      <div class="requestLink">
-        <a @click="showPopup">Didn't get it? Request a new link</a>
+      <div class="mt-10">
+        <p class="muted smaller">
+          Didn't get a confirmation email?
+          <a @click="showPopup">Request a new link.</a>
+        </p>
       </div>
     </div>
+
     <resend-auth-email-dialog ref="resend-auth-email-dialog">
     </resend-auth-email-dialog>
   </auth-page>
@@ -42,15 +43,4 @@ export default {
 
 <style scoped lang="scss">
 @import '~assets/style/common';
-
-@include authLoginSuccessStyle;
-.requestLink {
-  margin-top: 30px;
-  font-size: 15px;
-
-  a {
-    color: $accent-color !important;
-    text-decoration: underline;
-  }
-}
 </style>

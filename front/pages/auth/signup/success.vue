@@ -1,13 +1,9 @@
 <template>
   <auth-page lamp-on>
-    <div class="successMessage">
-      <div class="heroMsg">Hooray!</div>
-      <!-- Hero Description -->
-      <div class="heroDescription">
-        We've sent a magic link to <strong>{{ email }}</strong
-        >. Please check your inbox and click on the email confirmation link in
-        the email to get started!
-      </div>
+    <div class="text-center">
+      <h1 class="pt-10 pb-6">Hooray!</h1>
+      <p>We've sent a confirmation link to <strong>{{ email }}</strong>.</p>
+      <p>Please check your inbox and click on the link in your email to get started!</p>
     </div>
   </auth-page>
 </template>
@@ -31,6 +27,4 @@ export default {
 
 <style scoped lang="scss">
 @import '~assets/style/common';
-
-@include authLoginSuccessStyle;
 </style>
