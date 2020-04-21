@@ -23,18 +23,13 @@
         data-vv-name="email"
         single-line
         flat
-        placeholder="What is your email?"
+        placeholder="What is your email address?"
         prepend-inner-icon="mdi-email-outline"
       ></v-text-field>
 
       <!-- Email Already Exists Message -->
-      <div v-if="emailExistsMsg != ''" class="emailExistsMsg">
+      <div v-if="emailExistsMsg != ''" class="red--text smaller">
         {{ emailExistsMsg }}
-        <div>
-          <v-btn to="/auth/login" text small color="#827C85"
-            >Login instead?
-          </v-btn>
-        </div>
       </div>
 
       <!-- Continue Button -->
@@ -85,13 +80,5 @@ form ::v-deep .v-input__prepend-inner {
     font-size: 18px;
     color: $primary-color;
   }
-}
-
-.emailExistsMsg {
-  text-align: center;
-  width: 70%;
-  margin: auto;
-  max-width: 420px;
-  color: #c8c7c7;
 }
 </style>

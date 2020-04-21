@@ -1,19 +1,33 @@
 <template>
   <auth-page lamp-on>
-    <div class="successMessage">
-      <div class="heroMsg">Congrats and welcome!</div>
-      <div class="heroDescription">
-        these are the things you can do. this is what you should expect. in the
-        meantime, feel free to create your first idea or browse other people's
-        ideas.
-      </div>
-      <div class="heroDescription">
-        also we sent you an email so you can try out the email responses. you'll
-        get one every day from now on.
-      </div>
-      <v-form class="mainForm" @submit.prevent="goToIdeasPage">
-        <v-btn type="submit" large class="startJourneyBtn"
-          >Start a journey
+    <div clss="text-center">
+      <h1 class="pt-10 pb-6 text-center">Congrats and Welcome!</h1>
+      <p>
+        <span class="dailyText">Daily</span><span class="ideaText">Idea</span> is a site where you can:
+      </p>
+      <ul>
+        <li>Store your ideas so you can remember them and improve them over time</li>
+        <li>Browse other folks's ideas to inspire yourself further</li>
+      </ul>
+      <p class="mt-5">
+      <p>
+        We'll send you a daily email reminder to come up with a new idea. Just respond in
+        your email and we'll automatically store it for you.
+      </p>
+      <p>
+        Over time, you'll become an idea machine!
+      </p>
+      <p>
+        In the meantime, you can create an idea from your dashboard or just browse other ideas.
+      </p>
+
+      <v-form class="mainForm mt-10" @submit.prevent="goToIdeasPage">
+        <v-btn
+          block
+          rounded
+          type="submit"
+          class=""
+          >Get Started!
         </v-btn>
       </v-form>
     </div>
@@ -52,11 +66,18 @@ export default {
 <style scoped lang="scss">
 @import '~assets/style/common';
 
-@include authLoginSuccessStyle;
-.startJourneyBtn {
-  margin-top: 15px;
-  border-radius: 4px;
-  width: 100%;
-  letter-spacing: 1px;
+.dailyText,
+.ideaText {
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.dailyText {
+  color: $primary-color;
+}
+
+.ideaText {
+  color: $secondary-color;
 }
 </style>
