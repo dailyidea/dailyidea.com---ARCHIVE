@@ -1,48 +1,17 @@
 <template>
   <div class="comments-part">
-    <div class="comments-part__header">
-      <v-row no-gutters>
-        <v-col>
-          <span class="likes-counter">
-            <span class="likes-counter__image-container">
-              <img
-                v-if="idea.likesCount > 0"
-                src="~/assets/images/lamp_on.png"
-                class="likes-counter__image on"
-              />
-              <img
-                v-else
-                src="~/assets/images/lamp_off.png"
-                class="likes-counter__image"
-              />
-            </span>
-            <span class="likes-counter__label">{{ idea.likesCount }}</span>
-          </span>
-        </v-col>
-        <v-col style="text-align: right">
-          <span class="comments-counter">
-            <img
-              src="~/assets/images/comment.png"
-              class="comments-counter__image"
-            />
-            <span class="comments-counter__label">{{
-              idea.commentsCount
-            }}</span>
-          </span>
-        </v-col>
-      </v-row>
+    <div class="comments-part__header text-center">
+      <strong class="muted">Comments</strong>
     </div>
-    <div ref="scroller" class="comments-part__container">
-      <div class="comments-part__container__table">
-        <div class="comments-part__container__table__row">
+    <v-container ref="scroller" class="comments-part__container">
           <div
             v-if="commentList.length"
             ref="commentsCol"
-            class="comments-part__container__table__col"
+            class=""
           >
             <div
               v-if="idea.commentsCount > commentList.length && !deletingComment"
-              style="text-align: center; padding: 5px 0; cursor: pointer;"
+              class="loadComments"
               @click="loadComments"
             >
               <v-btn small :loading="loadingMore">Load More...</v-btn>
@@ -55,21 +24,22 @@
               @onDeleteComment="onDeleteComment"
             ></idea-comments-comment>
           </div>
-          <div v-else class="comments-part__container__table__col empty">
-            There are not comments yet. <br />
-            Add the first one?
-          </div>
-        </div>
-      </div>
-    </div>
+          <v-row v-else class="empty" align="center">
+            <v-col class="muted">
+              <p>
+                <v-icon>mdi-comment-plus-outline</v-icon>
+              </p>
+              <p>No comments yet.</p>
+              <p>Be the first!</p>
+            </v-col>
+          </v-row>
+    </v-container>
     <div class="comments-part__input-container">
       <v-text-field
         v-model="newCommentText"
-        style="border-radius: 0; border: 1px solid #ebe7ed;"
-        label="Say something..."
+        label="Add a comment..."
         single-line
         flat
-        height="64"
         hide-details
         solo
         @keydown.enter="onAddCommentAttempt"
@@ -480,7 +450,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~assets/style/common';
+$light-grey: #f3f0f4;
 $counters-font-size: 18px;
+
 .likes-counter {
   display: inline-block;
 
@@ -542,48 +515,38 @@ $counters-font-size: 18px;
 
   &__header {
     padding: 15px;
-    height: 64px;
-    background-color: #ebe7ed;
+    background-color: $light-grey;
   }
 
   &__container {
-    background-color: #ebe7ed;
+    background-color: $light-grey;
     @media (max-width: $screen-sm-max) {
-      height: calc(80vh - 92px - 64px - 64px);
+      height: calc(50vh); /* don't care about this for now */
     }
     @media (min-width: $screen-md-min) {
-      height: calc(100vh - 92px - 64px - 64px);
+      height: calc(100vh - 64px - 12px - 54px - 54px - 10px);
+      /*64 desktop header height 12 main content area padding (below header) 54 comment header 54 comment input*/
+      /* why the extra 10 at the end? I don't know! */
     }
     overflow: auto;
     /*height: 100%;*/
 
     display: block;
-
-    &__table {
-      width: 100%;
-      height: 100%;
-      display: table;
-
-      &__row {
-        display: table-row;
-      }
-
-      &__col {
-        display: table-cell;
-        vertical-align: bottom;
-
-        &.empty {
-          vertical-align: middle;
-          text-align: center;
-          color: #c0b7c5;
-          font-size: 25px;
-        }
-      }
-    }
+  }
+  .loadComments {
+    text-align: center;
+    padding: 5px 0;
+    cursor: pointer;
+    /* legacy */
+  }
+  .empty {
+    height: 100%;
+    text-align: center;
   }
 
   &__input-container {
-    height: 64px;
+    border-radius: 0;
+    border: 1px solid $light-grey;
   }
 }
 </style>
