@@ -71,6 +71,9 @@ plugins:
   - serverless-plugin-warmup
 
 custom:
+  prune:
+    automatic: true
+    number: 10
   serverless-offline:
     port: 4001
   myStage: ${self:provider.stage}

@@ -18,6 +18,7 @@
     "env-cmd": "^10.0.1",
     "serverless": "^1.51.0",
     "serverless-offline": "^5.10.1",
+    "serverless-prune-plugin": "^1.4.2",
     "serverless-python-requirements": "^4.3.0"
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <v-toolbar class="desktop hidden-sm-and-down" flat color="white">
-    <v-container fluid>
+    <v-container>
       <v-row>
         <v-col cols="auto">
           <v-toolbar-title>
