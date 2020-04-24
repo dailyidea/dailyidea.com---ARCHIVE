@@ -1,8 +1,9 @@
 export default `
-query ideas($nextToken: String, $limit: Int) {
-  ideas(nextToken: $nextToken, limit: $limit) {
+query ideas($order: IdeaSortingOrder, $nextToken: String, $limit: Int) {
+  ideas(order: $order, nextToken: $nextToken, limit: $limit) {
     items {
       userId
+      authorAvatar
       ideaId
       authorName
       content

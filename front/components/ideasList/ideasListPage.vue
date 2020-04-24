@@ -1,9 +1,11 @@
 <template>
   <Layout>
     <v-layout class="ideas-list">
-
       <!-- Links -->
-      <section id="ideas-navigation-section" class="text-center d-none d-sm-block">
+      <section
+        id="ideas-navigation-section"
+        class="text-center d-none d-sm-block"
+      >
         <span class="ideas-navigation-item">
           <router-link to="/ideas/all" class="muted">All Ideas</router-link>
         </span>
@@ -21,7 +23,10 @@
         :ideas="ideas"
         :loading="loadingIdea"
         :allow-load-more="!!nextToken"
-        @load-more="loadMoreIdeas"
+        :allow-order="allowOrder"
+        :initial-order="initialOrder"
+        @load-more="loadIdeas"
+        @order-change="onChangeOrder"
       ></ideas-list>
 
       <!-- Add Idea Button -->
@@ -54,6 +59,10 @@ export default {
       required: false,
       default: null
     },
+    initialOrder: {
+      type: String,
+      required: false
+    },
     title: {
       type: String,
       default: 'Ideas'
@@ -78,13 +87,17 @@ export default {
     showAuthor: {
       type: Boolean,
       default: false
+    },
+    allowOrder: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
     return {
       ideas: [],
       nextToken: null,
-
+      order: undefined,
       loadingIdea: false
     }
   },
@@ -101,24 +114,41 @@ export default {
   created() {
     this.ideas = this.initialIdeas
     this.nextToken = this.initialNextToken
+    this.order = this.initialOrder
   },
   methods: {
+    reorderIdeas() {
+      this.$store.commit('layoutState/showProgressBar')
+      this.loadingIdea = true
+      this.ideas = []
+      this.nextToken = undefined
+      this.loadIdeas(true)
+    },
     getLoadIdeasParams() {
       return [this.$amplifyApi, this.endPointName, this.endPoint]
     },
-    async loadMoreIdeas() {
-      if (!this.nextToken) {
+    onChangeOrder(val) {
+      this.$router.replace({ query: { order: val } })
+      this.order = val
+      this.reorderIdeas()
+    },
+    async loadIdeas(initial = false) {
+      if (!this.nextToken && !initial) {
         return
       }
       this.loadingIdea = true
       const res = await loadIdeas(
         ...this.getLoadIdeasParams(),
-        Object.assign({ nextToken: this.nextToken }, this.endPointVariables),
+        Object.assign(
+          { nextToken: this.nextToken, order: this.order },
+          this.endPointVariables
+        ),
         this.endPointMode
       )
       this.nextToken = res.nextToken
       this.ideas = this.ideas.concat(res.ideas)
       this.loadingIdea = false
+      this.$store.commit('layoutState/hideProgressBar')
     }
   }
 }
@@ -139,8 +169,8 @@ export default {
 
   .addBtn {
     position: fixed;
-    right: 40px;
-    bottom: 30px;
+    right: 95px;
+    bottom: 23px;
   }
 }
 

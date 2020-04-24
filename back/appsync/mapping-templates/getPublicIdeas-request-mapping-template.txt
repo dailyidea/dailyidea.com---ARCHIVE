@@ -1,3 +1,31 @@
+#set($indexMap = {
+  "DATE_ASC": "publicIdeasByDate",
+  "DATE_DESC": "publicIdeasByDate",
+  "TITLE_ASC": "publicIdeasByName",
+  "TITLE_DESC": "publicIdeasByName",
+  "COMMENTS": "publicIdeasByCommentsCount",
+  "LIKES": "publicIdeasByLikesCount"
+})
+
+#set($scanForwardMap = {
+  "DATE_ASC": true,
+  "DATE_DESC": false,
+  "TITLE_ASC": true,
+  "TITLE_DESC": false,
+  "COMMENTS": false,
+  "LIKES": false
+})
+
+#if ($context.arguments.order)
+  #set($order = $context.arguments.order)
+#else
+  #set($order = "DATE_DESC")
+#end
+
+
+#set($indexName = $indexMap.get($order))
+#set($scanIndexForward = $scanForwardMap.get($order))
+
 {
     "version": "2017-02-28",
     "operation": "Query",
@@ -9,8 +37,8 @@
             }
         }
     },
-    "index": "publicIdeasByDate",
+    "index": "$indexName",
     "limit": #if($context.arguments.limit) $context.arguments.limit #else 10 #end,
     "nextToken": #if($context.arguments.nextToken) "$context.arguments.nextToken" #else null #end,
-    "scanIndexForward": false
+    "scanIndexForward": $scanIndexForward
 }

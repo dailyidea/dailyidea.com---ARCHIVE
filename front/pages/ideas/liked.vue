@@ -5,6 +5,7 @@
     title="SAVED IDEAS"
     :end-point="endPoint"
     :end-point-name="endPointName"
+    :allow-order="false"
     show-author
   ></ideas-list-page>
 </template>

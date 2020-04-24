@@ -11,8 +11,14 @@ Resources:
             AttributeType: S
           - AttributeName: authorSlug
             AttributeType: S
+          - AttributeName: title
+            AttributeType: S
           - AttributeName: createdDate
             AttributeType: S
+          - AttributeName: commentsCount
+            AttributeType: N
+          - AttributeName: likesCount
+            AttributeType: N
         KeySchema:
           - AttributeName: userId
             KeyType: HASH
@@ -29,6 +35,30 @@ Resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
+          - IndexName: publicIdeasByName
+            KeySchema:
+              - AttributeName: visibility
+                KeyType: HASH
+              - AttributeName: title
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: publicIdeasByCommentsCount
+            KeySchema:
+              - AttributeName: visibility
+                KeyType: HASH
+              - AttributeName: commentsCount
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: publicIdeasByLikesCount
+            KeySchema:
+              - AttributeName: visibility
+                KeyType: HASH
+              - AttributeName: likesCount
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
           - IndexName: ideasBySlugAndDate
             KeySchema:
               - AttributeName: authorSlug
@@ -42,6 +72,30 @@ Resources:
               - AttributeName: userId
                 KeyType: HASH
               - AttributeName: createdDate
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: myIdeasByName
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: title
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: myIdeasByCommentsCount
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: commentsCount
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: myIdeasByLikesCount
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: likesCount
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL

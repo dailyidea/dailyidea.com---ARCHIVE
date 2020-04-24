@@ -1,9 +1,27 @@
 <template>
   <div class="ideas-list">
     <!-- Sort Button -->
-    <div v-if="ideas && ideas.length > 0" class="ideas-list__sort-by-panel">
-      <span>Sort by Newest</span>
-      <v-icon size="16">fas fa-exchange-alt fa-rotate-90</v-icon>
+    <div
+      v-if="allowOrder && ((ideas && ideas.length > 0) || loading)"
+      class="ideas-list__sort-by-panel"
+    >
+      <v-menu left>
+        <template v-slot:activator="{ on }">
+          <span v-on="on">
+            <span>{{ selectedOrder.title }}</span>
+            <v-icon size="16">fas fa-exchange-alt fa-rotate-90</v-icon>
+          </span>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="(item, index) in orderOptions"
+            :key="index"
+            @click="onChangeOrder(item.code)"
+          >
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </div>
 
     <div v-if="ideas && ideas.length">
@@ -16,7 +34,7 @@
     </div>
 
     <ideas-list-empty-message
-      v-else
+      v-else-if="!loading"
       :show-arrow-to-add-button="true"
     ></ideas-list-empty-message>
     <!-- LoadMore Button -->
@@ -31,6 +49,16 @@
 <script>
 import ideasListIdea from './ideasListIdea'
 import ideasListEmptyMessage from './ideasListEmptyMessage'
+import { ORDER } from '@/components/ideasList/ideasOrdering'
+
+const orderOptions = [
+  { title: 'Sort by Newest', code: ORDER.DATE_DESC },
+  { title: 'Sort by Oldest', code: ORDER.DATE_ASC },
+  { title: 'Most Popular', code: ORDER.LIKES },
+  { title: 'Most Commented', code: ORDER.COMMENTS },
+  { title: 'Alphabetically Up', code: ORDER.TITLE_ASC },
+  { title: 'Alphabetically Down', code: ORDER.TITLE_DESC }
+]
 
 export default {
   name: 'IdeasList',
@@ -51,12 +79,28 @@ export default {
     showAuthor: {
       type: Boolean,
       default: false
+    },
+    initialOrder: {
+      type: String,
+      default: ORDER.DATE_DESC
+    },
+    allowOrder: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
-    return {}
+    return {
+      selectedOrder: orderOptions.filter(o => o.code === this.initialOrder)[0],
+      orderOptions
+    }
   },
+  computed: {},
   methods: {
+    onChangeOrder(val) {
+      this.selectedOrder = orderOptions.filter(o => o.code === val)[0]
+      this.$emit('order-change', val)
+    },
     loadMore() {
       this.$emit('load-more')
     }
@@ -66,11 +110,13 @@ export default {
 
 <style scoped lang="scss">
 @import '~assets/style/common';
+
 .ideas-list {
   $main-text-color: #4a4a4a;
   @include pageMargin;
 
   &__sort-by-panel {
+    cursor: pointer;
     vertical-align: middle;
     margin-bottom: 10px;
     font-size: 16px;

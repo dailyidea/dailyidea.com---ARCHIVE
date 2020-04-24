@@ -1,6 +1,7 @@
 service: dailyidea-appsync-backend
 
 provider:
+  versionFunctions: false
   name: aws
   runtime: 'python3.6'
   stage: ${env:STAGE, 'local'}
@@ -18,6 +19,7 @@ plugins:
   - serverless-offline
   - serverless-appsync-plugin
   - serverless-python-requirements
+  - serverless-prune-plugin
 
 functions:
   getLikedIdeas:
@@ -98,6 +100,9 @@ custom:
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
   setUsersSlugFunctionName: dailyidea-appsync-backend-${self:provider.stage}-setUsersSlug
   updateProfileInfoInCreatedIdeasFunctionName: dailyidea-appsync-backend-${self:provider.stage}-updateProfileInfoInCreatedIdeas
+  prune:
+    automatic: true
+    number: 10
   pythonRequirements:
     dockerizePip: non-linux
     pythonBin: /home/orion/envs/idea36/bin/python
