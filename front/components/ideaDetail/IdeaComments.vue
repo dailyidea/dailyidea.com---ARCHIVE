@@ -47,12 +47,17 @@
         <template v-slot:append>
           <v-slide-y-transition hide-on-leave>
             <v-icon
+              small
               v-if="readyForSend && !showAddCommentLoader"
               @click="onAddCommentAttempt"
+              class="color-primary"
               >fa-paper-plane
             </v-icon>
           </v-slide-y-transition>
-          <v-icon v-if="showAddCommentLoader" @click="onAddCommentAttempt"
+          <v-icon v-if="showAddCommentLoader"
+            small
+            @click="onAddCommentAttempt"
+            class="color-primary"
             >fas fa-circle-notch fa-spin flag-icon
           </v-icon>
         </template>
