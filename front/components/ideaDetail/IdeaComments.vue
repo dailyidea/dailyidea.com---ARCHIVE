@@ -33,16 +33,14 @@
       </v-row>
     </div>
     <div ref="scroller" class="comments-part__container">
-      <div class="comments-part__container__table">
-        <div class="comments-part__container__table__row">
           <div
             v-if="commentList.length"
             ref="commentsCol"
-            class="comments-part__container__table__col"
+            class=""
           >
             <div
               v-if="idea.commentsCount > commentList.length && !deletingComment"
-              style="text-align: center; padding: 5px 0; cursor: pointer;"
+              class="loadComments"
               @click="loadComments"
             >
               <v-btn small :loading="loadingMore">Load More...</v-btn>
@@ -55,21 +53,22 @@
               @onDeleteComment="onDeleteComment"
             ></idea-comments-comment>
           </div>
-          <div v-else class="comments-part__container__table__col empty">
-            There are not comments yet. <br />
-            Add the first one?
-          </div>
-        </div>
-      </div>
+          <v-row v-else class="empty" align="center">
+            <v-col>
+              <p>
+                <v-icon>mdi-comment-plus-outline</v-icon>
+              </p>
+              <p>No comments yet.</p>
+              <p>Be the first!</p>
+            </v-col>
+          </v-row>
     </div>
     <div class="comments-part__input-container">
       <v-text-field
         v-model="newCommentText"
-        style="border-radius: 0; border: 1px solid #ebe7ed;"
-        label="Say something..."
+        label="Add a comment..."
         single-line
         flat
-        height="64"
         hide-details
         solo
         @keydown.enter="onAddCommentAttempt"
@@ -480,7 +479,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+$light-grey: #ebe7ed;
 $counters-font-size: 18px;
+
 .likes-counter {
   display: inline-block;
 
@@ -543,7 +544,7 @@ $counters-font-size: 18px;
   &__header {
     padding: 15px;
     height: 64px;
-    background-color: #ebe7ed;
+    background-color: $light-grey;
   }
 
   &__container {
@@ -558,32 +559,22 @@ $counters-font-size: 18px;
     /*height: 100%;*/
 
     display: block;
-
-    &__table {
-      width: 100%;
-      height: 100%;
-      display: table;
-
-      &__row {
-        display: table-row;
-      }
-
-      &__col {
-        display: table-cell;
-        vertical-align: bottom;
-
-        &.empty {
-          vertical-align: middle;
-          text-align: center;
-          color: #c0b7c5;
-          font-size: 25px;
-        }
-      }
-    }
+  }
+  .loadComments {
+    text-align: center;
+    padding: 5px 0;
+    cursor: pointer;
+    /* legacy */
+  }
+  .empty {
+    height: 100%;
+    text-align: center;
   }
 
   &__input-container {
     height: 64px;
+    border-radius: 0;
+    border: 1px solid $light-grey;
   }
 }
 </style>
