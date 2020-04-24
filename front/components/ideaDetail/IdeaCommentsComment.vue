@@ -27,7 +27,7 @@
           x-small
           @click="onDeleteComment"
         >
-          <v-icon color="#8b868e" :size="13">fas fa-trash-alt</v-icon>
+          <v-icon class="color-danger" small>mdi-close-circle-outline</v-icon>
         </v-btn>
       </div>
     </div>
@@ -77,6 +77,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~/assets/style/common';
+
 .commentItem {
   margin: 15px;
   padding: 10px;
