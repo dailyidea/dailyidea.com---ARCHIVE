@@ -1,38 +1,9 @@
 <template>
   <div class="comments-part">
-    <div class="comments-part__header">
-      <v-row no-gutters>
-        <v-col>
-          <span class="likes-counter">
-            <span class="likes-counter__image-container">
-              <img
-                v-if="idea.likesCount > 0"
-                src="~/assets/images/lamp_on.png"
-                class="likes-counter__image on"
-              />
-              <img
-                v-else
-                src="~/assets/images/lamp_off.png"
-                class="likes-counter__image"
-              />
-            </span>
-            <span class="likes-counter__label">{{ idea.likesCount }}</span>
-          </span>
-        </v-col>
-        <v-col style="text-align: right">
-          <span class="comments-counter">
-            <img
-              src="~/assets/images/comment.png"
-              class="comments-counter__image"
-            />
-            <span class="comments-counter__label">{{
-              idea.commentsCount
-            }}</span>
-          </span>
-        </v-col>
-      </v-row>
+    <div class="comments-part__header text-center">
+      <strong class="muted">Comments</strong>
     </div>
-    <div ref="scroller" class="comments-part__container">
+    <v-container ref="scroller" class="comments-part__container">
           <div
             v-if="commentList.length"
             ref="commentsCol"
@@ -54,7 +25,7 @@
             ></idea-comments-comment>
           </div>
           <v-row v-else class="empty" align="center">
-            <v-col>
+            <v-col class="muted">
               <p>
                 <v-icon>mdi-comment-plus-outline</v-icon>
               </p>
@@ -62,7 +33,7 @@
               <p>Be the first!</p>
             </v-col>
           </v-row>
-    </div>
+    </v-container>
     <div class="comments-part__input-container">
       <v-text-field
         v-model="newCommentText"
@@ -479,7 +450,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$light-grey: #ebe7ed;
+@import '~assets/style/common';
+$light-grey: #f3f0f4;
 $counters-font-size: 18px;
 
 .likes-counter {
@@ -543,17 +515,18 @@ $counters-font-size: 18px;
 
   &__header {
     padding: 15px;
-    height: 64px;
     background-color: $light-grey;
   }
 
   &__container {
-    background-color: #ebe7ed;
+    background-color: $light-grey;
     @media (max-width: $screen-sm-max) {
-      height: calc(80vh - 92px - 64px - 64px);
+      height: calc(50vh); /* don't care about this for now */
     }
     @media (min-width: $screen-md-min) {
-      height: calc(100vh - 92px - 64px - 64px);
+      height: calc(100vh - 64px - 12px - 54px - 54px - 10px);
+      /*64 desktop header height 12 main content area padding (below header) 54 comment header 54 comment input*/
+      /* why the extra 10 at the end? I don't know! */
     }
     overflow: auto;
     /*height: 100%;*/
@@ -572,7 +545,6 @@ $counters-font-size: 18px;
   }
 
   &__input-container {
-    height: 64px;
     border-radius: 0;
     border: 1px solid $light-grey;
   }
