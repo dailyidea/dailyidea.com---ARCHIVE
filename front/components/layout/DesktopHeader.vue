@@ -42,20 +42,20 @@
                 >Log In
               </router-link>
             </template>
-            <v-list>
+            <v-list class="header-nav-dropdown">
               <router-link to="/profile">
                 <v-list-item>
-                  <v-list-item-title>My Profile</v-list-item-title>
+                  <v-list-item-title><v-icon small>mdi-account-circle-outline</v-icon> My Profile</v-list-item-title>
                 </v-list-item>
               </router-link>
 
               <router-link to="/settings">
                 <v-list-item>
-                  <v-list-item-title>Settings</v-list-item-title>
+                  <v-list-item-title><v-icon small>mdi-cog-outline</v-icon> Settings</v-list-item-title>
                 </v-list-item>
               </router-link>
               <v-list-item @click="signOut">
-                <v-list-item-title>Sign Out</v-list-item-title>
+                <v-list-item-title><v-icon small>mdi-exit-run</v-icon> Sign Out</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -150,6 +150,31 @@ export default {
     background-color: #ebe7ed;
     &:hover {
       opacity: 0.8;
+    }
+  }
+}
+
+.header-nav-dropdown {
+  a {
+    text-decoration: none;
+  }
+  .v-list-item {
+    .v-list-item__title i.v-icon {
+      vertical-align: baseline;
+      padding-right: 4px;
+    }
+
+    &:hover {
+      background: $color-insanely-crazy-light-greyish-purple;
+
+      .v-list-item__title {
+        color: $primary-color;
+
+        i.v-icon {
+          padding-right: 8px;
+          color: $primary-color;
+        }
+      }
     }
   }
 }

@@ -11,11 +11,6 @@
   }
 }
 
-.muted,
-.muted .v-icon {
-  color: #c0b7c5 !important;
-}
-
 .smaller {
   font-size: 0.85rem;
 }
@@ -30,6 +25,11 @@
 
 .color-danger {
   color: #d44950 !important;
+}
+
+.muted,
+.muted .v-icon {
+  color: $color-muted-grey;
 }
 
 form .v-input__prepend-inner {
