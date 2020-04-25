@@ -413,8 +413,6 @@ export default {
 <style scoped lang="scss">
 @import '~assets/style/common';
 .profile-page {
-  @include pageMargin;
-  /*background-color: #c7d28e;*/
   min-height: 100px;
 
   &__header {

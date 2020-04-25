@@ -113,7 +113,6 @@ export default {
 
 .ideas-list {
   $main-text-color: #4a4a4a;
-  @include pageMargin;
 
   &__sort-by-panel {
     cursor: pointer;
