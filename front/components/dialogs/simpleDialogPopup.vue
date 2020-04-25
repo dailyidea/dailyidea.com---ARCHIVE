@@ -2,28 +2,48 @@
 <template>
   <v-dialog
     v-model="visible"
-    content-class="simple-dialog-popup-content"
+    content-class="modal"
     persistent
     max-width="600"
   >
-    <v-card>
-      <v-icon
-        text
-        class="simple-dialog-popup-content__cancel-icon"
-        size="20"
-        @click="close"
-        >fas fa-times</v-icon
-      >
-      <v-card-title v-if="header" class="headline">{{ header }}</v-card-title>
-      <v-card-text v-html="body"></v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn v-if="buttonCancel" text @click="close">{{
-          buttonCancel
-        }}</v-btn>
-        <v-btn @click="ok">{{ buttonOk }}</v-btn>
-      </v-card-actions>
-    </v-card>
+    <div class="closeBtn">
+      <v-icon text class="cancelIcon" @click="close">mdi-close</v-icon>
+    </div>
+
+    <!-- Header -->
+    <section class="modalHeader">
+      <h3>{{ header }}</h3>
+      <v-img
+        width="180"
+        height="180"
+        class="mx-auto modalTopImage"
+        contain
+        src="imagePath"
+      ></v-img>
+    </section>
+
+    <!-- Body -->
+    <section class="modalBody">
+      {{ body }}
+    </section>
+
+    <!-- Footer -->
+    <section class="modalFooter">
+      <!-- Action Buttons -->
+      <div class="text-right">
+        <v-btn class="cancelBtn"
+          rounded
+          text
+          @click="close"
+          >{{ buttonCancel }}</v-btn>
+        <v-btn
+          rounded
+          @click="ok"
+          >{{ buttonOk }}</v-btn
+        >
+      </div>
+    </section>
+
   </v-dialog>
 </template>
 
@@ -36,15 +56,18 @@ export default {
       header: '',
       body: '',
       buttonOk: '',
-      buttonCancel: ''
+      buttonCancel: '',
+      imagePath: ''
+
     }
   },
   methods: {
-    show(header = '', body = '', buttonOk = 'OK', buttonCancel = 'Cancel') {
+    show(header = '', body = '', buttonOk = 'OK', buttonCancel = 'Cancel', imagePath = '') {
       this.header = header
       this.body = body
       this.buttonOk = buttonOk
       this.buttonCancel = buttonCancel
+      this.imagePath = imagePath
       this.visible = true
       return new Promise((resolve, reject) => {
         this.resolve = resolve
@@ -62,15 +85,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-::v-deep .simple-dialog-popup-content {
-  position: relative;
-
-  &__cancel-icon {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-  }
-}
-</style>
