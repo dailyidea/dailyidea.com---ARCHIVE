@@ -24,11 +24,15 @@
     <!-- Body -->
     <section class="modalBody">
       <p>
-        That's ok. Some things aren't ready to be shared. Make this Idea private
+        That's ok!
+      </p>
+      <p>
+        Some things aren't ready to be shared. Make this idea private
         with just one click.
       </p>
     </section>
 
+    <!-- Footer -->
     <section class="modalFooter">
       <!-- Action Buttons -->
       <div class="text-right">

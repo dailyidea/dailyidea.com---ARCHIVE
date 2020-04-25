@@ -1,43 +1,53 @@
 <template>
   <v-dialog
     v-model="visible"
-    content-class="dialog-popup-content"
+    content-class="modal"
     persistent
-    max-width="400"
+    max-width="600"
   >
-    <v-card>
-      <v-icon
-        text
-        class="dialog-popup-content__cancel-icon"
-        size="20"
-        @click="close"
-        >fas fa-times
-      </v-icon>
+    <div class="closeBtn">
+      <v-icon text class="cancelIcon" @click="close">mdi-close</v-icon>
+    </div>
 
-      <v-card-text
-        style="padding-top: 30px; padding-bottom: 20px; text-align: center"
-      >
-        <v-img
-          class="private-icon"
-          src="~/assets/images/publicIdea.png"
-          contain
-          :width="60"
-          :height="60"
-        ></v-img>
-      </v-card-text>
-      <div class="head-text">
-        Want to make your Idea public?
-      </div>
-      <v-card-text class="explanation-text">
-        That's perfect! Ideas want to be shared! Make this Idea public with just
+    <!-- Header -->
+    <section class="modalHeader">
+      <h3>Share Your Idea With The World!</h3>
+      <v-img
+        max-width="180"
+        max-height="180"
+        class="mx-auto modalTopImage"
+        contain
+        src="~/assets/images/dialogs/undraw_spread_love_r9jb.svg"
+      ></v-img>
+    </section>
+
+    <!-- Body -->
+    <section class="modalBody">
+      <p>
+        Awesome!
+      </p>
+      <p>Ideas want to be shared! Make this idea public with just
         one click.
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn text @click="close">Cancel</v-btn>
-        <v-btn @click="makePrivate">Make Public</v-btn>
-      </v-card-actions>
-    </v-card>
+      </p>
+    </section>
+
+    <!-- Footer -->
+    <section class="modalFooter">
+      <!-- Action Buttons -->
+      <div class="text-right">
+        <v-btn class="cancelBtn"
+          rounded
+          text
+          @click="close"
+          >Cancel</v-btn>
+        <v-btn
+          rounded
+          @click="makePrivate"
+          >Make Public</v-btn
+        >
+      </div>
+    </section>
+
   </v-dialog>
 </template>
 
