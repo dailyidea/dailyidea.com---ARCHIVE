@@ -2,20 +2,26 @@
   <!-- Popup - Share Via Email -->
   <v-dialog
     v-model="visible"
-    content-class="emailShareDialog"
+    content-class="modal"
     persistent
-    max-width="400px"
+    max-width="600px"
   >
     <div class="closeBtn">
-      <v-icon text class="cancelIcon" size="18" @click="closeDialog"
-        >fas fa-times</v-icon
+      <v-icon text class="cancelIcon" @click="closeDialog"
+        >mdi-close</v-icon
       >
     </div>
 
     <!-- Popup Header -->
     <div class="header">
-      <v-icon text class="shareIcon" size="60">fas fa-envelope</v-icon>
-      <div class="headlineText">Share Idea</div>
+      <h3>Share Idea With A Friend</h3>
+      <v-img
+        max-height="180"
+        max-width="180"
+        class="mx-auto modalTopImage"
+        cover
+        src="~/assets/images/dialogs/undraw_real_time_collaboration_c62i.svg"
+      ></v-img>
     </div>
 
     <form id="share-idea-without-login-form" @submit.stop.prevent="sendEmail">
@@ -25,7 +31,10 @@
         :error-messages="errors.collect('name')"
         data-vv-name="name"
         label="Your Name"
-        outlined
+        single-line
+        flat
+        placeholder="Your Name"
+        prepend-inner-icon="mdi-account-circle-outline"
       >
       </v-text-field>
       <v-text-field
@@ -33,23 +42,33 @@
         v-validate="'required|max:100'"
         :error-messages="errors.collect('friend name')"
         data-vv-name="friend name"
-        label=" Your Friend's Name"
-        outlined
+        label="Your Friend's Name"
+        placeholder="Your Friend's Name"
+        single-line
+        flat
+        prepend-inner-icon="mdi-account-circle-outline"
       ></v-text-field>
       <v-text-field
         v-model="form.friendEmail"
         v-validate="'required|email|max:100'"
-        append-icon="email"
         :error-messages="errors.collect('email')"
         data-vv-name="email"
-        label="Your Friend's Email "
-        outlined
+        label="Your Friend's Email"
+        single-line
+        flat
+        placeholder="Your Friend's Email"
+        prepend-inner-icon="mdi-email-outline"
       ></v-text-field>
 
       <!-- Submit Buttons -->
-      <div class="btnContainer">
-        <v-btn class="cancelBtn" text @click="closeDialog">Cancel</v-btn>
+      <div class="text-right">
+        <v-btn class="cancelBtn"
+          rounded
+          text
+          @click="closeDialog"
+          >Cancel</v-btn>
         <v-btn
+          rounded
           type="submit"
           class="specialButton"
           :loading="sendingEmail"
@@ -57,9 +76,10 @@
           >Share</v-btn
         >
       </div>
-      <div class="" style="text-align: center">
+      <div class="mt-3 text-center">
         <client-only>
           <a
+            class="muted smaller"
             v-clipboard="() => getShareUrl()"
             href="#"
             @click.prevent.stop="onCopyShareLink"
@@ -170,47 +190,6 @@ export default {
 </script>
 
 <style lang="scss">
-.emailShareDialog {
-  padding: 15px 20px 20px 20px;
-  background: white;
-
-  .closeBtn {
-    .cancelIcon {
-      float: right;
-    }
-  }
-
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-    margin-top: 30px;
-
-    .headlineText {
-      margin: 20px 0px 20px 0px;
-      font-size: 23px;
-    }
-
-    .cancelIcon {
-      border: 1px solid red;
-      float: right;
-      padding-bottom: 10px;
-    }
-  }
-
-  .shareIcon {
-    color: rgba(255, 185, 45);
-  }
-
-  .btnContainer {
-    /*margin-top: 20px;*/
-    margin-bottom: 20px;
-    text-align: right;
-    .shareBtn {
-      width: 170px;
-    }
-    .cancelBtn {
-      background-color: #ebe7ed !important;
-    }
-  }
-}
+@import '~assets/style/common';
+@import '~assets/style/modals';
 </style>

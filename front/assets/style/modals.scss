@@ -1,0 +1,20 @@
+.modal {
+  padding: 1em;
+  background: white;
+  form {
+    padding: 0 2em;
+  }
+
+  .header h3 {
+    text-align: center;
+    margin: 1rem;
+  }
+
+  .modalTopImage {
+    margin-bottom: 1rem;
+  }
+
+  .closeBtn .cancelIcon {
+    float: right;
+  }
+}
