@@ -3,154 +3,192 @@
     <v-row no-gutters>
       <v-col>
         <div class="profile-page">
-          <div class="profile-page__header">
-            <v-tooltip :disabled="!allowEdit" right>
-              <template v-slot:activator="{ on }">
-                <div
-                  class="user-avatar__container"
-                  :class="{ 'with-avatar': avatarIsSet, changeable: allowEdit }"
-                  :style="avatarStyle"
-                  @click="selectAvatar"
-                  v-on="on"
-                >
-                  <span v-if="!avatarIsSet">
-                    <v-icon>fas fa-user</v-icon>
-                  </span>
-                </div>
-              </template>
-              <span>Click to update your avatar</span>
-            </v-tooltip>
 
-            <!--            <v-btn icon height="60" width="60" color="#ebe7ed"><v-icon>fas fa-user</v-icon></v-btn>-->
-            <div class="profile-page__header__username">
-              <v-text-field
-                v-if="editMode"
-                v-model="editData.name"
-                :disabled="savingChanges"
-                maxlength="128"
-                :rules="nameRules"
-                class="username-edit"
-                dense
-                autofocus
-                placeholder="Yor Name"
-              ></v-text-field>
-              <span
-                v-else
-                class="profile-page__header__username__name-container"
-                >{{ profileData.name }}
-                <v-tooltip v-if="allowEdit" top>
-                  <template v-slot:activator="{ on }">
-                    <v-icon
-                      class="profile-page__header__username__edit-icon"
-                      :size="20"
-                      color="info"
-                      @click="enableEditMode"
-                      v-on="on"
-                      >mdi-pencil</v-icon
-                    >
-                  </template>
-                  <span>Click to update your name or bio</span>
-                </v-tooltip>
-              </span>
-            </div>
-            <div class="profile-page__header__counters">
-              <v-row>
-                <v-col>
-                  <div class="profile-page__header__counters__counter">
-                    <div class="profile-page__header__counters__counter__count">
-                      {{ profileData.ideasCreated }}
-                    </div>
-                    <div class="profile-page__header__counters__counter__label">
-                      ideas
-                    </div>
+          <!-- left side image on desktop -->
+          <v-row class="profile-page__header">
+            <v-col class="profileImage" cols="4">
+              <v-tooltip :disabled="!allowEdit" right>
+                <template v-slot:activator="{ on }">
+                  <div
+                    class="user-avatar__container"
+                    :class="{ 'with-avatar': avatarIsSet, changeable: allowEdit }"
+                    :style="avatarStyle"
+                    @click="selectAvatar"
+                    v-on="on"
+                  >
+                    <span v-if="!avatarIsSet">
+                      <v-icon>fas fa-user</v-icon>
+                    </span>
                   </div>
-                </v-col>
-                <v-col>
-                  <div class="profile-page__header__counters__counter">
-                    <div class="profile-page__header__counters__counter__count">
-                      {{ profileData.followersCount }}
+                </template>
+                <span>Click to update your avatar</span>
+              </v-tooltip>
+            </v-col>
+
+          <!-- right side profile info on desktop -->
+            <v-col cols="8">
+
+            <!-- username -->
+            <v-row>
+            <v-col>
+
+              <div class="profile-page__header__username">
+                <v-text-field
+                  v-if="editMode"
+                  v-model="editData.name"
+                  :disabled="savingChanges"
+                  maxlength="128"
+                  :rules="nameRules"
+                  class="username-edit"
+                  dense
+                  autofocus
+                  placeholder="Yor Name"
+                ></v-text-field>
+                <span
+                  v-else
+                  class="profile-page__header__username__name-container"
+                  >{{ profileData.name }}
+                  <v-tooltip v-if="allowEdit" top>
+                    <template v-slot:activator="{ on }">
+                      <v-icon
+                        class="profile-page__header__username__edit-icon"
+                        :size="20"
+                        color="info"
+                        @click="enableEditMode"
+                        v-on="on"
+                        >mdi-pencil</v-icon
+                      >
+                    </template>
+                    <span>Click to update your name or bio</span>
+                  </v-tooltip>
+                </span>
+              </div>
+            </v-col>
+            </v-row>
+
+            <!-- counters -->
+            <v-row>
+            <v-col>
+              <div class="profile-page__header__counters">
+                <v-row>
+                  <v-col>
+                    <div class="profile-page__header__counters__counter">
+                      <div class="profile-page__header__counters__counter__count">
+                        {{ profileData.ideasCreated }}
+                      </div>
+                      <div class="profile-page__header__counters__counter__label">
+                        ideas
+                      </div>
                     </div>
-                    <div class="profile-page__header__counters__counter__label">
-                      followers
+                  </v-col>
+                  <v-col>
+                    <div class="profile-page__header__counters__counter">
+                      <div class="profile-page__header__counters__counter__count">
+                        {{ profileData.followersCount }}
+                      </div>
+                      <div class="profile-page__header__counters__counter__label">
+                        followers
+                      </div>
                     </div>
-                  </div>
-                </v-col>
-                <v-col>
-                  <div class="profile-page__header__counters__counter">
-                    <div class="profile-page__header__counters__counter__count">
-                      {{ profileData.followeesCount }}
+                  </v-col>
+                  <v-col>
+                    <div class="profile-page__header__counters__counter">
+                      <div class="profile-page__header__counters__counter__count">
+                        {{ profileData.followeesCount }}
+                      </div>
+                      <div class="profile-page__header__counters__counter__label">
+                        following
+                      </div>
                     </div>
-                    <div class="profile-page__header__counters__counter__label">
-                      following
-                    </div>
-                  </div>
-                </v-col>
-              </v-row>
-            </div>
-          </div>
-          <div class="profile-page__bio">
-            <span v-if="!editMode">{{ profileData.bio }}</span>
-            <v-textarea
-              v-else
-              v-model="editData.bio"
-              :rows="3"
-              maxlength="1000"
-              :disabled="savingChanges"
-              placeholder="Tell few words about yourself"
-              style="margin-top: -10px; font-size: 18px;"
-            ></v-textarea>
-          </div>
-          <div
-            v-if="
-              editMode ||
-                (profileData.interestedInTags &&
-                  profileData.interestedInTags.length)
-            "
-            class="profile-page__tags"
-          >
-            <div class="profile-page__tags__header">Interested in:</div>
-            <div v-if="!editMode" class="profile-page__tags__tag">
-              <v-chip
-                v-for="(item, index) in profileData.interestedInTags"
-                :key="index"
-                label
-                color="#6e6e6e"
-                outlined
-                style="font-weight: normal; margin-right: 7px"
-                >{{ item }}
-              </v-chip>
-            </div>
-            <div v-else class="profile-page__tags__tags-editor">
-              <v-combobox
-                v-model="editData.interestedInTags"
-                placeholder="Add few tags about what are you interested in"
-                :error-messages="errors.collect('tag')"
-                data-vv-name="tag"
-                hide-details
-                times
-                chips
-                label=""
-                multiple
-                :disabled="savingChanges"
+                  </v-col>
+                </v-row>
+              </div>
+            </v-col>
+            </v-row>
+
+            <!-- profile bio -->
+            <v-row>
+            <v-col>
+
+              <div class="profile-page__bio">
+                <span v-if="!editMode">{{ profileData.bio }}</span>
+                <v-textarea
+                  v-else
+                  v-model="editData.bio"
+                  :rows="3"
+                  maxlength="1000"
+                  :disabled="savingChanges"
+                  placeholder="Tell few words about yourself"
+                  style="margin-top: -10px; font-size: 18px;"
+                ></v-textarea>
+              </div>
+
+            </v-col>
+            </v-row>
+
+            <!-- profile tags  -->
+            <v-row>
+            <v-col>
+              <div
+                v-if="
+                  editMode ||
+                    (profileData.interestedInTags &&
+                      profileData.interestedInTags.length)
+                "
+                class="profile-page__tags"
               >
-                <template v-slot:selection="{ attrs, item, select, selected }">
+                <div class="profile-page__tags__header">Interested in:</div>
+                <div v-if="!editMode" class="profile-page__tags__tag">
                   <v-chip
-                    v-bind="attrs"
-                    :input-value="selected"
-                    close
+                    v-for="(item, index) in profileData.interestedInTags"
+                    :key="index"
                     label
                     color="#6e6e6e"
                     outlined
-                    style="font-weight: normal"
-                    @click="() => {}"
-                    @click:close="removeTag(item)"
-                  >
-                    {{ item }}
+                    style="font-weight: normal; margin-right: 7px"
+                    >{{ item }}
                   </v-chip>
-                </template>
-              </v-combobox>
-            </div>
-          </div>
+                </div>
+                <div v-else class="profile-page__tags__tags-editor">
+                  <v-combobox
+                    v-model="editData.interestedInTags"
+                    placeholder="Add few tags about what are you interested in"
+                    :error-messages="errors.collect('tag')"
+                    data-vv-name="tag"
+                    hide-details
+                    times
+                    chips
+                    label=""
+                    multiple
+                    :disabled="savingChanges"
+                  >
+                    <template v-slot:selection="{ attrs, item, select, selected }">
+                      <v-chip
+                        v-bind="attrs"
+                        :input-value="selected"
+                        close
+                        label
+                        color="#6e6e6e"
+                        outlined
+                        style="font-weight: normal"
+                        @click="() => {}"
+                        @click:close="removeTag(item)"
+                      >
+                        {{ item }}
+                      </v-chip>
+                    </template>
+                  </v-combobox>
+                </div>
+              </div>
+
+            </v-col>
+            </v-row>
+
+            </v-col>
+            </v-row>
+
+
+
           <div class="profile-page__ideas"></div>
           <div v-if="editMode" class="profile-page__edit-buttons">
             <v-btn text @click="disableEditMode">Cancel</v-btn>
