@@ -64,7 +64,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import '~assets/style/common';
 
 .mainForm {
@@ -74,11 +74,4 @@ export default {
   padding: 5px 20px;
 }
 
-form ::v-deep .v-input__prepend-inner {
-  padding-right: 15px !important;
-  i {
-    font-size: 18px;
-    color: $primary-color;
-  }
-}
 </style>

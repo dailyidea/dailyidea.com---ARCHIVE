@@ -13,7 +13,7 @@
 
 .muted,
 .muted .v-icon {
-  color: #c0b7c5;
+  color: #c0b7c5 !important;
 }
 
 .smaller {
@@ -30,4 +30,13 @@
 
 .color-danger {
   color: #d44950 !important;
+}
+
+form .v-input__prepend-inner {
+  padding-right: 12px;
+
+  i.v-icon {
+    color: $primary-color;
+    font-size: 16px;
+  }
 }
