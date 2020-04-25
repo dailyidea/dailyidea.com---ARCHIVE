@@ -154,28 +154,4 @@ export default {
   }
 }
 
-.header-nav-dropdown {
-  a {
-    text-decoration: none;
-  }
-  .v-list-item {
-    .v-list-item__title i.v-icon {
-      vertical-align: baseline;
-      padding-right: 4px;
-    }
-
-    &:hover {
-      background: $color-insanely-crazy-light-greyish-purple;
-
-      .v-list-item__title {
-        color: $primary-color;
-
-        i.v-icon {
-          padding-right: 8px;
-          color: $primary-color;
-        }
-      }
-    }
-  }
-}
 </style>
