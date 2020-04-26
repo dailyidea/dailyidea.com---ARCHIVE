@@ -195,11 +195,10 @@ export default {
     async onDeleteComment(comment) {
       const confirmed = await this.$refs.simpleDialogPopup.show(
         'Delete Comment',
-        'Are you sure you want to delete this comment? ',
+        'Are you sure you want to delete this comment?',
         'Yes, Delete',
         'Cancel',
-        '~/assets/images/dialogs/undraw_throw_away_ldjd.svg'
-
+        require('~/assets/images/dialogs/undraw_throw_away_ldjd.svg')
       )
       if (!confirmed) {
         return
