@@ -4,35 +4,49 @@
     <div id="newhomePage">
       <!-- desktop view -->
 
-      <v-row id="hero">
-        <v-col
-          sm="6"
-          cols="12"
-        >
-          <div>
-            <h1>Every Day, Log An Idea</h1>
-            <p>A project idea, a startup idea, a work idea.</p>
-            <p>
-              We'll send you a daily email reminding you to submit an idea. Just
-              respond to it and we'll save it for you.
-            </p>
+      <section id="hero">
+        <v-row>
+          <v-col>
+              <h1>Every Day, Log An Idea</h1>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col
+            sm="6"
+            cols="12"
+            class="d-flex align-center"
+          >
+            <div>
+              <p>A project idea, a startup idea, a work idea.</p>
+              <p>
+                We'll send you a daily email reminding you to submit an idea. Just
+                respond to it and we'll save it for you.
+              </p>
 
-            <!-- Signup Button -->
-            <div class="text-center text-sm-left">
-              <v-btn
-                dark
-                rounded
-                class="wider"
-                :to="{ name: 'auth-signup' }"
-                >Sign Up
-              </v-btn>
+              <!-- header image only show above signup button on small viewports (1 column header) i.e. hide on larger viewport s-->
+              <v-col sm="6" cols="12" class="d-flex d-sm-none justify-center">
+                <img class="hero__image" src="~/assets/images/home/undraw_counting_stars_rrnl.svg" />
+              </v-col>
+
+              <!-- Signup Button -->
+              <div class="text-center text-sm-left">
+                <v-btn
+                  dark
+                  rounded
+                  class="wider"
+                  :to="{ name: 'auth-signup' }"
+                  >Sign Up
+                </v-btn>
+              </div>
             </div>
-          </div>
-        </v-col>
-        <v-col sm="6" cols="12" class="text-center">
-          <img class="hero__image" src="~/assets/images/home/undraw_counting_stars_rrnl.svg" />
-        </v-col>
-      </v-row>
+          </v-col>
+
+          <!-- header image only show to the right on wider viewports (2 column header) -->
+          <v-col sm="6" cols="12" class="justify-center d-none d-sm-flex">
+            <img class="hero__image" src="~/assets/images/home/undraw_counting_stars_rrnl.svg" />
+          </v-col>
+        </v-row>
+      </section>
 
       <section>
         <h2 class="text-center">Browse Popular Ideas</h2>
@@ -187,20 +201,26 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-#hero h1 {
-  font-size: 24px;
-  padding-bottom: 2rem;
+#hero {
+  margin-bottom: 2rem;
 
-  @media (min-width: $screen-sm-min) {
-    font-size: 36px;
-    padding-bottom: 3rem;
+  h1 {
+    font-size: 24px;
+
+    @media (min-width: $screen-sm-min) {
+      font-size: 36px;
+    }
   }
 }
 
 .hero__image, .img2 {
   max-width: 200px;
 
-  @media (min-width: $screen-sm-min) {
+  @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+    max-width: 280px;
+  }
+
+  @media (min-width: $screen-md-min) {
     max-width: 360px;
   }
 }
