@@ -152,7 +152,11 @@ export default {
 
     &:hover,
     &:active {
-      background-color: $secondary-color !important;
+      background-color: rgba(0, 0, 0, 0.2);
+
+      .v-list-item__title {
+        padding-left: 8px;
+      }
     }
 
     .v-list-item__content {
@@ -165,6 +169,10 @@ export default {
         font-size: 16px;
         line-height: normal !important;
         color: white;
+
+        i.v-icon {
+          color: white;
+        }
       }
     }
   }
