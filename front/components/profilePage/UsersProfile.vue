@@ -2,7 +2,7 @@
   <layout>
     <v-row class="header" :class="{ editMode: editMode }">
       <!-- left side image on desktop -->
-      <v-col class="profileImage d-flex align-start justify-center" cols="4" text-center>
+      <v-col class="profileImage d-flex align-start justify-center" cols="12" sm="4">
         <v-tooltip :disabled="!allowEdit" right>
           <template v-slot:activator="{ on }">
             <div
@@ -22,7 +22,7 @@
       </v-col>
 
       <!-- right side profile info on desktop -->
-      <v-col cols="8">
+      <v-col cols="12" sm="8">
 
       <!-- username -->
         <v-row>
@@ -175,10 +175,7 @@
     <v-row><!-- ideas section -->
       <v-col>
           <div v-if="ideas.length">
-            <h2>
-              {{ isMyProfile ? 'My' : `${profileData.name}'s` }} Ideas:
-            </h2>
-            <div class="profile-page__ideas__container">
+            <div>
               <ideas-list-idea
                 v-for="idea in ideas"
                 :key="idea.ideaId"
@@ -187,7 +184,7 @@
             </div>
             <div
               v-if="loadMoreIdeasIsPossible"
-              class="profile-page__ideas__load-more-panel"
+              class="text-center"
             >
               <router-link
                 :to="
@@ -201,7 +198,9 @@
                       }
                 "
               >
-                <v-btn dark
+                <v-btn
+                  dark
+                  rounded
                   >View all
                   {{ isMyProfile ? 'My' : `${profileData.name}'s` }}
                   Ideas</v-btn
@@ -448,9 +447,16 @@ export default {
     background-size: cover;
     background-repeat: no-repeat;
 
-    line-height: 200px;
-    width: 200px;
-    height: 200px;
+    @media (min-width: $screen-lg-min) {
+      width: 200px;
+      height: 200px;
+    }
+
+    @media (max-width: $screen-md-max) {
+      width: 120px;
+      height: 120px;
+    }
+
     border-radius: 50%;
     background-color: #ebe7ed;
     transition: background-color, opacity 0.2s ease;
