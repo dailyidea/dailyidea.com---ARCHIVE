@@ -151,8 +151,6 @@ export default {
 
 $main-text-color: #232323;
 .settings-page {
-  @include pageMargin;
-
   &__title {
     text-align: center;
     padding: 15px 0;

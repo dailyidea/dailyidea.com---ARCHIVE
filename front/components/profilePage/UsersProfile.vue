@@ -1,165 +1,183 @@
 <template>
   <layout>
-    <v-row no-gutters>
-      <v-col>
-        <div class="profile-page">
-          <div class="profile-page__header">
-            <v-tooltip :disabled="!allowEdit" right>
-              <template v-slot:activator="{ on }">
-                <div
-                  class="user-avatar__container"
-                  :class="{ 'with-avatar': avatarIsSet, changeable: allowEdit }"
-                  :style="avatarStyle"
-                  @click="selectAvatar"
-                  v-on="on"
-                >
-                  <span v-if="!avatarIsSet">
-                    <v-icon>fas fa-user</v-icon>
-                  </span>
-                </div>
-              </template>
-              <span>Click to update your avatar</span>
-            </v-tooltip>
-
-            <!--            <v-btn icon height="60" width="60" color="#ebe7ed"><v-icon>fas fa-user</v-icon></v-btn>-->
-            <div class="profile-page__header__username">
-              <v-text-field
-                v-if="editMode"
-                v-model="editData.name"
-                :disabled="savingChanges"
-                maxlength="128"
-                :rules="nameRules"
-                class="username-edit"
-                dense
-                autofocus
-                placeholder="Yor Name"
-              ></v-text-field>
-              <span
-                v-else
-                class="profile-page__header__username__name-container"
-                >{{ profileData.name }}
-                <v-tooltip v-if="allowEdit" top>
-                  <template v-slot:activator="{ on }">
-                    <v-icon
-                      class="profile-page__header__username__edit-icon"
-                      :size="20"
-                      color="info"
-                      @click="enableEditMode"
-                      v-on="on"
-                      >mdi-pencil</v-icon
-                    >
-                  </template>
-                  <span>Click to update your name or bio</span>
-                </v-tooltip>
+    <v-row class="header" :class="{ editMode: editMode }">
+      <!-- left side image on desktop -->
+      <v-col class="profileImage d-flex align-start justify-center" cols="4" text-center>
+        <v-tooltip :disabled="!allowEdit" right>
+          <template v-slot:activator="{ on }">
+            <div
+              class="user-avatar__container"
+              :class="{ 'with-avatar': avatarIsSet, changeable: allowEdit }"
+              :style="avatarStyle"
+              @click="selectAvatar"
+              v-on="on"
+            >
+              <span v-if="!avatarIsSet">
+                <v-icon>fas fa-user</v-icon>
               </span>
             </div>
-            <div class="profile-page__header__counters">
-              <v-row>
-                <v-col>
-                  <div class="profile-page__header__counters__counter">
-                    <div class="profile-page__header__counters__counter__count">
-                      {{ profileData.ideasCreated }}
-                    </div>
-                    <div class="profile-page__header__counters__counter__label">
-                      ideas
-                    </div>
-                  </div>
-                </v-col>
-                <v-col>
-                  <div class="profile-page__header__counters__counter">
-                    <div class="profile-page__header__counters__counter__count">
-                      {{ profileData.followersCount }}
-                    </div>
-                    <div class="profile-page__header__counters__counter__label">
-                      followers
-                    </div>
-                  </div>
-                </v-col>
-                <v-col>
-                  <div class="profile-page__header__counters__counter">
-                    <div class="profile-page__header__counters__counter__count">
-                      {{ profileData.followeesCount }}
-                    </div>
-                    <div class="profile-page__header__counters__counter__label">
-                      following
-                    </div>
-                  </div>
-                </v-col>
-              </v-row>
-            </div>
-          </div>
-          <div class="profile-page__bio">
-            <span v-if="!editMode">{{ profileData.bio }}</span>
-            <v-textarea
-              v-else
-              v-model="editData.bio"
-              :rows="3"
-              maxlength="1000"
+          </template>
+          <span>Click to update your avatar</span>
+        </v-tooltip>
+      </v-col>
+
+      <!-- right side profile info on desktop -->
+      <v-col cols="8">
+
+      <!-- username -->
+        <v-row>
+          <v-col>
+            <v-text-field v-if="editMode"
+              v-model="editData.name"
               :disabled="savingChanges"
-              placeholder="Tell few words about yourself"
-              style="margin-top: -10px; font-size: 18px;"
-            ></v-textarea>
-          </div>
-          <div
-            v-if="
-              editMode ||
-                (profileData.interestedInTags &&
-                  profileData.interestedInTags.length)
-            "
-            class="profile-page__tags"
-          >
-            <div class="profile-page__tags__header">Interested in:</div>
-            <div v-if="!editMode" class="profile-page__tags__tag">
-              <v-chip
-                v-for="(item, index) in profileData.interestedInTags"
-                :key="index"
-                label
-                color="#6e6e6e"
-                outlined
-                style="font-weight: normal; margin-right: 7px"
-                >{{ item }}
-              </v-chip>
-            </div>
-            <div v-else class="profile-page__tags__tags-editor">
-              <v-combobox
-                v-model="editData.interestedInTags"
-                placeholder="Add few tags about what are you interested in"
-                :error-messages="errors.collect('tag')"
-                data-vv-name="tag"
-                hide-details
-                times
-                chips
-                label=""
-                multiple
+              maxlength="128"
+              :rules="nameRules"
+              dense
+              background-color="yellow lighten-4"
+              hide-details="auto"
+              autofocus
+              placeholder="Your Name"
+            ></v-text-field>
+            <h2 v-else>{{ profileData.name }}</h2>
+          </v-col>
+          <v-col v-if="!editMode" cols="auto">
+            <v-tooltip v-if="allowEdit" top>
+              <template v-slot:activator="{ on }">
+                <v-chip
+                  @click="enableEditMode"
+                  outlined
+                  color="grey lighten-1"
+                  >Edit Profile
+                  <v-icon right small v-on="on">mdi-pencil</v-icon>
+                </v-chip>
+              </template>
+              <span>Click to update your name or bio</span>
+            </v-tooltip>
+          </v-col>
+          <v-col v-else cols="auto">
+            <v-btn text rounded @click="disableEditMode">Cancel</v-btn>
+            <v-btn rounded :loading="savingChanges" @click="saveChanges">Save</v-btn>
+          </v-col>
+        </v-row>
+
+
+        <!-- counters / stats -->
+        <v-row class="profileStats">
+          <v-col id="ideasCount" cols="auto">
+            <span class="stat">
+              {{ profileData.ideasCreated }}
+            </span>
+            <span class="label">
+              ideas
+            </span>
+          </v-col>
+          <v-col id="followersCount" cols="auto">
+            <span class="stat">
+              {{ profileData.followersCount }}
+            </span>
+            <span class="label">
+              followers
+            </span>
+          </v-col>
+          <v-col id="followeesCount" cols="auto">
+            <span class="stat">
+              {{ profileData.followeesCount }}
+            </span>
+            <span class="label">
+              following
+            </span>
+          </v-col>
+        </v-row>
+        <!-- end counters / stats -->
+
+        <!-- profile bio -->
+        <v-row>
+          <v-col>
+            <div class="profileBio">
+              <span v-if="!editMode">{{ profileData.bio }}</span>
+              <v-textarea
+                v-else
+                v-model="editData.bio"
+                :rows="3"
+                background-color="yellow lighten-4"
+                dense
+                hide-details="auto"
+                maxlength="1000"
                 :disabled="savingChanges"
-              >
-                <template v-slot:selection="{ attrs, item, select, selected }">
-                  <v-chip
-                    v-bind="attrs"
-                    :input-value="selected"
-                    close
-                    label
-                    color="#6e6e6e"
-                    outlined
-                    style="font-weight: normal"
-                    @click="() => {}"
-                    @click:close="removeTag(item)"
-                  >
-                    {{ item }}
-                  </v-chip>
-                </template>
-              </v-combobox>
+                placeholder="Tell few words about yourself"
+              ></v-textarea>
             </div>
-          </div>
-          <div class="profile-page__ideas"></div>
-          <div v-if="editMode" class="profile-page__edit-buttons">
-            <v-btn text @click="disableEditMode">Cancel</v-btn>
-            <v-btn :loading="savingChanges" @click="saveChanges">Save</v-btn>
-          </div>
-          <div v-if="ideas.length" class="profile-page__ideas">
-            <div class="profile-page__ideas__header">
+          </v-col>
+        </v-row>
+
+        <!-- profile tags  -->
+        <v-row>
+          <v-col>
+            <div
+              v-if="
+                editMode ||
+                  (profileData.interestedInTags &&
+                    profileData.interestedInTags.length)
+              "
+            >
+              <div class="mb-2">Interested in:</div>
+
+              <div v-if="!editMode">
+                <v-chip
+                  v-for="(item, index) in profileData.interestedInTags"
+                  :key="index"
+                  class="mr-1"
+                  outlined
+                  >{{ item }}
+                </v-chip>
+              </div>
+              <div v-else>
+                <v-combobox
+                  v-model="editData.interestedInTags"
+                  placeholder="Add few tags about what are you interested in"
+                  :error-messages="errors.collect('tag')"
+                  data-vv-name="tag"
+                  hide-details="auto"
+                  times
+                  chips
+                  background-color="yellow lighten-4"
+                  dense
+                  label=""
+                  multiple
+                  :disabled="savingChanges"
+                >
+                  <template v-slot:selection="{ attrs, item, select, selected }">
+                    <v-chip
+                      v-bind="attrs"
+                      :input-value="selected"
+                      close
+                      close-icon="mdi-close-circle-outline"
+                      outlined
+                      @click="() => {}"
+                      @click:close="removeTag(item)"
+                    >
+                      {{ item }}
+                    </v-chip>
+                  </template>
+                </v-combobox>
+              </div>
+            </div>
+
+          </v-col>
+        </v-row>
+
+      </v-col><!-- end right side of header -->
+    </v-row><!-- header info -->
+
+
+
+<!-- -->
+    <v-row><!-- ideas section -->
+      <v-col>
+          <div v-if="ideas.length">
+            <h2>
               {{ isMyProfile ? 'My' : `${profileData.name}'s` }} Ideas:
-            </div>
+            </h2>
             <div class="profile-page__ideas__container">
               <ideas-list-idea
                 v-for="idea in ideas"
@@ -191,21 +209,21 @@
               </router-link>
             </div>
           </div>
-        </div>
+          <input
+            ref="file"
+            style="display: none"
+            type="file"
+            accept="image/*"
+            @change="uploadImage($event)"
+          />
+          <visual-notifier ref="notifier"></visual-notifier>
+          <user-profile-avatar-crop-dialog
+            ref="UserProfileAvatarCropDialog"
+          ></user-profile-avatar-crop-dialog>
       </v-col>
-    </v-row>
-    <input
-      ref="file"
-      style="display: none"
-      type="file"
-      accept="image/*"
-      @change="uploadImage($event)"
-    />
-    <visual-notifier ref="notifier"></visual-notifier>
-    <user-profile-avatar-crop-dialog
-      ref="UserProfileAvatarCropDialog"
-    ></user-profile-avatar-crop-dialog>
+    </v-row><!-- end ideas section -->
   </layout>
+
 </template>
 
 <script>
@@ -412,114 +430,28 @@ export default {
 
 <style scoped lang="scss">
 @import '~assets/style/common';
+
 .profile-page {
-  @include pageMargin;
-  /*background-color: #c7d28e;*/
   min-height: 100px;
+}
+.rxxow { border: 1px solid blue; }
 
-  &__header {
-    text-align: center;
-
-    &__username {
-      font-size: 22px;
-      color: #4a4a4a;
-      font-weight: bolder;
-      min-height: 60px;
-      padding-top: 4px;
-
-      &__name-container {
-        position: relative;
-        display: inline-block;
-      }
-
-      &__edit-icon {
-        position: absolute;
-        right: -25px;
-        bottom: 7px;
-        transition: opacity 0.2s ease;
-
-        &:hover {
-          opacity: 0.7;
-        }
-      }
-    }
-
-    &__counters {
-      padding: 10px 0;
-      border-bottom: 1px solid #eaeaea;
-
-      &__counter {
-        &__count {
-          font-size: 22px;
-          color: #4a4a4a;
-          font-weight: bolder;
-        }
-
-        &__label {
-          font-size: 16px;
-          color: #b0b0b0;
-        }
-      }
-    }
-  }
-
-  &__bio {
-    margin-top: 10px;
-    padding-top: 10px;
-    color: #4a4a4a;
-    line-height: 1.5;
-    font-size: 18px;
-    min-height: 100px;
-  }
-
-  &__edit-buttons {
-    margin-top: 10px;
-    text-align: right;
-  }
-
-  &__tags {
-    &__header {
-      font-size: 18px;
-    }
-
-    &__tag {
-      margin-top: 20px;
-    }
-
-    &__tags-editor {
-      ::v-deep .v-input__icon {
-        display: none;
-      }
-    }
-  }
-
-  &__ideas {
-    margin-top: 10px;
-
-    &__header {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-
-    &__load-more-panel {
-      margin-top: 10px;
-      text-align: center;
-    }
+.profileStats {
+  .stat {
+    font-weight: 900;
   }
 }
 
 .user-avatar {
   &__container {
+    border: 1px solid $primary-color;
     background-size: cover;
     background-repeat: no-repeat;
 
-    line-height: 60px;
-    text-align: center;
-    display: inline-block;
-    width: 60px;
-    height: 60px;
+    line-height: 200px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
-    /*border: solid 1px black;*/
     background-color: #ebe7ed;
     transition: background-color, opacity 0.2s ease;
 
@@ -543,5 +475,14 @@ export default {
       }
     }
   }
+}
+
+.editMode {
+  .profileStats {
+    .stat, .label {
+      color: $color-muted-grey;
+    }
+  }
+
 }
 </style>
