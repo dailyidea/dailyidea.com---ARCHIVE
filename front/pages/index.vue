@@ -6,7 +6,7 @@
 
       <v-row id="hero">
         <v-col
-          md="6"
+          sm="6"
           cols="12"
         >
           <div>
@@ -18,7 +18,7 @@
             </p>
 
             <!-- Signup Button -->
-            <div class="text-center text-md-left">
+            <div class="text-center text-sm-left">
               <v-btn
                 dark
                 rounded
@@ -29,7 +29,7 @@
             </div>
           </div>
         </v-col>
-        <v-col md="6" cols="12" class="text-center">
+        <v-col sm="6" cols="12" class="text-center">
           <img class="hero__image" src="~/assets/images/home/undraw_counting_stars_rrnl.svg" />
         </v-col>
       </v-row>
@@ -41,7 +41,7 @@
         <v-row>
           <v-col>
             <v-row class="reviews">
-              <v-col v-for="idea in ideas" :key="idea.ideaId" cols="12" md="4">
+              <v-col v-for="idea in ideas" :key="idea.ideaId" cols="12" sm="4">
                 <ideas-list-idea
                   :key="idea.ideaId"
                   :idea="idea"
@@ -66,10 +66,10 @@
 
       <section id="how-does-it-work">
         <v-row>
-          <v-col cols="12" md="6" class="text-center">
+          <v-col cols="12" sm="6" class="text-center">
             <img class="img2" src="~/assets/images/home/undraw_donut_love_kau1.svg" />
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col cols="12" sm="6">
             <div class="last-section__feature-list">
               <h2 class="mb-4">How Does It Work?</h2>
               <p>
@@ -94,7 +94,7 @@
                 Browse other ideas to inspire your own creativity
               </p>
 
-              <div class="text-center text-md-left">
+              <div class="text-center text-sm-left">
                 <v-btn
                   dark
                   rounded
@@ -110,13 +110,13 @@
 
       <footer>
         <v-row>
-          <v-col cols="12" md="6" class="text-center text-md-left">
+          <v-col cols="12" sm="6" class="text-center text-sm-left">
             <a>About</a>
             <a>FAQ</a>
             <a>Terms &amp; Conditions</a>
             <a>Privacy</a>
           </v-col>
-          <v-col cols="12" md="6" class="text-center text-md-right">
+          <v-col cols="12" sm="6" class="text-center text-sm-right">
             <span>Copyright Daily Idea © 2020</span>
           </v-col>
         </v-row>
@@ -188,11 +188,21 @@ export default {
 </script>
 <style lang="scss" scoped>
 #hero h1 {
-  padding-bottom: 3rem;
+  font-size: 24px;
+  padding-bottom: 2rem;
+
+  @media (min-width: $screen-sm-min) {
+    font-size: 36px;
+    padding-bottom: 3rem;
+  }
 }
 
 .hero__image, .img2 {
-  max-width: 300px;
+  max-width: 200px;
+
+  @media (min-width: $screen-sm-min) {
+    max-width: 360px;
+  }
 }
 
 a.v-btn.wider {
