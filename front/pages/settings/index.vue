@@ -1,97 +1,76 @@
 <template>
   <layout>
     <div class="settings-page">
-      <v-img
-        src="~/assets/images/light_gray_lamp.png"
-        height="100"
-        contain
-      ></v-img>
-      <div class="settings-page__title">
+      <h1 class="page-title">
         Settings
-      </div>
-      <div class="settings-page__email-field">
-        <v-text-field
-          v-model="email"
-          readonly
-          color="#232323"
-          :height="55"
-          label="My Email"
-          placeholder="Placeholder"
-        ></v-text-field>
-      </div>
-      <div class="settings-page__email-switches-title">
-        What can we email you about?
-      </div>
-      <div class="settings-page__email-switches">
-        <v-row class="settings-page__email-switches__row">
-          <v-col class="settings-page__email-switches__label"
-            >Idea Reminders</v-col
-          >
-          <v-col class="settings-page__email-switches__switch-container">
+      </h1>
+
+      <section class="page-section">
+        <h2 class="section-heading">
+          Your Info
+        </h2>
+        <v-row>
+          <v-col cols="auto">
+            <v-simple-table id="userInfo">
+              <tbody>
+                <tr>
+                  <td class="muted">Your Name</td>
+                  <td class="font-weight-black">{{ userName }}</td>
+                </tr>
+                <tr>
+                  <td class="muted">Your Email Address</td>
+                  <td class="font-weight-black">{{ email }}</td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+          </v-col>
+        </v-row>
+      </section>
+
+      <section class="page-section">
+        <h2 class="section-heading">
+          What Can We Email You About?
+        </h2>
+        <v-row>
+          <v-col>
+            <label>Idea Reminders</label>
+            <p class="smaller muted">Daily email reminder to respond with a new idea</p>
+          </v-col>
+          <v-col>
             <v-switch
               v-model="emailNotificationsState.ideaReminders"
-              dense
-              hide-details
-              class="settings-page__email-switches__switch"
-              inset
-              flat
-              color="warning"
+              dense flat inset hide-details color="warning"
               @change="changeNotificationsState"
             ></v-switch>
           </v-col>
         </v-row>
-        <v-row class="settings-page__email-switches__row">
-          <v-col class="settings-page__email-switches__label"
-            >Hot Streaks</v-col
-          >
-          <v-col class="settings-page__email-switches__switch-container">
+        <v-row>
+          <v-col>
+            <label>Hot Streaks</label>
+            <p class="smaller muted">Weekly scorecard of your activity and reminder of when you go on a streak</p>
+          </v-col>
+          <v-col>
             <v-switch
               v-model="emailNotificationsState.hotStreaks"
-              dense
-              hide-details
-              class="settings-page__email-switches__switch"
-              inset
-              flat
-              color="warning"
+              dense flat inset hide-details color="warning"
               @change="changeNotificationsState"
             ></v-switch>
           </v-col>
         </v-row>
-        <v-row class="settings-page__email-switches__row">
-          <v-col class="settings-page__email-switches__label"
-            >Daily Digests</v-col
-          >
-          <v-col class="settings-page__email-switches__switch-container">
-            <v-switch
-              v-model="emailNotificationsState.dailyDigests"
-              dense
-              hide-details
-              class="settings-page__email-switches__switch"
-              inset
-              flat
-              color="warning"
-              @change="changeNotificationsState"
-            ></v-switch>
+        <v-row>
+          <v-col>
+            <label>Weekly Digests</label>
+            <p class="smaller muted">Weekly digest of the best ideas from all users</p>
           </v-col>
-        </v-row>
-        <v-row class="settings-page__email-switches__row">
-          <v-col class="settings-page__email-switches__label"
-            >Weekly Digests</v-col
-          >
-          <v-col class="settings-page__email-switches__switch-container">
+          <v-col>
             <v-switch
               v-model="emailNotificationsState.weeklyDigests"
-              dense
-              hide-details
-              class="settings-page__email-switches__switch"
-              inset
-              flat
-              color="warning"
+              dense flat inset hide-details color="warning"
               @change="changeNotificationsState"
             ></v-switch>
           </v-col>
         </v-row>
-      </div>
+      </section>
     </div>
     <visual-notifier ref="notifier"></visual-notifier>
   </layout>
@@ -122,11 +101,12 @@ export default {
   },
   data() {
     return {
+      name: '',
       email: ''
     }
   },
-  computed: {},
   created() {
+    this.userName = this.$store.getters['userData/userName']
     this.email = this.$store.getters['userData/email']
   },
   methods: {
@@ -149,28 +129,15 @@ export default {
 <style scoped lang="scss">
 @import '~assets/style/common';
 
-$main-text-color: #232323;
-.settings-page {
-  &__title {
-    text-align: center;
-    padding: 15px 0;
-    font-size: 21px;
-    font-weight: 600;
-    letter-spacing: 1px;
-  }
+#userInfo {
+  border: 1px solid $color-muted-grey;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 
-  &__email-switches-title {
-    font-size: 21px;
-    font-weight: 600;
-    padding: 15px 0;
-  }
-
-  &__email-switches {
-    &__switch {
-      margin-top: 0;
-      float: right;
-      margin-right: -15px;
-    }
+  td {
+    border-bottom: 0;
+    font-size: 16px;
   }
 }
 </style>

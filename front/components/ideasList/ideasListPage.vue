@@ -175,7 +175,7 @@ export default {
 }
 
 section#ideas-navigation-section {
-  margin: 3rem auto;
+  margin: 2rem auto;
 
   .ideas-navigation-item {
     &:not(:last-child) {
