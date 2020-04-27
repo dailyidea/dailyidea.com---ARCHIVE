@@ -1,14 +1,25 @@
 .modal {
   padding: 1em;
   background: white;
-  form {
-    padding: 0 2em;
+
+  section.modalHeader {
+    h3 {
+      text-align: center;
+      margin: 1rem;
+    }
   }
 
-  .header h3 {
-    text-align: center;
-    margin: 1rem;
+  section.modalBody,
+  section.modalFooter {
+    padding-left: 3em;
+    padding-right: 3em;
   }
+
+  section.modalFooter {
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+
 
   .modalTopImage {
     margin-bottom: 1rem;

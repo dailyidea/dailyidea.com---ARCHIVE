@@ -10,55 +10,60 @@
       <v-icon text class="cancelIcon" @click="closeDialog">mdi-close</v-icon>
     </div>
 
-    <!-- Popup Header -->
-    <div class="header">
+    <!-- Header -->
+    <section class="modalHeader">
       <h3>Share Idea With A Friend</h3>
       <v-img
         max-height="180"
         max-width="180"
         class="mx-auto modalTopImage"
-        cover
+        contain
         src="~/assets/images/dialogs/undraw_real_time_collaboration_c62i.svg"
       ></v-img>
-    </div>
+    </section>
 
-    <form id="share-idea-without-login-form" @submit.stop.prevent="sendEmail">
-      <v-text-field
-        v-model="form.name"
-        v-validate="'required|max:100'"
-        :error-messages="errors.collect('name')"
-        data-vv-name="name"
-        label="Your Name"
-        single-line
-        flat
-        placeholder="Your Name"
-        prepend-inner-icon="mdi-account-circle-outline"
-      >
-      </v-text-field>
-      <v-text-field
-        v-model="form.friendName"
-        v-validate="'required|max:100'"
-        :error-messages="errors.collect('friend name')"
-        data-vv-name="friend name"
-        label="Your Friend's Name"
-        placeholder="Your Friend's Name"
-        single-line
-        flat
-        prepend-inner-icon="mdi-account-circle-outline"
-      ></v-text-field>
-      <v-text-field
-        v-model="form.friendEmail"
-        v-validate="'required|email|max:100'"
-        :error-messages="errors.collect('email')"
-        data-vv-name="email"
-        label="Your Friend's Email"
-        single-line
-        flat
-        placeholder="Your Friend's Email"
-        prepend-inner-icon="mdi-email-outline"
-      ></v-text-field>
+    <!-- Body -->
+    <section class="modalBody">
+      <form id="share-idea-without-login-form" @submit.stop.prevent="sendEmail">
+        <v-text-field
+          v-model="form.name"
+          v-validate="'required|max:100'"
+          :error-messages="errors.collect('name')"
+          data-vv-name="name"
+          label="Your Name"
+          single-line
+          flat
+          placeholder="Your Name"
+          prepend-inner-icon="mdi-account-circle-outline"
+        >
+        </v-text-field>
+        <v-text-field
+          v-model="form.friendName"
+          v-validate="'required|max:100'"
+          :error-messages="errors.collect('friend name')"
+          data-vv-name="friend name"
+          label="Your Friend's Name"
+          placeholder="Your Friend's Name"
+          single-line
+          flat
+          prepend-inner-icon="mdi-account-circle-outline"
+        ></v-text-field>
+        <v-text-field
+          v-model="form.friendEmail"
+          v-validate="'required|email|max:100'"
+          :error-messages="errors.collect('email')"
+          data-vv-name="email"
+          label="Your Friend's Email"
+          single-line
+          flat
+          placeholder="Your Friend's Email"
+          prepend-inner-icon="mdi-email-outline"
+        ></v-text-field>
+      </form>
+    </section>
 
-      <!-- Submit Buttons -->
+    <section class="modalFooter">
+      <!-- Action Buttons -->
       <div class="text-right">
         <v-btn class="cancelBtn" rounded text @click="closeDialog"
           >Cancel</v-btn
@@ -66,7 +71,6 @@
         <v-btn
           rounded
           type="submit"
-          class="specialButton"
           :loading="sendingEmail"
           @click.stop.prevent="sendEmail"
           >Share</v-btn
@@ -83,7 +87,8 @@
           >
         </client-only>
       </div>
-    </form>
+    </section>
+
   </v-dialog>
 </template>
 

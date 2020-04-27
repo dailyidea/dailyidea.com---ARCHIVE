@@ -1,43 +1,54 @@
 <template>
   <v-dialog
     v-model="visible"
-    content-class="dialog-popup-content"
+    content-class="modal"
     persistent
-    max-width="400"
+    max-width="600"
   >
-    <v-card>
-      <v-icon
-        text
-        class="dialog-popup-content__cancel-icon"
-        size="20"
-        @click="close"
-        >fas fa-times
-      </v-icon>
+    <div class="closeBtn">
+      <v-icon text class="cancelIcon" @click="close">mdi-close</v-icon>
+    </div>
 
-      <v-card-text
-        style="padding-top: 30px; padding-bottom: 20px; text-align: center"
-      >
-        <v-img
-          class="private-icon"
-          src="~/assets/images/privateIdea.png"
-          contain
-          :width="74"
-          :height="60"
-        ></v-img>
-      </v-card-text>
-      <div class="head-text">
-        Want to make your Idea private?
-      </div>
-      <v-card-text class="explanation-text">
-        That's ok. Some things aren't ready to be shared. Make this Idea private
+    <!-- Header -->
+    <section class="modalHeader">
+      <h3>Want To Make Your Idea Private?</h3>
+      <v-img
+        max-width="180"
+        max-height="180"
+        class="mx-auto modalTopImage"
+        contain
+        src="~/assets/images/dialogs/undraw_security_o890.svg"
+      ></v-img>
+    </section>
+
+    <!-- Body -->
+    <section class="modalBody">
+      <p>
+        That's ok!
+      </p>
+      <p>
+        Some things aren't ready to be shared. Make this idea private
         with just one click.
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn text @click="close">Cancel</v-btn>
-        <v-btn @click="makePrivate">Make Private</v-btn>
-      </v-card-actions>
-    </v-card>
+      </p>
+    </section>
+
+    <!-- Footer -->
+    <section class="modalFooter">
+      <!-- Action Buttons -->
+      <div class="text-right">
+        <v-btn class="cancelBtn"
+          rounded
+          text
+          @click="close"
+          >Cancel</v-btn>
+        <v-btn
+          rounded
+          @click="makePrivate"
+          >Make Private</v-btn
+        >
+      </div>
+    </section>
+
   </v-dialog>
 </template>
 
@@ -95,7 +106,4 @@ export default {
   text-align: center;
 }
 
-.private-icon {
-  display: inline-block;
-}
 </style>
