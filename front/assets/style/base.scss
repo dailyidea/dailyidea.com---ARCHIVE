@@ -150,3 +150,33 @@
     }
   }
 }
+
+@mixin page-title {
+  color: $primary-color;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  text-align: center;
+  margin: 2rem auto;
+}
+
+@mixin section-heading {
+  color: $secondary-color;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 1rem;
+}
+
+h1.page-title {
+  margin: 2rem auto;
+  @include page-title;
+}
+
+h2.section-heading {
+  @include section-heading;
+}
+
+section.page-section {
+  margin-bottom: 4rem;
+}
+
