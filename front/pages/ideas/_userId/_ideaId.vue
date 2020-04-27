@@ -17,7 +17,9 @@
                 :single-line="true"
                 :disabled="updatingIdea"
               ></v-text-field>
-              <h2 v-else class="idea-part__header__title__label">{{ idea.title }}</h2>
+              <h2 v-else class="idea-part__header__title__label">
+                {{ idea.title }}
+              </h2>
             </v-col>
             <v-col cols="auto" offset="1">
               <menu-panel
@@ -54,7 +56,8 @@
                 }}</span>
               </v-col>
             </v-row>
-          </div><!-- /idea-part__info -->
+          </div>
+          <!-- /idea-part__info -->
           <div class="idea-part__content">
             <div v-if="editMode" class="idea-part__content__idea-editor">
               <client-only>
@@ -419,7 +422,6 @@ export default {
     &__created-time {
       color: rgb(255, 185, 45);
     }
-
   }
 
   &__content {

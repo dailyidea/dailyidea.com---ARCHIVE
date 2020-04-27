@@ -73,5 +73,4 @@ export default {
   display: block;
   padding: 5px 20px;
 }
-
 </style>

@@ -1,16 +1,10 @@
 <template>
-  <div
-    color="white"
-    class="idea-item"
-    @click="onIdeaClick(idea)"
-  >
+  <div color="white" class="idea-item" @click="onIdeaClick(idea)">
     <div class="idea-item__title-row">
       <strong>{{ idea.title }}</strong>
     </div>
     <div>
-      <idea-content
-        :content="truncatedIdeaContent"
-      ></idea-content>
+      <idea-content :content="truncatedIdeaContent"></idea-content>
     </div>
 
     <!-- Idea metadata -->
@@ -28,17 +22,21 @@
         >
           <v-icon v-if="!idea.authorAvatar">fas fa-user</v-icon>
         </div>
-        <div
-          class="idea-item__info__detail__name-container"
-        >
+        <div class="idea-item__info__detail__name-container">
           <div class="idea-item__info__detail__name">
             {{ idea.authorName }}
           </div>
           <div class="idea-item__info__detail__time">
             {{ idea.createdDate | toRelativeDate }}
             <div class="comments-and-likes">
-              <span>{{ idea.likesCount }} <v-icon small>mdi-bookmark-outline</v-icon></span>
-              <span>{{ idea.commentsCount }} <v-icon small>mdi-comment-multiple-outline</v-icon></span>
+              <span
+                >{{ idea.likesCount }}
+                <v-icon small>mdi-bookmark-outline</v-icon></span
+              >
+              <span
+                >{{ idea.commentsCount }}
+                <v-icon small>mdi-comment-multiple-outline</v-icon></span
+              >
             </div>
           </div>
         </div>
@@ -183,6 +181,4 @@ export default {
     }
   }
 }
-
-
 </style>

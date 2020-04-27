@@ -2,7 +2,10 @@
   <auth-page lamp-on>
     <div class="text-center">
       <h1 class="pt-10 pb-6">Welcome Back!</h1>
-      <p>We've sent a login email to you at <strong>{{ email }}</strong>.</p>
+      <p>
+        We've sent a login email to you at <strong>{{ email }}</strong
+        >.
+      </p>
       <p>Please click the button in that email to log in to daily idea.</p>
 
       <div class="mt-10">

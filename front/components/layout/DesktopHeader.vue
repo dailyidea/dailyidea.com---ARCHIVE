@@ -22,12 +22,7 @@
           <v-menu offset-y nudge-bottom="15" left :disabled="!isAuthenticated">
             <template v-slot:activator="{ on }">
               <a v-if="isAuthenticated" v-on="on">
-                <span
-                  v-if="!userAvatar"
-                  class="profileBtn"
-                  icon
-                  fab
-                >
+                <span v-if="!userAvatar" class="profileBtn" icon fab>
                   <v-icon>mdi-account-circle</v-icon>
                 </span>
                 <span
@@ -37,25 +32,33 @@
                 ></span>
                 <span class="userName">{{ userName }}</span>
               </a>
-              <router-link v-else
-                :to="{ name: 'auth-login' }"
+              <router-link v-else :to="{ name: 'auth-login' }"
                 >Log In
               </router-link>
             </template>
             <v-list class="header-nav-dropdown">
               <router-link to="/profile">
                 <v-list-item>
-                  <v-list-item-title><v-icon small>mdi-account-circle-outline</v-icon> My Profile</v-list-item-title>
+                  <v-list-item-title
+                    ><v-icon small>mdi-account-circle-outline</v-icon> My
+                    Profile</v-list-item-title
+                  >
                 </v-list-item>
               </router-link>
 
               <router-link to="/settings">
                 <v-list-item>
-                  <v-list-item-title><v-icon small>mdi-cog-outline</v-icon> Settings</v-list-item-title>
+                  <v-list-item-title
+                    ><v-icon small>mdi-cog-outline</v-icon>
+                    Settings</v-list-item-title
+                  >
                 </v-list-item>
               </router-link>
               <v-list-item @click="signOut">
-                <v-list-item-title><v-icon small>mdi-exit-run</v-icon> Sign Out</v-list-item-title>
+                <v-list-item-title
+                  ><v-icon small>mdi-exit-run</v-icon> Sign
+                  Out</v-list-item-title
+                >
               </v-list-item>
             </v-list>
           </v-menu>
@@ -153,5 +156,4 @@ export default {
     }
   }
 }
-
 </style>

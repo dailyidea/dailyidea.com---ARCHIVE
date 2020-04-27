@@ -34,12 +34,18 @@
         <v-row>
           <v-col>
             <label>Idea Reminders</label>
-            <p class="smaller muted">Daily email reminder to respond with a new idea</p>
+            <p class="smaller muted">
+              Daily email reminder to respond with a new idea
+            </p>
           </v-col>
           <v-col>
             <v-switch
               v-model="emailNotificationsState.ideaReminders"
-              dense flat inset hide-details color="warning"
+              dense
+              flat
+              inset
+              hide-details
+              color="warning"
               @change="changeNotificationsState"
             ></v-switch>
           </v-col>
@@ -47,12 +53,19 @@
         <v-row>
           <v-col>
             <label>Hot Streaks</label>
-            <p class="smaller muted">Weekly scorecard of your activity and reminder of when you go on a streak</p>
+            <p class="smaller muted">
+              Weekly scorecard of your activity and reminder of when you go on a
+              streak
+            </p>
           </v-col>
           <v-col>
             <v-switch
               v-model="emailNotificationsState.hotStreaks"
-              dense flat inset hide-details color="warning"
+              dense
+              flat
+              inset
+              hide-details
+              color="warning"
               @change="changeNotificationsState"
             ></v-switch>
           </v-col>
@@ -60,12 +73,18 @@
         <v-row>
           <v-col>
             <label>Weekly Digests</label>
-            <p class="smaller muted">Weekly digest of the best ideas from all users</p>
+            <p class="smaller muted">
+              Weekly digest of the best ideas from all users
+            </p>
           </v-col>
           <v-col>
             <v-switch
               v-model="emailNotificationsState.weeklyDigests"
-              dense flat inset hide-details color="warning"
+              dense
+              flat
+              inset
+              hide-details
+              color="warning"
               @change="changeNotificationsState"
             ></v-switch>
           </v-col>

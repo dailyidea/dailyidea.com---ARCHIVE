@@ -7,9 +7,7 @@
     max-width="600px"
   >
     <div class="closeBtn">
-      <v-icon text class="cancelIcon" @click="closeDialog"
-        >mdi-close</v-icon
-      >
+      <v-icon text class="cancelIcon" @click="closeDialog">mdi-close</v-icon>
     </div>
 
     <!-- Popup Header -->
@@ -62,11 +60,9 @@
 
       <!-- Submit Buttons -->
       <div class="text-right">
-        <v-btn class="cancelBtn"
-          rounded
-          text
-          @click="closeDialog"
-          >Cancel</v-btn>
+        <v-btn class="cancelBtn" rounded text @click="closeDialog"
+          >Cancel</v-btn
+        >
         <v-btn
           rounded
           type="submit"
@@ -79,8 +75,8 @@
       <div class="mt-3 text-center">
         <client-only>
           <a
-            class="muted smaller"
             v-clipboard="() => getShareUrl()"
+            class="muted smaller"
             href="#"
             @click.prevent.stop="onCopyShareLink"
             >Copy link to clipboard instead</a

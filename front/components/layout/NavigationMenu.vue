@@ -13,59 +13,79 @@
     </div>
 
     <v-list dense dark>
-      <v-list-item @click.native="openPage('/ideas/all')"
-      active-class="highlighted"
-      :class="'/ideas/all' === $route.path ? 'highlighted' : ''"
-      >
-        <v-list-item-content>
-          <v-list-item-title><v-icon small>mdi-lightbulb-on</v-icon>All Ideas</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
       <v-list-item
-      v-if="isAuthenticated" @click.native="openPage('/ideas/me')"
-      active-class="highlighted"
-      :class="'/ideas/me' === $route.path ? 'highlighted' : ''"
+        active-class="highlighted"
+        :class="'/ideas/all' === $route.path ? 'highlighted' : ''"
+        @click.native="openPage('/ideas/all')"
       >
         <v-list-item-content>
-          <v-list-item-title><v-icon small>mdi-head-lightbulb</v-icon>My Ideas</v-list-item-title>
+          <v-list-item-title
+            ><v-icon small>mdi-lightbulb-on</v-icon>All Ideas</v-list-item-title
+          >
         </v-list-item-content>
       </v-list-item>
       <v-list-item
         v-if="isAuthenticated"
-        @click.native="openPage('/ideas/liked')"
         active-class="highlighted"
-      :class="'/ideas/liked' === $route.path ? 'highlighted' : ''"
+        :class="'/ideas/me' === $route.path ? 'highlighted' : ''"
+        @click.native="openPage('/ideas/me')"
       >
         <v-list-item-content>
-          <v-list-item-title><v-icon small>mdi-bookmark</v-icon>Saved Ideas</v-list-item-title>
+          <v-list-item-title
+            ><v-icon small>mdi-head-lightbulb</v-icon>My
+            Ideas</v-list-item-title
+          >
         </v-list-item-content>
       </v-list-item>
-      <v-list-item v-if="isAuthenticated" @click.native="openPage('/profile')"
-      active-class="highlighted"
-      :class="'/profile' === $route.path ? 'highlighted' : ''"
+      <v-list-item
+        v-if="isAuthenticated"
+        active-class="highlighted"
+        :class="'/ideas/liked' === $route.path ? 'highlighted' : ''"
+        @click.native="openPage('/ideas/liked')"
       >
         <v-list-item-content>
-          <v-list-item-title><v-icon small>mdi-account-circle</v-icon>My Profile</v-list-item-title>
+          <v-list-item-title
+            ><v-icon small>mdi-bookmark</v-icon>Saved Ideas</v-list-item-title
+          >
         </v-list-item-content>
       </v-list-item>
-      <v-list-item v-if="isAuthenticated" @click.native="openPage('/settings')"
-      active-class="highlighted"
-      :class="'/settings' === $route.path ? 'highlighted' : ''"
+      <v-list-item
+        v-if="isAuthenticated"
+        active-class="highlighted"
+        :class="'/profile' === $route.path ? 'highlighted' : ''"
+        @click.native="openPage('/profile')"
       >
         <v-list-item-content>
-          <v-list-item-title><v-icon small>mdi-cog</v-icon>Settings</v-list-item-title>
+          <v-list-item-title
+            ><v-icon small>mdi-account-circle</v-icon>My
+            Profile</v-list-item-title
+          >
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+        v-if="isAuthenticated"
+        active-class="highlighted"
+        :class="'/settings' === $route.path ? 'highlighted' : ''"
+        @click.native="openPage('/settings')"
+      >
+        <v-list-item-content>
+          <v-list-item-title
+            ><v-icon small>mdi-cog</v-icon>Settings</v-list-item-title
+          >
         </v-list-item-content>
       </v-list-item>
       <v-list-item v-if="isAuthenticated" @click.native="signOut">
         <v-list-item-content>
-          <v-list-item-title><v-icon small>mdi-exit-run</v-icon>Sign Out</v-list-item-title>
+          <v-list-item-title
+            ><v-icon small>mdi-exit-run</v-icon>Sign Out</v-list-item-title
+          >
         </v-list-item-content>
       </v-list-item>
       <v-list-item
         v-if="!isAuthenticated"
-        @click.native="openPage('/auth/login')"
         active-class="highlighted"
-      :class="'/auth/login' === $route.path ? 'highlighted' : ''"
+        :class="'/auth/login' === $route.path ? 'highlighted' : ''"
+        @click.native="openPage('/auth/login')"
       >
         <v-list-item-content>
           <v-list-item-title>Log In</v-list-item-title>
@@ -73,9 +93,9 @@
       </v-list-item>
       <v-list-item
         v-if="!isAuthenticated"
-        @click.native="openPage('/auth/signup')"
         active-class="highlighted"
-      :class="'/auth/signup' === $route.path ? 'highlighted' : ''"
+        :class="'/auth/signup' === $route.path ? 'highlighted' : ''"
+        @click.native="openPage('/auth/signup')"
       >
         <v-list-item-content>
           <v-list-item-title>Sign Up</v-list-item-title>

@@ -1,23 +1,18 @@
 <template>
   <div class="idea-part__header__buttons-panel">
     <v-btn
+      v-if="editable"
       x-small
       text
       icon
-      v-if="editable"
       color="gray"
-      @click="toggleIdeaPrivacy"
       class="privacyButton"
+      @click="toggleIdeaPrivacy"
     >
       <v-icon v-if="isPrivate">mdi-lock</v-icon>
       <v-icon v-else>mdi-lock-open-variant-outline</v-icon>
     </v-btn>
-    <v-btn
-      x-small
-      icon
-      @click="showShareIdeaDialog"
-      class="shareButton"
-    >
+    <v-btn x-small icon class="shareButton" @click="showShareIdeaDialog">
       <v-icon>share</v-icon>
     </v-btn>
     <v-menu v-if="editable" offset-y left transition="slide-y-transition">
@@ -184,17 +179,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .idea-part__header__buttons-panel {
-    padding-top: 4px; /* this is just to offset the buttons to match the baseline of the title, because the title font is a different height than the button icon height */
-    .privacyButton {
-      /* color: #1867c0 !important; */
-      color: #5cbbf6 !important;
-    }
-    .shareButton {
-      color: #2cbe4e !important;
-    }
-    .moreActionsButton {
-      color: silver !important;
-    }
+.idea-part__header__buttons-panel {
+  padding-top: 4px; /* this is just to offset the buttons to match the baseline of the title, because the title font is a different height than the button icon height */
+  .privacyButton {
+    /* color: #1867c0 !important; */
+    color: #5cbbf6 !important;
   }
+  .shareButton {
+    color: #2cbe4e !important;
+  }
+  .moreActionsButton {
+    color: silver !important;
+  }
+}
 </style>

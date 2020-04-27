@@ -7,34 +7,29 @@
       <section id="hero">
         <v-row>
           <v-col>
-              <h1>Every Day, Log An Idea</h1>
+            <h1>Every Day, Log An Idea</h1>
           </v-col>
         </v-row>
         <v-row>
-          <v-col
-            sm="6"
-            cols="12"
-            class="d-flex align-center"
-          >
+          <v-col sm="6" cols="12" class="d-flex align-center">
             <div>
               <p>A project idea, a startup idea, a work idea.</p>
               <p>
-                We'll send you a daily email reminding you to submit an idea. Just
-                respond to it and we'll save it for you.
+                We'll send you a daily email reminding you to submit an idea.
+                Just respond to it and we'll save it for you.
               </p>
 
               <!-- header image only show above signup button on small viewports (1 column header) i.e. hide on larger viewport s-->
               <v-col sm="6" cols="12" class="d-flex d-sm-none justify-center">
-                <img class="hero__image" src="~/assets/images/home/undraw_counting_stars_rrnl.svg" />
+                <img
+                  class="hero__image"
+                  src="~/assets/images/home/undraw_counting_stars_rrnl.svg"
+                />
               </v-col>
 
               <!-- Signup Button -->
               <div class="text-center text-sm-left">
-                <v-btn
-                  dark
-                  rounded
-                  class="wider"
-                  :to="{ name: 'auth-signup' }"
+                <v-btn dark rounded class="wider" :to="{ name: 'auth-signup' }"
                   >Sign Up
                 </v-btn>
               </div>
@@ -43,7 +38,10 @@
 
           <!-- header image only show to the right on wider viewports (2 column header) -->
           <v-col sm="6" cols="12" class="justify-center d-none d-sm-flex">
-            <img class="hero__image" src="~/assets/images/home/undraw_counting_stars_rrnl.svg" />
+            <img
+              class="hero__image"
+              src="~/assets/images/home/undraw_counting_stars_rrnl.svg"
+            />
           </v-col>
         </v-row>
       </section>
@@ -68,11 +66,7 @@
 
         <!-- See More Button -->
         <div class="text-center">
-          <v-btn
-            outlined
-            rounded
-            class="wider"
-            :to="{ name: 'ideas-all' }"
+          <v-btn outlined rounded class="wider" :to="{ name: 'ideas-all' }"
             >See More
           </v-btn>
         </div>
@@ -81,7 +75,10 @@
       <section id="how-does-it-work">
         <v-row>
           <v-col cols="12" sm="6" class="text-center">
-            <img class="img2" src="~/assets/images/home/undraw_donut_love_kau1.svg" />
+            <img
+              class="img2"
+              src="~/assets/images/home/undraw_donut_love_kau1.svg"
+            />
           </v-col>
           <v-col cols="12" sm="6">
             <div class="last-section__feature-list">
@@ -92,7 +89,8 @@
               </p>
               <p>
                 <v-icon small>mdi-email-send-outline</v-icon>
-                You just respond to the email with an idea and we store it for you.
+                You just respond to the email with an idea and we store it for
+                you.
               </p>
               <p>You'll also:</p>
               <p>
@@ -109,11 +107,7 @@
               </p>
 
               <div class="text-center text-sm-left">
-                <v-btn
-                  dark
-                  rounded
-                  class="wider"
-                  :to="{ name: 'auth-signup' }"
+                <v-btn dark rounded class="wider" :to="{ name: 'auth-signup' }"
                   >Sign Up
                 </v-btn>
               </div>
@@ -213,7 +207,8 @@ export default {
   }
 }
 
-.hero__image, .img2 {
+.hero__image,
+.img2 {
   max-width: 200px;
 
   @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
@@ -241,7 +236,7 @@ a.v-btn.wider {
 }
 
 footer {
-  border-top: .2px solid #e8e8e8;
+  border-top: 0.2px solid #e8e8e8;
   padding-top: 20px;
 
   a {

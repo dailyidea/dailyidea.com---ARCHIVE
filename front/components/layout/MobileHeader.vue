@@ -5,11 +5,7 @@
       <v-row>
         <template v-if="!searchIdeaMode">
           <v-col cols="2">
-            <v-btn
-              small
-              icon
-              @click="showSideMenu()"
-            >
+            <v-btn small icon @click="showSideMenu()">
               <v-icon>mdi-menu</v-icon>
             </v-btn>
           </v-col>
@@ -19,10 +15,7 @@
               :to="{ name: 'ideas-me' }"
               style="text-decoration: none;"
             >
-              <img
-                class="logo"
-                src="~/assets/images/logo_full.svg"
-              />
+              <img class="logo" src="~/assets/images/logo_full.svg" />
             </nuxt-link>
           </v-col>
         </template>

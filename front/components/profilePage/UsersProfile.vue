@@ -2,7 +2,11 @@
   <layout>
     <v-row class="header" :class="{ editMode: editMode }">
       <!-- left side image on desktop -->
-      <v-col class="profileImage d-flex align-start justify-center" cols="12" sm="4">
+      <v-col
+        class="profileImage d-flex align-start justify-center"
+        cols="12"
+        sm="4"
+      >
         <v-tooltip :disabled="!allowEdit" right>
           <template v-slot:activator="{ on }">
             <div
@@ -23,11 +27,11 @@
 
       <!-- right side profile info on desktop -->
       <v-col cols="12" sm="8">
-
-      <!-- username -->
+        <!-- username -->
         <v-row>
           <v-col>
-            <v-text-field v-if="editMode"
+            <v-text-field
+              v-if="editMode"
               v-model="editData.name"
               :disabled="savingChanges"
               maxlength="128"
@@ -43,10 +47,7 @@
           <v-col v-if="!editMode" cols="auto">
             <v-tooltip v-if="allowEdit" top>
               <template v-slot:activator="{ on }">
-                <v-chip
-                  @click="enableEditMode"
-                  outlined
-                  color="grey lighten-1"
+                <v-chip outlined color="grey lighten-1" @click="enableEditMode"
                   >Edit Profile
                   <v-icon right small v-on="on">mdi-pencil</v-icon>
                 </v-chip>
@@ -56,10 +57,11 @@
           </v-col>
           <v-col v-else cols="auto">
             <v-btn text rounded @click="disableEditMode">Cancel</v-btn>
-            <v-btn rounded :loading="savingChanges" @click="saveChanges">Save</v-btn>
+            <v-btn rounded :loading="savingChanges" @click="saveChanges"
+              >Save</v-btn
+            >
           </v-col>
         </v-row>
-
 
         <!-- counters / stats -->
         <v-row class="profileStats">
@@ -146,7 +148,9 @@
                   multiple
                   :disabled="savingChanges"
                 >
-                  <template v-slot:selection="{ attrs, item, select, selected }">
+                  <template
+                    v-slot:selection="{ attrs, item, select, selected }"
+                  >
                     <v-chip
                       v-bind="attrs"
                       :input-value="selected"
@@ -162,67 +166,58 @@
                 </v-combobox>
               </div>
             </div>
-
           </v-col>
-        </v-row>
+        </v-row> </v-col
+      ><!-- end right side of header --> </v-row
+    ><!-- header info -->
 
-      </v-col><!-- end right side of header -->
-    </v-row><!-- header info -->
-
-
-
-<!-- -->
-    <v-row><!-- ideas section -->
+    <!-- -->
+    <v-row
+      ><!-- ideas section -->
       <v-col>
-          <div v-if="ideas.length">
-            <div>
-              <ideas-list-idea
-                v-for="idea in ideas"
-                :key="idea.ideaId"
-                :idea="idea"
-              ></ideas-list-idea>
-            </div>
-            <div
-              v-if="loadMoreIdeasIsPossible"
-              class="text-center"
-            >
-              <router-link
-                :to="
-                  isMyProfile
-                    ? { name: 'ideas-me' }
-                    : {
-                        name: 'ideas-userSlug',
-                        params: {
-                          userSlug: profileData.slug
-                        }
-                      }
-                "
-              >
-                <v-btn
-                  dark
-                  rounded
-                  >View all
-                  {{ isMyProfile ? 'My' : `${profileData.name}'s` }}
-                  Ideas</v-btn
-                >
-              </router-link>
-            </div>
+        <div v-if="ideas.length">
+          <div>
+            <ideas-list-idea
+              v-for="idea in ideas"
+              :key="idea.ideaId"
+              :idea="idea"
+            ></ideas-list-idea>
           </div>
-          <input
-            ref="file"
-            style="display: none"
-            type="file"
-            accept="image/*"
-            @change="uploadImage($event)"
-          />
-          <visual-notifier ref="notifier"></visual-notifier>
-          <user-profile-avatar-crop-dialog
-            ref="UserProfileAvatarCropDialog"
-          ></user-profile-avatar-crop-dialog>
-      </v-col>
-    </v-row><!-- end ideas section -->
+          <div v-if="loadMoreIdeasIsPossible" class="text-center">
+            <router-link
+              :to="
+                isMyProfile
+                  ? { name: 'ideas-me' }
+                  : {
+                      name: 'ideas-userSlug',
+                      params: {
+                        userSlug: profileData.slug
+                      }
+                    }
+              "
+            >
+              <v-btn dark rounded
+                >View all
+                {{ isMyProfile ? 'My' : `${profileData.name}'s` }}
+                Ideas</v-btn
+              >
+            </router-link>
+          </div>
+        </div>
+        <input
+          ref="file"
+          style="display: none"
+          type="file"
+          accept="image/*"
+          @change="uploadImage($event)"
+        />
+        <visual-notifier ref="notifier"></visual-notifier>
+        <user-profile-avatar-crop-dialog
+          ref="UserProfileAvatarCropDialog"
+        ></user-profile-avatar-crop-dialog>
+      </v-col> </v-row
+    ><!-- end ideas section -->
   </layout>
-
 </template>
 
 <script>
@@ -433,7 +428,9 @@ export default {
 .profile-page {
   min-height: 100px;
 }
-.rxxow { border: 1px solid blue; }
+.rxxow {
+  border: 1px solid blue;
+}
 
 .profileStats {
   .stat {
@@ -484,10 +481,10 @@ export default {
 
 .editMode {
   .profileStats {
-    .stat, .label {
+    .stat,
+    .label {
       color: $color-muted-grey;
     }
   }
-
 }
 </style>

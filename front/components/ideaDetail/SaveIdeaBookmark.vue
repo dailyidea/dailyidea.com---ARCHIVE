@@ -2,7 +2,9 @@
   <span>
     <v-btn small icon @click="toggleIdeaLiked">
       <v-icon v-if="isLoading">fas fa-circle-notch fa-spin</v-icon>
-      <v-icon v-else-if="!isLoading && isLiked" class="liked">mdi-bookmark</v-icon>
+      <v-icon v-else-if="!isLoading && isLiked" class="liked"
+        >mdi-bookmark</v-icon
+      >
       <v-icon v-else>mdi-bookmark-plus-outline</v-icon>
     </v-btn>
     <SaveIdeaWithoutLoginDialog

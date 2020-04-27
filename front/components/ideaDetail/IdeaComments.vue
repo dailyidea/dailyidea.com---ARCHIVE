@@ -4,35 +4,31 @@
       <strong class="muted">Comments</strong>
     </div>
     <v-container ref="scroller" class="comments-part__container">
-          <div
-            v-if="commentList.length"
-            ref="commentsCol"
-            class=""
-          >
-            <div
-              v-if="idea.commentsCount > commentList.length && !deletingComment"
-              class="loadComments"
-              @click="loadComments"
-            >
-              <v-btn small :loading="loadingMore">Load More...</v-btn>
-            </div>
+      <div v-if="commentList.length" ref="commentsCol" class="">
+        <div
+          v-if="idea.commentsCount > commentList.length && !deletingComment"
+          class="loadComments"
+          @click="loadComments"
+        >
+          <v-btn small :loading="loadingMore">Load More...</v-btn>
+        </div>
 
-            <idea-comments-comment
-              v-for="comment in commentList"
-              :key="comment.commentId"
-              :comment="comment"
-              @onDeleteComment="onDeleteComment"
-            ></idea-comments-comment>
-          </div>
-          <v-row v-else class="empty" align="center">
-            <v-col class="muted">
-              <p>
-                <v-icon>mdi-comment-plus-outline</v-icon>
-              </p>
-              <p>No comments yet.</p>
-              <p>Be the first!</p>
-            </v-col>
-          </v-row>
+        <idea-comments-comment
+          v-for="comment in commentList"
+          :key="comment.commentId"
+          :comment="comment"
+          @onDeleteComment="onDeleteComment"
+        ></idea-comments-comment>
+      </div>
+      <v-row v-else class="empty" align="center">
+        <v-col class="muted">
+          <p>
+            <v-icon>mdi-comment-plus-outline</v-icon>
+          </p>
+          <p>No comments yet.</p>
+          <p>Be the first!</p>
+        </v-col>
+      </v-row>
     </v-container>
     <div class="comments-part__input-container">
       <v-text-field
@@ -47,17 +43,18 @@
         <template v-slot:append>
           <v-slide-y-transition hide-on-leave>
             <v-icon
-              small
               v-if="readyForSend && !showAddCommentLoader"
-              @click="onAddCommentAttempt"
+              small
               class="color-primary"
+              @click="onAddCommentAttempt"
               >fa-paper-plane
             </v-icon>
           </v-slide-y-transition>
-          <v-icon v-if="showAddCommentLoader"
+          <v-icon
+            v-if="showAddCommentLoader"
             small
-            @click="onAddCommentAttempt"
             class="color-primary"
+            @click="onAddCommentAttempt"
             >fas fa-circle-notch fa-spin flag-icon
           </v-icon>
         </template>

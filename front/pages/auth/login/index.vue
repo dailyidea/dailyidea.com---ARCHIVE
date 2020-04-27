@@ -39,7 +39,9 @@
     <div class="text-center pt-6">
       <div class="muted smaller">
         Don't have an account yet?
-        <nuxt-link class="signupBtn" text to="/auth/signup">Create Account</nuxt-link>
+        <nuxt-link class="signupBtn" text to="/auth/signup"
+          >Create Account</nuxt-link
+        >
       </div>
     </div>
   </auth-page>
@@ -138,8 +140,7 @@ form ::v-deep .v-input__prepend-inner {
   padding-right: 15px !important;
   i {
     font-size: 18px;
-  color: $primary-color;
+    color: $primary-color;
   }
 }
-
 </style>
