@@ -18,7 +18,7 @@
         height="180"
         class="mx-auto modalTopImage"
         contain
-        src="imagePath"
+        :src="imagePath"
       ></v-img>
     </section>
 
