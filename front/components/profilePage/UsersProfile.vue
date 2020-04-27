@@ -443,7 +443,6 @@ export default {
 
 .user-avatar {
   &__container {
-    border: 1px solid $primary-color;
     background-size: cover;
     background-repeat: no-repeat;
 
