@@ -22,6 +22,14 @@ plugins:
   - serverless-prune-plugin
 
 functions:
+  getStats:
+    handler: functions.get_stats.get_stats.endpoint
+    role: LambdaGetStatsFunctionRole
+    memorySize: 512
+    environment:
+      IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
+      STATS_ACTIONS_TABLE_NAME: ${self:custom.statsActionsTableName}
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
   getLikedIdeas:
     handler: functions.get_liked_ideas.get_liked_ideas.endpoint
     role: LambdaGetLikedIdeasFunctionRole
@@ -85,6 +93,7 @@ functions:
       IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
       USERS_TABLE_NAME: ${self:custom.usersTableName}
       TAGS_TABLE_NAME: ${self:custom.tagsTableName}
+      STATS_ACTIONS_TABLE_NAME: ${self:custom.statsActionsTableName}
 
 
 custom:
@@ -93,6 +102,7 @@ custom:
   usersTableName: dailyidea-users-${self:provider.stage}
   ideasTableName: dailyidea-ideas-${self:provider.stage}
   tagsTableName: dailyidea-tags-${self:provider.stage}
+  statsActionsTableName: dailyidea-stats-actions-${self:provider.stage}
   ideaCommentsTableName: dailyidea-comments-${self:provider.stage}
   ideaCommentsTemporaryTableName: dailyidea-comments-temporary-${self:provider.stage}
   likesTableName: dailyidea-likes-${self:provider.stage}
@@ -288,6 +298,11 @@ custom:
         dataSource: LikedIdeasHandler
         request: "getLikedIdeas-request-mapping-template.txt"
         response: "getLikedIdeas-response-mapping-template.txt"
+      - type: Query
+        field: getStats
+        dataSource: StatsHandler
+        request: "common/before-invoke-mapping-template.txt"
+        response: "common/after-invoke-mapping-template.txt"
       - dataSource: CreateIdeaHandler
         type: Mutation
         field: createIdea
@@ -357,6 +372,12 @@ custom:
         description: 'Lambda Liked Ideas Data Source'
         config:
           lambdaFunctionArn: { Fn::GetAtt: [GetLikedIdeasLambdaFunction, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
+      - type: AWS_LAMBDA
+        name: StatsHandler
+        description: 'Lambda Stats Source'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [GetStatsLambdaFunction, Arn] }
           serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AWS_LAMBDA
         name: CreateIdeaHandler
@@ -548,6 +569,7 @@ custom:
 resources:
   - Resources:
       LambdaGetLikedIdeasFunctionRole: ${file(functions/get_liked_ideas/function_role.yml):LambdaGetLikedIdeasFunctionRole}
+      LambdaGetStatsFunctionRole: ${file(functions/get_stats/function_role.yml):LambdaGetStatsFunctionRole}
       LambdaCreateIdeaFunctionRole: ${file(functions/create_idea/function_role.yml):LambdaCreateIdeaFunctionRole}
       LambdaUpdateProfileInfoFunctionRole: ${file(functions/update_profile_info/function_role.yml):LambdaUpdateProfileInfoFunctionRole}
       LambdaSetUsersSlugFunctionRole: ${file(functions/set_users_slug/function_role.yml):LambdaSetUsersSlugFunctionRole}
@@ -578,6 +600,8 @@ resources:
                     Action:
                       - "lambda:invokeFunction"
                     Resource:
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getStats"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getStats:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getLikedIdeas"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getLikedIdeas:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-createIdea"
@@ -685,6 +709,18 @@ resources:
                             - Ref: 'AWS::Region'
                             - Ref: 'AWS::AccountId'
                             - 'table/${self:custom.ideaCommentsTemporaryTableName}/*'
+                      - 'Fn::Join':
+                          - ':'
+                          - - 'arn:aws:dynamodb'
+                            - Ref: 'AWS::Region'
+                            - Ref: 'AWS::AccountId'
+                            - 'table/${self:custom.statsActionsTableName}'
+                      - 'Fn::Join':
+                          - ':'
+                          - - 'arn:aws:dynamodb'
+                            - Ref: 'AWS::Region'
+                            - Ref: 'AWS::AccountId'
+                            - 'table/${self:custom.statsActionsTableName}/*'
             - PolicyName: "Lambda-AppSyncServiceRole-${self:provider.stage}-Policy"
               PolicyDocument:
                 Version: "2012-10-17"
@@ -704,5 +740,6 @@ resources:
   - ${file(resources/dynamo-comments-table.yml)}
   - ${file(resources/dynamo-comments-temporary-table.yml)}
   - ${file(resources/dynamo-following-table.yml)}
+  - ${file(resources/dynamo-stats-actions-table.yml)}
   - ${file(resources/s3-avatars.yml)}
   - ${file(resources/s3-user-uploads.yml)}

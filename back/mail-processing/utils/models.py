@@ -25,6 +25,7 @@ class IdeaModel(Model):
         # host = "http://localhost:4569"
 
     ideaId = UnicodeAttribute(range_key=True)
+    sortKey = UnicodeAttribute(default='idea')
     userId = UnicodeAttribute(hash_key=True)
     content = UnicodeAttribute(null=True)
     title = UnicodeAttribute(null=True)

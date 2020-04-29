@@ -60,7 +60,7 @@ exports.handler = async (event, context) => {
       TableName: tableName,
       Item: {
         userId: { S: event.request.userAttributes.sub },
-        //  'sortKey': {S: "user"},
+        sortKey: { S: "user" },
         email: { S: event.request.userAttributes.email },
         name: { S: event.request.userAttributes.name },
         createdDate: { S: date.toISOString() },

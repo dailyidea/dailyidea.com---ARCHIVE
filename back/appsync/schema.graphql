@@ -122,6 +122,8 @@ type Query {
 	@aws_api_key @aws_cognito_user_pools
 	userInfoBySlug(slug: String!): UserInfoResult!
 	@aws_api_key @aws_cognito_user_pools
+	getStats: StatsResult!
+	@aws_api_key @aws_cognito_user_pools
 
 	ideas(order: IdeaSortingOrder, nextToken: String, limit: Int): IdeaConnection
 	userIdeas(userId: String!, nextToken: String, limit: Int): IdeaConnection
@@ -153,6 +155,19 @@ type EmailBelongsToExistingUserResult @aws_api_key @aws_cognito_user_pools{
 	result: Result!
 	belongsToExistingUser: Boolean
 	userId: String
+}
+
+type StatsResult @aws_api_key @aws_cognito_user_pools{
+	ideas: StatsByPeriods!
+	users: StatsByPeriods!
+	shares: StatsByPeriods!
+}
+
+type StatsByPeriods @aws_api_key @aws_cognito_user_pools{
+	today: Int!
+	week: Int!
+	month: Int!
+	total: Int!
 }
 
 type LikeResult {

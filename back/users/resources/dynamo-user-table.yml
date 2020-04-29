@@ -5,14 +5,16 @@ Resources:
       AttributeDefinitions:
         - AttributeName: userId
           AttributeType: S
-#        - AttributeName: sortKey
-#          AttributeType: S
+        - AttributeName: sortKey
+          AttributeType: S
         - AttributeName: email
           AttributeType: S
         - AttributeName: slug
           AttributeType: S
 #        - AttributeName: firstLogin
 #          AttributeType: B
+        - AttributeName: createdDate
+          AttributeType: S
       KeySchema:
         - AttributeName: userId
           KeyType: HASH
@@ -23,6 +25,16 @@ Resources:
               KeyType: HASH
           Projection:
             ProjectionType: ALL
+        - IndexName: createdDateIndex
+          KeySchema:
+            - AttributeName: sortKey
+              KeyType: HASH
+            - AttributeName: createdDate
+              KeyType: RANGE
+          Projection:
+            ProjectionType: INCLUDE
+            NonKeyAttributes:
+              - firstLogin
         - IndexName: slugIndex
           KeySchema:
             - AttributeName: slug

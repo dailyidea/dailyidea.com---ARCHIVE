@@ -58,15 +58,15 @@ export default {
       buttonOk: '',
       buttonCancel: '',
       imagePath: ''
-
     }
   },
   methods: {
-    show(header = '', body = '', buttonOk = 'OK', buttonCancel = 'Cancel', imagePath = '') {
+    show(header = '', body = '', buttonOk = 'OK', buttonCancel = 'Cancel', imagePath) {
       this.header = header
       this.body = body
       this.buttonOk = buttonOk
       this.buttonCancel = buttonCancel
+      console.log('ip', imagePath)
       this.imagePath = imagePath
       this.visible = true
       return new Promise((resolve, reject) => {

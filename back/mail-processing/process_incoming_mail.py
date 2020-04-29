@@ -181,6 +181,7 @@ def process_incoming_mail(parsed_email):
     idea.ideaDate = datetime.strptime(idea_date_str, '%a %b %d %Y') if idea_date_str else datetime.today()
     idea.likesCount = 0
     idea.commentsCount = 0
+    idea.sortKey = 'idea'
     idea.save()
     send_confirmation(parsed_email.from_[0][1], idea, f"Re: {parsed_email.subject}")
 

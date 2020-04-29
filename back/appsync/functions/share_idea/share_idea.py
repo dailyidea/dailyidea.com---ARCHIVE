@@ -11,6 +11,7 @@ client = boto3.client('dynamodb', region_name=os.environ['AWS_REGION'])
 USERS_TABLE_NAME = os.environ['USERS_TABLE_NAME']
 IDEAS_TABLE_NAME = os.environ['IDEAS_TABLE_NAME']
 TAGS_TABLE_NAME = os.environ['TAGS_TABLE_NAME']
+STATS_ACTIONS_TABLE_NAME = os.environ['STATS_ACTIONS_TABLE_NAME']
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -40,6 +41,20 @@ def get_idea_tags(idea_id: str):
         ExpressionAttributeValues={":ideaId": {"S": idea_id}},
     )
     return map(lambda raw_tag: raw_tag['tag']['S'], resp.get('Items', []))
+
+
+def create_stats_record(idea_id: str, idea_owner_id: str, email: str, sharer: str, sharer_authorized=False):
+    client.put_item(
+        TableName=STATS_ACTIONS_TABLE_NAME,
+        Item={
+            "actionType": {"S": "share"},
+            "createdDate": {"S": datetime.now().isoformat()},
+            "ideaId": {"S": idea_id},
+            "email": {"S": email},
+            "idea_owner_id": {"S": idea_owner_id},
+            "sharer": {"S": "id_{}".format(sharer) if sharer_authorized else "name_{}".format(sharer)}
+        }
+    )
 
 
 def endpoint(event, context):
@@ -87,5 +102,5 @@ def endpoint(event, context):
             html_content = html_template.render(**render_context)
             txt_content = txt_template.render(**render_context)
             send_mail_to_user(email, SUBJECT, txt_content, html_content)
-
+    create_stats_record(idea_id, idea_owner_id, email, sender_id if sender_id else sender_name, sender_id is not None)
     return {"ok": True}

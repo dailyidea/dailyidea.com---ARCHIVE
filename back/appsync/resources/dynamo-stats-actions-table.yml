@@ -1,0 +1,16 @@
+Resources:
+  StatsActionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: actionType
+          AttributeType: S
+        - AttributeName: createdDate
+          AttributeType: S
+      KeySchema:
+        - AttributeName: actionType
+          KeyType: HASH
+        - AttributeName: createdDate
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+      TableName: ${self:custom.statsActionsTableName}

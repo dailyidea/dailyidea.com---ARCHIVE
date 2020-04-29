@@ -19,6 +19,9 @@ custom:
   usersTableName: dailyidea-users-${self:provider.stage}
   ideaCommentsTemporaryTableName: dailyidea-comments-temporary-${self:provider.stage}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
+  prune:
+    automatic: true
+    number: 10
 
 functions:
   requestLogin:

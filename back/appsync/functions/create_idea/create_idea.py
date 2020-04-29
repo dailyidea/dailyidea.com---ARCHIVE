@@ -41,6 +41,7 @@ def endpoint(event, lambda_context):
     client.put_item(
         TableName=os.environ.get('IDEAS_TABLE_NAME'),
         Item={
+            'sortKey': {"S": 'idea'},
             'ideaId': {"S": idea_id},
             'userId': {"S": creator_id},
             "title": {"S": title},
