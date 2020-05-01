@@ -22,7 +22,6 @@ module.exports = {
         content: 'Daily Idea'
       }
     ],
-    script: [{ src: '/fb-sdk.js' }],
     link: [
       {
         rel: 'icon',

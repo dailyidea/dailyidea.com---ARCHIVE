@@ -64,12 +64,12 @@
     <on-first-comment-instantiated-dialog
       ref="onFirstCommentInstantiatedDialog"
     ></on-first-comment-instantiated-dialog>
-    <on-un-auth-add-idea-ask-email-dialog
-      ref="onUnAuthAddIdeaAskEmailDialog"
-    ></on-un-auth-add-idea-ask-email-dialog>
-    <on-un-auth-add-idea-ask-name-dialog
-      ref="onUnAuthAddIdeaAskNameDialog"
-    ></on-un-auth-add-idea-ask-name-dialog>
+    <on-un-auth-action-ask-email-dialog
+      ref="onUnAuthActionAskEmailDialog"
+    ></on-un-auth-action-ask-email-dialog>
+    <on-un-auth-action-ask-name-dialog
+      ref="onUnAuthActionAskNameDialog"
+    ></on-un-auth-action-ask-name-dialog>
   </div>
 </template>
 
@@ -77,13 +77,13 @@
 import nanoid from 'nanoid'
 import { graphqlOperation } from '@aws-amplify/api'
 import IdeaCommentsComment from './IdeaCommentsComment'
-import onUnAuthAddIdeaAskEmailDialog from './onUnAuthAddIdeaAskEmailDialog'
 import addComment from '~/graphql/mutations/addComment'
 import getComments from '~/graphql/query/getComments'
 import deleteComment from '~/graphql/mutations/deleteComment'
 import simpleDialogPopup from '~/components/dialogs/simpleDialogPopup'
 import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
-import OnUnAuthAddIdeaAskNameDialog from '@/components/ideaDetail/onUnAuthAddIdeaAskNameDialog'
+import onUnAuthActionAskEmailDialog from '@/components/ideaDetail/onUnAuthActionAskEmailDialog'
+import onUnAuthActionAskNameDialog from '@/components/ideaDetail/onUnAuthActionAskNameDialog'
 import addIdeaTemporaryComment from '@/graphql/mutations/addIdeaTemporaryComment'
 import getIdeaTemporaryComment from '@/graphql/query/getIdeaTemporaryComment'
 import OnFirstCommentInstantiatedDialog from '@/components/ideaDetail/onFirstCommentInstantiatedDialog'
@@ -95,10 +95,10 @@ export default {
   name: 'IdeaComments',
   components: {
     OnFirstCommentInstantiatedDialog,
-    OnUnAuthAddIdeaAskNameDialog,
     IdeaCommentsComment,
     simpleDialogPopup,
-    onUnAuthAddIdeaAskEmailDialog
+    onUnAuthActionAskEmailDialog,
+    onUnAuthActionAskNameDialog
   },
   props: {
     idea: {
@@ -339,7 +339,12 @@ export default {
       this.showAddCommentLoader = false
       this.addTemporaryFakeComment(commentText)
       try {
-        let email = await this.$refs.onUnAuthAddIdeaAskEmailDialog.show()
+        let email = await this.$refs.onUnAuthActionAskEmailDialog.show(
+          'Introduce yourself?',
+          'Before we post this for everyone to see, can you please confirm your email address?',
+          'ok',
+          'delete comment'
+        )
         email = email.toLowerCase()
         this.$store.commit('layoutState/showProgressBar')
         const result = await this.checkEmailBelongsToExistingUser(email)
@@ -350,7 +355,12 @@ export default {
           const userId = result.data.checkEmailBelongsToExistingUser.userId
           this.requestAuthAndProcessComment(userId, email, name, commentText)
         } else {
-          const name = await this.$refs.onUnAuthAddIdeaAskNameDialog.show()
+          const name = await this.$refs.onUnAuthActionAskNameDialog.show(
+            'Nice to meet you!',
+            'OK, thanks! And what can we call you?',
+            'ok',
+            'delete comment'
+          )
           this.registerUserAndProcessComment(email, name, commentText)
         }
       } catch (e) {

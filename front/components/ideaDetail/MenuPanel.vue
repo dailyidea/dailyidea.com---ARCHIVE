@@ -12,8 +12,8 @@
       <v-icon v-if="isPrivate">mdi-lock</v-icon>
       <v-icon v-else>mdi-lock-open-variant-outline</v-icon>
     </v-btn>
-    <v-btn x-small icon class="shareButton" @click="showShareIdeaDialog">
-      <v-icon>share</v-icon>
+    <v-btn x-small icon text class="shareButton">
+      <v-icon @click="showShareIdeaDialog">share</v-icon>
     </v-btn>
     <v-menu v-if="editable" offset-y left transition="slide-y-transition">
       <template v-slot:activator="{ on }">

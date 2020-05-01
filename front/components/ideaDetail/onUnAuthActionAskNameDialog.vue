@@ -13,9 +13,9 @@
         @click="close"
         >fas fa-times
       </v-icon>
-      <v-card-title class="headline">Nice to meet you!</v-card-title>
+      <v-card-title class="headline">{{ header }}</v-card-title>
       <v-card-text>
-        OK, thanks! And what can we call you?
+        {{ message }}
       </v-card-text>
       <v-card-text>
         <v-text-field
@@ -34,8 +34,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text @click="cancel">delete comment</v-btn>
-        <v-btn :disabled="!allowSave" @click="ok">OK</v-btn>
+        <v-btn text @click="cancel">{{ buttonCancelText }}</v-btn>
+        <v-btn :disabled="!allowSave" @click="ok">{{ buttonOkText }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -50,7 +50,11 @@ export default {
   data() {
     return {
       visible: false,
-      name: ''
+      name: '',
+      header: '',
+      message: '',
+      buttonOkText: '',
+      buttonCancelText: ''
     }
   },
   computed: {
@@ -59,7 +63,11 @@ export default {
     }
   },
   methods: {
-    show() {
+    show(header, message, buttonOkText, buttonCancelText) {
+      this.header = header
+      this.message = message
+      this.buttonOkText = buttonOkText
+      this.buttonCancelText = buttonCancelText
       this.name = ''
       this.$validator.reset()
       this.visible = true

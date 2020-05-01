@@ -89,16 +89,18 @@ export default {
           ? decodeURIComponent(this.$route.query.next)
           : undefined
         const fromComment = !!this.$route.query.fc
+        const fromIdeaStory = !!this.$route.query.fss
+        const redirectToIdeaPage = fromComment || fromIdeaStory
         this.progressBarActive = false
         this.progressBarUndetermined = false
         this.authCompleted = true
         if (!userData.wasWelcomed) {
-          this.message = fromComment
+          this.message = redirectToIdeaPage
             ? "Success! You have been successfully registered. We're redirecting to idea page."
             : 'Success! You have been successfully registered.'
           this.$router.replace(next || '/auth/welcome')
         } else {
-          this.message = fromComment
+          this.message = redirectToIdeaPage
             ? "Success! We're redirecting to idea page."
             : "Success! We're redirecting to your dashboard."
           this.$router.replace(next || '/ideas/me')
