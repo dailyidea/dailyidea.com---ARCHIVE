@@ -17,6 +17,7 @@ provider:
 
 custom:
   usersTableName: dailyidea-users-${self:provider.stage}
+  ideasTableName: dailyidea-ideas-${self:provider.stage}
   ideaCommentsTemporaryTableName: dailyidea-comments-temporary-${self:provider.stage}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
   prune:
@@ -36,6 +37,7 @@ functions:
       SECRET_TOKEN: ${self:custom.secretToken}
       TABLE_NAME: ${self:custom.usersTableName}
       USERS_TABLE_NAME: ${self:custom.usersTableName}
+      IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
       IDEA_COMMENTS_TEMPORARY_TABLE_NAME: ${self:custom.ideaCommentsTemporaryTableName}
     events:
       - http:

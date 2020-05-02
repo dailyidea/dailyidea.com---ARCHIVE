@@ -30,6 +30,12 @@ functions:
       IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
       STATS_ACTIONS_TABLE_NAME: ${self:custom.statsActionsTableName}
       USERS_TABLE_NAME: ${self:custom.usersTableName}
+  snoozeEmails:
+    handler: functions.snooze_emails.snooze_emails.endpoint
+    role: LambdaSnoozeEmailsFunctionRole
+    memorySize: 512
+    environment:
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
   getLikedIdeas:
     handler: functions.get_liked_ideas.get_liked_ideas.endpoint
     role: LambdaGetLikedIdeasFunctionRole
@@ -308,6 +314,11 @@ custom:
         field: createIdea
         request: "createIdea-request-mapping-template.txt"
         response: "createIdea-response-mapping-template.txt"
+      - dataSource: SnoozeEmailsHandler
+        type: Mutation
+        field: snoozeEmails
+        request: "common/before-invoke-mapping-template.txt"
+        response: "common/after-invoke-mapping-template.txt"
       - dataSource: UpdateProfileInfoHandler
         type: Mutation
         field: updateProfileInfo
@@ -378,6 +389,12 @@ custom:
         description: 'Lambda Stats Source'
         config:
           lambdaFunctionArn: { Fn::GetAtt: [GetStatsLambdaFunction, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
+      - type: AWS_LAMBDA
+        name: SnoozeEmailsHandler
+        description: 'Snooze Email for a while'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [SnoozeEmailsLambdaFunction, Arn] }
           serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AWS_LAMBDA
         name: CreateIdeaHandler
@@ -570,6 +587,7 @@ resources:
   - Resources:
       LambdaGetLikedIdeasFunctionRole: ${file(functions/get_liked_ideas/function_role.yml):LambdaGetLikedIdeasFunctionRole}
       LambdaGetStatsFunctionRole: ${file(functions/get_stats/function_role.yml):LambdaGetStatsFunctionRole}
+      LambdaSnoozeEmailsFunctionRole: ${file(functions/snooze_emails/function_role.yml):LambdaSnoozeEmailsFunctionRole}
       LambdaCreateIdeaFunctionRole: ${file(functions/create_idea/function_role.yml):LambdaCreateIdeaFunctionRole}
       LambdaUpdateProfileInfoFunctionRole: ${file(functions/update_profile_info/function_role.yml):LambdaUpdateProfileInfoFunctionRole}
       LambdaSetUsersSlugFunctionRole: ${file(functions/set_users_slug/function_role.yml):LambdaSetUsersSlugFunctionRole}
@@ -600,6 +618,8 @@ resources:
                     Action:
                       - "lambda:invokeFunction"
                     Resource:
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-snoozeEmails"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-snoozeEmails:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getStats"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getStats:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getLikedIdeas"

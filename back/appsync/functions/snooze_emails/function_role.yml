@@ -1,0 +1,42 @@
+LambdaSnoozeEmailsFunctionRole:
+  Type: AWS::IAM::Role
+  Properties:
+    RoleName: "Lambda-SnoozeEmailsFunctionRole-${self:provider.stage}"
+    AssumeRolePolicyDocument:
+      Version: "2012-10-17"
+      Statement:
+        - Effect: Allow
+          Principal:
+            Service: "lambda.amazonaws.com"
+          Action: "sts:AssumeRole"
+    Policies:
+      - PolicyName: "Lambda-SnoozeEmailsFunctionRole-${self:provider.stage}-Policy"
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Action:
+                - "logs:CreateLogGroup"
+                - "logs:CreateLogStream"
+                - "logs:PutLogEvents"
+                - "logs:DescribeLogStreams"
+              Effect: Allow
+              Resource:
+                - "arn:aws:logs:*:*:*"
+            - Action:
+                - "dynamodb:GetItem"
+                - "dynamodb:UpdateItem"
+                - "dynamodb:Query"
+              Effect: Allow
+              Resource:
+                - 'Fn::Join':
+                    - ':'
+                    - - 'arn:aws:dynamodb'
+                      - Ref: 'AWS::Region'
+                      - Ref: 'AWS::AccountId'
+                      - 'table/${self:custom.usersTableName}'
+                - 'Fn::Join':
+                    - ':'
+                    - - 'arn:aws:dynamodb'
+                      - Ref: 'AWS::Region'
+                      - Ref: 'AWS::AccountId'
+                      - 'table/${self:custom.usersTableName}/*'

@@ -52,6 +52,8 @@ import AuthPage from '@/components/authPage/AuthPage'
 import ValidateTextField from '~/components/ValidateTextField'
 import ActionValidate from '~/mixins/validatable'
 
+const DEFAULT_ERROR_MESSAGE = "Oops, you're not logged in. Please log in first to proceed";
+
 const AdditionalMessages = {
   '/ideas/create':
     "Oops, you're not logged in. Please log in first to enter an idea."
@@ -73,6 +75,8 @@ export default {
         const additionalMessage = AdditionalMessages[this.$route.query.r]
         if (additionalMessage) {
           return additionalMessage
+        }else{
+          return DEFAULT_ERROR_MESSAGE;
         }
       }
       return ''
@@ -95,7 +99,7 @@ export default {
         }
 
         await this.$amplifyApi.post('RequestLogin', '', {
-          body: { email: this.email.toLowerCase() }
+          body: { email: this.email.toLowerCase(), next: this.$route.query.r }
         })
 
         // Redirect to login success page

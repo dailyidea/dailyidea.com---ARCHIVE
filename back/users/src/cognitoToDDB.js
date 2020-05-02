@@ -1,6 +1,16 @@
 const aws = require("aws-sdk");
 const ddb = new aws.DynamoDB({ apiVersion: "2012-10-08" });
 
+function makeid(length) {
+   let result           = '';
+   const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   const charactersLength = characters.length;
+   for ( let i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
+
 /**
  *
  * Upon Cognito SignUp, a user is added to the DDB table
@@ -38,6 +48,8 @@ const ddb = new aws.DynamoDB({ apiVersion: "2012-10-08" });
  * @param context
  */
 
+
+
 exports.handler = async (event, context) => {
   const date = new Date();
 
@@ -60,6 +72,7 @@ exports.handler = async (event, context) => {
       TableName: tableName,
       Item: {
         userId: { S: event.request.userAttributes.sub },
+        emailToken: {S: makeid(32)},
         sortKey: { S: "user" },
         email: { S: event.request.userAttributes.email },
         name: { S: event.request.userAttributes.name },

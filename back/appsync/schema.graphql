@@ -105,6 +105,9 @@ type Mutation {
 	makeIdeaPrivate(ideaId:String!): Result!
 
 	makeIdeaPublic(ideaId:String!): Result!
+
+    snoozeEmails(userId:String!, token:String, days:Int): Result!
+    @aws_api_key @aws_cognito_user_pools
 }
 
 

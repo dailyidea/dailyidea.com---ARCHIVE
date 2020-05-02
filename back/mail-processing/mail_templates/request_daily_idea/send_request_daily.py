@@ -28,7 +28,12 @@ def send_daily_bulk(users_list):
                         ],
                     },
                     'ReplacementTemplateData': json.dumps(
-                        {"USERNAME": user.name})
+                        {
+                            "USERNAME": user.name,
+                            "USER_ID": user.userId,
+                            "SNOOZE_TOKEN": user.emailToken,
+                        }
+                    )
                 } for user in users_list
             ]
         )

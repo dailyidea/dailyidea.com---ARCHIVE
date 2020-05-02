@@ -72,6 +72,8 @@ class UserModel(Model):
     hotStreaks = BooleanAttribute(null=True)
     dailyDigests = BooleanAttribute(null=True)
     weeklyDigests = BooleanAttribute(null=True)
+    snoozeEmails = UTCDateTimeAttribute(null=True)
+    emailToken = UnicodeAttribute(null=True)
 
     followersCount = NumberAttribute(default=0)
     ideasCreated = NumberAttribute(default=0)

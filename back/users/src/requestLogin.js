@@ -3,32 +3,38 @@ const path = require("path");
 const AWS = require("aws-sdk");
 const jwt = require("jsonwebtoken");
 const middy = require("middy");
-const ddb = new AWS.DynamoDB({apiVersion: "2012-10-08"});
+const ddb = new AWS.DynamoDB({ apiVersion: "2012-10-08" });
 const { cors, jsonBodyParser, httpErrorHandler } = require("middy/middlewares");
 const Sqrl = require("squirrelly");
 
-const getCompiledTemplateFromPath = (templatePath) => {
+const getCompiledTemplateFromPath = templatePath => {
   const fullTemplatePath = path.join(__dirname, templatePath);
-  const templateHTMLRAw = fs.readFileSync(fullTemplatePath,"utf8");
+  const templateHTMLRAw = fs.readFileSync(fullTemplatePath, "utf8");
   return Sqrl.Compile(templateHTMLRAw);
-}
+};
 
-const getLoginTemplate = (firstLogin, withComment = false) => {
+const getLoginTemplate = (
+  firstLogin,
+  withComment = false,
+  ideaToSave = false
+) => {
   let activePath;
   if (firstLogin) {
     if (withComment) {
-      activePath =  "../mail-templates/magic_link_template_with_comment.html";
+      activePath = "../mail-templates/magic_link_template_with_comment.html";
+    } else if (ideaToSave) {
+      activePath = "../mail-templates/magic_link_template_with_idea_save.html";
     } else {
-      activePath =  "../mail-templates/magic_link_template.html";
+      activePath = "../mail-templates/magic_link_template.html";
     }
+  } else if (withComment) {
+    activePath = "../mail-templates/require_login_template_with_comment.html";
+  } else if (ideaToSave) {
+    activePath = "../mail-templates/require_login_template_with_idea_save.html";
   } else {
-    if (withComment) {
-      activePath =   "../mail-templates/require_login_template_with_comment.html"
-    } else {
-      activePath =   "../mail-templates/require_login_template.html";
-    }
+    activePath = "../mail-templates/require_login_template.html";
   }
-  return getCompiledTemplateFromPath(activePath)
+  return getCompiledTemplateFromPath(activePath);
 };
 
 const generateToken = function(email) {
@@ -45,7 +51,14 @@ const generateToken = function(email) {
 //   region: process.env.DYNAMO_REGION
 // })
 
-const sendEmail = async function(email, token, name = undefined, commentId = undefined) {
+const sendEmail = async function(
+  email,
+  token,
+  name = undefined,
+  commentId = undefined,
+  ideaToSaveId = undefined,
+  next = undefined
+) {
   const emailEncoded = encodeURIComponent(email);
   const ses = new AWS.SES({
     region: process.env.SES_REGION
@@ -82,13 +95,35 @@ const sendEmail = async function(email, token, name = undefined, commentId = und
       TableName: process.env.IDEA_COMMENTS_TEMPORARY_TABLE_NAME
     };
     try {
-      const resp = await ddb.query(ddbParams).promise()
-      comment = resp.Items[0]
+      const resp = await ddb.query(ddbParams).promise();
+      comment = resp.Items[0];
     } catch (err) {
-      console.log("Error when fetching comment", err)
+      console.log("Error when fetching comment", err);
     }
   }
+  let ideaToSave;
 
+  if (ideaToSaveId) {
+    const ddbParams = {
+      KeyConditionExpression: "ideaId = :ideaId",
+      ExpressionAttributeValues: {
+        ":ideaId": {
+          S: ideaToSaveId
+        }
+      },
+      IndexName: "ideasById",
+      TableName: process.env.IDEAS_TABLE_NAME
+    };
+    try {
+      const resp = await ddb.query(ddbParams).promise();
+      ideaToSave = resp.Items[0];
+      console.log("ideaToSave");
+    } catch (err) {
+      console.log("Error when fetching idea");
+      console.log(process.env.IDEAS_TABLE_NAME);
+      console.log(JSON.stringify(err, null, ""));
+    }
+  }
 
   const templateParams = {
     BUCKET_URL_PREFIX: process.env.BUCKET_URL_PREFIX,
@@ -96,18 +131,34 @@ const sendEmail = async function(email, token, name = undefined, commentId = und
     email,
     token,
     emailEncoded,
-    name
-  }
+    name,
+    verifyAdditionalUrlParams: ""
+  };
 
   if (comment) {
-    const ideaURLPath = `/ideas/${comment.ideaOwnerId.S}/${comment.ideaId.S}`
-    templateParams.verifyAdditionalUrlParams = `&fc=1&next=${encodeURIComponent(`${ideaURLPath}?aa=itc&tci=${comment.commentId.S}`)}`
-    templateParams.commentText = comment.body.S
-    templateParams.ideaHref = `https://${templateParams.DOMAIN_NAME}${ideaURLPath}`
-    templateParams.ideaName = comment.ideaName.S // tmp. add ideaName to comment model
+    const ideaURLPath = `/ideas/${comment.ideaOwnerId.S}/${comment.ideaId.S}`;
+    templateParams.verifyAdditionalUrlParams = `&fc=1&next=${encodeURIComponent(
+      `${ideaURLPath}?aa=itc&tci=${comment.commentId.S}`
+    )}`;
+    templateParams.commentText = comment.body.S;
+    templateParams.ideaHref = `https://${templateParams.DOMAIN_NAME}${ideaURLPath}`;
+    templateParams.ideaName = comment.ideaName.S;
+  } else if (ideaToSave) {
+    try {
+      const ideaURLPath = `/ideas/${ideaToSave.userId.S}/${ideaToSave.ideaId.S}`;
+      templateParams.verifyAdditionalUrlParams = `&fis=1&next=${encodeURIComponent(
+        `${ideaURLPath}?aa=si`
+      )}`;
+      templateParams.ideaHref = `https://${templateParams.DOMAIN_NAME}${ideaURLPath}`;
+      templateParams.ideaName = ideaToSave.title.S;
+    } catch (err) {
+      console.log(JSON.stringify(err, null, ""));
+    }
+  }else if(next){
+    templateParams.verifyAdditionalUrlParams = `&next=${encodeURIComponent(next)}`;
   }
 
-  const htmlTemplate = getLoginTemplate(firstLogin, !!comment)
+  const htmlTemplate = getLoginTemplate(firstLogin, !!comment, !!ideaToSave);
 
   const eParams = {
     Destination: {
@@ -117,10 +168,7 @@ const sendEmail = async function(email, token, name = undefined, commentId = und
       Body: {
         Html: {
           Charset: "UTF-8",
-          Data: htmlTemplate(
-            templateParams,
-            Sqrl
-          )
+          Data: htmlTemplate(templateParams, Sqrl)
         },
         Text: {
           Charset: "UTF-8",
@@ -157,11 +205,14 @@ const sendEmail = async function(email, token, name = undefined, commentId = und
 // This is your common handler, no way different than what you are used to do every day
 // in AWS Lambda
 const sendMail = async (event, context) => {
-  const { email, commentId } = event.body; // commentId is defined in case when user logs in after unauth comment attempt
-  console.log(commentId);
+  const { email, commentId, ideaToSaveId, next } = event.body;
+  // commentId is defined in case when user logs in after unauth comment attempt
+  // ideaToSaveId is defined in case when user logs in after unauth save idea attempt
   console.log("generating log token", email);
+  console.log("commentId", commentId);
+  console.log("next", next);
+  console.log("ideaToSaveId", ideaToSaveId);
   const docClient = new AWS.DynamoDB.DocumentClient();
-  console.log(process.env.TABLE_NAME);
   try {
     const result = await docClient
       .query({
@@ -184,10 +235,18 @@ const sendMail = async (event, context) => {
       console.log("Found", email);
       const token = generateToken(email);
       const name = result.Items[0].name;
-      const sendMailResp = await sendEmail(email, token, name, commentId, context);
-      console.log('---------mail sending------');
+      const sendMailResp = await sendEmail(
+        email,
+        token,
+        name,
+        commentId,
+        ideaToSaveId,
+        next,
+        context
+      );
+      console.log("---------mail sending------");
       console.log(sendMailResp);
-      console.log('---------end mail sending-------');
+      console.log("---------end mail sending-------");
       return {
         body: JSON.stringify({ result: "success" })
       };

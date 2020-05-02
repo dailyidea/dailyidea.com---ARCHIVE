@@ -137,7 +137,7 @@
                                         <tr>
                                             <td width="40" class="text-side-padding"></td>
                                             <td height="50">
-                                                <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #000000; font-size: 30px; line-height: 32px;">Welcome{{if(options.name !== undefined)}}, {{ name }}{{/if}}!</span>
+                                                <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #000000; font-size: 30px; line-height: 32px;">Hey{{if(options.name !== undefined)}}, {{ name }}{{/if}}!</span>
                                             </td>
                                             <td width="40" class="text-side-padding"></td>
                                         </tr>
@@ -149,13 +149,14 @@
                                                     <tr>
                                                         <td colspan="2" class="text-p">
                                                             <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #827c85; font-size: 16px; line-height: 23px; margin: 10px 0;">
-                                                                Ready to share your rides? Simply follow the magic link below, and that's it. You're done!
+                                                                Looks like you tried to save this idea: <a href="{{ideaHref}}">{{ideaName}}</a>.
+                                                                If that's right, please click login button below to finish saving that to your account.
                                                             </span>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="2" width="15"
-                                                            style="width: 35px; max-width: 35px; min-width: 35px; font-size: 35px; line-height: 35px;">
+                                                            style="width: 15px; max-width: 15px; min-width: 15px; font-size: 15px; line-height: 15px;">
                                                             &nbsp;
                                                         </td>
                                                     </tr>
@@ -169,7 +170,7 @@
                                                                         height="40">
                                                                         <a class="big-btn"
                                                                            style="text-decoration:none; font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: white; font-size: 16px; line-height: 40px; width: 100%; display: block;"
-                                                                           href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}{{verifyAdditionalUrlParams}}">MAGIC LINK</a>
+                                                                           href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}{{verifyAdditionalUrlParams}}">LOGIN</a>
                                                                     </td>
                                                                     <td class="button-padding" style="width: 33%"></td>
                                                                 </tr>
@@ -178,10 +179,17 @@
                                                         </td>
 
                                                     </tr>
-
                                                     <tr>
-                                                        <td colspan="2">
-
+                                                        <td colspan="2" width="15"
+                                                            style="width: 15px; max-width: 15px; min-width: 15px; font-size: 15px; line-height: 15px;">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2" class="text-p">
+                                                            <span style="font-family: Quatro, Arial, Tahoma, Geneva, sans-serif; color: #827c85; font-size: 16px; line-height: 23px; margin: 10px 0;">
+                                                                If you did not request this, you can ignore this email! The only way anybody can log in to your account is via links sent to your email.
+                                                            </span>
                                                         </td>
                                                     </tr>
                                                 </table>
