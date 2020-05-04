@@ -11,8 +11,10 @@
     <v-row>
       <v-col>
         <p>
-          Every day, we'll send you a simple reminder to come up with a new idea. Just
-          respond in your email and we'll automatically save it for you.
+          Every day, we'll send you a simple reminder to come up with a new idea.
+        </p>
+        <p>
+          Just respond in your email and we'll automatically save it for you.
         </p>
         <p>
           <strong>If you're the kind of person that is overflowing with ideas</strong>, you can log
