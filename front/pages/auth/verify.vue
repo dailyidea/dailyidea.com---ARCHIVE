@@ -98,7 +98,7 @@ export default {
           this.message = redirectToIdeaPage
             ? "Success! You have been successfully registered. We're redirecting to idea page."
             : 'Success! You have been successfully registered.'
-          this.$router.replace(next || '/auth/welcome')
+          this.$router.replace(next || '/welcome/1')
         } else {
           this.message = redirectToIdeaPage
             ? "Success! We're redirecting to idea page."

@@ -1,98 +1,59 @@
 <template>
-  <div class="noIdeaFoundDiv">
-    <div>
-      <img class="lampImg" src="~/assets/images/light_gray_lamp_plain.png" />
-    </div>
+  <v-container>
+    <v-row>
+      <v-col>
+        <template v-if="routeName == 'ideas-me'">
+          <div class="text-center">
+            <div class="mb-10">
+              <v-icon large>mdi-lightbulb-outline</v-icon>
+            </div>
 
-    <!-- No Idea MEssage -->
-    <!-- eslint-disable-next-line -->
-    <div class="text" v-html="noIdeaMessage"></div>
+            <h2 class="my-5">Welcome to Daily Idea</h2>
+            <p>You don't have any ideas yet, but once you do, they'll show up here.</p>
+            <v-btn
+              rounded
+              class="my-5"
+              :to="{name: 'ideas-create'}"
+              >
+              <v-icon small class="mr-3">mdi-plus-circle</v-icon>
+              Add idea
+            </v-btn>
+            <p class="muted mt-10">
+              Not ready to add an idea yet? <router-link :to="{name: 'ideas-all'}">Browse other people's ideas</router-link>
+            </p>
+          </div>
+        </template>
 
-    <!-- Add idea arrow - desktop only -->
-    <v-layout
-      v-if="showArrowToAddButton"
-      class="hidden-sm-and-down desktopArrowButtonContainer"
-    >
-      <img class="arrowImg" src="~/assets/images/add_idea_arrow_desktop.png" />
-    </v-layout>
+        <template v-if="routeName == 'ideas-liked'">
+          <div class="text-center">
+            <div class="my-10">
+              <v-icon large>mdi-bookmark-remove-outline</v-icon>
+            </div>
 
-    <v-layout
-      v-if="showArrowToAddButton"
-      class="hidden-md-and-up mobileArrowButtonContainer"
-    >
-      <img class="arrowImg" src="~/assets/images/add_idea_arrow_mobile.png" />
-    </v-layout>
-  </div>
+            <h2 class="my-5">No Saved Ideas</h2>
+            <p>You haven't saved any ideas yet, but once you do, they'll show up here.</p>
+            <p>
+              <router-link :to="{name: 'ideas-all'}">Browse other ideas</router-link> on the site to save ideas you like.
+            </p>
+          </div>
+        </template>
+
+      </v-col>
+    </v-row>
+  </v-container>
+
 </template>
 
 <script>
 export default {
   name: 'IdeasListEmptyMessage',
-  props: {
-    showArrowToAddButton: {
-      type: Boolean,
-      default: false
-    },
-    noIdeaMessage: {
-      type: String,
-      default: `You don't have any ideas right now. <br /> Or do you?`
+  computed: {
+    routeName() {
+      return this.$route.name
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.noIdeaFoundDiv {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-content: stretch;
-  align-items: center;
-
-  .lampImg {
-    margin-top: 10vh;
-    height: 20vh;
-
-    @media #{$small-screen} {
-      margin-top: 13vh;
-      height: 25vh;
-    }
-  }
-
-  .text {
-    margin-top: 4vh;
-    margin-bottom: 3vh;
-    font-size: 16px;
-    color: #c0b7c5;
-  }
-
-  .desktopArrowButtonContainer {
-    $arrowHeight: 29vh;
-    position: relative;
-    width: 100%;
-    height: $arrowHeight;
-
-    .arrowImg {
-      height: $arrowHeight;
-      position: absolute;
-      bottom: 0;
-      right: -30%;
-      width: 80%;
-      overflow-x: hidden;
-    }
-  }
-
-  .mobileArrowButtonContainer {
-    $arrowHeight: 31vh;
-    position: relative;
-    width: 100%;
-    height: $arrowHeight;
-
-    .arrowImg {
-      height: $arrowHeight;
-      position: absolute;
-      left: 40%;
-    }
-  }
-}
 </style>
