@@ -1,10 +1,5 @@
 <template>
-  <v-dialog
-    v-model="visible"
-    content-class="modal"
-    persistent
-    max-width="600"
-  >
+  <v-dialog v-model="visible" content-class="modal" persistent max-width="600">
     <div class="closeBtn">
       <v-icon text class="cancelIcon" @click="close">mdi-close</v-icon>
     </div>
@@ -26,28 +21,17 @@
       <p>
         Awesome!
       </p>
-      <p>Ideas want to be shared! Make this idea public with just
-        one click.
-      </p>
+      <p>Ideas want to be shared! Make this idea public with just one click.</p>
     </section>
 
     <!-- Footer -->
     <section class="modalFooter">
       <!-- Action Buttons -->
       <div class="text-right">
-        <v-btn class="cancelBtn"
-          rounded
-          text
-          @click="close"
-          >Cancel</v-btn>
-        <v-btn
-          rounded
-          @click="makePrivate"
-          >Make Public</v-btn
-        >
+        <v-btn class="cancelBtn" rounded text @click="close">Cancel</v-btn>
+        <v-btn rounded @click="makePrivate">Make Public</v-btn>
       </div>
     </section>
-
   </v-dialog>
 </template>
 

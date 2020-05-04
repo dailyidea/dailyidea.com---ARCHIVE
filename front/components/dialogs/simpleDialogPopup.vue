@@ -1,11 +1,6 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <v-dialog
-    v-model="visible"
-    content-class="modal"
-    persistent
-    max-width="600"
-  >
+  <v-dialog v-model="visible" content-class="modal" persistent max-width="600">
     <div class="closeBtn">
       <v-icon text class="cancelIcon" @click="close">mdi-close</v-icon>
     </div>
@@ -31,19 +26,12 @@
     <section class="modalFooter">
       <!-- Action Buttons -->
       <div class="text-right">
-        <v-btn class="cancelBtn"
-          rounded
-          text
-          @click="close"
-          >{{ buttonCancel }}</v-btn>
-        <v-btn
-          rounded
-          @click="ok"
-          >{{ buttonOk }}</v-btn
-        >
+        <v-btn class="cancelBtn" rounded text @click="close">{{
+          buttonCancel
+        }}</v-btn>
+        <v-btn rounded @click="ok">{{ buttonOk }}</v-btn>
       </div>
     </section>
-
   </v-dialog>
 </template>
 
@@ -61,7 +49,13 @@ export default {
     }
   },
   methods: {
-    show(header = '', body = '', buttonOk = 'OK', buttonCancel = 'Cancel', imagePath) {
+    show(
+      header = '',
+      body = '',
+      buttonOk = 'OK',
+      buttonCancel = 'Cancel',
+      imagePath
+    ) {
       this.header = header
       this.body = body
       this.buttonOk = buttonOk

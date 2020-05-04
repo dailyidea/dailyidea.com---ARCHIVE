@@ -1,5 +1,5 @@
 <template>
-  <div id="verify-container">
+  <v-app>
     <v-progress-linear
       :value="progressBarValue"
       :indeterminate="progressBarUndetermined"
@@ -7,64 +7,54 @@
       :height="2"
       absolute
     ></v-progress-linear>
-    <div class="verify-message">
-      <div class="verify-message__image-container">
-        <div class="verify-message__image-container__image-wrapper inactive">
-          <img
-            class="verify-message__image-container__image inactive"
-            src="~/assets/images/verify/lamp-inactive-large.png"
-            alt=""
-          />
-        </div>
-        <div
-          class="verify-message__image-container__image-wrapper active"
-          style="opacity: 0"
-          :style="activeLampStyle"
-        >
-          <img
-            class="verify-message__image-container__image active"
-            src="~/assets/images/verify/lamp-active-large.png"
-            alt=""
-          />
-        </div>
-      </div>
-      <div
-        class="verify-message__text"
-        :class="{
-          'has-error': errorOccurred,
-          'has-info': !errorOccurred && !authCompleted,
-          'has-success': !errorOccurred && authCompleted
-        }"
-      >
-        <div v-text="message"></div>
-        <div v-if="errorOccurred" class="">
-          <a href="/auth/login" @click.stop.prevent="goToLogin"
-            >Back to Log In Page</a
+
+    <v-container class="fill-height">
+      <v-row align="center" justify="center" class="text-center">
+        <v-col cols="12" sm="8" md="4">
+          <section id="lightBulb" class="mb-6">
+            <img
+              v-if="authCompleted"
+              class="active"
+              src="~/assets/images/verify/lamp-active-large.png"
+            />
+            <img
+              v-else
+              class="inactive"
+              src="~/assets/images/verify/lamp-inactive-large.png"
+            />
+          </section>
+
+          <div
+            :class="{
+              'color-danger': errorOccurred,
+              'has-success': !errorOccurred && authCompleted
+            }"
           >
-        </div>
-      </div>
-    </div>
-  </div>
+            <div v-text="message"></div>
+            <div v-if="errorOccurred" class="mt-6">
+              <p>Error message: {{ errorMessage }}</p>
+              <a href="/auth/login" @click.stop.prevent="goToLogin"
+                >Get a fresh login link.</a
+              >
+            </div>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
 export default {
   data: () => ({
     message:
-      'We are currently checking your credentials. You will be forwarded to Ideas page shortly...',
+      'Hang on tight! Just checking to make sure you are who you say you are...',
     errorOccurred: false,
     progressBarValue: 0,
     progressBarUndetermined: false,
     progressBarActive: true,
     authCompleted: false
   }),
-  computed: {
-    activeLampStyle() {
-      return {
-        opacity: this.authCompleted ? 1 : 0
-      }
-    }
-  },
   mounted() {
     this.login()
   },
@@ -96,18 +86,19 @@ export default {
         this.authCompleted = true
         if (!userData.wasWelcomed) {
           this.message = redirectToIdeaPage
-            ? "Success! You have been successfully registered. We're redirecting to idea page."
-            : 'Success! You have been successfully registered.'
+            ? "Hooray! You're officially signed up! Now we'll give you a quick tour..."
+            : "Hooray! You're officially signed up!"
           this.$router.replace(next || '/welcome/1')
         } else {
           this.message = redirectToIdeaPage
-            ? "Success! We're redirecting to idea page."
-            : "Success! We're redirecting to your dashboard."
+            ? "Hooray! We'll direct you to your home page bext..."
+            : "Hooray! We'll direct you to your dashboard next..."
           this.$router.replace(next || '/ideas/me')
         }
       } catch (e) {
         this.progressBarActive = false
-        this.message = e.message + ' Try again Please.'
+        this.message = 'Oops, something went wrong. Please try again.'
+        this.errorMessage = e.message
         this.errorOccurred = true
       }
     },
@@ -118,58 +109,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-#verify-container {
-  width: 100%;
-  height: 100%;
-  /*background-color: #0c5404;*/
-  overflow: hidden;
+img.active {
+  width: 150px;
 }
-.verify-message {
-  background-color: white;
-  width: 300px;
-  height: 400px;
-  position: relative;
-  top: calc(50% - 200px);
-  left: calc(50% - 150px);
-  &__image-container {
-    position: relative;
-    &__image-wrapper {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      transition: opacity 0.3s ease;
-    }
-    &__image {
-      height: 100%;
-      width: auto;
-      display: block;
-      margin: auto;
-    }
-
-    /*background-color: #5c6576;*/
-    height: 60%;
-    /*background-image: url('~assets/images/light_gray_lamp_plain.png');*/
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-  }
-  &__text {
-    text-align: center;
-    padding-top: 50px;
-    height: 40%;
-    transition: color 0.2s ease;
-    color: #c0b7c5;
-
-    font-size: 16px;
-    &.has-info {
-      color: #c0b7c5;
-    }
-    &.has-error {
-      color: #b71c1c;
-    }
-    &.has-success {
-      color: #c0b7c5;
-    }
-  }
+img.inactive {
+  width: 147px;
 }
 </style>

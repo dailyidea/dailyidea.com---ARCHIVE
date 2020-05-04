@@ -10,7 +10,6 @@
 
     <v-row>
       <v-col>
-
         <p>
           <span class="dailyText">Daily</span
           ><span class="ideaText">Idea</span> is a site where you can:
@@ -26,11 +25,12 @@
 
     <v-row class="mt-3">
       <v-col>
-        <v-btn block rounded :to="{name: 'welcome-2'}">Saving Your Ideas <v-icon small class="ml-2">mdi-arrow-right-circle</v-icon></v-btn>
+        <v-btn block rounded :to="{ name: 'welcome-2' }"
+          >Saving Your Ideas
+          <v-icon small class="ml-2">mdi-arrow-right-circle</v-icon></v-btn
+        >
       </v-col>
     </v-row>
-
-
   </v-container>
 </template>
 

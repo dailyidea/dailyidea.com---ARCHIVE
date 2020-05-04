@@ -17,7 +17,10 @@
       <v-card-text>
         You saved your first idea! Welcome to Daily idea. You can
         <router-link to="/ideas/all">browse more ideas</router-link> or
-        <router-link to="/ideas/create">start saving your own ideas</router-link> whenever you're ready.
+        <router-link to="/ideas/create"
+          >start saving your own ideas</router-link
+        >
+        whenever you're ready.
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
