@@ -88,7 +88,6 @@
         </client-only>
       </div>
     </section>
-
   </v-dialog>
 </template>
 

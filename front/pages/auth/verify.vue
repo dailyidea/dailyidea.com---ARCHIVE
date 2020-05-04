@@ -8,14 +8,8 @@
       absolute
     ></v-progress-linear>
 
-    <v-container
-      class="fill-height"
-    >
-      <v-row
-        align="center"
-        justify="center"
-        class="text-center"
-      >
+    <v-container class="fill-height">
+      <v-row align="center" justify="center" class="text-center">
         <v-col cols="12" sm="8" md="4">
           <section id="lightBulb" class="mb-6">
             <img
@@ -38,22 +32,16 @@
           >
             <div v-text="message"></div>
             <div v-if="errorOccurred" class="mt-6">
-              <p>Error message: {{ errorMessage}}</p>
+              <p>Error message: {{ errorMessage }}</p>
               <a href="/auth/login" @click.stop.prevent="goToLogin"
                 >Get a fresh login link.</a
               >
             </div>
           </div>
-
-
         </v-col>
       </v-row>
     </v-container>
-
   </v-app>
-
-
-
 </template>
 
 <script>
@@ -121,7 +109,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
 img.active {
   width: 150px;
 }

@@ -52,7 +52,8 @@ import AuthPage from '@/components/authPage/AuthPage'
 import ValidateTextField from '~/components/ValidateTextField'
 import ActionValidate from '~/mixins/validatable'
 
-const DEFAULT_ERROR_MESSAGE = "Oops, you're not logged in. Please log in first to proceed";
+const DEFAULT_ERROR_MESSAGE =
+  "Oops, you're not logged in. Please log in first to proceed"
 
 const AdditionalMessages = {
   '/ideas/create':
@@ -75,8 +76,8 @@ export default {
         const additionalMessage = AdditionalMessages[this.$route.query.r]
         if (additionalMessage) {
           return additionalMessage
-        }else{
-          return DEFAULT_ERROR_MESSAGE;
+        } else {
+          return DEFAULT_ERROR_MESSAGE
         }
       }
       return ''
