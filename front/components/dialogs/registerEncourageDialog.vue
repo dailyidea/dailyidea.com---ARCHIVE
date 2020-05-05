@@ -1,84 +1,93 @@
 <template>
   <v-dialog
     v-model="visible"
-    content-class="dialog-popup-content"
+    content-class="modal"
     persistent
-    max-width="550"
+    max-width="600"
   >
-    <v-card>
-      <v-icon
-        text
-        class="dialog-popup-content__cancel-icon"
-        size="20"
-        @click="close"
-        >fas fa-times
-      </v-icon>
+    <div class="closeBtn">
+      <v-icon text class="cancelIcon" @click="close">mdi-close</v-icon>
+    </div>
 
-      <v-card-text
-        style="padding-top: 30px; padding-bottom: 20px; text-align: center"
-      >
-        <div class="head-text">
-          Sign Up?
+    <!-- Header -->
+    <section class="modalHeader">
+      <h3>Get The Best Ideas In Your Inbox</h3>
+      <v-img
+        max-height="180"
+        max-width="180"
+        class="mx-auto modalTopImage"
+        contain
+        src="~/assets/images/dialogs/undraw_real_time_collaboration_c62i.svg"
+      ></v-img>
+    </section>
+
+    <!-- Body -->
+    <section class="modalBody">
+      <p>
+        We'll compile the best ideas from all over the internet and send them to you.
+      </p>
+      <p>
+        Additionally, you'll be able to:
+      </p>
+      <ul class="benefits">
+        <li>
+          <i class="fa fa-check"></i> Save the current post and return to it
+          later
+        </li>
+        <li>
+          <i class="fa fa-check"></i> Follow certain users
+          </li>
+        <li>
+          <i class="fa fa-check"></i> Post your own ideas
+        </li>
+      </ul>
+
+      <!-- form -->
+      <form @submit.stop.prevent="signup">
+      <v-text-field
+        v-model="name"
+        v-validate="'required|max:100'"
+        :error-messages="errors.collect('name')"
+        data-vv-name="name"
+        label="Your name"
+        single-line
+        flat
+        placeholder="Your Name"
+        prepend-inner-icon="mdi-account-circle-outline"
+      ></v-text-field>
+      <v-text-field
+        v-model="email"
+        v-validate="'required|email'"
+        :error-messages="errors.collect('email')"
+        data-vv-name="email"
+        single-line
+        flat
+        label="Your Email"
+        placeholder="Your Email"
+        prepend-inner-icon="mdi-email-outline"
+      ></v-text-field>
+      </form>
+
+      <!-- Email Already Exists Message -->
+      <div v-if="emailExistsMsg != ''" class="emailExistsMsg">
+        {{ emailExistsMsg }}
+        <div>
+          <v-btn to="/auth/login" text small color="#827C85"
+            >Login instead?
+          </v-btn>
         </div>
-        <v-card-text class="explanation-text">
-          Found of browsing ideas? Enjoy even more with advantages of registered
-          account. You will be able to: <br /><br />
-          <span class="explanation-text__advantage"
-            ><i class="fa fa-check"></i> Save the current post and return to it
-            later</span
-          >
-          <span class="explanation-text__advantage"
-            ><i class="fa fa-check"></i> Follow certain users</span
-          >
-          <span class="explanation-text__advantage"
-            ><i class="fa fa-check"></i> Post your own ideas</span
-          >
-        </v-card-text>
-        <v-card-text class="explanation-text">
-          It's very easy! We only need your name and email
-        </v-card-text>
-        <v-card-text>
-          <v-text-field
-            v-model="name"
-            v-validate="'required|max:100'"
-            :error-messages="errors.collect('name')"
-            data-vv-name="name"
-            class="inputBox name"
-            single-line
-            flat
-            label="Enter name"
-            prepend-inner-icon="fas fa-user"
-          ></v-text-field>
-          <v-text-field
-            v-model="email"
-            v-validate="'required|email'"
-            class="inputBox email"
-            :error-messages="errors.collect('email')"
-            data-vv-name="email"
-            single-line
-            flat
-            label="Enter email"
-            prepend-inner-icon="email"
-          ></v-text-field>
-          <!-- Email Already Exists Message -->
-          <div v-if="emailExistsMsg != ''" class="emailExistsMsg">
-            {{ emailExistsMsg }}
-            <div>
-              <v-btn to="/auth/login" text small color="#827C85"
-                >Login instead?
-              </v-btn>
-            </div>
-          </div>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text @click="close">Cancel</v-btn>
-          <v-btn :loading="registerInProgress" @click="signup"
-            >Create Account</v-btn
-          >
-        </v-card-actions>
-      </v-card-text>
-    </v-card>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="modalFooter">
+      <!-- Action Buttons -->
+      <div class="text-right">
+        <v-btn class="cancelBtn" rounded text @click="close">Cancel</v-btn>
+        <v-btn :loading="registerInProgress" rounded @click="signup">Sign Up</v-btn>
+      </div>
+    </section>
+
   </v-dialog>
 </template>
 
@@ -110,6 +119,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~assets/style/common';
+@import '~assets/style/modals';
+
 ::v-deep .dialog-popup-content {
   position: relative;
 
@@ -120,23 +132,17 @@ export default {
   }
 }
 
-.head-text {
-  padding: 0 20px;
-  font-size: 28px;
-  text-align: center;
-  color: $primary-color;
-}
+ul.benefits {
+  li {
+    list-style: none;
 
-.explanation-text {
-  font-size: 18px;
-  line-height: 1.5;
-  text-align: left;
-
-  &__advantage {
-    display: block;
-    text-align: left;
+    i {
+      margin-right: 6px;
+      color: #2db754;
+    }
   }
 }
+
 .emailExistsMsg {
   text-align: center;
   width: 70%;
