@@ -518,11 +518,6 @@ $counters-font-size: 18px;
 }
 
 .comments-part {
-  /*background-color: #aed242;*/
-  @media (max-width: $screen-sm-max) {
-    height: calc(70vh);
-    /* dgaf about mobile being precise since it's cascading.*/
-  }
   @media (min-width: $screen-md-min) {
     height: calc(100vh - 88px - 24px);
     /* i hate these height calculations. right now this is a mess. i added 24 here because that's how much padding there is */
@@ -537,9 +532,6 @@ $counters-font-size: 18px;
 
   &__container {
     background-color: $light-grey;
-    @media (max-width: $screen-sm-max) {
-      height: calc(70vh); /* don't care about this for now */
-    }
     @media (min-width: $screen-md-min) {
       height: calc(100vh - 64px - 12px - 54px - 54px - 10px - 24px);
       /*64 desktop header height 12 main content area padding (below header) 54 comment header 54 comment input*/
