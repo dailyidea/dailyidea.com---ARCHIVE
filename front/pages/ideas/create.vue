@@ -21,6 +21,7 @@
               class="idea-name-field"
               :single-line="true"
               :solo="true"
+              @keyup.13="focusIdeaText"
             ></v-text-field>
 
             <!-- Description = trix editor -->
@@ -143,6 +144,9 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    focusIdeaText() {
+      document.querySelector("trix-editor").focus()
+    },
     onAttachmentsUploadStarted() {
       this.uploadingAttachment = true
     },
