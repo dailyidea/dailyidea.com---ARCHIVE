@@ -21,7 +21,11 @@
                 {{ idea.title }}
               </h2>
             </v-col>
-            <v-col cols="auto" offset="1">
+            <v-col
+              v-if="!editMode"
+              cols="auto"
+              offset="1"
+            >
               <menu-panel
                 :editable="isMyIdea"
                 :idea="idea"
@@ -35,7 +39,10 @@
               ></menu-panel>
             </v-col>
           </v-row>
-          <div class="idea-part__info">
+          <div
+            v-if="!editMode"
+            class="idea-part__info"
+          >
             <v-row no-gutters>
               <v-col>
                 <span class="muted">By</span>
@@ -58,6 +65,7 @@
             </v-row>
           </div>
           <!-- /idea-part__info -->
+
           <div class="idea-part__content">
             <div v-if="editMode" class="idea-part__content__idea-editor">
               <client-only>
@@ -134,6 +142,7 @@
       <v-col cols="12" md="4">
         <client-only>
           <idea-comments
+            v-if="!editMode"
             :idea="idea"
             @onNotification="onNotification"
           ></idea-comments>
