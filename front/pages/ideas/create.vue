@@ -5,9 +5,8 @@
       pageOptions: mobileHeaderUiOptions
     }"
   >
-    <v-layout>
       <v-container>
-        <v-row>
+        <v-row id="ideaContentRow">
           <v-col cols="12" sm="10" md="8" lg="6">
 
             <!-- title -->
@@ -72,7 +71,7 @@
           </v-col>
         </v-row>
 
-        <v-row>
+        <v-row id="submitButtonRow">
           <v-col cols="12" sm="10" md="8" lg="6">
             <!-- Submit -->
             <div>
@@ -103,7 +102,6 @@
         </v-btn>
       </v-snackbar>
 
-    </v-layout>
   </Layout>
 </template>
 <script>
@@ -292,4 +290,24 @@ export default {
         display: none;
       }
     }
+.trix-button-row {
+  position: fixed;
+  bottom: 0;
+}
+
+
+/* stuff for making the toolbar stuck to the bottom */
+/* stuff for computing the required height of the idea content entry part  */
+/* header height: 56 on mobile 64 on wide  */
+
+$header-height: 56px;
+$main-content-container-vertical-padding: 12px;
+$submit-button-row-height: 60px;
+$trix-button-row-height: 60px;
+
+#ideaContentRow {
+  height: calc(100vh - #{$header-height} - 2 * #{$main-content-container-vertical-padding} - #{$submit-button-row-height} - #{$trix-button-row-height});
+}
+
+
 </style>
