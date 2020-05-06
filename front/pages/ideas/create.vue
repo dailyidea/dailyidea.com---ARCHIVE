@@ -223,9 +223,13 @@ export default {
     margin: 0 !important;
     padding: 0 !important;
     label {
+
       color: #c1b8c6;
       font-size: 24px;
     }
+  }
+  .v-text-field__details {
+    padding-left: 0px !important;
   }
 }
 
