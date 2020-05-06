@@ -308,11 +308,12 @@ export default {
 
 
 /* stuff for computing the required height of the idea content entry part  */
-/* header height: 56 on mobile 64 on wide  */
+/* header height: 56 on mobile viewports, 64 on wide viewports  */
 
 $header-height: 56px;
 $main-content-container-vertical-padding: 12px;
 $submit-button-row-height: 60px;
+$tags-height: 0px; /* not used, but needed when we bring back tags */
 $trix-button-row-height: 35px;
 
 #ideaContentRow {
