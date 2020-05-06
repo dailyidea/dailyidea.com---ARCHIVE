@@ -32,6 +32,7 @@
       <!-- Action Buttons -->
       <div class="text-right">
         <v-btn class="cancelBtn" rounded text @click="close">Cancel</v-btn>
+        <!-- #TODO note: i think this .cancelBtn class does nothing -->
         <v-btn rounded @click="makePrivate">Make Private</v-btn>
       </div>
     </section>

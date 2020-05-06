@@ -74,7 +74,6 @@
 
         <v-row>
           <v-col cols="12" sm="8" lg="6">
-
             <!-- Submit -->
             <div>
               <v-btn
@@ -289,29 +288,4 @@ export default {
         display: none;
       }
     }
-
-/* Move formatting stuff down */
-
-
-
-.submitBtn {
-      position: fixed;
-      bottom: 0;
-      margin-bottom: 50px;
-      width: 300px;
-}
-xxtrix-toolbar {
-  position: fixed;
-  bottom: 0;
-}
-xxbutton#toggle-trix-panel {
-  position: fixed;
-  bottom: 60px;
-  margin-bottom: 8px;
-}
-
-
-/*
-min-height: calc(100vh - 88px);
-*/
 </style>
