@@ -294,13 +294,19 @@ export default {
         display: none;
       }
     }
+
+/* stuff for making the toolbar stuck to the bottom */
+
 .trix-button-row {
   position: fixed;
   bottom: 0;
 }
 
+#toggle-trix-panel {
+  margin-bottom: 4px;
+}
 
-/* stuff for making the toolbar stuck to the bottom */
+
 /* stuff for computing the required height of the idea content entry part  */
 /* header height: 56 on mobile 64 on wide  */
 
