@@ -62,7 +62,7 @@ function customizeTrixPanel(event) {
 
   buttonToAppend.addEventListener('click', function(e) {
 
-    let panelVisible = BUTTON_INITIAL_VISIBILITY_STATE
+    let panelVisible = false
 
     const trixToggleBtn = e.target.classList.contains(BUTTON_CLASS)
       ? e.target
