@@ -120,13 +120,14 @@
             </div>
           </div>
           <div v-if="editMode" class="idea-part__edit-buttons-panel">
+            <v-btn text rounded @click="disableEditMode">Cancel</v-btn>
             <v-btn
-              color="primary"
+              color="secondary"
               :loading="updatingIdea"
               @click="saveIdeaContent"
+              rounded
               >Save
             </v-btn>
-            <v-btn text color="error" @click="disableEditMode">Cancel</v-btn>
           </div>
         </div>
       </v-col>
