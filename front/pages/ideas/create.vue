@@ -310,14 +310,20 @@ export default {
 /* stuff for computing the required height of the idea content entry part  */
 /* header height: 56 on mobile viewports, 64 on wide viewports  */
 
-$header-height: 56px;
+$header-height-wide: 64px;
+$header-height-narrow: 56px;
 $main-content-container-vertical-padding: 12px;
 $submit-button-row-height: 60px;
 $tags-height: 0px; /* not used, but needed when we bring back tags */
 $trix-button-row-height: 35px;
 
 #ideaContentRow {
-  height: calc(100vh - #{$header-height} - 2 * #{$main-content-container-vertical-padding} - #{$submit-button-row-height} - #{$trix-button-row-height});
+  @media (min-width: $screen-md-min) {
+    height: calc(100vh - #{$header-height-wide} - 2 * #{$main-content-container-vertical-padding} - #{$submit-button-row-height} - #{$trix-button-row-height});
+  }
+  @media (max-width: $screen-sm-max) {
+    height: calc(100vh - #{$header-height-narrow} - 2 * #{$main-content-container-vertical-padding} - #{$submit-button-row-height} - #{$trix-button-row-height});
+  }
 }
 
 
