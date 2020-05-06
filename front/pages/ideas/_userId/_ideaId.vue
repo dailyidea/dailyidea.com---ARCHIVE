@@ -89,8 +89,9 @@
               <v-chip
                 v-for="(item, index) in ideaTags"
                 :key="index"
-                label
                 class="tag"
+                text-color="white"
+                color="secondary"
                 >{{ item }}
               </v-chip>
             </div>
@@ -104,7 +105,6 @@
                 hide-details
                 times
                 chips
-                label=""
                 multiple
                 :disabled="updatingIdea"
               >
@@ -113,11 +113,8 @@
                     v-bind="attrs"
                     :input-value="selected"
                     close
-                    label
-                    light
                     text-color="#fff"
-                    style="font-weight: normal"
-                    color="#C0B7C5"
+                    color="secondary"
                     @click="() => {}"
                     @click:close="removeTag(item)"
                   >
@@ -436,13 +433,12 @@ export default {
 
   &__content {
     word-break: break-word;
-    margin-top: 3rem;
+    margin-top: 1rem;
     @media (min-width: $screen-md-min) {
       min-height: 300px;
     }
     &__idea-editor {
       ::v-deep .trix-content {
-        height: 240px;
         overflow-y: auto;
       }
     }
@@ -468,10 +464,7 @@ export default {
       margin-top: 20px;
 
       .tag {
-        margin: 0px 2px 10px 2px;
-        border-radius: 6px;
-        background-color: rgb(192, 183, 197);
-        color: white;
+        margin: 4px;
       }
     }
 
