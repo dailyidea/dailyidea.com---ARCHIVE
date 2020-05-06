@@ -8,7 +8,7 @@
     <v-layout>
       <v-container>
         <v-row>
-          <v-col cols="12" sm="8" lg="6">
+          <v-col cols="12" sm="10" md="8" lg="6">
 
             <!-- title -->
             <v-text-field
@@ -73,7 +73,7 @@
         </v-row>
 
         <v-row>
-          <v-col cols="12" sm="8" lg="6">
+          <v-col cols="12" sm="10" md="8" lg="6">
             <!-- Submit -->
             <div>
               <v-btn
