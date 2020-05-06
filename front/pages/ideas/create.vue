@@ -313,7 +313,7 @@ export default {
 $header-height: 56px;
 $main-content-container-vertical-padding: 12px;
 $submit-button-row-height: 60px;
-$trix-button-row-height: 60px;
+$trix-button-row-height: 35px;
 
 #ideaContentRow {
   height: calc(100vh - #{$header-height} - 2 * #{$main-content-container-vertical-padding} - #{$submit-button-row-height} - #{$trix-button-row-height});
