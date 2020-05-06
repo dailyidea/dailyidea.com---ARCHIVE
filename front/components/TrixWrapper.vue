@@ -33,6 +33,7 @@ function customizeTrixPanel(event) {
   const BUTTON_ACTIVE_CLASS = 'trix-active'
   const BUTTON_CLASS = 'trix-button'
   const BUTTON_ID = 'toggle-trix-panel'
+  const BUTTON_INITIAL_VISIBILITY_STATE = false
 
   const trixToggleEl = document.querySelector('#' + BUTTON_ID)
   if (trixToggleEl) {
@@ -54,10 +55,15 @@ function customizeTrixPanel(event) {
       button.style.opacity = visible ? 1 : 0
     }
   }
-  toggleButtonsVisibility(false)
+  toggleButtonsVisibility(BUTTON_INITIAL_VISIBILITY_STATE)
+  if (BUTTON_INITIAL_VISIBILITY_STATE === true) {
+    buttonToAppend.classList.add(BUTTON_ACTIVE_CLASS)
+  }
 
   buttonToAppend.addEventListener('click', function(e) {
-    let panelVisible = false
+
+    let panelVisible = BUTTON_INITIAL_VISIBILITY_STATE
+
     const trixToggleBtn = e.target.classList.contains(BUTTON_CLASS)
       ? e.target
       : e.target.parentElement
