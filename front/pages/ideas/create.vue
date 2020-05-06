@@ -5,87 +5,91 @@
       pageOptions: mobileHeaderUiOptions
     }"
   >
-    <v-layout id="createIdeaPage">
-      <img class="backgroundLamp" src="~/assets/images/light_gray_lamp.png" />
+      <v-container>
+        <v-row id="ideaContentRow">
+          <v-col cols="12" sm="10" md="8" lg="6">
 
-      <div class="createIdeaBox">
-        <!-- Header -->
-        <!--        <v-row>-->
-        <!--          <v-col cols="6">-->
-        <!--            MY IDEA-->
-        <!--          </v-col>-->
-        <!--          <v-col cols="6" style="text-align: right">-->
-        <!--            <img alt="image" src="~/assets/images/publicIdea.png" />-->
-        <!--          </v-col>-->
-        <!--        </v-row>-->
+            <!-- title -->
+            <v-text-field
+              v-model="title"
+              v-validate="'required|max:100'"
+              flat
+              label="Add A Title"
+              :error-messages="errors.collect('title')"
+              data-vv-name="title"
+              name="idea_title"
+              class="idea-name-field"
+              :single-line="true"
+              :solo="true"
+              @keyup.13="focusIdeaText"
+            ></v-text-field>
 
-        <!-- title -->
-        <v-text-field
-          v-model="title"
-          v-validate="'required|max:100'"
-          label="Type your idea title"
-          :error-messages="errors.collect('title')"
-          data-vv-name="title"
-          name="idea_title"
-          class="idea-name-field"
-          :single-line="true"
-          :solo="true"
-        ></v-text-field>
-        <!--        <input type="text">-->
+            <!-- Description = trix editor -->
+            <div class="ideaEditor">
+              <client-only>
+                <trix-wrapper
+                  v-model="contents"
+                  class="editor"
+                  placeholder="Just start typing your idea here! You can add formatting with the toolbar below."
+                  :auto-delete-attachments="true"
+                  @attachmentsUploadStarted="onAttachmentsUploadStarted"
+                  @attachmentsUploadCompleted="onAttachmentsUploadCompleted"
+                  @fileAttached="onFileAttached"
+                  @fileRemoved="onFileRemoved"
+                />
+              </client-only>
+            </div>
 
-        <!-- Descriptiion = trix editor -->
-        <div class="ideaEditor">
-          <client-only>
-            <trix-wrapper
-              v-model="contents"
-              class="editor"
-              placeholder="Type your idea text"
-              :auto-delete-attachments="true"
-              @attachmentsUploadStarted="onAttachmentsUploadStarted"
-              @attachmentsUploadCompleted="onAttachmentsUploadCompleted"
-              @fileAttached="onFileAttached"
-              @fileRemoved="onFileRemoved"
-            />
-          </client-only>
-        </div>
-
-        <!-- Tags -->
-        <v-combobox
-          v-model="chips"
-          v-validate="'max:100'"
-          :error-messages="errors.collect('tag')"
-          data-vv-name="tag"
-          class="ideaTag idea-tags-field"
-          chips
-          clearable
-          multiple
-          label="Add Tags"
-          solo
-        >
-          <template v-slot:selection="{ attrs, item, select, selected }">
-            <v-chip
-              v-bind="attrs"
-              :input-value="selected"
-              close
-              label
-              @click="select"
-              @click:close="remove(item)"
+            <!-- Tags -->
+            <v-combobox
+              v-if="false"
+              flat
+              v-model="chips"
+              v-validate="'max:100'"
+              :error-messages="errors.collect('tag')"
+              data-vv-name="tag"
+              class="ideaTag idea-tags-field"
+              chips
+              clearable
+              multiple
+              label="Add Tags"
+              solo
             >
-              <strong>{{ item }}</strong>
-            </v-chip>
-          </template>
-        </v-combobox>
+              <template v-slot:selection="{ attrs, item, select, selected }">
+                <v-chip
+                  v-bind="attrs"
+                  :input-value="selected"
+                  close
+                  @click="select"
+                  @click:close="remove(item)"
+                  small
+                  color="secondary"
+                >
+                  <strong>{{ item }}</strong>
+                </v-chip>
+              </template>
+            </v-combobox>
+          </v-col>
+        </v-row>
 
-        <!-- Submit -->
-        <div class="submitBtn">
-          <v-btn
-            :loading="creatingIdea"
-            :disabled="!allowCreateIdea"
-            @click="onCreateIdea"
-            >Submit</v-btn
-          >
-        </div>
-      </div>
+        <v-row id="submitButtonRow">
+          <v-col cols="12" sm="10" md="8" lg="6">
+            <!-- Submit -->
+            <div>
+              <v-btn
+                rounded
+                flat
+                block
+                :loading="creatingIdea"
+                :disabled="!allowCreateIdea"
+                @click="onCreateIdea"
+                >Submit</v-btn
+              >
+            </div>
+
+          </v-col>
+        </v-row>
+      </v-container>
 
       <!-- Bottom snackbar message -->
       <v-snackbar
@@ -98,7 +102,7 @@
           Close
         </v-btn>
       </v-snackbar>
-    </v-layout>
+
   </Layout>
 </template>
 <script>
@@ -140,6 +144,9 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    focusIdeaText() {
+      document.querySelector("trix-editor").focus()
+    },
     onAttachmentsUploadStarted() {
       this.uploadingAttachment = true
     },
@@ -209,66 +216,37 @@ export default {
 </script>
 
 <style lang="scss">
-#createIdeaPage {
-  background: white;
-  /*min-height: 94vh;*/
-  width: 100%;
-  overflow-x: hidden;
 
-  .idea-name-field {
-    font-size: 18px;
-    .v-text-field__details {
-      padding: 0;
-    }
-    .v-input__slot {
-      box-shadow: none;
-      padding: 0;
-      margin: 0;
-      label {
-        color: #c1b8c6;
-        font-size: 22px;
-      }
+.idea-name-field {
+  font-size: 24px;
+  font-weight: 900;
+
+  .v-input__slot {
+    margin: 0 !important;
+    padding: 0 !important;
+    label {
+
+      color: #c1b8c6;
+      font-size: 24px;
     }
   }
-  .idea-tags-field {
-    .v-input__slot {
-      box-shadow: none;
-      padding: 0;
-      margin: 0;
-      font-size: 16px;
-      label {
-        color: #c1b8c6;
-        font-size: 22px;
-      }
+  .v-text-field__details {
+    padding-left: 0px !important;
+  }
+}
+
+.idea-tags-field {
+  .v-input__slot {
+    label {
+      color: #c1b8c6;
     }
   }
-
-  .createIdeaBox {
-    width: 45%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 4vh;
-
-    @media #{$small-screen} {
-      width: 90%;
-    }
-
-    .text {
-      // width: 100%;
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
+}
 
     .ideaEditor {
-      font-size: 14px;
-
-      @media #{$small-screen} {
-        font-size: 8px;
-      }
 
       .editor {
         trix-editor {
-          font-size: 16px;
           border: none;
           padding: 0;
           &:active,
@@ -317,28 +295,36 @@ export default {
       }
     }
 
-    .submitBtn {
-      margin-top: 5vh;
+/* stuff for making the toolbar stuck to the bottom */
 
-      button {
-        width: 100%;
-        height: 50px;
-        margin: 0px;
-      }
-    }
+.trix-button-row {
+  position: fixed;
+  bottom: 0;
+}
+
+#toggle-trix-panel {
+  margin-bottom: 4px;
+}
+
+
+/* stuff for computing the required height of the idea content entry part  */
+/* header height: 56 on mobile viewports, 64 on wide viewports  */
+
+$header-height-wide: 64px;
+$header-height-narrow: 56px;
+$main-content-container-vertical-padding: 12px;
+$submit-button-row-height: 60px;
+$tags-height: 0px; /* not used, but needed when we bring back tags */
+$trix-button-row-height: 35px;
+
+#ideaContentRow {
+  @media (min-width: $screen-md-min) {
+    height: calc(100vh - #{$header-height-wide} - 2 * #{$main-content-container-vertical-padding} - #{$submit-button-row-height} - #{$trix-button-row-height});
   }
-
-  .backgroundLamp {
-    position: fixed;
-    top: 20vh;
-    right: 5%;
-    width: 20%;
-
-    @media #{$small-screen} {
-      top: 20vh;
-      right: -40%;
-      width: 80%;
-    }
+  @media (max-width: $screen-sm-max) {
+    height: calc(100vh - #{$header-height-narrow} - 2 * #{$main-content-container-vertical-padding} - #{$submit-button-row-height} - #{$trix-button-row-height});
   }
 }
+
+
 </style>

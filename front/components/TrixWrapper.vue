@@ -33,6 +33,10 @@ function customizeTrixPanel(event) {
   const BUTTON_ACTIVE_CLASS = 'trix-active'
   const BUTTON_CLASS = 'trix-button'
   const BUTTON_ID = 'toggle-trix-panel'
+  const BUTTON_INITIAL_VISIBILITY_STATE = true
+  const SHOW_TOGGLE_BUTTON = false
+  const APPEND_TOGGLE_BUTTON = false
+
 
   const trixToggleEl = document.querySelector('#' + BUTTON_ID)
   if (trixToggleEl) {
@@ -54,10 +58,15 @@ function customizeTrixPanel(event) {
       button.style.opacity = visible ? 1 : 0
     }
   }
-  toggleButtonsVisibility(false)
+  toggleButtonsVisibility(BUTTON_INITIAL_VISIBILITY_STATE)
+  if (BUTTON_INITIAL_VISIBILITY_STATE === true) {
+    buttonToAppend.classList.add(BUTTON_ACTIVE_CLASS)
+  }
 
   buttonToAppend.addEventListener('click', function(e) {
+
     let panelVisible = false
+
     const trixToggleBtn = e.target.classList.contains(BUTTON_CLASS)
       ? e.target
       : e.target.parentElement
@@ -72,10 +81,19 @@ function customizeTrixPanel(event) {
     toggleButtonsVisibility(panelVisible)
   })
 
-  event.target.toolbarElement
-    .querySelector('.trix-button-group.trix-button-group--history-tools')
-    .appendChild(buttonToAppend)
-  // .insertAdjacentHTML('beforeend', buttonHTML)
+  if (SHOW_TOGGLE_BUTTON === true) {
+    if (APPEND_TOGGLE_BUTTON === true) {
+      // append toggle button
+      event.target.toolbarElement
+        .querySelector('.trix-button-group.trix-button-group--history-tools')
+        .appendChild(buttonToAppend)
+    } else {
+      // prepend it instead
+      const trixButtonRow = event.target.toolbarElement.querySelector('.trix-button-row')
+      trixButtonRow.insertBefore(buttonToAppend, trixButtonRow.childNodes[0])
+    }
+  }
+
 }
 
 export default {

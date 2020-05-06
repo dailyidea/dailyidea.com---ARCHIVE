@@ -75,18 +75,18 @@ module.exports = {
     theme: {
       themes: {
         light: {
-          primary: '#35124e',
+          primary: '#5B41BB',
           accent: '#FFFFFF',
-          secondary: '#424242',
+          secondary: '#ffc61e',
           info: '#35124e',
           warning: '#ffb300',
           error: '#B71C1C',
           success: '#2E7D32'
         },
         dark: {
-          primary: '#35124e',
+          primary: '#5B41BB',
           accent: '#FFFFFF',
-          secondary: '#424242',
+          secondary: '#ffc61e',
           info: '#35124e',
           warning: '#ffb300',
           error: '#B71C1C',

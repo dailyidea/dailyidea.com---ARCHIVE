@@ -21,7 +21,11 @@
                 {{ idea.title }}
               </h2>
             </v-col>
-            <v-col cols="auto" offset="1">
+            <v-col
+              v-if="!editMode"
+              cols="auto"
+              offset="1"
+            >
               <menu-panel
                 :editable="isMyIdea"
                 :idea="idea"
@@ -35,7 +39,10 @@
               ></menu-panel>
             </v-col>
           </v-row>
-          <div class="idea-part__info">
+          <div
+            v-if="!editMode"
+            class="idea-part__info"
+          >
             <v-row no-gutters>
               <v-col>
                 <span class="muted">By</span>
@@ -58,6 +65,7 @@
             </v-row>
           </div>
           <!-- /idea-part__info -->
+
           <div class="idea-part__content">
             <div v-if="editMode" class="idea-part__content__idea-editor">
               <client-only>
@@ -81,8 +89,9 @@
               <v-chip
                 v-for="(item, index) in ideaTags"
                 :key="index"
-                label
                 class="tag"
+                text-color="white"
+                color="secondary"
                 >{{ item }}
               </v-chip>
             </div>
@@ -96,7 +105,6 @@
                 hide-details
                 times
                 chips
-                label=""
                 multiple
                 :disabled="updatingIdea"
               >
@@ -105,11 +113,8 @@
                     v-bind="attrs"
                     :input-value="selected"
                     close
-                    label
-                    light
                     text-color="#fff"
-                    style="font-weight: normal"
-                    color="#C0B7C5"
+                    color="secondary"
                     @click="() => {}"
                     @click:close="removeTag(item)"
                   >
@@ -120,19 +125,21 @@
             </div>
           </div>
           <div v-if="editMode" class="idea-part__edit-buttons-panel">
+            <v-btn text rounded @click="disableEditMode">Cancel</v-btn>
             <v-btn
-              color="primary"
+              color="secondary"
               :loading="updatingIdea"
               @click="saveIdeaContent"
+              rounded
               >Save
             </v-btn>
-            <v-btn text color="error" @click="disableEditMode">Cancel</v-btn>
           </div>
         </div>
       </v-col>
       <v-col cols="12" md="4">
         <client-only>
           <idea-comments
+            v-if="!editMode"
             :idea="idea"
             @onNotification="onNotification"
           ></idea-comments>
@@ -426,13 +433,12 @@ export default {
 
   &__content {
     word-break: break-word;
-    margin-top: 3rem;
+    margin-top: 1rem;
     @media (min-width: $screen-md-min) {
       min-height: 300px;
     }
     &__idea-editor {
       ::v-deep .trix-content {
-        height: 240px;
         overflow-y: auto;
       }
     }
@@ -458,10 +464,7 @@ export default {
       margin-top: 20px;
 
       .tag {
-        margin: 0px 2px 10px 2px;
-        border-radius: 6px;
-        background-color: rgb(192, 183, 197);
-        color: white;
+        margin: 4px;
       }
     }
 

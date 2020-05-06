@@ -45,7 +45,7 @@
               flat
               inset
               hide-details
-              color="warning"
+              color="secondary"
               @change="changeNotificationsState"
             ></v-switch>
           </v-col>
@@ -65,7 +65,7 @@
               flat
               inset
               hide-details
-              color="warning"
+              color="secondary"
               @change="changeNotificationsState"
             ></v-switch>
           </v-col>
@@ -84,7 +84,7 @@
               flat
               inset
               hide-details
-              color="warning"
+              color="secondary"
               @change="changeNotificationsState"
             ></v-switch>
           </v-col>
