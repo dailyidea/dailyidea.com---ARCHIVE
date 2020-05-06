@@ -63,9 +63,8 @@
                   @click="select"
                   @click:close="remove(item)"
                   small
-                  color="warning"
+                  color="secondary"
                 >
-                <!-- #TODO not sure how to make this use actual theme colors, not "warning" -->
                   <strong>{{ item }}</strong>
                 </v-chip>
               </template>
