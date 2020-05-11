@@ -20,12 +20,14 @@
               </p>
 
               <!-- header image only show above signup button on small viewports (1 column header) i.e. hide on larger viewport s-->
-              <v-col sm="6" cols="12" class="d-flex d-sm-none justify-center">
-                <img
-                  class="hero__image"
-                  src="~/assets/images/home/undraw_counting_stars_rrnl.svg"
-                />
-              </v-col>
+              <v-row class="d-flex d-sm-none">
+                <v-col sm="6" cols="12" class="text-center">
+                  <img
+                    class="hero__image"
+                    src="~/assets/images/home/undraw_counting_stars_rrnl.svg"
+                  />
+                </v-col>
+              </v-row>
 
               <!-- Signup Button -->
               <div class="text-center text-sm-left">

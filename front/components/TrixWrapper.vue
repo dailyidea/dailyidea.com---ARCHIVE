@@ -37,7 +37,6 @@ function customizeTrixPanel(event) {
   const SHOW_TOGGLE_BUTTON = false
   const APPEND_TOGGLE_BUTTON = false
 
-
   const trixToggleEl = document.querySelector('#' + BUTTON_ID)
   if (trixToggleEl) {
     trixToggleEl.remove()
@@ -64,7 +63,6 @@ function customizeTrixPanel(event) {
   }
 
   buttonToAppend.addEventListener('click', function(e) {
-
     let panelVisible = false
 
     const trixToggleBtn = e.target.classList.contains(BUTTON_CLASS)
@@ -89,11 +87,12 @@ function customizeTrixPanel(event) {
         .appendChild(buttonToAppend)
     } else {
       // prepend it instead
-      const trixButtonRow = event.target.toolbarElement.querySelector('.trix-button-row')
+      const trixButtonRow = event.target.toolbarElement.querySelector(
+        '.trix-button-row'
+      )
       trixButtonRow.insertBefore(buttonToAppend, trixButtonRow.childNodes[0])
     }
   }
-
 }
 
 export default {
