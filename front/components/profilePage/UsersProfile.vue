@@ -16,7 +16,7 @@
               @click="selectAvatar"
               v-on="on"
             >
-              <span v-if="!avatarIsSet">
+              <span v-if="!avatarIsSet" class="user-avatar__default">
                 <v-icon>fas fa-user</v-icon>
               </span>
             </div>
@@ -440,13 +440,13 @@ export default {
 
 .user-avatar {
   &__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-size: cover;
     background-repeat: no-repeat;
-
-    @media (min-width: $screen-lg-min) {
-      width: 200px;
-      height: 200px;
-    }
+    width: 200px;
+    height: 200px;
 
     @media (max-width: $screen-md-max) {
       width: 120px;
@@ -475,6 +475,12 @@ export default {
       &:active {
         background-color: #d3cfd5;
       }
+    }
+  }
+  &__default .v-icon {
+    font-size: 70px;
+    @media (max-width: $screen-md-max) {
+      font-size: 50px;
     }
   }
 }
