@@ -1,16 +1,6 @@
 <template>
   <Layout>
     <v-layout class="ideas-list">
-      <!-- Title Section -->
-      <v-img
-        src="~/assets/images/light_gray_lamp.png"
-        height="100"
-        contain
-      ></v-img>
-      <div class="titleDiv">
-        <v-layout class="titleText">{{ title }}</v-layout>
-      </div>
-
       <!-- Idea List -->
       <ideas-list
         :show-author="showAuthor"
