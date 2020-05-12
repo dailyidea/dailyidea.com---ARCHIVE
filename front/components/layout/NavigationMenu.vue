@@ -33,7 +33,7 @@
         @click.native="openPage('/ideas/liked')"
       >
         <v-list-item-content>
-          <v-list-item-title>Liked Ideas</v-list-item-title>
+          <v-list-item-title>Saved Ideas</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item v-if="isAuthenticated" @click.native="openPage('/profile')">
