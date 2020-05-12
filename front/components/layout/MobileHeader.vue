@@ -5,12 +5,12 @@
     <v-container fluid style="padding: 0">
       <v-row style="padding: 0 8px">
         <template v-if="!searchIdeaMode">
-          <v-col style="padding: 0" cols="10">
+          <v-col style="padding: 0; display: flex" cols="10">
             <v-btn
               small
               class="lightPinkButton"
               icon
-              style="vertical-align: top"
+              style="vertical-align: top; justify-content: left; flex-grow: 1"
               @click="showSideMenu()"
             >
               <v-icon>mdi-menu</v-icon>
@@ -18,7 +18,7 @@
             <nuxt-link
               class="logoLink"
               :to="{ name: 'ideas-me' }"
-              style="text-decoration: none; vertical-align: top"
+              style="text-decoration: none; vertical-align: top; justify-self:center"
             >
               <img
                 class="logoIcon"
@@ -31,6 +31,7 @@
                 src="~/assets/images/logo_text.png"
               />
             </nuxt-link>
+            <v-col style="padding: 0; text-align: right; flex-grow: 1"></v-col>
           </v-col>
           <v-col style="padding: 0; text-align: right"></v-col>
         </template>
