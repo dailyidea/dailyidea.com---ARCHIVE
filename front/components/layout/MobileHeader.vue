@@ -5,7 +5,7 @@
     <v-container fluid style="padding: 0">
       <v-row style="padding: 0 8px">
         <template v-if="!searchIdeaMode">
-          <v-col style="padding: 0" cols="10">
+          <v-col style="padding: 0; padding-top: 0.5rem;">
             <v-btn
               small
               class="lightPinkButton"
@@ -15,6 +15,8 @@
             >
               <v-icon>mdi-menu</v-icon>
             </v-btn>
+          </v-col>
+          <v-col>
             <nuxt-link
               class="logoLink"
               :to="{ name: 'ideas-me' }"
@@ -78,8 +80,6 @@ export default {
 
 <style scoped lang="scss">
 .logoLink {
-  display: inline-block;
-  height: 28px;
-  padding: 3px;
+  white-space: nowrap;
 }
 </style>
