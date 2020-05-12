@@ -117,7 +117,8 @@ export default {
     &__image {
       height: 20px;
       vertical-align: top;
-      margin-right: 3px;
+      margin-right: 14px;
+      float: right;
     }
 
     &__text {
@@ -127,8 +128,8 @@ export default {
     }
 
     &__icon {
-      margin-right: 16px;
-      float: right;
+      margin-right: 14px;
+      float: left;
       display: inline-block;
       font-size: 21px;
       vertical-align: top;
