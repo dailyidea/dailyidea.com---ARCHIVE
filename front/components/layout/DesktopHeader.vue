@@ -21,20 +21,22 @@
           <!-- Profile Icon -->
           <v-menu offset-y nudge-bottom="15" left :disabled="!isAuthenticated">
             <template v-slot:activator="{ on }">
-              <a v-if="isAuthenticated" v-on="on">
+              <div>
+                <a v-if="isAuthenticated" v-on="on">
                 <span v-if="!userAvatar" class="profileBtn" icon fab>
                   <v-icon>mdi-account-circle</v-icon>
                 </span>
-                <span
-                  v-else
-                  class="userAvatarContainer"
-                  :style="avatarStyle"
-                ></span>
-                <span class="userName">{{ userName }}</span>
-              </a>
-              <router-link v-else :to="{ name: 'auth-login' }"
+                  <span
+                    v-else
+                    class="userAvatarContainer"
+                    :style="avatarStyle"
+                  ></span>
+                  <span class="userName">{{ userName }}</span>
+                </a>
+                <router-link v-else :to="{ name: 'auth-login' }"
                 >Log In
-              </router-link>
+                </router-link>
+              </div>
             </template>
             <v-list class="header-nav-dropdown">
               <router-link to="/profile">
