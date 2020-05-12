@@ -109,7 +109,7 @@ export default {
   z-index: 999;
 
   .logo-container {
-    margin-top: 3vh;
+    margin-top: 1vh;
     margin-bottom: 4vh;
     padding-left: 16px;
     /*text-align: center;*/
