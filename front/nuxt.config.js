@@ -79,7 +79,7 @@ module.exports = {
     theme: {
       themes: {
         light: {
-          primary: '#35124e',
+          primary: '#9e29fa',
           accent: '#FFFFFF',
           secondary: '#424242',
           info: '#35124e',
@@ -88,7 +88,7 @@ module.exports = {
           success: '#2E7D32'
         },
         dark: {
-          primary: '#35124e',
+          primary: '#9e29fa',
           accent: '#FFFFFF',
           secondary: '#424242',
           info: '#35124e',

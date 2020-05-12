@@ -31,7 +31,7 @@
                 style="border-radius: 10px;"
                 class="first-section__signup-button"
                 :to="{ name: 'auth-signup' }"
-                color="#326bde"
+                color="primary"
                 >Sign Up
               </v-btn>
             </div>

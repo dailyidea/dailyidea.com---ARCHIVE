@@ -105,7 +105,7 @@ export default {
 
 <style scoped lang="scss">
 .sidebarMenu {
-  background: #4e2e62 !important;
+  background: $primary-color !important;
   z-index: 999;
 
   .logo-container {
