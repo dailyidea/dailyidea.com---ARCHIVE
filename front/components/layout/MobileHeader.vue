@@ -6,15 +6,18 @@
       <v-row style="padding: 0 8px">
         <template v-if="!searchIdeaMode">
           <v-col style="padding: 0; display: flex" cols="10">
-            <v-btn
-              small
-              class="lightPinkButton"
-              icon
-              style="vertical-align: top; justify-content: left; flex-grow: 1"
-              @click="showSideMenu()"
-            >
-              <v-icon>mdi-menu</v-icon>
-            </v-btn>
+            <v-col style="padding: 0; text-align: right; display:flex; justify-content:left; flex-grow: 1">
+              <v-btn
+                small
+                class="lightPinkButton"
+                icon
+                style="vertical-align: top"
+                @click="showSideMenu()"
+              >
+
+                <v-icon>mdi-menu</v-icon>
+              </v-btn>
+            </v-col>
             <nuxt-link
               class="logoLink"
               :to="{ name: 'ideas-me' }"
