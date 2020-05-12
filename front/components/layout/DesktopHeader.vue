@@ -32,7 +32,7 @@
                 ></span>
                 <span class="userName">{{ userName }}</span>
               </a>
-              <router-link v-else :to="{ name: 'auth-login' }"
+              <router-link v-else :to="{ name: 'auth-login' }" class="text-decoration-none"
                 >Log In
               </router-link>
             </template>
