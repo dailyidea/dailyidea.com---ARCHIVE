@@ -180,7 +180,7 @@ export default {
         let email = await this.$refs.onUnAuthActionAskEmailDialog.show(
           'Introduce yourself?',
           "What's your email address so you can find your saved ideas later? (Just so I know how to find this for you in the future.)",
-          'ok',
+          'Save',
           'cancel'
         )
         email = email.toLowerCase()

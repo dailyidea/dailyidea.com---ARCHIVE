@@ -5,7 +5,7 @@
   "author": "aldarund",
   "private": true,
   "scripts": {
-    "dev": "env-cmd -f ./conf/local.env nuxt --hostname 192.168.1.99",
+    "dev": "env-cmd -f ./conf/local.env nuxt",
     "build-local": "env-cmd -f ./conf/local.env nuxt build",
     "build-prod": "env-cmd -f ./conf/prod.env nuxt build",
     "build-dev": "env-cmd -f ./conf/dev.env nuxt build",

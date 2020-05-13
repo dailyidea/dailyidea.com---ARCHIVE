@@ -1,29 +1,37 @@
 <template>
   <v-dialog
     v-model="visible"
-    content-class="dialog-popup-content"
+    content-class="modal"
     persistent
     max-width="600"
   >
-    <v-card>
-      <v-icon
-        text
-        class="dialog-popup-content__cancel-icon"
-        size="20"
-        @click="close"
-        >fas fa-times
-      </v-icon>
-      <v-card-title class="headline">{{ header }}</v-card-title>
-      <v-card-text>
-        {{ message }}
-      </v-card-text>
-      <v-card-text>
+    <div class="closeBtn">
+      <v-icon text class="cancelIcon" @click="close">mdi-close</v-icon>
+    </div>
+
+    <!-- Header -->
+    <section class="modalHeader">
+      <h3>{{ header }}</h3>
+      <v-img v-if="imagePath"
+             max-height="180"
+             max-width="180"
+             class="mx-auto modalTopImage"
+             contain
+             :src="imagePath"
+      ></v-img>
+    </section>
+
+    <!-- Body -->
+    <section class="modalBody">
+      {{ message }}
+
+      <form id="share-idea-without-login-form" @submit.stop.prevent="ok">
         <v-text-field
           ref="focus"
           v-model="email"
           v-validate="'required|email|max:100'"
           data-vv-validate-on="input"
-          append-icon="email"
+          prepend-inner-icon="email"
           :error-messages="errors.collect('email')"
           data-vv-name="email"
           label="Your Email"
@@ -31,13 +39,18 @@
           flat
           @keydown.enter="ok"
         ></v-text-field>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn text @click="cancel">{{ buttonCancelText }}</v-btn>
-        <v-btn :disabled="!allowSave" @click="ok">{{ buttonOkText }}</v-btn>
-      </v-card-actions>
-    </v-card>
+      </form>
+    </section>
+
+    <section class="modalFooter">
+      <!-- Action Buttons -->
+      <div class="text-right">
+        <v-btn class="cancelBtn" rounded text @click="close">{{
+          buttonCancelText
+          }}</v-btn>
+        <v-btn :disabled="!allowSave" rounded @click="ok">{{ buttonOkText }}</v-btn>
+      </div>
+    </section>
   </v-dialog>
 </template>
 
@@ -54,7 +67,8 @@ export default {
       header: '',
       message: '',
       buttonOkText: '',
-      buttonCancelText: ''
+      buttonCancelText: '',
+      imagePath: '',
     }
   },
   computed: {
@@ -63,11 +77,12 @@ export default {
     }
   },
   methods: {
-    show(header, message, buttonOkText, buttonCancelText) {
+    show(header, message, buttonOkText, buttonCancelText, imagePath) {
       this.header = header
       this.message = message
       this.buttonOkText = buttonOkText
       this.buttonCancelText = buttonCancelText
+      this.imagePath = imagePath
       this.email = ''
       this.$validator.reset()
       this.visible = true
@@ -101,13 +116,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-::v-deep .dialog-popup-content {
-  position: relative;
-
-  &__cancel-icon {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-  }
-}
 </style>

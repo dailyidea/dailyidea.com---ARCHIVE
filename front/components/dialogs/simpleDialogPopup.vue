@@ -8,9 +8,9 @@
     <!-- Header -->
     <section class="modalHeader">
       <h3>{{ header }}</h3>
-      <v-img
-        width="180"
-        height="180"
+      <v-img v-if="imagePath"
+        max-height="180"
+        max-width="180"
         class="mx-auto modalTopImage"
         contain
         :src="imagePath"
@@ -22,7 +22,6 @@
       {{ body }}
     </section>
 
-    <!-- Footer -->
     <section class="modalFooter">
       <!-- Action Buttons -->
       <div class="text-right">
@@ -60,7 +59,6 @@ export default {
       this.body = body
       this.buttonOk = buttonOk
       this.buttonCancel = buttonCancel
-      console.log('ip', imagePath)
       this.imagePath = imagePath
       this.visible = true
       return new Promise((resolve, reject) => {
@@ -79,3 +77,8 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  @import '~assets/style/common';
+  @import '~assets/style/modals';
+</style>
