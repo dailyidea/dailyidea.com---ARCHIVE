@@ -4,15 +4,19 @@ import os
 from datetime import date
 
 
-def send_confirmation(email_to_reply, idea, subject):
+def send_confirmation(email_to_reply, idea, user, subject):
     BUCKET_URL_PREFIX = os.environ.get('BUCKET_URL_PREFIX')
     DOMAIN_NAME = os.environ.get('DOMAIN_NAME')
     BASE_SITE_URL = f"https://{DOMAIN_NAME}"
     render_context = {
         "BUCKET_URL_PREFIX": BUCKET_URL_PREFIX,
+        "DOMAIN_NAME": DOMAIN_NAME,
         "BASE_SITE_URL": BASE_SITE_URL,
         "IDEA_LINK": f"{BASE_SITE_URL}/ideas/{idea.userId}/{idea.ideaId}",
         "idea": idea,
+        "SNOOZE_TOKEN": user.emailToken,
+        "USER_ID": user.userId,
+        "USER_NAME": user.name,
     }
     with open('./mail_templates/idea_received_confirmation/idea_received_confirmation.html') as html_template_file:
         html_template = Template(html_template_file.read())

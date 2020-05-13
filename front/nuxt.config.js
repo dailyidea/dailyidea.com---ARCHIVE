@@ -20,7 +20,22 @@ module.exports = {
         hid: 'description',
         name: 'description',
         content: 'Daily Idea'
-      }
+      },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      {
+        hid: 'og:title',
+        property: 'og:title',
+        content: 'Daily Idea: Save, Share, & Browse Interesting Ideas Online'
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content:
+          'Improve your ideation skills by entering a new idea every day. Inspire yourself and spark new ideas by browsing the best ideas by other creators: startup ideas, business ideas, project ideas, and more.'
+      },
+      { hid: 'og:site_name', property: 'og:site_name', content: 'Daily Idea' },
+      { hid: 'og:image:width', property: 'og:image:width', content: 1200 },
+      { hid: 'og:image:height', property: 'og:image:height', content: 630 }
     ],
     link: [
       {
