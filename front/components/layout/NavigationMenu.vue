@@ -128,7 +128,7 @@ export default {
 
     &__icon {
       margin-right: 16px;
-      float: right;
+      float: left;
       display: inline-block;
       font-size: 21px;
       vertical-align: top;
