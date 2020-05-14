@@ -13,21 +13,26 @@
         logged_out_greeting="Hi there! I'm Eric! If you have any feedback or questions, please chat me! :)"
       ></div>
     </client-only>
+    <app-dialog />
   </v-app>
 </template>
 
 <script>
 import '@fortawesome/fontawesome-free/css/all.css'
+import AppDialog from '@/components/dialogs/AppDialog'
 
 export default {
-  components: {},
+  components: {
+    AppDialog,
+  },
+
   mounted() {
     if (process.browser) {
       window.fbAsyncInit = function() {
         // eslint-disable-next-line
       FB.init({
           xfbml: true,
-          version: 'v6.0'
+          version: 'v6.0',
         })
       }
       ;(function(d, s, id) {
@@ -40,7 +45,7 @@ export default {
         fjs.parentNode.insertBefore(js, fjs)
       })(document, 'script', 'facebook-jssdk')
     }
-  }
+  },
 }
 </script>
 

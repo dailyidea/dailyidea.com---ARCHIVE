@@ -121,7 +121,7 @@ custom:
     number: 10
   pythonRequirements:
     dockerizePip: non-linux
-    pythonBin: /home/orion/envs/idea36/bin/python
+    pythonBin: python3
   appSync:
     # name:  # defaults to api
     authenticationType: AMAZON_COGNITO_USER_POOLS # API_KEY is also supported
