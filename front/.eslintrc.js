@@ -24,8 +24,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     'no-console': 1,
-    'no-debugger': 1,
-    'comma-dangle': ['warn', 'always-multiline'],
+    'no-debugger': 1
   },
 
   globals: {}

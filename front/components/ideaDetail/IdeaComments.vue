@@ -83,6 +83,7 @@
       message="Before we post this for everyone to see, can you please confirm your email address?"
       button-cancel-text="Delete comment"
       @hide="() => (showAskEmail = false)"
+      @cancel="() => (newCommentText = '')"
       @data="onNoAuthEmail"
     ></ask-email-dialog>
 
@@ -92,6 +93,7 @@
       message="What can we call you?"
       button-cancel-text="Delete comment"
       @hide="() => (showAskName = false)"
+      @cancel="() => (newCommentText = '')"
       @data="onNoAuthName"
     ></ask-name-dialog>
   </div>
@@ -123,20 +125,21 @@ export default {
     simpleDialogPopup,
     DefaultDialog,
     AskEmailDialog,
-    AskNameDialog,
+    AskNameDialog
   },
 
   props: {
     idea: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
 
   data() {
     return {
       tmpComment: {},
       newCommentText: '',
+      tmpCommentText: '',
       showAddCommentLoader: false,
       commentList: [],
       nextToken: null,
@@ -149,7 +152,7 @@ export default {
       showAskName: false,
       name: '',
 
-      showFirstCommentInstantiated: false,
+      showFirstCommentInstantiated: false
     }
   },
 
@@ -159,7 +162,7 @@ export default {
     },
     isAuthenticated() {
       return this.$store.getters['userData/isAuthenticated']
-    },
+    }
   },
 
   mounted() {
@@ -177,13 +180,13 @@ export default {
       if (this.idea.commentsCount > 0) {
         const fakeCommentsCount = Math.min(
           COMMENTS_COUNT,
-          this.idea.commentsCount,
+          this.idea.commentsCount
         )
         const fakeComments = []
         for (let i = 0; i < fakeCommentsCount; i++) {
           fakeComments.push({
             fake: true,
-            commentId: nanoid(),
+            commentId: nanoid()
           })
         }
         this.commentList = fakeComments
@@ -199,7 +202,7 @@ export default {
           this.commentList.push({
             fake: true,
             temporary: true,
-            commentId: this.temporaryCommentId,
+            commentId: this.temporaryCommentId
           })
           this.getTemporaryComment(this.temporaryCommentId)
         }
@@ -211,9 +214,9 @@ export default {
       const result = await this.$amplifyApi.graphql({
         query: getIdeaTemporaryComment,
         variables: {
-          commentId,
+          commentId
         },
-        authMode: 'API_KEY',
+        authMode: 'API_KEY'
       })
       if (result.data.getIdeaTemporaryComment.result.ok) {
         const temporaryComment = result.data.getIdeaTemporaryComment.comment
@@ -235,7 +238,7 @@ export default {
         'Are you sure you want to delete this comment?',
         'Yes, Delete',
         'Cancel',
-        require('~/assets/images/dialogs/undraw_throw_away_ldjd.svg'),
+        require('~/assets/images/dialogs/undraw_throw_away_ldjd.svg')
       )
       if (!confirmed) {
         return
@@ -244,7 +247,7 @@ export default {
       this.$store.commit('layoutState/showProgressBar')
       try {
         this.commentList = this.commentList.filter(
-          c => c.commentId !== comment.commentId,
+          c => c.commentId !== comment.commentId
         )
         await this.$amplifyApi.graphql(
           graphqlOperation(deleteComment, {
@@ -253,19 +256,19 @@ export default {
             ideaId: this.idea.ideaId,
             ideaName: this.idea.ideaName,
             ideaOwnerId: this.idea.userId,
-            commentId: comment.commentId,
-          }),
+            commentId: comment.commentId
+          })
         )
         // remove comment form comment list array
         this.idea.commentsCount -= 1
         this.$emit('onNotification', {
           type: 'success',
-          message: 'Comment Deleted!',
+          message: 'Comment Deleted!'
         })
       } catch (err) {
         this.$emit('onNotification', {
           type: 'error',
-          message: "Can't Delete Comment!",
+          message: "Can't Delete Comment!"
         })
       }
       this.deletingComment = false
@@ -274,6 +277,7 @@ export default {
 
     onAddCommentAttempt() {
       const commentText = this.newCommentText
+      this.tmpCommentText = commentText
       this.newCommentText = ''
       this.showAddCommentLoader = true
       const isAuthenticated = this.$store.getters['userData/isAuthenticated']
@@ -288,9 +292,9 @@ export default {
       return this.$amplifyApi.graphql({
         query: checkEmailBelongsToExistingUser,
         variables: {
-          email,
+          email
         },
-        authMode: 'API_KEY',
+        authMode: 'API_KEY'
       })
     },
 
@@ -311,14 +315,14 @@ export default {
           'Welcome back!',
           'Thanks for posting that comment!',
           undefined,
-          null,
+          null
         )
       } else {
         this.showFirstCommentInstantiated = true
         this.$amplifyApi.graphql(
           graphqlOperation(setWasWelcomed, {
-            userId: this.$store.getters['userData/userId'],
-          }),
+            userId: this.$store.getters['userData/userId']
+          })
         )
       }
       this.$router.replace({ query: null })
@@ -332,9 +336,9 @@ export default {
           body: commentText,
           ideaId: this.idea.ideaId,
           ideaName: this.idea.title,
-          ideaOwnerId: this.idea.userId,
+          ideaOwnerId: this.idea.userId
         },
-        authMode: 'API_KEY',
+        authMode: 'API_KEY'
       })
       return res.data.addIdeaTemporaryComment.comment
     },
@@ -343,45 +347,38 @@ export default {
       this.$store.commit('layoutState/showProgressBar')
       const comment = await this.createTemporaryCommentInDB(userId, commentText)
       await this.$amplifyApi.post('RequestLogin', '', {
-        body: { email, commentId: comment.commentId },
+        body: { email, commentId: comment.commentId }
       })
       this.$store.commit('layoutState/hideProgressBar')
       this.$dialog.show({
         header: 'Welcome back!',
-        message: `It looks like you weren't signed in. We just sent you a verification email. Please check your inbox and click on the link and we'll post your comment ASAP.`,
+        message: `It looks like you weren't signed in. We just sent you a verification email. Please check your inbox and click on the link and we'll post your comment ASAP.`
       })
     },
 
     async registerUserAndProcessComment(commentText) {
       this.$store.commit('layoutState/showProgressBar')
-      try {
-        const res = await this.$store.dispatch('cognito/registerUser', {
-          username: this.email,
-          password: nanoid(),
-          attributes: { name: this.name },
-        })
-        const userId = res.userSub
-        const comment = await this.createTemporaryCommentInDB(
-          userId,
-          commentText,
-        )
-        await this.$amplifyApi.post('RequestLogin', '', {
-          body: { email: this.email, commentId: comment.commentId },
-        })
-        this.$store.commit('layoutState/hideProgressBar')
-        this.$dialog.show({
-          header: 'Thanks!',
-          message: `We just sent you an email to confirm that you're a real person :) Please check your inbox then click on the link and we'll post your comment ASAP.`,
-        })
-      } catch (e) {
-        console.error(e)
-      }
+      const res = await this.$store.dispatch('cognito/registerUser', {
+        username: this.email,
+        password: nanoid(),
+        attributes: { name: this.name }
+      })
+      const userId = res.userSub
+      const comment = await this.createTemporaryCommentInDB(userId, commentText)
+      await this.$amplifyApi.post('RequestLogin', '', {
+        body: { email: this.email, commentId: comment.commentId }
+      })
+      this.$store.commit('layoutState/hideProgressBar')
+      this.$dialog.show({
+        header: 'Thanks!',
+        message: `We just sent you an email to confirm that you're a real person :) Please check your inbox then click on the link and we'll post your comment ASAP.`
+      })
       this.$store.commit('layoutState/hideProgressBar')
     },
 
     appendFakeCommentAndEncourageToRegisterOrSignUp() {
       this.showAddCommentLoader = false
-      this.addTemporaryFakeComment(this.newCommentText)
+      this.addTemporaryFakeComment(this.tmpCommentText)
       this.showAskEmail = true
     },
 
@@ -400,8 +397,9 @@ export default {
           await this.requestAuthAndProcessComment(
             userId,
             email,
-            this.newCommentText,
+            this.tmpCommentText
           )
+          this.tmpCommentText = ''
         } else {
           this.showAskName = true
         }
@@ -415,7 +413,8 @@ export default {
       this.showAskName = false
       this.name = name
       this.$store.commit('layoutState/showProgressBar')
-      await this.registerUserAndProcessComment(this.newCommentText)
+      await this.registerUserAndProcessComment(this.tmpCommentText)
+      this.tmpCommentText = ''
       this.$store.commit('layoutState/hideProgressBar')
     },
 
@@ -427,8 +426,8 @@ export default {
             ideaId: this.idea.ideaId,
             ideaOwnerId: this.idea.userId,
             userName: this.$store.getters['userData/userName'],
-            userSlug: this.$store.getters['userData/slug'],
-          }),
+            userSlug: this.$store.getters['userData/slug']
+          })
         )
         const newComment = result.data.addComment.comment
         if (instantiation) {
@@ -438,7 +437,7 @@ export default {
             this.$set(
               this.commentList[this.commentList.length - 1],
               'temporary',
-              false,
+              false
             )
           })
           this.idea.commentsCount += 1
@@ -457,12 +456,12 @@ export default {
 
         this.$emit('onNotification', {
           type: 'success',
-          message: 'Comment Added!',
+          message: 'Comment Added!'
         })
       } catch (err) {
         this.$emit('onNotification', {
           type: 'error',
-          message: "Can't add Comment. Please reload page and try again.",
+          message: "Can't add Comment. Please reload page and try again."
         })
         this.showAddCommentLoader = false
         this.newCommentText = commentText
@@ -477,11 +476,11 @@ export default {
           variables: {
             ideaId: this.$route.params.ideaId,
             limit: COMMENTS_COUNT,
-            nextToken: this.nextToken,
+            nextToken: this.nextToken
           },
           authMode: this.$store.getters['userData/isAuthenticated']
             ? undefined
-            : 'API_KEY',
+            : 'API_KEY'
         })
         if (this.nextToken) {
           const lastEl = this.$refs.commentsCol.children[1]
@@ -494,7 +493,7 @@ export default {
           })
         } else {
           this.commentList = this.commentList.filter(
-            c => c.commentId === this.temporaryCommentId,
+            c => c.commentId === this.temporaryCommentId
           ) // remove comments placeholder but not temporary comment - it is loaded separately
           for (const comment of result.data.getComments.items) {
             this.commentList.unshift(comment)
@@ -506,13 +505,13 @@ export default {
       } catch (e) {
         this.$emit('onNotification', {
           type: 'error',
-          message: "Can't load Comments. Please reload page and try again.",
+          message: "Can't load Comments. Please reload page and try again."
         })
         this.commentList = []
       }
       this.loadingMore = false
-    },
-  },
+    }
+  }
 }
 </script>
 

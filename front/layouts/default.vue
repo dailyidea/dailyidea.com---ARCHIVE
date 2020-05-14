@@ -23,7 +23,7 @@ import AppDialog from '@/components/dialogs/AppDialog'
 
 export default {
   components: {
-    AppDialog,
+    AppDialog
   },
 
   mounted() {
@@ -32,7 +32,7 @@ export default {
         // eslint-disable-next-line
       FB.init({
           xfbml: true,
-          version: 'v6.0',
+          version: 'v6.0'
         })
       }
       ;(function(d, s, id) {
@@ -45,7 +45,7 @@ export default {
         fjs.parentNode.insertBefore(js, fjs)
       })(document, 'script', 'facebook-jssdk')
     }
-  },
+  }
 }
 </script>
 

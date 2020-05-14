@@ -10,30 +10,30 @@ module.exports = {
     title: 'Daily Idea',
     meta: [
       {
-        charset: 'utf-8',
+        charset: 'utf-8'
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
+        content: 'width=device-width, initial-scale=1'
       },
       {
         hid: 'description',
         name: 'description',
-        content: 'Daily Idea',
-      },
+        content: 'Daily Idea'
+      }
     ],
     link: [
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href: '/favicon.ico',
+        href: '/favicon.ico'
       },
       {
         rel: 'stylesheet',
         href:
-          'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons',
-      },
-    ],
+          'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
+      }
+    ]
   },
   // router: {
   //   base: '/dev/'
@@ -42,7 +42,7 @@ module.exports = {
    ** Customize the progress-bar color
    */
   loading: {
-    color: '#35124e',
+    color: '#35124e'
   },
 
   /*
@@ -61,7 +61,7 @@ module.exports = {
     '@/plugins/vee-validate',
     '@/plugins/toRelativeDate',
     '@/plugins/mixins',
-    '@/plugins/app-dialog',
+    '@/plugins/app-dialog'
   ],
 
   /*
@@ -71,7 +71,7 @@ module.exports = {
 
   vuetify: {
     icons: {
-      iconfont: 'md',
+      iconfont: 'md'
     },
     theme: {
       themes: {
@@ -82,7 +82,7 @@ module.exports = {
           info: '#35124e',
           warning: '#ffb300',
           error: '#B71C1C',
-          success: '#2E7D32',
+          success: '#2E7D32'
         },
         dark: {
           primary: '#5B41BB',
@@ -91,16 +91,16 @@ module.exports = {
           info: '#35124e',
           warning: '#ffb300',
           error: '#B71C1C',
-          success: '#2E7D32',
-        },
-      },
-    },
+          success: '#2E7D32'
+        }
+      }
+    }
   },
 
   render: {
     bundleRenderer: {
-      runInNewContext: false,
-    },
+      runInNewContext: false
+    }
   },
 
   /*
@@ -109,7 +109,7 @@ module.exports = {
   build: {
     loaders: {
       scss: {
-        prependData: `@import "~@/assets/style/variables.scss";`,
+        prependData: `@import "~@/assets/style/variables.scss";`
       },
       vue: {
         transformAssetUrls: {
@@ -123,9 +123,9 @@ module.exports = {
           'v-img': ['src', 'lazy-src'],
           'v-navigation-drawer': 'src',
           'v-parallax': 'src',
-          'v-toolbar': 'src',
-        },
-      },
+          'v-toolbar': 'src'
+        }
+      }
     },
     /*
      ** You can extend webpack config here
@@ -143,14 +143,14 @@ module.exports = {
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          include: path.join(__dirname),
+          include: path.join(__dirname)
         })
       }
-    },
+    }
   },
   sentry: {
     release: process.env.STAGE === 'prod',
-    publishRelease: !!parseInt(process.env.SENTRY_PUBLISH_RELEASE),
+    publishRelease: !!parseInt(process.env.SENTRY_PUBLISH_RELEASE)
   },
   env: {
     NODE_ENV: process.env.NODE_ENV,
@@ -161,6 +161,6 @@ module.exports = {
     APPSYNC_ENDPOINT: process.env.APPSYNC_ENDPOINT,
     APPSYNC_API_KEY: process.env.APPSYNC_API_KEY,
     REQUEST_LOGIN_ENDPOINT: process.env.REQUEST_LOGIN_ENDPOINT,
-    USER_UPLOADS_S3_DOMAIN: process.env.USER_UPLOADS_S3_DOMAIN,
-  },
+    USER_UPLOADS_S3_DOMAIN: process.env.USER_UPLOADS_S3_DOMAIN
+  }
 }

@@ -21,11 +21,7 @@
                 {{ idea.title }}
               </h2>
             </v-col>
-            <v-col
-              v-if="!editMode"
-              cols="auto"
-              offset="1"
-            >
+            <v-col v-if="!editMode" cols="auto" offset="1">
               <menu-panel
                 :editable="isMyIdea"
                 :idea="idea"
@@ -39,10 +35,7 @@
               ></menu-panel>
             </v-col>
           </v-row>
-          <div
-            v-if="!editMode"
-            class="idea-part__info"
-          >
+          <div v-if="!editMode" class="idea-part__info">
             <v-row no-gutters>
               <v-col>
                 <span class="muted">By</span>
@@ -129,8 +122,8 @@
             <v-btn
               color="secondary"
               :loading="updatingIdea"
-              @click="saveIdeaContent"
               rounded
+              @click="saveIdeaContent"
               >Save
             </v-btn>
           </div>

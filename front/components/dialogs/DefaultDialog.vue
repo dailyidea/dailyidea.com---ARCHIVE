@@ -51,30 +51,30 @@ export default {
   props: {
     header: {
       type: String,
-      default: '',
+      default: ''
     },
     imagePath: {
       type: String,
-      default: '',
+      default: ''
     },
     show: Boolean,
     buttonOkText: {
       type: String,
-      default: 'Ok',
+      default: 'Ok'
     },
     buttonCancelText: {
       type: String,
-      default: 'Cancel',
+      default: 'Cancel'
     },
     buttonOkDisabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     showCancelButton: {
       type: Boolean,
-      default: true,
-    },
-  },
+      default: true
+    }
+  }
 }
 </script>
 

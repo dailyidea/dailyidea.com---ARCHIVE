@@ -6,6 +6,7 @@
       :button-cancel-text="buttonCancelText"
       :header="header"
       @hide="$emit('hide')"
+      @cancel="$emit('cancel')"
       @ok="onOk"
     >
       <p>{{ message }}</p>
@@ -27,33 +28,33 @@ import DefaultDialog from '@/components/dialogs/DefaultDialog'
 export default {
   components: {
     ValidationProvider,
-    DefaultDialog,
+    DefaultDialog
   },
 
   props: {
     show: Boolean,
     header: {
       type: String,
-      default: 'Almost there',
+      default: 'Almost there'
     },
     message: {
       type: String,
-      default: 'Your Name?',
+      default: 'Your Name?'
     },
     buttonCancelText: {
       type: String,
-      default: 'Cancel',
-    },
+      default: 'Cancel'
+    }
   },
 
   data: () => ({
-    name: '',
+    name: ''
   }),
 
   methods: {
     onOk() {
       this.$emit('data', this.name)
-    },
-  },
+    }
+  }
 }
 </script>

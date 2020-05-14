@@ -8,7 +8,8 @@
     <!-- Header -->
     <section class="modalHeader">
       <h3>{{ header }}</h3>
-      <v-img v-if="imagePath"
+      <v-img
+        v-if="imagePath"
         max-height="180"
         max-width="180"
         class="mx-auto modalTopImage"
@@ -79,6 +80,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '~assets/style/common';
-  @import '~assets/style/modals';
+@import '~assets/style/common';
+@import '~assets/style/modals';
 </style>

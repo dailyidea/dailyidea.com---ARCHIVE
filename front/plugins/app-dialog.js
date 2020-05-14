@@ -12,9 +12,9 @@ const Dialog = {
         return new Promise((resolve, reject) => {
           Dialog.eventBus.$emit('show', params, resolve)
         })
-      },
+      }
     }
-  },
+  }
 }
 
 Vue.use(Dialog)

@@ -18,7 +18,7 @@ import DefaultDialog from '@/components/dialogs/DefaultDialog'
 
 export default {
   components: {
-    DefaultDialog,
+    DefaultDialog
   },
 
   data() {
@@ -27,7 +27,7 @@ export default {
       header: '',
       message: '',
       showCancelButton: false,
-      resolve: null,
+      resolve: null
     }
   },
 
@@ -52,7 +52,7 @@ export default {
       this.visible = true
       this.resolve = resolve
       Object.assign(this, params)
-    },
-  },
+    }
+  }
 }
 </script>

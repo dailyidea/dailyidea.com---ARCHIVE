@@ -79,7 +79,7 @@ export default {
   components: {
     DefaultDialog,
     AskEmailDialog,
-    AskNameDialog,
+    AskNameDialog
   },
 
   data() {
@@ -94,7 +94,7 @@ export default {
       name: '',
 
       showFirstIdeaSaved: false,
-      showSavedByLoginLink: false,
+      showSavedByLoginLink: false
     }
   },
 
@@ -103,8 +103,8 @@ export default {
       isLoggedIn: 'cognito/isLoggedIn',
       userWasWelcomed: 'userData/wasWelcomed',
       userName: 'userData/userName',
-      userId: 'userData/userId',
-    }),
+      userId: 'userData/userId'
+    })
   },
 
   mounted() {
@@ -114,11 +114,11 @@ export default {
   methods: {
     ...mapMutations({
       showProgressBar: 'layoutState/showProgressBar',
-      hideProgressBar: 'layoutState/hideProgressBar',
+      hideProgressBar: 'layoutState/hideProgressBar'
     }),
 
     ...mapActions({
-      registerUser: 'cognito/registerUser',
+      registerUser: 'cognito/registerUser'
     }),
 
     async initIdeaSaveState() {
@@ -133,7 +133,7 @@ export default {
           } else {
             this.showFirstIdeaSaved = true
             this.$amplifyApi.graphql(
-              graphqlOperation(setWasWelcomed, { userId: this.userId }),
+              graphqlOperation(setWasWelcomed, { userId: this.userId })
             )
           }
         }
@@ -148,15 +148,15 @@ export default {
         query: likeIdea,
         variables: {
           ideaId: this.$route.params.ideaId,
-          ideaOwnerId: this.$route.params.userId,
-        },
+          ideaOwnerId: this.$route.params.userId
+        }
       })
       const result = res.data.likeIdea
       this.isLiked = true
       this.isLoading = false
       this.$emit('savedStateChanged', {
         liked: true,
-        likesCount: result.likesCount,
+        likesCount: result.likesCount
       })
       return res
     },
@@ -167,15 +167,15 @@ export default {
         query: unlikeIdea,
         variables: {
           ideaId: this.$route.params.ideaId,
-          ideaOwnerId: this.$route.params.userId,
-        },
+          ideaOwnerId: this.$route.params.userId
+        }
       })
       const result = res.data.unlikeIdea
       this.isLiked = false
       this.isLoading = false
       this.$emit('savedStateChanged', {
         liked: false,
-        likesCount: result.likesCount,
+        likesCount: result.likesCount
       })
     },
 
@@ -191,7 +191,7 @@ export default {
       return this.$amplifyApi.graphql({
         query: checkEmailBelongsToExistingUser,
         variables: { email },
-        authMode: 'API_KEY',
+        authMode: 'API_KEY'
       })
     },
 
@@ -199,28 +199,28 @@ export default {
       await this.registerUser({
         username: this.email,
         password: nanoid(),
-        attributes: { name: this.name },
+        attributes: { name: this.name }
       })
       await this.$amplifyApi.post('RequestLogin', '', {
-        body: { email: this.email, ideaToSaveId: this.$route.params.ideaId },
+        body: { email: this.email, ideaToSaveId: this.$route.params.ideaId }
       })
       this.$dialog.show({
         header: `Awesome, ${this.name}!`,
         message: `We just sent you an email, which we'll just use to make sure we can find your saved
-        ideas later. Please check your inbox and click the link the confirmation link to finish saving this idea.`,
+        ideas later. Please check your inbox and click the link the confirmation link to finish saving this idea.`
       })
     },
 
     async requestAuthAndProcessIdeaSaving(email, ideaToSaveId) {
       this.showProgressBar()
       await this.$amplifyApi.post('RequestLogin', '', {
-        body: { email, ideaToSaveId },
+        body: { email, ideaToSaveId }
       })
       this.$dialog.show({
         header: 'Welcome back!',
         message: `We sent you a confirmation email. Please check your inbox and click the
         verification link in the message so we can make sure we're saving this
-        idea to the right account.`,
+        idea to the right account.`
       })
       this.hideProgressBar()
     },
@@ -232,14 +232,14 @@ export default {
       try {
         const result = await this.checkEmailBelongsToExistingUser(this.email)
         const {
-          belongsToExistingUser,
+          belongsToExistingUser
         } = result.data.checkEmailBelongsToExistingUser
         this.hideProgressBar()
 
         if (belongsToExistingUser) {
           this.requestAuthAndProcessIdeaSaving(
             this.email,
-            this.$route.params.ideaId,
+            this.$route.params.ideaId
           )
         } else {
           this.showAskName = true
@@ -274,7 +274,7 @@ export default {
         this.isLoading = true
         const res = await this.$amplifyApi.graphql({
           query: getIsIdeaLikedByMe,
-          variables: { ideaId: this.$route.params.ideaId },
+          variables: { ideaId: this.$route.params.ideaId }
         })
         const result = res.data.getIsIdeaLikedByMe
         if (result.result.ok) {
@@ -282,8 +282,8 @@ export default {
         }
         this.isLoading = false
       }
-    },
-  },
+    }
+  }
 }
 </script>
 

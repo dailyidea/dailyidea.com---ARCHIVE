@@ -1,10 +1,5 @@
 <template>
-  <v-dialog
-    v-model="visible"
-    content-class="modal"
-    persistent
-    max-width="600"
-  >
+  <v-dialog v-model="visible" content-class="modal" persistent max-width="600">
     <div class="closeBtn">
       <v-icon text class="cancelIcon" @click="close">mdi-close</v-icon>
     </div>
@@ -24,7 +19,8 @@
     <!-- Body -->
     <section class="modalBody">
       <p>
-        We'll compile the best ideas from all over the internet and send them to you.
+        We'll compile the best ideas from all over the internet and send them to
+        you.
       </p>
       <p>
         Additionally, you'll be able to:
@@ -34,38 +30,34 @@
           <i class="fa fa-check"></i> Save the current post and return to it
           later
         </li>
-        <li>
-          <i class="fa fa-check"></i> Follow certain users
-          </li>
-        <li>
-          <i class="fa fa-check"></i> Post your own ideas
-        </li>
+        <li><i class="fa fa-check"></i> Follow certain users</li>
+        <li><i class="fa fa-check"></i> Post your own ideas</li>
       </ul>
 
       <!-- form -->
       <form @submit.stop.prevent="signup">
-      <v-text-field
-        v-model="name"
-        v-validate="'required|max:100'"
-        :error-messages="errors.collect('name')"
-        data-vv-name="name"
-        label="Your name"
-        single-line
-        flat
-        placeholder="Your Name"
-        prepend-inner-icon="mdi-account-circle-outline"
-      ></v-text-field>
-      <v-text-field
-        v-model="email"
-        v-validate="'required|email'"
-        :error-messages="errors.collect('email')"
-        data-vv-name="email"
-        single-line
-        flat
-        label="Your Email"
-        placeholder="Your Email"
-        prepend-inner-icon="mdi-email-outline"
-      ></v-text-field>
+        <v-text-field
+          v-model="name"
+          v-validate="'required|max:100'"
+          :error-messages="errors.collect('name')"
+          data-vv-name="name"
+          label="Your name"
+          single-line
+          flat
+          placeholder="Your Name"
+          prepend-inner-icon="mdi-account-circle-outline"
+        ></v-text-field>
+        <v-text-field
+          v-model="email"
+          v-validate="'required|email'"
+          :error-messages="errors.collect('email')"
+          data-vv-name="email"
+          single-line
+          flat
+          label="Your Email"
+          placeholder="Your Email"
+          prepend-inner-icon="mdi-email-outline"
+        ></v-text-field>
       </form>
 
       <!-- Email Already Exists Message -->
@@ -84,10 +76,11 @@
       <!-- Action Buttons -->
       <div class="text-right">
         <v-btn class="cancelBtn" rounded text @click="close">Cancel</v-btn>
-        <v-btn :loading="registerInProgress" rounded @click="signup">Sign Up</v-btn>
+        <v-btn :loading="registerInProgress" rounded @click="signup"
+          >Sign Up</v-btn
+        >
       </div>
     </section>
-
   </v-dialog>
 </template>
 
