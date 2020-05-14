@@ -83,7 +83,7 @@
       message="Before we post this for everyone to see, can you please confirm your email address?"
       button-cancel-text="Delete comment"
       @hide="() => (showAskEmail = false)"
-      @cancel="() => (newCommentText = '')"
+      @cancel="cancelNewComment"
       @data="onNoAuthEmail"
     ></ask-email-dialog>
 
@@ -93,7 +93,7 @@
       message="What can we call you?"
       button-cancel-text="Delete comment"
       @hide="() => (showAskName = false)"
-      @cancel="() => (newCommentText = '')"
+      @cancel="cancelNewComment"
       @data="onNoAuthName"
     ></ask-name-dialog>
   </div>
@@ -510,6 +510,11 @@ export default {
         this.commentList = []
       }
       this.loadingMore = false
+    },
+
+    cancelNewComment() {
+      this.newCommentText = ''
+      this.commentList.pop()
     }
   }
 }
