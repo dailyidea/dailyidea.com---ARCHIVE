@@ -13,6 +13,9 @@
       />
     </v-col>
     <v-col cols="12" md="4" class="auth-page__content">
+      <v-icon class="auth-page__go-back-icon hidden-md-and-up" @click="goBack()"
+        >fas fa-times</v-icon>
+
       <div class="auth-page__content__header">
         <div class="auth-page__content__header__lamp-image-container">
           <div
@@ -48,6 +51,8 @@
       </div>
     </v-col>
     <v-col cols="0" md="4" class="auth-page__right">
+      <v-icon class="auth-page__go-back-icon" @click="goBack()"
+        >fas fa-times</v-icon>
       <img
         src="~/assets/images/smallTree.png"
         class="auth-page__right__tree  hidden-sm-and-down"
@@ -71,6 +76,13 @@ export default {
       default: false
     }
   },
+
+  methods: {
+    goBack() {
+      window.history.back();
+    }
+  },
+
   computed: {},
   mounted() {
     this.$el.removeAttribute('hidden')
@@ -84,6 +96,13 @@ export default {
   background-size: 100% auto;
   background-position: 50% 120%;
   background-repeat: no-repeat;
+
+  &__go-back-icon {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    color: $color-muted-grey;
+  }
 
   &__content {
     position: relative;
