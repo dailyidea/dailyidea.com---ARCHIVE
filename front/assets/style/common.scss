@@ -18,7 +18,7 @@
 
 .muted,
 .muted .v-icon {
-  color: $color-muted-grey;
+  color: $color-muted-grey !important;
 }
 
 form .v-input__prepend-inner {

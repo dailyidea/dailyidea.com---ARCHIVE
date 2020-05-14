@@ -178,7 +178,7 @@ export default {
     .subTitle {
       padding: 10px 0px;
       font-size: 16px;
-      color: $accent-color;
+      color: $color-muted-grey;
     }
     .emailInput {
       padding-top: 20px;
