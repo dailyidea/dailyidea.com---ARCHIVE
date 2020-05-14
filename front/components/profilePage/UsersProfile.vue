@@ -16,9 +16,6 @@
               @click="selectAvatar"
               v-on="on"
             >
-              <span v-if="!avatarIsSet" class="user-avatar__default">
-                <v-icon>fas fa-user</v-icon>
-              </span>
             </div>
           </template>
           <span>Click to update your avatar</span>
@@ -229,9 +226,11 @@ import updateProfileInfo from '@/graphql/mutations/updateProfileInfo'
 import IdeasListIdea from '@/components/ideasList/ideasListIdea'
 import VisualNotifier from '~/components/VisualNotifier'
 import uploadAvatar from '~/graphql/mutations/uploadAvatar'
+import AvatarMixin from '~/mixins/avatar.js'
 
 export default {
   name: 'UsersProfile',
+  mixins: [AvatarMixin],
   components: {
     IdeasListIdea,
     Layout,
@@ -290,18 +289,6 @@ export default {
         v => (v && v.length > 3) || 'Name must be more than 3 characters'
       ]
     },
-    avatarIsSet() {
-      return !!this.profileData.avatar
-    },
-    avatarStyle() {
-      if (this.avatarIsSet) {
-        return {
-          'background-image': `url(${this.profileData.avatar})`
-        }
-      } else {
-        return {}
-      }
-    }
   },
   created() {
     this.profileData = this.initialProfileData
@@ -441,7 +428,6 @@ export default {
 .user-avatar {
   &__container {
     display: flex;
-    align-items: center;
     justify-content: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -454,33 +440,14 @@ export default {
     }
 
     border-radius: 50%;
-    background-color: #ebe7ed;
     transition: background-color, opacity 0.2s ease;
 
     &.changeable {
       cursor: pointer;
 
-      &:not(.with-avatar) {
-        &:hover {
-          background-color: #dcd8de;
-        }
+      &:hover {
+        opacity: 0.8;
       }
-
-      &.with-avatar {
-        &:hover {
-          opacity: 0.8;
-        }
-      }
-
-      &:active {
-        background-color: #d3cfd5;
-      }
-    }
-  }
-  &__default .v-icon {
-    font-size: 70px;
-    @media (max-width: $screen-md-max) {
-      font-size: 50px;
     }
   }
 }

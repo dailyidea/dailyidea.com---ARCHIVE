@@ -22,11 +22,7 @@
           <v-menu offset-y nudge-bottom="15" left :disabled="!isAuthenticated">
             <template v-slot:activator="{ on }">
               <a v-if="isAuthenticated" v-on="on">
-                <span v-if="!userAvatar" class="profileBtn" icon fab>
-                  <v-icon>mdi-account-circle</v-icon>
-                </span>
                 <span
-                  v-else
                   class="userAvatarContainer"
                   :style="avatarStyle"
                 ></span>
@@ -70,9 +66,11 @@
 
 <script>
 import SearchComponent from './SearchComponent'
+import AvatarMixin from '~/mixins/avatar.js';
 
 export default {
   name: 'DesktopHeader',
+  mixins: [AvatarMixin],
   components: {
     SearchComponent
   },
@@ -86,18 +84,7 @@ export default {
     userName() {
       return this.$store.getters['userData/userName']
     },
-    userAvatar() {
-      return this.$store.getters['userData/avatar']
-    },
-    avatarStyle() {
-      if (!this.userAvatar) {
-        return {}
-      } else {
-        return {
-          'background-image': `url(${this.userAvatar})`
-        }
-      }
-    },
+    
     isAuthenticated() {
       return this.$store.state.userData.isAuthenticated
     },
@@ -150,7 +137,6 @@ export default {
     vertical-align: middle;
     cursor: pointer;
     transition: opacity 0.2s ease;
-    background-color: #ebe7ed;
     &:hover {
       opacity: 0.8;
     }
