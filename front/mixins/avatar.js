@@ -3,11 +3,19 @@ export default {
 
   data() {
     return {
-      avatarUrl:"https://avatars.dicebear.com/v2/human/botts.svg", 
+      baseBotttsURL:"https://avatars.dicebear.com/api/bottts/", 
     }
   },
 
   computed: {
+    userId() {
+      return this.$store.getters['userData/userId'];
+    },
+
+    defaultAvatar() {
+      return this.baseBotttsURL + `${this.userId}.svg`;
+    },
+
     userAvatar() {
       return this.$store.getters['userData/avatar'];
     },
@@ -16,29 +24,13 @@ export default {
       if(this.userAvatar) {
         return this.userAvatar;
       } else {
-        return this.profileData.avatar;
+        return this.defaultAvatar;
       }
-    },
-
-    avatarIsSet() {
-      if(this.profileData) {
-        return !!this.profileData.avatar
-      } else if(this.userAvatar) {
-        return true;
-      }
-
-      return false;
     },
 
     avatarStyle() {
-      if (this.avatarIsSet) {
-        return {
-          'background-image': `url(${this.avatar})`
-        }
-      } else {
-        return {
-          'background-image': `url(${this.avatarUrl})`
-        }
+      return {
+        'background-image': `url(${this.avatar})`
       }
     }
   }
