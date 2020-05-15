@@ -21,11 +21,7 @@
                 {{ idea.title }}
               </h2>
             </v-col>
-            <v-col
-              v-if="!editMode"
-              cols="auto"
-              offset="1"
-            >
+            <v-col v-if="!editMode" cols="auto" offset="1">
               <menu-panel
                 :editable="isMyIdea"
                 :idea="idea"
@@ -39,10 +35,7 @@
               ></menu-panel>
             </v-col>
           </v-row>
-          <div
-            v-if="!editMode"
-            class="idea-part__info"
-          >
+          <div v-if="!editMode" class="idea-part__info">
             <v-row no-gutters>
               <v-col>
                 <span class="muted">By</span>
@@ -129,8 +122,8 @@
             <v-btn
               color="secondary"
               :loading="updatingIdea"
-              @click="saveIdeaContent"
               rounded
+              @click="saveIdeaContent"
               >Save
             </v-btn>
           </div>
@@ -155,6 +148,7 @@
 </template>
 
 <script>
+import clip from 'text-clipper'
 import { graphqlOperation } from '@aws-amplify/api'
 import Layout from '@/components/layout/Layout'
 import TrixWrapper from '@/components/TrixWrapper'
@@ -385,10 +379,21 @@ export default {
   },
   head() {
     const defaultLogo = require('~/assets/images/bulb_with_light_holder.png')
+    const truncatedIdeaContent = clip(this.idea.content, 180, {
+      html: true,
+      maxLines: 8,
+      indicator: '... (see more)'
+    })
+    const ogDescription = truncatedIdeaContent.replace(/<\/?[^>]+(>|$)/g, '')
     return {
       title: `${this.idea.title} - Daily Idea`,
       meta: [
         { hid: 'og:title', property: 'og:title', content: this.idea.title },
+        {
+          hid: 'og:description',
+          property: 'og:description',
+          content: ogDescription
+        },
         {
           hid: 'og:image',
           property: 'og:image',

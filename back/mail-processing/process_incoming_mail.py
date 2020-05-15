@@ -183,7 +183,7 @@ def process_incoming_mail(parsed_email):
     idea.commentsCount = 0
     idea.sortKey = 'idea'
     idea.save()
-    send_confirmation(parsed_email.from_[0][1], idea, f"Re: {parsed_email.subject}")
+    send_confirmation(parsed_email.from_[0][1], idea, user, f"Re: {parsed_email.subject}")
 
 
 def endpoint(event, context):
