@@ -41,8 +41,7 @@
     "vue-advanced-cropper": "^0.16.0",
     "vue-notifications": "1.0.2",
     "vue-snotify": "3.2.1",
-    "vue-trix": "^0.9.0",
-    "vuex": "^3.4.0"
+    "vue-trix": "^0.9.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "1.1.2",
