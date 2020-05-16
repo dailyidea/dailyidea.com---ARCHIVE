@@ -4,12 +4,13 @@ from utils.common import progressive_chunks, SEND_BATCH_EMAIL_CHUNK_SIZE
 from utils.models import UserModel
 from mail_templates.request_daily_idea.send_request_daily import send_daily_bulk
 import datetime
-
+from raven import Client # Offical `raven` module
+from raven_python_lambda import RavenLambdaWrapper
 
 # logger = logging.getLogger()
 # logger.setLevel(logging.INFO)
 
-
+@RavenLambdaWrapper()
 def endpoint(event, context):
     now = datetime.datetime.now()
     users_iterator = UserModel.scan(

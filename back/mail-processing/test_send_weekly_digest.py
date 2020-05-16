@@ -5,7 +5,8 @@ from utils.common import progressive_chunks, SEND_BATCH_EMAIL_CHUNK_SIZE
 from utils.models import UserModel, IdeaModel
 
 from mail_templates.weekly_digest.send_weekly_digest import bulk_send_weekly_digest
-
+from raven import Client # Offical `raven` module
+from raven_python_lambda import RavenLambdaWrapper
 
 def get_mails_to_send():
     today = datetime.now()
@@ -15,7 +16,7 @@ def get_mails_to_send():
                                                                 limit=100, scan_index_forward=False)
         yield (user, list(ideas_last_week))
 
-
+@RavenLambdaWrapper()
 def handler(event, context):
     for chunk_to_send in progressive_chunks(get_mails_to_send(), SEND_BATCH_EMAIL_CHUNK_SIZE):
         bulk_send_weekly_digest(chunk_to_send)
