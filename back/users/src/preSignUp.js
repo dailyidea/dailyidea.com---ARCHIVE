@@ -1,7 +1,9 @@
 const aws = require("aws-sdk");
 const cognitoidentityserviceprovider = new aws.CognitoIdentityServiceProvider();
+const Raven = require("raven");
+const RavenLambdaWrapper = require("serverless-sentry-lib");
 
-exports.handler = async (event, context, callback) => {
+exports.handler = RavenLambdaWrapper.handler(Raven, async (event, context, callback) => {
   const params = {
     UserPoolId: process.env.USER_POOL_ID /* required */,
     AttributesToGet: [
@@ -20,6 +22,7 @@ exports.handler = async (event, context, callback) => {
       userAlreadyExists = false;
     }
   } catch (e) {
+    Raven.captureException(e)
     console.log(e);
   }
   if (!userAlreadyExists) {
@@ -34,4 +37,4 @@ exports.handler = async (event, context, callback) => {
 
   // Return to Amazon Cognito
   callback(null, event);
-};
+});

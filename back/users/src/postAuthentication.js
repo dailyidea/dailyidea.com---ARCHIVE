@@ -1,7 +1,9 @@
 const aws = require("aws-sdk");
 const ddb = new aws.DynamoDB({ apiVersion: "2012-10-08" });
+const Raven = require("raven");
+const RavenLambdaWrapper = require("serverless-sentry-lib");
 
-exports.handler = async (event, context, callback) => {
+exports.handler = RavenLambdaWrapper.handler(Raven, async (event, context, callback) => {
   // Send post authentication data to Cloudwatch logs
   console.log("Authentication successful");
   console.log("Trigger function =", event.triggerSource);
@@ -64,4 +66,4 @@ exports.handler = async (event, context, callback) => {
 
   // Return to Amazon Cognito
   callback(null, event);
-};
+});

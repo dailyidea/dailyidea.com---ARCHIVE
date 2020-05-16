@@ -1,4 +1,7 @@
-exports.handler = function (event, context) {
+const Raven = require("raven");
+const RavenLambdaWrapper = require("serverless-sentry-lib");
+
+exports.handler = RavenLambdaWrapper.handler(Raven, function (event, context) {
   if (!event.request.session || event.request.session.length === 0) {
     // If we don't have a session or it is empty then send a CUSTOM_CHALLENGE
     event.response.challengeName = 'CUSTOM_CHALLENGE';
@@ -17,4 +20,4 @@ exports.handler = function (event, context) {
     event.response.issueTokens = false;
   }
   context.done(null, event)
-}
+})

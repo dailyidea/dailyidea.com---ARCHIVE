@@ -8,6 +8,9 @@ provider:
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
   emailStaticBucketName: dailyidea-serverless-email-static-${self:provider.stage}
   userUploadsStaticBucketName: dailyidea-appsync-user-uploads-static-${self:provider.stage}
+  environment:
+    SENTRY_ENVIRONMENT: ${opt:stage, self:provider.stage}
+    SENTRY_DSN: ${env:SENTRY_DSN}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -20,6 +23,8 @@ custom:
   ideasTableName: dailyidea-ideas-${self:provider.stage}
   ideaCommentsTemporaryTableName: dailyidea-comments-temporary-${self:provider.stage}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
+  sentry:
+    dsn: ${env:SENTRY_DSN}
   prune:
     automatic: true
     number: 10

@@ -1,5 +1,7 @@
 const aws = require("aws-sdk");
 const ddb = new aws.DynamoDB({ apiVersion: "2012-10-08" });
+const Raven = require("raven");
+const RavenLambdaWrapper = require("serverless-sentry-lib");
 
 function makeid(length) {
    let result           = '';
@@ -50,7 +52,7 @@ function makeid(length) {
 
 
 
-exports.handler = async (event, context) => {
+exports.handler = RavenLambdaWrapper.handler(Raven, async (event, context) => {
   const date = new Date();
 
   const tableName = process.env.TABLE_NAME;
@@ -125,4 +127,4 @@ exports.handler = async (event, context) => {
     console.log("Error: Nothing was written to DDB or SQS");
     context.done(null, event);
   }
-};
+});
