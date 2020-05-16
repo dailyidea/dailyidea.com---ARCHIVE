@@ -2,10 +2,12 @@ import boto3
 import uuid
 import datetime
 import os
+from raven import Client # Offical `raven` module
+from raven_python_lambda import RavenLambdaWrapper
 
 client = boto3.client('dynamodb', region_name='us-east-1')
 
-
+@RavenLambdaWrapper()
 def endpoint(event, lambda_context):
     ctx = event.get('ctx')
     arguments = ctx.get('arguments')

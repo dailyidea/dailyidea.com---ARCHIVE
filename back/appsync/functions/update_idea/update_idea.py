@@ -2,7 +2,8 @@ import boto3
 import logging
 import datetime
 import os
-
+from raven import Client # Offical `raven` module
+from raven_python_lambda import RavenLambdaWrapper
 
 from ..utils.common_db_utils import chunks, BATCH_WRITE_CHUNK_SIZE
 from ..utils.idea_utils import sanitize_idea_content, prepare_idea_tags_for_put_request, \
@@ -13,7 +14,7 @@ from ..utils.idea_utils import sanitize_idea_content, prepare_idea_tags_for_put_
 # logger.setLevel(logging.INFO)
 
 
-
+@RavenLambdaWrapper()
 def endpoint(event, lambda_context):
     ctx = event.get('ctx')
     arguments = ctx.get('arguments')

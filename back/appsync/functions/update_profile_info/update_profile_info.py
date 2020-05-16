@@ -4,6 +4,8 @@ import uuid
 import json
 
 import os
+from raven import Client # Offical `raven` module
+from raven_python_lambda import RavenLambdaWrapper
 
 dynamodb = boto3.client('dynamodb', region_name=os.environ['AWS_REGION'])
 lambda_client = boto3.client('lambda', region_name=os.environ['AWS_REGION'])
@@ -15,7 +17,7 @@ UPDATE_PROFILE_INFO_IN_CREATED_IDEAS_FUNCTION_NAME = os.environ.get(
     'UPDATE_PROFILE_INFO_IN_CREATED_IDEAS_FUNCTION_NAME')
 USERS_TABLE_NAME = os.environ.get('USERS_TABLE_NAME')
 
-
+@RavenLambdaWrapper()
 def endpoint(event, lambda_context):
     ctx = event.get('ctx')
     arguments = ctx.get('arguments')

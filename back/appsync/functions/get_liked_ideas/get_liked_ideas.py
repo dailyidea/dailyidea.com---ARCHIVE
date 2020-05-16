@@ -4,6 +4,8 @@ from ..utils.json_util import loads as dynamo_loads
 import os
 import json
 import datetime
+from raven import Client # Offical `raven` module
+from raven_python_lambda import RavenLambdaWrapper
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -11,7 +13,7 @@ logger.setLevel(logging.INFO)
 DEFAULT_LIMIT = 25
 MAX_LIMIT = 100
 
-
+@RavenLambdaWrapper()
 def endpoint(event, context):
     client = boto3.client('dynamodb', region_name='us-east-1')
     userId = event['identity']['username']

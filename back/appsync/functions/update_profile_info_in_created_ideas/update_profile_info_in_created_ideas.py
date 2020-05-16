@@ -1,5 +1,7 @@
 import boto3
 import os
+from raven import Client # Offical `raven` module
+from raven_python_lambda import RavenLambdaWrapper
 
 dynamodb = boto3.client('dynamodb', region_name='us-east-1')
 IDEAS_TABLE_NAME = os.environ.get('IDEAS_TABLE_NAME')
@@ -64,7 +66,7 @@ def update_user_info_in_ideas(user_id, ideas_id_list, name=None, slug=None, avat
             ExpressionAttributeValues=attribute_values
         )
 
-
+@RavenLambdaWrapper()
 def endpoint(payload, lambda_context):
     user_name = payload.get('authorName')
     user_id = payload.get('userId')

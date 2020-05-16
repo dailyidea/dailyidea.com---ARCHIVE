@@ -7,12 +7,13 @@ import os
 
 from ..utils.common_db_utils import chunks, BATCH_WRITE_CHUNK_SIZE
 from ..utils.idea_utils import sanitize_idea_content, prepare_idea_tags_for_put_request
-
+from raven import Client # Offical `raven` module
+from raven_python_lambda import RavenLambdaWrapper
 
 # logger = logging.getLogger()
 # logger.setLevel(logging.INFO)
 
-
+@RavenLambdaWrapper()
 def endpoint(event, lambda_context):
     ctx = event.get('ctx')
     arguments = ctx.get('arguments')

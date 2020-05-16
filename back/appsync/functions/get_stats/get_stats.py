@@ -1,6 +1,8 @@
 import boto3
 import os
 from datetime import datetime, timedelta
+from raven import Client # Offical `raven` module
+from raven_python_lambda import RavenLambdaWrapper
 
 client = boto3.client('dynamodb', region_name='us-east-1')
 
@@ -78,7 +80,7 @@ def get_formatted_result(table_name, *args):
         'total': total,
     }
 
-
+@RavenLambdaWrapper()
 def endpoint(event, context):
     resp = {}
     resp['ideas'] = get_formatted_result(IDEAS_TABLE_NAME, 'sortKey', 'idea', 'allIdeasByDate')

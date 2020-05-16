@@ -5,6 +5,8 @@ from jinja2 import Template
 import boto3
 from ..utils.json_util import loads
 from datetime import datetime
+from raven import Client # Offical `raven` module
+from raven_python_lambda import RavenLambdaWrapper
 
 client = boto3.client('dynamodb', region_name=os.environ['AWS_REGION'])
 
@@ -56,7 +58,7 @@ def create_stats_record(idea_id: str, idea_owner_id: str, email: str, sharer: st
         }
     )
 
-
+@RavenLambdaWrapper()
 def endpoint(event, context):
     # logger.info(event)
     ctx = event.get('ctx')

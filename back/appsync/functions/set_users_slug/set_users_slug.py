@@ -5,6 +5,8 @@ import uuid
 
 # import datetime
 import os
+from raven import Client # Offical `raven` module
+from raven_python_lambda import RavenLambdaWrapper
 
 client = boto3.client('dynamodb', region_name='us-east-1')
 # logger = logging.getLogger()
@@ -42,7 +44,7 @@ def set_users_slug(user_id, slug):
         }
     )
 
-
+@RavenLambdaWrapper()
 def endpoint(payload, lambda_context):
     user_name = payload.get('userName')
     user_id = payload.get('userId')

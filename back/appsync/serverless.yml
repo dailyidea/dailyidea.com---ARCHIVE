@@ -14,12 +14,15 @@ provider:
   environment:
     SES_AWS_REGION: ${self:provider.region}
     MAILBOX_ADDR: ${env:MAILBOX, 'ideas@beta.dailyidea.com'}
+    SENTRY_ENVIRONMENT: ${opt:stage, self:provider.stage}
+    SENTRY_DSN: ${env:SENTRY_DSN}
 
 plugins:
   - serverless-offline
   - serverless-appsync-plugin
   - serverless-python-requirements
   - serverless-prune-plugin
+  - serverless-sentry
 
 functions:
   getStats:
@@ -116,12 +119,14 @@ custom:
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
   setUsersSlugFunctionName: dailyidea-appsync-backend-${self:provider.stage}-setUsersSlug
   updateProfileInfoInCreatedIdeasFunctionName: dailyidea-appsync-backend-${self:provider.stage}-updateProfileInfoInCreatedIdeas
+  sentry:
+    dsn: ${env:SENTRY_DSN}
   prune:
     automatic: true
     number: 10
   pythonRequirements:
     dockerizePip: non-linux
-    pythonBin: /home/orion/envs/idea36/bin/python
+    pythonBin: python3
   appSync:
     # name:  # defaults to api
     authenticationType: AMAZON_COGNITO_USER_POOLS # API_KEY is also supported

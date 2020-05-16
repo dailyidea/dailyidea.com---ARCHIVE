@@ -12,13 +12,16 @@
   },
   "dependencies": {
     "aws-sdk": "^2.521.0",
-    "serverless-appsync-plugin": "^1.1.2"
+    "raven": "^2.6.4",
+    "serverless-appsync-plugin": "^1.1.2",
+    "serverless-sentry-lib": "^1.1.2"
   },
   "devDependencies": {
     "env-cmd": "^10.0.1",
     "serverless": "^1.51.0",
     "serverless-offline": "^5.10.1",
     "serverless-prune-plugin": "^1.4.2",
-    "serverless-python-requirements": "^4.3.0"
+    "serverless-python-requirements": "^4.3.0",
+    "serverless-sentry": "^1.2.0"
   }
 }
