@@ -78,7 +78,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import '~assets/style/common';
 @import '~assets/style/modals';
 </style>
