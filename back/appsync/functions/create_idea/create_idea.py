@@ -7,13 +7,14 @@ import os
 
 from ..utils.common_db_utils import chunks, BATCH_WRITE_CHUNK_SIZE
 from ..utils.idea_utils import sanitize_idea_content, prepare_idea_tags_for_put_request
-from raven import Client # Offical `raven` module
-from raven_python_lambda import RavenLambdaWrapper
+import sentry_sdk
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
+
+sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegration()])
 
 # logger = logging.getLogger()
 # logger.setLevel(logging.INFO)
 
-@RavenLambdaWrapper()
 def endpoint(event, lambda_context):
     ctx = event.get('ctx')
     arguments = ctx.get('arguments')
@@ -22,6 +23,7 @@ def endpoint(event, lambda_context):
     tags = arguments.get('tags', list())
     image_attachments = arguments.get('imageAttachments', list())
     file_attachments = arguments.get('fileAttachments', list())
+
     if len(tags) > 100:
         raise Exception('Too much tags')
     is_private = arguments.get('isPrivate', False)

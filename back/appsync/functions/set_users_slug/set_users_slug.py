@@ -5,8 +5,10 @@ import uuid
 
 # import datetime
 import os
-from raven import Client # Offical `raven` module
-from raven_python_lambda import RavenLambdaWrapper
+import sentry_sdk
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
+
+sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegration()])
 
 client = boto3.client('dynamodb', region_name='us-east-1')
 # logger = logging.getLogger()
@@ -44,7 +46,6 @@ def set_users_slug(user_id, slug):
         }
     )
 
-@RavenLambdaWrapper()
 def endpoint(payload, lambda_context):
     user_name = payload.get('userName')
     user_id = payload.get('userId')

@@ -1,12 +1,13 @@
 import json
 import logging
-from raven import Client # Offical `raven` module
-from raven_python_lambda import RavenLambdaWrapper
+import sentry_sdk
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
+
+sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegration()])
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-@RavenLambdaWrapper()
 def endpoint(event, lambda_context):
     logger.info(event)
     logger.info(event['ctx']['stash'])
