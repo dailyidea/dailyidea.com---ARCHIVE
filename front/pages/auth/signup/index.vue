@@ -12,6 +12,7 @@
         flat
         placeholder="What is your name?"
         prepend-inner-icon="mdi-account-circle-outline"
+        ref="name"
       ></v-text-field>
 
       <!-- Email Input Box -->
@@ -60,7 +61,17 @@ import registerPageMixin from '@/plugins/registerPageMixin'
 export default {
   name: 'Index',
   components: { AuthPage },
-  mixins: [registerPageMixin]
+  mixins: [registerPageMixin],
+
+  mounted() {
+    this.focusField();
+  },
+
+  methods : {
+    focusField() {
+      this.$refs.name.$refs.input.click();
+    }
+  }
 }
 </script>
 
