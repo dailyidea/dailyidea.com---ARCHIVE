@@ -60,7 +60,6 @@
         </template>
       </v-text-field>
     </div>
-    <simple-dialog-popup ref="simpleDialogPopup"></simple-dialog-popup>
 
     <default-dialog
       :show="showFirstCommentInstantiated"
@@ -102,13 +101,13 @@
 <script>
 import nanoid from 'nanoid'
 import { graphqlOperation } from '@aws-amplify/api'
+import { mapMutations, mapGetters } from 'vuex'
 import IdeaCommentsComment from './IdeaCommentsComment'
 import AskEmailDialog from './AskEmailDialog'
 import AskNameDialog from './AskNameDialog'
 import addComment from '~/graphql/mutations/addComment'
 import getComments from '~/graphql/query/getComments'
 import deleteComment from '~/graphql/mutations/deleteComment'
-import simpleDialogPopup from '~/components/dialogs/simpleDialogPopup'
 import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
 import addIdeaTemporaryComment from '@/graphql/mutations/addIdeaTemporaryComment'
 import getIdeaTemporaryComment from '@/graphql/query/getIdeaTemporaryComment'
@@ -122,7 +121,6 @@ export default {
 
   components: {
     IdeaCommentsComment,
-    simpleDialogPopup,
     DefaultDialog,
     AskEmailDialog,
     AskNameDialog
@@ -157,11 +155,12 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      isAuthenticated: 'userData/isAuthenticated'
+    }),
+
     readyForSend() {
       return this.newCommentText.length > 0
-    },
-    isAuthenticated() {
-      return this.$store.getters['userData/isAuthenticated']
     }
   },
 
@@ -170,6 +169,11 @@ export default {
   },
 
   methods: {
+    ...mapMutations({
+      showProgressBar: 'layoutState/showProgressBar',
+      hideProgressBar: 'layoutState/hideProgressBar'
+    }),
+
     scrollToBottom() {
       this.$nextTick(() => {
         this.$refs.scroller.scrollTop = this.$refs.scroller.scrollHeight
@@ -233,18 +237,18 @@ export default {
     },
 
     async onDeleteComment(comment) {
-      const confirmed = await this.$refs.simpleDialogPopup.show(
-        'Delete Comment',
-        'Are you sure you want to delete this comment?',
-        'Yes, Delete',
-        'Cancel',
-        require('~/assets/images/dialogs/undraw_throw_away_ldjd.svg')
-      )
+      const confirmed = await this.$dialog.show({
+        header: 'Delete Comment',
+        message: 'Are you sure you want to delete this comment?',
+        buttonOkText: 'Yes, Delete',
+        imagePath: require('~/assets/images/dialogs/undraw_throw_away_ldjd.svg'),
+        showCancelButton: true
+      })
       if (!confirmed) {
         return
       }
       this.deletingComment = true
-      this.$store.commit('layoutState/showProgressBar')
+      this.showProgressBar()
       try {
         this.commentList = this.commentList.filter(
           c => c.commentId !== comment.commentId
@@ -272,7 +276,7 @@ export default {
         })
       }
       this.deletingComment = false
-      this.$store.commit('layoutState/hideProgressBar')
+      this.hideProgressBar()
     },
 
     onAddCommentAttempt() {
@@ -311,12 +315,10 @@ export default {
     processCommentInstantiation() {
       const wasWelcomed = this.$store.getters['userData/wasWelcomed']
       if (wasWelcomed) {
-        this.$refs.simpleDialogPopup.show(
-          'Welcome back!',
-          'Thanks for posting that comment!',
-          undefined,
-          null
-        )
+        this.$dialog.show({
+          header: 'Welcome back!',
+          message: 'Thanks for posting that comment!'
+        })
       } else {
         this.showFirstCommentInstantiated = true
         this.$amplifyApi.graphql(
@@ -344,12 +346,12 @@ export default {
     },
 
     async requestAuthAndProcessComment(userId, email, commentText) {
-      this.$store.commit('layoutState/showProgressBar')
+      this.showProgressBar()
       const comment = await this.createTemporaryCommentInDB(userId, commentText)
       await this.$amplifyApi.post('RequestLogin', '', {
         body: { email, commentId: comment.commentId }
       })
-      this.$store.commit('layoutState/hideProgressBar')
+      this.hideProgressBar()
       this.$dialog.show({
         header: 'Welcome back!',
         message: `It looks like you weren't signed in. We just sent you a verification email. Please check your inbox and click on the link and we'll post your comment ASAP.`
@@ -357,7 +359,7 @@ export default {
     },
 
     async registerUserAndProcessComment(commentText) {
-      this.$store.commit('layoutState/showProgressBar')
+      this.showProgressBar()
       const res = await this.$store.dispatch('cognito/registerUser', {
         username: this.email,
         password: nanoid(),
@@ -368,12 +370,12 @@ export default {
       await this.$amplifyApi.post('RequestLogin', '', {
         body: { email: this.email, commentId: comment.commentId }
       })
-      this.$store.commit('layoutState/hideProgressBar')
+      this.hideProgressBar()
       this.$dialog.show({
         header: 'Thanks!',
         message: `We just sent you an email to confirm that you're a real person :) Please check your inbox then click on the link and we'll post your comment ASAP.`
       })
-      this.$store.commit('layoutState/hideProgressBar')
+      this.hideProgressBar()
     },
 
     appendFakeCommentAndEncourageToRegisterOrSignUp() {
@@ -385,13 +387,13 @@ export default {
     async onNoAuthEmail(email) {
       this.showAskEmail = false
       this.email = email.toLowerCase()
-      this.$store.commit('layoutState/showProgressBar')
+      this.showProgressBar()
 
       try {
         const result = await this.checkEmailBelongsToExistingUser(email)
         const belongsToExistingUser =
           result.data.checkEmailBelongsToExistingUser.belongsToExistingUser
-        this.$store.commit('layoutState/hideProgressBar')
+        this.hideProgressBar()
         if (belongsToExistingUser) {
           const userId = result.data.checkEmailBelongsToExistingUser.userId
           await this.requestAuthAndProcessComment(
@@ -405,17 +407,17 @@ export default {
         }
       } catch (e) {
         this.removeTemporaryFakeComment()
-        this.$store.commit('layoutState/hideProgressBar')
+        this.hideProgressBar()
       }
     },
 
     async onNoAuthName(name) {
       this.showAskName = false
       this.name = name
-      this.$store.commit('layoutState/showProgressBar')
+      this.showProgressBar()
       await this.registerUserAndProcessComment(this.tmpCommentText)
       this.tmpCommentText = ''
-      this.$store.commit('layoutState/hideProgressBar')
+      this.hideProgressBar()
     },
 
     async sendComment(commentText, instantiation = false) {

@@ -4,6 +4,8 @@
     :show="visible"
     :header="header"
     :show-cancel-button="showCancelButton"
+    :button-ok-text="buttonOkText"
+    :image-path="imagePath"
     @hide="() => (visible = false)"
     @ok="confirm"
     @cancel="cancel"
@@ -16,19 +18,23 @@
 import Dialog from '@/plugins/app-dialog'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 
+const initialData = {
+  visible: false,
+  header: '',
+  message: '',
+  showCancelButton: false,
+  buttonOkText: 'Ok',
+  imagePath: '',
+  resolve: null
+}
+
 export default {
   components: {
     DefaultDialog
   },
 
   data() {
-    return {
-      visible: false,
-      header: '',
-      message: '',
-      showCancelButton: false,
-      resolve: null
-    }
+    return Object.assign({}, initialData)
   },
 
   beforeMount() {
@@ -49,9 +55,9 @@ export default {
     },
 
     show(params, resolve) {
-      this.visible = true
+      Object.assign(this, Object.assign({}, initialData), params)
       this.resolve = resolve
-      Object.assign(this, params)
+      this.visible = true
     }
   }
 }
