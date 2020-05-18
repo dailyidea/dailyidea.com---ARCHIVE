@@ -5,7 +5,12 @@
       <sourceFolder url="file://$MODULE_DIR$/back/users" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/back/mail-processing" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/back/mail-processing/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/back/appsync/.serverless" />
+      <excludeFolder url="file://$MODULE_DIR$/back/mail-processing/.serverless" />
       <excludeFolder url="file://$MODULE_DIR$/back/mail-processing/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/back/users/.serverless" />
+      <excludeFolder url="file://$MODULE_DIR$/front/.nuxt" />
+      <excludeFolder url="file://$MODULE_DIR$/front/.serverless" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.6 (dailyidea)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

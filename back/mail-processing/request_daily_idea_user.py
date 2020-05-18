@@ -2,6 +2,7 @@ from datetime import date
 
 from utils.models import UserModel
 from mail_templates.request_daily_idea.send_request_daily import send_daily_bulk
+import os
 import sentry_sdk
 from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
 

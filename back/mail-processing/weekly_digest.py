@@ -5,6 +5,7 @@ from utils.common import progressive_chunks, SEND_BATCH_EMAIL_CHUNK_SIZE
 from utils.models import UserModel, IdeaModel
 
 from mail_templates.weekly_digest.send_weekly_digest import bulk_send_weekly_digest
+import os
 import sentry_sdk
 from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
 
