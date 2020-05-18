@@ -17,6 +17,7 @@
         prepend-inner-icon="mdi-email-outline"
         placeholder="What is your email address?"
         validate="required|email"
+        ref="email"
       />
 
       <!-- Email Not Found Message -->
@@ -83,6 +84,9 @@ export default {
       return ''
     }
   },
+  mounted() {
+    this.focusField();
+  },
   methods: {
     async login() {
       if (this.logingUser) {
@@ -119,6 +123,9 @@ export default {
         }
         this.logingUser = false
       }
+    },
+    focusField(){
+      this.$refs.email.$children[0].$refs.input.click();
     }
   }
 }
