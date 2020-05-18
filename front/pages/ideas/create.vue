@@ -20,6 +20,7 @@
             class="idea-name-field"
             :single-line="true"
             :solo="true"
+            ref="title"
             @keyup.13="focusIdeaText"
           ></v-text-field>
 
@@ -139,10 +140,15 @@ export default {
     }
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.focusTitle()
+  },
   methods: {
     focusIdeaText() {
       document.querySelector('trix-editor').focus()
+    },
+    focusTitle(){
+      this.$refs.title.$refs.input.click()
     },
     onAttachmentsUploadStarted() {
       this.uploadingAttachment = true
