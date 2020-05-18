@@ -215,10 +215,16 @@ export default {
   },
   mounted() {
     this.loadSecondaryData()
+    if (this.editMode){
+      this.focusIdeaText();
+    }
   },
   methods: {
     showRegisterEncourageDialog() {
       this.$refs.registerEncourageDialog.show()
+    },
+    focusIdeaText() {
+      document.querySelector('trix-editor').focus()
     },
     onIdeaShared() {
       if (!this.$store.getters['cognito/isLoggedIn']) {
