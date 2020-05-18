@@ -3,16 +3,12 @@ import random
 from datetime import date
 import json
 import boto3
-
-from quotes_list import quotes_list
+from utils.generate_quote import GenerateQuote
 
 AWS_REGION = os.environ['SES_AWS_REGION']
 MAILBOX_ADDR = os.environ['MAILBOX_ADDR']
 
 SENDER = f"Daily Idea <{MAILBOX_ADDR}>"
-
-def get_random_quote():
-    return random.choice(quotes_list)
 
 def send_daily_bulk(users_list):
     REQUEST_DAILY_EMAIL_TEMPLATE_NAME = os.environ.get('REQUEST_DAILY_EMAIL_TEMPLATE_NAME')
@@ -21,10 +17,11 @@ def send_daily_bulk(users_list):
     TODAY = date.today().strftime('%a %b %d %Y')
     
     destinations = []
+    
+    quote_gen = GenerateQuote()
+    quote = quote_gen.get_todays_quote()
 
     for user in users_list:
-        quote = get_random_quote()
-
         destinations.append({
             'Destination': {
                 'ToAddresses': [
