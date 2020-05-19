@@ -22,10 +22,7 @@
           <v-menu offset-y nudge-bottom="15" left :disabled="!isAuthenticated">
             <template v-slot:activator="{ on }">
               <a v-if="isAuthenticated" v-on="on">
-                <span
-                  class="userAvatarContainer"
-                  :style="avatarStyle"
-                ></span>
+                <header-avatar></header-avatar>
                 <span class="userName">{{ userName }}</span>
               </a>
               <router-link v-else :to="{ name: 'auth-login' }" class="text-decoration-none"
@@ -66,13 +63,13 @@
 
 <script>
 import SearchComponent from './SearchComponent'
-import AvatarMixin from '~/mixins/avatar.js';
+import HeaderAvatar from './HeaderAvatar'
 
 export default {
   name: 'DesktopHeader',
-  mixins: [AvatarMixin],
   components: {
-    SearchComponent
+    SearchComponent,
+    HeaderAvatar
   },
   data() {
     return {
@@ -125,21 +122,6 @@ export default {
   .logo {
     height: 32px;
     vertical-align: middle;
-  }
-
-  .userAvatarContainer {
-    display: inline-block;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    vertical-align: middle;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
-    &:hover {
-      opacity: 0.8;
-    }
   }
 }
 </style>

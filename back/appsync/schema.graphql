@@ -14,7 +14,8 @@ type Mutation {
     ): Idea!
 
 	uploadAvatar(
-		avatar: String!
+		avatar: String!,
+    isSVG: Boolean,
 	): AvatarUploadResult!
 
 	updateIdea(
