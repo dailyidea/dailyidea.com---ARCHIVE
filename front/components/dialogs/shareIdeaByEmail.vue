@@ -26,6 +26,7 @@
     <section class="modalBody">
       <form id="share-idea-without-login-form" @submit.stop.prevent="sendEmail">
         <v-text-field
+          v-show="form.name === ''"
           v-model="form.name"
           v-validate="'required|max:100'"
           :error-messages="errors.collect('name')"
