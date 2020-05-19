@@ -1,9 +1,8 @@
 const aws = require("aws-sdk");
 const cognitoidentityserviceprovider = new aws.CognitoIdentityServiceProvider();
-const Raven = require("raven");
-const RavenLambdaWrapper = require("serverless-sentry-lib");
+const withSentry = require("serverless-sentry-lib"); // This helper library
 
-exports.handler = RavenLambdaWrapper.handler(Raven, async (event, context, callback) => {
+exports.handler = withSentry(async (event, context, callback) => {
   const params = {
     UserPoolId: process.env.USER_POOL_ID /* required */,
     AttributesToGet: [

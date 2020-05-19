@@ -6,8 +6,8 @@ const middy = require("middy");
 const ddb = new AWS.DynamoDB({ apiVersion: "2012-10-08" });
 const { cors, jsonBodyParser, httpErrorHandler } = require("middy/middlewares");
 const Sqrl = require("squirrelly");
-const Raven = require("raven");
-const RavenLambdaWrapper = require("serverless-sentry-lib");
+const withSentry = require("serverless-sentry-lib"); // This helper library
+const Sentry = require("@sentry/node");
 
 const getCompiledTemplateFromPath = templatePath => {
   const fullTemplatePath = path.join(__dirname, templatePath);
@@ -255,7 +255,7 @@ const sendMail = async (event, context) => {
     }
   } catch (e) {
     console.log("error", e);
-    Raven.captureException(e);
+    Sentry.captureException(e);
     return {
       statusCode: 500,
       body: JSON.stringify({
@@ -266,7 +266,7 @@ const sendMail = async (event, context) => {
   }
 };
 
-const handler = RavenLambdaWrapper.handler(Raven, middy(sendMail)
+const handler = withSentry(middy(sendMail)
   .use(jsonBodyParser())
   .use(httpErrorHandler())
   .use(cors()));

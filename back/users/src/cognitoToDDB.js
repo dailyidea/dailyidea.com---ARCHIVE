@@ -1,7 +1,6 @@
 const aws = require("aws-sdk");
 const ddb = new aws.DynamoDB({ apiVersion: "2012-10-08" });
-const Raven = require("raven");
-const RavenLambdaWrapper = require("serverless-sentry-lib");
+const withSentry = require("serverless-sentry-lib");
 
 function makeid(length) {
    let result           = '';
@@ -52,7 +51,7 @@ function makeid(length) {
 
 
 
-exports.handler = RavenLambdaWrapper.handler(Raven, async (event, context) => {
+exports.handler = withSentry(async (event, context) => {
   const date = new Date();
 
   const tableName = process.env.TABLE_NAME;

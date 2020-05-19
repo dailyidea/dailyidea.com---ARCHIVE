@@ -1,9 +1,8 @@
 const aws = require("aws-sdk");
 const ddb = new aws.DynamoDB({ apiVersion: "2012-10-08" });
-const Raven = require("raven");
-const RavenLambdaWrapper = require("serverless-sentry-lib");
+const withSentry = require("serverless-sentry-lib"); // This helper library
 
-exports.handler = RavenLambdaWrapper.handler(Raven, async (event, context, callback) => {
+exports.handler = withSentry(async (event, context, callback) => {
   // Send post authentication data to Cloudwatch logs
   console.log("Authentication successful");
   console.log("Trigger function =", event.triggerSource);

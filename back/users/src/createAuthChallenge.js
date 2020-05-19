@@ -1,7 +1,6 @@
-const Raven = require("raven");
-const RavenLambdaWrapper = require("serverless-sentry-lib");
+const withSentry = require("serverless-sentry-lib"); // This helper library
 
-exports.handler = RavenLambdaWrapper.handler(Raven, function (event, context, callback) {
+exports.handler = withSentry(function (event, context, callback) {
   event.response.publicChallengeParameters = {}
   event.response.privateChallengeParameters = {}
   event.response.privateChallengeParameters.challenge = 'OTP_CHALLENGE'

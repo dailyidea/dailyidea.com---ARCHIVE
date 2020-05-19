@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken')
-const Raven = require("raven");
-const RavenLambdaWrapper = require("serverless-sentry-lib");
+const withSentry = require("serverless-sentry-lib"); // This helper library
 
-exports.handler = RavenLambdaWrapper.handler(Raven, (event, context, callback) => {
+exports.handler = withSentry((event, context, callback) => {
   try {
     console.log('challengeAnswer', event.request.challengeAnswer)
     jwt.verify(event.request.challengeAnswer, process.env.SECRET_TOKEN)
