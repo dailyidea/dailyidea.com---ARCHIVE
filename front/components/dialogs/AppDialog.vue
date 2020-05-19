@@ -1,12 +1,11 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <default-dialog
-    :show="visible"
+    v-model="visible"
     :header="header"
     :show-cancel-button="showCancelButton"
     :button-ok-text="buttonOkText"
     :image-path="imagePath"
-    @hide="() => (visible = false)"
     @ok="confirm"
     @cancel="cancel"
   >

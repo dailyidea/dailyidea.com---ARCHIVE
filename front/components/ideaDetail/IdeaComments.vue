@@ -62,10 +62,9 @@
     </div>
 
     <default-dialog
-      :show="showFirstCommentInstantiated"
+      v-model="showFirstCommentInstantiated"
       header="Welcome!"
       :show-cancel-button="false"
-      @hide="() => (showFirstCommentInstantiated = false)"
       @ok="() => (showFirstCommentInstantiated = false)"
     >
       <p>
@@ -77,21 +76,19 @@
     </default-dialog>
 
     <ask-email-dialog
-      :show="showAskEmail"
+      v-model="showAskEmail"
       header="Introduce yourself?"
       message="Before we post this for everyone to see, can you please confirm your email address?"
       button-cancel-text="Delete comment"
-      @hide="() => (showAskEmail = false)"
       @cancel="cancelNewComment"
       @data="onNoAuthEmail"
     ></ask-email-dialog>
 
     <ask-name-dialog
-      :show="showAskName"
+      v-model="showAskName"
       header="Almost there"
       message="What can we call you?"
       button-cancel-text="Delete comment"
-      @hide="() => (showAskName = false)"
       @cancel="cancelNewComment"
       @data="onNoAuthName"
     ></ask-name-dialog>

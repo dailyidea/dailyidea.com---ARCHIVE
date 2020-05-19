@@ -1,12 +1,12 @@
 <template>
   <validation-provider v-slot="{ errors }" name="Name" rules="required|max:100">
     <default-dialog
-      :show="show"
+      :value="value"
       :button-ok-disabled="!name || !!errors.length"
       :button-cancel-text="buttonCancelText"
       :header="header"
-      @hide="$emit('hide')"
-      @cancel="$emit('cancel')"
+      @input="v => $emit('input', v)"
+      @cancel="() => $emit('cancel')"
       @ok="onOk"
     >
       <p>{{ message }}</p>
@@ -32,7 +32,7 @@ export default {
   },
 
   props: {
-    show: Boolean,
+    value: Boolean,
     header: {
       type: String,
       default: 'Almost there'

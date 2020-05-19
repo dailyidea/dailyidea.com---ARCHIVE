@@ -140,9 +140,8 @@
       </v-col>
     </v-row>
     <visual-notifier ref="notifier"></visual-notifier>
-    <register-encourage-dialog
-      ref="registerEncourageDialog"
-    ></register-encourage-dialog>
+
+    <register-encourage-dialog v-model="showRegisterEncourageDialog" />
   </layout>
 </template>
 
@@ -160,7 +159,7 @@ import getIdeaTags from '~/graphql/query/getIdeaTags'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import VisualNotifier from '~/components/VisualNotifier'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
-import registerEncourageDialog from '~/components/dialogs/registerEncourageDialog'
+import RegisterEncourageDialog from '@/components/dialogs/RegisterEncourageDialog'
 import IdeaContent from '~/components/IdeaContent'
 
 export default {
@@ -170,7 +169,7 @@ export default {
     IdeaComments,
     TrixWrapper,
     VisualNotifier,
-    registerEncourageDialog,
+    RegisterEncourageDialog,
     IdeaContent
   },
   $_veeValidate: {
@@ -207,20 +206,18 @@ export default {
         content: ''
       },
 
-      updatingIdea: false
+      updatingIdea: false,
+      showRegisterEncourageDialog: false
     }
   },
   mounted() {
     this.loadSecondaryData()
   },
   methods: {
-    showRegisterEncourageDialog() {
-      this.$refs.registerEncourageDialog.show()
-    },
     onIdeaShared() {
       if (!this.$store.getters['cognito/isLoggedIn']) {
         setTimeout(() => {
-          this.showRegisterEncourageDialog()
+          this.showRegisterEncourageDialog = true
         }, 1000)
       }
     },

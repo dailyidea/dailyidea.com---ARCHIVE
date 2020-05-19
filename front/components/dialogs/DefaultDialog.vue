@@ -1,8 +1,14 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <v-dialog v-model="show" content-class="modal" persistent max-width="600">
+  <v-dialog
+    :value="value"
+    content-class="modal"
+    persistent
+    max-width="600"
+    @input="v => $emit('input', v)"
+  >
     <div class="closeBtn">
-      <v-icon text class="cancelIcon" @click="$emit('hide')">mdi-close</v-icon>
+      <v-icon text class="cancelIcon" @click="hide">mdi-close</v-icon>
     </div>
 
     <slot name="header">
@@ -34,12 +40,16 @@
             class="cancelBtn"
             rounded
             text
-            @click="$emit('cancel') && $emit('hide')"
+            @click="cancelAndHide"
             >{{ buttonCancelText }}</v-btn
           >
-          <v-btn rounded :disabled="buttonOkDisabled" @click="$emit('ok')">{{
-            buttonOkText
-          }}</v-btn>
+          <v-btn
+            rounded
+            :disabled="buttonOkDisabled"
+            :loading="buttonOkLoading"
+            @click="$emit('ok')"
+            >{{ buttonOkText }}</v-btn
+          >
         </div>
       </section>
     </slot>
@@ -57,7 +67,7 @@ export default {
       type: String,
       default: ''
     },
-    show: Boolean,
+    value: Boolean,
     buttonOkText: {
       type: String,
       default: 'Ok'
@@ -70,15 +80,30 @@ export default {
       type: Boolean,
       default: false
     },
+    buttonOkLoading: {
+      type: Boolean,
+      default: false
+    },
     showCancelButton: {
       type: Boolean,
       default: true
+    }
+  },
+
+  methods: {
+    cancelAndHide() {
+      this.$emit('cancel')
+      this.hide()
+    },
+
+    hide() {
+      this.$emit('input', false)
     }
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import '~assets/style/common';
 @import '~assets/style/modals';
 </style>

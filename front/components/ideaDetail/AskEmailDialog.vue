@@ -5,11 +5,11 @@
     rules="required|email|max:100"
   >
     <default-dialog
-      :show="show"
+      :value="value"
       :button-ok-disabled="!email || !!errors.length"
       :button-cancel-text="buttonCancelText"
       :header="header"
-      @hide="$emit('hide')"
+      @input="v => $emit('input', v)"
       @cancel="$emit('cancel')"
       @ok="onOk"
     >
@@ -36,7 +36,7 @@ export default {
   },
 
   props: {
-    show: Boolean,
+    value: Boolean,
     header: {
       type: String,
       default: 'Introduce yourself?'

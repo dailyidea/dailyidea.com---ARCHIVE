@@ -9,28 +9,25 @@
     </v-btn>
 
     <ask-email-dialog
-      :show="showAskEmail"
+      v-model="showAskEmail"
       header="Introduce yourself?"
       message="What's your email address so you can find your saved ideas later?
                       (Just so I know how to find this for you in the future.)"
-      @hide="() => (showAskEmail = false)"
       @data="onNoAuthEmail"
     ></ask-email-dialog>
 
     <ask-name-dialog
-      :show="showAskName"
+      v-model="showAskName"
       header="Almost there"
       message="What can we call you?"
-      @hide="() => (showAskName = false)"
       @data="onNoAuthName"
     ></ask-name-dialog>
 
     <default-dialog
-      :show="showFirstIdeaSaved"
+      v-model="showFirstIdeaSaved"
       header="Hooray!"
       :show-cancel-button="false"
       button-ok-text="I'm in!"
-      @hide="() => (showFirstIdeaSaved = false)"
       @ok="() => (showFirstIdeaSaved = false)"
     >
       <p>
@@ -44,11 +41,10 @@
     </default-dialog>
 
     <default-dialog
-      :show="showSavedByLoginLink"
+      v-model="showSavedByLoginLink"
       header="Yay!"
       :show-cancel-button="false"
       button-ok-text="Nice!"
-      @hide="() => (showSavedByLoginLink = false)"
       @ok="() => (showSavedByLoginLink = false)"
     >
       <p>
