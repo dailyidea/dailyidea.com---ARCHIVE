@@ -43,6 +43,17 @@ export default {
       userIdeas,
       loadMoreIdeasIsPossible
     }
+  },
+  head() {
+    return {
+      meta: [
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: `See ${this.userInfo.name}'s ideas on Daily Idea`
+        }
+      ]
+    }
   }
 }
 </script>

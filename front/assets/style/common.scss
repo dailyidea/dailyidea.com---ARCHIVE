@@ -18,7 +18,7 @@
 
 .muted,
 .muted .v-icon {
-  color: $color-muted-grey;
+  color: $color-muted-grey !important;
 }
 
 form .v-input__prepend-inner {
@@ -28,4 +28,14 @@ form .v-input__prepend-inner {
     color: $primary-color;
     font-size: 16px;
   }
+}
+
+@media (min-width: $screen-md-min) {
+  .min-vh100-fh {
+    min-height: calc(100vh - 160px);
+  }
+}
+
+.text-decoration-none {
+  text-decoration: none;
 }

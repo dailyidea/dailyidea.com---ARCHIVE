@@ -51,6 +51,7 @@ functions:
     role: LambdaProcessIncomingMailFunctionRole
     environment:
       SES_S3_BUCKET_NAME: dailyidea-ses-${env:ACTIVE_SES_RULE_SET_STAGE}
+      BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
   sendDailyToUser:
     handler: request_daily_idea_user.endpoint
     environment:

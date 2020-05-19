@@ -147,6 +147,7 @@
 </template>
 
 <script>
+import clip from 'text-clipper'
 import { graphqlOperation } from '@aws-amplify/api'
 import Layout from '@/components/layout/Layout'
 import TrixWrapper from '@/components/TrixWrapper'
@@ -376,10 +377,21 @@ export default {
   },
   head() {
     const defaultLogo = require('~/assets/images/bulb_with_light_holder.png')
+    const truncatedIdeaContent = clip(this.idea.content, 180, {
+      html: true,
+      maxLines: 8,
+      indicator: '... (see more)'
+    })
+    const ogDescription = truncatedIdeaContent.replace(/<\/?[^>]+(>|$)/g, '')
     return {
       title: `${this.idea.title} - Daily Idea`,
       meta: [
         { hid: 'og:title', property: 'og:title', content: this.idea.title },
+        {
+          hid: 'og:description',
+          property: 'og:description',
+          content: ogDescription
+        },
         {
           hid: 'og:image',
           property: 'og:image',
