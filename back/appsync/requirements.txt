@@ -1,6 +1,6 @@
 boto3==1.9.16
 Jinja2==2.10.3
-bleach==3.1.0
+bleach==3.1.4
 Pillow==6.2.1
 python-slugify==4.0.0
 sentry-sdk==0.14.1
