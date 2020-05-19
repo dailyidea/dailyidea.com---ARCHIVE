@@ -4,11 +4,14 @@ from utils.common import progressive_chunks, SEND_BATCH_EMAIL_CHUNK_SIZE
 from utils.models import UserModel
 from mail_templates.request_daily_idea.send_request_daily import send_daily_bulk
 import datetime
+import os
+import sentry_sdk
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
 
+sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegration()])
 
 # logger = logging.getLogger()
 # logger.setLevel(logging.INFO)
-
 
 def endpoint(event, context):
     now = datetime.datetime.now()

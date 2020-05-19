@@ -1,4 +1,6 @@
-exports.handler = function (event, context) {
+const withSentry = require("serverless-sentry-lib"); // This helper library
+
+exports.handler = withSentry(function (event, context) {
   if (!event.request.session || event.request.session.length === 0) {
     // If we don't have a session or it is empty then send a CUSTOM_CHALLENGE
     event.response.challengeName = 'CUSTOM_CHALLENGE';
@@ -17,4 +19,4 @@ exports.handler = function (event, context) {
     event.response.issueTokens = false;
   }
   context.done(null, event)
-}
+})

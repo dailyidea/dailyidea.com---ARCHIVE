@@ -12,6 +12,10 @@ from utils.models import IdeaModel, UserModel
 from mail_templates.idea_received_confirmation.send_confirmation_idea_received import send_confirmation
 from mail_templates.idea_sender_not_is_not_registered.idea_sender_not_is_not_registered import \
     send_not_registered_error_message
+import sentry_sdk
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
+
+sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegration()])
 
 AWS_REGION = os.environ['SES_AWS_REGION']
 SES_S3_BUCKET_NAME = os.environ['SES_S3_BUCKET_NAME']
@@ -184,7 +188,6 @@ def process_incoming_mail(parsed_email):
     idea.sortKey = 'idea'
     idea.save()
     send_confirmation(parsed_email.from_[0][1], idea, user, f"Re: {parsed_email.subject}")
-
 
 def endpoint(event, context):
     if 'ses' not in event['Records'][0]:
