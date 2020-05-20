@@ -281,6 +281,22 @@ custom:
         field: ideaTags
         request: "getIdeaTags-request-mapping-template.txt"
         response: "getIdeaTags-response-mapping-template.txt"
+      - dataSource: Saves
+        type: Mutation
+        field: saveIdea
+        request: "save-idea/before-mapping-template.txt"
+        response: "save-idea/after-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - createSavedIdeaItem
+      - dataSource: Saves
+        type: Mutation
+        field: unsaveIdea
+        request: "unsave-idea/before-mapping-template.txt"
+        response: "unsave-idea/before-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - deleteSavedIdeaItem
       - dataSource: Likes
         type: Mutation
         field: likeIdea
@@ -482,6 +498,14 @@ custom:
           tableName: ${self:custom.savesTableName}
           serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
     functionConfigurations:
+      - dataSource: Saves
+        name: createSavedIdeaItem
+        request: 'save-idea/createSavedIdeaItem-request-mapping-template.txt'
+        response: 'save-idea/createSavedIdeaItem-response-mapping-template.txt'
+      - dataSource: Saves
+        name: deleteSavedIdeaItem
+        request: 'unsave-idea/deleteSavedIdeaItem-request-mapping-template.txt'
+        response: 'unsave-idea/deleteSavedIdeaItem-response-mapping-template.txt'
       - dataSource: Likes
         name: createLikedIdeaItem
         request: 'like-idea/createLikedIdeaItem-request-mapping-template.txt'

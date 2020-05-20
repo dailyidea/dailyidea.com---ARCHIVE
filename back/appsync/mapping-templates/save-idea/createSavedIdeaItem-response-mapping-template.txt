@@ -1,0 +1,4 @@
+#if($ctx.error)
+  #return({"result":{"ok":false, "error":"Already Saved"}})
+#end
+$util.toJson($ctx.result)
