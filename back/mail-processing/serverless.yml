@@ -8,6 +8,8 @@ package:
 custom:
   ideasTableName: dailyidea-ideas-${self:provider.stage}
   usersTableName: dailyidea-users-${self:provider.stage}
+  sentry:
+    dsn: ${env:SENTRY_DSN}
   prune:
     automatic: true
     number: 10
@@ -38,7 +40,7 @@ custom:
       Kinesis: http://localhost:4568
   pythonRequirements:
     dockerizePip: non-linux
-    pythonBin: /home/orion/envs/idea36/bin/python
+    pythonBin:  ${env:PYTHON_BIN, 'python3'}
 
   s3Sync:
     - bucketName: ${self:provider.emailStaticBucketName} # required
@@ -109,6 +111,9 @@ provider:
     SES_AWS_REGION: ${self:provider.region}
     USERS_TABLE_NAME: ${self:custom.usersTableName}
     IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
+    SENTRY_ENVIRONMENT: ${opt:stage, self:provider.stage}
+    SENTRY_DSN: ${env:SENTRY_DSN}
+
   iamRoleStatements:
     - Effect: Allow
       Action:

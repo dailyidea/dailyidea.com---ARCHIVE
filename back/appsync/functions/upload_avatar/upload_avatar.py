@@ -7,6 +7,10 @@ import base64
 import os
 import uuid
 import json
+import sentry_sdk
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
+
+sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegration()])
 
 # logger = logging.getLogger()
 # logger.setLevel(logging.INFO)
@@ -19,7 +23,6 @@ dynamodb_client = boto3.client('dynamodb', region_name=os.environ['AWS_REGION'])
 lambda_client = boto3.client('lambda', region_name=os.environ['AWS_REGION'])
 UPDATE_PROFILE_INFO_IN_CREATED_IDEAS_FUNCTION_NAME = os.environ.get(
     'UPDATE_PROFILE_INFO_IN_CREATED_IDEAS_FUNCTION_NAME')
-
 
 def endpoint(event, lambda_context):
     ctx = event.get('ctx')
