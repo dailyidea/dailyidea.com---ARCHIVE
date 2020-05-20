@@ -16,29 +16,33 @@
       </div>
     </div>
 
-    <resend-auth-email-dialog ref="resend-auth-email-dialog">
-    </resend-auth-email-dialog>
+    <resend-auth-email-dialog v-model="showResendEmail" :email="email" />
   </auth-page>
 </template>
 
 <script>
 import AuthPage from '@/components/authPage/AuthPage'
-import resendAuthEmailDialog from '@/components/dialogs/resendAuthEmail'
+import ResendAuthEmailDialog from '@/components/dialogs/ResendAuthEmail'
 
 export default {
   name: 'Success',
-  components: { AuthPage, resendAuthEmailDialog },
+
+  components: { AuthPage, ResendAuthEmailDialog },
+
   data: () => ({
-    email: null
+    email: null,
+    showResendEmail: false
   }),
+
   mounted() {
     if (this.$route.query.email) {
       this.email = this.$route.query.email.toLowerCase()
     }
   },
+
   methods: {
     showPopup() {
-      this.$refs['resend-auth-email-dialog'].open(this.email.toLowerCase())
+      this.showResendEmail = true
     }
   }
 }
