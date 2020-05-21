@@ -698,6 +698,7 @@ resources:
                     Resource:
                       - { "Fn::GetAtt": ["TagsTable", "Arn" ] }
                       - { "Fn::GetAtt": ["LikesTable", "Arn" ] }
+                      - { "Fn::GetAtt": ["SavesTable", "Arn" ] }
                       - { "Fn::GetAtt": ["IdeaCommentsTable", "Arn" ] }
                       - { "Fn::GetAtt": ["FollowingTable", "Arn" ] }
                       - 'Fn::Join':
