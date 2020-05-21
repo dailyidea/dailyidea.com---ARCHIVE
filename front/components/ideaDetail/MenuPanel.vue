@@ -155,8 +155,25 @@ export default {
         this.makeIdeaPrivate()
       }
     },
-    showShareIdeaDialog() {
-      this.showEmailShareDialog = true
+    async showShareIdeaDialog() {
+      if (navigator.share !== undefined){
+        let url = document.location.href;
+        const canonicalElement = document.querySelector('link[rel=canonical]');
+        if (canonicalElement !== null) {
+          url = canonicalElement.href;
+        }
+        const shareData = {title: 'Check out this idea!', text: this.idea.content, url}
+        try {
+          await navigator.share(shareData);
+          this.$emit('onNotification', { type: 'success', message: 'Idea shared!' });
+        }
+        catch (e) {
+          this.$emit('onNotification', { type: 'error', message: "Can't share Idea" });
+        }
+      }
+      else{
+        this.showEmailShareDialog = true
+      }
     },
     enableEditMode() {
       this.$emit('enableEditMode')
