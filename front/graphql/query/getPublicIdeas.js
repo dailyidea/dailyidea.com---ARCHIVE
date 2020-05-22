@@ -12,6 +12,7 @@ query getPublicIdeas($order: IdeaSortingOrder, $nextToken: String, $limit: Int) 
       createdDate
       ideaDate
       likesCount
+      savesCount
       commentsCount
     }
     nextToken
