@@ -150,7 +150,10 @@ type Query {
 	@aws_api_key @aws_cognito_user_pools
 	getLikedIdeas(nextToken: String, limit: Int): IdeaConnection
 	ideaTags(ideaId: String!): [Tag!]!
-	getIsIdeaLikedByMe(
+	getIsIdeaSavedByMe(
+    ideaId: String!
+  ): IsSavedResult
+  getIsIdeaLikedByMe(
 		ideaId: String!
 	): IsLikedResult
 	getComments(ideaId: String!, nextToken: String, limit: Int): CommentsConnection!
@@ -230,6 +233,11 @@ type ToggleNotificationsStateResult {
 
 type ToggleIdeaVisibilityResult {
 	state: IdeaVisibilityState!
+}
+
+type IsSavedResult {
+  result: Result!
+  isSaved: Boolean
 }
 
 type IsLikedResult {

@@ -347,6 +347,11 @@ custom:
         dataSource: ShareIdeaHandler
         request: "common/before-invoke-mapping-template.txt"
         response: "common/after-invoke-mapping-template.txt"
+      - dataSource: Saves
+        type: Query
+        field: getIsIdeaSavedByMe
+        request: "getIsIdeaSavedByMe-request-mapping-template.txt"
+        response: "getIsIdeaSavedByMe-response-mapping-template.txt"
       - dataSource: Likes
         type: Query
         field: getIsIdeaLikedByMe
