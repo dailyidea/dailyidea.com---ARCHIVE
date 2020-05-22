@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import * as Sentry from '@sentry/browser'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 
 export default {
@@ -84,7 +83,7 @@ export default {
         this.blockSendAgainTime = 31
         this.execDecreaseTimer()
       } catch (e) {
-        Sentry.captureException(e)
+        this.$sentry.captureException(e)
         this.error = true
       }
       this.sendingEmail = false
