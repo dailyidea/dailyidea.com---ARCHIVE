@@ -166,7 +166,6 @@ custom:
         field: toggleIdeaVisibility
         request: "ideas/toggle-visibility/toggleIdeaVisibility-request-mapping-template.txt"
         response: "ideas/toggle-visibility/toggleIdeaVisibility-response-mapping-template.txt"
-
       - dataSource: Ideas
         type: Query
         field: userIdeas
@@ -289,6 +288,7 @@ custom:
         kind: PIPELINE
         functions:
           - createSavedIdeaItem
+          - increaseIdeaSavesCount
       - dataSource: Saves
         type: Mutation
         field: unsaveIdea
@@ -297,6 +297,7 @@ custom:
         kind: PIPELINE
         functions:
           - deleteSavedIdeaItem
+          - decreaseIdeaSavesCount
       - dataSource: Likes
         type: Mutation
         field: likeIdea
@@ -506,6 +507,14 @@ custom:
         name: deleteSavedIdeaItem
         request: 'unsave-idea/deleteSavedIdeaItem-request-mapping-template.txt'
         response: 'unsave-idea/deleteSavedIdeaItem-response-mapping-template.txt'
+      - dataSource: Ideas
+        name: increaseIdeaSavesCount
+        request: 'save-idea/increaseIdeaSavesCount-request-mapping-template.txt'
+        response: 'save-idea/increaseIdeaSavesCount-response-mapping-template.txt'
+      - dataSource: Ideas
+        name: decreaseIdeaSavesCount
+        request: 'unsave-idea/decreaseIdeaSavesCount-request-mapping-template.txt'
+        response: 'unsave-idea/decreaseIdeaSavesCount-response-mapping-template.txt'
       - dataSource: Likes
         name: createLikedIdeaItem
         request: 'like-idea/createLikedIdeaItem-request-mapping-template.txt'

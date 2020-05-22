@@ -183,7 +183,8 @@ type StatsByPeriods @aws_api_key @aws_cognito_user_pools{
 }
 
 type SaveResult {
-  result: Result!
+  result: Result
+  savesCount: Int
 }
 
 type LikeResult {
@@ -252,6 +253,7 @@ type Idea @aws_api_key @aws_cognito_user_pools {
 	createdDate: String
 	ideaDate: String
 	likesCount: Int
+  savesCount: Int
 	commentsCount: Int
 	visibility: IdeaVisibilityState
 

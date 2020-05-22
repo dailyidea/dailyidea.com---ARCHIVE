@@ -36,10 +36,14 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <save-idea-bookmark
+    <like-idea
+      v-if="!editable"
+      @likedStateChanged="onIdeaLikeStateChanged"
+    ></like-idea>
+    <save-idea
       v-if="!editable"
       @savedStateChanged="onIdeaSaveStateChanged"
-    ></save-idea-bookmark>
+    ></save-idea>
     <ShareIdeaByEmailDialog
       :idea-id="$route.params.ideaId"
       :idea-owner-id="$route.params.userId"
@@ -61,7 +65,8 @@
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 import ShareIdeaByEmailDialog from '@/components/dialogs/shareIdeaByEmail'
-import SaveIdeaBookmark from '@/components/ideaDetail/SaveIdeaBookmark'
+import LikeIdea from '@/components/ideaDetail/LikeIdea'
+import SaveIdea from '@/components/ideaDetail/SaveIdea'
 import makeIdeaPrivate from '~/graphql/mutations/makeIdeaPrivate'
 import makeIdeaPublic from '~/graphql/mutations/makeIdeaPublic'
 import makeIdeaPrivateDialog from '~/components/dialogs/makeIdeaPrivateDialog'
@@ -70,7 +75,8 @@ import makeIdeaPublicDialog from '~/components/dialogs/makeIdeaPublicDialog'
 export default {
   name: 'MenuPanel',
   components: {
-    SaveIdeaBookmark,
+    LikeIdea,
+    SaveIdea,
     ShareIdeaByEmailDialog,
     makeIdeaPrivateDialog,
     makeIdeaPublicDialog
@@ -101,6 +107,9 @@ export default {
     },
     onIdeaSaveStateChanged(val) {
       this.$emit('savedStateChanged', val)
+    },
+    onIdeaLikeStateChanged(val) {
+      this.$emit('likedStateChanged', val);
     },
     async makeIdeaPrivate() {
       const confirmed = await this.$refs.makeIdeaPrivateDialog.show()

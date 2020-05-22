@@ -1,6 +1,4 @@
 #if($ctx.error)
-  #return({"result":{"ok":false, "error":"Already Saved"}})
+    $util.qr($ctx.stash.put("alreadySavedError", true))
 #end
-$util.toJson({
-  "result": {"ok": true}
-})
+$util.toJson($ctx.result)

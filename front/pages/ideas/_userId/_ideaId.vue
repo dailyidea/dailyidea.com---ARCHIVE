@@ -27,6 +27,7 @@
                 :idea="idea"
                 @enableEditMode="enableEditMode"
                 @savedStateChanged="onIdeaSaveStateChanged"
+                @likedStateChanged="onIdeaLikeStateChanged"
                 @onNotification="onNotification"
                 @onIdeaShared="onIdeaShared"
                 @onDeleteIdea="onDeleteIdea"
@@ -230,9 +231,12 @@ export default {
     onNotification({ type, message }) {
       this.$refs.notifier[type](message)
     },
-    onIdeaSaveStateChanged({ liked, likesCount }) {
+    onIdeaSaveStateChanged({ saved }) {
+      this.$refs.notifier.success(saved ? 'Idea Saved!' : 'Idea Unsaved!')
+    },
+    onIdeaLikeStateChanged({ liked, likesCount }) {
       this.idea.likesCount = likesCount
-      this.$refs.notifier.success(liked ? 'Idea saved!' : 'Idea unsaved!')
+      this.$refs.notifier.success(liked ? 'Idea Liked!' : 'Idea Unliked')
     },
     copyIdeaDataForEdit() {
       this.ideaEditData.content = this.idea.content

@@ -3,9 +3,9 @@
     <v-btn small icon @click="toggleIdeaLiked">
       <v-icon v-if="isLoading">fas fa-circle-notch fa-spin</v-icon>
       <v-icon v-else-if="!isLoading && isLiked" class="liked"
-        >mdi-bookmark</v-icon
+        >mdi-thumb-up</v-icon
       >
-      <v-icon v-else>mdi-bookmark-plus-outline</v-icon>
+      <v-icon v-else>mdi-thumb-up-outline</v-icon>
     </v-btn>
     <simple-dialog-popup ref="simpleDialogPopup"></simple-dialog-popup>
     <on-un-auth-action-ask-email-dialog
@@ -39,7 +39,7 @@ import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsTo
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
 
 export default {
-  name: 'SaveIdeaBookmark',
+  name: 'LikeIdea',
   components: {
     onUnAuthActionAskEmailDialog,
     onUnAuthActionAskNameDialog,
@@ -83,6 +83,7 @@ export default {
         this.getIsIdeaLikedByMe()
       }
     },
+    
     async likeIdea() {
       this.isLoading = true
       const res = await this.$amplifyApi.graphql({
@@ -95,7 +96,7 @@ export default {
       const result = res.data.likeIdea
       this.isLiked = true
       this.isLoading = false
-      this.$emit('savedStateChanged', {
+      this.$emit('likedStateChanged', {
         liked: true,
         likesCount: result.likesCount
       })
@@ -113,11 +114,12 @@ export default {
       const result = res.data.unlikeIdea
       this.isLiked = false
       this.isLoading = false
-      this.$emit('savedStateChanged', {
+      this.$emit('likedStateChanged', {
         liked: false,
         likesCount: result.likesCount
       })
     },
+    
     toggleIdeaLikedAuth() {
       if (this.isLiked) {
         this.unLikeIdea()

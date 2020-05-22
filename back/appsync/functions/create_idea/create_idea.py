@@ -49,6 +49,7 @@ def endpoint(event, lambda_context):
             "ideaDate": {"S": datetime.datetime.now().isoformat()},
             "createdDate": {"S": datetime.datetime.now().isoformat()},
             "likesCount": {"N": "0"},
+            "savesCount": {"N": "0"},
             "commentsCount": {"N": "0"},
             "authorName": {"S": creator_name},
             "authorSlug": {"S": creator_slug},
