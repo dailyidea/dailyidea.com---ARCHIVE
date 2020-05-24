@@ -108,6 +108,9 @@ type Mutation {
 
     snoozeEmails(userId:String!, token:String, days:Int): Result!
     @aws_api_key @aws_cognito_user_pools
+
+    incrementIdeaViews(ideaId:String!, ideaOwnerId: String!): IdeaViewResult!
+    @aws_api_key @aws_cognito_user_pools
 }
 
 
@@ -178,6 +181,11 @@ type LikeResult {
 	likesCount: Int
 }
 
+type IdeaViewResult {
+    result: Result!
+    viewsCount: Int
+}
+
 type UserInfoResult @aws_api_key @aws_cognito_user_pools{
 	result: Result!
 	userInfo: UserInfo
@@ -245,6 +253,7 @@ type Idea @aws_api_key @aws_cognito_user_pools {
 	imageAttachments: [String]
 	fileAttachments: [String]
 	previewImage: String
+    viewsCount: Int
 }
 
 
