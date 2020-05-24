@@ -353,7 +353,10 @@ export default {
       try {
         await this.$amplifyApi.graphql({
           query: incrementIdeaViews,
-          variables: { ideaId: this.$route.params.ideaId },
+          variables: {
+            ideaId: this.$route.params.ideaId,
+            ideaOwnerId: this.$route.params.userId
+          },
           authMode: 'API_KEY'
         })
       } catch (e) {

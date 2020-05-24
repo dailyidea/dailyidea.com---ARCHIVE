@@ -181,7 +181,7 @@ type LikeResult {
 	likesCount: Int
 }
 
-type IdeaViewResult {
+type IdeaViewResult @aws_api_key @aws_cognito_user_pools {
     result: Result!
     viewsCount: Int
 }
