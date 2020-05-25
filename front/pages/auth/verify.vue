@@ -63,6 +63,9 @@ export default {
       try {
         this.progressBarActive = true
         this.progressBarUndetermined = true
+        if (this.$store.getters['cognito/isLoggedIn']) {
+          await this.$store.dispatch('cognito/signOut')
+        }
         const user = await this.$store.dispatch('cognito/signInUser', {
           username: this.$route.query.email.toLowerCase()
         })
