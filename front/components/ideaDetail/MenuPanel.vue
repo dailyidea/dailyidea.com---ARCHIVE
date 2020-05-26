@@ -36,14 +36,16 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <like-idea
+    <act-on-idea
       v-if="!editable"
+      action="like"
       @likedStateChanged="onIdeaLikeStateChanged"
-    ></like-idea>
-    <save-idea
+    ></act-on-idea>
+    <act-on-idea
       v-if="!editable"
+      action="save"
       @savedStateChanged="onIdeaSaveStateChanged"
-    ></save-idea>
+    ></act-on-idea>
     <ShareIdeaByEmailDialog
       :idea-id="$route.params.ideaId"
       :idea-owner-id="$route.params.userId"
@@ -65,8 +67,7 @@
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 import ShareIdeaByEmailDialog from '@/components/dialogs/shareIdeaByEmail'
-import LikeIdea from '@/components/ideaDetail/LikeIdea'
-import SaveIdea from '@/components/ideaDetail/SaveIdea'
+import ActOnIdea from '@/components/ideaDetail/ActOnIdea'
 import makeIdeaPrivate from '~/graphql/mutations/makeIdeaPrivate'
 import makeIdeaPublic from '~/graphql/mutations/makeIdeaPublic'
 import makeIdeaPrivateDialog from '~/components/dialogs/makeIdeaPrivateDialog'
@@ -75,8 +76,7 @@ import makeIdeaPublicDialog from '~/components/dialogs/makeIdeaPublicDialog'
 export default {
   name: 'MenuPanel',
   components: {
-    LikeIdea,
-    SaveIdea,
+    ActOnIdea,
     ShareIdeaByEmailDialog,
     makeIdeaPrivateDialog,
     makeIdeaPublicDialog
