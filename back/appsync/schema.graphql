@@ -44,6 +44,10 @@ type Mutation {
     ): AddCommentResult!
 	@aws_api_key @aws_cognito_user_pools
 
+    deleteIdeaTemporaryComment(
+        commentId: String!
+    ): Result
+
 	deleteComment(
 		ideaId: String!,
 		ideaOwnerId: String!,
