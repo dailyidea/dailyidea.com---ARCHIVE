@@ -36,12 +36,21 @@ functions:
     memorySize: 512
     environment:
       USERS_TABLE_NAME: ${self:custom.usersTableName}
-  getLikedIdeas:
-    handler: functions.get_liked_ideas.get_liked_ideas.endpoint
-    role: LambdaGetLikedIdeasFunctionRole
+  getSavedIdeas:
+    handler: functions.get_acted_on_ideas.get_acted_on_ideas.endpoint
+    role: LambdaGetActedOnIdeasFunctionRole
     memorySize: 512
     environment:
-      LIKES_TABLE_NAME: ${self:custom.likesTableName}
+      INDEX_NAME: userSavesByDate
+      ACTIONS_TABLE_NAME: ${self:custom.savesTableName}
+      IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
+  getLikedIdeas:
+    handler: functions.get_acted_on_ideas.get_acted_on_ideas.endpoint
+    role: LambdaGetActedOnIdeasFunctionRole
+    memorySize: 512
+    environment:
+      INDEX_NAME: userLikesByDate
+      ACTIONS_TABLE_NAME: ${self:custom.likesTableName}
       IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
   updateProfileInfo:
     handler: functions.update_profile_info.update_profile_info.endpoint
@@ -320,8 +329,14 @@ custom:
       - type: Query
         field: getLikedIdeas
         dataSource: LikedIdeasHandler
-        request: "getLikedIdeas-request-mapping-template.txt"
-        response: "getLikedIdeas-response-mapping-template.txt"
+        request: "getActedOnIdeas-request-mapping-template.txt"
+        response: "getActedOnIdeas-response-mapping-template.txt"
+      - type: Query
+        field: getSavedIdeas
+        dataSource: SavedIdeasHandler
+        request: "getActedOnIdeas-request-mapping-template.txt"
+        response: "getActedOnIdeas-response-mapping-template.txt"
+
       - type: Query
         field: getStats
         dataSource: StatsHandler
@@ -406,6 +421,12 @@ custom:
         description: 'Lambda Liked Ideas Data Source'
         config:
           lambdaFunctionArn: { Fn::GetAtt: [GetLikedIdeasLambdaFunction, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] } 
+      - type: AWS_LAMBDA
+        name: SavedIdeasHandler
+        description: 'Lambda Saved Ideas Data Source'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [GetSavedIdeasLambdaFunction, Arn] }
           serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AWS_LAMBDA
         name: StatsHandler
@@ -630,7 +651,7 @@ custom:
 
 resources:
   - Resources:
-      LambdaGetLikedIdeasFunctionRole: ${file(functions/get_liked_ideas/function_role.yml):LambdaGetLikedIdeasFunctionRole}
+      LambdaGetActedOnIdeasFunctionRole: ${file(functions/get_acted_on_ideas/function_role.yml):LambdaGetActedOnIdeasFunctionRole}
       LambdaGetStatsFunctionRole: ${file(functions/get_stats/function_role.yml):LambdaGetStatsFunctionRole}
       LambdaSnoozeEmailsFunctionRole: ${file(functions/snooze_emails/function_role.yml):LambdaSnoozeEmailsFunctionRole}
       LambdaCreateIdeaFunctionRole: ${file(functions/create_idea/function_role.yml):LambdaCreateIdeaFunctionRole}
@@ -667,6 +688,8 @@ resources:
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-snoozeEmails:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getStats"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getStats:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getSavedIdeas"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getSavedIdeas:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getLikedIdeas"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getLikedIdeas:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-createIdea"

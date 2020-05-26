@@ -3,6 +3,7 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 dist
 ngrok
+*.sw[a-z]
 
 # User-specific stuff
 .idea/**/workspace.xml

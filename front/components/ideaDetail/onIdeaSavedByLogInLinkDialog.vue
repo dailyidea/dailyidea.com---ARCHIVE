@@ -17,7 +17,7 @@
       <v-card-text>
         Welcome back {{ name }}. We saved that idea for you! You can check all
         your saved ideas on your
-        <router-link to="/ideas/liked">Saved Ideas page</router-link>.
+        <router-link to="/ideas/saved">Saved Ideas page</router-link>.
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>

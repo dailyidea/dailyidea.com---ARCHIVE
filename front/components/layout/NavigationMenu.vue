@@ -40,8 +40,8 @@
       <v-list-item
         v-if="isAuthenticated"
         active-class="highlighted"
-        :class="'/ideas/liked' === $route.path ? 'highlighted' : ''"
-        @click.native="openPage('/ideas/liked')"
+        :class="'/ideas/saved' === $route.path ? 'highlighted' : ''"
+        @click.native="openPage('/ideas/saved')"
       >
         <v-list-item-content>
           <v-list-item-title

@@ -12,6 +12,8 @@ query getLikedIdeas($nextToken: String, $limit: Int) {
       createdDate
       ideaDate
       likesCount
+      savesCount
+      commentsCount
       }
     nextToken
   }

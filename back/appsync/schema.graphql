@@ -149,7 +149,8 @@ type Query {
 	getPublicIdeas(order: IdeaSortingOrder, nextToken: String, limit: Int): IdeaConnection!
 	@aws_api_key @aws_cognito_user_pools
 	getLikedIdeas(nextToken: String, limit: Int): IdeaConnection
-	ideaTags(ideaId: String!): [Tag!]!
+	getSavedIdeas(nextToken: String, limit: Int): IdeaConnection
+  ideaTags(ideaId: String!): [Tag!]!
 	getIsIdeaSavedByMe(
     ideaId: String!
   ): IsSavedResult
