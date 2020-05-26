@@ -88,6 +88,7 @@ import addIdeaTemporaryComment from '@/graphql/mutations/addIdeaTemporaryComment
 import getIdeaTemporaryComment from '@/graphql/query/getIdeaTemporaryComment'
 import OnFirstCommentInstantiatedDialog from '@/components/ideaDetail/onFirstCommentInstantiatedDialog'
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
+import deleteIdeaTemporaryComment from '@/graphql/mutations/deleteIdeaTemporaryComment'
 
 const COMMENTS_COUNT = 25
 
@@ -135,6 +136,7 @@ export default {
         this.$refs.scroller.scrollTop = this.$refs.scroller.scrollHeight
       })
     },
+
     doInitialCommentsLoading() {
       if (this.idea.commentsCount > 0) {
         const fakeCommentsCount = Math.min(
@@ -168,12 +170,11 @@ export default {
       }
       this.loadComments()
     },
+
     async getTemporaryComment(commentId) {
       const result = await this.$amplifyApi.graphql({
         query: getIdeaTemporaryComment,
-        variables: {
-          commentId
-        },
+        variables: { commentId },
         authMode: 'API_KEY'
       })
       if (result.data.getIdeaTemporaryComment.result.ok) {
@@ -182,13 +183,15 @@ export default {
         temporaryComment.userName = this.$store.getters['userData/userName']
         this.commentList.splice(this.commentList.length - 1, 1)
         this.commentList.push(temporaryComment)
-        this.sendComment(temporaryComment.body, true)
+        await this.sendComment(temporaryComment.body, true)
+        await this.deleteIdeaTemporaryComment(commentId)
         this.scrollToBottom()
       } else {
         this.commentList.splice(this.commentList.length - 1, 1)
         this.$router.replace({ query: null })
       }
     },
+
     async onDeleteComment(comment) {
       const confirmed = await this.$refs.simpleDialogPopup.show(
         'Delete Comment',
@@ -231,6 +234,17 @@ export default {
       this.deletingComment = false
       this.$store.commit('layoutState/hideProgressBar')
     },
+
+    async deleteIdeaTemporaryComment(commentId) {
+      try {
+        await this.$amplifyApi.graphql(
+          graphqlOperation(deleteIdeaTemporaryComment, { commentId })
+        )
+      } catch (e) {
+        this.$sentry.captureException(e)
+      }
+    },
+
     onAddCommentAttempt() {
       const commentText = this.newCommentText
       this.newCommentText = ''

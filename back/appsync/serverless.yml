@@ -246,6 +246,11 @@ custom:
         field: getIdeaTemporaryComment
         request: "idea-comments/getIdeaTemporaryComment-request-mapping-template.txt"
         response: "idea-comments/getIdeaTemporaryComment-response-mapping-template.txt"
+      - dataSource: IdeaCommentsTemporary
+        type: Mutation
+        field: deleteIdeaTemporaryComment
+        request: "idea-comments/deleteIdeaTemporaryComment-request-mapping-template.txt"
+        response: "idea-comments/deleteIdeaTemporaryComment-response-mapping-template.txt"
       - dataSource: IdeaComments
         type: Query
         field: getComments
