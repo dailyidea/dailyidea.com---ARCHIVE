@@ -360,7 +360,6 @@ export default {
           authMode: 'API_KEY'
         })
       } catch (e) {
-        console.error(e)
         this.$sentry.captureException(e)
       }
     },
