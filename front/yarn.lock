@@ -1338,6 +1338,11 @@
     eslint-plugin-unicorn "^9.1.1"
     eslint-plugin-vue "^5.2.3"
 
+"@nuxtjs/gtm@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/gtm/-/gtm-2.2.3.tgz#c5e861e9988e69c6e69e11808fcd0af27d3571fd"
+  integrity sha512-YRvxCo2rpe61kR49LmepK0lCjrrb3hvb89X7/AO5IFPzPU6hxUDpi4V3rnahUTwHcDdYknVqtjAn8ZFMp+HE2Q==
+
 "@nuxtjs/sentry@3.2.4":
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/@nuxtjs/sentry/-/sentry-3.2.4.tgz#736c4b62e76c788eefd6a27c879658541a130bab"

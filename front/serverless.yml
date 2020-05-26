@@ -9,6 +9,7 @@ provider:
   certificateName: ${env:CERTIFICATE_NAME, '*.dailyidea.com'} # TODO https://github.com/serverless/serverless/issues/4959
   allowedOrigin: '*'
   bucketName: dailyidea-serverless-${env:STAGE}
+  staticBucketName: dailyidea-serverless-static-${env:STAGE}
   environment:
     NODE_ENV: production
     APPSYNC_ENDPOINT: ${env:APPSYNC_ENDPOINT}
@@ -62,6 +63,8 @@ functions:
 
 resources:
   - ${file(resources/s3.yml)}
+  - ${file(resources/s3-static.yml)}
+  - ${file(resources/cloudfront.yml)}
 
 plugins:
   - serverless-offline
@@ -80,6 +83,9 @@ custom:
   warmup:
     prewarm: true
   s3Sync:
+    - bucketName: ${self:provider.staticBucketName} # required
+      localDir: static # required
+      acl: public-read
     - bucketName: ${self:provider.bucketName} # Retype the bucket name specified above
       localDir: .nuxt/dist
       acl: public-read

@@ -1,0 +1,56 @@
+Resources:
+  WebAppCloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: ${self:provider.bucketName}.s3.amazonaws.com
+            ## An identifier for the origin which must be unique within the distribution
+            Id: idea-front-${self:provider.stage}
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+            ## Need for chrome https://serverfault.com/a/856948/114093
+            ## Maybe use https://github.com/silvermine/serverless-plugin-cloudfront-lambda-edge
+            OriginCustomHeaders:
+              - HeaderName: Origin
+                HeaderValue: https://${self:provider.domainName}
+
+            ## In case you want to restrict the bucket access use S3OriginConfig and remove CustomOriginConfig
+            # S3OriginConfig:
+            #   OriginAccessIdentity: origin-access-identity/cloudfront/E127EXAMPLE51Z
+        Enabled: 'true'
+        HttpVersion: 'http2'
+        ## Uncomment the following section in case you are using a custom domain
+        ## Aliases:
+        ##  - ${self:provider.domainName}
+        ## DefaultRootObject: index.html
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          ## The origin id defined above
+          TargetOriginId: idea-front-${self:provider.stage}
+          ## Defining if and how the QueryString and Cookies are forwarded to the origin which in this case is S3
+          Compress: true
+          DefaultTTL: 600 # ten minutes
+          ForwardedValues:
+            QueryString: 'false'
+            Cookies:
+              Forward: none
+          ## The protocol that users can use to access the files in the origin. To allow HTTP use `allow-all`
+          ViewerProtocolPolicy: redirect-to-https
+        ## The certificate to use when viewers use HTTPS to request objects.
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: 'true'
+        ## Uncomment the following section in case you want to enable logging for CloudFront requests
+        # Logging:
+        #   IncludeCookies: 'false'
+        #   Bucket: mylogs.s3.amazonaws.com
+        #   Prefix: myprefix
+Outputs:
+  WebAppCloudFrontDistributionOutput:
+    Value:
+      'Fn::GetAtt': [ WebAppCloudFrontDistribution, DomainName ]

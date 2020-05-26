@@ -5,7 +5,7 @@
   "author": "aldarund",
   "private": true,
   "scripts": {
-    "dev": "env-cmd -f ./conf/local.env nuxt --hostname 192.168.1.99",
+    "dev": "env-cmd -f ./conf/local.env nuxt",
     "build-local": "env-cmd -f ./conf/local.env nuxt build",
     "build-prod": "env-cmd -f ./conf/prod.env nuxt build",
     "build-dev": "env-cmd -f ./conf/dev.env nuxt build",
@@ -25,6 +25,7 @@
     "@aws-amplify/core": "1.2.2",
     "@aws-amplify/storage": "1.2.2",
     "@fortawesome/fontawesome-free": "^5.9.0",
+    "@nuxtjs/gtm": "^2.2.3",
     "@nuxtjs/sentry": "3.2.4",
     "@nuxtjs/vuetify": "1.9.0",
     "autolinker": "^3.13.0",

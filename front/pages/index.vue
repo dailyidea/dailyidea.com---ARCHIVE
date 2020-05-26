@@ -118,19 +118,7 @@
         </v-row>
       </section>
 
-      <footer>
-        <v-row>
-          <v-col cols="12" sm="6" class="text-center text-sm-left">
-            <a>About</a>
-            <a>FAQ</a>
-            <a>Terms &amp; Conditions</a>
-            <a>Privacy</a>
-          </v-col>
-          <v-col cols="12" sm="6" class="text-center text-sm-right">
-            <span>Copyright Daily Idea © 2020</span>
-          </v-col>
-        </v-row>
-      </footer>
+      <main-footer />
     </div>
     <!--    </v-container>-->
   </Layout>
@@ -141,11 +129,13 @@ import clip from 'text-clipper'
 import Layout from '@/components/layout/Layout'
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
 import ideasListIdea from '~/components/ideasList/ideasListIdea'
+import MainFooter from '@/components/layout/MainFooter'
 
 export default {
   components: {
     ideasListIdea,
-    Layout
+    Layout,
+    MainFooter,
   },
   async asyncData({ app }) {
     let result = await app.$amplifyApi.graphql({
@@ -196,6 +186,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 #hero {
   margin-bottom: 2rem;
@@ -234,15 +225,6 @@ a.v-btn.wider {
     color: $primary-color;
     padding-right: 0.5rem;
     vertical-align: baseline;
-  }
-}
-
-footer {
-  border-top: 0.2px solid #e8e8e8;
-  padding-top: 20px;
-
-  a {
-    padding-right: 1rem;
   }
 }
 </style>

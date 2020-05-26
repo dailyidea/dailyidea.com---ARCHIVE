@@ -23,9 +23,9 @@
             <template v-slot:activator="{ on }">
               <div>
                 <a v-if="isAuthenticated" v-on="on">
-                <span v-if="!userAvatar" class="profileBtn" icon fab>
-                  <v-icon>mdi-account-circle</v-icon>
-                </span>
+                  <span v-if="!userAvatar" class="profileBtn" icon fab>
+                    <v-icon>mdi-account-circle</v-icon>
+                  </span>
                   <span
                     v-else
                     class="userAvatarContainer"
@@ -33,8 +33,11 @@
                   ></span>
                   <span class="userName">{{ userName }}</span>
                 </a>
-                <router-link v-else :to="{ name: 'auth-login' }"
-                >Log In
+                <router-link
+                  v-else
+                  :to="{ name: 'auth-login' }"
+                  class="text-decoration-none"
+                  >Log In
                 </router-link>
               </div>
             </template>

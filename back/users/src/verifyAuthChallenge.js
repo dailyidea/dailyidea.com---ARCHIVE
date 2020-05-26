@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
+const withSentry = require("serverless-sentry-lib"); // This helper library
 
-exports.handler = (event, context, callback) => {
+exports.handler = withSentry((event, context, callback) => {
   try {
     console.log('challengeAnswer', event.request.challengeAnswer)
     jwt.verify(event.request.challengeAnswer, process.env.SECRET_TOKEN)
@@ -9,4 +10,4 @@ exports.handler = (event, context, callback) => {
     event.response.answerCorrect = false
   }
   callback(null, event)
-}
+})
