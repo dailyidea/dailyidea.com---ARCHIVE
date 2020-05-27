@@ -45,7 +45,6 @@
 </template>
 
 <script>
-
 import { graphqlOperation } from '@aws-amplify/api'
 import uploadAvatar from '~/graphql/mutations/uploadAvatar'
 
@@ -64,10 +63,11 @@ export default {
   },
   methods: {
     async setDefaultAvatar() {
-      const userId = this.$store.getters['userData/userId'];
-      const resp = await fetch(`https://avatars.dicebear.com/api/bottts/${userId}.svg`)
+      const userId = this.$store.getters['userData/userId']
+      const resp = await fetch(`
+        https://avatars.dicebear.com/api/bottts/${userId}.svg
+      `)
       const svg = await resp.text()
-      
       try {
         const uploadResp = await this.$amplifyApi.graphql(
           graphqlOperation(uploadAvatar, {
@@ -75,13 +75,13 @@ export default {
             isSVG: true
           })
         )
-        
-        this.$store.commit('userData/updateUserAvatar', uploadResp.data.uploadAvatar.avatar) 
-      
-      } catch(e) {
+        this.$store.commit(
+          'userData/updateUserAvatar',
+          uploadResp.data.uploadAvatar.avatar
+        )
+      } catch (e) {
         this.$sentry.captureException(e)
       }
-
     },
 
     async login() {
@@ -109,13 +109,12 @@ export default {
         this.progressBarActive = false
         this.progressBarUndetermined = false
         this.authCompleted = true
- 
         if (!userData.wasWelcomed) {
           this.message = redirectToIdeaPage
             ? "Hooray! You're officially signed up! Now we'll give you a quick tour..."
             : "Hooray! You're officially signed up!"
 
-          await this.setDefaultAvatar() // Get and upload default SVG avatar 
+          await this.setDefaultAvatar() // Get and upload default SVG avatar
           this.$router.replace(next || '/welcome/1')
         } else {
           this.message = redirectToIdeaPage

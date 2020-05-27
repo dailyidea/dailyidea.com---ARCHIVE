@@ -25,8 +25,12 @@
                 <header-avatar></header-avatar>
                 <span class="userName">{{ userName }}</span>
               </a>
-              <router-link v-else :to="{ name: 'auth-login' }" class="text-decoration-none"
-                >Log In
+              <router-link
+                v-else
+                :to="{ name: 'auth-login' }"
+                class="text-decoration-none"
+              >
+                Log In
               </router-link>
             </template>
             <v-list class="header-nav-dropdown">
@@ -81,10 +85,11 @@ export default {
     userName() {
       return this.$store.getters['userData/userName']
     },
-    
+
     isAuthenticated() {
       return this.$store.state.userData.isAuthenticated
     },
+
     logoLink() {
       if (this.isAuthenticated) {
         return { name: 'ideas-me' }

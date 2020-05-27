@@ -7,7 +7,7 @@
         cols="12"
         sm="4"
       >
-        <user-profile-avatar 
+        <user-profile-avatar
           :profile-data="profileData"
           :is-my-profile="isMyProfile"
           @select-avatar="selectAvatar"
@@ -273,13 +273,12 @@ export default {
     isMyProfile() {
       return this.$store.getters['userData/userId'] === this.profileData.userId
     },
-    
     nameRules() {
       return [
         v => !!v || 'Name is required',
         v => (v && v.length > 3) || 'Name must be more than 3 characters'
       ]
-    },
+    }
   },
   created() {
     this.profileData = this.initialProfileData

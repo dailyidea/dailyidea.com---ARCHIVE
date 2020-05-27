@@ -7,26 +7,23 @@
         :style="avatarStyle"
         @click="selectAvatar"
         v-on="on"
-      >
-      </div>
+      ></div>
     </template>
     <span>Click to update your avatar</span>
   </v-tooltip>
 </template>
 
 <script>
-
 export default {
-  name: 'userProfileAvatar',
+  name: 'UserProfileAvatar',
   props: {
     profileData: {
       type: Object,
       required: true
     },
-
     isMyProfile: {
       type: Boolean
-    },
+    }
   },
 
   computed: {
@@ -39,16 +36,14 @@ export default {
         'background-image': `url(${this.userAvatar})`
       }
     }
-
   },
- 
+
   methods: {
     selectAvatar() {
-      this.$emit("select-avatar")
+      this.$emit('select-avatar')
     }
-  },
+  }
 }
-
 </script>
 
 <style scoped lang="scss">
@@ -78,5 +73,4 @@ export default {
     }
   }
 }
-
 </style>
