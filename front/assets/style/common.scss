@@ -30,6 +30,12 @@ form .v-input__prepend-inner {
   }
 }
 
+@media (min-width: $screen-md-min) {
+  .min-vh100-fh {
+    min-height: calc(100vh - 160px);
+  }
+}
+
 .text-decoration-none {
   text-decoration: none;
 }

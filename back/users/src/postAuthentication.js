@@ -1,7 +1,8 @@
 const aws = require("aws-sdk");
 const ddb = new aws.DynamoDB({ apiVersion: "2012-10-08" });
+const withSentry = require("serverless-sentry-lib"); // This helper library
 
-exports.handler = async (event, context, callback) => {
+exports.handler = withSentry(async (event, context, callback) => {
   // Send post authentication data to Cloudwatch logs
   console.log("Authentication successful");
   console.log("Trigger function =", event.triggerSource);
@@ -64,4 +65,4 @@ exports.handler = async (event, context, callback) => {
 
   // Return to Amazon Cognito
   callback(null, event);
-};
+});

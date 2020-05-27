@@ -4,13 +4,16 @@ from ..utils.json_util import loads as dynamo_loads
 import os
 import json
 import datetime
+import sentry_sdk
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
+
+sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegration()])
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 DEFAULT_LIMIT = 25
 MAX_LIMIT = 100
-
 
 def endpoint(event, context):
     client = boto3.client('dynamodb', region_name='us-east-1')
