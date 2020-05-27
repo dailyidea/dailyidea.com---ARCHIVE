@@ -25,7 +25,7 @@ export default {
     },
 
     isMyProfile: {
-      type: Boolean,
+      type: Boolean
     },
   },
 
@@ -44,7 +44,7 @@ export default {
  
   methods: {
     selectAvatar() {
-      this.$emit("select-avatar");
+      this.$emit("select-avatar")
     }
   },
 }

@@ -76,11 +76,10 @@ export default {
           })
         )
         
-        console.log(uploadResp);
         this.$store.commit('userData/updateUserAvatar', uploadResp.data.uploadAvatar.avatar) 
       
       } catch(e) {
-        console.log(e)
+        this.$sentry.captureException(e)
       }
 
     },
