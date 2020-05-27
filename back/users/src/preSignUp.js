@@ -1,4 +1,5 @@
 const aws = require("aws-sdk");
+const Sentry = require("@sentry/node");
 const cognitoidentityserviceprovider = new aws.CognitoIdentityServiceProvider();
 const withSentry = require("serverless-sentry-lib"); // This helper library
 
@@ -21,7 +22,7 @@ exports.handler = withSentry(async (event, context, callback) => {
       userAlreadyExists = false;
     }
   } catch (e) {
-    Raven.captureException(e)
+    Sentry.captureException(e)
     console.log(e);
   }
   if (!userAlreadyExists) {
