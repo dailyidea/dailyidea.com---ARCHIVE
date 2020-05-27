@@ -11,9 +11,10 @@ query getMyIdea($ideaId: String!) {
     likesCount
     commentsCount
     visibility
-    
+
     fileAttachments
     imageAttachments
     previewImage
+    viewsCount
   }
 }`

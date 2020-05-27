@@ -109,6 +109,7 @@ import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsTo
 import addIdeaTemporaryComment from '@/graphql/mutations/addIdeaTemporaryComment'
 import getIdeaTemporaryComment from '@/graphql/query/getIdeaTemporaryComment'
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
+import deleteIdeaTemporaryComment from '@/graphql/mutations/deleteIdeaTemporaryComment'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 
 const COMMENTS_COUNT = 25
@@ -214,9 +215,7 @@ export default {
     async getTemporaryComment(commentId) {
       const result = await this.$amplifyApi.graphql({
         query: getIdeaTemporaryComment,
-        variables: {
-          commentId
-        },
+        variables: { commentId },
         authMode: 'API_KEY'
       })
       if (result.data.getIdeaTemporaryComment.result.ok) {
@@ -225,7 +224,8 @@ export default {
         temporaryComment.userName = this.$store.getters['userData/userName']
         this.commentList.splice(this.commentList.length - 1, 1)
         this.commentList.push(temporaryComment)
-        this.sendComment(temporaryComment.body, true)
+        await this.sendComment(temporaryComment.body, true)
+        await this.deleteIdeaTemporaryComment(commentId)
         this.scrollToBottom()
       } else {
         this.commentList.splice(this.commentList.length - 1, 1)
@@ -274,6 +274,16 @@ export default {
       }
       this.deletingComment = false
       this.hideProgressBar()
+    },
+
+    async deleteIdeaTemporaryComment(commentId) {
+      try {
+        await this.$amplifyApi.graphql(
+          graphqlOperation(deleteIdeaTemporaryComment, { commentId })
+        )
+      } catch (e) {
+        this.$sentry.captureException(e)
+      }
     },
 
     onAddCommentAttempt() {

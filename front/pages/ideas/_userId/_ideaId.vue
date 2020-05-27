@@ -161,6 +161,7 @@ import VisualNotifier from '~/components/VisualNotifier'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
 import RegisterEncourageDialog from '@/components/dialogs/RegisterEncourageDialog'
 import IdeaContent from '~/components/IdeaContent'
+import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 
 export default {
   components: {
@@ -212,6 +213,7 @@ export default {
   },
   mounted() {
     this.loadSecondaryData()
+    this.incrementViews()
   },
   methods: {
     onIdeaShared() {
@@ -341,6 +343,22 @@ export default {
     loadSecondaryData() {
       this.loadIdeaTags()
     },
+
+    async incrementViews() {
+      try {
+        await this.$amplifyApi.graphql({
+          query: incrementIdeaViews,
+          variables: {
+            ideaId: this.$route.params.ideaId,
+            ideaOwnerId: this.$route.params.userId
+          },
+          authMode: 'API_KEY'
+        })
+      } catch (e) {
+        this.$sentry.captureException(e)
+      }
+    },
+
     onFileAttached({ type, key }) {
       if (!this.editMode) {
         return

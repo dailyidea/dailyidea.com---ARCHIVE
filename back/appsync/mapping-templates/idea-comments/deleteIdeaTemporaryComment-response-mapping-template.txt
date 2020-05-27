@@ -1,0 +1,4 @@
+#if(!$ctx.result)
+    $util.qr($ctx.stash.put("commentNotFound", true))
+#end
+$util.toJson({"ok": true})

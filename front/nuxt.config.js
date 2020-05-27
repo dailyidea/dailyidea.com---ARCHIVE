@@ -89,6 +89,12 @@ module.exports = {
    */
   modules: ['@nuxtjs/vuetify', 'nuxt-universal-storage', '@nuxtjs/sentry'],
 
+  buildModules: ['@nuxtjs/gtm'],
+
+  gtm: {
+    id: process.env.GTM_ID
+  },
+
   vuetify: {
     icons: {
       iconfont: 'md'
