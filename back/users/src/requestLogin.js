@@ -27,7 +27,7 @@ const getLoginTemplate = (
     } else if (ideaToSave) {
       activePath = "../mail-templates/magic_link_template_with_idea_save.html";
     } else {
-      activePath = "../mail-templates/magic_link_template.html";
+      activePath = "../mail-templates/signup_template.html";
     }
   } else if (withComment) {
     activePath = "../mail-templates/require_login_template_with_comment.html";
