@@ -1,8 +1,10 @@
 import os
 import random
-from datetime import date
+from datetime import date, datetime, timedelta
 import json
 import boto3
+import jwt
+import urllib.parse
 from utils.generate_quote import GenerateQuote
 
 AWS_REGION = os.environ['SES_AWS_REGION']
@@ -14,6 +16,7 @@ def send_daily_bulk(users_list):
     REQUEST_DAILY_EMAIL_TEMPLATE_NAME = os.environ.get('REQUEST_DAILY_EMAIL_TEMPLATE_NAME')
     BUCKET_URL_PREFIX = os.environ.get('BUCKET_URL_PREFIX')
     DOMAIN_NAME = os.environ.get('DOMAIN_NAME')
+    SECRET_TOKEN = os.environ.get('SECRET_TOKEN')
     TODAY = date.today().strftime('%a %b %d %Y')
     
     destinations = []
@@ -34,7 +37,9 @@ def send_daily_bulk(users_list):
                     "USER_ID": user.userId,
                     "SNOOZE_TOKEN": user.emailToken,
                     "QUOTE":quote['quote'],
-                    "QUOTE_BY":quote['by']
+                    "QUOTE_BY":quote['by'],
+                    "AUTH_TOKEN": jwt.encode({'email': user.email, 'exp': (datetime.utcnow() + timedelta(days=7))}, SECRET_TOKEN).decode('utf-8'),
+                    "EMAIL": urllib.parse.quote(user.email),
                 }
             )
         })

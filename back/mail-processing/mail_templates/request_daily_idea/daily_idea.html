@@ -567,9 +567,12 @@
                     <td align="left" vertical-align="middle" style="font-size:0px;padding:10px 25px;padding-top:0px;word-break:break-word;">
                       <table align="left" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
                         <tr>
-                          <td align="center" bgcolor="#FFC61E" role="presentation" style="border:1px solid #FFC61E;border-radius:50px;cursor:auto;padding:10px 25px;" valign="middle"> <a href="https://{{DOMAIN_NAME}}/ideas/create" style="background:#FFC61E;color:#000000;font-family:Helvetica, sans-serif;font-size:13px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;" target="_blank">
-              Submit Your Idea
-            </a> </td>
+                          <td align="center" bgcolor="#FFC61E" role="presentation" style="border:1px solid #FFC61E;border-radius:50px;cursor:auto;padding:10px 25px;" valign="middle">
+                            <a href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ AUTH_TOKEN }}&email={{ EMAIL }}&next=%2Fideas%2Fcreate"
+                               style="background:#FFC61E;color:#000000;font-family:Helvetica, sans-serif;font-size:13px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;" target="_blank">
+                              Submit Your Idea
+                            </a>
+                          </td>
                         </tr>
                       </table>
                     </td>
