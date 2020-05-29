@@ -172,12 +172,12 @@ export default {
 
     emitStateChange(result) {
       if (this.action === 'like') {
-        this.$emit('likedStateChanged', {
+        this.$emit('liked-state-changed', {
           liked: this.isActedOn,
           likesCount: result.likesCount
         })
       } else {
-        this.$emit('savedStateChanged', {
+        this.$emit('saved-state-changed', {
           saved: this.isActedOn,
           savesCount: result.savesCount
         })
@@ -209,8 +209,9 @@ export default {
           ideaOwnerId: this.$route.params.userId
         }
       })
+
       const result =
-        this.idea === 'like' ? res.data.unlikeIdea : res.data.unsaveIdea
+        this.action === 'like' ? res.data.unlikeIdea : res.data.unsaveIdea
       this.isActedOn = false
       this.isLoading = false
       this.emitStateChange(result)
@@ -290,7 +291,7 @@ export default {
       if (this.isLoading) {
         return
       }
-      if (this.$store.getters['cognito/isLoggedIn']) {
+      if (this.isLoggedIn) {
         this.toggleIdeaAuth()
       } else {
         this.showAskEmail = true;

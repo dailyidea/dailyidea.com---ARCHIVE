@@ -25,14 +25,14 @@
               <menu-panel
                 :editable="isMyIdea"
                 :idea="idea"
-                @enableEditMode="enableEditMode"
-                @savedStateChanged="onIdeaSaveStateChanged"
-                @likedStateChanged="onIdeaLikeStateChanged"
-                @onNotification="onNotification"
-                @onIdeaShared="onIdeaShared"
-                @onDeleteIdea="onDeleteIdea"
-                @onIdeaVisibilityChanged="onIdeaVisibilityChanged"
-                @onIdeaVisibilityChangeError="onIdeaVisibilityChangeError"
+                @enable-edit-mode="enableEditMode"
+                @saved-state-changed="onIdeaSaveStateChanged"
+                @liked-state-changed="onIdeaLikeStateChanged"
+                @on-notification="onNotification"
+                @on-idea-shared="onIdeaShared"
+                @on-delete-idea="onDeleteIdea"
+                @on-idea-visibility-changed="onIdeaVisibilityChanged"
+                @on-idea-visibility-change-error="onIdeaVisibilityChangeError"
               ></menu-panel>
             </v-col>
           </v-row>
