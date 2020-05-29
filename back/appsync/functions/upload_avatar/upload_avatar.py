@@ -7,6 +7,10 @@ import base64
 import os
 import uuid
 import json
+import sentry_sdk
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
+
+sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegration()])
 
 # logger = logging.getLogger()
 # logger.setLevel(logging.INFO)
@@ -19,7 +23,6 @@ dynamodb_client = boto3.client('dynamodb', region_name=os.environ['AWS_REGION'])
 lambda_client = boto3.client('lambda', region_name=os.environ['AWS_REGION'])
 UPDATE_PROFILE_INFO_IN_CREATED_IDEAS_FUNCTION_NAME = os.environ.get(
     'UPDATE_PROFILE_INFO_IN_CREATED_IDEAS_FUNCTION_NAME')
-
 
 def endpoint(event, lambda_context):
     ctx = event.get('ctx')
@@ -40,13 +43,20 @@ def endpoint(event, lambda_context):
     size = sys.getsizeof(arguments['avatar'])
     if size > 1024 * 1024 * 10:  # 10 Mb max
         return {'result': {'ok': False, 'error': 'Too large file'}}
-    im = Image.open(BytesIO(base64.b64decode(arguments['avatar'])))
-    im = im.resize((512, 512))
-    temp = BytesIO()
-    im.save(temp, format="jpeg", quality=100)
-    temp.seek(0)
-    new_name = f"daily-idea-avatar-{profile_id}-{str(uuid.uuid4()).split('-')[-2]}.jpg"
-    s3_client.upload_fileobj(temp, BUCKET_NAME, new_name, ExtraArgs={'ACL': 'public-read', 'ContentType': 'image/jpeg'})
+    
+    if arguments.get("isSVG"):
+        new_name = f"daily-idea-avatar-{profile_id}-{str(uuid.uuid4()).split('-')[-2]}.svg"
+        s3_client.upload_fileobj(BytesIO(arguments['avatar'].encode()), BUCKET_NAME, new_name, ExtraArgs={'ACL': 'public-read', 'ContentType': 'image/svg+xml'})
+    
+    else:
+        im = Image.open(BytesIO(base64.b64decode(arguments['avatar'])))
+        im = im.resize((512, 512))
+        temp = BytesIO()
+        im.save(temp, format="jpeg", quality=100)
+        temp.seek(0)
+        new_name = f"daily-idea-avatar-{profile_id}-{str(uuid.uuid4()).split('-')[-2]}.jpg"
+        s3_client.upload_fileobj(temp, BUCKET_NAME, new_name, ExtraArgs={'ACL': 'public-read', 'ContentType': 'image/jpeg'})
+    
     avatar_url = f"{BUCKET_URL_PREFIX}/{new_name}"
     dynamodb_client.update_item(
         TableName=USERS_TABLE_NAME,

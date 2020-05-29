@@ -2,17 +2,16 @@ const fs = require("fs");
 const path = require("path");
 const querystring = require("querystring");
 const Sqrl = require("squirrelly");
-const templatePath = path.join(
-  __dirname,
-  "../mail-templates/magic_link_template.html"
-);
+const withSentry = require("serverless-sentry-lib"); // This helper library
+
+const templatePath = path.join(__dirname, '../mail-templates/signup_template.html');
 const magicLinkTemplateHTMLTemplateRAw = fs.readFileSync(templatePath, "utf8");
 
 const magicLinkTemplateHTMLCompiled = Sqrl.Compile(
   magicLinkTemplateHTMLTemplateRAw
 );
 
-exports.handler = (event, context, callback) => {
+exports.handler = withSentry((event, context, callback) => {
   if (event.triggerSource === "CustomMessage_SignUp") {
     console.log(event.request.userAttributes.email);
     event.response.emailSubject =
@@ -29,4 +28,4 @@ exports.handler = (event, context, callback) => {
     );
   }
   context.done(null, event);
-};
+});

@@ -2,7 +2,10 @@ import boto3
 import logging
 import datetime
 import os
+import sentry_sdk
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
 
+sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegration()])
 
 from ..utils.common_db_utils import chunks, BATCH_WRITE_CHUNK_SIZE
 from ..utils.idea_utils import sanitize_idea_content, prepare_idea_tags_for_put_request, \
@@ -11,7 +14,6 @@ from ..utils.idea_utils import sanitize_idea_content, prepare_idea_tags_for_put_
 
 # logger = logging.getLogger()
 # logger.setLevel(logging.INFO)
-
 
 
 def endpoint(event, lambda_context):

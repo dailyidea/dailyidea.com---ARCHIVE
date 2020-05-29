@@ -1,0 +1,68 @@
+import logging
+import boto3
+from ..utils.json_util import loads as dynamo_loads
+import os
+import json
+import datetime
+import sentry_sdk
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
+
+sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegration()])
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+DEFAULT_LIMIT = 25
+MAX_LIMIT = 100
+
+def endpoint(event, context):
+    client = boto3.client('dynamodb', region_name='us-east-1')
+    userId = event['identity']['username']
+    current_token = event.get('nextToken', None)
+    limit = event.get('limit', None)
+    if limit is None or limit > MAX_LIMIT:
+        limit = DEFAULT_LIMIT
+    query_additional_params = {}
+    if current_token:
+        query_additional_params['ExclusiveStartKey'] = {'ideaId': {'S': current_token}, 'userId': {'S': userId}}
+
+    resp = client.query(
+        TableName=os.environ.get('ACTIONS_TABLE_NAME'),
+        KeyConditionExpression="userId = :userId",
+        IndexName=os.environ.get("INDEX_NAME"),
+        ExpressionAttributeValues={":userId": {"S": userId}},
+        ProjectionExpression='ideaId,ideaOwnerId',
+        Limit=limit,
+        ScanIndexForward=False,
+        **query_additional_params
+    )
+
+    last_evaluated_key = resp.get('LastEvaluatedKey', None)
+    next_token = None
+    if last_evaluated_key:
+        next_token = last_evaluated_key['ideaId']['S']  # userId is constant.
+
+    ideas_keys = resp["Items"]
+    ideas_id_list = list(map(lambda i: i['ideaId']['S'], ideas_keys))
+    if len(ideas_keys) == 0:
+        return {'items': [], 'nextToken': None}
+    ideas = client.batch_get_item(
+        RequestItems={
+            os.environ.get('IDEAS_TABLE_NAME'): {
+                'Keys': list(map(lambda key: {'ideaId': key['ideaId'], 'userId': key['ideaOwnerId']}, ideas_keys)),
+                'ConsistentRead': True,
+            }
+        }
+    )
+    raw_ideas = ideas['Responses'][os.environ.get('IDEAS_TABLE_NAME')]
+    clean_ideas = dynamo_loads(raw_ideas)
+    clean_ideas = list(filter(lambda i: (i['userId'] == userId or i['visibility'] == 'PUBLIC'), clean_ideas))
+    for clean_idea in clean_ideas:
+        if type(clean_idea['createdDate']) == datetime.datetime:
+            clean_idea['createdDate'] = clean_idea['createdDate'].isoformat()
+        if type(clean_idea['ideaDate']) == datetime.datetime:
+            clean_idea['ideaDate'] = clean_idea['ideaDate'].isoformat()
+        if type(clean_idea.get('updatedDate', None)) == datetime.datetime:
+            clean_idea['updatedDate'] = clean_idea['updatedDate'].isoformat()
+    clean_ideas = sorted(clean_ideas, key=lambda i: ideas_id_list.index(i['ideaId']))
+    return {'items': clean_ideas, 'nextToken': next_token}

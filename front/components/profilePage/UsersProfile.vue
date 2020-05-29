@@ -7,22 +7,12 @@
         cols="12"
         sm="4"
       >
-        <v-tooltip :disabled="!allowEdit" right>
-          <template v-slot:activator="{ on }">
-            <div
-              class="user-avatar__container"
-              :class="{ 'with-avatar': avatarIsSet, changeable: allowEdit }"
-              :style="avatarStyle"
-              @click="selectAvatar"
-              v-on="on"
-            >
-              <span v-if="!avatarIsSet" class="user-avatar__default">
-                <v-icon>fas fa-user</v-icon>
-              </span>
-            </div>
-          </template>
-          <span>Click to update your avatar</span>
-        </v-tooltip>
+        <user-profile-avatar
+          :profile-data="profileData"
+          :is-my-profile="isMyProfile"
+          @select-avatar="selectAvatar"
+        >
+        </user-profile-avatar>
       </v-col>
 
       <!-- right side profile info on desktop -->
@@ -45,7 +35,7 @@
             <h2 v-else>{{ profileData.name }}</h2>
           </v-col>
           <v-col v-if="!editMode" cols="auto">
-            <v-tooltip v-if="allowEdit" top>
+            <v-tooltip v-if="isMyProfile" top>
               <template v-slot:activator="{ on }">
                 <v-chip outlined color="grey lighten-1" @click="enableEditMode"
                   >Edit Profile
@@ -223,16 +213,18 @@
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 
-import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
 import Layout from '@/components/layout/Layout'
 import updateProfileInfo from '@/graphql/mutations/updateProfileInfo'
 import IdeasListIdea from '@/components/ideasList/ideasListIdea'
+import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
+import UserProfileAvatar from './UserProfileAvatar'
 import VisualNotifier from '~/components/VisualNotifier'
 import uploadAvatar from '~/graphql/mutations/uploadAvatar'
 
 export default {
   name: 'UsersProfile',
   components: {
+    UserProfileAvatar,
     IdeasListIdea,
     Layout,
     VisualNotifier,
@@ -281,26 +273,11 @@ export default {
     isMyProfile() {
       return this.$store.getters['userData/userId'] === this.profileData.userId
     },
-    allowEdit() {
-      return this.isMyProfile
-    },
     nameRules() {
       return [
         v => !!v || 'Name is required',
         v => (v && v.length > 3) || 'Name must be more than 3 characters'
       ]
-    },
-    avatarIsSet() {
-      return !!this.profileData.avatar
-    },
-    avatarStyle() {
-      if (this.avatarIsSet) {
-        return {
-          'background-image': `url(${this.profileData.avatar})`
-        }
-      } else {
-        return {}
-      }
     }
   },
   created() {
@@ -308,7 +285,7 @@ export default {
   },
   methods: {
     selectAvatar() {
-      if (!this.allowEdit) {
+      if (!this.isMyProfile) {
         return
       }
       this.$refs.file.click()
@@ -435,53 +412,6 @@ export default {
 .profileStats {
   .stat {
     font-weight: 900;
-  }
-}
-
-.user-avatar {
-  &__container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: 200px;
-    height: 200px;
-
-    @media (max-width: $screen-md-max) {
-      width: 120px;
-      height: 120px;
-    }
-
-    border-radius: 50%;
-    background-color: #ebe7ed;
-    transition: background-color, opacity 0.2s ease;
-
-    &.changeable {
-      cursor: pointer;
-
-      &:not(.with-avatar) {
-        &:hover {
-          background-color: #dcd8de;
-        }
-      }
-
-      &.with-avatar {
-        &:hover {
-          opacity: 0.8;
-        }
-      }
-
-      &:active {
-        background-color: #d3cfd5;
-      }
-    }
-  }
-  &__default .v-icon {
-    font-size: 70px;
-    @media (max-width: $screen-md-max) {
-      font-size: 50px;
-    }
   }
 }
 

@@ -34,8 +34,8 @@
                 <v-icon small>mdi-thumb-up-outline</v-icon></span
               >
               <span
-                 >{{ idea.savesCount ? idea.savesCount : 0 }}
-                 <v-icon small>mdi-bookmark-outline</v-icon></span
+                >{{ idea.savesCount ? idea.savesCount : 0 }}
+                <v-icon small>mdi-bookmark-outline</v-icon></span
               >
               <span
                 >{{ idea.commentsCount }}

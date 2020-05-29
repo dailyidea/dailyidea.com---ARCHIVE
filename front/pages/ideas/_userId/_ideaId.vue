@@ -141,10 +141,8 @@
       </v-col>
     </v-row>
     <visual-notifier ref="notifier"></visual-notifier>
-    <simple-dialog-popup ref="simpleDialogPopup"></simple-dialog-popup>
-    <register-encourage-dialog
-      ref="registerEncourageDialog"
-    ></register-encourage-dialog>
+
+    <register-encourage-dialog v-model="showRegisterEncourageDialog" />
   </layout>
 </template>
 
@@ -156,14 +154,14 @@ import TrixWrapper from '@/components/TrixWrapper'
 
 import IdeaComments from '@/components/ideaDetail/IdeaComments'
 import MenuPanel from '@/components/ideaDetail/MenuPanel'
+import RegisterEncourageDialog from '@/components/dialogs/RegisterEncourageDialog'
+import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 import getUsersIdea from '~/graphql/query/getUsersIdea'
 import getMyIdea from '~/graphql/query/getMyIdea'
 import getIdeaTags from '~/graphql/query/getIdeaTags'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import VisualNotifier from '~/components/VisualNotifier'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
-import simpleDialogPopup from '~/components/dialogs/simpleDialogPopup'
-import registerEncourageDialog from '~/components/dialogs/registerEncourageDialog'
 import IdeaContent from '~/components/IdeaContent'
 
 export default {
@@ -173,8 +171,7 @@ export default {
     IdeaComments,
     TrixWrapper,
     VisualNotifier,
-    simpleDialogPopup,
-    registerEncourageDialog,
+    RegisterEncourageDialog,
     IdeaContent
   },
   $_veeValidate: {
@@ -211,20 +208,19 @@ export default {
         content: ''
       },
 
-      updatingIdea: false
+      updatingIdea: false,
+      showRegisterEncourageDialog: false
     }
   },
   mounted() {
     this.loadSecondaryData()
+    this.incrementViews()
   },
   methods: {
-    showRegisterEncourageDialog() {
-      this.$refs.registerEncourageDialog.show()
-    },
     onIdeaShared() {
       if (!this.$store.getters['cognito/isLoggedIn']) {
         setTimeout(() => {
-          this.showRegisterEncourageDialog()
+          this.showRegisterEncourageDialog = true
         }, 1000)
       }
     },
@@ -266,11 +262,12 @@ export default {
     },
     // Delete Idea
     async onDeleteIdea() {
-      const confirmed = await this.$refs.simpleDialogPopup.show(
-        'Delete Idea',
-        'Are you sure you want to delete this Idea?',
-        'Delete'
-      )
+      const confirmed = await this.$dialog.show({
+        header: 'Delete Idea',
+        message: 'Are you sure you want to delete this Idea?',
+        buttonOkText: 'Delete',
+        showCancelButton: true
+      })
       if (!confirmed) {
         return
       }
@@ -350,6 +347,22 @@ export default {
     loadSecondaryData() {
       this.loadIdeaTags()
     },
+
+    async incrementViews() {
+      try {
+        await this.$amplifyApi.graphql({
+          query: incrementIdeaViews,
+          variables: {
+            ideaId: this.$route.params.ideaId,
+            ideaOwnerId: this.$route.params.userId
+          },
+          authMode: 'API_KEY'
+        })
+      } catch (e) {
+        this.$sentry.captureException(e)
+      }
+    },
+
     onFileAttached({ type, key }) {
       if (!this.editMode) {
         return

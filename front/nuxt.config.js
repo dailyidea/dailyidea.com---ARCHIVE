@@ -35,13 +35,18 @@ module.exports = {
       },
       { hid: 'og:site_name', property: 'og:site_name', content: 'Daily Idea' },
       { hid: 'og:image:width', property: 'og:image:width', content: 1200 },
-      { hid: 'og:image:height', property: 'og:image:height', content: 630 }
+      { hid: 'og:image:height', property: 'og:image:height', content: 630 },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        content: `https://${process.env.S3_STATIC_DOMAIN}.s3.amazonaws.com/og-default-image.png`
+      }
     ],
     link: [
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href: '/favicon.ico'
+        href: `https://${process.env.S3_STATIC_DOMAIN}.s3.amazonaws.com/favicon.ico`
       },
       {
         rel: 'stylesheet',
@@ -75,13 +80,20 @@ module.exports = {
     '@/plugins/clipboard',
     '@/plugins/vee-validate',
     '@/plugins/toRelativeDate',
-    '@/plugins/mixins'
+    '@/plugins/mixins',
+    '@/plugins/app-dialog'
   ],
 
   /*
    ** Nuxt.js modules
    */
   modules: ['@nuxtjs/vuetify', 'nuxt-universal-storage', '@nuxtjs/sentry'],
+
+  buildModules: ['@nuxtjs/gtm'],
+
+  gtm: {
+    id: process.env.GTM_ID
+  },
 
   vuetify: {
     icons: {
@@ -144,9 +156,10 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    publicPath: process.env.S3_DOMAIN
-      ? `https://${process.env.S3_DOMAIN}/`
-      : undefined,
+    publicPath:
+      process.env.CLOUDFRONT_DOMAIN || process.env.S3_DOMAIN
+        ? `https://${process.env.CLOUDFRONT_DOMAIN || process.env.S3_DOMAIN}/`
+        : undefined,
     cache: true,
     modern: true,
     sourceMap: true,

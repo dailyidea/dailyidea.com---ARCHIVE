@@ -1,6 +1,10 @@
 import boto3
 import os
 from datetime import datetime, timedelta
+import sentry_sdk
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
+
+sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegration()])
 
 client = boto3.client('dynamodb', region_name='us-east-1')
 
@@ -77,7 +81,6 @@ def get_formatted_result(table_name, *args):
         'month': month,
         'total': total,
     }
-
 
 def endpoint(event, context):
     resp = {}

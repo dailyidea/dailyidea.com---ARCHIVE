@@ -46,40 +46,62 @@
       action="save"
       @savedStateChanged="onIdeaSaveStateChanged"
     ></act-on-idea>
-    <ShareIdeaByEmailDialog
+
+    <share-idea-by-email-dialog
+      v-model="showEmailShareDialog"
       :idea-id="$route.params.ideaId"
       :idea-owner-id="$route.params.userId"
-      :visible="showEmailShareDialog"
       @success="onSharedIdeaOverEmail"
       @error="onSharedIdeaOverEmailError"
-      @close="showEmailShareDialog = false"
       @onCopyShareLink="onCopyShareLink"
-    ></ShareIdeaByEmailDialog>
-    <make-idea-private-dialog
-      ref="makeIdeaPrivateDialog"
-    ></make-idea-private-dialog>
-    <make-idea-public-dialog
-      ref="makeIdeaPublicDialog"
-    ></make-idea-public-dialog>
+    ></share-idea-by-email-dialog>
+
+    <default-dialog
+      v-model="showMakeIdeaPrivate"
+      header="Want To Make Your Idea Private?"
+      button-ok-text="Make Private"
+      :image-path="require('~/assets/images/dialogs/undraw_security_o890.svg')"
+      @ok="makeIdeaPrivate"
+    >
+      <p>That's ok!</p>
+      <p>
+        Some things aren't ready to be shared. Make this idea private with just
+        one click.
+      </p>
+    </default-dialog>
+
+    <default-dialog
+      v-model="showMakeIdeaPublic"
+      header="Share Your Idea With The World!"
+      button-ok-text="Make Public"
+      :image-path="
+        require('~/assets/images/dialogs/undraw_spread_love_r9jb.svg')
+      "
+      @ok="makeIdeaPublic"
+    >
+      <p>
+        Awesome!
+      </p>
+      <p>Ideas want to be shared! Make this idea public with just one click.</p>
+    </default-dialog>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import { graphqlOperation } from '@aws-amplify/api'
-import ShareIdeaByEmailDialog from '@/components/dialogs/shareIdeaByEmail'
+import ShareIdeaByEmailDialog from '@/components/dialogs/ShareIdeaByEmail'
 import ActOnIdea from '@/components/ideaDetail/ActOnIdea'
+import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import makeIdeaPrivate from '~/graphql/mutations/makeIdeaPrivate'
 import makeIdeaPublic from '~/graphql/mutations/makeIdeaPublic'
-import makeIdeaPrivateDialog from '~/components/dialogs/makeIdeaPrivateDialog'
-import makeIdeaPublicDialog from '~/components/dialogs/makeIdeaPublicDialog'
 
 export default {
   name: 'MenuPanel',
   components: {
     ActOnIdea,
     ShareIdeaByEmailDialog,
-    makeIdeaPrivateDialog,
-    makeIdeaPublicDialog
+    DefaultDialog
   },
   props: {
     editable: {
@@ -93,7 +115,9 @@ export default {
   },
   data() {
     return {
-      showEmailShareDialog: false
+      showEmailShareDialog: false,
+      showMakeIdeaPrivate: false,
+      showMakeIdeaPublic: false
     }
   },
   computed: {
@@ -102,27 +126,29 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      showProgressBar: 'layoutState/showProgressBar',
+      hideProgressBar: 'layoutState/hideProgressBar'
+    }),
+
     deleteIdea() {
       this.$emit('onDeleteIdea')
     },
+
     onIdeaSaveStateChanged(val) {
       this.$emit('savedStateChanged', val)
     },
+
     onIdeaLikeStateChanged(val) {
-      this.$emit('likedStateChanged', val);
+      this.$emit('likedStateChanged', val)
     },
+
     async makeIdeaPrivate() {
-      const confirmed = await this.$refs.makeIdeaPrivateDialog.show()
-      if (!confirmed) {
-        return
-      }
-      this.$store.commit('layoutState/showProgressBar')
+      this.showProgressBar()
       try {
         const ideaId = this.idea.ideaId
         const result = await this.$amplifyApi.graphql(
-          graphqlOperation(makeIdeaPrivate, {
-            ideaId
-          })
+          graphqlOperation(makeIdeaPrivate, { ideaId })
         )
         if (result.data.makeIdeaPrivate.ok) {
           this.$emit('onIdeaVisibilityChanged', { isPrivate: true })
@@ -132,20 +158,16 @@ export default {
       } catch (err) {
         this.$emit('onIdeaVisibilityChangeError', { isPrivate: true })
       }
-      this.$store.commit('layoutState/hideProgressBar')
+      this.hideProgressBar()
+      this.showMakeIdeaPrivate = false
     },
+
     async makeIdeaPublic() {
-      const confirmed = await this.$refs.makeIdeaPublicDialog.show()
-      if (!confirmed) {
-        return
-      }
-      this.$store.commit('layoutState/showProgressBar')
+      this.showProgressBar()
       try {
         const ideaId = this.idea.ideaId
         const result = await this.$amplifyApi.graphql(
-          graphqlOperation(makeIdeaPublic, {
-            ideaId
-          })
+          graphqlOperation(makeIdeaPublic, { ideaId })
         )
         if (result.data.makeIdeaPublic.ok) {
           this.$emit('onIdeaVisibilityChanged', { isPrivate: false })
@@ -155,31 +177,38 @@ export default {
       } catch (err) {
         this.$emit('onIdeaVisibilityChangeError', { isPrivate: false })
       }
-      this.$store.commit('layoutState/hideProgressBar')
+      this.hideProgressBar()
+      this.showMakeIdeaPublic = false
     },
+
     toggleIdeaPrivacy() {
       if (this.isPrivate) {
-        this.makeIdeaPublic()
+        this.showMakeIdeaPublic = true
       } else {
-        this.makeIdeaPrivate()
+        this.showMakeIdeaPrivate = true
       }
     },
+
     showShareIdeaDialog() {
       this.showEmailShareDialog = true
     },
+
     enableEditMode() {
       this.$emit('enableEditMode')
     },
+
     onSharedIdeaOverEmail() {
       this.$emit('onNotification', { type: 'success', message: 'Idea shared!' })
       this.$emit('onIdeaShared')
     },
+
     onSharedIdeaOverEmailError() {
       this.$emit('onNotification', {
         type: 'error',
         message: "Can't share Idea"
       })
     },
+
     onCopyShareLink() {
       this.$emit('onNotification', { type: 'success', message: 'Link copied' })
     }

@@ -6,6 +6,8 @@ const middy = require("middy");
 const ddb = new AWS.DynamoDB({ apiVersion: "2012-10-08" });
 const { cors, jsonBodyParser, httpErrorHandler } = require("middy/middlewares");
 const Sqrl = require("squirrelly");
+const withSentry = require("serverless-sentry-lib"); // This helper library
+const Sentry = require("@sentry/node");
 
 const getCompiledTemplateFromPath = templatePath => {
   const fullTemplatePath = path.join(__dirname, templatePath);
@@ -25,7 +27,7 @@ const getLoginTemplate = (
     } else if (ideaToSave) {
       activePath = "../mail-templates/magic_link_template_with_idea_save.html";
     } else {
-      activePath = "../mail-templates/magic_link_template.html";
+      activePath = "../mail-templates/signup_template.html";
     }
   } else if (withComment) {
     activePath = "../mail-templates/require_login_template_with_comment.html";
@@ -253,6 +255,7 @@ const sendMail = async (event, context) => {
     }
   } catch (e) {
     console.log("error", e);
+    Sentry.captureException(e);
     return {
       statusCode: 500,
       body: JSON.stringify({
@@ -263,9 +266,9 @@ const sendMail = async (event, context) => {
   }
 };
 
-const handler = middy(sendMail)
+const handler = withSentry(middy(sendMail)
   .use(jsonBodyParser())
   .use(httpErrorHandler())
-  .use(cors());
+  .use(cors()));
 
 module.exports = { handler };

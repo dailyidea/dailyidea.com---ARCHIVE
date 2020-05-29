@@ -9,14 +9,12 @@
       @trix-attachment-remove="handleAttachmentRemove"
       @input="input"
     />
-    <simple-dialog-popup ref="simple-dialog-popup"></simple-dialog-popup>
   </div>
 </template>
 
 <script>
 import Autolinker from 'autolinker'
 import { Credentials } from '@aws-amplify/core'
-import SimpleDialogPopup from '@/components/dialogs/simpleDialogPopup'
 
 const VueTrix = () => import('vue-trix')
 
@@ -97,7 +95,7 @@ function customizeTrixPanel(event) {
 
 export default {
   name: 'TrixWrapper',
-  components: { SimpleDialogPopup, VueTrix },
+  components: { VueTrix },
   props: {
     value: {
       type: String,
@@ -149,12 +147,10 @@ export default {
     checkFileAcceptance(event) {
       if (event.file) {
         if (event.file.size > MAX_ATTACHMENT_SIZE_BYTES) {
-          this.$refs['simple-dialog-popup'].show(
-            'File too large',
-            'Max acceptable file size is 5Mb',
-            'OK',
-            null
-          )
+          this.$dialog.show({
+            header: 'File too large',
+            message: 'Max acceptable file size is 5Mb'
+          })
           event.preventDefault()
         }
       }

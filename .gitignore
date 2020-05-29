@@ -5,6 +5,8 @@ dist
 ngrok
 *.sw[a-z]
 
+*.sw[a-z]
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml

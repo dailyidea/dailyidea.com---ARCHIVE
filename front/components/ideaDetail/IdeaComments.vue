@@ -60,81 +60,124 @@
         </template>
       </v-text-field>
     </div>
-    <simple-dialog-popup ref="simpleDialogPopup"></simple-dialog-popup>
-    <on-first-comment-instantiated-dialog
-      ref="onFirstCommentInstantiatedDialog"
-    ></on-first-comment-instantiated-dialog>
-    <on-un-auth-action-ask-email-dialog
-      ref="onUnAuthActionAskEmailDialog"
-    ></on-un-auth-action-ask-email-dialog>
-    <on-un-auth-action-ask-name-dialog
-      ref="onUnAuthActionAskNameDialog"
-    ></on-un-auth-action-ask-name-dialog>
+
+    <default-dialog
+      v-model="showFirstCommentInstantiated"
+      header="Welcome!"
+      :show-cancel-button="false"
+      @ok="() => (showFirstCommentInstantiated = false)"
+    >
+      <p>
+        Thanks for posting that comment! Feel free to
+        <router-link to="/ideas/all">browse for other ideas</router-link> or
+        <router-link to="/ideas/create">add your own ideas</router-link>
+        .
+      </p>
+    </default-dialog>
+
+    <ask-email-dialog
+      v-model="showAskEmail"
+      header="Introduce yourself?"
+      message="Before we post this for everyone to see, can you please confirm your email address?"
+      button-cancel-text="Delete comment"
+      @cancel="cancelNewComment"
+      @data="onNoAuthEmail"
+    ></ask-email-dialog>
+
+    <ask-name-dialog
+      v-model="showAskName"
+      header="Almost there"
+      message="What can we call you?"
+      button-cancel-text="Delete comment"
+      @cancel="cancelNewComment"
+      @data="onNoAuthName"
+    ></ask-name-dialog>
   </div>
 </template>
 
 <script>
 import nanoid from 'nanoid'
 import { graphqlOperation } from '@aws-amplify/api'
+import { mapMutations, mapGetters } from 'vuex'
+import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
+import addIdeaTemporaryComment from '@/graphql/mutations/addIdeaTemporaryComment'
+import getIdeaTemporaryComment from '@/graphql/query/getIdeaTemporaryComment'
+import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
+import deleteIdeaTemporaryComment from '@/graphql/mutations/deleteIdeaTemporaryComment'
+import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import IdeaCommentsComment from './IdeaCommentsComment'
+import AskEmailDialog from './AskEmailDialog'
+import AskNameDialog from './AskNameDialog'
 import addComment from '~/graphql/mutations/addComment'
 import getComments from '~/graphql/query/getComments'
 import deleteComment from '~/graphql/mutations/deleteComment'
-import simpleDialogPopup from '~/components/dialogs/simpleDialogPopup'
-import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
-import onUnAuthActionAskEmailDialog from '@/components/ideaDetail/onUnAuthActionAskEmailDialog'
-import onUnAuthActionAskNameDialog from '@/components/ideaDetail/onUnAuthActionAskNameDialog'
-import addIdeaTemporaryComment from '@/graphql/mutations/addIdeaTemporaryComment'
-import getIdeaTemporaryComment from '@/graphql/query/getIdeaTemporaryComment'
-import OnFirstCommentInstantiatedDialog from '@/components/ideaDetail/onFirstCommentInstantiatedDialog'
-import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
 
 const COMMENTS_COUNT = 25
 
 export default {
   name: 'IdeaComments',
+
   components: {
-    OnFirstCommentInstantiatedDialog,
     IdeaCommentsComment,
-    simpleDialogPopup,
-    onUnAuthActionAskEmailDialog,
-    onUnAuthActionAskNameDialog
+    DefaultDialog,
+    AskEmailDialog,
+    AskNameDialog
   },
+
   props: {
     idea: {
       type: Object,
       required: true
     }
   },
+
   data() {
     return {
       tmpComment: {},
       newCommentText: '',
+      tmpCommentText: '',
       showAddCommentLoader: false,
       commentList: [],
       nextToken: null,
       loadingMore: false,
       deletingComment: false,
-      temporaryCommentId: undefined
+      temporaryCommentId: undefined,
+
+      showAskEmail: false,
+      email: '',
+      showAskName: false,
+      name: '',
+
+      showFirstCommentInstantiated: false
     }
   },
+
   computed: {
+    ...mapGetters({
+      isAuthenticated: 'userData/isAuthenticated'
+    }),
+
     readyForSend() {
       return this.newCommentText.length > 0
-    },
-    isAuthenticated() {
-      return this.$store.getters['userData/isAuthenticated']
     }
   },
+
   mounted() {
     this.doInitialCommentsLoading()
   },
+
   methods: {
+    ...mapMutations({
+      showProgressBar: 'layoutState/showProgressBar',
+      hideProgressBar: 'layoutState/hideProgressBar'
+    }),
+
     scrollToBottom() {
       this.$nextTick(() => {
         this.$refs.scroller.scrollTop = this.$refs.scroller.scrollHeight
       })
     },
+
     doInitialCommentsLoading() {
       if (this.idea.commentsCount > 0) {
         const fakeCommentsCount = Math.min(
@@ -168,12 +211,11 @@ export default {
       }
       this.loadComments()
     },
+
     async getTemporaryComment(commentId) {
       const result = await this.$amplifyApi.graphql({
         query: getIdeaTemporaryComment,
-        variables: {
-          commentId
-        },
+        variables: { commentId },
         authMode: 'API_KEY'
       })
       if (result.data.getIdeaTemporaryComment.result.ok) {
@@ -182,26 +224,28 @@ export default {
         temporaryComment.userName = this.$store.getters['userData/userName']
         this.commentList.splice(this.commentList.length - 1, 1)
         this.commentList.push(temporaryComment)
-        this.sendComment(temporaryComment.body, true)
+        await this.sendComment(temporaryComment.body, true)
+        await this.deleteIdeaTemporaryComment(commentId)
         this.scrollToBottom()
       } else {
         this.commentList.splice(this.commentList.length - 1, 1)
         this.$router.replace({ query: null })
       }
     },
+
     async onDeleteComment(comment) {
-      const confirmed = await this.$refs.simpleDialogPopup.show(
-        'Delete Comment',
-        'Are you sure you want to delete this comment?',
-        'Yes, Delete',
-        'Cancel',
-        require('~/assets/images/dialogs/undraw_throw_away_ldjd.svg')
-      )
+      const confirmed = await this.$dialog.show({
+        header: 'Delete Comment',
+        message: 'Are you sure you want to delete this comment?',
+        buttonOkText: 'Yes, Delete',
+        imagePath: require('~/assets/images/dialogs/undraw_throw_away_ldjd.svg'),
+        showCancelButton: true
+      })
       if (!confirmed) {
         return
       }
       this.deletingComment = true
-      this.$store.commit('layoutState/showProgressBar')
+      this.showProgressBar()
       try {
         this.commentList = this.commentList.filter(
           c => c.commentId !== comment.commentId
@@ -229,19 +273,32 @@ export default {
         })
       }
       this.deletingComment = false
-      this.$store.commit('layoutState/hideProgressBar')
+      this.hideProgressBar()
     },
+
+    async deleteIdeaTemporaryComment(commentId) {
+      try {
+        await this.$amplifyApi.graphql(
+          graphqlOperation(deleteIdeaTemporaryComment, { commentId })
+        )
+      } catch (e) {
+        this.$sentry.captureException(e)
+      }
+    },
+
     onAddCommentAttempt() {
       const commentText = this.newCommentText
+      this.tmpCommentText = commentText
       this.newCommentText = ''
       this.showAddCommentLoader = true
       const isAuthenticated = this.$store.getters['userData/isAuthenticated']
       if (isAuthenticated) {
         this.sendComment(commentText)
       } else {
-        this.appendFakeCommentAndEncourageToRegisterOrSignUp(commentText)
+        this.appendFakeCommentAndEncourageToRegisterOrSignUp()
       }
     },
+
     checkEmailBelongsToExistingUser(email) {
       return this.$amplifyApi.graphql({
         query: checkEmailBelongsToExistingUser,
@@ -251,25 +308,26 @@ export default {
         authMode: 'API_KEY'
       })
     },
+
     addTemporaryFakeComment(text) {
       this.tmpComment = { userName: 'Me', body: text, temporary: true }
       this.commentList.push(this.tmpComment)
       this.scrollToBottom()
     },
+
     removeTemporaryFakeComment() {
       this.commentList.splice(this.commentList.indexOf(this.tmpComment), 1)
     },
+
     processCommentInstantiation() {
       const wasWelcomed = this.$store.getters['userData/wasWelcomed']
       if (wasWelcomed) {
-        this.$refs.simpleDialogPopup.show(
-          'Welcome back!',
-          'Thanks for posting that comment!',
-          undefined,
-          null
-        )
+        this.$dialog.show({
+          header: 'Welcome back!',
+          message: 'Thanks for posting that comment!'
+        })
       } else {
-        this.$refs.onFirstCommentInstantiatedDialog.show()
+        this.showFirstCommentInstantiated = true
         this.$amplifyApi.graphql(
           graphqlOperation(setWasWelcomed, {
             userId: this.$store.getters['userData/userId']
@@ -278,6 +336,7 @@ export default {
       }
       this.$router.replace({ query: null })
     },
+
     async createTemporaryCommentInDB(userId, commentText) {
       const res = await this.$amplifyApi.graphql({
         query: addIdeaTemporaryComment,
@@ -292,82 +351,82 @@ export default {
       })
       return res.data.addIdeaTemporaryComment.comment
     },
-    async requestAuthAndProcessComment(userId, email, name, commentText) {
-      this.$store.commit('layoutState/showProgressBar')
+
+    async requestAuthAndProcessComment(userId, email, commentText) {
+      this.showProgressBar()
       const comment = await this.createTemporaryCommentInDB(userId, commentText)
       await this.$amplifyApi.post('RequestLogin', '', {
         body: { email, commentId: comment.commentId }
       })
-      this.$store.commit('layoutState/hideProgressBar')
-      this.$refs.simpleDialogPopup.show(
-        'Welcome back!',
-        "It looks like you weren't signed in. We just sent you a verification email. Please check your inbox and click on the link and we'll post your comment ASAP.",
-        undefined,
-        null
-      )
+      this.hideProgressBar()
+      this.$dialog.show({
+        header: 'Welcome back!',
+        message: `It looks like you weren't signed in. We just sent you a verification email. Please check your inbox and click on the link and we'll post your comment ASAP.`
+      })
     },
-    async registerUserAndProcessComment(email, name, commentText) {
-      try {
-        this.$store.commit('layoutState/showProgressBar')
-        const res = await this.$store.dispatch('cognito/registerUser', {
-          username: email,
-          password: nanoid(),
-          attributes: {
-            name
-          }
-        })
-        const userId = res.userSub
-        const comment = await this.createTemporaryCommentInDB(
-          userId,
-          commentText
-        )
-        await this.$amplifyApi.post('RequestLogin', '', {
-          body: { email, commentId: comment.commentId }
-        })
-        this.$store.commit('layoutState/hideProgressBar')
-        this.$refs.simpleDialogPopup.show(
-          'Thanks!',
-          "We just sent you an email to confirm that you're a real person :) Please check your inbox then click on the link and we'll post your comment ASAP.",
-          'OK',
-          null
-        )
-      } catch (e) {
-        this.$store.commit('layoutState/hideProgressBar')
-      }
+
+    async registerUserAndProcessComment(commentText) {
+      this.showProgressBar()
+      const res = await this.$store.dispatch('cognito/registerUser', {
+        username: this.email,
+        password: nanoid(),
+        attributes: { name: this.name }
+      })
+      const userId = res.userSub
+      const comment = await this.createTemporaryCommentInDB(userId, commentText)
+      await this.$amplifyApi.post('RequestLogin', '', {
+        body: { email: this.email, commentId: comment.commentId }
+      })
+      this.hideProgressBar()
+      this.$dialog.show({
+        header: 'Thanks!',
+        message: `We just sent you an email to confirm that you're a real person :) Please check your inbox then click on the link and we'll post your comment ASAP.`
+      })
+      this.hideProgressBar()
     },
-    async appendFakeCommentAndEncourageToRegisterOrSignUp(commentText) {
+
+    appendFakeCommentAndEncourageToRegisterOrSignUp() {
       this.showAddCommentLoader = false
-      this.addTemporaryFakeComment(commentText)
+      this.addTemporaryFakeComment(this.tmpCommentText)
+      this.showAskEmail = true
+    },
+
+    async onNoAuthEmail(email) {
+      this.showAskEmail = false
+      this.email = email.toLowerCase()
+      this.showProgressBar()
+
       try {
-        let email = await this.$refs.onUnAuthActionAskEmailDialog.show(
-          'Introduce yourself?',
-          'Before we post this for everyone to see, can you please confirm your email address?',
-          'ok',
-          'delete comment'
-        )
-        email = email.toLowerCase()
-        this.$store.commit('layoutState/showProgressBar')
         const result = await this.checkEmailBelongsToExistingUser(email)
         const belongsToExistingUser =
           result.data.checkEmailBelongsToExistingUser.belongsToExistingUser
-        this.$store.commit('layoutState/hideProgressBar')
+        this.hideProgressBar()
         if (belongsToExistingUser) {
           const userId = result.data.checkEmailBelongsToExistingUser.userId
-          this.requestAuthAndProcessComment(userId, email, name, commentText)
-        } else {
-          const name = await this.$refs.onUnAuthActionAskNameDialog.show(
-            'Nice to meet you!',
-            'OK, thanks! And what can we call you?',
-            'ok',
-            'delete comment'
+          await this.requestAuthAndProcessComment(
+            userId,
+            email,
+            this.tmpCommentText
           )
-          this.registerUserAndProcessComment(email, name, commentText)
+          this.tmpCommentText = ''
+        } else {
+          this.showAskName = true
         }
       } catch (e) {
         this.removeTemporaryFakeComment()
-        this.$store.commit('layoutState/hideProgressBar')
+        this.hideProgressBar()
       }
     },
+
+    async onNoAuthName(name) {
+      this.showAskName = false
+      this.name = name
+      this.showProgressBar()
+      await this.registerUserAndProcessComment(this.tmpCommentText)
+      this.tmpCommentText = ''
+      this.hideProgressBar()
+    },
+
     async sendComment(commentText, instantiation = false) {
       try {
         const result = await this.$amplifyApi.graphql(
@@ -417,6 +476,7 @@ export default {
         this.newCommentText = commentText
       }
     },
+
     async loadComments() {
       this.loadingMore = true
       try {
@@ -459,6 +519,11 @@ export default {
         this.commentList = []
       }
       this.loadingMore = false
+    },
+
+    cancelNewComment() {
+      this.newCommentText = ''
+      this.commentList.pop()
     }
   }
 }

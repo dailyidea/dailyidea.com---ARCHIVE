@@ -34,8 +34,8 @@
 
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
-import setWasWelcomed from '~/graphql/mutations/setWasWelcomed'
 import AuthPage from '@/components/authPage/AuthPage'
+import setWasWelcomed from '~/graphql/mutations/setWasWelcomed'
 
 export default {
   name: 'Success',
