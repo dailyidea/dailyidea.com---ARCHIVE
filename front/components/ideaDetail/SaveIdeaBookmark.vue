@@ -1,63 +1,122 @@
 <template>
   <span>
-    <v-btn small icon @click="toggleIdeaLiked">
+    <v-btn small icon @click="toggleBookmark">
       <v-icon v-if="isLoading">fas fa-circle-notch fa-spin</v-icon>
       <v-icon v-else-if="!isLoading && isLiked" class="liked"
         >mdi-bookmark</v-icon
       >
       <v-icon v-else>mdi-bookmark-plus-outline</v-icon>
     </v-btn>
-    <simple-dialog-popup ref="simpleDialogPopup"></simple-dialog-popup>
-    <on-un-auth-action-ask-email-dialog
-      ref="onUnAuthActionAskEmailDialog"
-    ></on-un-auth-action-ask-email-dialog>
-    <on-un-auth-action-ask-name-dialog
-      ref="onUnAuthActionAskNameDialog"
-    ></on-un-auth-action-ask-name-dialog>
-    <on-first-idea-saved-dialog
-      ref="onFirstIdeaSavedDialog"
-    ></on-first-idea-saved-dialog>
-    <on-idea-saved-by-log-in-link-dialog
-      ref="onIdeaSavedByLogInLinkDialog"
-    ></on-idea-saved-by-log-in-link-dialog>
+
+    <ask-email-dialog
+      v-model="showAskEmail"
+      header="Introduce yourself?"
+      message="What's your email address so you can find your saved ideas later?
+                      (Just so I know how to find this for you in the future.)"
+      @data="onNoAuthEmail"
+    ></ask-email-dialog>
+
+    <ask-name-dialog
+      v-model="showAskName"
+      header="Almost there"
+      message="What can we call you?"
+      @data="onNoAuthName"
+    ></ask-name-dialog>
+
+    <default-dialog
+      v-model="showFirstIdeaSaved"
+      header="Hooray!"
+      :show-cancel-button="false"
+      button-ok-text="I'm in!"
+      @ok="() => (showFirstIdeaSaved = false)"
+    >
+      <p>
+        You saved your first idea! Welcome to Daily idea. You can
+        <router-link to="/ideas/all">browse more ideas</router-link> or
+        <router-link to="/ideas/create"
+          >start saving your own ideas</router-link
+        >
+        whenever you're ready.
+      </p>
+    </default-dialog>
+
+    <default-dialog
+      v-model="showSavedByLoginLink"
+      header="Yay!"
+      :show-cancel-button="false"
+      button-ok-text="Nice!"
+      @ok="() => (showSavedByLoginLink = false)"
+    >
+      <p>
+        Welcome back {{ name }}. We saved that idea for you! You can check all
+        your saved ideas on your
+        <router-link to="/ideas/liked">Saved Ideas page</router-link>.
+      </p>
+    </default-dialog>
   </span>
 </template>
 
 <script>
 import nanoid from 'nanoid'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 import { graphqlOperation } from '@aws-amplify/api'
+import AskEmailDialog from './AskEmailDialog'
 import getIsIdeaLikedByMe from '@/graphql/query/getIsIdeaLikedByMe'
 import likeIdea from '@/graphql/mutations/likeIdea'
 import unlikeIdea from '@/graphql/mutations/unlikeIdea'
-import simpleDialogPopup from '@/components/dialogs/simpleDialogPopup'
-import onFirstIdeaSavedDialog from '@/components/ideaDetail/onFirstIdeaSavedDialog'
-import onIdeaSavedByLogInLinkDialog from '@/components/ideaDetail/onIdeaSavedByLogInLinkDialog'
-import onUnAuthActionAskEmailDialog from '@/components/ideaDetail/onUnAuthActionAskEmailDialog'
-import onUnAuthActionAskNameDialog from '@/components/ideaDetail/onUnAuthActionAskNameDialog'
+import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
-
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
+import AskNameDialog from '@/components/ideaDetail/AskNameDialog'
 
 export default {
   name: 'SaveIdeaBookmark',
+
   components: {
-    onUnAuthActionAskEmailDialog,
-    onUnAuthActionAskNameDialog,
-    simpleDialogPopup,
-    onFirstIdeaSavedDialog,
-    onIdeaSavedByLogInLinkDialog
+    DefaultDialog,
+    AskEmailDialog,
+    AskNameDialog
   },
-  props: {},
+
   data() {
     return {
       isLiked: false,
-      isLoading: false
+      isLoading: false,
+
+      showAskEmail: false,
+      email: '',
+
+      showAskName: false,
+      name: '',
+
+      showFirstIdeaSaved: false,
+      showSavedByLoginLink: false
     }
   },
+
+  computed: {
+    ...mapGetters({
+      isLoggedIn: 'cognito/isLoggedIn',
+      userWasWelcomed: 'userData/wasWelcomed',
+      userName: 'userData/userName',
+      userId: 'userData/userId'
+    })
+  },
+
   mounted() {
     this.initIdeaSaveState()
   },
+
   methods: {
+    ...mapMutations({
+      showProgressBar: 'layoutState/showProgressBar',
+      hideProgressBar: 'layoutState/hideProgressBar'
+    }),
+
+    ...mapActions({
+      registerUser: 'cognito/registerUser'
+    }),
+
     async initIdeaSaveState() {
       if (this.$route.query.aa) {
         const additionalAction = this.$route.query.aa
@@ -65,17 +124,12 @@ export default {
           // save idea
           this.$router.replace({ query: null })
           await this.likeIdea()
-          const wasWelcomed = this.$store.getters['userData/wasWelcomed']
-          if (wasWelcomed) {
-            this.$refs.onIdeaSavedByLogInLinkDialog.show(
-              this.$store.getters['userData/userName']
-            )
+          if (this.userWasWelcomed) {
+            this.showSavedByLoginLink = true
           } else {
-            this.$refs.onFirstIdeaSavedDialog.show()
+            this.showFirstIdeaSaved = true
             this.$amplifyApi.graphql(
-              graphqlOperation(setWasWelcomed, {
-                userId: this.$store.getters['userData/userId']
-              })
+              graphqlOperation(setWasWelcomed, { userId: this.userId })
             )
           }
         }
@@ -83,6 +137,7 @@ export default {
         this.getIsIdeaLikedByMe()
       }
     },
+
     async likeIdea() {
       this.isLoading = true
       const res = await this.$amplifyApi.graphql({
@@ -101,6 +156,7 @@ export default {
       })
       return res
     },
+
     async unLikeIdea() {
       this.isLoading = true
       const res = await this.$amplifyApi.graphql({
@@ -118,114 +174,103 @@ export default {
         likesCount: result.likesCount
       })
     },
-    toggleIdeaLikedAuth() {
+
+    toggleBookmarkAuth() {
       if (this.isLiked) {
         this.unLikeIdea()
       } else {
         this.likeIdea()
       }
     },
+
     checkEmailBelongsToExistingUser(email) {
       return this.$amplifyApi.graphql({
         query: checkEmailBelongsToExistingUser,
-        variables: {
-          email
-        },
+        variables: { email },
         authMode: 'API_KEY'
       })
     },
 
-    async registerUserAndProcessSaveIdea(email, name, ideaToSaveId) {
-      try {
-        this.$store.commit('layoutState/showProgressBar')
-        await this.$store.dispatch('cognito/registerUser', {
-          username: email,
-          password: nanoid(),
-          attributes: {
-            name
-          }
-        })
-        await this.$amplifyApi.post('RequestLogin', '', {
-          body: { email, ideaToSaveId }
-        })
-        this.$store.commit('layoutState/hideProgressBar')
-        this.$refs.simpleDialogPopup.show(
-          `Awesome, ${name}!`,
-          "We just sent you an email, which we'll just use to make sure we can find your saved ideas later. Please check your inbox and click the link the confirmation link to finish saving this idea.",
-          'OK',
-          null
-        )
-        this.$store.commit('layoutState/hideProgressBar')
-      } catch (e) {
-        this.$store.commit('layoutState/hideProgressBar')
-      }
+    async registerUserAndProcessSaveIdea() {
+      await this.registerUser({
+        username: this.email,
+        password: nanoid(),
+        attributes: { name: this.name }
+      })
+      await this.$amplifyApi.post('RequestLogin', '', {
+        body: { email: this.email, ideaToSaveId: this.$route.params.ideaId }
+      })
+      this.$dialog.show({
+        header: `Awesome, ${this.name}!`,
+        message: `We just sent you an email, which we'll just use to make sure we can find your saved
+        ideas later. Please check your inbox and click the link the confirmation link to finish saving this idea.`
+      })
     },
 
     async requestAuthAndProcessIdeaSaving(email, ideaToSaveId) {
-      this.$store.commit('layoutState/showProgressBar')
+      this.showProgressBar()
       await this.$amplifyApi.post('RequestLogin', '', {
         body: { email, ideaToSaveId }
       })
-      this.$store.commit('layoutState/hideProgressBar')
-      this.$refs.simpleDialogPopup.show(
-        'Welcome back!',
-        "We sent you a confirmation email. Please check your inbox and click the verification link in the message so we can make sure we're saving this idea to the right account.",
-        'ok',
-        null
-      )
+      this.$dialog.show({
+        header: 'Welcome back!',
+        message: `We sent you a confirmation email. Please check your inbox and click the
+        verification link in the message so we can make sure we're saving this
+        idea to the right account.`
+      })
+      this.hideProgressBar()
     },
 
-    async toggleIdeaLikedNotAuth() {
+    async onNoAuthEmail(email) {
+      this.email = email.toLowerCase()
+      this.showAskEmail = false
+      this.showProgressBar()
       try {
-        let email = await this.$refs.onUnAuthActionAskEmailDialog.show(
-          'Introduce yourself?',
-          "What's your email address so you can find your saved ideas later? (Just so I know how to find this for you in the future.)",
-          'ok',
-          'cancel'
-        )
-        email = email.toLowerCase()
-        this.$store.commit('layoutState/showProgressBar')
-        const result = await this.checkEmailBelongsToExistingUser(email)
-        const belongsToExistingUser =
-          result.data.checkEmailBelongsToExistingUser.belongsToExistingUser
-        this.$store.commit('layoutState/hideProgressBar')
+        const result = await this.checkEmailBelongsToExistingUser(this.email)
+        const {
+          belongsToExistingUser
+        } = result.data.checkEmailBelongsToExistingUser
+        this.hideProgressBar()
+
         if (belongsToExistingUser) {
-          this.requestAuthAndProcessIdeaSaving(email, this.$route.params.ideaId)
-        } else {
-          const name = await this.$refs.onUnAuthActionAskNameDialog.show(
-            'Almost there',
-            'What can we call you?',
-            'ok',
-            'cancel'
-          )
-          this.registerUserAndProcessSaveIdea(
-            email,
-            name,
+          this.requestAuthAndProcessIdeaSaving(
+            this.email,
             this.$route.params.ideaId
           )
+        } else {
+          this.showAskName = true
         }
       } catch (e) {
-        this.$store.commit('layoutState/hideProgressBar')
+        this.hideProgressBar()
       }
     },
-    toggleIdeaLiked() {
+
+    async onNoAuthName(name) {
+      this.name = name
+      this.showAskName = false
+      this.showProgressBar()
+      await this.registerUserAndProcessSaveIdea()
+      this.hideProgressBar()
+    },
+
+    toggleBookmark() {
       if (this.isLoading) {
         return
       }
-      if (this.$store.getters['cognito/isLoggedIn']) {
-        this.toggleIdeaLikedAuth()
+
+      if (this.isLoggedIn) {
+        this.toggleBookmarkAuth()
       } else {
-        this.toggleIdeaLikedNotAuth()
+        this.showAskEmail = true
       }
     },
+
     async getIsIdeaLikedByMe() {
-      if (this.$store.getters['cognito/isLoggedIn']) {
+      if (this.isLoggedIn) {
         this.isLoading = true
         const res = await this.$amplifyApi.graphql({
           query: getIsIdeaLikedByMe,
-          variables: {
-            ideaId: this.$route.params.ideaId
-          }
+          variables: { ideaId: this.$route.params.ideaId }
         })
         const result = res.data.getIsIdeaLikedByMe
         if (result.result.ok) {
