@@ -1,0 +1,4 @@
+{
+  "Chris": "{{if(options.name !== undefined)}}, {{ name }}{{/if}}",
+  "https://dailyidea-serverless-email-static-prod.s3.amazonaws.com": "{{ BUCKET_URL_PREFIX }}"
+}
