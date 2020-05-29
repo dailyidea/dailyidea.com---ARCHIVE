@@ -1,13 +1,27 @@
 <template>
   <span>
-    <v-btn small icon @click="toggleIdeaAction">
-      <v-icon v-if="isLoading">fas fa-circle-notch fa-spin</v-icon>
-      <v-icon v-else-if="!isLoading && isActedOn" class="action-button">{{
-        iconFilled
-      }}</v-icon>
-      <v-icon v-else>{{ iconOutlined }}</v-icon>
-    </v-btn>
-
+    <like-idea 
+      v-if="action === 'like'"
+      :is-liked="isActedOn"
+      :is-loading="isLoading"
+      :is-logged-in="isLoggedIn"
+      @init-like-state="initIdeaState"
+      @is-liked-by-me="handleIsIdeaLikedByMe"
+      @show-ask-email="handleShowAskEmail"
+      @like-idea="likeIdea"
+      @unlike-idea="unlikeIdea"
+    ></like-idea>
+    <save-idea 
+      v-else
+      :is-loading="isLoading"
+      :is-saved="isActedOn"
+      :is-logged-in="isLoggedIn"
+      @init-save-state="initIdeaState"
+      @is-saved-by-me="handleIsIdeaSavedByMe"
+      @show-ask-email="handleShowAskEmail"
+      @save-idea="saveIdea"
+      @unsave-idea="unsaveIdea"
+    ></save-idea>
     <ask-email-dialog
       v-model="showAskEmail"
       header="Introduce yourself?"
@@ -60,24 +74,23 @@
 import nanoid from 'nanoid'
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 import { graphqlOperation } from '@aws-amplify/api'
-import getIsIdeaLikedByMe from '@/graphql/query/getIsIdeaLikedByMe'
-import getIsIdeaSavedByMe from '@/graphql/query/getIsIdeaSavedByMe'
-import likeIdea from '@/graphql/mutations/likeIdea'
-import unlikeIdea from '@/graphql/mutations/unlikeIdea'
-import saveIdea from '@/graphql/mutations/saveIdea'
-import unsaveIdea from '@/graphql/mutations/unsaveIdea'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
 import AskNameDialog from '@/components/ideaDetail/AskNameDialog'
 import AskEmailDialog from './AskEmailDialog'
+import LikeIdea from './LikeIdea';
+import SaveIdea from './SaveIdea';
+
 export default {
   name: 'ActOnIdea',
 
   components: {
     DefaultDialog,
     AskEmailDialog,
-    AskNameDialog
+    AskNameDialog,
+    LikeIdea,
+    SaveIdea
   },
 
   props: {
@@ -105,38 +118,12 @@ export default {
   },
 
   computed: {
-    iconFilled() {
-      return this.action === 'like' ? 'mdi-thumb-up' : 'mdi-bookmark-plus'
-    },
-
-    iconOutlined() {
-      return this.action === 'like'
-        ? 'mdi-thumb-up-outline'
-        : 'mdi-bookmark-plus-outline'
-    },
-
-    isActedOnQuery() {
-      return this.action === 'like' ? getIsIdeaLikedByMe : getIsIdeaSavedByMe
-    },
-
-    doMutation() {
-      return this.action === 'like' ? likeIdea : saveIdea
-    },
-
-    undoMutation() {
-      return this.action === 'like' ? unlikeIdea : unsaveIdea
-    },
-
     ...mapGetters({
       isLoggedIn: 'cognito/isLoggedIn',
       userWasWelcomed: 'userData/wasWelcomed',
       userName: 'userData/userName',
       userId: 'userData/userId'
     })
-  },
-
-  mounted() {
-    this.initIdeaSaveState()
   },
 
   methods: {
@@ -149,13 +136,13 @@ export default {
       registerUser: 'cognito/registerUser'
     }),
 
-    async initIdeaSaveState() {
+    async initIdeaState(mutation) {
       if (this.$route.query.aa) {
         const additionalAction = this.$route.query.aa
         if (additionalAction === 'si') {
           // save or like idea depending on action prop
           this.$router.replace({ query: null })
-          await this.doIdeaAction()
+          await this.doIdeaAction(mutation)
           if (this.userWasWelcomed) {
             this.showSavedByLoginLink = true
           } else {
@@ -165,64 +152,74 @@ export default {
             )
           }
         }
-      } else {
-        this.getIsIdeaActedOnByMe()
-      }
+      }     
     },
 
-    emitStateChange(result) {
-      if (this.action === 'like') {
-        this.$emit('liked-state-changed', {
-          liked: this.isActedOn,
-          likesCount: result.likesCount
-        })
-      } else {
-        this.$emit('saved-state-changed', {
-          saved: this.isActedOn,
-          savesCount: result.savesCount
-        })
-      }
+    emitLikeStateChange(result) {
+      this.$emit('liked-state-changed', {
+        liked: this.isActedOn,
+        likesCount: result.likesCount
+      })
     },
 
-    async doIdeaAction() {
+    emitSaveStateChange(result) {
+      this.$emit('saved-state-changed', {
+        saved: this.isActedOn,
+        savesCount: result.savesCount
+      })
+    },
+
+    async saveIdea(mutation) {
+      const res = await this.doIdeaAction(mutation)
+      const result = res.data.saveIdea;
+      this.emitSaveStateChange(result)
+    },
+
+    async unsaveIdea(mutation) {
+      const res = await this.undoIdeaAction(mutation)
+      const result = res.data.unsaveIdea;
+      this.emitSaveStateChange(result)
+    },
+
+    async likeIdea(mutation) {
+      const res = await this.doIdeaAction(mutation)
+      const result = res.data.likeIdea;
+      this.emitLikeStateChange(result)
+    },
+
+    async unlikeIdea(mutation) {
+      const res = await this.undoIdeaAction(mutation)
+      const result = res.data.unlikeIdea;
+      this.emitLikeStateChange(result)
+    },
+
+    async doIdeaAction(mutation) {
       this.isLoading = true
       const res = await this.$amplifyApi.graphql({
-        query: this.doMutation,
+        query: mutation,
         variables: {
           ideaId: this.$route.params.ideaId,
           ideaOwnerId: this.$route.params.userId
         }
       })
-      const result =
-        this.action === 'like' ? res.data.likeIdea : res.data.saveIdea
       this.isActedOn = true
       this.isLoading = false
-      this.emitStateChange(result)
       return res
     },
-    async undoIdeaAction() {
+    
+    async undoIdeaAction(mutation) {
       this.isLoading = true
       const res = await this.$amplifyApi.graphql({
-        query: this.undoMutation,
+        query: mutation,
         variables: {
           ideaId: this.$route.params.ideaId,
           ideaOwnerId: this.$route.params.userId
         }
       })
 
-      const result =
-        this.action === 'like' ? res.data.unlikeIdea : res.data.unsaveIdea
       this.isActedOn = false
       this.isLoading = false
-      this.emitStateChange(result)
-    },
-
-    toggleIdeaAuth() {
-      if (this.isActedOn) {
-        this.undoIdeaAction()
-      } else {
-        this.doIdeaAction()
-      }
+      return res
     },
 
     checkEmailBelongsToExistingUser(email) {
@@ -287,35 +284,39 @@ export default {
       }
     },
 
-    toggleIdeaAction() {
-      if (this.isLoading) {
-        return
-      }
-      if (this.isLoggedIn) {
-        this.toggleIdeaAuth()
-      } else {
-        this.showAskEmail = true;
+    handleShowAskEmail() {
+      this.showAskEmail = true;
+    },
+
+    async handleIsIdeaSavedByMe(query) {
+      const res = await this.getIsIdeaActedOnByMe(query)
+      const result = res.data.getIsIdeaSavedByMe
+      if(result.result.ok) {
+        this.isActedOn = result.isSaved
       }
     },
-    async getIsIdeaActedOnByMe() {
+
+    async handleIsIdeaLikedByMe(query) {
+      const res = await this.getIsIdeaActedOnByMe(query)
+      const result = res.data.getIsIdeaLikedByMe
+      if(result.result.ok) {
+        this.isActedOn = result.isLiked 
+      }
+    },
+
+    async getIsIdeaActedOnByMe(query) {
       if (this.isLoggedIn) {
         this.isLoading = true
         const res = await this.$amplifyApi.graphql({
-          query: this.isActedOnQuery,
+          query,
           variables: {
             ideaId: this.$route.params.ideaId
           }
         })
 
-        const result =
-          this.action === 'like'
-            ? res.data.getIsIdeaLikedByMe
-            : res.data.getIsIdeaSavedByMe
-        if (result.result.ok) {
-          this.isActedOn =
-            this.action === 'like' ? result.isLiked : result.isSaved
-        }
-        this.isLoading = false
+        this.isLoading = false;
+
+        return res;
       }
     },
 
