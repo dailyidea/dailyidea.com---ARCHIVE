@@ -75,11 +75,13 @@
 
 <script>
 import SearchComponent from './SearchComponent'
+import HeaderAvatar from './HeaderAvatar'
 
 export default {
   name: 'DesktopHeader',
   components: {
-    SearchComponent
+    SearchComponent,
+    HeaderAvatar
   },
   data() {
     return {
@@ -91,21 +93,11 @@ export default {
     userName() {
       return this.$store.getters['userData/userName']
     },
-    userAvatar() {
-      return this.$store.getters['userData/avatar']
-    },
-    avatarStyle() {
-      if (!this.userAvatar) {
-        return {}
-      } else {
-        return {
-          'background-image': `url(${this.userAvatar})`
-        }
-      }
-    },
+
     isAuthenticated() {
       return this.$store.state.userData.isAuthenticated
     },
+
     logoLink() {
       if (this.isAuthenticated) {
         return { name: 'ideas-me' }
@@ -143,22 +135,6 @@ export default {
   .logo {
     height: 32px;
     vertical-align: middle;
-  }
-
-  .userAvatarContainer {
-    display: inline-block;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    vertical-align: middle;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
-    background-color: #ebe7ed;
-    &:hover {
-      opacity: 0.8;
-    }
   }
 }
 </style>

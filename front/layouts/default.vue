@@ -13,14 +13,19 @@
         logged_out_greeting="Hi there! I'm Eric! If you have any feedback or questions, please chat me! :)"
       ></div>
     </client-only>
+    <app-dialog />
   </v-app>
 </template>
 
 <script>
 import '@fortawesome/fontawesome-free/css/all.css'
+import AppDialog from '@/components/dialogs/AppDialog'
 
 export default {
-  components: {},
+  components: {
+    AppDialog
+  },
+
   mounted() {
     if (process.browser) {
       window.fbAsyncInit = function() {

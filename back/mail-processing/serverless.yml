@@ -113,6 +113,7 @@ provider:
     IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
     SENTRY_ENVIRONMENT: ${opt:stage, self:provider.stage}
     SENTRY_DSN: ${env:SENTRY_DSN}
+    SECRET_TOKEN: ${env:SECRET_TOKEN, 'secret-tk1x'}
 
   iamRoleStatements:
     - Effect: Allow

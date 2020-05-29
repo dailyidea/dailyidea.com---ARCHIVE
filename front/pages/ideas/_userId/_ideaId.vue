@@ -140,10 +140,8 @@
       </v-col>
     </v-row>
     <visual-notifier ref="notifier"></visual-notifier>
-    <simple-dialog-popup ref="simpleDialogPopup"></simple-dialog-popup>
-    <register-encourage-dialog
-      ref="registerEncourageDialog"
-    ></register-encourage-dialog>
+
+    <register-encourage-dialog v-model="showRegisterEncourageDialog" />
   </layout>
 </template>
 
@@ -161,8 +159,7 @@ import getIdeaTags from '~/graphql/query/getIdeaTags'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import VisualNotifier from '~/components/VisualNotifier'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
-import simpleDialogPopup from '~/components/dialogs/simpleDialogPopup'
-import registerEncourageDialog from '~/components/dialogs/registerEncourageDialog'
+import RegisterEncourageDialog from '@/components/dialogs/RegisterEncourageDialog'
 import IdeaContent from '~/components/IdeaContent'
 import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 
@@ -173,8 +170,7 @@ export default {
     IdeaComments,
     TrixWrapper,
     VisualNotifier,
-    simpleDialogPopup,
-    registerEncourageDialog,
+    RegisterEncourageDialog,
     IdeaContent
   },
   $_veeValidate: {
@@ -211,7 +207,8 @@ export default {
         content: ''
       },
 
-      updatingIdea: false
+      updatingIdea: false,
+      showRegisterEncourageDialog: false
     }
   },
   mounted() {
@@ -219,13 +216,10 @@ export default {
     this.incrementViews()
   },
   methods: {
-    showRegisterEncourageDialog() {
-      this.$refs.registerEncourageDialog.show()
-    },
     onIdeaShared() {
       if (!this.$store.getters['cognito/isLoggedIn']) {
         setTimeout(() => {
-          this.showRegisterEncourageDialog()
+          this.showRegisterEncourageDialog = true
         }, 1000)
       }
     },
@@ -264,11 +258,12 @@ export default {
     },
     // Delete Idea
     async onDeleteIdea() {
-      const confirmed = await this.$refs.simpleDialogPopup.show(
-        'Delete Idea',
-        'Are you sure you want to delete this Idea?',
-        'Delete'
-      )
+      const confirmed = await this.$dialog.show({
+        header: 'Delete Idea',
+        message: 'Are you sure you want to delete this Idea?',
+        buttonOkText: 'Delete',
+        showCancelButton: true
+      })
       if (!confirmed) {
         return
       }

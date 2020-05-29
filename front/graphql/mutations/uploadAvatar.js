@@ -1,6 +1,6 @@
 export default `
-mutation uploadAvatar( $avatar: String!) {
-  uploadAvatar( avatar: $avatar) {
+mutation uploadAvatar( $avatar: String!, $isSVG: Boolean) {
+  uploadAvatar( avatar: $avatar, isSVG: $isSVG) {
         result {
           ok
           error

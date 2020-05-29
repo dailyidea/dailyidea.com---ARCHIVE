@@ -80,7 +80,8 @@ module.exports = {
     '@/plugins/clipboard',
     '@/plugins/vee-validate',
     '@/plugins/toRelativeDate',
-    '@/plugins/mixins'
+    '@/plugins/mixins',
+    '@/plugins/app-dialog'
   ],
 
   /*
