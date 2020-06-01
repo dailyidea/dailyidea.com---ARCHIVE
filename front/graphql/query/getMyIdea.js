@@ -3,6 +3,8 @@ query getMyIdea($ideaId: String!) {
   getMyIdea(ideaId: $ideaId) {
     ideaId
     userId
+    shortId
+    slug
     authorName
     content
     title

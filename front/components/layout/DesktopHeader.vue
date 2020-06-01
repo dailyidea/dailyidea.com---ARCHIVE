@@ -75,13 +75,13 @@
 
 <script>
 import SearchComponent from './SearchComponent'
-import HeaderAvatar from './HeaderAvatar'
+// import HeaderAvatar from './HeaderAvatar'
 
 export default {
   name: 'DesktopHeader',
   components: {
-    SearchComponent,
-    HeaderAvatar
+    SearchComponent
+    // HeaderAvatar
   },
   data() {
     return {

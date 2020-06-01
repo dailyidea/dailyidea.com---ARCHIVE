@@ -243,6 +243,8 @@ type Tag {
 
 type Idea @aws_api_key @aws_cognito_user_pools {
 	ideaId: String!
+    shortId: String
+    slug: String
 	authorName: String
 	authorSlug: String
 	authorAvatar: String

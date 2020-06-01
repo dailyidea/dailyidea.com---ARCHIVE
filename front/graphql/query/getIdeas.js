@@ -5,6 +5,8 @@ query ideas($order: IdeaSortingOrder, $nextToken: String, $limit: Int) {
       userId
       authorAvatar
       ideaId
+      shortId
+      slug
       authorName
       content
       title

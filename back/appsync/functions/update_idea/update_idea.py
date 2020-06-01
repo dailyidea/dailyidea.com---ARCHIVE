@@ -2,6 +2,7 @@ import boto3
 import logging
 import datetime
 import os
+from slugify import slugify
 import sentry_sdk
 from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
 
@@ -47,9 +48,10 @@ def endpoint(event, lambda_context):
             'ideaId': {"S": idea_id},
             'userId': {"S": idea_owner_id}
         },
-        UpdateExpression='SET title = :title, content = :content, updatedDate = :updatedDate, fileAttachments=:fileAttachments, imageAttachments=:imageAttachments, previewImage=:previewImage',
+        UpdateExpression='SET title = :title, slug = :slug, content = :content, updatedDate = :updatedDate, fileAttachments=:fileAttachments, imageAttachments=:imageAttachments, previewImage=:previewImage',
         ExpressionAttributeValues={
             ":title": {"S": title},
+            ":slug": {"S": slugify(title)},
             ":content": {"S": content} if content else {"NULL": True},
             ":updatedDate": {"S": datetime.datetime.now().isoformat()},
             ":fileAttachments": {"SS": new_file_attachments} if len(new_file_attachments) else {"NULL": True},

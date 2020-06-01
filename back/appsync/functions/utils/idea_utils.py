@@ -1,5 +1,15 @@
 import bleach
+import random
 
+uid_chars = ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+             'v', 'w', 'x', 'y', 'z','1','2','3','4','5','6','7','8','9','0')
+
+def generate_short_id(uid_length = 6):
+    count = len(uid_chars) - 1
+    c = ''
+    for i in range(0, uid_length):
+        c += uid_chars[random.randint(0, count)]
+    return c
 
 def sanitize_idea_content(content):
     if not content or not len(content):
