@@ -25,13 +25,14 @@
               <menu-panel
                 :editable="isMyIdea"
                 :idea="idea"
-                @enableEditMode="enableEditMode"
-                @savedStateChanged="onIdeaSaveStateChanged"
-                @onNotification="onNotification"
-                @onIdeaShared="onIdeaShared"
-                @onDeleteIdea="onDeleteIdea"
-                @onIdeaVisibilityChanged="onIdeaVisibilityChanged"
-                @onIdeaVisibilityChangeError="onIdeaVisibilityChangeError"
+                @enable-edit-mode="enableEditMode"
+                @saved-state-changed="onIdeaSaveStateChanged"
+                @liked-state-changed="onIdeaLikeStateChanged"
+                @on-notification="onNotification"
+                @on-idea-shared="onIdeaShared"
+                @on-delete-idea="onDeleteIdea"
+                @on-idea-visibility-changed="onIdeaVisibilityChanged"
+                @on-idea-visibility-change-error="onIdeaVisibilityChangeError"
               ></menu-panel>
             </v-col>
           </v-row>
@@ -153,15 +154,15 @@ import TrixWrapper from '@/components/TrixWrapper'
 
 import IdeaComments from '@/components/ideaDetail/IdeaComments'
 import MenuPanel from '@/components/ideaDetail/MenuPanel'
+import RegisterEncourageDialog from '@/components/dialogs/RegisterEncourageDialog'
+import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 import getUsersIdea from '~/graphql/query/getUsersIdea'
 import getMyIdea from '~/graphql/query/getMyIdea'
 import getIdeaTags from '~/graphql/query/getIdeaTags'
 import updateIdea from '~/graphql/mutations/updateIdea'
 import VisualNotifier from '~/components/VisualNotifier'
 import deleteIdea from '~/graphql/mutations/deleteIdea'
-import RegisterEncourageDialog from '@/components/dialogs/RegisterEncourageDialog'
 import IdeaContent from '~/components/IdeaContent'
-import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 
 export default {
   components: {
@@ -226,9 +227,12 @@ export default {
     onNotification({ type, message }) {
       this.$refs.notifier[type](message)
     },
-    onIdeaSaveStateChanged({ liked, likesCount }) {
+    onIdeaSaveStateChanged({ saved }) {
+      this.$refs.notifier.success(saved ? 'Idea Saved!' : 'Idea Unsaved!')
+    },
+    onIdeaLikeStateChanged({ liked, likesCount }) {
       this.idea.likesCount = likesCount
-      this.$refs.notifier.success(liked ? 'Idea saved!' : 'Idea unsaved!')
+      this.$refs.notifier.success(liked ? 'Idea Liked!' : 'Idea Unliked')
     },
     copyIdeaDataForEdit() {
       this.ideaEditData.content = this.idea.content

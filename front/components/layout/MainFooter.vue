@@ -15,12 +15,12 @@
 </template>
 
 <style lang="scss" scoped>
-  footer {
-    border-top: 0.2px solid #e8e8e8;
-    padding-top: 20px;
+footer {
+  border-top: 0.2px solid #e8e8e8;
+  padding-top: 20px;
 
-    a {
-      padding-right: 1rem;
-    }
+  a {
+    padding-right: 1rem;
   }
+}
 </style>

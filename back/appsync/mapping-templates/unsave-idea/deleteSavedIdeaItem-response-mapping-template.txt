@@ -1,0 +1,6 @@
+#if(!$ctx.result)
+    $util.qr($ctx.stash.put("notSavedError", true))
+    #else
+    $util.qr($ctx.stash.put("ideaOwnerId", $ctx.result.ideaOwnerId))
+#end
+$util.toJson($ctx.result)

@@ -1,12 +1,12 @@
 export default `
-query getPublicIdeas($order: IdeaSortingOrder, $nextToken: String, $limit: Int) {
-  getPublicIdeas(order: $order, nextToken: $nextToken, limit: $limit) {
+query getSavedIdeas($nextToken: String, $limit: Int) {
+  getSavedIdeas(nextToken: $nextToken, limit: $limit) {
     items {
       ideaId
-      userId
-      authorName
       authorAvatar
+      authorName
       authorSlug
+      userId
       content
       title
       createdDate
@@ -14,7 +14,7 @@ query getPublicIdeas($order: IdeaSortingOrder, $nextToken: String, $limit: Int) 
       likesCount
       savesCount
       commentsCount
-    }
+      }
     nextToken
   }
 }`

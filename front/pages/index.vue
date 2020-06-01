@@ -127,15 +127,15 @@
 <script>
 import clip from 'text-clipper'
 import Layout from '@/components/layout/Layout'
+import MainFooter from '@/components/layout/MainFooter'
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
 import ideasListIdea from '~/components/ideasList/ideasListIdea'
-import MainFooter from '@/components/layout/MainFooter'
 
 export default {
   components: {
     ideasListIdea,
     Layout,
-    MainFooter,
+    MainFooter
   },
   async asyncData({ app }) {
     let result = await app.$amplifyApi.graphql({

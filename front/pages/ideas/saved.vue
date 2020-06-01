@@ -13,18 +13,18 @@
 <script>
 import ideasListPage from '@/components/ideasList/ideasListPage'
 import loadIdeas from '@/components/ideasList/loadIdeas'
-import getLikedIdeas from '~/graphql/query/getLikedIdeas'
+import getSavedIdeas from '~/graphql/query/getSavedIdeas'
 
 export default {
   components: { ideasListPage },
   middleware: 'authenticated',
   asyncData({ app, store }) {
-    return loadIdeas(app.$amplifyApi, 'getLikedIdeas', getLikedIdeas)
+    return loadIdeas(app.$amplifyApi, 'getSavedIdeas', getSavedIdeas)
   },
   data() {
     return {
-      endPoint: getLikedIdeas,
-      endPointName: 'getLikedIdeas'
+      endPoint: getSavedIdeas,
+      endPointName: 'getSavedIdeas'
     }
   }
 }

@@ -22,19 +22,19 @@ def endpoint(event, context):
     limit = event.get('limit', None)
     if limit is None or limit > MAX_LIMIT:
         limit = DEFAULT_LIMIT
-    likes_query_additional_params = {}
+    query_additional_params = {}
     if current_token:
-        likes_query_additional_params['ExclusiveStartKey'] = {'ideaId': {'S': current_token}, 'userId': {'S': userId}}
+        query_additional_params['ExclusiveStartKey'] = {'ideaId': {'S': current_token}, 'userId': {'S': userId}}
 
     resp = client.query(
-        TableName=os.environ.get('LIKES_TABLE_NAME'),
+        TableName=os.environ.get('ACTIONS_TABLE_NAME'),
         KeyConditionExpression="userId = :userId",
-        IndexName='userLikesByDate',
+        IndexName=os.environ.get("INDEX_NAME"),
         ExpressionAttributeValues={":userId": {"S": userId}},
         ProjectionExpression='ideaId,ideaOwnerId',
         Limit=limit,
         ScanIndexForward=False,
-        **likes_query_additional_params
+        **query_additional_params
     )
 
     last_evaluated_key = resp.get('LastEvaluatedKey', None)
