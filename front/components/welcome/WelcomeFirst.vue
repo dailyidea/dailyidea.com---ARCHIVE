@@ -1,51 +1,44 @@
 <template>
-  <v-content>
-    <v-container>
-      <v-row>
-        <v-col>
-          <v-card class="full-height mx-auto" width="70%">
-            <v-row justify="center" class="full-height">
-              <v-col class="text-center left-column">
-                <div class="welcome-to text-center">Welcome to</div>
-                <span class="daily"
-                  >DAILY</span
-                ><span class="idea"
-                  >IDEA
-                </span>
-                <div class="bullet-point mt-10">
-                  <span class="bullet-point__bullet w-25"></span>
-                  <span class="bullet-point__text">Store your ideas so you remember and improve them over time</span>
-                </div>
-                <div class="bullet-point mt-3">
-                  <span class="bullet-point__bullet"></span>
-                  <span class="bullet-point__text">Browse other folks' ideas to inspire yourself further</span>
-                </div>
-                <div class="next-btn mt-10">
-                  <v-btn>Next</v-btn>
-                </div>
-                <div class="mt-5">
-                  <div class="explore-on-own">
-                    I'll explore on my own
-                  </div>
-                </div>
-              </v-col>
-              <v-col class="text-center right-column full-height">
-                <img src="~/assets/images/welcome/person-in-window.png">
-                <div class="right-column__right-text">
-                  Everyday we will send you a simple reminder 
-                  to come up with a new idea.
-                </div>
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-content>
+  <welcome-card>
+    <template v-slot:left>
+      <div class="welcome-to text-center">Welcome to</div>
+      <span class="daily"
+        >DAILY</span
+      ><span class="idea"
+        >IDEA
+      </span>
+      <div class="bullet-point mt-10">
+        <span class="bullet-point__bullet w-25"></span>
+        <span class="bullet-point__text">Store your ideas so you remember and improve them over time</span>
+      </div>
+      <div class="bullet-point mt-3">
+        <span class="bullet-point__bullet"></span>
+        <span class="bullet-point__text">Browse other folks' ideas to inspire yourself further</span>
+      </div>
+      <div class="next-btn mt-10">
+        <v-btn>Next</v-btn>
+      </div>
+      <div class="mt-5">
+        <div class="explore-on-own">
+          I'll explore on my own
+        </div>
+      </div>
+    </template>
+    <template v-slot:right>
+      <img src="~/assets/images/welcome/person-in-window.png">
+      <div class="right-column__right-text">
+        Everyday we will send you a simple reminder 
+        to come up with a new idea.
+      </div>
+    </template>
+  </welcome-card>
 </template>
 <script>
+import WelcomeCard from './WelcomeCard'
+
 export default {
-  name: 'WelcomeFirst'
+  name: 'WelcomeFirst',
+  components: { WelcomeCard }
 }
 </script>
 <style lang="scss" scoped>
@@ -55,8 +48,6 @@ export default {
 .full-height { height: 100%; }
 
 .left-column { 
-  margin-top: 6%;
-
   .explore-on-own {
     text-decoration: underline;
     color: $primary-color;
@@ -119,9 +110,6 @@ export default {
 }
 
 .right-column {
-  background-color: $welcome-background-yellow;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
   img {
     width: 50%;
   }
