@@ -1,19 +1,20 @@
 <template>
-  <welcome-card :right-arrow="true">
+  <welcome-card :left-arrow="true" :right-arrow="true">
     <template v-slot:left>
-      <div class="welcome-to text-center">Welcome to</div>
-      <span class="daily"
-        >DAILY</span
-      ><span class="idea"
-        >IDEA
-      </span>
+      <div class="welcome-to text-center">Save Your Ideas</div>
       <div class="bullet-point mt-10">
         <span class="bullet-point__bullet w-25"></span>
-        <span class="bullet-point__text">Store your ideas so you remember and improve them over time</span>
+        <span class="bullet-point__text">
+          Overflowing with ideas? Log them here. We'll remind you about your best ideas and 
+          show similar ideas that will spark your creativity.
+        </span>
       </div>
       <div class="bullet-point mt-3">
         <span class="bullet-point__bullet"></span>
-        <span class="bullet-point__text">Browse other folks' ideas to inspire yourself further</span>
+        <span class="bullet-point__text">
+          Only a few ideas? This will help you exercise your idea muscle. 
+          With practice you'll become an idea machine!
+        </span>
       </div>
       <div class="next-btn mt-10">
         <v-btn @click="emitNext">Next</v-btn>
@@ -25,10 +26,9 @@
       </div>
     </template>
     <template v-slot:right>
-      <img src="~/assets/images/welcome/person-in-window.png">
+      <img src="~/assets/images/welcome/person-with-letter.png">
       <div class="right-column__right-text">
-        Everyday we will send you a simple reminder 
-        to come up with a new idea.
+        Just respond to the daily email and we'll automatically save your ideas for you.
       </div>
     </template>
   </welcome-card>
@@ -37,7 +37,7 @@
 import WelcomeCard from './WelcomeCard'
 
 export default {
-  name: 'WelcomeFirst',
+  name: 'WelcomeSecond',
   components: { WelcomeCard },
   methods: {
     emitNext() {
@@ -116,7 +116,7 @@ export default {
 
 .right-column {
   img {
-    width: 50%;
+    width: 60%;
   }
 
   &__right-text {

@@ -1,34 +1,28 @@
 <template>
-  <welcome-card :right-arrow="true">
+  <welcome-card :left-arrow="true">
     <template v-slot:left>
-      <div class="welcome-to text-center">Welcome to</div>
-      <span class="daily"
-        >DAILY</span
-      ><span class="idea"
-        >IDEA
-      </span>
+      <div class="welcome-to text-center">Browse Other Ideas</div>
       <div class="bullet-point mt-10">
-        <span class="bullet-point__bullet w-25"></span>
-        <span class="bullet-point__text">Store your ideas so you remember and improve them over time</span>
+        <span class="bullet-point__bullet"></span>
+        <span class="bullet-point__text">
+          We'll show you ideas similar to your own, so you can get inspired
+        </span>
       </div>
       <div class="bullet-point mt-3">
         <span class="bullet-point__bullet"></span>
-        <span class="bullet-point__text">Browse other folks' ideas to inspire yourself further</span>
+        <span class="bullet-point__text">Discover the most popular ideas in your newsletter</span>
       </div>
       <div class="next-btn mt-10">
-        <v-btn @click="emitNext">Next</v-btn>
+        <v-btn>Browse Ideas</v-btn>
       </div>
-      <div class="mt-5">
-        <div class="explore-on-own">
-          I'll explore on my own
-        </div>
+      <div class="next-btn mt-3">
+        <v-btn>Write my own idea</v-btn>
       </div>
     </template>
     <template v-slot:right>
-      <img src="~/assets/images/welcome/person-in-window.png">
+      <img src="~/assets/images/welcome/people-in-phones.png">
       <div class="right-column__right-text">
-        Everyday we will send you a simple reminder 
-        to come up with a new idea.
+        Inspire your creativity by seeing what other people are thinking of.
       </div>
     </template>
   </welcome-card>
@@ -37,13 +31,8 @@
 import WelcomeCard from './WelcomeCard'
 
 export default {
-  name: 'WelcomeFirst',
-  components: { WelcomeCard },
-  methods: {
-    emitNext() {
-      this.$emit("next")
-    }
-  }
+  name: 'WelcomeThird',
+  components: { WelcomeCard }
 }
 </script>
 <style lang="scss" scoped>
@@ -65,7 +54,7 @@ export default {
     color: black !important; 
     font-weight: 600;
     font-size: 1.05rem;
-    width: 30%;
+    width: 40%;
     padding-top:1.8rem !important;
     padding-bottom:1.5rem !important;
   }
