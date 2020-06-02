@@ -5,10 +5,10 @@
         <v-col>
           <v-card class="full-height mx-auto card">
             <v-row justify="center" class="full-height">
-              <div class="arrow left-arrow" v-show="leftArrow">
+              <div @click="emitLeftClicked" class="arrow left-arrow" v-show="leftArrow">
                 <v-icon>mdi-arrow-left</v-icon>
               </div>
-              <div class="arrow right-arrow" v-show="rightArrow">
+              <div @click="emitRightClicked" class="arrow right-arrow" v-show="rightArrow">
                 <v-icon>mdi-arrow-right</v-icon>
               </div>
 
@@ -31,6 +31,14 @@ export default {
   props: {
     leftArrow: Boolean,
     rightArrow: Boolean
+  },
+  methods: {
+    emitLeftClicked() {
+      this.$emit('left-clicked')
+    },
+    emitRightClicked() {
+      this.$emit('right-clicked')
+    }
   }
 }
 </script>

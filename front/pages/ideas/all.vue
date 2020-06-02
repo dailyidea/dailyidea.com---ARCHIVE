@@ -1,6 +1,6 @@
 <template>
   <span>
-    <welcome v-show="wasWelcomed"></welcome>
+    <welcome @hide-welcomed='handleHideWelcomed' v-show="!wasWelcomed"></welcome>
     <ideas-list-page
       :initial-ideas="ideas"
       :initial-next-token="nextToken"
@@ -13,7 +13,6 @@
     ></ideas-list-page>
   </span>
 </template>
-
 <script>
 import ideasListPage from '@/components/ideasList/ideasListPage'
 import loadIdeas from '@/components/ideasList/loadIdeas'
@@ -42,6 +41,11 @@ export default {
     return {
       endPoint: getPublicIdeas,
       endPointName: 'getPublicIdeas'
+    }
+  },
+  methods: {
+    handleHideWelcomed() {
+      this.$store.commit('userData/setUserWelcomed')
     }
   },
   computed: {

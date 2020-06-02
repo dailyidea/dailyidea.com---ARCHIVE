@@ -1,5 +1,5 @@
 <template>
-  <welcome-card :left-arrow="true">
+  <welcome-card @left-clicked="emitLeftClicked" :left-arrow="true">
     <template v-slot:left>
       <div class="welcome-to text-center">Browse Other Ideas</div>
       <div class="bullet-point mt-10">
@@ -13,10 +13,10 @@
         <span class="bullet-point__text">Discover the most popular ideas in your newsletter</span>
       </div>
       <div class="next-btn mt-10">
-        <v-btn>Browse Ideas</v-btn>
+        <v-btn @click="emitMarkAsWelcomed">Browse Ideas</v-btn>
       </div>
       <div class="next-btn mt-3">
-        <v-btn>Write my own idea</v-btn>
+        <v-btn :to="{ name: 'ideas-me' }" @click="emitMarkAsWelcomed">Write my own idea</v-btn>
       </div>
     </template>
     <template v-slot:right>
@@ -32,11 +32,18 @@ import WelcomeCard from './WelcomeCard'
 
 export default {
   name: 'WelcomeThird',
-  components: { WelcomeCard }
+  components: { WelcomeCard },
+  methods: {
+    emitLeftClicked() {
+      this.$emit('left-clicked')
+    },
+    emitMarkAsWelcomed() {
+      this.$emit('mark-as-welcomed')
+    },
+  }
 }
 </script>
 <style lang="scss" scoped>
-
 .col { padding: 0; }
 .row { margin: 0; }
 .full-height { height: 100%; }

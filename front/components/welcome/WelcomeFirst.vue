@@ -1,5 +1,5 @@
 <template>
-  <welcome-card :right-arrow="true">
+  <welcome-card @right-clicked="emitRightClicked" :right-arrow="true">
     <template v-slot:left>
       <div class="welcome-to text-center">Welcome to</div>
       <span class="daily"
@@ -19,7 +19,7 @@
         <v-btn @click="emitNext">Next</v-btn>
       </div>
       <div class="mt-5">
-        <div class="explore-on-own">
+        <div class="explore-on-own" @click="emitMarkAsWelcomed">
           I'll explore on my own
         </div>
       </div>
@@ -41,7 +41,13 @@ export default {
   components: { WelcomeCard },
   methods: {
     emitNext() {
-      this.$emit("next")
+      this.$emit('next')
+    },
+    emitMarkAsWelcomed() {
+      this.$emit('mark-as-welcomed')
+    },
+    emitRightClicked() {
+      this.$emit('right-clicked')
     }
   }
 }
