@@ -1,6 +1,6 @@
 <template>
   <span>
-    <welcome @hide-welcomed='handleHideWelcomed' v-show="wasWelcomed"></welcome>
+    <welcome @hide-welcomed='handleHideWelcomed' v-show="!wasWelcomed"></welcome>
     <ideas-list-page
       :initial-ideas="ideas"
       :initial-next-token="nextToken"
@@ -50,7 +50,8 @@ export default {
   },
   computed: {
     wasWelcomed() {
-      return this.$store.getters['userData/wasWelcomed']
+      return false
+      // return this.$store.getters['userData/wasWelcomed']
     }
   }
 }

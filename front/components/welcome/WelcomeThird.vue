@@ -1,7 +1,7 @@
 <template>
   <welcome-card @left-clicked="emitLeftClicked" :left-arrow="true">
     <template v-slot:mobile-header>
-      <div class="welcome-to py-3">Browse Other Ideas</div>
+      <div class="welcome-to pt-5 pb-3">Browse Other Ideas</div>
     </template>
     <template v-slot:left>
       <div class="welcome-to text-center hidden-mobile">Browse Other Ideas</div>
@@ -20,12 +20,14 @@
         </div>
         <div>
           <div class="next-btn mt-10">
-            <v-btn @click="emitMarkAsWelcomed">Browse Ideas</v-btn>
+            <v-btn @click="emitMarkAsWelcomed" height="50px">Browse Ideas</v-btn>
           </div>
           <div class="next-btn mt-3">
-            <v-btn :to="{ name: 'ideas-me' }" @click="emitMarkAsWelcomed">Write my own idea</v-btn>
+            <v-btn :to="{ name: 'ideas-me' }" @click="emitMarkAsWelcomed" height="50px">Write my own idea</v-btn>
           </div>
         </div>
+        <div></div>
+        <div></div>
         <div></div>
       </div>
     </template>
@@ -70,9 +72,11 @@ export default {
     color: black !important; 
     font-weight: 600;
     font-size: 1.05rem;
-    width: 40%;
-    padding-top:1.8rem !important;
-    padding-bottom:1.5rem !important;
+    width: 60%;
+    @media only screen and (max-width: $screen-sm-max) {
+      width: 70%;
+      font-size: 0.9rem;
+    }
   }
 
   .bullet-point {
@@ -81,7 +85,7 @@ export default {
     width: 60%;
     
     @media only screen and (max-width: $screen-sm-max) {
-      width: 90%;
+      width: 80%;
     }
 
     text-align: left;
@@ -101,6 +105,9 @@ export default {
     &__text {
       font-weight: 500;
       font-size: 1.2rem;
+      @media only screen and (max-width: $screen-sm-max) {
+        font-size: 1.1rem;
+      } 
       margin-left: 2rem;
     }
   }
@@ -109,6 +116,9 @@ export default {
 
 .welcome-to {
   font-size: 2rem;
+  @media (max-width: $screen-sm-max) {
+    font-size: 1.5rem;
+  }
   font-weight: bold;
 }
 

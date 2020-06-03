@@ -1,7 +1,7 @@
 <template>
   <welcome-card @left-clicked="emitLeftClicked" @right-clicked="emitRightClicked" :left-arrow="true" :right-arrow="true">
     <template v-slot:mobile-header>
-      <div class="welcome-to py-3">Save Your Ideas</div>
+      <div class="welcome-to pb-3 pt-5">Save Your Ideas</div>
     </template>
     <template v-slot:left>
       <div class="welcome-to text-center hidden-mobile">Save Your Ideas</div>
@@ -92,7 +92,12 @@ export default {
   .bullet-point {
     position: relative;
     margin: 0 auto;
-    width: 90%;
+    width: 60%;
+    
+    @media only screen and (max-width: $screen-sm-max) {
+      width: 90%;
+    }
+
     text-align: left;
     display: flex;
 
@@ -110,6 +115,9 @@ export default {
     &__text {
       font-weight: 500;
       font-size: 1.2rem;
+      @media only screen and (max-width: $screen-sm-max) {
+        font-size: 1.1rem;
+      }
       margin-left: 2rem;
     }
   }
@@ -118,6 +126,10 @@ export default {
 
 .welcome-to {
   font-size: 2rem;
+  @media (max-width: $screen-sm-max) {
+    font-size: 1.5rem;
+  }
+
   font-weight: bold;
 }
 

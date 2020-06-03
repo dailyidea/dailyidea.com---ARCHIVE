@@ -1,10 +1,10 @@
 <template>
-  <v-col>
+  <v-col ref="swipe-container">
     <span class="mobile text-center flex-column align-center">
       <div class="mobile-title">
         <slot name="mobile-header"></slot> 
       </div>
-      <div class="right-column">
+      <div class="right-column mt-10">
         <slot name="right"></slot>
       </div>
       <div class="left-column d-flex">
@@ -36,7 +36,13 @@ export default {
   name: 'WelcomeCard',
   props: {
     leftArrow: Boolean,
-    rightArrow: Boolean
+    rightArrow: Boolean,
+  },
+  data() {
+    return {
+      touchStartPos: 0,
+      touchEndPos: 0
+    }
   },
   methods: {
     emitLeftClicked() {
@@ -44,7 +50,33 @@ export default {
     },
     emitRightClicked() {
       this.$emit('right-clicked')
+    },
+    handleTouchStart(event) {
+      const touch = event.touches[0].clientX
+      this.touchStartPos = touch
+    },
+    handleTouchMove(event) {
+      const touch = event.touches[0].clientX
+      this.touchEndPos = touch
+    },
+    handleTouchEnd(event) {
+      if(Math.abs(this.touchStartPos - this.touchEndPos) > 10) {
+        if(this.touchStartPos < this.touchEndPos) {
+          this.emitLeftClicked()
+        } else {
+          this.emitRightClicked()
+        }
+      }
+    },
+    setupSwipeEventListener() {
+      const swipeContainer = this.$refs['swipe-container']
+      swipeContainer.addEventListener('touchstart', this.handleTouchStart)
+      swipeContainer.addEventListener('touchmove', this.handleTouchMove)
+      swipeContainer.addEventListener('touchend', this.handleTouchEnd)
     }
+  },
+  mounted() {
+    this.setupSwipeEventListener()
   }
 }
 </script>
@@ -56,8 +88,8 @@ export default {
   }
 }
 
-.hidden-mobile {  
-  @media only screen and (max-width: $screen-sm-max) {
+.hidden-mobile {
+  @media (max-width: $screen-sm-max) {
     display: none;
   }
 }

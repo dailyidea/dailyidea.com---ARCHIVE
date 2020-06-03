@@ -1,7 +1,7 @@
 <template>
   <welcome-card @right-clicked="emitRightClicked" :right-arrow="true">
     <template v-slot:mobile-header>
-      <div class="flex-column py-3">
+      <div class="flex-column pt-5 pb-5">
         <div class="welcome-to">Welcome to</div>
         <div>
           <span class="daily"
@@ -121,6 +121,9 @@ export default {
     &__text {
       font-weight: 500;
       font-size: 1.2rem;
+      @media only screen and (max-width: $screen-sm-max) {
+        font-size: 1.1rem;
+      } 
       margin-left: 2rem;
     }
   }
@@ -129,6 +132,9 @@ export default {
 
 .welcome-to {
   font-size: 2rem;
+  @media (max-width: $screen-sm-max) {
+    font-size: 1.5rem;
+  }
   font-weight: bold;
 }
 

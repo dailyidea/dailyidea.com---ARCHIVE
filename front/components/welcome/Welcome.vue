@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      pageOn: 1
+      pageOn: 0
     } 
   },
   computed: {
@@ -62,10 +62,12 @@ export default {
     handleRightClicked() {
       this.pageOn += 1
     }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>
+html, body { overflow-y: hidden !important; }
+
 .welcome-container {
   display: flex;
   position: fixed;
