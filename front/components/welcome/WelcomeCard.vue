@@ -55,6 +55,7 @@ export default {
     display: flex;
   }
 }
+
 .hidden-mobile {  
   @media only screen and (max-width: $screen-sm-max) {
     display: none;

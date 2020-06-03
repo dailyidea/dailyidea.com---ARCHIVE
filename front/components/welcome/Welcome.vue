@@ -33,6 +33,11 @@ export default {
     WelcomeSecond,
     WelcomeThird
   },
+  data() {
+    return {
+      pageOn: 1
+    } 
+  },
   computed: {
     userId() {
       return this.$store.getters['userData/userId']
@@ -57,12 +62,7 @@ export default {
     handleRightClicked() {
       this.pageOn += 1
     }
-  },
-  data() {
-    return {
-      pageOn: 0
-    } 
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>

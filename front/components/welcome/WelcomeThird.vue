@@ -1,27 +1,37 @@
 <template>
   <welcome-card @left-clicked="emitLeftClicked" :left-arrow="true">
+    <template v-slot:mobile-header>
+      <div class="welcome-to py-3">Browse Other Ideas</div>
+    </template>
     <template v-slot:left>
-      <div class="welcome-to text-center">Browse Other Ideas</div>
-      <div class="bullet-point mt-10">
-        <span class="bullet-point__bullet"></span>
-        <span class="bullet-point__text">
-          We'll show you ideas similar to your own, so you can get inspired
-        </span>
-      </div>
-      <div class="bullet-point mt-3">
-        <span class="bullet-point__bullet"></span>
-        <span class="bullet-point__text">Discover the most popular ideas in your newsletter</span>
-      </div>
-      <div class="next-btn mt-10">
-        <v-btn @click="emitMarkAsWelcomed">Browse Ideas</v-btn>
-      </div>
-      <div class="next-btn mt-3">
-        <v-btn :to="{ name: 'ideas-me' }" @click="emitMarkAsWelcomed">Write my own idea</v-btn>
+      <div class="welcome-to text-center hidden-mobile">Browse Other Ideas</div>
+      <div class="d-flex flex-column justify-space-between">
+        <div>
+          <div class="bullet-point mt-5">
+            <span class="bullet-point__bullet"></span>
+            <span class="bullet-point__text">
+              We'll show you ideas similar to your own, so you can get inspired
+            </span>
+          </div>
+          <div class="bullet-point mt-3">
+            <span class="bullet-point__bullet"></span>
+            <span class="bullet-point__text">Discover the most popular ideas in your newsletter</span>
+          </div>
+        </div>
+        <div>
+          <div class="next-btn mt-10">
+            <v-btn @click="emitMarkAsWelcomed">Browse Ideas</v-btn>
+          </div>
+          <div class="next-btn mt-3">
+            <v-btn :to="{ name: 'ideas-me' }" @click="emitMarkAsWelcomed">Write my own idea</v-btn>
+          </div>
+        </div>
+        <div></div>
       </div>
     </template>
     <template v-slot:right>
       <img src="~/assets/images/welcome/people-in-phones.png">
-      <div class="right-column__right-text">
+      <div class="right-column__right-text pb-3">
         Inspire your creativity by seeing what other people are thinking of.
       </div>
     </template>
@@ -46,7 +56,6 @@ export default {
 <style lang="scss" scoped>
 .col { padding: 0; }
 .row { margin: 0; }
-.full-height { height: 100%; }
 
 .left-column { 
   .explore-on-own {
@@ -70,6 +79,11 @@ export default {
     position: relative;
     margin: 0 auto;
     width: 60%;
+    
+    @media only screen and (max-width: $screen-sm-max) {
+      width: 90%;
+    }
+
     text-align: left;
     display: flex;
 
@@ -91,23 +105,11 @@ export default {
     }
   }
 
-  .welcome-to {
-    font-size: 2rem;
-    font-weight: bold;
-  }
+}
 
-  .daily { 
-    color: $primary-color;
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-
-  .idea { 
-    color: $secondary-color; 
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-
+.welcome-to {
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 .right-column {
@@ -120,6 +122,10 @@ export default {
     font-weight: 900;
     width: 85%;
     margin: 0 auto;
+
+    @media only screen and (max-width: $screen-sm-max) {
+      font-size: 1.2rem;
+    }
   }
 }
 

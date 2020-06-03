@@ -1,33 +1,43 @@
 <template>
   <welcome-card @left-clicked="emitLeftClicked" @right-clicked="emitRightClicked" :left-arrow="true" :right-arrow="true">
+    <template v-slot:mobile-header>
+      <div class="welcome-to py-3">Save Your Ideas</div>
+    </template>
     <template v-slot:left>
-      <div class="welcome-to text-center">Save Your Ideas</div>
-      <div class="bullet-point mt-10">
-        <span class="bullet-point__bullet w-25"></span>
-        <span class="bullet-point__text">
-          Overflowing with ideas? Log them here. We'll remind you about your best ideas and 
-          show similar ideas that will spark your creativity.
-        </span>
-      </div>
-      <div class="bullet-point mt-3">
-        <span class="bullet-point__bullet"></span>
-        <span class="bullet-point__text">
-          Only a few ideas? This will help you exercise your idea muscle. 
-          With practice you'll become an idea machine!
-        </span>
-      </div>
-      <div class="next-btn mt-10">
-        <v-btn @click="emitNext">Next</v-btn>
-      </div>
-      <div class="mt-5">
-        <div class="explore-on-own" @click="emitMarkAsWelcomed">
-          I'll explore on my own
+      <div class="welcome-to text-center hidden-mobile">Save Your Ideas</div>
+      <div class="d-flex flex-column justify-space-between mt-7">
+        <div>
+          <div class="bullet-point mt-2">
+            <span class="bullet-point__bullet w-25"></span>
+            <span class="bullet-point__text">
+              Overflowing with ideas? Log them here. We'll remind you about your best ideas and 
+              show similar ideas that will spark your creativity.
+            </span>
+          </div>
+          <div class="bullet-point mt-3">
+            <span class="bullet-point__bullet"></span>
+            <span class="bullet-point__text">
+              Only a few ideas? This will help you exercise your idea muscle. 
+              With practice you'll become an idea machine!
+            </span>
+          </div>
         </div>
+        <div>
+          <div class="next-btn mt-10 hidden-mobile">
+            <v-btn @click="emitNext">Next</v-btn>
+          </div>
+          <div class="mt-2">
+            <div class="explore-on-own" @click="emitMarkAsWelcomed">
+              I'll explore on my own
+            </div>
+          </div>
+        </div>
+        <div></div>
       </div>
     </template>
     <template v-slot:right>
       <img src="~/assets/images/welcome/person-with-letter.png">
-      <div class="right-column__right-text">
+      <div class="right-column__right-text pb-3">
         Just respond to the daily email and we'll automatically save your ideas for you.
       </div>
     </template>
@@ -82,7 +92,7 @@ export default {
   .bullet-point {
     position: relative;
     margin: 0 auto;
-    width: 60%;
+    width: 90%;
     text-align: left;
     display: flex;
 
@@ -104,24 +114,13 @@ export default {
     }
   }
 
-  .welcome-to {
-    font-size: 2rem;
-    font-weight: bold;
-  }
-
-  .daily { 
-    color: $primary-color;
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-
-  .idea { 
-    color: $secondary-color; 
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-
 }
+
+.welcome-to {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
 
 .right-column {
   img {
@@ -130,6 +129,11 @@ export default {
 
   &__right-text {
     font-size: 1.8rem;
+    
+    @media only screen and (max-width: $screen-sm-max) {
+      font-size: 1.2rem;
+    }
+
     font-weight: 900;
     width: 85%;
     margin: 0 auto;
