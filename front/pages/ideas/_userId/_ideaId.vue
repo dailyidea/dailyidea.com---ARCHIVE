@@ -395,14 +395,13 @@ export default {
     }
   },
   head() {
-    const defaultLogo = require('~/assets/images/bulb_with_light_holder.png')
     const truncatedIdeaContent = clip(this.idea.content, 180, {
       html: true,
       maxLines: 8,
       indicator: '... (see more)'
     })
     const ogDescription = truncatedIdeaContent.replace(/<\/?[^>]+(>|$)/g, '')
-    return {
+    const attrs = {
       title: `${this.idea.title} - Daily Idea`,
       meta: [
         { hid: 'og:title', property: 'og:title', content: this.idea.title },
@@ -410,16 +409,19 @@ export default {
           hid: 'og:description',
           property: 'og:description',
           content: ogDescription
-        },
-        {
-          hid: 'og:image',
-          property: 'og:image',
-          content: this.idea.previewImage
-            ? `https://${process.env.USER_UPLOADS_S3_DOMAIN}.s3.amazonaws.com/${this.idea.previewImage}`
-            : defaultLogo
         }
       ]
     }
+
+    if (this.idea.previewImage) {
+      attrs.meta.push({
+        hid: 'og:image',
+        property: 'og:image',
+        content: `https://${process.env.USER_UPLOADS_S3_DOMAIN}.s3.amazonaws.com/${this.idea.previewImage}`
+      })
+    }
+
+    return attrs
   }
 }
 </script>
