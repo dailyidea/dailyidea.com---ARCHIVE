@@ -1,6 +1,7 @@
 <template>
   <v-content>
     <welcome-desktop
+      class="hidden-mobile"
       :right-image="rightImage"
       :left-arrow="true"
       :hide-explore-link="true"
@@ -13,15 +14,35 @@
       @mark-as-welcomed="emitMarkAsWelcomed"
       @left-clicked="emitLeftClicked"
     ></welcome-desktop>
+    <welcome-mobile-portrait
+      class="hidden-desktop hidden-landscape"
+      :three="true"
+      :two="true"
+      :one="true"
+      :right-image="rightImage"
+      :right-text="rightText"
+      :left-title="leftTitle"
+      :bullet-points="bulletPoints"
+      :hide-next-btn="true"
+      :hide-explore-link="true"
+      :show-browse-ideas-btn="true"
+      :show-write-ideas-btn="true"
+      @mark-as-welcomed="emitMarkAsWelcomed"
+      @left-clicked="emitLeftClicked"
+    ></welcome-mobile-portrait>
   </v-content>
 </template>
 <script>
 import WelcomeDesktop from './WelcomeDesktop'
+import WelcomeMobilePortrait from './WelcomeMobilePortrait'
 import rightImage from '~/assets/images/welcome/people-in-phones.png'
 
 export default {
   name: 'WelcomeThird',
-  components: { WelcomeDesktop },
+  components: {
+    WelcomeDesktop,
+    WelcomeMobilePortrait
+  },
   data() {
     return {
       rightImage,
@@ -47,4 +68,18 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.hidden-mobile {
+  display: none;
+}
+
+@media only screen and (min-width: $screen-md-min) {
+  .hidden-desktop {
+    display: none !important;
+  }
+
+  .hidden-mobile {
+    display: flex;
+  }
+}
+</style>

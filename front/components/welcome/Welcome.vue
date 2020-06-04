@@ -37,7 +37,7 @@ export default {
   },
   data() {
     return {
-      pageOn: 2
+      pageOn: 0
     }
   },
   computed: {
@@ -78,11 +78,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-html,
-body {
-  overflow-y: hidden !important;
-}
-
 .welcome-container {
   display: flex;
   position: fixed;
@@ -93,9 +88,5 @@ body {
   height: 100vh;
   z-index: 200;
   background-color: $welcome-background-color;
-
-  @media only screen and (max-width: $screen-sm-max) {
-    align-items: flex-start;
-  }
 }
 </style>

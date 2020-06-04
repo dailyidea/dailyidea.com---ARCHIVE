@@ -1,6 +1,7 @@
 <template>
   <v-content>
     <welcome-desktop
+      class="hidden-mobile"
       :right-image="rightImage"
       :right-arrow="true"
       :left-arrow="true"
@@ -12,15 +13,32 @@
       @left-clicked="emitLeftClicked"
       @right-clicked="emitRightClicked"
     ></welcome-desktop>
+    <welcome-mobile-portrait
+      class="hidden-desktop hidden-landscape"
+      :two="true"
+      :one="true"
+      :right-image="rightImage"
+      :right-text="rightText"
+      :left-title="leftTitle"
+      :bullet-points="bulletPoints"
+      :hide-next-btn="true"
+      @mark-as-welcomed="emitMarkAsWelcomed"
+      @right-clicked="emitRightClicked"
+      @left-clicked="emitLeftClicked"
+    ></welcome-mobile-portrait>
   </v-content>
 </template>
 <script>
 import WelcomeDesktop from './WelcomeDesktop'
+import WelcomeMobilePortrait from './WelcomeMobilePortrait'
 import rightImage from '~/assets/images/welcome/person-with-letter.png'
 
 export default {
   name: 'WelcomeSecond',
-  components: { WelcomeDesktop },
+  components: {
+    WelcomeDesktop,
+    WelcomeMobilePortrait
+  },
   data() {
     return {
       rightImage,
@@ -49,4 +67,18 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.hidden-mobile {
+  display: none;
+}
+
+@media only screen and (min-width: $screen-md-min) {
+  .hidden-desktop {
+    display: none !important;
+  }
+
+  .hidden-mobile {
+    display: flex;
+  }
+}
+</style>
