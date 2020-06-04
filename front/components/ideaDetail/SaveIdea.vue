@@ -3,7 +3,7 @@
     <v-btn small icon @click="toggleIsSaved">
       <v-icon v-if="isLoading">fas fa-circle-notch fa-spin</v-icon>
       <v-icon v-else-if="!isLoading && isSaved" class="action-button">
-        mdi-bookmark-plus 
+        mdi-bookmark-plus
       </v-icon>
       <v-icon v-else>mdi-bookmark-plus-outline</v-icon>
     </v-btn>
@@ -28,7 +28,7 @@ export default {
 
   mounted() {
     this.initIdeaState()
-    if(!this.$route.query.aa && this.isLoggedIn) {
+    if (!this.$route.query.aa && this.isLoggedIn) {
       this.isSavedByMe()
     }
   },
@@ -39,11 +39,10 @@ export default {
     },
 
     toggleIsSaved() {
-      if(this.isLoading)
-        return
+      if (this.isLoading) return
 
-      if(this.isLoggedIn) {
-        if(!this.isSaved) {
+      if (this.isLoggedIn) {
+        if (!this.isSaved) {
           this.saveIdea()
         } else {
           this.unsaveIdea()
@@ -67,7 +66,7 @@ export default {
 
     isSavedByMe() {
       this.$emit('is-saved-by-me', getIsIdeaSavedByMe)
-    },
+    }
   }
 }
 </script>

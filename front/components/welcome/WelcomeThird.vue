@@ -1,142 +1,50 @@
 <template>
-  <welcome-card @left-clicked="emitLeftClicked" :left-arrow="true">
-    <template v-slot:mobile-header>
-      <div class="welcome-to pt-5 pb-3">Browse Other Ideas</div>
-    </template>
-    <template v-slot:left>
-      <div class="welcome-to text-center hidden-mobile">Browse Other Ideas</div>
-      <div class="d-flex flex-column justify-space-between">
-        <div>
-          <div class="bullet-point mt-5">
-            <span class="bullet-point__bullet"></span>
-            <span class="bullet-point__text">
-              We'll show you ideas similar to your own, so you can get inspired
-            </span>
-          </div>
-          <div class="bullet-point mt-3">
-            <span class="bullet-point__bullet"></span>
-            <span class="bullet-point__text">Discover the most popular ideas in your newsletter</span>
-          </div>
-        </div>
-        <div>
-          <div class="next-btn mt-10">
-            <v-btn @click="emitMarkAsWelcomed" height="50px">Browse Ideas</v-btn>
-          </div>
-          <div class="next-btn mt-3">
-            <v-btn :to="{ name: 'ideas-me' }" @click="emitMarkAsWelcomed" height="50px">Write my own idea</v-btn>
-          </div>
-        </div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    </template>
-    <template v-slot:right>
-      <img src="~/assets/images/welcome/people-in-phones.png">
-      <div class="right-column__right-text pb-3">
-        Inspire your creativity by seeing what other people are thinking of.
-      </div>
-    </template>
-  </welcome-card>
+  <v-content>
+    <welcome-desktop
+      :right-image="rightImage"
+      :left-arrow="true"
+      :hide-explore-link="true"
+      :hide-next-btn="true"
+      :right-text="rightText"
+      :left-title="leftTitle"
+      :bullet-points="bulletPoints"
+      :show-browse-ideas-btn="true"
+      :show-write-ideas-btn="true"
+      @mark-as-welcomed="emitMarkAsWelcomed"
+      @left-clicked="emitLeftClicked"
+    ></welcome-desktop>
+  </v-content>
 </template>
 <script>
-import WelcomeCard from './WelcomeCard'
+import WelcomeDesktop from './WelcomeDesktop'
+import rightImage from '~/assets/images/welcome/people-in-phones.png'
 
 export default {
   name: 'WelcomeThird',
-  components: { WelcomeCard },
+  components: { WelcomeDesktop },
+  data() {
+    return {
+      rightImage,
+      bulletPoints: [
+        "We'll show you ideas similar to your own, so you can get inspired",
+        'Discover the most popular ideas in your newsletter'
+      ],
+      leftTitle: 'Browse Other Ideas',
+      rightText:
+        'Everyday we will send you a simple reminder to come up with a new idea.'
+    }
+  },
   methods: {
-    emitLeftClicked() {
-      this.$emit('left-clicked')
+    emitNext() {
+      this.$emit('next')
     },
     emitMarkAsWelcomed() {
       this.$emit('mark-as-welcomed')
     },
+    emitLeftClicked() {
+      this.$emit('left-clicked')
+    }
   }
 }
 </script>
-<style lang="scss" scoped>
-.col { padding: 0; }
-.row { margin: 0; }
-
-.left-column { 
-  .explore-on-own {
-    text-decoration: underline;
-    color: $primary-color;
-    font-size: 1.1rem;
-    cursor: pointer;
-    font-weight: 600;
-  }
-
-  .v-btn { 
-    color: black !important; 
-    font-weight: 600;
-    font-size: 1.05rem;
-    width: 60%;
-    @media only screen and (max-width: $screen-sm-max) {
-      width: 70%;
-      font-size: 0.9rem;
-    }
-  }
-
-  .bullet-point {
-    position: relative;
-    margin: 0 auto;
-    width: 60%;
-    
-    @media only screen and (max-width: $screen-sm-max) {
-      width: 80%;
-    }
-
-    text-align: left;
-    display: flex;
-
-    &__bullet {
-      display: inline-block;
-      width: 19px;
-      position: absolute;
-      height: 19px;
-      border-radius: 100%;
-      border: 2px solid $color-muted-grey;
-      margin-right: 1rem;
-      margin-top: 0.25rem;
-    }
-
-    &__text {
-      font-weight: 500;
-      font-size: 1.2rem;
-      @media only screen and (max-width: $screen-sm-max) {
-        font-size: 1.1rem;
-      } 
-      margin-left: 2rem;
-    }
-  }
-
-}
-
-.welcome-to {
-  font-size: 2rem;
-  @media (max-width: $screen-sm-max) {
-    font-size: 1.5rem;
-  }
-  font-weight: bold;
-}
-
-.right-column {
-  img {
-    width: 50%;
-  }
-
-  &__right-text {
-    font-size: 1.8rem;
-    font-weight: 900;
-    width: 85%;
-    margin: 0 auto;
-
-    @media only screen and (max-width: $screen-sm-max) {
-      font-size: 1.2rem;
-    }
-  }
-}
-
-</style>
+<style lang="scss" scoped></style>

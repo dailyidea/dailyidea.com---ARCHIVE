@@ -17,7 +17,7 @@ export const mutations = {
     state.userData = data
   },
   setUserWelcomed(state, data) {
-    state.userData.wasWelcomed = true;
+    state.userData.wasWelcomed = true
   },
   resetUserData(state, data) {
     state.isAuthenticated = false

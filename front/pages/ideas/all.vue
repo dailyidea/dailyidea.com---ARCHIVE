@@ -1,6 +1,9 @@
 <template>
   <span>
-    <welcome @hide-welcomed='handleHideWelcomed' v-show="!wasWelcomed"></welcome>
+    <welcome
+      v-show="!wasWelcomed"
+      @hide-welcomed="handleHideWelcomed"
+    ></welcome>
     <ideas-list-page
       :initial-ideas="ideas"
       :initial-next-token="nextToken"
@@ -16,12 +19,12 @@
 <script>
 import ideasListPage from '@/components/ideasList/ideasListPage'
 import loadIdeas from '@/components/ideasList/loadIdeas'
-import Welcome from '@/components/welcome/Welcome.vue';
+import Welcome from '@/components/welcome/Welcome.vue'
 import { ORDER } from '@/components/ideasList/ideasOrdering'
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
 const DEFAULT_ORDER = ORDER.DATE_DESC
 export default {
-  components: { 
+  components: {
     ideasListPage,
     Welcome
   },
@@ -43,15 +46,15 @@ export default {
       endPointName: 'getPublicIdeas'
     }
   },
-  methods: {
-    handleHideWelcomed() {
-      this.$store.commit('userData/setUserWelcomed')
-    }
-  },
   computed: {
     wasWelcomed() {
       return false
       // return this.$store.getters['userData/wasWelcomed']
+    }
+  },
+  methods: {
+    handleHideWelcomed() {
+      this.$store.commit('userData/setUserWelcomed')
     }
   }
 }

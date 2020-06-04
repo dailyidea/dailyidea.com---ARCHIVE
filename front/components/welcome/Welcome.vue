@@ -1,22 +1,24 @@
 <template>
   <span class="welcome-container">
-    <welcome-first 
-      @right-clicked="handleRightClicked" 
-      @next="handleNext" 
-      @mark-as-welcomed="handleMarkAsWelcomed"
+    <welcome-first
       v-if="pageOn === 0"
+      @right-clicked="handleRightClicked"
+      @next="handleNext"
+      @mark-as-welcomed="handleMarkAsWelcomed"
     ></welcome-first>
-    <welcome-second 
-      @right-clicked="handleRightClicked" 
-      @left-clicked="handleLeftClicked"
-      @next="handleNext" 
-      @mark-as-welcomed="handleMarkAsWelcomed"
+
+    <welcome-second
       v-else-if="pageOn === 1"
+      @right-clicked="handleRightClicked"
+      @left-clicked="handleLeftClicked"
+      @next="handleNext"
+      @mark-as-welcomed="handleMarkAsWelcomed"
     ></welcome-second>
-    <welcome-third 
+
+    <welcome-third
+      v-else-if="pageOn === 2"
       @left-clicked="handleLeftClicked"
       @mark-as-welcomed="handleMarkAsWelcomed"
-      v-else-if="pageOn === 2"
     ></welcome-third>
   </span>
 </template>
@@ -27,7 +29,7 @@ import WelcomeSecond from '@/components/welcome/WelcomeSecond.vue'
 import WelcomeThird from '@/components/welcome/WelcomeThird.vue'
 import setWasWelcomed from '~/graphql/mutations/setWasWelcomed'
 export default {
-  name: 'welcome',
+  name: 'Welcome',
   components: {
     WelcomeFirst,
     WelcomeSecond,
@@ -35,13 +37,16 @@ export default {
   },
   data() {
     return {
-      pageOn: 0
-    } 
+      pageOn: 2
+    }
   },
   computed: {
     userId() {
       return this.$store.getters['userData/userId']
     }
+  },
+  mounted() {
+    this.hideScroll()
   },
   methods: {
     handleMarkAsWelcomed() {
@@ -52,6 +57,13 @@ export default {
       )
 
       this.$emit('hide-welcomed')
+      this.restoreScroll()
+    },
+    restoreScroll() {
+      document.documentElement.style.overflow = ''
+    },
+    hideScroll() {
+      document.documentElement.style.overflow = 'hidden'
     },
     handleNext() {
       this.pageOn += 1
@@ -62,23 +74,26 @@ export default {
     handleRightClicked() {
       this.pageOn += 1
     }
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>
-html, body { overflow-y: hidden !important; }
+html,
+body {
+  overflow-y: hidden !important;
+}
 
 .welcome-container {
   display: flex;
   position: fixed;
   align-items: center;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   z-index: 200;
   background-color: $welcome-background-color;
-  
+
   @media only screen and (max-width: $screen-sm-max) {
     align-items: flex-start;
   }

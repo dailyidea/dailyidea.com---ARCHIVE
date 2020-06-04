@@ -2,7 +2,7 @@
   <v-col ref="swipe-container">
     <span class="mobile text-center flex-column align-center">
       <div class="mobile-title">
-        <slot name="mobile-header"></slot> 
+        <slot name="mobile-header"></slot>
       </div>
       <div class="right-column mt-10">
         <slot name="right"></slot>
@@ -14,13 +14,24 @@
 
     <v-card class="mx-auto">
       <v-row justify="center">
-        <div @click="emitLeftClicked" class="arrow left-arrow" v-show="leftArrow">
-          <v-icon>mdi-arrow-left</v-icon>
+        <div class="d-flex align-center">
+          <div
+            v-show="leftArrow"
+            class="arrow left-arrow"
+            @click="emitLeftClicked"
+          >
+            <v-icon>mdi-arrow-left</v-icon>
+          </div>
         </div>
-        <div @click="emitRightClicked" class="arrow right-arrow" v-show="rightArrow">
-          <v-icon>mdi-arrow-right</v-icon>
+        <div class="d-flex align-center">
+          <div
+            v-show="rightArrow"
+            class="arrow right-arrow"
+            @click="emitRightClicked"
+          >
+            <v-icon>mdi-arrow-right</v-icon>
+          </div>
         </div>
-
         <v-col class="text-center left-column">
           <slot name="left"></slot>
         </v-col>
@@ -36,13 +47,16 @@ export default {
   name: 'WelcomeCard',
   props: {
     leftArrow: Boolean,
-    rightArrow: Boolean,
+    rightArrow: Boolean
   },
   data() {
     return {
       touchStartPos: 0,
       touchEndPos: 0
     }
+  },
+  mounted() {
+    this.setupSwipeEventListener()
   },
   methods: {
     emitLeftClicked() {
@@ -60,8 +74,8 @@ export default {
       this.touchEndPos = touch
     },
     handleTouchEnd(event) {
-      if(Math.abs(this.touchStartPos - this.touchEndPos) > 10) {
-        if(this.touchStartPos < this.touchEndPos) {
+      if (Math.abs(this.touchStartPos - this.touchEndPos) > 10) {
+        if (this.touchStartPos < this.touchEndPos) {
           this.emitLeftClicked()
         } else {
           this.emitRightClicked()
@@ -74,9 +88,6 @@ export default {
       swipeContainer.addEventListener('touchmove', this.handleTouchMove)
       swipeContainer.addEventListener('touchend', this.handleTouchEnd)
     }
-  },
-  mounted() {
-    this.setupSwipeEventListener()
   }
 }
 </script>
@@ -94,7 +105,9 @@ export default {
   }
 }
 
-.row { margin: 0; }
+.row {
+  margin: 0;
+}
 
 .right-column {
   background-color: $welcome-background-yellow;
@@ -105,7 +118,7 @@ export default {
 .left-column {
   margin-top: 2%;
   position: relative;
-  height:100%;
+  height: 100%;
 }
 
 .arrow {
@@ -118,19 +131,19 @@ export default {
   background-color: $welcome-arrow-background;
   border-radius: 100%;
   z-index: 200;
-  top: 28vh;
   cursor: pointer;
 
   @media only screen and (max-width: $screen-sm-max) {
     display: none;
   }
 
-  .v-icon { color: white; }
-
+  .v-icon {
+    color: white;
+  }
 }
 
 .arrow.left-arrow {
-  left:-25px
+  left: -25px;
 }
 
 .arrow.right-arrow {
@@ -140,7 +153,7 @@ export default {
 .mobile {
   display: none;
 
-  @media only screen and (max-width: $screen-sm-max) and (orientation:portrait) {
+  @media only screen and (max-width: $screen-sm-max) and (orientation: portrait) {
     display: flex;
   }
 
@@ -153,7 +166,7 @@ export default {
   @media only screen and (max-width: $screen-sm-max) {
     display: none;
   }
-  
+
   @media only screen and (min-width: $screen-md-min) and (max-width: $screen-md-max) {
     width: 85vw;
   }

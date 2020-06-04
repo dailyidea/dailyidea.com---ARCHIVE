@@ -3,7 +3,7 @@
     <v-btn small icon @click="toggleIsLiked">
       <v-icon v-if="isLoading">fas fa-circle-notch fa-spin</v-icon>
       <v-icon v-else-if="!isLoading && isLiked" class="action-button">
-        mdi-thumb-up  
+        mdi-thumb-up
       </v-icon>
       <v-icon v-else>mdi-thumb-up-outline</v-icon>
     </v-btn>
@@ -28,7 +28,7 @@ export default {
 
   mounted() {
     this.initIdeaState()
-    if(!this.$route.query.aa && this.isLoggedIn) {
+    if (!this.$route.query.aa && this.isLoggedIn) {
       this.isLikedByMe()
     }
   },
@@ -39,11 +39,10 @@ export default {
     },
 
     toggleIsLiked() {
-      if(this.isLoading)
-        return
+      if (this.isLoading) return
 
-      if(this.isLoggedIn) {
-        if(!this.isLiked) {
+      if (this.isLoggedIn) {
+        if (!this.isLiked) {
           this.likeIdea()
         } else {
           this.unlikeIdea()
@@ -67,7 +66,7 @@ export default {
 
     isLikedByMe() {
       this.$emit('is-liked-by-me', getIsIdeaLikedByMe)
-    },
+    }
   }
 }
 </script>
