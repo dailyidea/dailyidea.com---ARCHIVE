@@ -1,61 +1,62 @@
 <template>
   <div
     ref="swipe-container"
-    class="white-container d-flex flex-column align-center justify-space-between"
+    class="white-container d-flex flex-row align-center justify-space-between"
   >
-    <div>
+    <div class="left">
       <header class="text-center py-2">
         <div class="title">{{ leftTitle }}</div>
         <div v-show="showDailyIdeaSubTitle" class="daily-idea">
           <span class="daily">DAILY</span><span class="idea">IDEA</span>
         </div>
       </header>
-      <div class="yellow-bg text-center d-flex flex-column align-center pb-3">
-        <img :src="rightImage" />
-        <div class="sub-image-text">{{ rightText }}</div>
+      <div class="bullet-points">
+        <div
+          v-for="(bullet, index) in bulletPoints"
+          :key="index"
+          class="bullet-point py-2"
+        >
+          <span class="bullet w-25"></span>
+          <span class="text">{{ bullet }}</span>
+        </div>
       </div>
+      <footer class="d-flex flex-column text-center">
+        <div v-show="!hideNextBtn">
+          <v-btn class="my-2" @click="emitNext">Next</v-btn>
+        </div>
+        <div v-show="showBrowseIdeasBtn">
+          <v-btn class="my-2" @click="emitMarkAsWelcomed">Browse Ideas</v-btn>
+        </div>
+        <div v-show="showWriteIdeasBtn">
+          <v-btn class="my-2" @click="writeOwnIdea">Write my own idea</v-btn>
+        </div>
+        <div
+          v-show="!hideExploreLink"
+          class="explore-on-own"
+          @click="emitMarkAsWelcomed"
+        >
+          I'll explore on my own
+        </div>
+        <div class="circles">
+          <div class="d-flex flex-row justify-center mt-5">
+            <div :class="one ? 'filled' : ''" class="circle mx-2"></div>
+            <div :class="two ? 'filled' : ''" class="circle mx-2"></div>
+            <div :class="three ? 'filled' : ''" class="circle mx-2"></div>
+          </div>
+        </div>
+      </footer>
     </div>
-    <div class="bullet-points">
-      <div
-        v-for="(bullet, index) in bulletPoints"
-        :key="index"
-        class="bullet-point py-2"
-      >
-        <span class="bullet w-25"></span>
-        <span class="text">{{ bullet }}</span>
-      </div>
+    <div
+      class="right yellow-bg text-center d-flex flex-column align-center justify-center pb-3"
+    >
+      <img :src="rightImage" />
+      <div class="sub-image-text">{{ rightText }}</div>
     </div>
-    <footer class="d-flex flex-column text-center">
-      <div v-show="!hideNextBtn">
-        <v-btn class="my-2" @click="emitNext">Next</v-btn>
-      </div>
-      <div v-show="showBrowseIdeasBtn">
-        <v-btn class="my-2" @click="emitMarkAsWelcomed">Browse Ideas</v-btn>
-      </div>
-      <div v-show="showWriteIdeasBtn">
-        <v-btn class="my-2" @click="writeOwnIdea">Write my own idea</v-btn>
-      </div>
-      <div
-        v-show="!hideExploreLink"
-        class="explore-on-own"
-        @click="emitMarkAsWelcomed"
-      >
-        I'll explore on my own
-      </div>
-      <div class="d-flex flex-row justify-center mt-5">
-        <div :class="one ? 'filled' : ''" class="circle mx-2"></div>
-        <div :class="two ? 'filled' : ''" class="circle mx-2"></div>
-        <div :class="three ? 'filled' : ''" class="circle mx-2"></div>
-      </div>
-    </footer>
-    <div></div>
-    <div></div>
-    <div></div>
   </div>
 </template>
 <script>
 export default {
-  name: 'WelcomeMobilePortrait',
+  name: 'WelcomeMobileLandscape',
   props: {
     showDailyIdeaSubTitle: Boolean,
     showBrowseIdeasBtn: Boolean,
@@ -117,7 +118,7 @@ export default {
       this.touchEndPos = touch
     },
     handleTouchEnd(event) {
-      if (Math.abs(this.touchStartPos - this.touchEndPos) > 100) {
+      if (Math.abs(this.touchStartPos - this.touchEndPos) > 50) {
         if (this.touchStartPos < this.touchEndPos) {
           this.emitLeftClicked()
         } else {
@@ -135,6 +136,20 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.left {
+  width: 100%;
+}
+.right {
+  width: 100%;
+}
+
+.circles {
+  position: absolute;
+  margin: 0 auto;
+  width: 100%;
+  bottom: 5vh;
+}
+
 .circle {
   width: 15px;
   height: 15px;
@@ -156,7 +171,7 @@ export default {
   border-radius: 0 5px 5px 0;
 
   width: 100%;
-
+  height: 100vh;
   img {
     width: 50%;
   }
@@ -212,7 +227,7 @@ export default {
 
 .v-btn {
   color: black !important;
-  width: 100%;
+  width: 60%;
   height: 50px !important;
   font-size: 0.9rem;
 }

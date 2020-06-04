@@ -117,7 +117,7 @@ export default {
       this.touchEndPos = touch
     },
     handleTouchEnd(event) {
-      if (Math.abs(this.touchStartPos - this.touchEndPos) > 100) {
+      if (Math.abs(this.touchStartPos - this.touchEndPos) > 80) {
         if (this.touchStartPos < this.touchEndPos) {
           this.emitLeftClicked()
         } else {

@@ -24,18 +24,32 @@
       @mark-as-welcomed="emitMarkAsWelcomed"
       @right-clicked="emitRightClicked"
     ></welcome-mobile-portrait>
+    <welcome-mobile-landscape
+      class="hidden-desktop hidden-portrait"
+      :one="true"
+      :right-image="rightImage"
+      :show-daily-idea-sub-title="true"
+      :right-text="rightText"
+      :left-title="leftTitle"
+      :bullet-points="bulletPoints"
+      :hide-next-btn="true"
+      @mark-as-welcomed="emitMarkAsWelcomed"
+      @right-clicked="emitRightClicked"
+    ></welcome-mobile-landscape>
   </v-content>
 </template>
 <script>
 import WelcomeDesktop from './WelcomeDesktop'
 import WelcomeMobilePortrait from './WelcomeMobilePortrait'
+import WelcomeMobileLandscape from './WelcomeMobileLandscape'
 import rightImage from '~/assets/images/welcome/person-in-window.png'
 
 export default {
   name: 'WelcomeFirst',
   components: {
     WelcomeDesktop,
-    WelcomeMobilePortrait
+    WelcomeMobilePortrait,
+    WelcomeMobileLandscape
   },
   data() {
     return {
