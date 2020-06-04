@@ -21,6 +21,7 @@ def endpoint(event, lambda_context):
     ctx = event.get('ctx')
     arguments = ctx.get('arguments')
     title = arguments.get('title')
+    slug = slugify(title)
     content = sanitize_idea_content(arguments.get('content', None))
     idea_id = arguments.get('ideaId', None)
     idea_owner_id = arguments.get('ideaOwnerId', None)
@@ -51,7 +52,7 @@ def endpoint(event, lambda_context):
         UpdateExpression='SET title = :title, slug = :slug, content = :content, updatedDate = :updatedDate, fileAttachments=:fileAttachments, imageAttachments=:imageAttachments, previewImage=:previewImage',
         ExpressionAttributeValues={
             ":title": {"S": title},
-            ":slug": {"S": slugify(title)},
+            ":slug": {"S": slug},
             ":content": {"S": content} if content else {"NULL": True},
             ":updatedDate": {"S": datetime.datetime.now().isoformat()},
             ":fileAttachments": {"SS": new_file_attachments} if len(new_file_attachments) else {"NULL": True},
@@ -89,4 +90,4 @@ def endpoint(event, lambda_context):
                 }
             )
 
-    return {'result': {'ok': True}, 'idea': {'ideaId': idea_id}}
+    return {'result': {'ok': True}, 'idea': {'ideaId': idea_id, 'slug': slug}}

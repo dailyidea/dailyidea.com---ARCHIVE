@@ -1,5 +1,9 @@
 <template>
-  <div color="white" class="idea-item" @click="onIdeaClick(idea)">
+  <a
+    :href="`/i/${idea.shortId}/${idea.slug}`"
+    class="idea-item"
+    @click.prevent="onIdeaClick(idea)"
+  >
     <div class="idea-item__title-row">
       <strong>{{ idea.title }}</strong>
     </div>
@@ -42,7 +46,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </a>
 </template>
 
 <script>
@@ -74,10 +78,10 @@ export default {
     onIdeaClick() {
       // custom behaviour might be required later
       this.$router.push({
-        name: 'ideas-userId-ideaId',
+        name: 'i-shortId-slug',
         params: {
-          ideaId: this.idea.ideaId,
-          userId: this.idea.userId
+          shortId: this.idea.shortId,
+          slug: this.idea.slug
         },
         force: true
       })
@@ -90,6 +94,7 @@ export default {
 @import '~assets/style/common';
 
 .idea-item {
+  display: block;
   position: relative;
   border: solid 1px #d8e3f9;
   border-radius: 4px;
@@ -101,6 +106,8 @@ export default {
   word-break: break-word;
   font-size: 14px;
   height: 100%;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87);
 
   &:hover {
     -webkit-box-shadow: 0 0 5px 3px #e3e3e361;

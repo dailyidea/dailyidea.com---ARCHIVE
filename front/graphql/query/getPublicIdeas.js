@@ -4,6 +4,8 @@ query getPublicIdeas($order: IdeaSortingOrder, $nextToken: String, $limit: Int) 
     items {
       ideaId
       userId
+      shortId
+      slug
       authorName
       authorAvatar
       authorSlug

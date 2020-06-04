@@ -78,6 +78,13 @@ export default {
     AskNameDialog
   },
 
+  props: {
+    idea: {
+      type: Object,
+      required: true
+    }
+  },
+
   data() {
     return {
       isLiked: false,
@@ -143,8 +150,8 @@ export default {
       const res = await this.$amplifyApi.graphql({
         query: likeIdea,
         variables: {
-          ideaId: this.$route.params.ideaId,
-          ideaOwnerId: this.$route.params.userId
+          ideaId: this.idea.ideaId,
+          ideaOwnerId: this.idea.userId
         }
       })
       const result = res.data.likeIdea
@@ -162,8 +169,8 @@ export default {
       const res = await this.$amplifyApi.graphql({
         query: unlikeIdea,
         variables: {
-          ideaId: this.$route.params.ideaId,
-          ideaOwnerId: this.$route.params.userId
+          ideaId: this.idea.ideaId,
+          ideaOwnerId: this.idea.userId
         }
       })
       const result = res.data.unlikeIdea

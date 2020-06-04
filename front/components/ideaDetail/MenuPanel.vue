@@ -38,13 +38,14 @@
     </v-menu>
     <save-idea-bookmark
       v-if="!editable"
+      :idea="idea"
       @savedStateChanged="onIdeaSaveStateChanged"
     ></save-idea-bookmark>
 
     <share-idea-by-email-dialog
       v-model="showEmailShareDialog"
-      :idea-id="$route.params.ideaId"
-      :idea-owner-id="$route.params.userId"
+      :idea-id="idea.ideaId"
+      :idea-owner-id="idea.userId"
       @success="onSharedIdeaOverEmail"
       @error="onSharedIdeaOverEmailError"
       @onCopyShareLink="onCopyShareLink"

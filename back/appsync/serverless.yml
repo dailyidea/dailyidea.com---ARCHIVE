@@ -142,6 +142,11 @@ custom:
     mappingTemplates:
       - dataSource: Ideas
         type: Query
+        field: getIdea
+        request: "getIdea-request-mapping-template.txt"
+        response: "getIdea-response-mapping-template.txt"
+      - dataSource: Ideas
+        type: Query
         field: getMyIdea
         request: "getMyIdea-request-mapping-template.txt"
         response: "getMyIdea-response-mapping-template.txt"

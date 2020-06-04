@@ -1,15 +1,22 @@
 export default `
-query getIdea($ideaId: String!) {
-  getIdea(ideaId: $ideaId) {
+query getIdea($shortId: String!) {
+  getIdea(shortId: $shortId) {
     ideaId
+    userId
     shortId
     slug
+    authorSlug
+    authorName
     content
     title
     createdDate
     ideaDate
     likesCount
-    userId
     commentsCount
+    visibility
+    fileAttachments
+    imageAttachments
+    previewImage
+    viewsCount
   }
 }`

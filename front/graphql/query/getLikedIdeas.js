@@ -3,6 +3,8 @@ query getLikedIdeas($nextToken: String, $limit: Int) {
   getLikedIdeas(nextToken: $nextToken, limit: $limit) {
     items {
       ideaId
+      shortId
+      slug
       authorAvatar
       authorName
       authorSlug
@@ -12,7 +14,7 @@ query getLikedIdeas($nextToken: String, $limit: Int) {
       createdDate
       ideaDate
       likesCount
-      }
+    }
     nextToken
   }
 }`
