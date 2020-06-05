@@ -6,7 +6,7 @@ import datetime
 import os
 from slugify import slugify
 from ..utils.common_db_utils import chunks, BATCH_WRITE_CHUNK_SIZE
-from ..utils.idea_utils import sanitize_idea_content, prepare_idea_tags_for_put_request, generate_short_id
+from ..utils.idea_utils import sanitize_idea_content, prepare_idea_tags_for_put_request, find_unique_short_id
 import sentry_sdk
 from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
 
@@ -14,23 +14,6 @@ sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegra
 
 # logger = logging.getLogger()
 # logger.setLevel(logging.INFO)
-
-def short_id_exists(short_id):
-  print(short_id)
-  client = boto3.client('dynamodb', region_name='us-east-1')
-  response = client.query(
-    TableName=os.environ.get('IDEAS_TABLE_NAME'),
-    IndexName="shortId",
-    KeyConditionExpression="shortId = :shortId",
-    ExpressionAttributeValues={":shortId": {"S": short_id}})
-  return bool(response['Count'])
-
-def find_unique_short_id():
-  short_id = generate_short_id()
-  while short_id_exists(short_id):
-    short_id = generate_short_id()
-  return short_id
-
 
 def endpoint(event, lambda_context):
     ctx = event.get('ctx')
