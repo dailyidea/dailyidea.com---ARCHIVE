@@ -49,7 +49,7 @@ export default {
   computed: {
     wasWelcomed() {
       const welcomed = this.$store.getters['userData/wasWelcomed']
-      return welcomed !== undefined ? welcomed : true;
+      return welcomed !== undefined ? welcomed : true
     }
   },
   methods: {
