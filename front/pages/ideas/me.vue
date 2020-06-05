@@ -12,8 +12,8 @@
 <script>
 import ideasListPage from '@/components/ideasList/ideasListPage'
 import loadIdeas from '@/components/ideasList/loadIdeas'
-import getIdeas from '~/graphql/query/getIdeas'
 import { ORDER } from '@/components/ideasList/ideasOrdering'
+import getIdeas from '~/graphql/query/getIdeas'
 const DEFAULT_ORDER = ORDER.DATE_DESC
 
 export default {

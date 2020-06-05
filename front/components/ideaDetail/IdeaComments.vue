@@ -102,15 +102,15 @@ import { mapMutations, mapGetters } from 'vuex'
 import IdeaCommentsComment from './IdeaCommentsComment'
 import AskEmailDialog from './AskEmailDialog'
 import AskNameDialog from './AskNameDialog'
-import addComment from '~/graphql/mutations/addComment'
-import getComments from '~/graphql/query/getComments'
-import deleteComment from '~/graphql/mutations/deleteComment'
 import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
 import addIdeaTemporaryComment from '@/graphql/mutations/addIdeaTemporaryComment'
 import getIdeaTemporaryComment from '@/graphql/query/getIdeaTemporaryComment'
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
 import deleteIdeaTemporaryComment from '@/graphql/mutations/deleteIdeaTemporaryComment'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
+import addComment from '~/graphql/mutations/addComment'
+import getComments from '~/graphql/query/getComments'
+import deleteComment from '~/graphql/mutations/deleteComment'
 
 const COMMENTS_COUNT = 25
 

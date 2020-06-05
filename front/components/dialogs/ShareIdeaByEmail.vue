@@ -70,8 +70,8 @@
 </template>
 
 <script>
-import shareIdea from '~/graphql/mutations/shareIdea'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
+import shareIdea from '~/graphql/mutations/shareIdea'
 
 export default {
   $_veeValidate: {

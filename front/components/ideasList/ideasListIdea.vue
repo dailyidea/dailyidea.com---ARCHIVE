@@ -35,6 +35,10 @@
             <div class="comments-and-likes">
               <span
                 >{{ idea.likesCount }}
+                <v-icon small>mdi-thumb-up-outline</v-icon></span
+              >
+              <span
+                >{{ idea.savesCount ? idea.savesCount : 0 }}
                 <v-icon small>mdi-bookmark-outline</v-icon></span
               >
               <span

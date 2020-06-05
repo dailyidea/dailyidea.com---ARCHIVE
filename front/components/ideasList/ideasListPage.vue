@@ -13,7 +13,7 @@
           <router-link to="/ideas/me" class="muted">My Ideas</router-link>
         </span>
         <span v-if="isAuthenticated" class="ideas-navigation-item">
-          <router-link to="/ideas/liked" class="muted">Saved Ideas</router-link>
+          <router-link to="/ideas/saved" class="muted">Saved Ideas</router-link>
         </span>
       </section>
 

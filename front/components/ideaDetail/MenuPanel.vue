@@ -36,11 +36,18 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <save-idea-bookmark
+    <act-on-idea
       v-if="!editable"
       :idea="idea"
-      @savedStateChanged="onIdeaSaveStateChanged"
-    ></save-idea-bookmark>
+      action="like"
+      @liked-state-changed="onIdeaLikeStateChanged"
+    ></act-on-idea>
+    <act-on-idea
+      v-if="!editable"
+      :idea="idea"
+      action="save"
+      @saved-state-changed="onIdeaSaveStateChanged"
+    ></act-on-idea>
 
     <share-idea-by-email-dialog
       v-model="showEmailShareDialog"
@@ -83,18 +90,18 @@
 </template>
 
 <script>
-import { graphqlOperation } from '@aws-amplify/api'
 import { mapMutations } from 'vuex'
+import { graphqlOperation } from '@aws-amplify/api'
 import ShareIdeaByEmailDialog from '@/components/dialogs/ShareIdeaByEmail'
-import SaveIdeaBookmark from '@/components/ideaDetail/SaveIdeaBookmark'
+import ActOnIdea from '@/components/ideaDetail/ActOnIdea'
+import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import makeIdeaPrivate from '~/graphql/mutations/makeIdeaPrivate'
 import makeIdeaPublic from '~/graphql/mutations/makeIdeaPublic'
-import DefaultDialog from '@/components/dialogs/DefaultDialog'
 
 export default {
   name: 'MenuPanel',
   components: {
-    SaveIdeaBookmark,
+    ActOnIdea,
     ShareIdeaByEmailDialog,
     DefaultDialog
   },
@@ -127,11 +134,15 @@ export default {
     }),
 
     deleteIdea() {
-      this.$emit('onDeleteIdea')
+      this.$emit('on-delete-idea')
     },
 
     onIdeaSaveStateChanged(val) {
-      this.$emit('savedStateChanged', val)
+      this.$emit('saved-state-changed', val)
+    },
+
+    onIdeaLikeStateChanged(val) {
+      this.$emit('liked-state-changed', val)
     },
 
     async makeIdeaPrivate() {
@@ -142,12 +153,12 @@ export default {
           graphqlOperation(makeIdeaPrivate, { ideaId })
         )
         if (result.data.makeIdeaPrivate.ok) {
-          this.$emit('onIdeaVisibilityChanged', { isPrivate: true })
+          this.$emit('on-idea-visibility-changed', { isPrivate: true })
         } else {
-          this.$emit('onIdeaVisibilityChangeError', { isPrivate: true })
+          this.$emit('on-idea-visibility-change-error', { isPrivate: true })
         }
       } catch (err) {
-        this.$emit('onIdeaVisibilityChangeError', { isPrivate: true })
+        this.$emit('on-idea-visibility-change-error', { isPrivate: true })
       }
       this.hideProgressBar()
       this.showMakeIdeaPrivate = false
@@ -161,12 +172,12 @@ export default {
           graphqlOperation(makeIdeaPublic, { ideaId })
         )
         if (result.data.makeIdeaPublic.ok) {
-          this.$emit('onIdeaVisibilityChanged', { isPrivate: false })
+          this.$emit('on-idea-visibility-changed', { isPrivate: false })
         } else {
-          this.$emit('onIdeaVisibilityChangeError', { isPrivate: false })
+          this.$emit('on-idea-visibility-change-error', { isPrivate: false })
         }
       } catch (err) {
-        this.$emit('onIdeaVisibilityChangeError', { isPrivate: false })
+        this.$emit('on-idea-visibility-change-error', { isPrivate: false })
       }
       this.hideProgressBar()
       this.showMakeIdeaPublic = false
@@ -185,23 +196,26 @@ export default {
     },
 
     enableEditMode() {
-      this.$emit('enableEditMode')
+      this.$emit('enable-edit-mode')
     },
 
     onSharedIdeaOverEmail() {
-      this.$emit('onNotification', { type: 'success', message: 'Idea shared!' })
-      this.$emit('onIdeaShared')
+      this.$emit('on-notification', {
+        type: 'success',
+        message: 'Idea shared!'
+      })
+      this.$emit('on-idea-shared')
     },
 
     onSharedIdeaOverEmailError() {
-      this.$emit('onNotification', {
+      this.$emit('on-notification', {
         type: 'error',
         message: "Can't share Idea"
       })
     },
 
     onCopyShareLink() {
-      this.$emit('onNotification', { type: 'success', message: 'Link copied' })
+      this.$emit('on-notification', { type: 'success', message: 'Link copied' })
     }
   }
 }

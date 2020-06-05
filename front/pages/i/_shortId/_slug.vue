@@ -25,13 +25,14 @@
               <menu-panel
                 :editable="isMyIdea"
                 :idea="idea"
-                @enableEditMode="enableEditMode"
-                @savedStateChanged="onIdeaSaveStateChanged"
-                @onNotification="onNotification"
-                @onIdeaShared="onIdeaShared"
-                @onDeleteIdea="onDeleteIdea"
-                @onIdeaVisibilityChanged="onIdeaVisibilityChanged"
-                @onIdeaVisibilityChangeError="onIdeaVisibilityChangeError"
+                @enable-edit-mode="enableEditMode"
+                @saved-state-changed="onIdeaSaveStateChanged"
+                @liked-state-changed="onIdeaLikeStateChanged"
+                @on-notification="onNotification"
+                @on-idea-shared="onIdeaShared"
+                @on-delete-idea="onDeleteIdea"
+                @on-idea-visibility-changed="onIdeaVisibilityChanged"
+                @on-idea-visibility-change-error="onIdeaVisibilityChangeError"
               ></menu-panel>
             </v-col>
           </v-row>
@@ -173,7 +174,6 @@ export default {
     RegisterEncourageDialog,
     IdeaContent
   },
-
   $_veeValidate: {
     validator: 'new'
   },
@@ -245,9 +245,13 @@ export default {
       this.$refs.notifier[type](message)
     },
 
-    onIdeaSaveStateChanged({ liked, likesCount }) {
+    onIdeaSaveStateChanged({ saved }) {
+      this.$refs.notifier.success(saved ? 'Idea Saved!' : 'Idea Unsaved!')
+    },
+
+    onIdeaLikeStateChanged({ liked, likesCount }) {
       this.idea.likesCount = likesCount
-      this.$refs.notifier.success(liked ? 'Idea saved!' : 'Idea unsaved!')
+      this.$refs.notifier.success(liked ? 'Idea Liked!' : 'Idea Unliked')
     },
 
     copyIdeaDataForEdit() {

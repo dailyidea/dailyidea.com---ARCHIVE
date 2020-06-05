@@ -39,12 +39,21 @@ functions:
     memorySize: 512
     environment:
       USERS_TABLE_NAME: ${self:custom.usersTableName}
-  getLikedIdeas:
-    handler: functions.get_liked_ideas.get_liked_ideas.endpoint
-    role: LambdaGetLikedIdeasFunctionRole
+  getSavedIdeas:
+    handler: functions.get_acted_on_ideas.get_acted_on_ideas.endpoint
+    role: LambdaGetActedOnIdeasFunctionRole
     memorySize: 512
     environment:
-      LIKES_TABLE_NAME: ${self:custom.likesTableName}
+      INDEX_NAME: userSavesByDate
+      ACTIONS_TABLE_NAME: ${self:custom.savesTableName}
+      IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
+  getLikedIdeas:
+    handler: functions.get_acted_on_ideas.get_acted_on_ideas.endpoint
+    role: LambdaGetActedOnIdeasFunctionRole
+    memorySize: 512
+    environment:
+      INDEX_NAME: userLikesByDate
+      ACTIONS_TABLE_NAME: ${self:custom.likesTableName}
       IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
   updateProfileInfo:
     handler: functions.update_profile_info.update_profile_info.endpoint
@@ -115,6 +124,7 @@ custom:
   ideaCommentsTableName: dailyidea-comments-${self:provider.stage}
   ideaCommentsTemporaryTableName: dailyidea-comments-temporary-${self:provider.stage}
   likesTableName: dailyidea-likes-${self:provider.stage}
+  savesTableName: dailyidea-saves-${self:provider.stage}
   followingTableName: dailyidea-following-${self:provider.stage}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
   setUsersSlugFunctionName: dailyidea-appsync-backend-${self:provider.stage}-setUsersSlug
@@ -170,7 +180,6 @@ custom:
         field: toggleIdeaVisibility
         request: "ideas/toggle-visibility/toggleIdeaVisibility-request-mapping-template.txt"
         response: "ideas/toggle-visibility/toggleIdeaVisibility-response-mapping-template.txt"
-
       - dataSource: Ideas
         type: Query
         field: userIdeas
@@ -290,6 +299,24 @@ custom:
         field: ideaTags
         request: "getIdeaTags-request-mapping-template.txt"
         response: "getIdeaTags-response-mapping-template.txt"
+      - dataSource: Saves
+        type: Mutation
+        field: saveIdea
+        request: "save-idea/before-mapping-template.txt"
+        response: "save-idea/after-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - createSavedIdeaItem
+          - increaseIdeaSavesCount
+      - dataSource: Saves
+        type: Mutation
+        field: unsaveIdea
+        request: "unsave-idea/before-mapping-template.txt"
+        response: "unsave-idea/before-mapping-template.txt"
+        kind: PIPELINE
+        functions:
+          - deleteSavedIdeaItem
+          - decreaseIdeaSavesCount
       - dataSource: Likes
         type: Mutation
         field: likeIdea
@@ -312,8 +339,14 @@ custom:
       - type: Query
         field: getLikedIdeas
         dataSource: LikedIdeasHandler
-        request: "getLikedIdeas-request-mapping-template.txt"
-        response: "getLikedIdeas-response-mapping-template.txt"
+        request: "getActedOnIdeas-request-mapping-template.txt"
+        response: "getActedOnIdeas-response-mapping-template.txt"
+      - type: Query
+        field: getSavedIdeas
+        dataSource: SavedIdeasHandler
+        request: "getActedOnIdeas-request-mapping-template.txt"
+        response: "getActedOnIdeas-response-mapping-template.txt"
+
       - type: Query
         field: getStats
         dataSource: StatsHandler
@@ -339,6 +372,11 @@ custom:
         dataSource: ShareIdeaHandler
         request: "common/before-invoke-mapping-template.txt"
         response: "common/after-invoke-mapping-template.txt"
+      - dataSource: Saves
+        type: Query
+        field: getIsIdeaSavedByMe
+        request: "getIsIdeaSavedByMe-request-mapping-template.txt"
+        response: "getIsIdeaSavedByMe-response-mapping-template.txt"
       - dataSource: Likes
         type: Query
         field: getIsIdeaLikedByMe
@@ -393,6 +431,12 @@ custom:
         description: 'Lambda Liked Ideas Data Source'
         config:
           lambdaFunctionArn: { Fn::GetAtt: [GetLikedIdeasLambdaFunction, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] } 
+      - type: AWS_LAMBDA
+        name: SavedIdeasHandler
+        description: 'Lambda Saved Ideas Data Source'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [GetSavedIdeasLambdaFunction, Arn] }
           serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AWS_LAMBDA
         name: StatsHandler
@@ -484,7 +528,29 @@ custom:
         config:
           tableName: ${self:custom.likesTableName}
           serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
+      - type: AMAZON_DYNAMODB
+        name: Saves
+        description: 'Saves table'
+        config:
+          tableName: ${self:custom.savesTableName}
+          serviceRoleArn: { Fn::GetAtt: [AppSyncServiceRole, Arn] }
     functionConfigurations:
+      - dataSource: Saves
+        name: createSavedIdeaItem
+        request: 'save-idea/createSavedIdeaItem-request-mapping-template.txt'
+        response: 'save-idea/createSavedIdeaItem-response-mapping-template.txt'
+      - dataSource: Saves
+        name: deleteSavedIdeaItem
+        request: 'unsave-idea/deleteSavedIdeaItem-request-mapping-template.txt'
+        response: 'unsave-idea/deleteSavedIdeaItem-response-mapping-template.txt'
+      - dataSource: Ideas
+        name: increaseIdeaSavesCount
+        request: 'save-idea/increaseIdeaSavesCount-request-mapping-template.txt'
+        response: 'save-idea/increaseIdeaSavesCount-response-mapping-template.txt'
+      - dataSource: Ideas
+        name: decreaseIdeaSavesCount
+        request: 'unsave-idea/decreaseIdeaSavesCount-request-mapping-template.txt'
+        response: 'unsave-idea/decreaseIdeaSavesCount-response-mapping-template.txt'
       - dataSource: Likes
         name: createLikedIdeaItem
         request: 'like-idea/createLikedIdeaItem-request-mapping-template.txt'
@@ -595,7 +661,7 @@ custom:
 
 resources:
   - Resources:
-      LambdaGetLikedIdeasFunctionRole: ${file(functions/get_liked_ideas/function_role.yml):LambdaGetLikedIdeasFunctionRole}
+      LambdaGetActedOnIdeasFunctionRole: ${file(functions/get_acted_on_ideas/function_role.yml):LambdaGetActedOnIdeasFunctionRole}
       LambdaGetStatsFunctionRole: ${file(functions/get_stats/function_role.yml):LambdaGetStatsFunctionRole}
       LambdaSnoozeEmailsFunctionRole: ${file(functions/snooze_emails/function_role.yml):LambdaSnoozeEmailsFunctionRole}
       LambdaCreateIdeaFunctionRole: ${file(functions/create_idea/function_role.yml):LambdaCreateIdeaFunctionRole}
@@ -632,6 +698,8 @@ resources:
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-snoozeEmails:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getStats"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getStats:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getSavedIdeas"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getSavedIdeas:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getLikedIdeas"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getLikedIdeas:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-createIdea"
@@ -677,6 +745,7 @@ resources:
                     Resource:
                       - { "Fn::GetAtt": ["TagsTable", "Arn" ] }
                       - { "Fn::GetAtt": ["LikesTable", "Arn" ] }
+                      - { "Fn::GetAtt": ["SavesTable", "Arn" ] }
                       - { "Fn::GetAtt": ["IdeaCommentsTable", "Arn" ] }
                       - { "Fn::GetAtt": ["FollowingTable", "Arn" ] }
                       - 'Fn::Join':
@@ -715,6 +784,13 @@ resources:
                             - Ref: 'AWS::Region'
                             - Ref: 'AWS::AccountId'
                             - 'table/${self:custom.likesTableName}/*'
+                      - 'Fn::Join':
+                          - ':'
+                          - - 'arn:aws:dynamodb'
+                            - Ref: 'AWS::Region'
+                            - Ref: 'AWS::AccountId'
+                            - 'table/${self:custom.savesTableName}/*'
+                            
                       - 'Fn::Join':
                           - ':'
                           - - 'arn:aws:dynamodb'
@@ -767,6 +843,7 @@ resources:
                     Resource: "*"
   - ${file(resources/dynamo-tags-table.yml)}
   - ${file(resources/dynamo-likes-table.yml)}
+  - ${file(resources/dynamo-saves-table.yml)}
   - ${file(resources/dynamo-comments-table.yml)}
   - ${file(resources/dynamo-comments-temporary-table.yml)}
   - ${file(resources/dynamo-following-table.yml)}

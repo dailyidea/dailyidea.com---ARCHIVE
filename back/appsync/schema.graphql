@@ -107,6 +107,15 @@ type Mutation {
 	    ideaId: String!
     ): LikeResult
 
+  saveIdea(
+    ideaId: String!
+    ideaOwnerId: String!
+  ): SaveResult
+
+  unsaveIdea(
+    ideaId: String!
+  ): SaveResult
+
 	makeIdeaPrivate(ideaId:String!): Result!
 
 	makeIdeaPublic(ideaId:String!): Result!
@@ -147,8 +156,12 @@ type Query {
 	getPublicIdeas(order: IdeaSortingOrder, nextToken: String, limit: Int): IdeaConnection!
 	@aws_api_key @aws_cognito_user_pools
 	getLikedIdeas(nextToken: String, limit: Int): IdeaConnection
-	ideaTags(ideaId: String!): [Tag!]!
-	getIsIdeaLikedByMe(
+	getSavedIdeas(nextToken: String, limit: Int): IdeaConnection
+  ideaTags(ideaId: String!): [Tag!]!
+	getIsIdeaSavedByMe(
+    ideaId: String!
+  ): IsSavedResult
+  getIsIdeaLikedByMe(
 		ideaId: String!
 	): IsLikedResult
 	getComments(ideaId: String!, nextToken: String, limit: Int): CommentsConnection!
@@ -178,6 +191,11 @@ type StatsByPeriods @aws_api_key @aws_cognito_user_pools{
 	week: Int!
 	month: Int!
 	total: Int!
+}
+
+type SaveResult {
+  result: Result
+  savesCount: Int
 }
 
 type LikeResult {
@@ -230,6 +248,11 @@ type ToggleIdeaVisibilityResult {
 	state: IdeaVisibilityState!
 }
 
+type IsSavedResult {
+  result: Result!
+  isSaved: Boolean
+}
+
 type IsLikedResult {
 	result: Result!
 	isLiked: Boolean
@@ -253,6 +276,7 @@ type Idea @aws_api_key @aws_cognito_user_pools {
 	createdDate: String
 	ideaDate: String
 	likesCount: Int
+  savesCount: Int
 	commentsCount: Int
 	visibility: IdeaVisibilityState
 
