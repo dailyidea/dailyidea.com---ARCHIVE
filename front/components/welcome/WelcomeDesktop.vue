@@ -3,7 +3,7 @@
     <v-row class="full-height">
       <div height="50vh" class="d-flex align-center">
         <div
-          v-show="leftArrow"
+          v-show="params.leftArrow"
           class="arrow left-arrow"
           @click="emitLeftClicked"
         >
@@ -12,7 +12,7 @@
       </div>
       <div height="50vh" class="d-flex align-center">
         <div
-          v-show="rightArrow"
+          v-show="params.rightArrow"
           class="arrow right-arrow"
           @click="emitRightClicked"
         >
@@ -21,14 +21,14 @@
       </div>
       <v-col class="text-center d-flex flex-column justify-space-around">
         <header>
-          <div class="left-title">{{ leftTitle }}</div>
-          <div v-show="showDailyIdeaSubTitle" class="daily-idea">
+          <div class="left-title">{{ params.leftTitle }}</div>
+          <div v-show="params.showDailyIdeaSubTitle" class="daily-idea">
             <span class="daily">DAILY</span><span class="idea">IDEA</span>
           </div>
         </header>
         <div class="bullet-points">
           <div
-            v-for="(bullet, index) in bulletPoints"
+            v-for="(bullet, index) in params.bulletPoints"
             :key="index"
             class="bullet-point py-2"
           >
@@ -40,14 +40,14 @@
           <div v-show="!hideNextBtn">
             <v-btn class="my-2" @click="emitNext">Next</v-btn>
           </div>
-          <div v-show="showBrowseIdeasBtn">
-            <v-btn class="my-2" @click="emitNext">Browse Ideas</v-btn>
+          <div v-show="params.showBrowseIdeasBtn">
+            <v-btn class="my-2" @click="emitMarkAsWelcomed">Browse Ideas</v-btn>
           </div>
-          <div v-show="showWriteIdeasBtn">
-            <v-btn class="my-2" @click="emitNext">Write my own idea</v-btn>
+          <div v-show="params.showWriteIdeasBtn">
+            <v-btn class="my-2" @click="writeOwnIdea">Write my own idea</v-btn>
           </div>
           <div
-            v-show="!hideExploreLink"
+            v-show="!params.hideExploreLink"
             class="explore-on-own"
             @click="emitMarkAsWelcomed"
           >
@@ -58,9 +58,9 @@
       <v-col
         class="yellow-bg text-center d-flex flex-column justify-center align-center"
       >
-        <img :src="rightImage" />
+        <img :src="params.rightImage" />
         <div class="sub-image-text">
-          {{ rightText }}
+          {{ params.rightText }}
         </div>
       </v-col>
     </v-row>
@@ -70,29 +70,11 @@
 export default {
   name: 'WelcomeDesktop',
   props: {
-    leftArrow: Boolean,
-    rightArrow: Boolean,
-    showBrowseIdeasBtn: Boolean,
-    showWriteIdeasBtn: Boolean,
-    hideExploreLink: Boolean,
-    hideNextBtn: Boolean,
-    showDailyIdeaSubTitle: Boolean,
-    rightImage: {
-      type: String,
+    params: {
+      type: Object,
       required: true
     },
-    rightText: {
-      type: String,
-      required: true
-    },
-    bulletPoints: {
-      type: Array,
-      required: true
-    },
-    leftTitle: {
-      type: String,
-      required: true
-    }
+    hideNextBtn: Boolean
   },
   methods: {
     emitMarkAsWelcomed() {
@@ -106,6 +88,10 @@ export default {
     },
     emitNext() {
       this.$emit('next')
+    },
+    writeOwnIdea() {
+      this.$emit('mark-as-welcomed')
+      this.$router.push('/ideas/me')
     }
   }
 }

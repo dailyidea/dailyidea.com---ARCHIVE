@@ -1,51 +1,52 @@
 <template>
   <div
-    ref="swipe-container"
     class="white-container d-flex flex-column align-center justify-space-between"
   >
-    <div>
-      <header class="text-center py-2">
-        <div class="title">{{ leftTitle }}</div>
-        <div v-show="showDailyIdeaSubTitle" class="daily-idea">
-          <span class="daily">DAILY</span><span class="idea">IDEA</span>
+    <div ref="swipe-container" class="full-width">
+      <div>
+        <header class="text-center py-2">
+          <div class="title">{{ params.leftTitle }}</div>
+          <div v-show="params.showDailyIdeaSubTitle" class="daily-idea">
+            <span class="daily">DAILY</span><span class="idea">IDEA</span>
+          </div>
+        </header>
+        <div class="yellow-bg text-center d-flex flex-column align-center pb-3">
+          <img :src="params.rightImage" />
+          <div class="sub-image-text">{{ params.rightText }}</div>
         </div>
-      </header>
-      <div class="yellow-bg text-center d-flex flex-column align-center pb-3">
-        <img :src="rightImage" />
-        <div class="sub-image-text">{{ rightText }}</div>
       </div>
-    </div>
-    <div class="bullet-points">
-      <div
-        v-for="(bullet, index) in bulletPoints"
-        :key="index"
-        class="bullet-point py-2"
-      >
-        <span class="bullet w-25"></span>
-        <span class="text">{{ bullet }}</span>
+      <div class="bullet-points mt-7">
+        <div
+          v-for="(bullet, index) in params.bulletPoints"
+          :key="index"
+          class="bullet-point py-2"
+        >
+          <span class="bullet w-25"></span>
+          <span class="text">{{ bullet }}</span>
+        </div>
       </div>
     </div>
     <footer class="d-flex flex-column text-center">
       <div v-show="!hideNextBtn">
         <v-btn class="my-2" @click="emitNext">Next</v-btn>
       </div>
-      <div v-show="showBrowseIdeasBtn">
+      <div v-show="params.showBrowseIdeasBtn">
         <v-btn class="my-2" @click="emitMarkAsWelcomed">Browse Ideas</v-btn>
       </div>
-      <div v-show="showWriteIdeasBtn">
+      <div v-show="params.showWriteIdeasBtn">
         <v-btn class="my-2" @click="writeOwnIdea">Write my own idea</v-btn>
       </div>
       <div
-        v-show="!hideExploreLink"
+        v-show="!params.hideExploreLink"
         class="explore-on-own"
         @click="emitMarkAsWelcomed"
       >
         I'll explore on my own
       </div>
       <div class="d-flex flex-row justify-center mt-5">
-        <div :class="one ? 'filled' : ''" class="circle mx-2"></div>
-        <div :class="two ? 'filled' : ''" class="circle mx-2"></div>
-        <div :class="three ? 'filled' : ''" class="circle mx-2"></div>
+        <div :class="{ filled: params.one }" class="circle mx-2"></div>
+        <div :class="{ filled: params.two }" class="circle mx-2"></div>
+        <div :class="{ filled: params.three }" class="circle mx-2"></div>
       </div>
     </footer>
     <div></div>
@@ -57,28 +58,9 @@
 export default {
   name: 'WelcomeMobilePortrait',
   props: {
-    showDailyIdeaSubTitle: Boolean,
-    showBrowseIdeasBtn: Boolean,
-    showWriteIdeasBtn: Boolean,
-    hideExploreLink: Boolean,
     hideNextBtn: Boolean,
-    one: Boolean,
-    two: Boolean,
-    three: Boolean,
-    rightImage: {
-      type: String,
-      required: true
-    },
-    rightText: {
-      type: String,
-      required: true
-    },
-    bulletPoints: {
-      type: Array,
-      required: true
-    },
-    leftTitle: {
-      type: String,
+    params: {
+      type: Object,
       required: true
     }
   },
@@ -100,7 +82,7 @@ export default {
     },
     writeOwnIdea() {
       this.$emit('mark-as-welcomed')
-      window.location = '/ideas/me'
+      this.$router.push('/ideas/me')
     },
     emitRightClicked() {
       this.$emit('right-clicked')
@@ -117,7 +99,7 @@ export default {
       this.touchEndPos = touch
     },
     handleTouchEnd(event) {
-      if (Math.abs(this.touchStartPos - this.touchEndPos) > 80) {
+      if (Math.abs(this.touchStartPos - this.touchEndPos) > 100) {
         if (this.touchStartPos < this.touchEndPos) {
           this.emitLeftClicked()
         } else {
@@ -135,6 +117,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.full-width {
+  width: 100vw;
+}
+
 .circle {
   width: 15px;
   height: 15px;

@@ -45,9 +45,6 @@ export default {
       return this.$store.getters['userData/userId']
     }
   },
-  mounted() {
-    this.hideScroll()
-  },
   methods: {
     handleMarkAsWelcomed() {
       this.$amplifyApi.graphql(
@@ -57,13 +54,6 @@ export default {
       )
 
       this.$emit('hide-welcomed')
-      this.restoreScroll()
-    },
-    restoreScroll() {
-      document.documentElement.style.overflow = ''
-    },
-    hideScroll() {
-      document.documentElement.style.overflow = 'hidden'
     },
     handleNext() {
       this.pageOn += 1

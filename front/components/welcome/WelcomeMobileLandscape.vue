@@ -1,37 +1,38 @@
 <template>
   <div
-    ref="swipe-container"
     class="white-container d-flex flex-row align-center justify-space-between"
   >
     <div class="left">
-      <header class="text-center py-2">
-        <div class="title">{{ leftTitle }}</div>
-        <div v-show="showDailyIdeaSubTitle" class="daily-idea">
-          <span class="daily">DAILY</span><span class="idea">IDEA</span>
+      <span ref="left-swipe-container">
+        <header class="text-center py-2">
+          <div class="title">{{ params.leftTitle }}</div>
+          <div v-show="params.showDailyIdeaSubTitle" class="daily-idea">
+            <span class="daily">DAILY</span><span class="idea">IDEA</span>
+          </div>
+        </header>
+        <div class="bullet-points">
+          <div
+            v-for="(bullet, index) in params.bulletPoints"
+            :key="index"
+            class="bullet-point py-2"
+          >
+            <span class="bullet w-25"></span>
+            <span class="text">{{ bullet }}</span>
+          </div>
         </div>
-      </header>
-      <div class="bullet-points">
-        <div
-          v-for="(bullet, index) in bulletPoints"
-          :key="index"
-          class="bullet-point py-2"
-        >
-          <span class="bullet w-25"></span>
-          <span class="text">{{ bullet }}</span>
-        </div>
-      </div>
+      </span>
       <footer class="d-flex flex-column text-center">
         <div v-show="!hideNextBtn">
           <v-btn class="my-2" @click="emitNext">Next</v-btn>
         </div>
-        <div v-show="showBrowseIdeasBtn">
+        <div v-show="params.showBrowseIdeasBtn">
           <v-btn class="my-2" @click="emitMarkAsWelcomed">Browse Ideas</v-btn>
         </div>
-        <div v-show="showWriteIdeasBtn">
+        <div v-show="params.showWriteIdeasBtn">
           <v-btn class="my-2" @click="writeOwnIdea">Write my own idea</v-btn>
         </div>
         <div
-          v-show="!hideExploreLink"
+          v-show="!params.hideExploreLink"
           class="explore-on-own"
           @click="emitMarkAsWelcomed"
         >
@@ -39,18 +40,19 @@
         </div>
         <div class="circles">
           <div class="d-flex flex-row justify-center mt-5">
-            <div :class="one ? 'filled' : ''" class="circle mx-2"></div>
-            <div :class="two ? 'filled' : ''" class="circle mx-2"></div>
-            <div :class="three ? 'filled' : ''" class="circle mx-2"></div>
+            <div :class="{ filled: params.one }" class="circle mx-2"></div>
+            <div :class="{ filled: params.two }" class="circle mx-2"></div>
+            <div :class="{ filled: params.three }" class="circle mx-2"></div>
           </div>
         </div>
       </footer>
     </div>
     <div
+      ref="right-swipe-container"
       class="right yellow-bg text-center d-flex flex-column align-center justify-center pb-3"
     >
-      <img :src="rightImage" />
-      <div class="sub-image-text">{{ rightText }}</div>
+      <img :src="params.rightImage" />
+      <div class="sub-image-text">{{ params.rightText }}</div>
     </div>
   </div>
 </template>
@@ -58,28 +60,9 @@
 export default {
   name: 'WelcomeMobileLandscape',
   props: {
-    showDailyIdeaSubTitle: Boolean,
-    showBrowseIdeasBtn: Boolean,
-    showWriteIdeasBtn: Boolean,
-    hideExploreLink: Boolean,
     hideNextBtn: Boolean,
-    one: Boolean,
-    two: Boolean,
-    three: Boolean,
-    rightImage: {
-      type: String,
-      required: true
-    },
-    rightText: {
-      type: String,
-      required: true
-    },
-    bulletPoints: {
-      type: Array,
-      required: true
-    },
-    leftTitle: {
-      type: String,
+    params: {
+      type: Object,
       required: true
     }
   },
@@ -101,7 +84,7 @@ export default {
     },
     writeOwnIdea() {
       this.$emit('mark-as-welcomed')
-      window.location = '/ideas/me'
+      this.$router.push('/ideas/me')
     },
     emitRightClicked() {
       this.$emit('right-clicked')
@@ -127,10 +110,16 @@ export default {
       }
     },
     setupSwipeEventListener() {
-      const swipeContainer = this.$refs['swipe-container']
-      swipeContainer.addEventListener('touchstart', this.handleTouchStart)
-      swipeContainer.addEventListener('touchmove', this.handleTouchMove)
-      swipeContainer.addEventListener('touchend', this.handleTouchEnd)
+      const leftSwipeContainer = this.$refs['left-swipe-container']
+      const rightSwipeContainer = this.$refs['right-swipe-container']
+
+      const twoContainers = [leftSwipeContainer, rightSwipeContainer]
+
+      twoContainers.forEach(swipeContainer => {
+        swipeContainer.addEventListener('touchstart', this.handleTouchStart)
+        swipeContainer.addEventListener('touchmove', this.handleTouchMove)
+        swipeContainer.addEventListener('touchend', this.handleTouchEnd)
+      })
     }
   }
 }

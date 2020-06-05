@@ -54,6 +54,7 @@ export default {
   },
   methods: {
     handleHideWelcomed() {
+      alert(123)
       this.$store.commit('userData/setUserWelcomed')
     }
   }

@@ -2,36 +2,21 @@
   <v-content>
     <welcome-desktop
       class="hidden-mobile"
-      :right-image="rightImage"
-      :right-arrow="true"
-      :show-daily-idea-sub-title="true"
-      :right-text="rightText"
-      :left-title="leftTitle"
-      :bullet-points="bulletPoints"
+      :params="params"
       @next="emitNext"
       @mark-as-welcomed="emitMarkAsWelcomed"
       @right-clicked="emitRightClicked"
     ></welcome-desktop>
     <welcome-mobile-portrait
       class="hidden-desktop hidden-landscape"
-      :one="true"
-      :right-image="rightImage"
-      :show-daily-idea-sub-title="true"
-      :right-text="rightText"
-      :left-title="leftTitle"
-      :bullet-points="bulletPoints"
+      :params="params"
       :hide-next-btn="true"
       @mark-as-welcomed="emitMarkAsWelcomed"
       @right-clicked="emitRightClicked"
     ></welcome-mobile-portrait>
     <welcome-mobile-landscape
       class="hidden-desktop hidden-portrait"
-      :one="true"
-      :right-image="rightImage"
-      :show-daily-idea-sub-title="true"
-      :right-text="rightText"
-      :left-title="leftTitle"
-      :bullet-points="bulletPoints"
+      :params="params"
       :hide-next-btn="true"
       @mark-as-welcomed="emitMarkAsWelcomed"
       @right-clicked="emitRightClicked"
@@ -53,14 +38,19 @@ export default {
   },
   data() {
     return {
-      rightImage,
-      bulletPoints: [
-        'Store your ideas so you remember and improve them over time',
-        "Browse other folks' ideas to inspire yourself further"
-      ],
-      leftTitle: 'Welcome to',
-      rightText:
-        'Everyday we will send you a simple reminder to come up with a new idea.'
+      params: {
+        rightArrow: true,
+        rightImage,
+        one: true,
+        showDailyIdeaSubTitle: true,
+        bulletPoints: [
+          'Store your ideas so you remember and improve them over time',
+          "Browse other folks' ideas to inspire yourself further"
+        ],
+        leftTitle: 'Welcome to',
+        rightText:
+          'Everyday we will send you a simple reminder to come up with a new idea.'
+      }
     }
   },
   methods: {

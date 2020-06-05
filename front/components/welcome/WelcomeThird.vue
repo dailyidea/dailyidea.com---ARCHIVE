@@ -2,46 +2,21 @@
   <v-content>
     <welcome-desktop
       class="hidden-mobile"
-      :right-image="rightImage"
-      :left-arrow="true"
-      :hide-explore-link="true"
+      :params="params"
       :hide-next-btn="true"
-      :right-text="rightText"
-      :left-title="leftTitle"
-      :bullet-points="bulletPoints"
-      :show-browse-ideas-btn="true"
-      :show-write-ideas-btn="true"
       @mark-as-welcomed="emitMarkAsWelcomed"
       @left-clicked="emitLeftClicked"
     ></welcome-desktop>
     <welcome-mobile-portrait
       class="hidden-desktop hidden-landscape"
-      :three="true"
-      :two="true"
-      :one="true"
-      :right-image="rightImage"
-      :right-text="rightText"
-      :left-title="leftTitle"
-      :bullet-points="bulletPoints"
       :hide-next-btn="true"
-      :hide-explore-link="true"
-      :show-browse-ideas-btn="true"
-      :show-write-ideas-btn="true"
+      :params="params"
       @mark-as-welcomed="emitMarkAsWelcomed"
       @left-clicked="emitLeftClicked"
     ></welcome-mobile-portrait>
     <welcome-mobile-landscape
       class="hidden-desktop hidden-portrait"
-      :one="true"
-      :two="true"
-      :three="true"
-      :right-image="rightImage"
-      :right-text="rightText"
-      :left-title="leftTitle"
-      :bullet-points="bulletPoints"
-      :show-browse-ideas-btn="true"
-      :show-write-ideas-btn="true"
-      :hide-explore-link="true"
+      :params="params"
       :hide-next-btn="true"
       @mark-as-welcomed="emitMarkAsWelcomed"
       @left-clicked="emitLeftClicked"
@@ -63,14 +38,23 @@ export default {
   },
   data() {
     return {
-      rightImage,
-      bulletPoints: [
-        "We'll show you ideas similar to your own, so you can get inspired",
-        'Discover the most popular ideas in your newsletter'
-      ],
-      leftTitle: 'Browse Other Ideas',
-      rightText:
-        'Everyday we will send you a simple reminder to come up with a new idea.'
+      params: {
+        leftArrow: true,
+        rightImage,
+        one: true,
+        two: true,
+        three: true,
+        hideExploreLink: true,
+        showBrowseIdeasBtn: true,
+        showWriteIdeasBtn: true,
+        bulletPoints: [
+          "We'll show you ideas similar to your own, so you can get inspired",
+          'Discover the most popular ideas in your newsletter'
+        ],
+        leftTitle: 'Browse Other Ideas',
+        rightText:
+          'Everyday we will send you a simple reminder to come up with a new idea.'
+      }
     }
   },
   methods: {
