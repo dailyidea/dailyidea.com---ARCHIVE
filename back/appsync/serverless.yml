@@ -146,16 +146,6 @@ custom:
         request: "getIdea-request-mapping-template.txt"
         response: "getIdea-response-mapping-template.txt"
       - dataSource: Ideas
-        type: Query
-        field: getMyIdea
-        request: "getMyIdea-request-mapping-template.txt"
-        response: "getMyIdea-response-mapping-template.txt"
-      - dataSource: Ideas
-        type: Query
-        field: getUsersIdea
-        request: "getUsersIdea-request-mapping-template.txt"
-        response: "getUsersIdea-response-mapping-template.txt"
-      - dataSource: Ideas
         type: Mutation
         field: incrementIdeaViews
         request: 'incrementIdeaViews-request-mapping-template.txt'

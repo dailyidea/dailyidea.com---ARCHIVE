@@ -138,12 +138,9 @@ type Query {
 
 	ideas(order: IdeaSortingOrder, nextToken: String, limit: Int): IdeaConnection
 	userIdeas(userId: String!, nextToken: String, limit: Int): IdeaConnection
-	getMyIdea(ideaId: String!): Idea!
 
 	@aws_api_key @aws_cognito_user_pools
 	getUsersIdeas(authorSlug: String!, nextToken: String, limit: Int): IdeaConnection!
-	@aws_api_key @aws_cognito_user_pools
-	getUsersIdea(userId: String!, ideaId: String!): Idea!
 	@aws_api_key @aws_cognito_user_pools
 	getIdea(shortId: String!): Idea!
 	@aws_api_key @aws_cognito_user_pools
