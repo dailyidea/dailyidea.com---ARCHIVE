@@ -48,13 +48,12 @@ export default {
   },
   computed: {
     wasWelcomed() {
-      return false
-      // return this.$store.getters['userData/wasWelcomed']
+      const welcomed = this.$store.getters['userData/wasWelcomed']
+      return welcomed !== undefined ? welcomed : true;
     }
   },
   methods: {
     handleHideWelcomed() {
-      alert(123)
       this.$store.commit('userData/setUserWelcomed')
     }
   }
