@@ -4,7 +4,9 @@ import sys
 import importlib
 import json
 
-print('functions.' + sys.argv[1] + '.' + sys.argv[1])
+if (len(sys.argv) == 1):
+  print('Please specify function')
+  exit()
 
 function = importlib.import_module('functions.' + sys.argv[1] + '.' + sys.argv[1])
 
