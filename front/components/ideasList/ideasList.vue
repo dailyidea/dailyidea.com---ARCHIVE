@@ -47,9 +47,9 @@
 </template>
 
 <script>
-import { ORDER } from '@/components/ideasList/ideasOrdering'
 import ideasListIdea from './ideasListIdea'
 import ideasListEmptyMessage from './ideasListEmptyMessage'
+import { ORDER } from '@/components/ideasList/ideasOrdering'
 
 const orderOptions = [
   { title: 'Sort by Newest', code: ORDER.DATE_DESC },

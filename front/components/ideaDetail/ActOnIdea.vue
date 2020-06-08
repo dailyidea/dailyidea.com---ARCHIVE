@@ -1,6 +1,6 @@
 <template>
   <span>
-    <like-idea 
+    <like-idea
       v-if="action === 'like'"
       :is-liked="isActedOn"
       :is-loading="isLoading"
@@ -11,7 +11,7 @@
       @like-idea="likeIdea"
       @unlike-idea="unlikeIdea"
     ></like-idea>
-    <save-idea 
+    <save-idea
       v-else
       :is-loading="isLoading"
       :is-saved="isActedOn"
@@ -74,13 +74,13 @@
 import nanoid from 'nanoid'
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 import { graphqlOperation } from '@aws-amplify/api'
+import AskEmailDialog from './AskEmailDialog'
+import LikeIdea from './LikeIdea'
+import SaveIdea from './SaveIdea'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
 import AskNameDialog from '@/components/ideaDetail/AskNameDialog'
-import AskEmailDialog from './AskEmailDialog'
-import LikeIdea from './LikeIdea';
-import SaveIdea from './SaveIdea';
 
 export default {
   name: 'ActOnIdea',
@@ -152,7 +152,7 @@ export default {
             )
           }
         }
-      }     
+      }
     },
 
     emitLikeStateChange(result) {
@@ -171,25 +171,25 @@ export default {
 
     async saveIdea(mutation) {
       const res = await this.doIdeaAction(mutation)
-      const result = res.data.saveIdea;
+      const result = res.data.saveIdea
       this.emitSaveStateChange(result)
     },
 
     async unsaveIdea(mutation) {
       const res = await this.undoIdeaAction(mutation)
-      const result = res.data.unsaveIdea;
+      const result = res.data.unsaveIdea
       this.emitSaveStateChange(result)
     },
 
     async likeIdea(mutation) {
       const res = await this.doIdeaAction(mutation)
-      const result = res.data.likeIdea;
+      const result = res.data.likeIdea
       this.emitLikeStateChange(result)
     },
 
     async unlikeIdea(mutation) {
       const res = await this.undoIdeaAction(mutation)
-      const result = res.data.unlikeIdea;
+      const result = res.data.unlikeIdea
       this.emitLikeStateChange(result)
     },
 
@@ -206,7 +206,7 @@ export default {
       this.isLoading = false
       return res
     },
-    
+
     async undoIdeaAction(mutation) {
       this.isLoading = true
       const res = await this.$amplifyApi.graphql({
@@ -285,13 +285,13 @@ export default {
     },
 
     handleShowAskEmail() {
-      this.showAskEmail = true;
+      this.showAskEmail = true
     },
 
     async handleIsIdeaSavedByMe(query) {
       const res = await this.getIsIdeaActedOnByMe(query)
       const result = res.data.getIsIdeaSavedByMe
-      if(result.result.ok) {
+      if (result.result.ok) {
         this.isActedOn = result.isSaved
       }
     },
@@ -299,8 +299,8 @@ export default {
     async handleIsIdeaLikedByMe(query) {
       const res = await this.getIsIdeaActedOnByMe(query)
       const result = res.data.getIsIdeaLikedByMe
-      if(result.result.ok) {
-        this.isActedOn = result.isLiked 
+      if (result.result.ok) {
+        this.isActedOn = result.isLiked
       }
     },
 
@@ -314,9 +314,9 @@ export default {
           }
         })
 
-        this.isLoading = false;
+        this.isLoading = false
 
-        return res;
+        return res
       }
     },
 
