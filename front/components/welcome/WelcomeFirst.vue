@@ -10,14 +10,14 @@
     <welcome-mobile-portrait
       class="hidden-desktop hidden-landscape"
       :params="params"
-      :hide-next-btn="true"
+      hide-next-btn
       @mark-as-welcomed="emitMarkAsWelcomed"
       @right-clicked="emitRightClicked"
     ></welcome-mobile-portrait>
     <welcome-mobile-landscape
       class="hidden-desktop hidden-portrait"
       :params="params"
-      :hide-next-btn="true"
+      hide-next-btn
       @mark-as-welcomed="emitMarkAsWelcomed"
       @right-clicked="emitRightClicked"
     ></welcome-mobile-landscape>
