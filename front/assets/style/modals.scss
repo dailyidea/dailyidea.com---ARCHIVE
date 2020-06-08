@@ -1,6 +1,28 @@
+@media (max-width: 959px) {
+  .v-dialog__content {
+    overflow-y: auto;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 10px 10px 30px 10px;
+    &.v-dialog__content--active {
+      pointer-events: auto;
+    }
+  }
+}
+
 .modal {
   padding: 1em;
+  margin: auto;
   background: white;
+  overflow-y: hidden;
+
+  &:not(.v-dialog--fullscreen) {
+    max-height: none;
+  }
+
+  @media (min-width: 960px) {
+    margin: 24px;
+  }
 
   section.modalHeader {
     h3 {
@@ -11,13 +33,17 @@
 
   section.modalBody,
   section.modalFooter {
-    padding-left: 3em;
-    padding-right: 3em;
+    @media (min-width: 960px) {
+      padding-left: 3em;
+      padding-right: 3em;
+    }
   }
 
   section.modalFooter {
-    padding-top: 1em;
-    padding-bottom: 1em;
+    @media (min-width: 960px) {
+      padding-top: 1em;
+      padding-bottom: 1em;
+    }
   }
 
 

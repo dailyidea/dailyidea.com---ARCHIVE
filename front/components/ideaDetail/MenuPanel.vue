@@ -198,7 +198,10 @@ export default {
     },
 
     onSharedIdeaOverEmail() {
-      this.$emit('on-notification', { type: 'success', message: 'Idea shared!' })
+      this.$emit('on-notification', {
+        type: 'success',
+        message: 'Idea shared!'
+      })
       this.$emit('on-idea-shared')
     },
 
