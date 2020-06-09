@@ -247,20 +247,21 @@ export default {
       this.deletingComment = true
       this.showProgressBar()
       try {
-        this.commentList = this.commentList.filter(
-          c => c.commentId !== comment.commentId
-        )
-        await this.$amplifyApi.graphql(
+        const resp = await this.$amplifyApi.graphql(
           graphqlOperation(deleteComment, {
-            // body: body,
-            // userId: this.$store.getters['cognito/userSub'],
             ideaId: this.idea.ideaId,
-            ideaName: this.idea.ideaName,
             ideaOwnerId: this.idea.userId,
             commentId: comment.commentId
           })
         )
+        if (resp.data.deleteComment.error) {
+          throw new Error(resp.data.deleteComment.error)
+        }
+
         // remove comment form comment list array
+        this.commentList = this.commentList.filter(
+          c => c.commentId !== comment.commentId
+        )
         this.idea.commentsCount -= 1
         this.$emit('onNotification', {
           type: 'success',

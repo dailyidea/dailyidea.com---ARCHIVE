@@ -3,6 +3,7 @@
     "operation" : "DeleteItem",
     "key" : {
         "ideaId" : { "S" : "${ctx.arguments.ideaId}" },
-        "commentId" : { "S" : "${ctx.arguments.commentId}" }
+        "commentId" : { "S" : "${ctx.arguments.commentId}" },
+        "userId" : { "S" : "${ctx.identity.username}" }
     }
 }
