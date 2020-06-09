@@ -1,6 +1,6 @@
 <template>
   <div
-    class="white-container d-flex flex-column align-center justify-space-between"
+    class="white-container hidden-landscape hidden-md-and-up flex-column align-center justify-space-between"
   >
     <div ref="swipe-container" class="full-width">
       <div>
@@ -117,6 +117,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@media (orientation: landscape) {
+  .hidden-landscape {
+    display: none !important;
+  }
+}
+
 .full-width {
   width: 100vw;
 }
@@ -135,6 +141,7 @@ export default {
 .white-container {
   height: 100vh;
   background-color: white;
+  display: flex;
 }
 
 .yellow-bg {

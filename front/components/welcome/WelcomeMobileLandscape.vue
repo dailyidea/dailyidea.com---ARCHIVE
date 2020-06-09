@@ -1,6 +1,6 @@
 <template>
   <div
-    class="white-container d-flex flex-row align-center justify-space-between"
+    class="white-container hidden-portrait hidden-md-and-up flex-row align-center justify-space-between"
   >
     <div class="left">
       <span ref="left-swipe-container">
@@ -125,6 +125,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@media (orientation: portrait) {
+  .hidden-portrait {
+    display: none !important;
+  }
+}
+
 .left {
   width: 100%;
 }
@@ -153,6 +159,7 @@ export default {
 .white-container {
   height: 100vh;
   background-color: white;
+  display: flex;
 }
 
 .yellow-bg {

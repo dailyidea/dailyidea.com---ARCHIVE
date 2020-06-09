@@ -1,5 +1,5 @@
 <template>
-  <v-card height="60vh" width="80%" class="mx-auto my-auto">
+  <v-card height="60vh" width="80%" class="hidden-sm-and-down mx-auto my-auto">
     <v-row class="full-height">
       <div height="50vh" class="d-flex align-center">
         <div
@@ -32,7 +32,7 @@
             :key="index"
             class="bullet-point py-2"
           >
-            <span class="bullet w-25"></span>
+            <span class="bullet"></span>
             <span class="text">{{ bullet }}</span>
           </div>
         </div>
@@ -183,6 +183,18 @@ export default {
   margin: 0 auto;
   width: 60%;
 
+  .text {
+    font-size: 1.2rem;
+    margin-left: 2rem;
+  }
+
+  @media (max-width: 1500px) {
+    width: 80%;
+    .text {
+      font-size: 1rem;
+    }
+  }
+
   text-align: left;
   display: flex;
 
@@ -195,11 +207,6 @@ export default {
     border: 2px solid $color-muted-grey;
     margin-right: 1rem;
     margin-top: 0.25rem;
-  }
-
-  .text {
-    font-size: 1.2rem;
-    margin-left: 2rem;
   }
 }
 </style>

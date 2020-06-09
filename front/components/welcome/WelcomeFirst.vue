@@ -1,21 +1,18 @@
 <template>
   <v-content>
     <welcome-desktop
-      class="hidden-mobile"
       :params="params"
       @next="emitNext"
       @mark-as-welcomed="emitMarkAsWelcomed"
       @right-clicked="emitRightClicked"
     ></welcome-desktop>
     <welcome-mobile-portrait
-      class="hidden-desktop hidden-landscape"
       :params="params"
       hide-next-btn
       @mark-as-welcomed="emitMarkAsWelcomed"
       @right-clicked="emitRightClicked"
     ></welcome-mobile-portrait>
     <welcome-mobile-landscape
-      class="hidden-desktop hidden-portrait"
       :params="params"
       hide-next-btn
       @mark-as-welcomed="emitMarkAsWelcomed"
@@ -66,30 +63,4 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.hidden-mobile {
-  display: none;
-}
-
-@media (orientation: landscape) {
-  .hidden-landscape {
-    display: none !important;
-  }
-}
-
-@media (orientation: portrait) {
-  .hidden-portrait {
-    display: none !important;
-  }
-}
-
-@media only screen and (min-width: $screen-md-min) {
-  .hidden-desktop {
-    display: none !important;
-  }
-
-  .hidden-mobile {
-    display: flex;
-  }
-}
-</style>
+<style lang="scss" scoped></style>
