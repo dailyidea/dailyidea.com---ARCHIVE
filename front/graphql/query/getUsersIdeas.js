@@ -4,6 +4,7 @@ query getUsersIdeas($authorSlug: String!, $nextToken: String, $limit: Int) {
     items {
       ideaId
       userId
+      authorAvatar
       authorName
       authorSlug
       content

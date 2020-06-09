@@ -4,6 +4,7 @@ query getMyIdea($ideaId: String!) {
     ideaId
     userId
     authorName
+    authorSlug
     content
     title
     createdDate
