@@ -178,7 +178,7 @@ export default {
     validator: 'new'
   },
 
-  async asyncData({ app, route, store, error, res }) {
+  async asyncData({ app, route, redirect, error, res }) {
     try {
       const { data } = await app.$amplifyApi.graphql({
         query: getIdea,
@@ -189,8 +189,7 @@ export default {
 
       // Redirect to correct slug if it doesn't match
       if (idea.slug !== route.params.slug) {
-        res.writeHead(301, { Location: `/i/${idea.shortId}/${idea.slug}` })
-        return res.end()
+        return redirect(301, `/i/${idea.shortId}/${idea.slug}`)
       }
 
       return { idea }
