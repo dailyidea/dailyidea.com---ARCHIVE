@@ -346,9 +346,13 @@ export default {
           this.$refs.notifier.success('Idea Updated!')
           // Redirect to updated URL slug
           if (resp.data.updateIdea.idea.slug !== this.idea.slug) {
-            this.$router.replace(
-              `/i/${this.idea.shortId}/${resp.data.updateIdea.idea.slug}`
-            )
+            this.$router.replace({
+              name: 'i-shortId-slug',
+              params: {
+                shortId: this.idea.shortId,
+                slug: resp.data.updateIdea.idea.slug
+              }
+            })
           }
         } catch (e) {
           this.updatingIdea = false
