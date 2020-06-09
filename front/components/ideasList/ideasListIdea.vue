@@ -1,9 +1,5 @@
 <template>
-  <a
-    :href="`/i/${idea.shortId}/${idea.slug}`"
-    class="idea-item"
-    @click.prevent="onIdeaClick(idea)"
-  >
+  <nuxt-link :to="`/i/${idea.shortId}/${idea.slug}`" class="idea-item">
     <div class="idea-item__title-row">
       <strong>{{ idea.title }}</strong>
     </div>
@@ -50,7 +46,7 @@
         </div>
       </div>
     </div>
-  </a>
+  </nuxt-link>
 </template>
 
 <script>
@@ -79,17 +75,7 @@ export default {
     }
   },
   methods: {
-    onIdeaClick() {
-      // custom behaviour might be required later
-      this.$router.push({
-        name: 'i-shortId-slug',
-        params: {
-          shortId: this.idea.shortId,
-          slug: this.idea.slug
-        },
-        force: true
-      })
-    }
+    //
   }
 }
 </script>
