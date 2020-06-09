@@ -3,7 +3,6 @@
   <v-dialog
     :value="value"
     content-class="modal"
-    persistent
     max-width="600"
     @input="v => $emit('input', v)"
   >
