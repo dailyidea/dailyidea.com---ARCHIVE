@@ -3,13 +3,13 @@
     <welcome-desktop
       class="hidden-mobile"
       :params="params"
-      :hide-next-btn="true"
+      hide-next-btn
       @mark-as-welcomed="emitMarkAsWelcomed"
       @left-clicked="emitLeftClicked"
     ></welcome-desktop>
     <welcome-mobile-portrait
       class="hidden-desktop hidden-landscape"
-      :hide-next-btn="true"
+      hide-next-btn
       :params="params"
       @mark-as-welcomed="emitMarkAsWelcomed"
       @left-clicked="emitLeftClicked"
@@ -17,7 +17,7 @@
     <welcome-mobile-landscape
       class="hidden-desktop hidden-portrait"
       :params="params"
-      :hide-next-btn="true"
+      hide-next-btn
       @mark-as-welcomed="emitMarkAsWelcomed"
       @left-clicked="emitLeftClicked"
     ></welcome-mobile-landscape>
