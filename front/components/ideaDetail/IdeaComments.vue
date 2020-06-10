@@ -99,15 +99,15 @@
 import nanoid from 'nanoid'
 import { graphqlOperation } from '@aws-amplify/api'
 import { mapMutations, mapGetters } from 'vuex'
+import AskNameDialog from './AskNameDialog'
+import AskEmailDialog from './AskEmailDialog'
+import IdeaCommentsComment from './IdeaCommentsComment'
 import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
 import addIdeaTemporaryComment from '@/graphql/mutations/addIdeaTemporaryComment'
 import getIdeaTemporaryComment from '@/graphql/query/getIdeaTemporaryComment'
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
 import deleteIdeaTemporaryComment from '@/graphql/mutations/deleteIdeaTemporaryComment'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
-import AskNameDialog from './AskNameDialog'
-import AskEmailDialog from './AskEmailDialog'
-import IdeaCommentsComment from './IdeaCommentsComment'
 import addComment from '~/graphql/mutations/addComment'
 import getComments from '~/graphql/query/getComments'
 import deleteComment from '~/graphql/mutations/deleteComment'
@@ -247,20 +247,21 @@ export default {
       this.deletingComment = true
       this.showProgressBar()
       try {
-        this.commentList = this.commentList.filter(
-          c => c.commentId !== comment.commentId
-        )
-        await this.$amplifyApi.graphql(
+        const resp = await this.$amplifyApi.graphql(
           graphqlOperation(deleteComment, {
-            // body: body,
-            // userId: this.$store.getters['cognito/userSub'],
             ideaId: this.idea.ideaId,
-            ideaName: this.idea.ideaName,
             ideaOwnerId: this.idea.userId,
             commentId: comment.commentId
           })
         )
+        if (resp.data.deleteComment.error) {
+          throw new Error(resp.data.deleteComment.error)
+        }
+
         // remove comment form comment list array
+        this.commentList = this.commentList.filter(
+          c => c.commentId !== comment.commentId
+        )
         this.idea.commentsCount -= 1
         this.$emit('onNotification', {
           type: 'success',
