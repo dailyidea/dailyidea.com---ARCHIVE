@@ -33,7 +33,7 @@
     <ask-name-dialog
       v-model="showAskName"
       header="Almost there"
-      message="What can we call you?"
+      message="Anonymous user just doesn't feel so personal... :)"
       @data="onNoAuthName"
     ></ask-name-dialog>
 
@@ -42,15 +42,22 @@
       header="Hooray!"
       :show-cancel-button="false"
       button-ok-text="I'm in!"
-      @ok="() => (showFirstIdeaSaved = false)"
+      @ok="showFirstIdeaSaved = false"
     >
       <p>
-        You saved your first idea! Welcome to Daily idea. You can
-        <router-link to="/ideas/all">browse more ideas</router-link> or
+        You saved your first idea! All your saved ideas will be available in
+        your account from now on.
+      </p>
+      <p>
+        Do you want to:<br />
+        <a href="#" @click.prevent="showFirstIdeaSaved = false"
+          >go back to the idea you saved</a
+        >,<br />
+        <router-link to="/ideas/all?order=LIKES">browse other ideas</router-link
+        >,<br />
         <router-link to="/ideas/create"
-          >start saving your own ideas</router-link
-        >
-        whenever you're ready.
+          >start entering your own great ideas</router-link
+        >?
       </p>
     </default-dialog>
 
@@ -59,12 +66,26 @@
       header="Yay!"
       :show-cancel-button="false"
       button-ok-text="Nice!"
-      @ok="() => (showSavedByLoginLink = false)"
+      @ok="showSavedByLoginLink = false"
     >
       <p>
-        Welcome back {{ name }}. We saved that idea for you! You can check all
-        your saved ideas on your
+        Welcome back {{ userName }}. We saved that idea for you! You can check
+        all your saved ideas on your
         <router-link to="/ideas/liked">Saved Ideas page</router-link>.
+      </p>
+    </default-dialog>
+
+    <default-dialog
+      v-model="showWelcomeBack"
+      :header="`Welcome back ${name}!`"
+      :show-cancel-button="false"
+      button-ok-text="Nice!"
+      @ok="showWelcomeBack = false"
+    >
+      <p>We sent you a confirmation email.</p>
+      <p>
+        Please check your inbox and click the verification link in the message
+        so we can make sure we're saving this idea to the right account.
       </p>
     </default-dialog>
   </span>
@@ -113,7 +134,8 @@ export default {
       name: '',
 
       showFirstIdeaSaved: false,
-      showSavedByLoginLink: false
+      showSavedByLoginLink: false,
+      showWelcomeBack: false
     }
   },
 
@@ -251,12 +273,7 @@ export default {
       await this.$amplifyApi.post('RequestLogin', '', {
         body: { email, ideaToSaveId }
       })
-      this.$dialog.show({
-        header: 'Welcome back!',
-        message: `We sent you a confirmation email. Please check your inbox and click the
-        verification link in the message so we can make sure we're saving this
-        idea to the right account.`
-      })
+      this.showWelcomeBack = true
       this.hideProgressBar()
     },
 
