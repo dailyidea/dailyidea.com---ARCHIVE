@@ -1,0 +1,82 @@
+<mjml>
+	<mj-body>
+		<mj-section padding-bottom="5px" background-color="white">
+    	<mj-column>
+      	<mj-image align="left" width="120px" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/common/logo_full.png"></mj-image>
+      </mj-column>
+    </mj-section>
+    <mj-section padding-top="0" padding-bottom="0" background-color="white">
+    	<mj-column>
+      	<mj-text padding-top="0" padding-bottom="0">
+          <h1>Finish posting your comment</h1>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section padding-top="0" padding-bottom="0">
+    	<mj-column>
+      	<mj-image src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/post-comment/post-comment.png" width="200px" align="center"></mj-image>
+      </mj-column>
+    </mj-section>
+    <mj-section padding-top="0" padding-bottom="0">
+    	<mj-column>
+      	<mj-text>
+          <p style="font-size: 18px; line-height: 1.5;">Welcome Back{{if(options.name !== undefined)}}, {{ name }}{{/if}}!</p>
+          <br/>
+          <p style="font-size: 18px; line-height: 1.5">Please push this button to confirm your identity and we'll finish posting this comment.</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section padding-top="0" padding-bottom="0">
+    	<mj-column>
+      	<mj-button  href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}{{verifyAdditionalUrlParams}}" font-size="20px" width="70%" height="50px" background-color="#FFC61E" border-radius="50px">
+        	Post Comment
+        </mj-button>
+      </mj-column>
+    </mj-section>
+    <mj-section padding-top="0" padding-bottom="0">
+    	<mj-column>
+      	<mj-text>
+          <p style="font-size: 18px">This confirmation email is regarding this comment:</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+    	<mj-column width="91%" background-color="#eff6ff" border-radius="9px">
+      	<mj-text color="#c0c0c0" padding-top="15px" padding-bottom="15px" align="center">
+        	<p style="font-size: 18px;">{{commentText}}</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section padding-top="0" padding-bottom="0">
+    	<mj-column>
+      	<mj-text>
+          <p style="font-size: 18px;">On this idea:</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section padding-top="0" padding-bottom="0">
+    	<mj-column>
+        <mj-text>
+        	<a href="{{ideaHref}}">{{ideaName}}</a>
+      	</mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+    	<mj-column>
+      	<mj-text color="#c8c8c8" font-size="12px">
+        	<a href="mailto:support@dailyidea.com" style="color:#C8C8C8;">Usubscribe from email</a> 
+          or 
+          <a href="mailto:support@dailyidea.com" style="color:#C8C8C8;">Update your email preferences</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="#EFF6FF">
+      <mj-column>
+        <mj-text font-size="12px" align="center" font-family="helvetica">
+          <p>Made with <span style="color:red; font-size: 18px">♥</span> in Chicago</p>
+          <p><a href="https://www.dailyidea.com/" style="text-decoration:none; font-weight:bold; color:#2d2d2d">www.dailyidea.com</a></p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>  
+</mjml>

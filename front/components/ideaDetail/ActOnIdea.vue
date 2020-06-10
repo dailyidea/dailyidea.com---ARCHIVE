@@ -74,13 +74,13 @@
 import nanoid from 'nanoid'
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 import { graphqlOperation } from '@aws-amplify/api'
-import SaveIdea from './SaveIdea'
-import LikeIdea from './LikeIdea'
-import AskEmailDialog from './AskEmailDialog'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
 import AskNameDialog from '@/components/ideaDetail/AskNameDialog'
+import AskEmailDialog from './AskEmailDialog'
+import LikeIdea from './LikeIdea'
+import SaveIdea from './SaveIdea'
 
 export default {
   name: 'ActOnIdea',
