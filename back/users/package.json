@@ -5,7 +5,8 @@
   "scripts": {
     "sls": "sls",
     "sls:deploy-dev": "env-cmd -f ./conf/dev.env serverless deploy",
-    "sls:deploy-prod": "env-cmd -f ./conf/prod.env serverless deploy"
+    "sls:deploy-prod": "env-cmd -f ./conf/prod.env serverless deploy",
+    "compile-emails": "node mail-mjml/compile-emails.js"
   },
   "author": "",
   "license": "MIT",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "env-cmd": "10.1.0",
+    "mjml": "^4.6.3",
     "serverless": "1.46.0",
     "serverless-dynamodb-local": "0.2.38",
     "serverless-localstack": "0.4.15",
