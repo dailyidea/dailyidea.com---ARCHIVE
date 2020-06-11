@@ -20,7 +20,7 @@
     <mj-section padding-top="0" padding-bottom="0">
     	<mj-column>
       	<mj-text>
-          <p style="font-size: 18px; line-height: 1.5;">Hey welcome, Stranger!</p>
+          <p style="font-size: 18px; line-height: 1.5;">Hey Welcome, Stranger!</p>
           <br/>
           <p style="font-size: 18px; line-height: 1.5">Please push this button to confirm your identity and we'll setup your account and finish posting this comment.</p>
         </mj-text>
