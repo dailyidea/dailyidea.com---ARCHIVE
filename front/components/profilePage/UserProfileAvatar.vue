@@ -28,7 +28,7 @@ export default {
 
   computed: {
     userAvatar() {
-      return this.$store.getters['userData/avatar']
+      return this.profileData.avatar
     },
 
     avatarStyle() {

@@ -192,7 +192,14 @@ export default {
     },
 
     showShareIdeaDialog() {
-      this.showEmailShareDialog = true
+      if (navigator.share) {
+        navigator.share({
+          title: this.idea.title,
+          url: window.location.href
+        })
+      } else {
+        this.showEmailShareDialog = true
+      }
     },
 
     enableEditMode() {

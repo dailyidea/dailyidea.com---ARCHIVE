@@ -17,7 +17,9 @@
               ? {
                   'background-image': `url(${idea.authorAvatar})`
                 }
-              : {}
+              : {
+                  'background-color': '#ebe7ed'
+                }
           "
         >
           <v-icon v-if="!idea.authorAvatar">fas fa-user</v-icon>
@@ -132,7 +134,6 @@ export default {
         height: 40px;
         line-height: 40px;
         text-align: center;
-        background-color: #ebe7ed;
         border-radius: 50%;
         background-size: cover;
         background-repeat: no-repeat;
