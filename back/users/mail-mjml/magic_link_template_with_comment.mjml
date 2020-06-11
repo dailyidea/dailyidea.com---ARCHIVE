@@ -20,9 +20,9 @@
     <mj-section padding-top="0" padding-bottom="0">
     	<mj-column>
       	<mj-text>
-          <p style="font-size: 18px; line-height: 1.5;">Welcome Back{{if(options.name !== undefined)}}, {{ name }}{{/if}}!</p>
+          <p style="font-size: 18px; line-height: 1.5;">Hey welcome, Stranger!</p>
           <br/>
-          <p style="font-size: 18px; line-height: 1.5">Please push this button to confirm your identity and we'll finish posting this comment.</p>
+          <p style="font-size: 18px; line-height: 1.5">Please push this button to confirm your identity and we'll setup your account and finish posting this comment.</p>
         </mj-text>
       </mj-column>
     </mj-section>
