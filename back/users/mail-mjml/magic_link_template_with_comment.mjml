@@ -8,7 +8,7 @@
     <mj-section padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
       	<mj-text padding-top="0" padding-bottom="0">
-          <h1>Finish posting your comment</h1>
+          <h2>Finish posting your comment</h2>
         </mj-text>
       </mj-column>
     </mj-section>
@@ -42,8 +42,8 @@
     </mj-section>
     <mj-section>
     	<mj-column width="91%" background-color="#eff6ff" border-radius="9px">
-      	<mj-text color="#c0c0c0" padding-top="15px" padding-bottom="15px" align="center">
-        	<p style="font-size: 18px;">{{commentText}}</p>
+      	<mj-text color="#c0c0c0" padding-top="13px" padding-bottom="13px">
+        	<p style="font-size: 13px; color: #c0c0c0; font-style: italic;">{{commentText}}</p>
         </mj-text>
       </mj-column>
     </mj-section>
@@ -57,7 +57,7 @@
     <mj-section padding-top="0" padding-bottom="0">
     	<mj-column>
         <mj-text>
-        	<a href="{{ideaHref}}">{{ideaName}}</a>
+        	<a style="font-size: 16px;" href="{{ideaHref}}">{{ideaName}}</a>
       	</mj-text>
       </mj-column>
     </mj-section>
