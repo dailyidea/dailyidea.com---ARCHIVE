@@ -147,12 +147,11 @@ type Query {
 
 	ideas(order: IdeaSortingOrder, nextToken: String, limit: Int): IdeaConnection
 	userIdeas(userId: String!, nextToken: String, limit: Int): IdeaConnection
-	getMyIdea(ideaId: String!): Idea!
 
 	@aws_api_key @aws_cognito_user_pools
 	getUsersIdeas(authorSlug: String!, nextToken: String, limit: Int): IdeaConnection!
 	@aws_api_key @aws_cognito_user_pools
-	getUsersIdea(userId: String!, ideaId: String!): Idea!
+	getIdea(shortId: String!): Idea!
 	@aws_api_key @aws_cognito_user_pools
 	getPublicIdeas(order: IdeaSortingOrder, nextToken: String, limit: Int): IdeaConnection!
 	@aws_api_key @aws_cognito_user_pools
@@ -266,6 +265,8 @@ type Tag {
 
 type Idea @aws_api_key @aws_cognito_user_pools {
 	ideaId: String!
+    shortId: String
+    slug: String
 	authorName: String
 	authorSlug: String
 	authorAvatar: String

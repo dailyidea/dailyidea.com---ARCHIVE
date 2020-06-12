@@ -99,9 +99,9 @@
 import nanoid from 'nanoid'
 import { graphqlOperation } from '@aws-amplify/api'
 import { mapMutations, mapGetters } from 'vuex'
-import AskNameDialog from './AskNameDialog'
-import AskEmailDialog from './AskEmailDialog'
 import IdeaCommentsComment from './IdeaCommentsComment'
+import AskEmailDialog from './AskEmailDialog'
+import AskNameDialog from './AskNameDialog'
 import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
 import addIdeaTemporaryComment from '@/graphql/mutations/addIdeaTemporaryComment'
 import getIdeaTemporaryComment from '@/graphql/query/getIdeaTemporaryComment'
@@ -174,6 +174,7 @@ export default {
 
     scrollToBottom() {
       this.$nextTick(() => {
+        if (!this.$refs.scroller) return
         this.$refs.scroller.scrollTop = this.$refs.scroller.scrollHeight
       })
     },
@@ -484,7 +485,7 @@ export default {
         const result = await this.$amplifyApi.graphql({
           query: getComments,
           variables: {
-            ideaId: this.$route.params.ideaId,
+            ideaId: this.idea.ideaId,
             limit: COMMENTS_COUNT,
             nextToken: this.nextToken
           },

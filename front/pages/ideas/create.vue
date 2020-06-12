@@ -194,10 +194,10 @@ export default {
         this.snackbarVisible = true
 
         // Redirect to idea deail page
-        const ideaId = result.data.createIdea.ideaId
+        const { shortId, slug } = result.data.createIdea
         this.$router.push({
-          name: 'ideas-userId-ideaId',
-          params: { ideaId, userId: this.$store.getters['cognito/userSub'] },
+          name: 'i-shortId-slug',
+          params: { shortId, slug },
           force: true
         })
       } catch (err) {

@@ -98,6 +98,10 @@ export default {
       type: String,
       required: true,
       validator: val => ['like', 'save'].includes(val)
+    },
+    idea: {
+      type: Object,
+      required: true
     }
   },
 
@@ -198,8 +202,8 @@ export default {
       const res = await this.$amplifyApi.graphql({
         query: mutation,
         variables: {
-          ideaId: this.$route.params.ideaId,
-          ideaOwnerId: this.$route.params.userId
+          ideaId: this.idea.ideaId,
+          ideaOwnerId: this.idea.userId
         }
       })
       this.isActedOn = true
@@ -212,8 +216,8 @@ export default {
       const res = await this.$amplifyApi.graphql({
         query: mutation,
         variables: {
-          ideaId: this.$route.params.ideaId,
-          ideaOwnerId: this.$route.params.userId
+          ideaId: this.idea.ideaId,
+          ideaOwnerId: this.idea.userId
         }
       })
 
