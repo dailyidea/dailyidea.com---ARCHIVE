@@ -9,5 +9,12 @@
                 "S" : "${context.arguments.shortId}"
             }
         }
+    },
+    "filter":{
+        "expression" : "visibility = :public OR userId = :userId",
+        "expressionValues" : {
+             ":public" : { "S" : "PUBLIC" },
+            ":userId" : { "S" : "${context.identity.username}" }
+        }
     }
 }

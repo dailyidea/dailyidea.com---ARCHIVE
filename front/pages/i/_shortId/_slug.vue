@@ -178,13 +178,20 @@ export default {
     validator: 'new'
   },
 
-  async asyncData({ app, route, redirect, error, res }) {
+  async asyncData({ app, route, redirect, error, res, store }) {
+    console.log(
+      'authMode',
+      store.getters['userData/isAuthenticated'] ? undefined : 'API_KEY'
+    )
     try {
       const { data } = await app.$amplifyApi.graphql({
         query: getIdea,
         variables: { shortId: route.params.shortId },
-        authMode: 'API_KEY'
+        authMode: store.getters['userData/isAuthenticated']
+          ? undefined
+          : 'API_KEY'
       })
+      console.log(data)
       const idea = data.getIdea
 
       // Redirect to correct slug if it doesn't match
@@ -194,6 +201,7 @@ export default {
 
       return { idea }
     } catch (e) {
+      console.error(e)
       error({ statusCode: 404, message: 'Idea not found' })
     }
   },
@@ -223,7 +231,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      userId: 'userData/userId'
+      userId: 'userData/userId',
+      isAuthenticated: 'userData/isAuthenticated'
     }),
 
     isMyIdea() {
