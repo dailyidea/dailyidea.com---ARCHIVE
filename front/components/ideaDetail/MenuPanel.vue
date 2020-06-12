@@ -38,19 +38,21 @@
     </v-menu>
     <act-on-idea
       v-if="!editable"
+      :idea="idea"
       action="like"
       @liked-state-changed="onIdeaLikeStateChanged"
     ></act-on-idea>
     <act-on-idea
       v-if="!editable"
+      :idea="idea"
       action="save"
       @saved-state-changed="onIdeaSaveStateChanged"
     ></act-on-idea>
 
     <share-idea-by-email-dialog
       v-model="showEmailShareDialog"
-      :idea-id="$route.params.ideaId"
-      :idea-owner-id="$route.params.userId"
+      :idea-id="idea.ideaId"
+      :idea-owner-id="idea.userId"
       @success="onSharedIdeaOverEmail"
       @error="onSharedIdeaOverEmailError"
       @onCopyShareLink="onCopyShareLink"
