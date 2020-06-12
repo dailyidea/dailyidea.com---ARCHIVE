@@ -1,1 +1,5 @@
-$util.toJson($context.result.items[0])
+#if($context.result.items.size() > 0)
+  $util.toJson($context.result.items[0])
+#else
+  $utils.error("Idea not found", "LambdaFailure", $context.result)
+#end

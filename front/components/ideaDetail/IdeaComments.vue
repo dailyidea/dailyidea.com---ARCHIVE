@@ -174,6 +174,7 @@ export default {
 
     scrollToBottom() {
       this.$nextTick(() => {
+        if (!this.$refs.scroller) return
         this.$refs.scroller.scrollTop = this.$refs.scroller.scrollHeight
       })
     },
@@ -484,7 +485,7 @@ export default {
         const result = await this.$amplifyApi.graphql({
           query: getComments,
           variables: {
-            ideaId: this.$route.params.ideaId,
+            ideaId: this.idea.ideaId,
             limit: COMMENTS_COUNT,
             nextToken: this.nextToken
           },
