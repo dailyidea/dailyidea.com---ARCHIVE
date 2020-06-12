@@ -1,5 +1,5 @@
 <template>
-  <div color="white" class="idea-item" @click="onIdeaClick(idea)">
+  <nuxt-link :to="`/i/${idea.shortId}/${idea.slug}`" class="idea-item">
     <div class="idea-item__title-row">
       <strong>{{ idea.title }}</strong>
     </div>
@@ -48,7 +48,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </nuxt-link>
 </template>
 
 <script>
@@ -77,17 +77,7 @@ export default {
     }
   },
   methods: {
-    onIdeaClick() {
-      // custom behaviour might be required later
-      this.$router.push({
-        name: 'ideas-userId-ideaId',
-        params: {
-          ideaId: this.idea.ideaId,
-          userId: this.idea.userId
-        },
-        force: true
-      })
-    }
+    //
   }
 }
 </script>
@@ -96,6 +86,7 @@ export default {
 @import '~assets/style/common';
 
 .idea-item {
+  display: block;
   position: relative;
   border: solid 1px #d8e3f9;
   border-radius: 4px;
@@ -107,6 +98,8 @@ export default {
   word-break: break-word;
   font-size: 14px;
   height: 100%;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87);
 
   &:hover {
     -webkit-box-shadow: 0 0 5px 3px #e3e3e361;

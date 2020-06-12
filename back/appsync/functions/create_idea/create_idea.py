@@ -4,9 +4,9 @@ import logging
 import uuid
 import datetime
 import os
-
+from slugify import slugify
 from ..utils.common_db_utils import chunks, BATCH_WRITE_CHUNK_SIZE
-from ..utils.idea_utils import sanitize_idea_content, prepare_idea_tags_for_put_request
+from ..utils.idea_utils import sanitize_idea_content, prepare_idea_tags_for_put_request, find_unique_short_id
 import sentry_sdk
 from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
 
@@ -19,6 +19,7 @@ def endpoint(event, lambda_context):
     ctx = event.get('ctx')
     arguments = ctx.get('arguments')
     title = arguments.get('title')
+    slug = slugify(title)
     content = sanitize_idea_content(arguments.get('content', None))
     tags = arguments.get('tags', list())
     image_attachments = arguments.get('imageAttachments', list())
@@ -30,6 +31,7 @@ def endpoint(event, lambda_context):
 
     client = boto3.client('dynamodb', region_name='us-east-1')
     idea_id = str(uuid.uuid4())
+    short_id = find_unique_short_id()
     creator_id = ctx.get('identity').get('username')
 
     creator_account = client.get_item(
@@ -46,8 +48,10 @@ def endpoint(event, lambda_context):
         Item={
             'sortKey': {"S": 'idea'},
             'ideaId': {"S": idea_id},
+            'shortId': {"S": short_id},
             'userId': {"S": creator_id},
             "title": {"S": title},
+            "slug": {"S": slug},
             "content": {"S": content} if content else {"NULL": True},
             "ideaDate": {"S": datetime.datetime.now().isoformat()},
             "createdDate": {"S": datetime.datetime.now().isoformat()},
@@ -78,4 +82,4 @@ def endpoint(event, lambda_context):
                 }
             )
 
-    return {'ideaId': idea_id}
+    return {'ideaId': idea_id, 'shortId': short_id, 'slug': slug}

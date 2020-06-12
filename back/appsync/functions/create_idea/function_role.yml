@@ -23,6 +23,7 @@ LambdaCreateIdeaFunctionRole:
                 - "dynamodb:GetItem"
                 - "dynamodb:UpdateItem"
                 - "dynamodb:BatchWriteItem"
+                - "dynamodb:Query"
               Effect: Allow
               Resource:
                 - "arn:aws:logs:*:*:*"
