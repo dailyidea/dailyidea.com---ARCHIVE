@@ -1,9 +1,17 @@
 <template>
-  <div class="swipe-parent">
-    <div ref="swipe" :style="position" class="swipe-container">
-      <slot></slot>
+  <span>
+    <div class="left-arrow hidden-sm-and-down" @click="leftArrowClick">
+      <v-icon>mdi-arrow-left</v-icon>
     </div>
-  </div>
+    <div class="right-arrow hidden-sm-and-down" @click="rightArrowClick">
+      <v-icon>mdi-arrow-right</v-icon>
+    </div>
+    <div class="swipe-parent">
+      <div ref="swipe" :style="position" class="swipe-container">
+        <slot></slot>
+      </div>
+    </div>
+  </span>
 </template>
 <script>
 export default {
@@ -116,9 +124,9 @@ export default {
       this.tapping = false
       this.$emit('swipe-end')
       if (this.x > this.xStart + 100) {
-        this.$emit('right')
+        this.$emit('swipe-right')
       } else if (this.x < this.xStart - 100) {
-        this.$emit('left')
+        this.$emit('swipe-left')
       }
 
       this.x = 0
@@ -137,11 +145,31 @@ export default {
       this.$refs.swipe.addEventListener('touchstart', this.fingerDown)
       this.$refs.swipe.addEventListener('touchend', this.fingerUp)
       this.$refs.swipe.addEventListener('touchmove', this.fingerMove)
+    },
+    leftArrowClick() {
+      this.$emit('left-arrow-clicked')
+    },
+    rightArrowClick() {
+      this.$emit('right-arrow-clicked')
     }
   }
 }
 </script>
 <style scoped lang="scss">
+.left-arrow {
+  position: absolute;
+  top: 40vh;
+  left: -3vw;
+  cursor: pointer;
+}
+
+.right-arrow {
+  position: absolute;
+  top: 40vh;
+  right: -3vw;
+  cursor: pointer;
+}
+
 @media (max-width: $screen-sm-max) {
   .swipe-parent {
     width: 100%;

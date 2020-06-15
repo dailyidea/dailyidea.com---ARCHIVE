@@ -3,6 +3,10 @@
     <swiper
       @swipe-start="setHideSlideMenuTrue"
       @swipe-end="setHideSlideMenuFalse"
+      @swipe-left="nextIdea"
+      @swipe-right="previousIdea"
+      @left-arrow-clicked="previousIdea"
+      @right-arrow-clicked="nextIdea"
     >
       <v-row align="stretch">
         <v-col cols="12" md="8" class="idea-part">
@@ -244,6 +248,12 @@ export default {
   },
 
   methods: {
+    nextIdea() {
+      console.log('NEXT')
+    },
+    previousIdea() {
+      console.log('PREV')
+    },
     setHideSlideMenuTrue() {
       this.hideSlideMenu = true
     },
