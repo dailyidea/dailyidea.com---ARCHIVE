@@ -1,6 +1,9 @@
 <template>
-  <layout>
-    <swiper>
+  <layout :hide-slide-menu="hideSlideMenu">
+    <swiper
+      @swipe-start="setHideSlideMenuTrue"
+      @swipe-end="setHideSlideMenuFalse"
+    >
       <v-row align="stretch">
         <v-col cols="12" md="8" class="idea-part">
           <div>
@@ -208,6 +211,7 @@ export default {
   data() {
     return {
       editMode: false,
+      hideSlideMenu: false,
       idea: null,
       ideaTags: [],
       ideaEditData: {
@@ -240,6 +244,12 @@ export default {
   },
 
   methods: {
+    setHideSlideMenuTrue() {
+      this.hideSlideMenu = true
+    },
+    setHideSlideMenuFalse() {
+      this.hideSlideMenu = false
+    },
     onIdeaShared() {
       if (!this.$store.getters['cognito/isLoggedIn']) {
         setTimeout(() => {

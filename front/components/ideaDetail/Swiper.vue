@@ -104,6 +104,7 @@ export default {
     },
     fingerDown(event) {
       this.tapping = true
+      this.$emit('swipe-start')
       const { x, y } = this.getPos(event)
       this.xStart = x
       this.yStart = y
@@ -113,6 +114,7 @@ export default {
     },
     fingerUp(event) {
       this.tapping = false
+      this.$emit('swipe-end')
       if (this.x > this.xStart + 100) {
         this.$emit('right')
       } else if (this.x < this.xStart - 100) {
