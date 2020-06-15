@@ -15,6 +15,8 @@ export default {
       yStart: 0,
       xVal: 0,
       yVal: 0,
+      xCenter: 0,
+      xDistanceToCenter: 0, 
       rotationVal: 0,
       position: {
         left: '',
@@ -71,24 +73,33 @@ export default {
       this.position.transform = `rotate(${val}deg)`
     },
     getPos(event) {
-      const x = event.touches[0].clientX
-      const y = event.touches[0].clientY
+      let x
+      let y
+      
+      if(event.touches) {
+        x = event.touches[0].clientX
+        y = event.touches[0].clientY
+      } else { 
+        x = event.clientX
+        y = event.clientY
+      }
 
       return {
-        x: x - event.srcElement.clientWidth / 2,
-        y: y - event.srcElement.clientHeight
+        x,
+        y
       }
     },
     setPos(event) {
-      const { x, y } = this.getPos(event)
-      this.x = x
-      this.y = y
+      const { x } = this.getPos(event)
+      this.x = x - this.xCenter - this.xDistanceToCenter 
     },
     fingerDown(event) {
       this.tapping = true
       const { x, y } = this.getPos(event)
       this.xStart = x
       this.yStart = y
+      this.xCenter = event.srcElement.clientWidth / 2
+      this.xDistanceToCenter = x - this.xCenter
       this.setPos(event)
     },
     fingerUp(event) {
@@ -107,9 +118,14 @@ export default {
       this.setPos(event)
     },
     setupTouchListener() {
+      window.addEventListener("touchmove", (e) => {
+        e.preventDefault()
+      })
+
       this.$refs.swipe.addEventListener('touchstart', this.fingerDown)
       this.$refs.swipe.addEventListener('touchend', this.fingerUp)
       this.$refs.swipe.addEventListener('touchmove', this.fingerMove)
+
     }
   }
 }
