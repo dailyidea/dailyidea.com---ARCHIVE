@@ -172,6 +172,11 @@ custom:
         response: "getPublicIdeas-response-mapping-template.txt"
       - dataSource: Ideas
         type: Query
+        field: findIdeas
+        request: "findIdeas-request-mapping-template.txt"
+        response: "findIdeas-response-mapping-template.txt"
+      - dataSource: Ideas
+        type: Query
         field: getUsersIdeas
         request: "getUsersIdeas-request-mapping-template.txt"
         response: "getUsersIdeas-response-mapping-template.txt"

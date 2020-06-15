@@ -155,6 +155,8 @@ type Query {
 	@aws_api_key @aws_cognito_user_pools
 	getPublicIdeas(order: IdeaSortingOrder, nextToken: String, limit: Int): IdeaConnection!
 	@aws_api_key @aws_cognito_user_pools
+	findIdeas(query: String): IdeaConnection
+	@aws_api_key @aws_cognito_user_pools
 	getLikedIdeas(nextToken: String, limit: Int): IdeaConnection
 	getSavedIdeas(nextToken: String, limit: Int): IdeaConnection
   ideaTags(ideaId: String!): [Tag!]!
