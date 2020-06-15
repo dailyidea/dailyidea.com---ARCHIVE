@@ -71,13 +71,12 @@ export default {
       this.position.transform = `rotate(${val}deg)`
     },
     getPos(event) {
-      console.log(event)
-      const x = event.touches[0].screenX
-      const y = event.touches[0].screenY
+      const x = event.touches[0].clientX
+      const y = event.touches[0].clientY
 
       return {
-        x: x - event.srcElement.offsetWidth / 2,
-        y: y - event.srcElement.offsetHeight - event.srcElement.offsetHeight
+        x: x - event.srcElement.clientWidth / 2,
+        y: y - event.srcElement.clientHeight
       }
     },
     setPos(event) {
@@ -95,9 +94,9 @@ export default {
     fingerUp(event) {
       this.tapping = false
       if (this.x > this.xStart + 100) {
-        this.$emit('left')
-      } else if (this.x < this.xStart - 100) {
         this.$emit('right')
+      } else if (this.x < this.xStart - 100) {
+        this.$emit('left')
       }
 
       this.x = 0
