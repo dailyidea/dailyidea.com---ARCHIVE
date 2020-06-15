@@ -1,7 +1,7 @@
-<template> 
+<template>
   <layout>
     <swiper>
-      <v-row align="stretch"> 
+      <v-row align="stretch">
         <v-col cols="12" md="8" class="idea-part">
           <div>
             <v-row class="idea-part__header" no-gutters>

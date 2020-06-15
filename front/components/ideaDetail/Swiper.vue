@@ -11,12 +11,13 @@ export default {
   data() {
     return {
       tapping: false,
+      swipeSensitivity: 35,
       xStart: 0,
       yStart: 0,
       xVal: 0,
       yVal: 0,
       xCenter: 0,
-      xDistanceToCenter: 0, 
+      xDistanceToCenter: 0,
       rotationVal: 0,
       position: {
         left: '',
@@ -75,11 +76,11 @@ export default {
     getPos(event) {
       let x
       let y
-      
-      if(event.touches) {
+
+      if (event.touches) {
         x = event.touches[0].clientX
         y = event.touches[0].clientY
-      } else { 
+      } else {
         x = event.clientX
         y = event.clientY
       }
@@ -91,7 +92,15 @@ export default {
     },
     setPos(event) {
       const { x } = this.getPos(event)
-      this.x = x - this.xCenter - this.xDistanceToCenter 
+      if (Math.abs(this.xStart - x) < this.swipeSensitivity) return
+
+      this.x = x - this.xCenter - this.xDistanceToCenter
+      this.rotation = this.getRotation(x)
+    },
+    getRotation(x) {
+      const rotation = (this.xStart - x) / 10
+      this.y = Math.abs(rotation * 5)
+      return rotation > 180 ? 180 : rotation
     },
     fingerDown(event) {
       this.tapping = true
@@ -112,20 +121,20 @@ export default {
 
       this.x = 0
       this.y = 0
+      this.rotation = 0
     },
     fingerMove(event) {
       if (!this.tapping) return
       this.setPos(event)
     },
     setupTouchListener() {
-      window.addEventListener("touchmove", (e) => {
+      window.addEventListener('touchmove', e => {
         e.preventDefault()
       })
 
       this.$refs.swipe.addEventListener('touchstart', this.fingerDown)
       this.$refs.swipe.addEventListener('touchend', this.fingerUp)
       this.$refs.swipe.addEventListener('touchmove', this.fingerMove)
-
     }
   }
 }
