@@ -16,6 +16,9 @@ export const mutations = {
   setUserData(state, data) {
     state.userData = data
   },
+  setUserWelcomed(state, data) {
+    state.userData.wasWelcomed = true
+  },
   resetUserData(state, data) {
     state.isAuthenticated = false
     state.userData = {}
