@@ -218,11 +218,6 @@ export default {
     }
   },
 
-  mounted() {
-    this.loadSecondaryData()
-    this.incrementViews()
-  },
-
   computed: {
     ...mapGetters({
       userId: 'userData/userId',
@@ -232,6 +227,11 @@ export default {
     isMyIdea() {
       return this.idea.userId === this.userId
     }
+  },
+
+  mounted() {
+    this.loadSecondaryData()
+    this.incrementViews()
   },
 
   methods: {
