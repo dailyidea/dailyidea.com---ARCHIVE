@@ -85,6 +85,7 @@ const sendEmail = async function(
   }
 
   let comment;
+  let commentIdea;
 
   if (commentId) {
     const ddbParams = {
@@ -102,7 +103,28 @@ const sendEmail = async function(
     } catch (err) {
       console.log("Error when fetching comment", err);
     }
+    
+    if(comment) {
+      const ideaddbParams = {
+        KeyConditionExpression: "ideaId = :ideaId",
+        ExpressionAttributeValues: {
+          ":ideaId": {
+            S: comment.ideaId.S
+          }
+        },
+        IndexName: "ideasById",
+        TableName: process.env.IDEAS_TABLE_NAME
+      };
+
+      try {
+        const resp = await ddb.query(ideaddbParams).promise();
+        commentIdea = resp.Items[0];
+      } catch(err) {
+        console.log("Error while fetching comment idea", err);
+      }
+    }
   }
+
   let ideaToSave;
 
   if (ideaToSaveId) {
@@ -137,8 +159,8 @@ const sendEmail = async function(
     verifyAdditionalUrlParams: ""
   };
 
-  if (comment) {
-    const ideaURLPath = `/ideas/${comment.ideaOwnerId.S}/${comment.ideaId.S}`;
+  if (comment && commentIdea) {
+    const ideaURLPath = `/i/${commentIdea.shortId.S}/${commentIdea.slug.S}`;
     templateParams.verifyAdditionalUrlParams = `&fc=1&next=${encodeURIComponent(
       `${ideaURLPath}?aa=itc&tci=${comment.commentId.S}`
     )}`;
