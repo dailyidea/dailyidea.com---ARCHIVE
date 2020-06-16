@@ -123,6 +123,9 @@ type Mutation {
     snoozeEmails(userId:String!, token:String, days:Int): Result!
     @aws_api_key @aws_cognito_user_pools
 
+    sendDigest(ideaIds: [String]!, passcode: String!): Result!
+    @aws_api_key @aws_cognito_user_pools
+
     incrementIdeaViews(ideaId:String!, ideaOwnerId: String!): IdeaViewResult!
     @aws_api_key @aws_cognito_user_pools
 }

@@ -39,6 +39,13 @@ functions:
     memorySize: 512
     environment:
       USERS_TABLE_NAME: ${self:custom.usersTableName}
+  sendDigest:
+    handler: functions.send_digest.send_digest.endpoint
+    role: LambdaSendDigestFunctionRole
+    memorySize: 512
+    environment:
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
+      IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
   getSavedIdeas:
     handler: functions.get_acted_on_ideas.get_acted_on_ideas.endpoint
     role: LambdaGetActedOnIdeasFunctionRole
@@ -456,6 +463,12 @@ custom:
           lambdaFunctionArn: { Fn::GetAtt: [SnoozeEmailsLambdaFunction, Arn] }
           serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AWS_LAMBDA
+        name: SendDigestHandler
+        description: 'Send ideas digest email to all users'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [SendDigestLambdaFunction, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
+      - type: AWS_LAMBDA
         name: CreateIdeaHandler
         description: 'Create Idea and Tags'
         config:
@@ -669,6 +682,7 @@ resources:
       LambdaGetActedOnIdeasFunctionRole: ${file(functions/get_acted_on_ideas/function_role.yml):LambdaGetActedOnIdeasFunctionRole}
       LambdaGetStatsFunctionRole: ${file(functions/get_stats/function_role.yml):LambdaGetStatsFunctionRole}
       LambdaSnoozeEmailsFunctionRole: ${file(functions/snooze_emails/function_role.yml):LambdaSnoozeEmailsFunctionRole}
+      LambdaSendDigestFunctionRole: ${file(functions/send_digest/function_role.yml):LambdaSendDigestFunctionRole}
       LambdaCreateIdeaFunctionRole: ${file(functions/create_idea/function_role.yml):LambdaCreateIdeaFunctionRole}
       LambdaUpdateProfileInfoFunctionRole: ${file(functions/update_profile_info/function_role.yml):LambdaUpdateProfileInfoFunctionRole}
       LambdaSetUsersSlugFunctionRole: ${file(functions/set_users_slug/function_role.yml):LambdaSetUsersSlugFunctionRole}
@@ -701,6 +715,8 @@ resources:
                     Resource:
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-snoozeEmails"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-snoozeEmails:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-sendDigets"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-sendDigets:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getStats"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getStats:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getSavedIdeas"
