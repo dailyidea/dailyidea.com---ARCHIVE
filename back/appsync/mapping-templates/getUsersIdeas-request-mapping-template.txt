@@ -1,3 +1,16 @@
+#set($MAX_LIMIT=100)
+#set($DEFAULT_LIMIT=10)
+
+#if ($context.arguments.limit)
+   #if($context.arguments.limit>$MAX_LIMIT)
+       #set($limit=$MAX_LIMIT)
+   #else
+       #set($limit=$context.arguments.limit)
+   #end
+#else
+   #set($limit=$DEFAULT_LIMIT)
+#end
+
 {
     "version": "2017-02-28",
     "operation": "Query",

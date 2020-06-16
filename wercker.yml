@@ -1,0 +1,52 @@
+# This references the default nodejs container from
+# the Docker Hub: https://registry.hub.docker.com/_/node/
+# If you want Nodesource's container you would reference nodesource/node
+# Read more about containers on our dev center
+# http://devcenter.wercker.com/docs/containers/index.html
+box: shaperid/cypress-python
+# This is the build pipeline. Pipelines are the core of wercker
+# Read more about pipelines on our dev center
+# http://devcenter.wercker.com/docs/pipelines/index.html
+
+# You can also use services such as databases. Read more on our dev center:
+# http://devcenter.wercker.com/docs/services/index.html
+# services:
+    # - postgres
+    # http://devcenter.wercker.com/docs/services/postgresql.html
+
+    # - mongo
+    # http://devcenter.wercker.com/docs/services/mongodb.html
+setup:
+  steps:
+#    - virtualenv:
+#        cwd: back
+#        virtualenv_location: $WERCKER_SOURCE_DIR/back/venv
+    - script:
+      cwd: front
+      name: install dependencies
+      code: |
+        yarn config set cache-folder $WERCKER_CACHE_DIR/yarn
+        yarn
+    - script:
+      cwd: front
+      name: build
+      code: |
+        yarn build-ci
+        ls $WERCKER_CACHE_DIR
+        du -sh $WERCKER_CACHE_DIR
+
+
+tests:
+  steps:
+    - script:
+      name: set yarn cache
+      code: |
+        ls $WERCKER_CACHE_DIR
+        du -sh $WERCKER_CACHE_DIR
+        export CYPRESS_CACHE_FOLDER=$WERCKER_CACHE_DIR/cypress
+    - script:
+      cwd: front
+      name: lint
+      code: yarn lint
+
+
