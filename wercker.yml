@@ -31,7 +31,7 @@ setup:
       cwd: front
       name: build
       code: |
-        yarn build
+        yarn build-ci
         ls $WERCKER_CACHE_DIR
         du -sh $WERCKER_CACHE_DIR
 
