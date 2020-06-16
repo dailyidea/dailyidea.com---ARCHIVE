@@ -1,3 +1,5 @@
+<template>
+  <layout>
     <v-row class="header" :class="{ editMode: editMode }">
       <!-- left side image on desktop -->
       <v-col
