@@ -61,7 +61,8 @@ export default {
     },
     initialOrder: {
       type: String,
-      required: false
+      required: false,
+      default: undefined
     },
     title: {
       type: String,
