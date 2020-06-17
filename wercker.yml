@@ -64,7 +64,7 @@ deploy:
       code: |
         python -m venv appsync
         source appsync/bin/activate
-    - pip-install-appsync:
+    - pip-install:
         cwd: back/appsync
     - script:
       name: deploy appsync
