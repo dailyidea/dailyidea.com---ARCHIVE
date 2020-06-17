@@ -1,0 +1,10 @@
+<h3>Ideas Digest</h3>
+
+{% for idea in ideas %}
+  <div>
+    <h4>{{ idea.title.S }}</h4>
+    <p>{{ idea.content.S }}</p>
+    <p>{{ idea.authorName.S }}</p>
+    <hr>
+  </div>
+{% endfor %}

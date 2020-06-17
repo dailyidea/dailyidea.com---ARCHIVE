@@ -374,6 +374,11 @@ custom:
         field: snoozeEmails
         request: "common/before-invoke-mapping-template.txt"
         response: "common/after-invoke-mapping-template.txt"
+      - dataSource: SendDigestHandler
+        type: Mutation
+        field: sendDigest
+        request: "common/before-invoke-mapping-template.txt"
+        response: "common/after-invoke-mapping-template.txt"
       - dataSource: UpdateProfileInfoHandler
         type: Mutation
         field: updateProfileInfo

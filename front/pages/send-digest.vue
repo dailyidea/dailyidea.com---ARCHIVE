@@ -31,7 +31,7 @@
         />
 
         <div class="mt-4">
-          <v-btn @click="submit">Submit</v-btn>
+          <v-btn :loading="loading" @click="submit">Submit</v-btn>
         </div>
       </v-col>
     </v-row>
@@ -41,6 +41,7 @@
 <script>
 import StaticPage from '@/components/layout/StaticPage'
 import IdeaAutocomplete from '@/components/IdeaAutocomplete'
+import sendDigest from '@/graphql/mutations/sendDigest'
 
 export default {
   components: {
@@ -51,7 +52,8 @@ export default {
   data: () => ({
     ideas: [],
     error: '',
-    passcode: ''
+    passcode: '',
+    loading: false
   }),
 
   mounted() {
@@ -103,11 +105,25 @@ export default {
       return this.error || this.ideas.find(i => i.error !== '')
     },
 
-    submit() {
+    async submit() {
       this.validate()
       if (this.hasErrors()) return
 
-      console.log(1)
+      try {
+        const result = await this.$amplifyApi.graphql({
+          query: sendDigest,
+          variables: {
+            ideaIds: this.ideas.map(i => i.ideaId),
+            passcode: this.passcode
+          },
+          authMode: 'API_KEY'
+        })
+        console.log(result)
+      } catch (e) {
+        console.error(e)
+      }
+
+      this.loading = false
     }
   }
 }
