@@ -169,7 +169,7 @@ const sendEmail = async function(
     templateParams.ideaName = comment.ideaName.S;
   } else if (ideaToSave) {
     try {
-      const ideaURLPath = `/ideas/${ideaToSave.userId.S}/${ideaToSave.ideaId.S}`;
+      const ideaURLPath = `/i/${ideaToSave.shortId.S}/${ideaToSave.slug.S}`;
       templateParams.verifyAdditionalUrlParams = `&fis=1&next=${encodeURIComponent(
         `${ideaURLPath}?aa=si`
       )}`;
