@@ -17,6 +17,7 @@
     "precommit": "npm run lint",
     "sls:deploy-dev": "env-cmd -f ./conf/dev.env serverless deploy",
     "sls:deploy-prod": "env-cmd -f ./conf/prod.env serverless deploy",
+    "sls:deploy-ci": "serverless deploy",
     "sls": "env-cmd -f ./conf/dev.env serverless",
     "sls:remove-dev": "env-cmd -f ./conf/dev.env serverless remove"
   },

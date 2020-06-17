@@ -23,7 +23,7 @@ setup:
 #        virtualenv_location: $WERCKER_SOURCE_DIR/back/venv
     - script:
       cwd: front
-      name: install dependencies
+      name: install dependencies front
       code: |
         yarn config set cache-folder $WERCKER_CACHE_DIR/yarn
         yarn
@@ -34,7 +34,6 @@ setup:
         yarn build-ci
         ls $WERCKER_CACHE_DIR
         du -sh $WERCKER_CACHE_DIR
-
 
 tests:
   steps:
@@ -50,3 +49,31 @@ tests:
       code: yarn lint
 
 
+deploy:
+  steps:
+#    - virtualenv:
+#      cwd: back
+#      virtualenv_location: $WERCKER_SOURCE_DIR/back/venv
+    - script:
+      name: install dependencies appsync
+      cwd: back/appsync
+      code: yarn
+    - script:
+      name: venv
+      cwd: back
+      code: |
+        python -m venv appsync
+        source appsync/bin/activate
+    - pip-install-appsync:
+        cwd: back/appsync
+    - script:
+      name: deploy appsync
+      cwd: back/appsync
+      code: |
+        yarn sls:deploy-ci
+    - script:
+      name: deploy front
+      cwd: front
+      code: |
+        yarn sls:build-ci
+        yarn sls:deploy-ci
