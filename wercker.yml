@@ -75,5 +75,5 @@ deploy:
       name: deploy front
       cwd: front
       code: |
-        yarn sls:build-ci
+        yarn build-ci
         yarn sls:deploy-ci
