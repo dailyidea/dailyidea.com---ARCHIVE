@@ -59,7 +59,7 @@ deploy:
       cwd: back/appsync
       code: yarn
     - script:
-      name: venv
+      name: venv-appsync
       cwd: back
       code: |
         python -m venv appsync
@@ -67,8 +67,47 @@ deploy:
     - pip-install:
         cwd: back/appsync
     - script:
+      name: install dependencies appsync
+      cwd: back/appsync
+      code: yarn
+    - script:
       name: deploy appsync
       cwd: back/appsync
+      code: |
+        yarn sls:deploy-ci
+    - script:
+      name: venv-mail
+      cwd: back
+      code: |
+        python -m venv mail
+        source mail/bin/activate
+    - pip-install:
+        cwd: back/mail-processing
+    - script:
+      name: deploy mail-processing
+      cwd: back/mail-processing
+      code: |
+        yarn sls:deploy-ci
+    - script:
+      name: install dependencies users
+      cwd: back/users
+      code: yarn
+    - script:
+      name: deploy users
+      cwd: back/users
+      code: |
+        yarn sls:deploy-ci
+    - script:
+      name: venv-users
+      cwd: back
+      code: |
+        python -m venv users
+        source users/bin/activate
+    - pip-install:
+        cwd: back/users
+    - script:
+      name: deploy users
+      cwd: back/users
       code: |
         yarn sls:deploy-ci
     - script:
