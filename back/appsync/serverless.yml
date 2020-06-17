@@ -76,7 +76,7 @@ functions:
     role: LambdaSetUsersSlugFunctionRole
     environment:
       USERS_TABLE_NAME: ${self:custom.usersTableName}
-  updateProfileInfoInCreatedIdeas:
+  updProfileInfoInIdeas:
     handler: functions.update_profile_info_in_created_ideas.update_profile_info_in_created_ideas.endpoint
     role: LambdaUpdateProfileInfoInCreatedIdeasFunctionRole
     memorySize: 512
@@ -137,7 +137,7 @@ custom:
   followingTableName: dailyidea-following-${self:provider.stage}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
   setUsersSlugFunctionName: dailyidea-appsync-backend-${self:provider.stage}-setUsersSlug
-  updateProfileInfoInCreatedIdeasFunctionName: dailyidea-appsync-backend-${self:provider.stage}-updateProfileInfoInCreatedIdeas
+  updateProfileInfoInCreatedIdeasFunctionName: dailyidea-appsync-${self:provider.stage}-updProfileInfoInCreatedIdeas
   sentry:
     dsn: ${env:SENTRY_DSN}
   prune:
