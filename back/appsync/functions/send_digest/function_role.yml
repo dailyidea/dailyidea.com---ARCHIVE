@@ -25,6 +25,8 @@ LambdaSendDigestFunctionRole:
             - Action:
                 - "dynamodb:GetItem"
                 - "dynamodb:Query"
+                - "dynamodb:Scan"
+                - "dynamodb:DescribeTable"
               Effect: Allow
               Resource:
                 - 'Fn::Join':

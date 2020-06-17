@@ -16,6 +16,7 @@ provider:
     MAILBOX_ADDR: ${env:MAILBOX, 'ideas@beta.dailyidea.com'}
     SENTRY_ENVIRONMENT: ${opt:stage, self:provider.stage}
     SENTRY_DSN: ${env:SENTRY_DSN}
+    DIGEST_PASSCODE: ${env:DIGEST_PASSCODE}
 
 plugins:
   - serverless-offline
@@ -43,6 +44,7 @@ functions:
     handler: functions.send_digest.send_digest.endpoint
     role: LambdaSendDigestFunctionRole
     memorySize: 512
+    timeout: 900
     environment:
       USERS_TABLE_NAME: ${self:custom.usersTableName}
       IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
@@ -720,8 +722,8 @@ resources:
                     Resource:
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-snoozeEmails"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-snoozeEmails:*"
-                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-sendDigets"
-                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-sendDigets:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-sendDigest"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-sendDigest:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getStats"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getStats:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getSavedIdeas"
@@ -863,6 +865,8 @@ resources:
                     Resource:
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-requestLogin"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-requestLogin:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-sendDigest"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-sendDigest:*"
                   - Effect: Allow
                     Action:
                       - ses:SendEmail

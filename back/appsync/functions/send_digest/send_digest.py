@@ -23,7 +23,6 @@ def send_digest_bulk(users_list, ideas):
     template = Template(Path('functions/send_digest/digest.html').read_text())
 
     for user in users_list:
-        print(user.email)
         send_mail_to_user(user.email, 'Ideas Digest', '', template.render(ideas=ideas, user=user))
 
 
@@ -47,8 +46,6 @@ def endpoint(event, lambda_context):
             }
         )
         ideas.append(resp['Items'][0])
-
-    print(ideas)
 
     now = datetime.datetime.now()
     users_iterator = UserModel.scan(

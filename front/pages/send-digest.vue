@@ -108,9 +108,10 @@ export default {
     async submit() {
       this.validate()
       if (this.hasErrors()) return
+      this.loading = true
 
       try {
-        const result = await this.$amplifyApi.graphql({
+        await this.$amplifyApi.graphql({
           query: sendDigest,
           variables: {
             ideaIds: this.ideas.map(i => i.ideaId),
@@ -118,9 +119,9 @@ export default {
           },
           authMode: 'API_KEY'
         })
-        console.log(result)
+        this.$dialog.show({ header: 'Success', message: 'Digest was sent' })
       } catch (e) {
-        console.error(e)
+        //
       }
 
       this.loading = false
