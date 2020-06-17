@@ -35,6 +35,7 @@ def endpoint(event, lambda_context):
 
     client = boto3.client('dynamodb', region_name=AWS_REGION)
 
+    # TODO use model
     ideas = []
     for idea_id in idea_ids:
         resp = client.query(
@@ -53,6 +54,7 @@ def endpoint(event, lambda_context):
                     (~UserModel.snoozeEmails.is_type()) | (UserModel.snoozeEmails < now)),
         page_size=SEND_BATCH_EMAIL_CHUNK_SIZE,
         attributes_to_get=['name', 'email', 'userId', 'emailToken'])
+
     for chunk_to_send in progressive_chunks(users_iterator, SEND_BATCH_EMAIL_CHUNK_SIZE):
         send_digest_bulk(chunk_to_send, ideas)
 
