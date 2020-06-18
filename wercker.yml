@@ -48,13 +48,13 @@ tests:
       name: lint
       code: yarn lint
 
+deploy-init:
+  - script:
+      name: init deploy
+      code: echo "empty"
 
-deploy:
-  steps:
-#    - virtualenv:
-#      cwd: back
-#      virtualenv_location: $WERCKER_SOURCE_DIR/back/venv
-    - script:
+deploy-appsync:
+  - script:
       name: install dependencies appsync
       cwd: back/appsync
       code: yarn
@@ -75,19 +75,8 @@ deploy:
       cwd: back/appsync
       code: |
         yarn sls:deploy-ci
-    - script:
-      name: venv-mail
-      cwd: back
-      code: |
-        python -m venv mail
-        source mail/bin/activate
-    - pip-install:
-        cwd: back/mail-processing
-    - script:
-      name: deploy mail-processing
-      cwd: back/mail-processing
-      code: |
-        yarn sls:deploy-ci
+
+deploy-users:
     - script:
       name: install dependencies users
       cwd: back/users
@@ -110,6 +99,28 @@ deploy:
       cwd: back/users
       code: |
         yarn sls:deploy-ci
+
+deploy-mail:
+    - script:
+      name: install dependencies mail
+      cwd: back/mail-processing
+      code: yarn
+    - script:
+      name: venv-mail
+      cwd: back
+      code: |
+        python -m venv mail
+        source mail/bin/activate
+    - pip-install:
+        cwd: back/mail-processing
+    - script:
+      name: deploy mail-processing
+      cwd: back/mail-processing
+      code: |
+        yarn sls:deploy-ci
+
+deploy-front:
+  steps:
     - script:
       name: deploy front
       cwd: front
