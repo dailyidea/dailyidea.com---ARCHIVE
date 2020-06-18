@@ -121,7 +121,8 @@ export default {
         })
         this.$dialog.show({ header: 'Success', message: 'Digest was sent' })
       } catch (e) {
-        //
+        this.error =
+          (e.errors && e.errors.length && e.errors[0].message) || e.message
       }
 
       this.loading = false

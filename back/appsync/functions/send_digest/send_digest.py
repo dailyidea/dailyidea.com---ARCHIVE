@@ -1,7 +1,7 @@
 import boto3
 import os
 import datetime
-from ..utils.models import UserModel
+from ..utils.models import UserModel, IdeaModel, one
 from ..utils.common import progressive_chunks, SEND_BATCH_EMAIL_CHUNK_SIZE
 from ..utils.mail_sender import send_mail_to_user
 import os
@@ -23,6 +23,7 @@ def send_digest_bulk(users_list, ideas):
     template = Template(Path('functions/send_digest/digest.html').read_text())
 
     for user in users_list:
+        print(user.email)
         send_mail_to_user(user.email, 'Ideas Digest', '', template.render(ideas=ideas, user=user))
 
 
@@ -35,18 +36,10 @@ def endpoint(event, lambda_context):
 
     client = boto3.client('dynamodb', region_name=AWS_REGION)
 
-    # TODO use model
     ideas = []
     for idea_id in idea_ids:
-        resp = client.query(
-            TableName=os.getenv('IDEAS_TABLE_NAME', 'dailyidea-ideas-dev'),
-            IndexName="ideasById",
-            KeyConditionExpression='ideaId=:ideaId',
-            ExpressionAttributeValues={
-                ":ideaId": {"S": idea_id}
-            }
-        )
-        ideas.append(resp['Items'][0])
+        result = IdeaModel.ideasByIdIndex.query(idea_id)
+        ideas.append(one(result).to_dict())
 
     now = datetime.datetime.now()
     users_iterator = UserModel.scan(

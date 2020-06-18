@@ -1,10 +1,39 @@
 import os
-from pynamodb.attributes import BooleanAttribute, UnicodeAttribute, UTCDateTimeAttribute, NumberAttribute
+from datetime import datetime
+from pynamodb.attributes import MapAttribute, BooleanAttribute, UnicodeAttribute, UTCDateTimeAttribute, NumberAttribute
 from pynamodb.indexes import GlobalSecondaryIndex, AllProjection
 from pynamodb.models import Model
 
 USERS_TABLE_NAME = os.getenv('USERS_TABLE_NAME', 'dailyidea-users-dev')
 IDEAS_TABLE_NAME = os.getenv('IDEAS_TABLE_NAME', 'dailyidea-ideas-dev')
+
+class BaseModel(Model):
+    def to_json(self, indent=2):
+        return json.dumps(self.to_dict(), indent=indent)
+
+    def to_dict(self):
+        ret_dict = {}
+        for name, attr in self.attribute_values.items():
+            ret_dict[name] = self._attr2obj(attr)
+
+        return ret_dict
+
+    def _attr2obj(self, attr):
+        # compare with list class. It is not ListAttribute.
+        if isinstance(attr, list):
+            _list = []
+            for l in attr:
+                _list.append(self._attr2obj(l))
+            return _list
+        elif isinstance(attr, MapAttribute):
+            _dict = {}
+            for k, v in attr.attribute_values.items():
+                _dict[k] = self._attr2obj(v)
+            return _dict
+        elif isinstance(attr, datetime):
+            return attr.isoformat()
+        else:
+            return attr
 
 
 class UsersIdeasByDateIndex(GlobalSecondaryIndex):
@@ -16,8 +45,16 @@ class UsersIdeasByDateIndex(GlobalSecondaryIndex):
     userId = UnicodeAttribute(hash_key=True)
     createdDate = UTCDateTimeAttribute(range_key=True)
 
+class IdeasByIdIndex(GlobalSecondaryIndex):
+    class Meta:
+        index_name = 'ideasById'
+        projection = AllProjection()
+        write_capacity_units = 100
+        read_capacity_units = 100
+    ideaId = UnicodeAttribute(hash_key=True)
 
-class IdeaModel(Model):
+
+class IdeaModel(BaseModel):
     class Meta:
         table_name = IDEAS_TABLE_NAME
         write_capacity_units = 100
@@ -39,6 +76,7 @@ class IdeaModel(Model):
     commentsCount = NumberAttribute(default=0)
 
     usersIdeasByDateIndex = UsersIdeasByDateIndex()
+    ideasByIdIndex = IdeasByIdIndex()
 
 
 class UserEmailIndex(GlobalSecondaryIndex):
@@ -50,7 +88,7 @@ class UserEmailIndex(GlobalSecondaryIndex):
     email = UnicodeAttribute(hash_key=True)
 
 
-class UserModel(Model):
+class UserModel(BaseModel):
     class Meta:
         table_name = USERS_TABLE_NAME
         write_capacity_units = 100
@@ -80,3 +118,12 @@ class UserModel(Model):
     followeesCount = NumberAttribute(default=0)
 
     emailIndex = UserEmailIndex()
+
+
+def one(some_query):
+    result = next(some_query, None)
+    extra = next(some_query, None)
+    if extra is not None:  # too many
+        return None
+    # first or None
+    return result
