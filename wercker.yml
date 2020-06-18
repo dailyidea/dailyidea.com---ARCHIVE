@@ -49,12 +49,14 @@ tests:
       code: yarn lint
 
 deploy-init:
-  - script:
-      name: init deploy
-      code: echo "empty"
+  steps:
+    - script:
+        name: init deploy
+        code: echo "empty"
 
 deploy-appsync:
-  - script:
+  steps:
+    - script:
       name: install dependencies appsync
       cwd: back/appsync
       code: yarn
@@ -77,6 +79,7 @@ deploy-appsync:
         yarn sls:deploy-ci
 
 deploy-users:
+  steps:
     - script:
       name: install dependencies users
       cwd: back/users
@@ -101,6 +104,7 @@ deploy-users:
         yarn sls:deploy-ci
 
 deploy-mail:
+  steps:
     - script:
       name: install dependencies mail
       cwd: back/mail-processing
