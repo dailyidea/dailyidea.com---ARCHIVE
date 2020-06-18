@@ -89,19 +89,7 @@ deploy-users:
       cwd: back/users
       code: |
         yarn sls:deploy-ci
-    - script:
-      name: venv-users
-      cwd: back
-      code: |
-        python -m venv users
-        source users/bin/activate
-    - pip-install:
-        cwd: back/users
-    - script:
-      name: deploy users
-      cwd: back/users
-      code: |
-        yarn sls:deploy-ci
+
 
 deploy-mail:
   steps:
