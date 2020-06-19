@@ -1,6 +1,7 @@
 <template>
   <v-text-field
     :id="name"
+    ref="field"
     v-model.trim="localValue"
     v-validate="validate"
     :name="name"
@@ -51,6 +52,7 @@ export default {
       localValue: this.value
     }
   },
+
   computed: {
     labelDisplay() {
       return this.label === null
@@ -72,11 +74,18 @@ export default {
       }
     }
   },
+
   watch: {
     value: {
       handler(v) {
         this.localValue = v
       }
+    }
+  },
+
+  methods: {
+    focus() {
+      this.$refs.field.focus()
     }
   }
 }

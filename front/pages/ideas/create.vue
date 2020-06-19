@@ -12,6 +12,7 @@
           <v-text-field
             v-model="title"
             v-validate="'required|max:100'"
+            v-focus
             flat
             label="Add A Title"
             :error-messages="errors.collect('title')"
