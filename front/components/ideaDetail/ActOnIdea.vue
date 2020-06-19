@@ -241,7 +241,7 @@ export default {
         attributes: { name: this.name }
       })
       await this.$amplifyApi.post('RequestLogin', '', {
-        body: { email: this.email, ideaToSaveId: this.$route.params.ideaId }
+        body: { email: this.email, ideaToSaveId: this.idea.ideaId }
       })
       this.$dialog.show({
         header: `Awesome, ${this.name}!`,
@@ -276,10 +276,7 @@ export default {
         this.hideProgressBar()
 
         if (belongsToExistingUser) {
-          this.requestAuthAndProcessIdeaSaving(
-            this.email,
-            this.$route.params.ideaId
-          )
+          this.requestAuthAndProcessIdeaSaving(this.email, this.idea.ideaId)
         } else {
           this.showAskName = true
         }
@@ -314,7 +311,7 @@ export default {
         const res = await this.$amplifyApi.graphql({
           query,
           variables: {
-            ideaId: this.$route.params.ideaId
+            ideaId: this.idea.ideaId
           }
         })
 

@@ -291,13 +291,6 @@ type Idea @aws_api_key @aws_cognito_user_pools {
     viewsCount: Int
 }
 
-
-type User {
-	user_id: String!
-	email: String!
-	ideas(limit: Int!, nextToken: String): IdeaConnection
-}
-
 type UserUpdateProfileResult{
 	bio:String
 	name: String
