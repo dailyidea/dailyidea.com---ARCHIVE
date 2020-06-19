@@ -28,7 +28,10 @@ import findIdeas from '@/graphql/query/findIdeas'
 
 export default {
   props: {
-    errorMessage: String
+    errorMessage: {
+      type: String,
+      default: ''
+    }
   },
 
   data: () => ({
@@ -76,7 +79,7 @@ export default {
         const { items } = result.data.findIdeas
         this.items = items
       } catch (e) {
-        console.error(e)
+        //
       }
 
       this.loading = false
