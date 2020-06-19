@@ -23,7 +23,7 @@ setup:
 #        virtualenv_location: $WERCKER_SOURCE_DIR/back/venv
     - script:
       cwd: front
-      name: install dependencies
+      name: install dependencies front
       code: |
         yarn config set cache-folder $WERCKER_CACHE_DIR/yarn
         yarn
@@ -34,7 +34,6 @@ setup:
         yarn build-ci
         ls $WERCKER_CACHE_DIR
         du -sh $WERCKER_CACHE_DIR
-
 
 tests:
   steps:
@@ -49,4 +48,74 @@ tests:
       name: lint
       code: yarn lint
 
+deploy-init:
+  steps:
+    - script:
+        name: init deploy
+        code: echo "empty"
 
+deploy-appsync:
+  steps:
+    - script:
+      name: install dependencies appsync
+      cwd: back/appsync
+      code: yarn
+    - script:
+      name: venv-appsync
+      cwd: back
+      code: |
+        python -m venv appsync
+        source appsync/bin/activate
+    - pip-install:
+        cwd: back/appsync
+    - script:
+      name: install dependencies appsync
+      cwd: back/appsync
+      code: yarn
+    - script:
+      name: deploy appsync
+      cwd: back/appsync
+      code: |
+        yarn sls:deploy-ci
+
+deploy-users:
+  steps:
+    - script:
+      name: install dependencies users
+      cwd: back/users
+      code: yarn
+    - script:
+      name: deploy users
+      cwd: back/users
+      code: |
+        yarn sls:deploy-ci
+
+
+deploy-mail:
+  steps:
+    - script:
+      name: install dependencies mail
+      cwd: back/mail-processing
+      code: yarn
+    - script:
+      name: venv-mail
+      cwd: back
+      code: |
+        python -m venv mail
+        source mail/bin/activate
+    - pip-install:
+        cwd: back/mail-processing
+    - script:
+      name: deploy mail-processing
+      cwd: back/mail-processing
+      code: |
+        yarn sls:deploy-ci
+
+deploy-front:
+  steps:
+    - script:
+      name: deploy front
+      cwd: front
+      code: |
+        yarn build-ci
+        yarn sls:deploy-ci
