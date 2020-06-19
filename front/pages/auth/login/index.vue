@@ -8,6 +8,7 @@
       </div>
       <!-- Email Input Box -->
       <validate-text-field
+        v-focus
         :value.sync="email"
         single-line
         flat
@@ -70,6 +71,7 @@ export default {
     logingUser: false,
     emailNotFoundMsg: ''
   }),
+
   computed: {
     additionalMessageText() {
       if (this.$route.query && this.$route.query.r) {
@@ -83,6 +85,7 @@ export default {
       return ''
     }
   },
+
   methods: {
     async login() {
       if (this.logingUser) {
