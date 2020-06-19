@@ -1,7 +1,6 @@
 <template>
   <v-text-field
     :id="name"
-    ref="field"
     v-model.trim="localValue"
     v-validate="validate"
     :name="name"
@@ -80,12 +79,6 @@ export default {
       handler(v) {
         this.localValue = v
       }
-    }
-  },
-
-  methods: {
-    focus() {
-      this.$refs.field.focus()
     }
   }
 }
