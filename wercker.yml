@@ -119,3 +119,10 @@ deploy-front:
       code: |
         yarn build-ci
         yarn sls:deploy-ci
+
+after-deploy:
+  after-steps:
+    - slack-notifier:
+        url: $SLACK_URL
+        channel: dailyidea
+        username: werckerbot
