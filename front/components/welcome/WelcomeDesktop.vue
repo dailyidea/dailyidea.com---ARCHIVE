@@ -112,7 +112,7 @@ export default {
 
 .v-btn {
   color: black !important;
-  width: 40%;
+  width: 250px;
   height: 50px !important;
   font-size: 0.9rem;
 }
