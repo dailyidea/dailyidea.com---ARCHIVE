@@ -81,7 +81,8 @@ module.exports = {
     '@/plugins/vee-validate',
     '@/plugins/toRelativeDate',
     '@/plugins/mixins',
-    '@/plugins/app-dialog'
+    '@/plugins/app-dialog',
+    '@/plugins/directives'
   ],
 
   /*

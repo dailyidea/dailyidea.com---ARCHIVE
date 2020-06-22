@@ -64,9 +64,9 @@
     <mj-section>
     	<mj-column>
       	<mj-text color="#c8c8c8" font-size="12px">
-        	<a href="mailto:support@dailyidea.com" style="color:#C8C8C8;">Usubscribe from email</a> 
+        	<a href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}&next=/settings" style="color:#C8C8C8;">Unsubscribe from email</a> 
           or 
-          <a href="mailto:support@dailyidea.com" style="color:#C8C8C8;">Update your email preferences</a>
+          <a href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}&next=/settings" style="color:#C8C8C8;">Update your email preferences</a>
         </mj-text>
       </mj-column>
     </mj-section>

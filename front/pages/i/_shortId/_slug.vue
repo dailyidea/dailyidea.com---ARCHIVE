@@ -65,6 +65,7 @@
               <client-only>
                 <trix-wrapper
                   v-model="ideaEditData.content"
+                  v-focus
                   class="editor"
                   placeholder="Type your idea text"
                   @attachmentsUploadStarted="onAttachmentsUploadStarted"
