@@ -127,9 +127,9 @@ export default {
       this.tapping = false
       this.$emit('swipe-end')
       if (this.x) {
-        if (this.x > this.xStart + 150) {
+        if (this.x > this.xStart + 100) {
           this.$emit('swipe-right')
-        } else if (this.x < this.xStart - 150) {
+        } else if (this.x < this.xStart - 100) {
           this.$emit('swipe-left')
         }
       }
@@ -138,15 +138,13 @@ export default {
       this.rotation = 0
     },
     fingerMove(event) {
-      if (!this.tapping) return
-      this.setPos(event)
+      if (!this.tapping) {
+        this.fingerDown(event)
+      } else {
+        this.setPos(event)
+      }
     },
     setupTouchListener() {
-      window.addEventListener('touchmove', e => {
-        e.preventDefault()
-      })
-
-      this.$refs.swipe.addEventListener('touchstart', this.fingerDown)
       this.$refs.swipe.addEventListener('touchend', this.fingerUp)
       this.$refs.swipe.addEventListener('touchmove', this.fingerMove)
     },
