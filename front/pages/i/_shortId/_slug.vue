@@ -65,6 +65,7 @@
               <client-only>
                 <trix-wrapper
                   v-model="ideaEditData.content"
+                  v-focus
                   class="editor"
                   placeholder="Type your idea text"
                   @attachmentsUploadStarted="onAttachmentsUploadStarted"
@@ -148,21 +149,21 @@
 
 <script>
 import clip from 'text-clipper'
+import { mapGetters } from 'vuex'
 import { graphqlOperation } from '@aws-amplify/api'
 import Layout from '@/components/layout/Layout'
 import TrixWrapper from '@/components/TrixWrapper'
 
 import IdeaComments from '@/components/ideaDetail/IdeaComments'
 import MenuPanel from '@/components/ideaDetail/MenuPanel'
+import getIdeaTags from '@/graphql/query/getIdeaTags'
+import updateIdea from '@/graphql/mutations/updateIdea'
+import VisualNotifier from '@/components/VisualNotifier'
+import deleteIdea from '@/graphql/mutations/deleteIdea'
 import RegisterEncourageDialog from '@/components/dialogs/RegisterEncourageDialog'
+import IdeaContent from '@/components/IdeaContent'
 import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
-import getUsersIdea from '~/graphql/query/getUsersIdea'
-import getMyIdea from '~/graphql/query/getMyIdea'
-import getIdeaTags from '~/graphql/query/getIdeaTags'
-import updateIdea from '~/graphql/mutations/updateIdea'
-import VisualNotifier from '~/components/VisualNotifier'
-import deleteIdea from '~/graphql/mutations/deleteIdea'
-import IdeaContent from '~/components/IdeaContent'
+import getIdea from '@/graphql/query/getIdea'
 
 export default {
   components: {
@@ -177,28 +178,33 @@ export default {
   $_veeValidate: {
     validator: 'new'
   },
-  async asyncData({ app, route, store, error }) {
-    const isMyIdea = store.getters['userData/userId'] === route.params.userId
+
+  async asyncData({ app, route, redirect, error, res, store }) {
     try {
       const { data } = await app.$amplifyApi.graphql({
-        query: isMyIdea ? getMyIdea : getUsersIdea,
-        variables: {
-          userId: route.params.userId,
-          ideaId: route.params.ideaId
-        },
-        authMode: isMyIdea ? undefined : 'API_KEY'
+        query: getIdea,
+        variables: { shortId: route.params.shortId },
+        authMode: store.getters['userData/isAuthenticated']
+          ? undefined
+          : 'API_KEY'
       })
-      return {
-        idea: data[isMyIdea ? 'getMyIdea' : 'getUsersIdea'],
-        isMyIdea
+      const idea = data.getIdea
+
+      // Redirect to correct slug if it doesn't match
+      if (idea.slug !== route.params.slug) {
+        return redirect(301, `/i/${idea.shortId}/${idea.slug}`)
       }
+
+      return { idea }
     } catch (e) {
       error({ statusCode: 404, message: 'Idea not found' })
     }
   },
+
   data() {
     return {
       editMode: false,
+      idea: null,
       ideaTags: [],
       ideaEditData: {
         title: '',
@@ -212,10 +218,23 @@ export default {
       showRegisterEncourageDialog: false
     }
   },
+
+  computed: {
+    ...mapGetters({
+      userId: 'userData/userId',
+      isAuthenticated: 'userData/isAuthenticated'
+    }),
+
+    isMyIdea() {
+      return this.idea.userId === this.userId
+    }
+  },
+
   mounted() {
     this.loadSecondaryData()
     this.incrementViews()
   },
+
   methods: {
     onIdeaShared() {
       if (!this.$store.getters['cognito/isLoggedIn']) {
@@ -224,16 +243,20 @@ export default {
         }, 1000)
       }
     },
+
     onNotification({ type, message }) {
       this.$refs.notifier[type](message)
     },
+
     onIdeaSaveStateChanged({ saved }) {
       this.$refs.notifier.success(saved ? 'Idea Saved!' : 'Idea Unsaved!')
     },
+
     onIdeaLikeStateChanged({ liked, likesCount }) {
       this.idea.likesCount = likesCount
       this.$refs.notifier.success(liked ? 'Idea Liked!' : 'Idea Unliked')
     },
+
     copyIdeaDataForEdit() {
       this.ideaEditData.content = this.idea.content
       this.ideaEditData.ideaTags = this.ideaTags
@@ -247,19 +270,23 @@ export default {
         : []
       this.ideaEditData.title = this.idea.title
     },
+
     removeTag(item) {
       this.ideaEditData.ideaTags.splice(
         this.ideaEditData.ideaTags.indexOf(item),
         1
       )
     },
+
     enableEditMode() {
       this.copyIdeaDataForEdit()
       this.editMode = true
     },
+
     disableEditMode() {
       this.editMode = false
     },
+
     // Delete Idea
     async onDeleteIdea() {
       const confirmed = await this.$dialog.show({
@@ -273,12 +300,8 @@ export default {
       }
       this.$store.commit('layoutState/showProgressBar')
       try {
-        const ideaId = this.$route.params.ideaId
-        await this.$amplifyApi.graphql(
-          graphqlOperation(deleteIdea, {
-            ideaId
-          })
-        )
+        const ideaId = this.idea.ideaId
+        await this.$amplifyApi.graphql(graphqlOperation(deleteIdea, { ideaId }))
         this.$refs.notifier.success('Idea deleted')
         this.$router.push('/ideas/me')
       } catch (err) {
@@ -286,15 +309,18 @@ export default {
       }
       this.$store.commit('layoutState/hideProgressBar')
     },
+
     onIdeaVisibilityChanged({ isPrivate }) {
       this.idea.visibility = isPrivate ? 'PRIVATE' : 'PUBLIC'
       this.$refs.notifier.success(
         `Your Idea is ${isPrivate ? 'private' : 'public'} now!`
       )
     },
+
     onIdeaVisibilityChangeError({ isPrivate }) {
       this.$refs.notifier.error(`can't change Idea visibility!`)
     },
+
     async saveIdeaContent() {
       const result = await this.$validator.validateAll()
       if (!result) {
@@ -303,10 +329,10 @@ export default {
       this.updatingIdea = true
       setTimeout(async () => {
         try {
-          await this.$amplifyApi.graphql(
+          const resp = await this.$amplifyApi.graphql(
             graphqlOperation(updateIdea, {
-              ideaId: this.$route.params.ideaId,
-              ideaOwnerId: this.$route.params.userId,
+              ideaId: this.idea.ideaId,
+              ideaOwnerId: this.idea.userId,
               content: this.ideaEditData.content,
               title: this.ideaEditData.title,
               tags: this.ideaEditData.ideaTags,
@@ -322,20 +348,29 @@ export default {
           this.editMode = false
           this.updatingIdea = false
           this.$refs.notifier.success('Idea Updated!')
+          // Redirect to updated URL slug
+          if (resp.data.updateIdea.idea.slug !== this.idea.slug) {
+            this.$router.replace({
+              name: 'i-shortId-slug',
+              params: {
+                shortId: this.idea.shortId,
+                slug: resp.data.updateIdea.idea.slug
+              }
+            })
+          }
         } catch (e) {
           this.updatingIdea = false
           this.$refs.notifier.error("Can't update Idea!")
         }
       }, 10) // if last tag not saved yet editor needs time to process outer click event
     },
+
     async loadIdeaTags() {
       const ideaTags = []
       if (this.$store.getters['cognito/isLoggedIn']) {
         const tag = await this.$amplifyApi.graphql({
           query: getIdeaTags,
-          variables: {
-            ideaId: this.$route.params.ideaId
-          }
+          variables: { ideaId: this.idea.ideaId }
         })
 
         for (let i = 0; i < tag.data.ideaTags.length; i++) {
@@ -344,6 +379,7 @@ export default {
       }
       this.ideaTags = ideaTags
     },
+
     loadSecondaryData() {
       this.loadIdeaTags()
     },
@@ -353,7 +389,7 @@ export default {
         await this.$amplifyApi.graphql({
           query: incrementIdeaViews,
           variables: {
-            ideaId: this.$route.params.ideaId,
+            ideaId: this.idea.ideaId,
             ideaOwnerId: this.$route.params.userId
           },
           authMode: 'API_KEY'
@@ -372,6 +408,7 @@ export default {
       }
       this.ideaEditData.fileAttachments.push(key)
     },
+
     onFileRemoved({ type, key }) {
       if (!this.editMode) {
         return
@@ -387,13 +424,16 @@ export default {
         1
       )
     },
+
     onAttachmentsUploadStarted() {
       this.updatingIdea = true
     },
+
     onAttachmentsUploadCompleted() {
       this.updatingIdea = false
     }
   },
+
   head() {
     const truncatedIdeaContent = clip(this.idea.content, 180, {
       html: true,
@@ -427,7 +467,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~assets/style/common';
+@import '~assets/style/common.scss';
 .idea-name-field {
   font-size: 24px;
 }

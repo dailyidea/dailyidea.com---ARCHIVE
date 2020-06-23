@@ -1,15 +1,20 @@
 {
     "version" : "2017-02-28",
     "operation" : "Query",
+    "index": "shortId",
     "query" : {
-        "expression": "ideaId = :ideaId and userId = :user",
+        "expression": "shortId = :shortId",
         "expressionValues" : {
-            ":ideaId" : {
-                "S" : "${context.arguments.ideaId}"
-            },
-            ":user": {
-                "S": "${context.identity.username}"
+            ":shortId" : {
+                "S" : "${context.arguments.shortId}"
             }
+        }
+    },
+    "filter":{
+        "expression" : "visibility = :public OR userId = :userId",
+        "expressionValues" : {
+             ":public" : { "S" : "PUBLIC" },
+            ":userId" : { "S" : "${context.identity.username}" }
         }
     }
 }

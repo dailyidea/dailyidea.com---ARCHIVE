@@ -118,13 +118,13 @@ export default {
             : "Hooray! You're officially signed up!"
 
           await this.setDefaultAvatar() // Get and upload default SVG avatar
-          this.$router.replace(next || '/welcome/1')
         } else {
           this.message = redirectToIdeaPage
             ? "Hooray! We'll direct you to your home page bext..."
             : "Hooray! We'll direct you to your dashboard next..."
-          this.$router.replace(next || '/ideas/me')
         }
+
+        this.$router.replace(next || '/ideas/all')
       } catch (e) {
         this.progressBarActive = false
         this.message = 'Oops, something went wrong. Please try again.'

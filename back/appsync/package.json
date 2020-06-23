@@ -8,7 +8,9 @@
   "scripts": {
     "start": "yarn dynamodb-generate-seed-data && serverless dynamodb install && serverless offline start",
     "sls:deploy-dev": "env-cmd -f ./conf/dev.env sls deploy",
-    "sls:deploy-prod": "env-cmd -f ./conf/prod.env sls deploy"
+    "sls:deploy-prod": "env-cmd -f ./conf/prod.env sls deploy",
+    "sls:deploy-ci": "serverless deploy",
+    "run-dev": "env-cmd -f ./conf/dev.env ./run.py"
   },
   "dependencies": {
     "@sentry/node": "^5.15.5",

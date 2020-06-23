@@ -51,6 +51,7 @@ export default {
       localValue: this.value
     }
   },
+
   computed: {
     labelDisplay() {
       return this.label === null
@@ -72,6 +73,7 @@ export default {
       }
     }
   },
+
   watch: {
     value: {
       handler(v) {

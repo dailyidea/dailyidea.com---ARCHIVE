@@ -6,6 +6,7 @@ mutation updateIdea($ideaId: String!, $ideaOwnerId: String!, $content: String!, 
     }
     idea{
       ideaId
+      slug
     }
   }
 }`

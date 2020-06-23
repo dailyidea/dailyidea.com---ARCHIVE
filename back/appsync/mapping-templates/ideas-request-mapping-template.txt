@@ -22,6 +22,19 @@
   #set($order = "DATE_DESC")
 #end
 
+#set($MAX_LIMIT=100)
+#set($DEFAULT_LIMIT=25)
+
+#if ($context.arguments.limit)
+   #if($context.arguments.limit>$MAX_LIMIT)
+       #set($limit=$MAX_LIMIT)
+   #else
+       #set($limit=$context.arguments.limit)
+   #end
+#else
+   #set($limit=$DEFAULT_LIMIT)
+#end
+
 
 #set($indexName = $indexMap.get($order))
 #set($scanIndexForward = $scanForwardMap.get($order))
@@ -38,7 +51,7 @@
         }
     },
     "index": "$indexName",
-    "limit": #if($context.arguments.limit) $context.arguments.limit #else 10 #end,
+    "limit": $limit,
     "nextToken": #if($context.arguments.nextToken) "$context.arguments.nextToken" #else null #end,
     "scanIndexForward": $scanIndexForward
 }
