@@ -271,22 +271,29 @@ export default {
 
   methods: {
     nextIdea() {
-      this.ideaIndex += 1
-      if (this.ideaIndex >= this.ideaQueue.length) {
-        this.ideaIndex = 0
-      }
-
-      this.idea = this.ideaQueue[this.ideaIndex]
-      this.loadSecondaryData()
+      this.loadNewIdea(1)
     },
     previousIdea() {
-      this.ideaIndex -= 1
-      if (this.ideaIndex < 0) {
+      this.loadNewIdea(-1)
+    },
+    loadNewIdea(direction) {
+      this.ideaIndex += direction
+      if (this.ideaIndex >= this.ideaQueue.length) {
+        this.ideaIndex = 0
+      } else if (this.ideaIndex < 0) {
         this.ideaIndex = this.ideaQueue.length - 1
       }
 
       this.idea = this.ideaQueue[this.ideaIndex]
+      this.updateIdeaSlug()
       this.loadSecondaryData()
+    },
+    updateIdeaSlug() {
+      window.history.pushState(
+        '',
+        '',
+        `/i/${this.idea.shortId}/${this.idea.slug}`
+      )
     },
     async cacheIdeas() {
       const ideas = await getAllIdeas(this.$amplifyApi)
