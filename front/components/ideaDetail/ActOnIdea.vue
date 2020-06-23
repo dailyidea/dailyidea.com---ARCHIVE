@@ -22,6 +22,7 @@
       @save-idea="saveIdea"
       @unsave-idea="unsaveIdea"
     ></save-idea>
+
     <ask-email-dialog
       v-model="showAskEmail"
       header="Introduce yourself?"
@@ -265,11 +266,20 @@ export default {
       await this.$amplifyApi.post('RequestLogin', '', {
         body: { email: this.email, ideaToSaveId: this.idea.ideaId }
       })
-      this.$dialog.show({
-        header: `Awesome, ${this.name}!`,
-        message: `We just sent you an email, which we'll just use to make sure we can find your saved
-        ideas later. Please check your inbox and click the link the confirmation link to finish saving this idea.`
-      })
+
+      if (
+        await this.$dialog.show({
+          header: `Awesome, ${this.name}!`,
+          imagePath: require('../../assets/images/dialogs/undraw_arrived.svg'),
+          message: `We just sent you an email, which we'll just use to make sure we can find your saved
+                    ideas later. Please check your inbox and click the link the confirmation link to finish saving this idea.`
+        })
+      ) {
+        console.log(this.email, this.email.endsWith('gmail.com'))
+        if (this.email.endsWith('gmail.com')) {
+          window.open('https://gmail.com')
+        }
+      }
     },
 
     async requestAuthAndProcessIdeaSaving(email, ideaToSaveId) {
