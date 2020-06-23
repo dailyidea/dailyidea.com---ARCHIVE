@@ -5,18 +5,27 @@
       @next="emitNext"
       @mark-as-welcomed="emitMarkAsWelcomed"
       @right-clicked="emitRightClicked"
+      @go-to-one="emitGoToOne"
+      @go-to-two="emitGoToTwo"
+      @go-to-three="emitGoToThree"
     ></welcome-desktop>
     <welcome-mobile-portrait
       :params="params"
       hide-next-btn
       @mark-as-welcomed="emitMarkAsWelcomed"
       @right-clicked="emitRightClicked"
+      @go-to-one="emitGoToOne"
+      @go-to-two="emitGoToTwo"
+      @go-to-three="emitGoToThree"
     ></welcome-mobile-portrait>
     <welcome-mobile-landscape
       :params="params"
       hide-next-btn
       @mark-as-welcomed="emitMarkAsWelcomed"
       @right-clicked="emitRightClicked"
+      @go-to-one="emitGoToOne"
+      @go-to-two="emitGoToTwo"
+      @go-to-three="emitGoToThree"
     ></welcome-mobile-landscape>
   </v-content>
 </template>
@@ -51,6 +60,15 @@ export default {
     }
   },
   methods: {
+    emitGoToOne() {
+      this.$emit('go-to-one')
+    },
+    emitGoToTwo() {
+      this.$emit('go-to-two')
+    },
+    emitGoToThree() {
+      this.$emit('go-to-three')
+    },
     emitNext() {
       this.$emit('next')
     },

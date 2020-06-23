@@ -5,6 +5,9 @@
       @right-clicked="handleRightClicked"
       @next="handleNext"
       @mark-as-welcomed="handleMarkAsWelcomed"
+      @go-to-one="handleGoToOne"
+      @go-to-two="handleGoToTwo"
+      @go-to-three="handleGoToThree"
     ></welcome-first>
 
     <welcome-second
@@ -13,12 +16,18 @@
       @left-clicked="handleLeftClicked"
       @next="handleNext"
       @mark-as-welcomed="handleMarkAsWelcomed"
+      @go-to-one="handleGoToOne"
+      @go-to-two="handleGoToTwo"
+      @go-to-three="handleGoToThree"
     ></welcome-second>
 
     <welcome-third
       v-else-if="pageOn === 2"
       @left-clicked="handleLeftClicked"
       @mark-as-welcomed="handleMarkAsWelcomed"
+      @go-to-one="handleGoToOne"
+      @go-to-two="handleGoToTwo"
+      @go-to-three="handleGoToThree"
     ></welcome-third>
   </span>
 </template>
@@ -46,6 +55,15 @@ export default {
     }
   },
   methods: {
+    handleGoToOne() {
+      this.pageOn = 0
+    },
+    handleGoToTwo() {
+      this.pageOn = 1
+    },
+    handleGoToThree() {
+      this.pageOn = 2
+    },
     handleMarkAsWelcomed() {
       this.$amplifyApi.graphql(
         graphqlOperation(setWasWelcomed, {
