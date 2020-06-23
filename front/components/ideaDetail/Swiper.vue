@@ -123,12 +123,13 @@ export default {
     fingerUp(event) {
       this.tapping = false
       this.$emit('swipe-end')
-      if (this.x > this.xStart + 100) {
-        this.$emit('swipe-right')
-      } else if (this.x < this.xStart - 100) {
-        this.$emit('swipe-left')
+      if (this.x) {
+        if (this.x > this.xStart + 150) {
+          this.$emit('swipe-right')
+        } else if (this.x < this.xStart - 150) {
+          this.$emit('swipe-left')
+        }
       }
-
       this.x = 0
       this.y = 0
       this.rotation = 0

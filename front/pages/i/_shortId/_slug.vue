@@ -181,6 +181,7 @@ import { graphqlOperation } from '@aws-amplify/api'
 import Layout from '@/components/layout/Layout'
 import TrixWrapper from '@/components/TrixWrapper'
 
+import getAllIdeas from '@/components/ideaDetail/ideaSwipeQueue.js'
 import Swiper from '@/components/ideaDetail/Swiper'
 import IdeaComments from '@/components/ideaDetail/IdeaComments'
 import MenuPanel from '@/components/ideaDetail/MenuPanel'
@@ -224,7 +225,7 @@ export default {
         return redirect(301, `/i/${idea.shortId}/${idea.slug}`)
       }
 
-      return { idea }
+      return { idea, ideaQueue: [idea] }
     } catch (e) {
       error({ statusCode: 404, message: 'Idea not found' })
     }
@@ -232,6 +233,8 @@ export default {
 
   data() {
     return {
+      ideaIndex: 0,
+      ideaQueue: [],
       editMode: false,
       hideSlideMenu: false,
       idea: null,
@@ -261,6 +264,7 @@ export default {
   },
 
   mounted() {
+    this.cacheIdeas()
     this.loadSecondaryData()
     this.incrementViews()
   },
@@ -268,9 +272,25 @@ export default {
   methods: {
     nextIdea() {
       console.log('NEXT')
+      this.ideaIndex += 1
+      if (this.ideaIndex >= this.ideaQueue.length) {
+        this.ideaIndex = 0
+      }
+
+      this.idea = this.ideaQueue[this.ideaIndex]
     },
     previousIdea() {
       console.log('PREV')
+      this.ideaIndex -= 1
+      if (this.ideaIndex < 0) {
+        this.ideaIndex = this.ideaQueue.length - 1
+      }
+
+      this.idea = this.ideaQueue[this.ideaIndex]
+    },
+    async cacheIdeas() {
+      const ideas = await getAllIdeas(this.$amplifyApi)
+      this.ideaQueue = Object.assign(this.ideaQueue, ideas.ideas)
     },
     setHideSlideMenuTrue() {
       this.hideSlideMenu = true
