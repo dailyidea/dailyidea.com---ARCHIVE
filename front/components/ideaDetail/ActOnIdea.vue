@@ -275,7 +275,6 @@ export default {
                     ideas later. Please check your inbox and click the link the confirmation link to finish saving this idea.`
         })
       ) {
-        console.log(this.email, this.email.endsWith('gmail.com'))
         if (this.email.endsWith('gmail.com')) {
           window.open('https://gmail.com')
         }
