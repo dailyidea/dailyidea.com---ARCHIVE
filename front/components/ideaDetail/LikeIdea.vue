@@ -22,20 +22,31 @@ export default {
       required: true
     },
 
+    idea: {
+      type: Object,
+      required: true
+    },
+
     isLoading: Boolean,
     isLoggedIn: Boolean
   },
 
+  watch: {
+    idea() {
+      this.initIdeaState()
+    }
+  },
+
   mounted() {
     this.initIdeaState()
-    if (!this.$route.query.aa && this.isLoggedIn) {
-      this.isLikedByMe()
-    }
   },
 
   methods: {
     initIdeaState() {
       this.$emit('init-like-state', likeIdea)
+      if (!this.$route.query.aa && this.isLoggedIn) {
+        this.isLikedByMe()
+      }
     },
 
     toggleIsLiked() {

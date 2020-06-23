@@ -271,22 +271,22 @@ export default {
 
   methods: {
     nextIdea() {
-      console.log('NEXT')
       this.ideaIndex += 1
       if (this.ideaIndex >= this.ideaQueue.length) {
         this.ideaIndex = 0
       }
 
       this.idea = this.ideaQueue[this.ideaIndex]
+      this.loadSecondaryData()
     },
     previousIdea() {
-      console.log('PREV')
       this.ideaIndex -= 1
       if (this.ideaIndex < 0) {
         this.ideaIndex = this.ideaQueue.length - 1
       }
 
       this.idea = this.ideaQueue[this.ideaIndex]
+      this.loadSecondaryData()
     },
     async cacheIdeas() {
       const ideas = await getAllIdeas(this.$amplifyApi)

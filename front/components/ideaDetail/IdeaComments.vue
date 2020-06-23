@@ -162,6 +162,12 @@ export default {
     }
   },
 
+  watch: {
+    idea() {
+      this.doInitialCommentsLoading()
+    }
+  },
+
   mounted() {
     this.doInitialCommentsLoading()
   },
