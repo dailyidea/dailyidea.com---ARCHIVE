@@ -5,7 +5,8 @@
   "scripts": {
     "test": "jest",
     "sls:deploy-dev": "env-cmd -f ./conf/dev.env sls deploy",
-    "sls:deploy-prod": "env-cmd -f ./conf/prod.env sls deploy"
+    "sls:deploy-prod": "env-cmd -f ./conf/prod.env sls deploy",
+    "sls:deploy-ci": "serverless deploy"
   },
   "author": "",
   "license": "MIT",

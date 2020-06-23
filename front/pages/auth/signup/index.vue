@@ -5,6 +5,7 @@
       <v-text-field
         v-model="name"
         v-validate="'required|max:100'"
+        v-focus
         :error-messages="errors.collect('name')"
         data-vv-name="name"
         class="name"
