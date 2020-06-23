@@ -1,6 +1,7 @@
 <template>
   <layout :hide-slide-menu="hideSlideMenu">
     <swiper
+      v-slot="{ rotationStyle }"
       @swipe-start="setHideSlideMenuTrue"
       @swipe-end="setHideSlideMenuFalse"
       @swipe-left="nextIdea"
@@ -8,7 +9,7 @@
       @left-arrow-clicked="previousIdea"
       @right-arrow-clicked="nextIdea"
     >
-      <v-row align="stretch">
+      <v-row :style="rotationStyle" align="stretch">
         <v-col cols="12" md="8" class="idea-part">
           <div>
             <v-row class="idea-part__header" no-gutters>

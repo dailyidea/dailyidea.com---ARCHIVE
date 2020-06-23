@@ -7,8 +7,8 @@
       <v-icon>mdi-arrow-right</v-icon>
     </div>
     <div class="swipe-parent">
-      <div ref="swipe" :style="position" class="swipe-container">
-        <slot></slot>
+      <div ref="swipe" :style="positionStyle" class="swipe-container">
+        <slot :rotation-style="rotationStyle"></slot>
       </div>
     </div>
   </span>
@@ -27,10 +27,13 @@ export default {
       xCenter: 0,
       xDistanceToCenter: 0,
       rotationVal: 0,
-      position: {
+      positionStyle: {
         left: '',
-        top: '',
-        transform: ''
+        top: ''
+      },
+      rotationStyle: {
+        transform: '',
+        transformOrigin: '50% 500px'
       }
     }
   },
@@ -73,13 +76,13 @@ export default {
   },
   methods: {
     setLeft(val) {
-      this.position.left = `${val}px`
+      this.positionStyle.left = `${val}px`
     },
     setTop(val) {
-      this.position.top = `${val}px`
+      this.positionStyle.top = `${val}px`
     },
     setRotation(val) {
-      this.position.transform = `rotate(${val}deg)`
+      this.rotationStyle.transform = `rotate(${val}deg)`
     },
     getPos(event) {
       let x
@@ -106,7 +109,7 @@ export default {
       this.rotation = this.getRotation(x)
     },
     getRotation(x) {
-      const rotation = (this.xStart - x) / 10
+      const rotation = (x - this.xStart) / 10
       this.y = Math.abs(rotation * 5)
       return rotation > 180 ? 180 : rotation
     },
