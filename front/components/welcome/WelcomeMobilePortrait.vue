@@ -44,9 +44,21 @@
         I'll explore on my own
       </div>
       <div class="d-flex flex-row justify-center mt-5">
-        <div :class="{ filled: params.one }" class="circle mx-2"></div>
-        <div :class="{ filled: params.two }" class="circle mx-2"></div>
-        <div :class="{ filled: params.three }" class="circle mx-2"></div>
+        <div
+          :class="{ filled: params.one }"
+          class="circle mx-2"
+          @click="emitGoToOne"
+        ></div>
+        <div
+          :class="{ filled: params.two }"
+          class="circle mx-2"
+          @click="emitGoToTwo"
+        ></div>
+        <div
+          :class="{ filled: params.three }"
+          class="circle mx-2"
+          @click="emitGoToThree"
+        ></div>
       </div>
     </footer>
     <div></div>
@@ -74,6 +86,15 @@ export default {
     this.setupSwipeEventListener()
   },
   methods: {
+    emitGoToOne() {
+      this.$emit('go-to-one')
+    },
+    emitGoToTwo() {
+      this.$emit('go-to-two')
+    },
+    emitGoToThree() {
+      this.$emit('go-to-three')
+    },
     emitNext() {
       this.$emit('next')
     },
