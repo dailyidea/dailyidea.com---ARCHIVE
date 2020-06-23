@@ -39,6 +39,12 @@ functions:
     memorySize: 512
     environment:
       USERS_TABLE_NAME: ${self:custom.usersTableName}
+  unsubscribe:
+    handler: functions.unsubscribe.unsubscribe.endpoint
+    role: LambdaUnsubscribeFunctionRole
+    memorySize: 512
+    environment:
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
   getSavedIdeas:
     handler: functions.get_acted_on_ideas.get_acted_on_ideas.endpoint
     role: LambdaGetActedOnIdeasFunctionRole
@@ -362,6 +368,11 @@ custom:
         field: snoozeEmails
         request: "common/before-invoke-mapping-template.txt"
         response: "common/after-invoke-mapping-template.txt"
+      - dataSource: UnsubscribeHandler
+        type: Mutation
+        field: unsubscribe
+        request: "common/before-invoke-mapping-template.txt"
+        response: "common/after-invoke-mapping-template.txt"
       - dataSource: UpdateProfileInfoHandler
         type: Mutation
         field: updateProfileInfo
@@ -449,6 +460,12 @@ custom:
         description: 'Snooze Email for a while'
         config:
           lambdaFunctionArn: { Fn::GetAtt: [SnoozeEmailsLambdaFunction, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
+      - type: AWS_LAMBDA
+        name: UnsubscribeHandler
+        description: 'Unsubscribe from all emails'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [UnsubscribeLambdaFunction, Arn] }
           serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AWS_LAMBDA
         name: CreateIdeaHandler
@@ -664,6 +681,7 @@ resources:
       LambdaGetActedOnIdeasFunctionRole: ${file(functions/get_acted_on_ideas/function_role.yml):LambdaGetActedOnIdeasFunctionRole}
       LambdaGetStatsFunctionRole: ${file(functions/get_stats/function_role.yml):LambdaGetStatsFunctionRole}
       LambdaSnoozeEmailsFunctionRole: ${file(functions/snooze_emails/function_role.yml):LambdaSnoozeEmailsFunctionRole}
+      LambdaUnsubscribeFunctionRole: ${file(functions/unsubscribe/function_role.yml):LambdaUnsubscribeFunctionRole}
       LambdaCreateIdeaFunctionRole: ${file(functions/create_idea/function_role.yml):LambdaCreateIdeaFunctionRole}
       LambdaUpdateProfileInfoFunctionRole: ${file(functions/update_profile_info/function_role.yml):LambdaUpdateProfileInfoFunctionRole}
       LambdaSetUsersSlugFunctionRole: ${file(functions/set_users_slug/function_role.yml):LambdaSetUsersSlugFunctionRole}
@@ -696,6 +714,8 @@ resources:
                     Resource:
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-snoozeEmails"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-snoozeEmails:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-unsubscribe"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-unsubscribe:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getStats"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getStats:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getSavedIdeas"
