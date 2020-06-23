@@ -235,6 +235,7 @@ export default {
     return {
       ideaIndex: 0,
       ideaQueue: [],
+      nextToken: null,
       editMode: false,
       hideSlideMenu: false,
       idea: null,
@@ -285,6 +286,9 @@ export default {
       }
 
       this.idea = this.ideaQueue[this.ideaIndex]
+      if (this.ideaIndex > this.ideaQueue.length / 2) {
+        this.cacheIdeas()
+      }
       this.updateIdeaSlug()
       this.loadSecondaryData()
     },
@@ -296,8 +300,9 @@ export default {
       )
     },
     async cacheIdeas() {
-      const ideas = await getAllIdeas(this.$amplifyApi)
-      this.ideaQueue = Object.assign(this.ideaQueue, ideas.ideas)
+      const ideas = await getAllIdeas(this.$amplifyApi, this.nextToken)
+      this.ideaQueue = Array.prototype.concat(this.ideaQueue, ideas.ideas)
+      this.nextToken = ideas.nextToken
     },
     setHideSlideMenuTrue() {
       this.hideSlideMenu = true
