@@ -18,7 +18,7 @@
           v-if="imagePath"
           max-height="180"
           max-width="180"
-          class="mx-auto modalTopImage"
+          class="mx-auto modalTopImage mb-8"
           contain
           :src="imagePath"
         ></v-img>
