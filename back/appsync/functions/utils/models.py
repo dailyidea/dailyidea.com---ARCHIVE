@@ -111,6 +111,7 @@ class UserModel(BaseModel):
     dailyDigests = BooleanAttribute(null=True)
     weeklyDigests = BooleanAttribute(null=True)
     snoozeEmails = UTCDateTimeAttribute(null=True)
+    unsubscribedAt = UTCDateTimeAttribute(null=True)
     emailToken = UnicodeAttribute(null=True)
 
     followersCount = NumberAttribute(default=0)

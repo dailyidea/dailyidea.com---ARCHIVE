@@ -360,6 +360,7 @@ type  CommentsConnection @aws_api_key @aws_cognito_user_pools {
 }
 
 input EmailNotificationsInput{
+    unsubscribedAt: String
 	ideaReminders: Boolean!
 	hotStreaks: Boolean!
 	dailyDigests: Boolean!
@@ -367,6 +368,7 @@ input EmailNotificationsInput{
 }
 
 type EmailNotificationsState {
+    unsubscribedAt: String
 	ideaReminders: Boolean!
 	hotStreaks: Boolean!
 	dailyDigests: Boolean!

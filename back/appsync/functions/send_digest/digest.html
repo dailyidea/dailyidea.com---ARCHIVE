@@ -8,3 +8,7 @@
     <hr>
   </div>
 {% endfor %}
+
+<p>
+  <a href="https://{{ env.DOMAIN_NAME }}/unsubscribe/{{ user.userId }}/{{ user.emailToken }}">Unsubscribe from all emails</a>
+</p>

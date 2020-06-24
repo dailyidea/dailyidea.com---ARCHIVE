@@ -1,6 +1,7 @@
 export default `
 mutation updateEmailNotificationsSettings( $state: EmailNotificationsInput! ) {
-  updateEmailNotificationsSettings( state: $state ) {    
+  updateEmailNotificationsSettings( state: $state ) {
+    unsubscribedAt
     ideaReminders
     hotStreaks
     dailyDigests
