@@ -3,8 +3,8 @@ import os
 import boto3
 from botocore.exceptions import ClientError
 
-AWS_REGION = os.environ['SES_AWS_REGION']
-MAILBOX_ADDR = os.environ['MAILBOX_ADDR']
+AWS_REGION = os.getenv('SES_AWS_REGION')
+MAILBOX_ADDR = os.getenv('MAILBOX_ADDR', 'ideas-dev@beta.dailyidea.com')
 
 SENDER = f"Daily Idea <{MAILBOX_ADDR}>"
 

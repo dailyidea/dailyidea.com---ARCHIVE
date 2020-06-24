@@ -97,6 +97,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@media (max-height: $screen-small-height) {
+  .v-card {
+    display: none !important;
+  }
+}
+
 .row {
   margin: 0;
 }
@@ -106,7 +112,7 @@ export default {
 
 .v-btn {
   color: black !important;
-  width: 40%;
+  width: 250px;
   height: 50px !important;
   font-size: 0.9rem;
 }
@@ -188,7 +194,7 @@ export default {
     margin-left: 2rem;
   }
 
-  @media (max-width: 1500px) {
+  @media (max-width: 1500px), (max-height: 800px) {
     width: 80%;
     .text {
       font-size: 1rem;

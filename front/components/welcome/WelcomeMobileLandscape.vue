@@ -40,9 +40,21 @@
         </div>
         <div class="circles">
           <div class="d-flex flex-row justify-center mt-5">
-            <div :class="{ filled: params.one }" class="circle mx-2"></div>
-            <div :class="{ filled: params.two }" class="circle mx-2"></div>
-            <div :class="{ filled: params.three }" class="circle mx-2"></div>
+            <div
+              :class="{ filled: params.one }"
+              class="circle mx-2"
+              @click="emitGoToOne"
+            ></div>
+            <div
+              :class="{ filled: params.two }"
+              class="circle mx-2"
+              @click="emitGoToTwo"
+            ></div>
+            <div
+              :class="{ filled: params.three }"
+              class="circle mx-2"
+              @click="emitGoToThree"
+            ></div>
           </div>
         </div>
       </footer>
@@ -92,6 +104,15 @@ export default {
     emitLeftClicked() {
       this.$emit('left-clicked')
     },
+    emitGoToOne() {
+      this.$emit('go-to-one')
+    },
+    emitGoToTwo() {
+      this.$emit('go-to-two')
+    },
+    emitGoToThree() {
+      this.$emit('go-to-three')
+    },
     handleTouchStart(event) {
       const touch = event.touches[0].clientX
       this.touchStartPos = touch
@@ -125,6 +146,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@media (max-height: $screen-small-height) {
+  .white-container {
+    display: flex !important;
+  }
+}
+
 @media (orientation: portrait) {
   .hidden-portrait {
     display: none !important;

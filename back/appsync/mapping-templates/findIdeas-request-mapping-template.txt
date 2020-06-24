@@ -1,0 +1,16 @@
+{
+    "version" : "2017-02-28",
+    "operation" : "Scan",
+    "filter" : {
+        "expression": "#visibility = :public AND (#shortId = :query OR contains(#title, :query))",
+        "expressionNames": {
+            "#visibility": "visibility",
+            "#shortId": "shortId",
+            "#title": "title"
+        },
+        "expressionValues" : {
+            ":public": {"S": "PUBLIC"},
+            ":query" : {"S" : "${context.arguments.query}"}
+        }
+    }
+}

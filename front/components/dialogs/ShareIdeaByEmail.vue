@@ -9,6 +9,7 @@
   >
     <form id="share-idea-without-login-form" @submit.stop.prevent="sendEmail">
       <v-text-field
+        v-if="!initialName"
         v-model="form.name"
         v-validate="'required|max:100'"
         :error-messages="errors.collect('name')"
@@ -70,6 +71,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import shareIdea from '~/graphql/mutations/shareIdea'
 
@@ -106,9 +108,9 @@ export default {
   }),
 
   computed: {
-    initialName() {
-      return this.$store.getters['userData/userName']
-    }
+    ...mapGetters({
+      initialName: 'userData/userName'
+    })
   },
 
   mounted() {
