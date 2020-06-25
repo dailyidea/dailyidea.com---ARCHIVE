@@ -19,8 +19,8 @@ export default {
   data() {
     return {
       tapping: false,
-      swipeSensitivity: 35,
-      minSwipeDistanceBeforeAction: 80,
+      swipeSensitivity: 25,
+      minSwipeDistanceBeforeAction: 75,
       xStart: 0,
       yStart: 0,
       xVal: 0,
@@ -28,10 +28,6 @@ export default {
       xCenter: 0,
       xDistanceToCenter: 0,
       rotationVal: 0,
-      positionStyle: {
-        left: '',
-        top: ''
-      },
       rotationStyle: {
         transform: '',
         transformOrigin: '50% 500px'
@@ -41,7 +37,6 @@ export default {
   computed: {
     x: {
       set(val) {
-        this.setLeft(val)
         this.xVal = val
       },
 
@@ -52,7 +47,6 @@ export default {
 
     y: {
       set(val) {
-        this.setTop(val)
         this.yVal = val
       },
 
@@ -70,18 +64,18 @@ export default {
       get() {
         return this.rotationVal
       }
+    },
+
+    positionStyle() {
+      return {
+        transform: `translate3D(${this.xVal}px, ${this.yVal}px, 0px)`
+      }
     }
   },
   mounted() {
     this.setupTouchListener()
   },
   methods: {
-    setLeft(val) {
-      this.positionStyle.left = `${val}px`
-    },
-    setTop(val) {
-      this.positionStyle.top = `${val}px`
-    },
     setRotation(val) {
       this.rotationStyle.transform = `rotate(${val}deg)`
     },
@@ -106,6 +100,7 @@ export default {
       const { x } = this.getPos(event)
       if (Math.abs(this.xStart - x) < this.swipeSensitivity) return
 
+      event.preventDefault()
       this.x = x - this.xCenter - this.xDistanceToCenter
       this.rotation = this.getRotation(x)
     },
@@ -181,17 +176,13 @@ export default {
   cursor: pointer;
 }
 
-@media (max-width: $screen-sm-max) {
-  .swipe-parent {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
+.swipe-parent {
+  width: 100%;
+  height: 100%;
+}
 
-  .swipe-container {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
+.swipe-container {
+  width: 100%;
+  height: 100%;
 }
 </style>
