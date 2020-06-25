@@ -164,6 +164,11 @@ export default {
 
   watch: {
     idea() {
+      // Ensure nextToken is null so there is no error fetching new idea comments.
+      // Otherwise an invalid next token error is thrown.
+
+      this.nextToken = null
+
       this.doInitialCommentsLoading()
     }
   },

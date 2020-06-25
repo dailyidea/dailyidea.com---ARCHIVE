@@ -20,6 +20,7 @@ export default {
     return {
       tapping: false,
       swipeSensitivity: 35,
+      minSwipeDistanceBeforeAction: 80,
       xStart: 0,
       yStart: 0,
       xVal: 0,
@@ -113,7 +114,14 @@ export default {
       this.y = Math.abs(rotation * 5)
       return rotation > 180 ? 180 : rotation
     },
+    disableScroll() {
+      document.querySelector('body').style.overflow = 'hidden'
+    },
+    enableScroll() {
+      document.querySelector('body').style.overflow = ''
+    },
     fingerDown(event) {
+      this.disableScroll()
       this.tapping = true
       this.$emit('swipe-start')
       const { x, y } = this.getPos(event)
@@ -124,12 +132,13 @@ export default {
       this.setPos(event)
     },
     fingerUp(event) {
+      this.enableScroll()
       this.tapping = false
       this.$emit('swipe-end')
       if (this.x) {
-        if (this.x > this.xStart + 100) {
+        if (this.x > this.xStart + this.minSwipeDistanceBeforeAction) {
           this.$emit('swipe-right')
-        } else if (this.x < this.xStart - 100) {
+        } else if (this.x < this.xStart - this.minSwipeDistanceBeforeAction) {
           this.$emit('swipe-left')
         }
       }
