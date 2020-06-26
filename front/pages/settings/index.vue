@@ -1,7 +1,6 @@
 <template>
   <layout>
     <div class="settings-page">
-
       <div class="settings-page__title">
         Settings
       </div>

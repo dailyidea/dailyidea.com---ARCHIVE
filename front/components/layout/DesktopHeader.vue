@@ -169,7 +169,8 @@ a {
     color: #9f9f9f;
 
     &.nuxt-link-active {
-      color: #4a4a4a;
+      color: purple;
+      border-bottom: solid 2px purple;
     }
   }
 }
