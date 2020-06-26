@@ -5,6 +5,8 @@ Resources:
         AttributeDefinitions:
           - AttributeName: ideaId
             AttributeType: S
+          - AttributeName: shortId
+            AttributeType: S
           - AttributeName: userId
             AttributeType: S
           - AttributeName: visibility
@@ -113,5 +115,11 @@ Resources:
                 KeyType: HASH
               - AttributeName: likesCount
                 KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: shortId
+            KeySchema:
+              - AttributeName: shortId
+                KeyType: HASH
             Projection:
               ProjectionType: ALL
