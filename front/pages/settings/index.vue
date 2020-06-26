@@ -1,11 +1,7 @@
 <template>
   <layout>
     <div class="settings-page">
-      <v-img
-        src="~/assets/images/light_gray_lamp.png"
-        height="100"
-        contain
-      ></v-img>
+
       <div class="settings-page__title">
         Settings
       </div>
@@ -17,6 +13,7 @@
           :height="55"
           label="My Email"
           placeholder="Placeholder"
+          disabled
         ></v-text-field>
       </div>
       <div class="settings-page__email-switches-title">
