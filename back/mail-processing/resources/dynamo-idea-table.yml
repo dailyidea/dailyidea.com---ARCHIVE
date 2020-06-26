@@ -13,6 +13,8 @@ Resources:
             AttributeType: S
           - AttributeName: title
             AttributeType: S
+          - AttributeName: shortId
+            AttributeType: S
           - AttributeName: createdDate
             AttributeType: S
           - AttributeName: sortKey
@@ -32,6 +34,12 @@ Resources:
           - IndexName: ideasById
             KeySchema:
               - AttributeName: ideaId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: shortId
+            KeySchema:
+              - AttributeName: shortId
                 KeyType: HASH
             Projection:
               ProjectionType: ALL
