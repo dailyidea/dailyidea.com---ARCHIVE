@@ -9,15 +9,20 @@
       <!-- Back button -->
 
       <div class="logo-container">
-        <img
-          src="~/assets/images/bulb_white_on.png"
-          class="logo-container__image"
-        />
-        <span class="logo-container__text">D A I L Y I D E A</span>
-        <v-icon class="logo-container__icon" @click.native="close"
-          >fa-times</v-icon
-        >
-      </div>
+
+        <div style="float: right;">
+          <img
+            src="~/assets/images/bulb_white_on.png"
+            class="logo-container__image"
+          />
+          <span class="logo-container__text">D A I L Y I D E A</span>
+        </div>
+
+        <v-icon class="logo-container__icon" @click.native="close" style="float: left;">
+          fa-times
+        </v-icon>
+      </div><br/>
+
       <v-list-item @click.native="openPage('/ideas/all')">
         <v-list-item-content>
           <v-list-item-title>All Ideas</v-list-item-title>
@@ -110,8 +115,9 @@ export default {
 
   .logo-container {
     margin-top: 3vh;
-    margin-bottom: 4vh;
+    margin-bottom: 6vh;
     padding-left: 16px;
+    padding-right: 30px;
     /*text-align: center;*/
 
     &__image {
