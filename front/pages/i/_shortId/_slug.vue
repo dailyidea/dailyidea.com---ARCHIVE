@@ -1,62 +1,72 @@
 <template>
-  <layout>
-    <v-row align="stretch">
-      <v-col cols="12" md="8" class="idea-part">
-        <div>
-          <v-row class="idea-part__header" no-gutters>
-            <v-col class="idea-part__header__title">
-              <v-text-field
-                v-if="editMode"
-                v-model="ideaEditData.title"
-                v-validate="'required|max:100'"
-                label="Type your idea title"
-                :error-messages="errors.collect('title')"
-                data-vv-name="title"
-                name="idea_title"
-                class="idea-name-field"
-                :single-line="true"
-                :disabled="updatingIdea"
-              ></v-text-field>
-              <h2 v-else class="idea-part__header__title__label">
-                {{ idea.title }}
-              </h2>
-            </v-col>
-            <v-col v-if="!editMode" cols="auto" offset="1">
-              <menu-panel
-                :editable="isMyIdea"
-                :idea="idea"
-                @enable-edit-mode="enableEditMode"
-                @saved-state-changed="onIdeaSaveStateChanged"
-                @liked-state-changed="onIdeaLikeStateChanged"
-                @on-notification="onNotification"
-                @on-idea-shared="onIdeaShared"
-                @on-delete-idea="onDeleteIdea"
-                @on-idea-visibility-changed="onIdeaVisibilityChanged"
-                @on-idea-visibility-change-error="onIdeaVisibilityChangeError"
-              ></menu-panel>
-            </v-col>
-          </v-row>
-          <div v-if="!editMode" class="idea-part__info">
-            <v-row no-gutters>
-              <v-col>
-                <span class="muted">By</span>
-                <span class="idea-part__info__author">
-                  <router-link
-                    class="idea-part__info__author__link muted"
-                    :to="{
-                      name: 'profile-userSlug',
-                      params: {
-                        userSlug: idea.authorSlug
-                      }
-                    }"
-                    >{{ idea.authorName }}</router-link
-                  >
-                </span>
-                <span class="idea-part__info__created-time">{{
-                  idea.createdDate | toRelativeDate
-                }}</span>
+  <layout :hide-slide-menu="hideSlideMenu">
+    <swiper
+      v-slot="{ rotationStyle }"
+      @swipe-start="setHideSlideMenuTrue"
+      @swipe-end="setHideSlideMenuFalse"
+      @swipe-left="nextIdea"
+      @swipe-right="previousIdea"
+      @left-arrow-clicked="previousIdea"
+      @right-arrow-clicked="nextIdea"
+    >
+      <v-row :style="rotationStyle" align="stretch">
+        <v-col cols="12" md="8" class="idea-part">
+          <div>
+            <v-row class="idea-part__header" no-gutters>
+              <v-col class="idea-part__header__title">
+                <v-text-field
+                  v-if="editMode"
+                  v-model="ideaEditData.title"
+                  v-validate="'required|max:100'"
+                  label="Type your idea title"
+                  :error-messages="errors.collect('title')"
+                  data-vv-name="title"
+                  name="idea_title"
+                  class="idea-name-field"
+                  :single-line="true"
+                  :disabled="updatingIdea"
+                ></v-text-field>
+                <h2 v-else class="idea-part__header__title__label">
+                  {{ idea.title }}
+                </h2>
+              </v-col>
+              <v-col v-if="!editMode" cols="auto" offset="1">
+                <menu-panel
+                  :editable="isMyIdea"
+                  :idea="idea"
+                  @enable-edit-mode="enableEditMode"
+                  @saved-state-changed="onIdeaSaveStateChanged"
+                  @liked-state-changed="onIdeaLikeStateChanged"
+                  @on-notification="onNotification"
+                  @on-idea-shared="onIdeaShared"
+                  @on-delete-idea="onDeleteIdea"
+                  @on-idea-visibility-changed="onIdeaVisibilityChanged"
+                  @on-idea-visibility-change-error="onIdeaVisibilityChangeError"
+                ></menu-panel>
               </v-col>
             </v-row>
+            <div v-if="!editMode" class="idea-part__info">
+              <v-row no-gutters>
+                <v-col>
+                  <span class="muted">By</span>
+                  <span class="idea-part__info__author">
+                    <router-link
+                      class="idea-part__info__author__link muted"
+                      :to="{
+                        name: 'profile-userSlug',
+                        params: {
+                          userSlug: idea.authorSlug
+                        }
+                      }"
+                      >{{ idea.authorName }}</router-link
+                    >
+                  </span>
+                  <span class="idea-part__info__created-time">{{
+                    idea.createdDate | toRelativeDate
+                  }}</span>
+                </v-col>
+              </v-row>
+            </div>
           </div>
           <!-- /idea-part__info -->
 
@@ -75,74 +85,92 @@
                 />
               </client-only>
             </div>
-            <div v-else>
-              <idea-content :content="idea.content"></idea-content>
-            </div>
-          </div>
-          <div class="idea-part__tags-panel">
-            <div v-if="!editMode" class="tagsContainer">
-              <v-chip
-                v-for="(item, index) in ideaTags"
-                :key="index"
-                class="tag"
-                text-color="white"
-                color="secondary"
-                >{{ item }}
-              </v-chip>
-            </div>
-            <div v-else class="idea-part__tags-panel__tags-editor">
-              <v-combobox
-                v-model="ideaEditData.ideaTags"
-                placeholder="Add tags here"
-                :error-messages="errors.collect('tag')"
-                data-vv-name="tag"
-                class="ideaTag"
-                hide-details
-                times
-                chips
-                multiple
-                :disabled="updatingIdea"
-              >
-                <template v-slot:selection="{ attrs, item, select, selected }">
-                  <v-chip
-                    v-bind="attrs"
-                    :input-value="selected"
-                    close
-                    text-color="#fff"
-                    color="secondary"
-                    @click="() => {}"
-                    @click:close="removeTag(item)"
-                  >
-                    {{ item }}
-                  </v-chip>
-                </template>
-              </v-combobox>
-            </div>
-          </div>
-          <div v-if="editMode" class="idea-part__edit-buttons-panel">
-            <v-btn text rounded @click="disableEditMode">Cancel</v-btn>
-            <v-btn
-              color="secondary"
-              :loading="updatingIdea"
-              rounded
-              @click="saveIdeaContent"
-              >Save
-            </v-btn>
-          </div>
-        </div>
-      </v-col>
-      <v-col cols="12" md="4">
-        <client-only>
-          <idea-comments
-            v-if="!editMode"
-            :idea="idea"
-            @onNotification="onNotification"
-          ></idea-comments>
-        </client-only>
-      </v-col>
-    </v-row>
-    <visual-notifier ref="notifier"></visual-notifier>
+            <!-- /idea-part__info -->
 
+            <div class="idea-part__content">
+              <div v-if="editMode" class="idea-part__content__idea-editor">
+                <client-only>
+                  <trix-wrapper
+                    v-model="ideaEditData.content"
+                    class="editor"
+                    placeholder="Type your idea text"
+                    @attachmentsUploadStarted="onAttachmentsUploadStarted"
+                    @attachmentsUploadCompleted="onAttachmentsUploadCompleted"
+                    @fileAttached="onFileAttached"
+                    @fileRemoved="onFileRemoved"
+                  />
+                </client-only>
+              </div>
+              <div v-else>
+                <idea-content :content="idea.content"></idea-content>
+              </div>
+            </div>
+            <div class="idea-part__tags-panel">
+              <div v-if="!editMode" class="tagsContainer">
+                <v-chip
+                  v-for="(item, index) in ideaTags"
+                  :key="index"
+                  class="tag"
+                  text-color="white"
+                  color="secondary"
+                  >{{ item }}
+                </v-chip>
+              </div>
+              <div v-else class="idea-part__tags-panel__tags-editor">
+                <v-combobox
+                  v-model="ideaEditData.ideaTags"
+                  placeholder="Add tags here"
+                  :error-messages="errors.collect('tag')"
+                  data-vv-name="tag"
+                  class="ideaTag"
+                  hide-details
+                  times
+                  chips
+                  multiple
+                  :disabled="updatingIdea"
+                >
+                  <template
+                    v-slot:selection="{ attrs, item, select, selected }"
+                  >
+                    <v-chip
+                      v-bind="attrs"
+                      :input-value="selected"
+                      close
+                      text-color="#fff"
+                      color="secondary"
+                      @click="() => {}"
+                      @click:close="removeTag(item)"
+                    >
+                      {{ item }}
+                    </v-chip>
+                  </template>
+                </v-combobox>
+              </div>
+            </div>
+            <div v-if="editMode" class="idea-part__edit-buttons-panel">
+              <v-btn text rounded @click="disableEditMode">Cancel</v-btn>
+              <v-btn
+                color="secondary"
+                :loading="updatingIdea"
+                rounded
+                @click="saveIdeaContent"
+                >Save
+              </v-btn>
+            </div>
+          </div>
+        </v-col>
+        <v-col cols="12" md="4">
+          <client-only>
+            <idea-comments
+              v-if="!editMode"
+              :idea="idea"
+              @onNotification="onNotification"
+            ></idea-comments>
+          </client-only>
+        </v-col>
+      </v-row>
+    </swiper>
+    <visual-notifier ref="notifier"></visual-notifier>
     <register-encourage-dialog v-model="showRegisterEncourageDialog" />
   </layout>
 </template>
@@ -154,6 +182,8 @@ import { graphqlOperation } from '@aws-amplify/api'
 import Layout from '@/components/layout/Layout'
 import TrixWrapper from '@/components/TrixWrapper'
 
+import getAllIdeas from '@/components/ideaDetail/ideaSwipeQueue.js'
+import Swiper from '@/components/ideaDetail/Swiper'
 import IdeaComments from '@/components/ideaDetail/IdeaComments'
 import MenuPanel from '@/components/ideaDetail/MenuPanel'
 import getIdeaTags from '@/graphql/query/getIdeaTags'
@@ -169,6 +199,7 @@ export default {
   components: {
     Layout,
     MenuPanel,
+    Swiper,
     IdeaComments,
     TrixWrapper,
     VisualNotifier,
@@ -195,7 +226,7 @@ export default {
         return redirect(301, `/i/${idea.shortId}/${idea.slug}`)
       }
 
-      return { idea }
+      return { idea, ideaQueue: [idea] }
     } catch (e) {
       error({ statusCode: 404, message: 'Idea not found' })
     }
@@ -203,7 +234,11 @@ export default {
 
   data() {
     return {
+      ideaIndex: 0,
+      ideaQueue: [],
+      nextToken: null,
       editMode: false,
+      hideSlideMenu: false,
       idea: null,
       ideaTags: [],
       ideaEditData: {
@@ -231,11 +266,51 @@ export default {
   },
 
   mounted() {
+    this.cacheIdeas()
     this.loadSecondaryData()
     this.incrementViews()
   },
 
   methods: {
+    nextIdea() {
+      this.loadNewIdea(1)
+    },
+    previousIdea() {
+      this.loadNewIdea(-1)
+    },
+    loadNewIdea(direction) {
+      this.ideaIndex += direction
+      if (this.ideaIndex >= this.ideaQueue.length) {
+        this.ideaIndex = 0
+      } else if (this.ideaIndex < 0) {
+        this.ideaIndex = this.ideaQueue.length - 1
+      }
+
+      this.idea = this.ideaQueue[this.ideaIndex]
+      if (this.ideaIndex > this.ideaQueue.length / 2) {
+        this.cacheIdeas()
+      }
+      this.updateIdeaSlug()
+      this.loadSecondaryData()
+    },
+    updateIdeaSlug() {
+      window.history.pushState(
+        '',
+        '',
+        `/i/${this.idea.shortId}/${this.idea.slug}`
+      )
+    },
+    async cacheIdeas() {
+      const ideas = await getAllIdeas(this.$amplifyApi, this.nextToken)
+      this.ideaQueue = Array.prototype.concat(this.ideaQueue, ideas.ideas)
+      this.nextToken = ideas.nextToken
+    },
+    setHideSlideMenuTrue() {
+      this.hideSlideMenu = true
+    },
+    setHideSlideMenuFalse() {
+      this.hideSlideMenu = false
+    },
     onIdeaShared() {
       if (!this.$store.getters['cognito/isLoggedIn']) {
         setTimeout(() => {

@@ -141,6 +141,7 @@ export default {
 .sidebarMenu {
   background: $primary-color !important;
   z-index: 999;
+  height: 100vh !important;
 
   .logo-container {
     margin-top: 14px;
