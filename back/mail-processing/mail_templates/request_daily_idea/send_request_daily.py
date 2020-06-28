@@ -7,16 +7,16 @@ import jwt
 import urllib.parse
 from utils.generate_quote import GenerateQuote
 
-AWS_REGION = os.environ['SES_AWS_REGION']
-MAILBOX_ADDR = os.environ['MAILBOX_ADDR']
+AWS_REGION = os.getenv('SES_AWS_REGION', 'us-east-1')
+MAILBOX_ADDR = os.getenv('MAILBOX_ADDR', 'ideas-dev@beta.dailyidea.com')
 
 SENDER = f"Daily Idea <{MAILBOX_ADDR}>"
 
 def send_daily_bulk(users_list):
-    REQUEST_DAILY_EMAIL_TEMPLATE_NAME = os.environ.get('REQUEST_DAILY_EMAIL_TEMPLATE_NAME')
-    BUCKET_URL_PREFIX = os.environ.get('BUCKET_URL_PREFIX')
-    DOMAIN_NAME = os.environ.get('DOMAIN_NAME')
-    SECRET_TOKEN = os.environ.get('SECRET_TOKEN')
+    REQUEST_DAILY_EMAIL_TEMPLATE_NAME = os.getenv('REQUEST_DAILY_EMAIL_TEMPLATE_NAME', 'requestDailyIdeaEmailTemplate-dev')
+    BUCKET_URL_PREFIX = os.getenv('BUCKET_URL_PREFIX')
+    DOMAIN_NAME = os.getenv('DOMAIN_NAME')
+    SECRET_TOKEN = os.getenv('SECRET_TOKEN', 'secret-tk1x')
     TODAY = date.today().strftime('%a %b %d %Y')
     
     destinations = []

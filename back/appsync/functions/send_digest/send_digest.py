@@ -24,7 +24,7 @@ def send_digest_bulk(users_list, ideas):
 
     for user in users_list:
         print(user.email)
-        send_mail_to_user(user.email, 'Ideas Digest', '', template.render(ideas=ideas, user=user))
+        send_mail_to_user(user.email, 'Ideas Digest', '', template.render(ideas=ideas, user=user, env=os.environ))
 
 
 def endpoint(event, lambda_context):
@@ -43,7 +43,7 @@ def endpoint(event, lambda_context):
 
     now = datetime.datetime.now()
     users_iterator = UserModel.scan(
-        (UserModel.firstLogin == True) & (UserModel.ideaReminders == True) & (
+        (UserModel.firstLogin == True) & UserModel.unsubscribedAt.does_not_exist() & (UserModel.ideaReminders == True) & (
                     (~UserModel.snoozeEmails.is_type()) | (UserModel.snoozeEmails < now)),
         page_size=SEND_BATCH_EMAIL_CHUNK_SIZE,
         attributes_to_get=['name', 'email', 'userId', 'emailToken'])

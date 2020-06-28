@@ -3,8 +3,8 @@ from pynamodb.attributes import BooleanAttribute, UnicodeAttribute, UTCDateTimeA
 from pynamodb.indexes import GlobalSecondaryIndex, AllProjection
 from pynamodb.models import Model
 
-USERS_TABLE_NAME = os.environ['USERS_TABLE_NAME']
-IDEAS_TABLE_NAME = os.environ['IDEAS_TABLE_NAME']
+USERS_TABLE_NAME = os.getenv('USERS_TABLE_NAME', 'dailyidea-users-dev')
+IDEAS_TABLE_NAME = os.getenv('IDEAS_TABLE_NAME', 'dailyidea-ideas-dev')
 
 
 class UsersIdeasByDateIndex(GlobalSecondaryIndex):
@@ -73,6 +73,7 @@ class UserModel(Model):
     dailyDigests = BooleanAttribute(null=True)
     weeklyDigests = BooleanAttribute(null=True)
     snoozeEmails = UTCDateTimeAttribute(null=True)
+    unsubscribedAt = UTCDateTimeAttribute(null=True)
     emailToken = UnicodeAttribute(null=True)
 
     followersCount = NumberAttribute(default=0)
