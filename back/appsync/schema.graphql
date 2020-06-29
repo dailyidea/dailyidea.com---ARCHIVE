@@ -123,6 +123,9 @@ type Mutation {
     snoozeEmails(userId:String!, token:String, days:Int): Result!
     @aws_api_key @aws_cognito_user_pools
 
+    unsubscribe(userId: String!, token: String): UnsubscribeResult!
+    @aws_api_key @aws_cognito_user_pools
+
     sendDigest(ideaIds: [String]!, passcode: String!): Result!
     @aws_api_key @aws_cognito_user_pools
 
@@ -335,6 +338,12 @@ type Result  @aws_api_key @aws_cognito_user_pools{
 	ok: Boolean!
 }
 
+type UnsubscribeResult  @aws_api_key @aws_cognito_user_pools{
+    error: String
+    ok: Boolean!
+    userName: String
+}
+
 type IdeaUpdateRusult{
 	idea: Idea!
 	result: Result!
@@ -351,6 +360,7 @@ type  CommentsConnection @aws_api_key @aws_cognito_user_pools {
 }
 
 input EmailNotificationsInput{
+    unsubscribedAt: String
 	ideaReminders: Boolean!
 	hotStreaks: Boolean!
 	dailyDigests: Boolean!
@@ -358,6 +368,7 @@ input EmailNotificationsInput{
 }
 
 type EmailNotificationsState {
+    unsubscribedAt: String
 	ideaReminders: Boolean!
 	hotStreaks: Boolean!
 	dailyDigests: Boolean!

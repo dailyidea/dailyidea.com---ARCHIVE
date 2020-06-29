@@ -33,6 +33,25 @@
         </h2>
         <v-row>
           <v-col>
+            <label>Unsubscribe Form All</label>
+            <p class="smaller muted">
+              Unsubscribe from all sheduled emails
+            </p>
+          </v-col>
+          <v-col>
+            <v-switch
+              v-model="emailNotificationsState.unsubscribedAt"
+              dense
+              flat
+              inset
+              hide-details
+              color="secondary"
+              @change="changeNotificationsState"
+            ></v-switch>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
             <label>Idea Reminders</label>
             <p class="smaller muted">
               Daily email reminder to respond with a new idea
@@ -46,6 +65,7 @@
               inset
               hide-details
               color="secondary"
+              :disabled="emailNotificationsState.unsubscribedAt"
               @change="changeNotificationsState"
             ></v-switch>
           </v-col>
@@ -66,6 +86,7 @@
               inset
               hide-details
               color="secondary"
+              :disabled="emailNotificationsState.unsubscribedAt"
               @change="changeNotificationsState"
             ></v-switch>
           </v-col>
@@ -85,6 +106,7 @@
               inset
               hide-details
               color="secondary"
+              :disabled="emailNotificationsState.unsubscribedAt"
               @change="changeNotificationsState"
             ></v-switch>
           </v-col>
@@ -97,6 +119,7 @@
 
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
+import dayjs from 'dayjs'
 import getEmailNotificationsSettings from '@/graphql/query/getEmailNotificationsSettings'
 import updateEmailNotificationsSettings from '@/graphql/mutations/updateEmailNotificationsSettings'
 import Layout from '@/components/layout/Layout'
@@ -104,37 +127,49 @@ import VisualNotifier from '~/components/VisualNotifier'
 
 export default {
   name: 'Index',
+
   middleware: 'authenticated',
+
   components: { Layout, VisualNotifier },
+
   async asyncData({ app }) {
     try {
       const { data } = await app.$amplifyApi.graphql(
         graphqlOperation(getEmailNotificationsSettings, {})
       )
+      const { unsubscribedAt, ...settings } = data.getEmailNotificationsSettings
+
       return {
-        emailNotificationsState: data.getEmailNotificationsSettings
+        emailNotificationsState: {
+          ...settings,
+          unsubscribedAt: !!unsubscribedAt
+        }
       }
     } catch (e) {
       this.$refs.notifier.error("Can't load Email Settings")
     }
   },
+
   data() {
     return {
       name: '',
       email: ''
     }
   },
+
   created() {
     this.userName = this.$store.getters['userData/userName']
     this.email = this.$store.getters['userData/email']
   },
+
   methods: {
     async changeNotificationsState() {
+      const state = Object.assign({}, this.emailNotificationsState)
+      state.unsubscribedAt = state.unsubscribedAt ? dayjs().toISOString() : null
+
       try {
         await this.$amplifyApi.graphql(
-          graphqlOperation(updateEmailNotificationsSettings, {
-            state: this.emailNotificationsState
-          })
+          graphqlOperation(updateEmailNotificationsSettings, { state })
         )
         this.$refs.notifier.success('Email Settings Updated')
       } catch (e) {
