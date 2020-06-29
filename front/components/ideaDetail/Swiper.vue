@@ -19,7 +19,7 @@ export default {
   data() {
     return {
       tapping: false,
-      swipeSensitivity: 25,
+      swipeSensitivity: 50,
       minSwipeDistanceBeforeAction: 75,
       xStart: 0,
       yStart: 0,
