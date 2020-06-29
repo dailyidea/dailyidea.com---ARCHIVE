@@ -6,6 +6,8 @@ query getSavedIdeas($nextToken: String, $limit: Int) {
       authorAvatar
       authorName
       authorSlug
+      slug
+      shortId
       userId
       content
       title
