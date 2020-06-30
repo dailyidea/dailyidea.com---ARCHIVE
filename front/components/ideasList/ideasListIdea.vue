@@ -4,7 +4,7 @@
       <strong>{{ idea.title }}</strong>
     </div>
     <div>
-      <idea-content :content="truncatedIdeaContent"></idea-content>
+      <idea-content :preview="preview" :content="truncatedIdeaContent"></idea-content>
     </div>
 
     <!-- Idea metadata -->
@@ -63,6 +63,10 @@ export default {
       required: true
     },
     showAuthor: {
+      type: Boolean,
+      default: false
+    },
+    preview: {
       type: Boolean,
       default: false
     }

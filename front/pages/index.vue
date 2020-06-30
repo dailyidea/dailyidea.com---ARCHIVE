@@ -57,6 +57,7 @@
             <v-row class="reviews">
               <v-col v-for="idea in ideas" :key="idea.ideaId" cols="12" sm="4">
                 <ideas-list-idea
+                  preview
                   :key="idea.ideaId"
                   :idea="idea"
                   :show-author="showAuthor"
