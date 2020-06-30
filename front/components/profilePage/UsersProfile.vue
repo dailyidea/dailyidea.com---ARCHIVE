@@ -168,9 +168,9 @@
         <div v-if="ideas.length">
           <div>
             <ideas-list-idea
-              preview
               v-for="idea in ideas"
               :key="idea.ideaId"
+              preview
               :idea="idea"
             ></ideas-list-idea>
           </div>

@@ -26,9 +26,9 @@
 
     <div v-if="ideas && ideas.length">
       <ideas-list-idea
-        preview
         v-for="idea in ideas"
         :key="idea.ideaId"
+        preview
         :idea="idea"
         :show-author="showAuthor"
       ></ideas-list-idea>

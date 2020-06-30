@@ -4,7 +4,10 @@
       <strong>{{ idea.title }}</strong>
     </div>
     <div>
-      <idea-content :preview="preview" :content="truncatedIdeaContent"></idea-content>
+      <idea-content
+        :preview="preview"
+        :content="truncatedIdeaContent"
+      ></idea-content>
     </div>
 
     <!-- Idea metadata -->
