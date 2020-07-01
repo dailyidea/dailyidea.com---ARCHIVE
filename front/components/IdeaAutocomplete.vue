@@ -67,7 +67,9 @@ export default {
     },
 
     querySelections: debounce(async function(query) {
-      if (query.length < 3) return
+      if (query.length < 3) {
+        return
+      }
       this.loading = true
 
       try {

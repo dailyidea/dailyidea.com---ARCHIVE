@@ -98,7 +98,9 @@ export default {
     },
     setPos(event) {
       const { x } = this.getPos(event)
-      if (Math.abs(this.xStart - x) < this.swipeSensitivity) return
+      if (Math.abs(this.xStart - x) < this.swipeSensitivity) {
+        return
+      }
 
       event.preventDefault()
       this.x = x - this.xCenter - this.xDistanceToCenter

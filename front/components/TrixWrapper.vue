@@ -173,7 +173,9 @@ export default {
         const uploadedBefore = this.uploadedFiles.find(
           f => f.id === event.attachment.id
         )
-        if (!uploadedBefore) return
+        if (!uploadedBefore) {
+          return
+        }
         event.attachment = uploadedBefore
       }
 
@@ -217,7 +219,9 @@ export default {
           const existingIdx = this.uploadedFiles.findIndex(
             a => a.id === event.attachment.id
           )
-          if (existingIdx) this.uploadedFiles.splice(existingIdx, 1)
+          if (existingIdx) {
+            this.uploadedFiles.splice(existingIdx, 1)
+          }
           this.uploadedFiles.push(event.attachment)
         })
       }

@@ -185,7 +185,9 @@ export default {
 
     scrollToBottom() {
       this.$nextTick(() => {
-        if (!this.$refs.scroller) return
+        if (!this.$refs.scroller) {
+          return
+        }
         this.$refs.scroller.scrollTop = this.$refs.scroller.scrollHeight
       })
     },
