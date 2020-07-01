@@ -95,7 +95,9 @@ function customizeTrixPanel(event) {
 
 export default {
   name: 'TrixWrapper',
+
   components: { VueTrix },
+
   props: {
     value: {
       type: String,
@@ -110,16 +112,20 @@ export default {
       default: false
     }
   },
+
   data() {
     return {
-      attachmentsProcessing: 0
+      attachmentsProcessing: 0,
+      uploadedFiles: []
     }
   },
+
   computed: {
     userId() {
       return this.$store.getters['userData/userId']
     }
   },
+
   watch: {
     attachmentsProcessing(n, o) {
       if (n > 0 && o === 0) {
@@ -134,9 +140,11 @@ export default {
   created() {
     addEventListener('trix-initialize', customizeTrixPanel)
   },
+
   beforeDestroy() {
     removeEventListener('trix-initialize', customizeTrixPanel)
   },
+
   methods: {
     input(val) {
       this.$emit(
@@ -144,6 +152,7 @@ export default {
         Autolinker.link(val, { truncate: 30, stripPrefix: false })
       )
     },
+
     checkFileAcceptance(event) {
       if (event.file) {
         if (event.file.size > MAX_ATTACHMENT_SIZE_BYTES) {
@@ -155,7 +164,19 @@ export default {
         }
       }
     },
+
     handleAttachmentAdd(event) {
+      if (!event.attachment.file) {
+        // In case of CTRL-Z on deleted attachment it loses uploaded file object
+        // for this case we store them in uploadedFiles and add it back
+        // for re-uploading
+        const uploadedBefore = this.uploadedFiles.find(
+          f => f.id === event.attachment.id
+        )
+        if (!uploadedBefore) return
+        event.attachment = uploadedBefore
+      }
+
       const progressCallback = progressEvent => {
         event.attachment.setUploadProgress(
           Math.round((progressEvent.loaded * 100) / progressEvent.total)
@@ -191,6 +212,13 @@ export default {
             href: source,
             key
           })
+
+          // Save uploaded file for CTRL-Z case
+          const existingIdx = this.uploadedFiles.findIndex(
+            a => a.id === event.attachment.id
+          )
+          if (existingIdx) this.uploadedFiles.splice(existingIdx, 1)
+          this.uploadedFiles.push(event.attachment)
         })
       }
       const uploadFileAttachment = attachment => {
@@ -205,6 +233,7 @@ export default {
       }
       uploadFileAttachment(event.attachment)
     },
+
     async handleAttachmentRemove(event) {
       const href = event.attachment.getAttributes().href
       if (!href) {

@@ -78,7 +78,6 @@
           <div>
             <v-btn
               rounded
-              flat
               block
               :loading="creatingIdea"
               :disabled="!allowCreateIdea"
