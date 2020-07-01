@@ -38,7 +38,9 @@ export default {
       ;(function(d, s, id) {
         // eslint-disable-next-line
         const fjs = d.getElementsByTagName(s)[0]
-        if (d.getElementById(id)) return
+        if (d.getElementById(id)) {
+          return
+        }
         const js = d.createElement(s)
         js.id = id
         js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js'

@@ -7,10 +7,14 @@ Vue.directive('focus', {
         el.focus()
       } else {
         const editable = el.querySelector('[contenteditable=true]')
-        if (editable) return editable.focus()
+        if (editable) {
+          return editable.focus()
+        }
 
         const input = el.querySelector('input, textarea')
-        if (input) return input.focus()
+        if (input) {
+          return input.focus()
+        }
       }
     }, 50)
   }
