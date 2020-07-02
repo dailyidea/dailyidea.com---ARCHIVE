@@ -31,7 +31,7 @@
         </v-btn>
       </div>
     </div>
-    <div class="commentText">
+    <div class="commentBody">
       <span v-if="!comment.fake">
         {{ comment.body }}
       </span>
@@ -113,7 +113,7 @@ export default {
     }
   }
 
-  .commentText {
+  .commentBody {
     width: 100%;
 
     @media #{$small-screen} {

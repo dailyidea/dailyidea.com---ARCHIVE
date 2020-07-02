@@ -19,7 +19,7 @@ export default {
   data() {
     return {
       tapping: false,
-      swipeSensitivity: 25,
+      swipeSensitivity: 50,
       minSwipeDistanceBeforeAction: 75,
       xStart: 0,
       yStart: 0,
@@ -98,7 +98,9 @@ export default {
     },
     setPos(event) {
       const { x } = this.getPos(event)
-      if (Math.abs(this.xStart - x) < this.swipeSensitivity) return
+      if (Math.abs(this.xStart - x) < this.swipeSensitivity) {
+        return
+      }
 
       event.preventDefault()
       this.x = x - this.xCenter - this.xDistanceToCenter

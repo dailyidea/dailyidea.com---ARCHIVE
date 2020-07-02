@@ -50,7 +50,9 @@ export default {
     },
 
     toggleIsLiked() {
-      if (this.isLoading) return
+      if (this.isLoading) {
+        return
+      }
 
       if (this.isLoggedIn) {
         if (!this.isLiked) {

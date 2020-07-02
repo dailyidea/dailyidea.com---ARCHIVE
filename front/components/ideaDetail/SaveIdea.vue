@@ -50,7 +50,9 @@ export default {
     },
 
     toggleIsSaved() {
-      if (this.isLoading) return
+      if (this.isLoading) {
+        return
+      }
 
       if (this.isLoggedIn) {
         if (!this.isSaved) {

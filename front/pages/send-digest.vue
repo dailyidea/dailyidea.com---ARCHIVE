@@ -63,7 +63,9 @@ export default {
 
   methods: {
     addIdea() {
-      if (this.ideas.length === 6) return
+      if (this.ideas.length === 6) {
+        return
+      }
       this.ideas.push({ key: Math.random().toString(), ideaId: '', error: '' })
     },
 
@@ -107,7 +109,9 @@ export default {
 
     async submit() {
       this.validate()
-      if (this.hasErrors()) return
+      if (this.hasErrors()) {
+        return
+      }
       this.loading = true
 
       try {
