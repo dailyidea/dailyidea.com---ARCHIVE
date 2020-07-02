@@ -28,7 +28,6 @@
       <ideas-list-idea
         v-for="idea in ideas"
         :key="idea.ideaId"
-        preview
         :idea="idea"
         :show-author="showAuthor"
       ></ideas-list-idea>

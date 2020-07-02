@@ -58,7 +58,6 @@
               <v-col v-for="idea in ideas" :key="idea.ideaId" cols="12" sm="4">
                 <ideas-list-idea
                   :key="idea.ideaId"
-                  preview
                   :idea="idea"
                   :show-author="showAuthor"
                 ></ideas-list-idea>

@@ -8,7 +8,7 @@ query findIdeas($query: String) {
       shortId
       slug
       authorName
-      content
+      strippedContent
       title
       createdDate
       ideaDate

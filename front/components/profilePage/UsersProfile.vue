@@ -170,7 +170,6 @@
             <ideas-list-idea
               v-for="idea in ideas"
               :key="idea.ideaId"
-              preview
               :idea="idea"
             ></ideas-list-idea>
           </div>

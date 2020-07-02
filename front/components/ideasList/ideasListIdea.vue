@@ -5,7 +5,6 @@
     </div>
     <div>
       <idea-content
-        :preview="preview"
         :content="truncatedIdeaContent"
       ></idea-content>
     </div>
@@ -69,14 +68,11 @@ export default {
       type: Boolean,
       default: false
     },
-    preview: {
-      type: Boolean,
-      default: false
-    }
   },
   computed: {
     truncatedIdeaContent() {
-      return clip(this.idea.content, 340, {
+      console.log(this.idea)
+      return clip(this.idea.strippedContent, 340, {
         html: true,
         maxLines: 8,
         indicator: '... (see more)'

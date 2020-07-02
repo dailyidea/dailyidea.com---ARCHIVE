@@ -9,7 +9,7 @@ query getSavedIdeas($nextToken: String, $limit: Int) {
       slug
       shortId
       userId
-      content
+      strippedContent
       title
       createdDate
       ideaDate

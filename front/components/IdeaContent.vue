@@ -1,7 +1,6 @@
 <template>
   <!-- eslint-disable vue/no-v-html -->
-  <div v-if="!preview" class="idea-content" v-html="content"></div>
-  <div v-else class="idea-content">{{ strippedContent }}</div>
+  <div class="idea-content" v-html="content"></div>
 </template>
 
 <script>
@@ -12,18 +11,7 @@ export default {
       type: String,
       default: ''
     },
-
-    preview: {
-      type: Boolean,
-      default: false
-    }
   },
-
-  computed: {
-    strippedContent() {
-      return this.content.replace(/(<([^>]+)>)/gi, '')
-    }
-  }
 }
 </script>
 

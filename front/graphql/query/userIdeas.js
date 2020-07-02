@@ -6,7 +6,7 @@ query userIdeas($userId: String!, $nextToken: String, $limit: Int) {
       shortId
       slug
       authorName
-      content
+      strippedContent
       title
       createdDate
       ideaDate
