@@ -4,9 +4,7 @@
       <strong>{{ idea.title }}</strong>
     </div>
     <div>
-      <idea-content
-        :content="truncatedIdeaContent"
-      ></idea-content>
+      <idea-content :content="truncatedIdeaContent"></idea-content>
     </div>
 
     <!-- Idea metadata -->
@@ -67,11 +65,10 @@ export default {
     showAuthor: {
       type: Boolean,
       default: false
-    },
+    }
   },
   computed: {
     truncatedIdeaContent() {
-      console.log(this.idea)
       return clip(this.idea.strippedContent, 340, {
         html: true,
         maxLines: 8,

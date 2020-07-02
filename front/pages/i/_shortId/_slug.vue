@@ -71,20 +71,6 @@
           <!-- /idea-part__info -->
 
           <div class="idea-part__content">
-            <div v-if="editMode" class="idea-part__content__idea-editor">
-              <client-only>
-                <trix-wrapper
-                  v-model="ideaEditData.content"
-                  v-focus
-                  class="editor"
-                  placeholder="Type your idea text"
-                  @attachmentsUploadStarted="onAttachmentsUploadStarted"
-                  @attachmentsUploadCompleted="onAttachmentsUploadCompleted"
-                  @fileAttached="onFileAttached"
-                  @fileRemoved="onFileRemoved"
-                />
-              </client-only>
-            </div>
             <!-- /idea-part__info -->
 
             <div class="idea-part__content">
@@ -92,6 +78,7 @@
                 <client-only>
                   <trix-wrapper
                     v-model="ideaEditData.content"
+                    v-focus
                     class="editor"
                     placeholder="Type your idea text"
                     @attachmentsUploadStarted="onAttachmentsUploadStarted"

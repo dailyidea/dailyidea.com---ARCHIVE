@@ -10,7 +10,7 @@ sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegra
 
 from ..utils.common_db_utils import chunks, BATCH_WRITE_CHUNK_SIZE
 from ..utils.idea_utils import sanitize_idea_content, prepare_idea_tags_for_put_request, \
-    prepare_idea_tags_for_delete_request
+    prepare_idea_tags_for_delete_request, strip_html 
 
 
 # logger = logging.getLogger()
@@ -23,6 +23,10 @@ def endpoint(event, lambda_context):
     title = arguments.get('title')
     slug = slugify(title)
     content = sanitize_idea_content(arguments.get('content', None))
+    stripped_content = None
+    if content:
+        stripped_content = strip_html(content)
+
     idea_id = arguments.get('ideaId', None)
     idea_owner_id = arguments.get('ideaOwnerId', None)
     tags = arguments.get('tags', list())
@@ -49,10 +53,11 @@ def endpoint(event, lambda_context):
             'ideaId': {"S": idea_id},
             'userId': {"S": idea_owner_id}
         },
-        UpdateExpression='SET title = :title, slug = :slug, content = :content, updatedDate = :updatedDate, fileAttachments=:fileAttachments, imageAttachments=:imageAttachments, previewImage=:previewImage',
+        UpdateExpression='SET title = :title, slug = :slug, strippedContent = :strippedContent, content = :content, updatedDate = :updatedDate, fileAttachments=:fileAttachments, imageAttachments=:imageAttachments, previewImage=:previewImage',
         ExpressionAttributeValues={
             ":title": {"S": title},
             ":slug": {"S": slug},
+            ":strippedContent": {"S": stripped_content} if stripped_content else {"NULL": True},
             ":content": {"S": content} if content else {"NULL": True},
             ":updatedDate": {"S": datetime.datetime.now().isoformat()},
             ":fileAttachments": {"SS": new_file_attachments} if len(new_file_attachments) else {"NULL": True},
