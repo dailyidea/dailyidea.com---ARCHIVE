@@ -6,7 +6,7 @@ import datetime
 import os
 from slugify import slugify
 from ..utils.common_db_utils import chunks, BATCH_WRITE_CHUNK_SIZE
-from ..utils.idea_utils import sanitize_idea_content, prepare_idea_tags_for_put_request, find_unique_short_id
+from ..utils.idea_utils import strip_html, sanitize_idea_content, prepare_idea_tags_for_put_request, find_unique_short_id
 import sentry_sdk
 from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
 
@@ -21,6 +21,10 @@ def endpoint(event, lambda_context):
     title = arguments.get('title')
     slug = slugify(title)
     content = sanitize_idea_content(arguments.get('content', None))
+    stripped_content = None
+    if content:
+        stripped_content = strip_html(content)
+
     tags = arguments.get('tags', list())
     image_attachments = arguments.get('imageAttachments', list())
     file_attachments = arguments.get('fileAttachments', list())
@@ -53,6 +57,7 @@ def endpoint(event, lambda_context):
             "title": {"S": title},
             "slug": {"S": slug},
             "content": {"S": content} if content else {"NULL": True},
+            "strippedContent": {"S": stripped_content} if stripped_content else {"NULL": True},
             "ideaDate": {"S": datetime.datetime.now().isoformat()},
             "createdDate": {"S": datetime.datetime.now().isoformat()},
             "likesCount": {"N": "0"},
