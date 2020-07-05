@@ -133,9 +133,9 @@ export default {
       this.tapping = false
       this.$emit('swipe-end')
       if (this.x) {
-        if (this.x > this.xStart + this.minSwipeDistanceBeforeAction) {
+        if (this.x > this.minSwipeDistanceBeforeAction) {
           this.$emit('swipe-right')
-        } else if (this.x < this.xStart - this.minSwipeDistanceBeforeAction) {
+        } else if (this.x < -this.minSwipeDistanceBeforeAction) {
           this.$emit('swipe-left')
         }
       }
