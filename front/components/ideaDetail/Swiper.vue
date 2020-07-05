@@ -103,7 +103,7 @@ export default {
       }
 
       event.preventDefault()
-      this.x = x - this.xCenter - this.xDistanceToCenter
+      this.x = x - this.xStart
       this.rotation = this.getRotation(x)
     },
     getRotation(x) {
