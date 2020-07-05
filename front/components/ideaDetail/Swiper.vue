@@ -117,10 +117,16 @@ export default {
     enableScroll() {
       document.querySelector('body').style.overflow = ''
     },
+    startSwipe() {
+      this.$emit('swipe-start')
+    },
+    endSwipe() {
+      this.$emit('swipe-end')
+    },
     fingerDown(event) {
       this.disableScroll()
       this.tapping = true
-      this.$emit('swipe-start')
+      this.startSwipe()
       const { x, y } = this.getPos(event)
       this.xStart = x
       this.yStart = y
@@ -131,7 +137,7 @@ export default {
     fingerUp(event) {
       this.enableScroll()
       this.tapping = false
-      this.$emit('swipe-end')
+      this.endSwipe()
       if (this.x) {
         if (this.x > this.minSwipeDistanceBeforeAction) {
           this.$emit('swipe-right')
