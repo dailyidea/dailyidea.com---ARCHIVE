@@ -98,8 +98,16 @@ export default {
     },
     setPos(event) {
       const { x } = this.getPos(event)
-      if (Math.abs(this.xStart - x) < this.swipeSensitivity) {
-        return
+      if (this.swipeInProgress === false) {
+        // We haven't lifted the card yet
+        if (Math.abs(this.xStart - x) < this.swipeSensitivity) {
+          // AND the card hasn't traveled very car from it's original position
+          // so do nothing
+          return
+        } else {
+          // the card HAS traveled far enough now, so officially start the swipe
+          this.startSwipe()
+        }
       }
 
       event.preventDefault()
@@ -119,14 +127,15 @@ export default {
     },
     startSwipe() {
       this.$emit('swipe-start')
+      this.swipeInProgress = true
     },
     endSwipe() {
       this.$emit('swipe-end')
+      this.swipeInProgress = false
     },
     fingerDown(event) {
       this.disableScroll()
       this.tapping = true
-      this.startSwipe()
       const { x, y } = this.getPos(event)
       this.xStart = x
       this.yStart = y
