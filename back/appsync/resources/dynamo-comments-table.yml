@@ -9,6 +9,8 @@ Resources:
           AttributeType: S
         - AttributeName: createdDate
           AttributeType: S
+        - AttributeName: ideaOwnerId
+          AttributeType: S
       KeySchema:
         - AttributeName: ideaId
           KeyType: HASH
@@ -20,6 +22,14 @@ Resources:
         - IndexName: byDateIndex
           KeySchema:
             - AttributeName: ideaId
+              KeyType: HASH
+            - AttributeName: createdDate
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+        - IndexName: ideaOwnerCommentsByDate
+          KeySchema:
+            - AttributeName: ideaOwnerId
               KeyType: HASH
             - AttributeName: createdDate
               KeyType: RANGE

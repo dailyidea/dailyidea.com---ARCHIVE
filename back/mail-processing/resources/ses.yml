@@ -73,6 +73,15 @@ Resources:
         TextPart: ${file(mail_templates/weekly_digest/weekly_digest.txt)}
         HtmlPart: ${file(mail_templates/weekly_digest/weekly_digest.html)}
 
+  DailyIdeaWeeklyStatsTemplate:
+    Type: AWS::SES::Template
+    Properties:
+      Template:
+        TemplateName: ${self:provider.weeklyStatsEmailTemplateName}
+        SubjectPart: '[Daily Idea] Weekly Digest'
+        TextPart: ${file(mail_templates/weekly_stats/weekly_stats.txt)}
+        HtmlPart: ${file(mail_templates/weekly_stats/weekly_stats.html)}
+
   SesEmailStorageS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
