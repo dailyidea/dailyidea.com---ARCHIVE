@@ -166,15 +166,13 @@ export default {
 
       this.disableAnimation()
       this.x = this.offPageWidth
-      this.y = 0
-      this.rotation = 0
+      this.rotation = this.getRotation(this.x)
       this.queueNextAnimation(this.resetSwipePosition)
     },
     setSwipeRightCardPos() {
       this.disableAnimation()
       this.x = -this.offPageWidth
-      this.y = 0
-      this.rotation = 0
+      this.rotation = this.getRotation(this.x)
       this.queueNextAnimation(this.resetSwipePosition)
     },
     fingerDown(event) {
