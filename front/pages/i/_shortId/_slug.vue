@@ -9,7 +9,7 @@
       @left-arrow-clicked="previousIdea"
       @right-arrow-clicked="nextIdea"
     >
-      <v-row :style="rotationStyle" align="stretch">
+      <v-row :style="rotationStyle" align="stretch" class="elevation-2 ma-1 card">
         <v-col cols="12" md="8" class="idea-part">
           <div>
             <v-row class="idea-part__header" no-gutters>
@@ -547,6 +547,13 @@ export default {
   font-size: 24px;
 }
 
+.card {
+  border: 1px solid $color-insanely-crazy-light-greyish-purple;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  /* .rounded doesn't work because i'm applying this to a .row (which i shouldn't) */
+}
 .idea-part {
   @media (min-width: $screen-md-min) {
     min-height: calc(100vh - 88px);
