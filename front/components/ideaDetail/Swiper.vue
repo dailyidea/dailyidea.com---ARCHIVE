@@ -21,6 +21,7 @@ export default {
       tapping: false,
       swipeSensitivity: 50,
       minSwipeDistanceBeforeAction: 75,
+      swipeInProgress: false,
       xStart: 0,
       yStart: 0,
       xVal: 0,
