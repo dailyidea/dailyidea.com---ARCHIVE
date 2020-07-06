@@ -9,7 +9,11 @@
       @left-arrow-clicked="previousIdea"
       @right-arrow-clicked="nextIdea"
     >
-      <v-row :style="rotationStyle" align="stretch" class="elevation-2 ma-1 card">
+      <v-row
+        :style="rotationStyle"
+        align="stretch"
+        class="elevation-2 ma-1 card"
+      >
         <v-col cols="12" md="8" class="idea-part">
           <div>
             <v-row class="idea-part__header" no-gutters>
