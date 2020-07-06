@@ -9,7 +9,7 @@ query getPublicIdeas($order: IdeaSortingOrder, $nextToken: String, $limit: Int) 
       authorName
       authorAvatar
       authorSlug
-      strippedContent
+      content 
       title
       createdDate
       ideaDate

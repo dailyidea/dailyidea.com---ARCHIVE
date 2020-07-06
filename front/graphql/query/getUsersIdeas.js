@@ -8,7 +8,7 @@ query getUsersIdeas($authorSlug: String!, $nextToken: String, $limit: Int) {
       slug
       authorName
       authorSlug
-      content
+      strippedContent
       title
       createdDate
       ideaDate

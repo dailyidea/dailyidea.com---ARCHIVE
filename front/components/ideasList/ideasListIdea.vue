@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     truncatedIdeaContent() {
-      return clip(this.idea.content, 340, {
+      return clip(this.idea.strippedContent, 340, {
         html: true,
         maxLines: 8,
         indicator: '... (see more)'
