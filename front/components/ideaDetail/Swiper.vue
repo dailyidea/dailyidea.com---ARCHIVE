@@ -149,12 +149,15 @@ export default {
     disableAnimation() {
       this.animate = false
     },
+    queueNextAnimation(method) {
+      setTimeout(method, this.cardAnimationSpeed)
+    },
     resetSwipePosition() {
       this.enableAnimation()
       this.x = 0
       this.y = 0
       this.rotation = 0
-      setTimeout(this.disableAnimation, this.cardAnimationSpeed)
+      this.queueNextAnimation(this.disableAnimation)
     },
     setSwipeLeftCardPos() {
       // If we don't disable animation
@@ -165,14 +168,14 @@ export default {
       this.x = this.offPageWidth
       this.y = 0
       this.rotation = 0
-      setTimeout(this.resetSwipePosition, this.cardAnimationSpeed)
+      this.queueNextAnimation(this.resetSwipePosition)
     },
     setSwipeRightCardPos() {
       this.disableAnimation()
       this.x = -this.offPageWidth
       this.y = 0
       this.rotation = 0
-      setTimeout(this.resetSwipePosition, this.cardAnimationSpeed)
+      this.queueNextAnimation(this.resetSwipePosition)
     },
     fingerDown(event) {
       this.disableScroll()
@@ -193,12 +196,12 @@ export default {
         if (this.x > this.minSwipeDistanceBeforeAction) {
           this.x = this.offPageWidth
           this.rotation = this.getRotation(this.x)
-          setTimeout(this.setSwipeRightCardPos, this.cardAnimationSpeed)
+          this.queueNextAnimation(this.setSwipeRightCardPos)
           this.$emit('swipe-right')
         } else if (this.x < -this.minSwipeDistanceBeforeAction) {
           this.x = -this.offPageWidth
           this.rotation = this.getRotation(this.x)
-          setTimeout(this.setSwipeLeftCardPos, this.cardAnimationSpeed)
+          this.queueNextAnimation(this.setSwipeLeftCardPos)
           this.$emit('swipe-left')
         } else {
           this.resetSwipePosition()
