@@ -1,0 +1,37 @@
+<mjml>
+  <mj-head>
+    <mj-style inline="inline">
+      .hero > div > table {
+        background-position: bottom center !important;
+      }
+    </mj-style>
+  </mj-head>
+  <mj-body background-color="#FCFCFC">
+    <mj-section padding-top="0" padding-bottom="0" background-color="white">
+    	<mj-column>
+      	<mj-image src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/Group18.png" width="170px" height="91px" align="center"></mj-image>
+      </mj-column>
+    </mj-section>
+    <mj-wrapper css-class="hero" background-color="white" background-url="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/wave1.png" background-repeat="no-repeat">
+      <mj-section padding-top="0" padding-bottom="0">
+        <mj-column width="30%" padding="0">
+          <mj-image padding="0" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/Group196.png" width="130px" align="center"></mj-image>
+        </mj-column>
+        <mj-column width="70%">
+          <mj-text padding-top="0" padding-bottom="0" font-family="helvetica" color="#2d2d2d">
+            <h1>Congrats{{if(options.name !== undefined)}}, {{ name }}{{/if}}!	</h1>
+          </mj-text>
+          <mj-text padding-bottom="0" font-family="helvetica" color="#827c85" font-size="16px" line-height="22px">
+            <p>Looks like you tried to save this idea: <a href="{{ideaHref}}">{{ideaName}}</a>. If that's right, please click login button below to finish saving that to your account.</p>
+          </mj-text>
+          <mj-button inner-padding="10px 65px" border-radius="30px" font-family="helvetica" font-size="20px" background-color="#FFC61F" color="white" href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}{{verifyAdditionalUrlParams}}">       	
+            LOGIN
+          </mj-button>
+          <mj-text font-family="helvetica" color="#827c85" font-size="16px" line-height="22px">
+            <p>If you did not request this, you can ignore this email! The only way anybody can log in to your account is via links sent to your email.</p>
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+  </mj-body>
+</mjml>
