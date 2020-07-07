@@ -92,7 +92,6 @@ def send_weekly_stats_bulk(users_list):
     quote = quote_gen.get_todays_quote()
 
     for user in users_list:
-        print(user.email)
         destinations.append({
             'Destination': {
                 'ToAddresses': [

@@ -78,7 +78,7 @@ Resources:
     Properties:
       Template:
         TemplateName: ${self:provider.weeklyStatsEmailTemplateName}
-        SubjectPart: '[Daily Idea] Weekly Digest'
+        SubjectPart: '[Daily Idea] Weekly Stats'
         TextPart: ${file(mail_templates/weekly_stats/weekly_stats.txt)}
         HtmlPart: ${file(mail_templates/weekly_stats/weekly_stats.html)}
 
