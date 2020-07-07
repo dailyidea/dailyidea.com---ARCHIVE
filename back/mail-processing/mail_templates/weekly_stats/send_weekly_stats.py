@@ -80,7 +80,7 @@ def get_comments_count(user_id):
 
 
 def send_weekly_stats_bulk(users_list):
-    REQUEST_DAILY_EMAIL_TEMPLATE_NAME = os.getenv('REQUEST_DAILY_EMAIL_TEMPLATE_NAME', 'requestDailyIdeaEmailTemplate-dev')
+    WEEKLY_STATS_TEMPLATE_NAME = os.getenv('WEEKLY_STATS_TEMPLATE_NAME', 'weeklyStatsEmailTemplate-dev')
     BUCKET_URL_PREFIX = os.getenv('BUCKET_URL_PREFIX')
     DOMAIN_NAME = os.getenv('DOMAIN_NAME')
     SECRET_TOKEN = os.getenv('SECRET_TOKEN', 'secret-tk1x')
@@ -119,7 +119,7 @@ def send_weekly_stats_bulk(users_list):
     client = boto3.client('ses', region_name=AWS_REGION)
     client.send_bulk_templated_email(
             Source=SENDER,
-            Template=REQUEST_DAILY_EMAIL_TEMPLATE_NAME,
+            Template=WEEKLY_STATS_TEMPLATE_NAME,
             DefaultTemplateData=json.dumps(
                 {"BUCKET_URL_PREFIX": BUCKET_URL_PREFIX, "DOMAIN_NAME": DOMAIN_NAME, "TODAY": TODAY, }),
             Destinations=destinations
