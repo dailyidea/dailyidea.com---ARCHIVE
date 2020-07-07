@@ -18,40 +18,49 @@
       <!-- right side profile info on desktop -->
       <v-col cols="12" sm="8">
         <!-- username -->
-        <v-row>
-          <v-col>
-            <v-text-field
-              v-if="editMode"
-              v-model="editData.name"
-              :disabled="savingChanges"
-              maxlength="128"
-              :rules="nameRules"
-              dense
-              background-color="yellow lighten-4"
-              hide-details="auto"
-              autofocus
-              placeholder="Your Name"
-            ></v-text-field>
-            <h2 v-else>{{ profileData.name }}</h2>
-          </v-col>
-          <v-col v-if="!editMode" cols="auto">
-            <v-tooltip v-if="isMyProfile" top>
-              <template v-slot:activator="{ on }">
-                <v-chip outlined color="grey lighten-1" @click="enableEditMode"
-                  >Edit Profile
-                  <v-icon right small v-on="on">mdi-pencil</v-icon>
-                </v-chip>
-              </template>
-              <span>Click to update your name or bio</span>
-            </v-tooltip>
-          </v-col>
-          <v-col v-else cols="auto">
-            <v-btn text rounded @click="disableEditMode">Cancel</v-btn>
-            <v-btn rounded :loading="savingChanges" @click="saveChanges"
-              >Save</v-btn
-            >
-          </v-col>
-        </v-row>
+        <validation-observer v-slot="{ valid }">
+          <v-row>
+            <v-col>
+              <v-text-field-with-validation
+                v-if="editMode"
+                v-model="editData.name"
+                :disabled="savingChanges"
+                maxlength="128"
+                rules="required|max:100"
+                dense
+                name="Name"
+                background-color="yellow lighten-4"
+                autofocus
+                placeholder="Your Name"
+              ></v-text-field-with-validation>
+              <h2 v-else>{{ profileData.name }}</h2>
+            </v-col>
+            <v-col v-if="!editMode" cols="auto">
+              <v-tooltip v-if="isMyProfile" top>
+                <template v-slot:activator="{ on }">
+                  <v-chip
+                    outlined
+                    color="grey lighten-1"
+                    @click="enableEditMode"
+                    >Edit Profile
+                    <v-icon right small v-on="on">mdi-pencil</v-icon>
+                  </v-chip>
+                </template>
+                <span>Click to update your name or bio</span>
+              </v-tooltip>
+            </v-col>
+            <v-col v-else cols="auto">
+              <v-btn text rounded @click="disableEditMode">Cancel</v-btn>
+              <v-btn
+                rounded
+                :loading="savingChanges"
+                :disabled="!valid"
+                @click="saveChanges"
+                >Save</v-btn
+              >
+            </v-col>
+          </v-row>
+        </validation-observer>
 
         <!-- counters / stats -->
         <v-row class="profileStats">
@@ -93,7 +102,6 @@
                 :rows="3"
                 background-color="yellow lighten-4"
                 dense
-                hide-details="auto"
                 maxlength="1000"
                 :disabled="savingChanges"
                 placeholder="Tell few words about yourself"
@@ -127,9 +135,7 @@
                 <v-combobox
                   v-model="editData.interestedInTags"
                   placeholder="Add few tags about what are you interested in"
-                  :error-messages="errors.collect('tag')"
-                  data-vv-name="tag"
-                  hide-details="auto"
+                  name="tag"
                   times
                   chips
                   background-color="yellow lighten-4"
@@ -212,7 +218,7 @@
 
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
-
+import { ValidationObserver } from 'vee-validate'
 import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
 import UserProfileAvatar from './UserProfileAvatar'
 import Layout from '@/components/layout/Layout'
@@ -220,18 +226,18 @@ import updateProfileInfo from '@/graphql/mutations/updateProfileInfo'
 import IdeasListIdea from '@/components/ideasList/ideasListIdea'
 import VisualNotifier from '~/components/VisualNotifier'
 import uploadAvatar from '~/graphql/mutations/uploadAvatar'
+import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
 
 export default {
   name: 'UsersProfile',
   components: {
+    VTextFieldWithValidation,
     UserProfileAvatar,
     IdeasListIdea,
     Layout,
     VisualNotifier,
-    UserProfileAvatarCropDialog
-  },
-  $_veeValidate: {
-    validator: 'new'
+    UserProfileAvatarCropDialog,
+    ValidationObserver
   },
   props: {
     initialProfileData: {
@@ -272,12 +278,6 @@ export default {
   computed: {
     isMyProfile() {
       return this.$store.getters['userData/userId'] === this.profileData.userId
-    },
-    nameRules() {
-      return [
-        v => !!v || 'Name is required',
-        v => (v && v.length > 3) || 'Name must be more than 3 characters'
-      ]
     }
   },
   created() {

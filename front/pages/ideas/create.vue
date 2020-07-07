@@ -5,89 +5,89 @@
       pageOptions: mobileHeaderUiOptions
     }"
   >
-    <v-container class="createIdeaPage">
-      <v-row id="ideaContentRow">
-        <v-col cols="12" sm="10" md="8" lg="6">
-          <!-- title -->
-          <v-text-field
-            v-model="title"
-            v-validate="'required|max:100'"
-            v-focus
-            flat
-            label="Add A Title"
-            :error-messages="errors.collect('title')"
-            data-vv-name="title"
-            name="idea_title"
-            class="idea-name-field"
-            :single-line="true"
-            :solo="true"
-            @keyup.13="focusIdeaText"
-          ></v-text-field>
+    <validation-observer v-slot="{ valid, validated, handleSubmit }">
+      <v-container class="createIdeaPage">
+        <v-row id="ideaContentRow">
+          <v-col cols="12" sm="10" md="8" lg="6">
+            <!-- title -->
+            <v-text-field-with-validation
+              v-model="title"
+              v-focus
+              rules="required|max:100"
+              flat
+              label="Add A Title"
+              data-vv-name="title"
+              name="idea_title"
+              class="idea-name-field"
+              :single-line="true"
+              :solo="true"
+              @keyup.13="focusIdeaText"
+            ></v-text-field-with-validation>
 
-          <!-- Description = trix editor -->
-          <div class="ideaEditor">
-            <client-only>
-              <trix-wrapper
-                v-model="contents"
-                class="editor"
-                placeholder="Just start typing your idea here! You can add formatting with the toolbar below."
-                :auto-delete-attachments="true"
-                @attachmentsUploadStarted="onAttachmentsUploadStarted"
-                @attachmentsUploadCompleted="onAttachmentsUploadCompleted"
-                @fileAttached="onFileAttached"
-                @fileRemoved="onFileRemoved"
-              />
-            </client-only>
-          </div>
+            <!-- Description = trix editor -->
+            <div class="ideaEditor">
+              <client-only>
+                <trix-wrapper
+                  v-model="contents"
+                  class="editor"
+                  placeholder="Just start typing your idea here! You can add formatting with the toolbar below."
+                  :auto-delete-attachments="true"
+                  @attachmentsUploadStarted="onAttachmentsUploadStarted"
+                  @attachmentsUploadCompleted="onAttachmentsUploadCompleted"
+                  @fileAttached="onFileAttached"
+                  @fileRemoved="onFileRemoved"
+                />
+              </client-only>
+            </div>
 
-          <!-- Tags -->
-          <v-combobox
-            v-if="false"
-            v-model="chips"
-            v-validate="'max:100'"
-            flat
-            :error-messages="errors.collect('tag')"
-            data-vv-name="tag"
-            class="ideaTag idea-tags-field"
-            chips
-            clearable
-            multiple
-            label="Add Tags"
-            solo
-          >
-            <template v-slot:selection="{ attrs, item, select, selected }">
-              <v-chip
-                v-bind="attrs"
-                :input-value="selected"
-                close
-                small
-                color="secondary"
-                @click="select"
-                @click:close="remove(item)"
-              >
-                <strong>{{ item }}</strong>
-              </v-chip>
-            </template>
-          </v-combobox>
-        </v-col>
-      </v-row>
-
-      <v-row id="submitButtonRow">
-        <v-col cols="12" sm="10" md="8" lg="6">
-          <!-- Submit -->
-          <div>
-            <v-btn
-              rounded
-              block
-              :loading="creatingIdea"
-              :disabled="!allowCreateIdea"
-              @click="onCreateIdea"
-              >Submit</v-btn
+            <!-- Tags -->
+            <v-combobox
+              v-if="false"
+              v-model="chips"
+              rules="max:100"
+              flat
+              data-vv-name="tag"
+              class="ideaTag idea-tags-field"
+              chips
+              clearable
+              multiple
+              label="Add Tags"
+              solo
             >
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
+              <template v-slot:selection="{ attrs, item, select, selected }">
+                <v-chip
+                  v-bind="attrs"
+                  :input-value="selected"
+                  close
+                  small
+                  color="secondary"
+                  @click="select"
+                  @click:close="remove(item)"
+                >
+                  <strong>{{ item }}</strong>
+                </v-chip>
+              </template>
+            </v-combobox>
+          </v-col>
+        </v-row>
+
+        <v-row id="submitButtonRow">
+          <v-col cols="12" sm="10" md="8" lg="6">
+            <!-- Submit -->
+            <div>
+              <v-btn
+                rounded
+                block
+                :loading="creatingIdea"
+                :disabled="!valid || !validated"
+                @click="handleSubmit(onCreateIdea)"
+                >Submit</v-btn
+              >
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+    </validation-observer>
 
     <!-- Bottom snackbar message -->
     <v-snackbar
@@ -103,17 +103,21 @@
   </Layout>
 </template>
 <script>
+import { ValidationObserver } from 'vee-validate'
 import { graphqlOperation } from '@aws-amplify/api'
 import TrixWrapper from '@/components/TrixWrapper'
 import Layout from '@/components/layout/Layout'
 import createIdea from '~/graphql/mutations/createIdea'
+import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
 
 export default {
-  components: { Layout, TrixWrapper },
-  middleware: 'authenticated',
-  $_veeValidate: {
-    validator: 'new'
+  components: {
+    VTextFieldWithValidation,
+    Layout,
+    TrixWrapper,
+    ValidationObserver
   },
+  middleware: 'authenticated',
   data: () => ({
     mobileHeaderUiOptions: {
       pageTitle: 'SUBMIT AN IDEA',
@@ -167,12 +171,6 @@ export default {
       this.chips = [...this.chips]
     },
     async onCreateIdea() {
-      const result = await this.$validator.validateAll()
-      if (!result) {
-        this.errorMsg = 'This field is required.'
-        return
-      }
-
       this.creatingIdea = true
 
       try {

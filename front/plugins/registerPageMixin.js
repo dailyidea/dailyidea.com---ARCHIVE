@@ -9,21 +9,12 @@ export default {
       registerInProgress: false
     }
   },
-  $_veeValidate: {
-    validator: 'new'
-  },
-  mounted() {
-    this.$validator.localize('en', this.dictionary)
-  },
+  mounted() {},
   methods: {
     async signup() {
       try {
         this.emailExistsMsg = ''
         // Validate input fields
-        const result = await this.$validator.validateAll()
-        if (!result) {
-          return
-        }
         this.registerInProgress = true
         await this.$store.dispatch('cognito/registerUser', {
           username: this.email.toLowerCase(),

@@ -1,87 +1,96 @@
 <template>
-  <default-dialog
-    :value="value"
-    :image-path="
-      require('~/assets/images/dialogs/undraw_real_time_collaboration_c62i.svg')
-    "
-    header="Share Idea With A Friend"
-    @input="v => $emit('input', v)"
+  <validation-observer
+    ref="validator"
+    v-slot="{ valid, validated, handleSubmit }"
   >
-    <form id="share-idea-without-login-form" @submit.stop.prevent="sendEmail">
-      <v-text-field
-        v-if="!initialName"
-        v-model="form.name"
-        v-validate="'required|max:100'"
-        :error-messages="errors.collect('name')"
-        data-vv-name="name"
-        label="Your Name"
-        single-line
-        flat
-        placeholder="Your Name"
-        prepend-inner-icon="mdi-account-circle-outline"
+    <default-dialog
+      :value="value"
+      :image-path="
+        require('~/assets/images/dialogs/undraw_real_time_collaboration_c62i.svg')
+      "
+      header="Share Idea With A Friend"
+      @input="v => $emit('input', v)"
+    >
+      <form
+        id="share-idea-without-login-form"
+        @submit.stop.prevent="handleSubmit(sendEmail)"
       >
-      </v-text-field>
-      <v-text-field
-        v-model="form.friendName"
-        v-validate="'required|max:100'"
-        :error-messages="errors.collect('friend name')"
-        data-vv-name="friend name"
-        label="Your Friend's Name"
-        placeholder="Your Friend's Name"
-        single-line
-        flat
-        prepend-inner-icon="mdi-account-circle-outline"
-      ></v-text-field>
-      <v-text-field
-        v-model="form.friendEmail"
-        v-validate="'required|email|max:100'"
-        :error-messages="errors.collect('email')"
-        data-vv-name="email"
-        label="Your Friend's Email"
-        single-line
-        flat
-        placeholder="Your Friend's Email"
-        prepend-inner-icon="mdi-email-outline"
-      ></v-text-field>
-    </form>
+        <v-text-field-with-validation
+          v-if="!initialName"
+          v-model="form.name"
+          rules="required|max:100"
+          name="Name"
+          label="Your Name"
+          single-line
+          flat
+          placeholder="Your Name"
+          prepend-inner-icon="mdi-account-circle-outline"
+        >
+        </v-text-field-with-validation>
+        <v-text-field-with-validation
+          v-model="form.friendName"
+          rules="required|max:100"
+          name="Friend name"
+          label="Your Friend's Name"
+          placeholder="Your Friend's Name"
+          single-line
+          flat
+          prepend-inner-icon="mdi-account-circle-outline"
+        ></v-text-field-with-validation>
+        <v-text-field-with-validation
+          v-model="form.friendEmail"
+          rules="required|email|max:100"
+          name="email"
+          label="Your Friend's Email"
+          single-line
+          flat
+          placeholder="Your Friend's Email"
+          prepend-inner-icon="mdi-email-outline"
+        ></v-text-field-with-validation>
+      </form>
 
-    <template v-slot:footer>
-      <section class="modalFooter">
-        <!-- Action Buttons -->
-        <div class="text-right">
-          <v-btn class="cancelBtn" rounded text @click="close">Cancel</v-btn>
-          <v-btn rounded :loading="sendingEmail" @click="sendEmail"
-            >Share</v-btn
-          >
-        </div>
-        <div class="mt-3 text-center">
-          <client-only>
-            <a
-              v-clipboard="() => getShareUrl()"
-              class="muted smaller"
-              href="#"
-              @click.prevent.stop="onCopyShareLink"
-              >Copy link to clipboard instead</a
+      <template v-slot:footer>
+        <section class="modalFooter">
+          <!-- Action Buttons -->
+          <div class="text-right">
+            <v-btn class="cancelBtn" rounded text @click="close">Cancel</v-btn>
+            <v-btn
+              rounded
+              :loading="sendingEmail"
+              :disabled="!valid || !validated"
+              @click="handleSubmit(sendEmail)"
+              >Share</v-btn
             >
-          </client-only>
-        </div>
-      </section>
-    </template>
-  </default-dialog>
+          </div>
+          <div class="mt-3 text-center">
+            <client-only>
+              <a
+                v-clipboard="() => getShareUrl()"
+                class="muted smaller"
+                href="#"
+                @click.prevent.stop="onCopyShareLink"
+                >Copy link to clipboard instead</a
+              >
+            </client-only>
+          </div>
+        </section>
+      </template>
+    </default-dialog>
+  </validation-observer>
 </template>
 
 <script>
+import { ValidationObserver } from 'vee-validate'
 import { mapGetters } from 'vuex'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import shareIdea from '~/graphql/mutations/shareIdea'
+import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
 
 export default {
-  $_veeValidate: {
-    validator: 'new'
-  },
-
   components: {
-    DefaultDialog
+    VTextFieldWithValidation,
+    DefaultDialog,
+    ValidationObserver
   },
 
   props: {
@@ -133,11 +142,6 @@ export default {
     },
 
     async sendEmail() {
-      const result = await this.$validator.validateAll()
-      if (!result) {
-        return
-      }
-
       this.sendingEmail = true
 
       // Call shre idea over email api.
