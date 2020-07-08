@@ -150,8 +150,10 @@ export default {
     disableAnimation() {
       this.animate = false
     },
-    queueNextAnimation(method) {
-      setTimeout(method, this.cardAnimationSpeed)
+    queueNextAnimation(method, args = {}) {
+      setTimeout(() => {
+        method(args)
+      }, this.cardAnimationSpeed)
     },
     resetSwipePosition() {
       this.enableAnimation()
@@ -160,20 +162,24 @@ export default {
       this.rotation = 0
       this.queueNextAnimation(this.disableAnimation)
     },
-    setSwipeLeftCardPos() {
+    setSwipeLeftCardPos(args) {
       // If we don't disable animation
       // Then the card will look like it's zooming
       // across the page
 
       this.disableAnimation()
       this.x = this.offPageWidth
-      this.rotation = this.getRotation(this.x)
+      if (!args.noRotation) {
+        this.rotation = this.getRotation(this.x)
+      }
       this.queueNextAnimation(this.resetSwipePosition)
     },
-    setSwipeRightCardPos() {
+    setSwipeRightCardPos(args) {
       this.disableAnimation()
       this.x = -this.offPageWidth
-      this.rotation = this.getRotation(this.x)
+      if (!args.noRotation) {
+        this.rotation = this.getRotation(this.x)
+      }
       this.queueNextAnimation(this.resetSwipePosition)
     },
     fingerDown(event) {
@@ -217,8 +223,18 @@ export default {
     setupArrowKeyListener() {
       window.onkeydown = event => {
         if (event.key === 'ArrowLeft') {
+          this.enableAnimation()
+          this.x = -this.offPageWidth
+          this.queueNextAnimation(this.setSwipeLeftCardPos, {
+            noRotation: true
+          })
           this.leftArrowClick()
         } else if (event.key === 'ArrowRight') {
+          this.enableAnimation()
+          this.x = this.offPageWidth
+          this.queueNextAnimation(this.setSwipeRightCardPos, {
+            noRotation: true
+          })
           this.rightArrowClick()
         }
       }
