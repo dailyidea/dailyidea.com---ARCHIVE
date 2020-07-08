@@ -1,41 +1,45 @@
 <template>
   <auth-page>
-    <v-form class="mainForm" @submit.prevent="login">
-      <div class="additional-message">
-        <div class="additional-message__text">
-          {{ additionalMessageText }}
+    <validation-observer v-slot="{ valid, validated, handleSubmit }">
+      <v-form class="mainForm" @submit.prevent="login">
+        <div class="additional-message">
+          <div class="additional-message__text">
+            {{ additionalMessageText }}
+          </div>
         </div>
-      </div>
-      <!-- Email Input Box -->
-      <validate-text-field
-        v-focus
-        :value.sync="email"
-        single-line
-        flat
-        name="email"
-        autocomplete="email"
-        type="email"
-        prepend-inner-icon="mdi-email-outline"
-        placeholder="What is your email address?"
-        validate="required|email"
-      />
+        <!-- Email Input Box -->
+        <v-text-field-with-validation
+          v-model="email"
+          v-focus
+          single-line
+          flat
+          name="Email"
+          autocomplete="email"
+          type="email"
+          prepend-inner-icon="mdi-email-outline"
+          placeholder="What is your email address?"
+          rules="required|email"
+          @keydown.enter="handleSubmit(login)"
+        />
 
-      <!-- Email Not Found Message -->
-      <div v-if="emailNotFoundMsg !== ''" class="red--text smaller">
-        {{ emailNotFoundMsg }}
-      </div>
+        <!-- Email Not Found Message -->
+        <div v-if="emailNotFoundMsg !== ''" class="red--text smaller">
+          {{ emailNotFoundMsg }}
+        </div>
 
-      <!-- Login Button -->
-      <v-btn
-        type="submit"
-        rounded
-        block
-        class="mt-10"
-        :loading="logingUser"
-        @click.stop.prevent="login"
-        >Log In
-      </v-btn>
-    </v-form>
+        <!-- Login Button -->
+        <v-btn
+          type="submit"
+          rounded
+          block
+          :disabled="!valid || !validated"
+          class="mt-10"
+          :loading="logingUser"
+          @click.stop.prevent="handleSubmit(login)"
+          >Log In
+        </v-btn>
+      </v-form>
+    </validation-observer>
 
     <div class="text-center pt-6">
       <div class="muted smaller">
@@ -49,9 +53,9 @@
 </template>
 
 <script>
+import { ValidationObserver } from 'vee-validate'
 import AuthPage from '@/components/authPage/AuthPage'
-import ValidateTextField from '~/components/ValidateTextField'
-import ActionValidate from '~/mixins/validatable'
+import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
 
 const DEFAULT_ERROR_MESSAGE =
   "Oops, you're not logged in. Please log in first to proceed"
@@ -63,9 +67,7 @@ const AdditionalMessages = {
 
 export default {
   name: 'Index',
-  components: { AuthPage, ValidateTextField },
-  $_veeValidate: { validator: 'new' },
-  mixins: [ActionValidate],
+  components: { VTextFieldWithValidation, AuthPage, ValidationObserver },
   data: () => ({
     email: '',
     logingUser: false,
@@ -94,13 +96,6 @@ export default {
       try {
         this.logingUser = true
         this.emailNotFoundMsg = ''
-
-        // Validate input fields
-        const result = await this.$validator.validateAll()
-        if (!result) {
-          this.logingUser = false
-          return
-        }
 
         await this.$amplifyApi.post('RequestLogin', '', {
           body: { email: this.email.toLowerCase(), next: this.$route.query.r }

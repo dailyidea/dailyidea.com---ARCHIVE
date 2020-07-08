@@ -1,66 +1,69 @@
 <template>
   <auth-page>
-    <form class="mainForm" @submit.prevent="signup">
-      <!-- Email Input Box -->
-      <v-text-field
-        v-model="name"
-        v-validate="'required|max:100'"
-        v-focus
-        :error-messages="errors.collect('name')"
-        data-vv-name="name"
-        class="name"
-        single-line
-        flat
-        placeholder="What is your name?"
-        prepend-inner-icon="mdi-account-circle-outline"
-      ></v-text-field>
+    <validation-observer v-slot="{ valid, validated, handleSubmit }">
+      <form class="mainForm" @submit.prevent="handleSubmit(signup)">
+        <!-- Email Input Box -->
+        <v-text-field-with-validation
+          v-model="name"
+          v-focus
+          rules="required|max:100"
+          name="Name"
+          class="name"
+          single-line
+          flat
+          placeholder="What is your name?"
+          prepend-inner-icon="mdi-account-circle-outline"
+        ></v-text-field-with-validation>
 
-      <!-- Email Input Box -->
-      <v-text-field
-        v-model="email"
-        v-validate="'required|email'"
-        class="email"
-        :error-messages="errors.collect('email')"
-        data-vv-name="email"
-        single-line
-        flat
-        placeholder="What is your email address?"
-        prepend-inner-icon="mdi-email-outline"
-      ></v-text-field>
+        <!-- Email Input Box -->
+        <v-text-field-with-validation
+          v-model="email"
+          rules="required|email"
+          class="email"
+          name="Email"
+          single-line
+          flat
+          placeholder="What is your email address?"
+          prepend-inner-icon="mdi-email-outline"
+        ></v-text-field-with-validation>
 
-      <!-- Email Already Exists Message -->
-      <div v-if="emailExistsMsg != ''" class="red--text smaller">
-        {{ emailExistsMsg }}
-      </div>
-
-      <!-- Continue Button -->
-      <v-btn
-        type="submit"
-        rounded
-        block
-        class="mt-10"
-        :loading="registerInProgress"
-        @click="signup"
-        >Continue
-      </v-btn>
-
-      <div class="text-center pt-6">
-        <div class="muted smaller">
-          Already have an account?
-          <nuxt-link class="loginBtn" text to="/auth/login">Login</nuxt-link>
+        <!-- Email Already Exists Message -->
+        <div v-if="emailExistsMsg != ''" class="red--text smaller">
+          {{ emailExistsMsg }}
         </div>
-      </div>
-    </form>
+
+        <!-- Continue Button -->
+        <v-btn
+          type="submit"
+          rounded
+          block
+          :disabled="!valid || !validated"
+          class="mt-10"
+          :loading="registerInProgress"
+          @click="handleSubmit(signup)"
+          >Continue
+        </v-btn>
+
+        <div class="text-center pt-6">
+          <div class="muted smaller">
+            Already have an account?
+            <nuxt-link class="loginBtn" text to="/auth/login">Login</nuxt-link>
+          </div>
+        </div>
+      </form>
+    </validation-observer>
   </auth-page>
 </template>
 
 <script>
+import { ValidationObserver } from 'vee-validate'
 import AuthPage from '@/components/authPage/AuthPage'
 import registerPageMixin from '@/plugins/registerPageMixin'
+import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
 
 export default {
   name: 'Index',
-  components: { AuthPage },
+  components: { VTextFieldWithValidation, AuthPage, ValidationObserver },
   mixins: [registerPageMixin]
 }
 </script>
