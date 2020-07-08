@@ -87,6 +87,7 @@ export default {
   },
   mounted() {
     this.setupTouchListener()
+    this.setupArrowKeyListener()
   },
   methods: {
     getPos(event) {
@@ -211,6 +212,15 @@ export default {
         this.fingerDown(event)
       } else {
         this.setPos(event)
+      }
+    },
+    setupArrowKeyListener() {
+      window.onkeydown = event => {
+        if (event.key === 'ArrowLeft') {
+          this.leftArrowClick()
+        } else if (event.key === 'ArrowRight') {
+          this.rightArrowClick()
+        }
       }
     },
     setupTouchListener() {
