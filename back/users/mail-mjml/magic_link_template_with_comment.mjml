@@ -28,7 +28,7 @@
     </mj-section>
     <mj-section padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
-      	<mj-button  href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}{{verifyAdditionalUrlParams}}" font-size="20px" width="70%" height="50px" background-color="#FFC61E" border-radius="50px">
+      	<mj-button href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}{{verifyAdditionalUrlParams}}" font-size="20px" width="70%" height="50px" background-color="#FFC61E" border-radius="50px">
         	Post Comment
         </mj-button>
       </mj-column>
