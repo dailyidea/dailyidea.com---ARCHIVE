@@ -1,0 +1,86 @@
+<mjml>
+  <mj-head>
+    <mj-font name="Dancing Script" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" />
+  </mj-head>
+  <mj-body background-color="#FCFCFC">
+    <mj-section background-color="white" padding-bottom="5px">
+      <mj-column>
+        <mj-image width="120px" align="left" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/common/logo_full.png"></mj-image>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="white" padding-top="0" padding-bottom="0">
+      <mj-column>
+        <mj-text padding-top="0" padding-bottom="0" font-family="helvetica" color="#2d2d2d">
+          <h1>What's Your Daily Idea?</h1>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="white" padding-top="0">
+      <mj-column>
+        <mj-text padding-top="0" padding-bottom="0" font-family="Dancing Script" font-style="italic" color="#BBB9B9">
+          <p>"{{ QUOTE }}"</p>
+          <p>- {{ QUOTE_BY }}</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="white" padding-top="0" padding-bottom="0">
+      <mj-column width="70%">
+        <mj-text padding-top="10px" padding-right="0" font-family="helvetica" color="#2d2d2d" font-size="15px" line-height="22px">
+          <p>Hi, {{ USERNAME }}!<p>
+          <p>Just <strong>respond</strong> to this email with an idea and we'll save it for you.</p>
+          <p>If you prefer to enter your ideas on the site, you can click the button below!</p>
+        </mj-text>
+      </mj-column>
+      <mj-column width="30%">
+        <mj-image width="85px" align="center" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/daily-reminder/idea-cat.png"></mj-image>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="white" padding-top="0">
+      <mj-column>
+        <mj-button inner-padding="10px 65px" border-radius="30px" font-family="helvetica" font-size="20px" background-color="#FFC61F" color="white" href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ AUTH_TOKEN }}&email={{ EMAIL }}&next=%2Fideas%2Fcreate">
+          Submit Your Idea
+        </mj-button>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="white" padding-top="0" padding-bottom="0">
+      <mj-column>
+        <mj-text font-size="13px" font-family="helvetica">
+          <strong>Need to take a break?</strong> Snooze reminder emails for: 
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="white" padding-top="0" padding-bottom="0">
+      <mj-column>
+        <mj-button inner-padding="5px 20px" border-radius="30px" border="1px solid #5B41BB" font-family="helvetica" font-size="13px" background-color="white" color="#5B41BB" href="https://{{DOMAIN_NAME}}/snooze-emails?userId={{USER_ID}}&token={{SNOOZE_TOKEN}}&days=7">
+          1 week
+        </mj-button>
+      </mj-column>
+      <mj-column>
+        <mj-button inner-padding="5px 20px" border-radius="30px" border="1px solid #5B41BB" font-family="helvetica" font-size="13px" background-color="white" color="#5B41BB" href="https://{{DOMAIN_NAME}}/snooze-emails?userId={{USER_ID}}&token={{SNOOZE_TOKEN}}&days=14">
+          2 weeks
+        </mj-button>
+      </mj-column>
+      <mj-column>
+        <mj-button inner-padding="5px 20px" border-radius="30px" border="1px solid #5B41BB" font-family="helvetica" font-size="13px" background-color="white" color="#5B41BB" href="https://{{DOMAIN_NAME}}/snooze-emails?userId={{USER_ID}}&token={{SNOOZE_TOKEN}}&days=28">
+          4 weeks
+        </mj-button>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="white" padding-top="0">
+      <mj-column>
+        <mj-text font-size="12px" font-family="helvetica">
+          <a href="https://{{DOMAIN_NAME}}/settings" style="color:#C8C8C8; font-size:12px">Review / update your email preferences</a><br>
+          <a href="https://{{DOMAIN_NAME}}/unsubscribe/{{USER_ID}}/{{SNOOZE_TOKEN}}" style="color:#C8C8C8; font-size:12px">Unsubscribe from all emails</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="#EFF6FF">
+      <mj-column>
+        <mj-text font-size="12px" align="center" font-family="helvetica">
+          <p>Made with <span style="color:red; font-size: 18px">♥</span> in Chicago</p>
+          <p><a href="https://{{DOMAIN_NAME}}/" style="text-decoration:none; font-weight:bold; color:#2d2d2d">{{DOMAIN_NAME}}</a></p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
