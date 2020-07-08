@@ -16,7 +16,7 @@ sentry_sdk.init(dsn=os.getenv('SENTRY_DSN'), integrations=[AwsLambdaIntegration(
 def endpoint(event, context):
     now = datetime.datetime.now()
     users_iterator = UserModel.scan(
-        (UserModel.firstLogin == True) & UserModel.unsubscribedAt.does_not_exist() & (UserModel.weeklyDigests == True) & (
+        (UserModel.firstLogin == True) & UserModel.unsubscribedAt.does_not_exist() & (UserModel.ideaReminders == True) & (
                     (~UserModel.snoozeEmails.is_type()) | (UserModel.snoozeEmails < now)),
         page_size=SEND_BATCH_EMAIL_CHUNK_SIZE,
         attributes_to_get=['name', 'email', 'userId', 'emailToken'])
