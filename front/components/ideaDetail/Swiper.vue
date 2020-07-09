@@ -223,18 +223,8 @@ export default {
     setupArrowKeyListener() {
       window.onkeydown = event => {
         if (event.key === 'ArrowLeft') {
-          this.enableAnimation()
-          this.x = -this.offPageWidth
-          this.queueNextAnimation(this.setSwipeLeftCardPos, {
-            noRotation: true
-          })
           this.leftArrowClick()
         } else if (event.key === 'ArrowRight') {
-          this.enableAnimation()
-          this.x = this.offPageWidth
-          this.queueNextAnimation(this.setSwipeRightCardPos, {
-            noRotation: true
-          })
           this.rightArrowClick()
         }
       }
@@ -244,9 +234,19 @@ export default {
       this.$refs.swipe.addEventListener('touchmove', this.fingerMove)
     },
     leftArrowClick() {
+      this.enableAnimation()
+      this.x = this.offPageWidth
+      this.queueNextAnimation(this.setSwipeRightCardPos, {
+        noRotation: true
+      })
       this.$emit('left-arrow-clicked')
     },
     rightArrowClick() {
+      this.enableAnimation()
+      this.x = -this.offPageWidth
+      this.queueNextAnimation(this.setSwipeLeftCardPos, {
+        noRotation: true
+      })
       this.$emit('right-arrow-clicked')
     }
   }
