@@ -92,6 +92,11 @@ def send_weekly_stats_bulk(users_list):
     quote = quote_gen.get_todays_quote()
 
     for user in users_list:
+        ideas_count = get_ideas_count(user.userId)
+        saves_count = get_saves_count(user.userId)
+        shares_coount = get_shares_count(user.userId)
+        comments_count = get_comments_count(user.userId)
+
         destinations.append({
             'Destination': {
                 'ToAddresses': [
@@ -107,10 +112,11 @@ def send_weekly_stats_bulk(users_list):
                     "QUOTE_BY":quote['by'],
                     "AUTH_TOKEN": jwt.encode({'email': user.email, 'exp': (datetime.utcnow() + timedelta(days=7))}, SECRET_TOKEN).decode('utf-8'),
                     "EMAIL": urllib.parse.quote(user.email),
-                    "IDEAS_COUNT": get_ideas_count(user.userId),
-                    "SAVES_COUNT": get_saves_count(user.userId),
-                    "SHARES_COUNT": get_shares_count(user.userId),
-                    "COMMENTS_COUNT": get_comments_count(user.userId),
+                    "IDEAS_COUNT": ideas_count,
+                    "SAVES_COUNT": saves_count,
+                    "SHARES_COUNT": shares_coount,
+                    "COMMENTS_COUNT": comments_count,
+                    "IDEAS_PLURAL": '' if str(ideas_count)[-1] == '1' else 's',
                 }
             )
         })

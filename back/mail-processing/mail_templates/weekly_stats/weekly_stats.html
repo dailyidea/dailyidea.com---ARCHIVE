@@ -315,7 +315,8 @@
                   <tr>
                     <td align="left" style="font-size:0px;padding:10px 25px;padding-top:10px;padding-right:0;word-break:break-word;">
                       <div style="font-family:helvetica;font-size:18px;line-height:22px;text-align:left;color:#2d2d2d;">
-                        <p>Most importantly, you submitted <span style="color: #5b41bb; font-weight: bold;">{{ IDEAS_COUNT }}</span> ideas this week! Congrats!
+                        <p>
+                          {{#if IDEAS_COUNT}} Most importantly, you submitted <span style="color: #5b41bb; font-weight: bold;">{{ IDEAS_COUNT }}</span> idea{{ IDEAS_PLURAL }} this week! Congrats! {{else}} Bummer! You didn't submit any ideas this week. That's ok though! Try to get 1 idea next week -- or <a href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ AUTH_TOKEN }}&email={{ EMAIL }}&next=%2Fideas%2Fcreate">submit one now by clicking here</a>. {{/if}}
                         <p>
                         <p>Some other stats for you:</p>
                         <div><span style="color: #5b41bb; font-weight: bold;">{{ SAVES_COUNT }}</span> people have <span style="color: #5b41bb; font-weight: bold;">saved</span> your ideas</div>
