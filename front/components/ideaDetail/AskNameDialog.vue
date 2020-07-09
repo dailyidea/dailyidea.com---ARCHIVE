@@ -1,21 +1,22 @@
 <template>
-  <validation-provider v-slot="{ errors }" name="Name" rules="required|max:100">
+  <validation-provider v-slot="{ valid, validated, handleSubmit }">
     <default-dialog
       :value="value"
-      :button-ok-disabled="!name || !!errors.length"
+      :button-ok-disabled="!valid || !validated"
       :button-cancel-text="buttonCancelText"
       :header="header"
       @input="v => $emit('input', v)"
       @cancel="() => $emit('cancel')"
-      @ok="onOk"
+      @ok="handleSubmit(onOk)"
     >
       <p>{{ message }}</p>
       <v-text-field
         v-model="name"
         prepend-inner-icon="fas fa-user"
-        :error-messages="errors"
+        rules="required|max:100"
+        name="Name"
         label="Your Name"
-        @keydown.enter="onOk"
+        @keydown.enter="handleSubmit(onOk)"
       ></v-text-field>
     </default-dialog>
   </validation-provider>
