@@ -46,6 +46,9 @@
 
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
+import loadIdeas from '@/components/ideasList/loadIdeas'
+import getPublicIdeas from '~/graphql/query/getPublicIdeas'
+import { ORDER } from '@/components/ideasList/ideasOrdering'
 import uploadAvatar from '~/graphql/mutations/uploadAvatar'
 
 export default {
@@ -82,6 +85,24 @@ export default {
       } catch (e) {
         this.$sentry.captureException(e)
       }
+    },
+
+    async getFirstIdeaLink() {
+      const data = await loadIdeas(
+        this.$amplifyApi,
+        'getPublicIdeas',
+        getPublicIdeas,
+        { order: ORDER.DATE_DESC },
+        'API_KEY'
+      )
+
+      if (!data.ideas || data.ideas.length === 0) {
+        return '/ideas/all'
+      }
+
+      const firstIdea = data.ideas[0]
+
+      return `/i/${firstIdea.shortId}/${firstIdea.slug}`
     },
 
     async login() {
@@ -123,8 +144,8 @@ export default {
             ? "Hooray! We'll direct you to your home page bext..."
             : "Hooray! We'll direct you to your dashboard next..."
         }
-
-        this.$router.replace(next || '/ideas/all')
+        const firstIdeaLink = await this.getFirstIdeaLink()
+        this.$router.replace(next || firstIdeaLink)
       } catch (e) {
         this.progressBarActive = false
         this.message = 'Oops, something went wrong. Please try again.'
