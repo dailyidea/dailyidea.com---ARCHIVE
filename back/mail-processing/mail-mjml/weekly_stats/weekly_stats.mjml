@@ -40,9 +40,9 @@
             {{/if}}
           <p>
           <p>Some other stats for you:</p>
-          <div><span style="color: #5b41bb; font-weight: bold;">{{ SAVES_COUNT }}</span> people have <span style="color: #5b41bb; font-weight: bold;">saved</span> your ideas</div>
-          <div><span style="color: #5b41bb; font-weight: bold;">{{ SHARES_COUNT }}</span> people have <span style="color: #5b41bb; font-weight: bold;">shared</span> your ideas</div>
-          <div><span style="color: #5b41bb; font-weight: bold;">{{ COMMENTS_COUNT }}</span> people have <span style="color: #5b41bb; font-weight: bold;">commented</span> your ideas</div>
+          <div><span style="color: #5b41bb; font-weight: bold;">{{ SAVES_COUNT }}</span> {{ SAVES_PEOPLE }} have <span style="color: #5b41bb; font-weight: bold;">saved</span> your ideas</div>
+          <div><span style="color: #5b41bb; font-weight: bold;">{{ SHARES_COUNT }}</span> {{ SHARES_PEOPLE }} have <span style="color: #5b41bb; font-weight: bold;">shared</span> your ideas</div>
+          <div><span style="color: #5b41bb; font-weight: bold;">{{ COMMENTS_COUNT }}</span> {{ COMMENTS_PEOPLE }} have <span style="color: #5b41bb; font-weight: bold;">commented</span> your ideas</div>
           <p>Need to submit an idea?</p>
         </mj-text>
       </mj-column>

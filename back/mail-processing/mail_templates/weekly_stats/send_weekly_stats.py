@@ -116,7 +116,10 @@ def send_weekly_stats_bulk(users_list):
                     "SAVES_COUNT": saves_count,
                     "SHARES_COUNT": shares_coount,
                     "COMMENTS_COUNT": comments_count,
-                    "IDEAS_PLURAL": '' if str(ideas_count)[-1] == '1' else 's',
+                    "IDEAS_PLURAL": '' if ideas_count == 1 else 's',
+                    "SAVES_PEOPLE": 'person' if saves_count == 1 else 'people',
+                    "SHARES_PEOPLE": 'person' if shares_coount == 1 else 'people',
+                    "COMMENTS_PEOPLE": 'person' if comments_count == 1 else 'people',
                 }
             )
         })
