@@ -31,3 +31,14 @@
         <p><strong>Privacy?</strong> For now all ideas will be publicly searchable. Soon I'll allow users to have private ideas. I will probably charge for ideas. Ideas want to be shared!</p>
 
     </div>
+    
+    
+## Troubleshooting 
+
+#### ServerlessError: The security token included in the request is invalid.
+
+Make sure you have your AWS credentials in `~/aws/credentials` [docs](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-where).
+
+If credentials are set, then it requires to specify aws profile.
+Can be fixed by adding `export AWS_PROFILE="default"` to your .bash_profile (.bashrc, .zshrc, etc...).
+Alternatively by appending `--profile default` to the `aws` cli command.
