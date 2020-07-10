@@ -10,14 +10,14 @@
       @ok="handleSubmit(onOk)"
     >
       <p>{{ message }}</p>
-      <v-text-field
+      <v-text-field-with-validation
         v-model="name"
         prepend-inner-icon="fas fa-user"
         rules="required|max:100"
         name="Name"
         label="Your Name"
         @keydown.enter="handleSubmit(onOk)"
-      ></v-text-field>
+      ></v-text-field-with-validation>
     </default-dialog>
   </validation-observer>
 </template>
@@ -25,9 +25,11 @@
 <script>
 import { ValidationObserver } from 'vee-validate'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
+import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
 
 export default {
   components: {
+    VTextFieldWithValidation,
     ValidationObserver,
     DefaultDialog
   },
