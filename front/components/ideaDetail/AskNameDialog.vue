@@ -1,5 +1,5 @@
 <template>
-  <validation-provider v-slot="{ valid, validated, handleSubmit }">
+  <validation-observer v-slot="{ valid, validated, handleSubmit }">
     <default-dialog
       :value="value"
       :button-ok-disabled="!valid || !validated"
@@ -19,16 +19,16 @@
         @keydown.enter="handleSubmit(onOk)"
       ></v-text-field>
     </default-dialog>
-  </validation-provider>
+  </validation-observer>
 </template>
 
 <script>
-import { ValidationProvider } from 'vee-validate'
+import { ValidationObserver } from 'vee-validate'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 
 export default {
   components: {
-    ValidationProvider,
+    ValidationObserver,
     DefaultDialog
   },
 
