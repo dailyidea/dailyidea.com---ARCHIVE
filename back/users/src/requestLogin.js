@@ -59,7 +59,8 @@ const sendEmail = async function(
   name = undefined,
   commentId = undefined,
   ideaToSaveId = undefined,
-  next = undefined
+  next = undefined,
+  code
 ) {
   const emailEncoded = encodeURIComponent(email);
   const ses = new AWS.SES({
@@ -156,7 +157,8 @@ const sendEmail = async function(
     token,
     emailEncoded,
     name,
-    verifyAdditionalUrlParams: ""
+    verifyAdditionalUrlParams: "",
+    code,
   };
 
   if (comment && commentIdea) {
@@ -226,6 +228,25 @@ const sendEmail = async function(
   return ses.sendEmail(eParams).promise();
 };
 
+async function updateLoginCode(docClient, id) {
+  const code = Math.round(Math.random()* 10000).toString().padStart(4, '0')
+  const date = (new Date()).toISOString()
+
+  await docClient.update({
+    TableName: process.env.USERS_TABLE_NAME,
+    Key: {
+      userId: {S: id},
+    },
+    UpdateExpression: "SET loginCode = :code, loginCodeDate = :date",
+    ExpressionAttributeValues: {
+      ':code': {S: code},
+      ':date': {S: date},
+    },
+  }).promise()
+
+  return code
+}
+
 // This is your common handler, no way different than what you are used to do every day
 // in AWS Lambda
 const sendMail = async (event, context) => {
@@ -259,6 +280,8 @@ const sendMail = async (event, context) => {
       console.log("Found", email);
       const token = generateToken(email);
       const name = result.Items[0].name;
+      const code = await updateLoginCode(docClient, result.Items[0].id)
+
       const sendMailResp = await sendEmail(
         email,
         token,
@@ -266,7 +289,8 @@ const sendMail = async (event, context) => {
         commentId,
         ideaToSaveId,
         next,
-        context
+        context,
+        code
       );
       console.log("---------mail sending------");
       console.log(sendMailResp);

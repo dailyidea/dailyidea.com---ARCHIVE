@@ -465,7 +465,10 @@
                         <tr>
                           <td align="center" bgcolor="#FFC61E" role="presentation" style="border:1px solid #FFC61E;border-radius:50px;cursor:auto;padding:10px 25px;" valign="middle"> <a href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}{{verifyAdditionalUrlParams}}" style="background:#FFC61E;color:#ffffff;font-family:Helvetica, sans-serif;font-size:20px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;" target="_blank">
               Don't worry, it's me!
-            </a> </td>
+            </a>
+
+                          <p>Code: {{ code }}</p>
+                          </td>
                         </tr>
                       </table>
                     </td>
