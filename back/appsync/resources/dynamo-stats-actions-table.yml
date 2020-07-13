@@ -7,6 +7,8 @@ Resources:
           AttributeType: S
         - AttributeName: createdDate
           AttributeType: S
+        - AttributeName: idea_owner_id
+          AttributeType: S
       KeySchema:
         - AttributeName: actionType
           KeyType: HASH
@@ -14,3 +16,12 @@ Resources:
           KeyType: RANGE
       BillingMode: PAY_PER_REQUEST
       TableName: ${self:custom.statsActionsTableName}
+      GlobalSecondaryIndexes:
+        - IndexName: ownerStatsByDate
+          KeySchema:
+            - AttributeName: idea_owner_id
+              KeyType: HASH
+            - AttributeName: createdDate
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL

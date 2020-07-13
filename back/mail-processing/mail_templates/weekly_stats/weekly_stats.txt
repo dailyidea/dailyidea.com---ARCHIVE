@@ -1,0 +1,4 @@
+Ideas Count: {{ IDEAS_COUNT }}
+Saves Count: {{ SAVES_COUNT }}
+Shares Count: {{ SHARES_COUNT }}
+Comments Count: {{ COMMENTS_COUNT }}
