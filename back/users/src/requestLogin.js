@@ -60,6 +60,7 @@ const sendEmail = async function(
   commentId = undefined,
   ideaToSaveId = undefined,
   next = undefined,
+  context,
   code
 ) {
   const emailEncoded = encodeURIComponent(email);
@@ -235,12 +236,12 @@ async function updateLoginCode(docClient, id) {
   await docClient.update({
     TableName: process.env.USERS_TABLE_NAME,
     Key: {
-      userId: {S: id},
+      userId: id,
     },
     UpdateExpression: "SET loginCode = :code, loginCodeDate = :date",
     ExpressionAttributeValues: {
-      ':code': {S: code},
-      ':date': {S: date},
+      ':code': code,
+      ':date': date,
     },
   }).promise()
 
@@ -280,7 +281,7 @@ const sendMail = async (event, context) => {
       console.log("Found", email);
       const token = generateToken(email);
       const name = result.Items[0].name;
-      const code = await updateLoginCode(docClient, result.Items[0].id)
+      const code = await updateLoginCode(docClient, result.Items[0].userId)
 
       const sendMailResp = await sendEmail(
         email,

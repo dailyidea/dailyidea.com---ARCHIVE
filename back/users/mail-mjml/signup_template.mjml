@@ -36,11 +36,19 @@
         <mj-image width="150px" align="center" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/create-account/create-account.png"></mj-image>
       </mj-column>
     </mj-section>
-    <mj-section background-color="white" padding-top="0">
+    <mj-section background-color="white" padding-top="0" padding-bottom="0">
       <mj-column>
         <mj-button inner-padding="10px 65px" border-radius="30px" font-family="helvetica" font-size="20px" background-color="#FFC61F" color="white" href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}{{verifyAdditionalUrlParams}}">
           Yep! It's me!
         </mj-button>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="white" padding-top="0" padding-bottom="0">
+      <mj-column>
+        <mj-text font-family="helvetica" align="center">
+          <p>Log in by entering the following numeric code.<br> This code is valid for 15 minutes from the time it is was sent.</p>
+          <p style="font-size: 20px;">Code: {{code}}</p>
+        </mj-text>
       </mj-column>
     </mj-section>
     <mj-section background-color="white" padding-top="0">
