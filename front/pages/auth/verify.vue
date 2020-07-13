@@ -103,7 +103,6 @@ export default {
           'userData/fetchUserData',
           {}
         )
-        console.log(this.$router.query);
         const next = this.$route.query.next
           ? decodeURIComponent(this.$route.query.next)
           : undefined

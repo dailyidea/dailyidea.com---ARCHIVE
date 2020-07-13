@@ -35,7 +35,6 @@ export default {
   },
 
   props: {
-    actionType: String,
     value: Boolean,
     header: {
       type: String,
@@ -57,7 +56,7 @@ export default {
 
   methods: {
     onOk() {
-      this.$emit('data', this.email, this.actionType)
+      this.$emit('data', this.email)
     }
   }
 }
