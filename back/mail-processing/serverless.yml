@@ -8,6 +8,9 @@ package:
 custom:
   ideasTableName: dailyidea-ideas-${self:provider.stage}
   usersTableName: dailyidea-users-${self:provider.stage}
+  savesTableName: dailyidea-saves-${self:provider.stage}
+  statsActionsTableName: dailyidea-stats-actions-${self:provider.stage}
+  commentsTableName: dailyidea-comments-${self:provider.stage}
   sentry:
     dsn: ${env:SENTRY_DSN}
   prune:
@@ -87,6 +90,17 @@ functions:
       - schedule:
           rate: cron(0 12 ? * SUN *)
           enabled: true
+  weeklyStats:
+    handler: weekly_stats.endpoint
+    memorySize: 512
+    timeout: 120
+    environment:
+      BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
+      WEEKLY_STATS_TEMPLATE_NAME: ${self:provider.weeklyStatsEmailTemplateName}
+    events:
+      - schedule:
+          rate: cron(0 12 ? * SUN *)
+          enabled: true
 
 plugins:
   - serverless-dynamodb-local
@@ -104,6 +118,7 @@ provider:
   emailStaticBucketName: dailyidea-serverless-email-static-${self:provider.stage}
   requestDailyIdeaEmailTemplateName: requestDailyIdeaEmailTemplate-${self:provider.stage}
   weeklyDigestEmailTemplateName: weeklyDigestEmailTemplate-${self:provider.stage}
+  weeklyStatsEmailTemplateName: weeklyStatsEmailTemplate-${self:provider.stage}
   environment:
     AWS_DEPLOY_REGION: ${self:provider.region}
     MAILBOX_ADDR: ${env:MAILBOX, 'ideas@beta.dailyidea.com'}
@@ -111,6 +126,9 @@ provider:
     SES_AWS_REGION: ${self:provider.region}
     USERS_TABLE_NAME: ${self:custom.usersTableName}
     IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
+    SAVES_TABLE_NAME: ${self:custom.savesTableName}
+    STATS_ACTIONS_TABLE_NAME: ${self:custom.statsActionsTableName}
+    COMMENTS_TABLE_NAME: ${self:custom.commentsTableName}
     SENTRY_ENVIRONMENT: ${opt:stage, self:provider.stage}
     SENTRY_DSN: ${env:SENTRY_DSN}
     SECRET_TOKEN: ${env:SECRET_TOKEN, 'secret-tk1x'}
@@ -151,6 +169,42 @@ provider:
               - Ref: 'AWS::Region'
               - Ref: 'AWS::AccountId'
               - 'table/${self:custom.ideasTableName}/index/*'
+        - 'Fn::Join':
+            - ':'
+            - - 'arn:aws:dynamodb'
+              - Ref: 'AWS::Region'
+              - Ref: 'AWS::AccountId'
+              - 'table/${self:custom.savesTableName}'
+        - 'Fn::Join':
+            - ':'
+            - - 'arn:aws:dynamodb'
+              - Ref: 'AWS::Region'
+              - Ref: 'AWS::AccountId'
+              - 'table/${self:custom.savesTableName}/index/*'
+        - 'Fn::Join':
+            - ':'
+            - - 'arn:aws:dynamodb'
+              - Ref: 'AWS::Region'
+              - Ref: 'AWS::AccountId'
+              - 'table/${self:custom.statsActionsTableName}'
+        - 'Fn::Join':
+            - ':'
+            - - 'arn:aws:dynamodb'
+              - Ref: 'AWS::Region'
+              - Ref: 'AWS::AccountId'
+              - 'table/${self:custom.statsActionsTableName}/index/*'
+        - 'Fn::Join':
+            - ':'
+            - - 'arn:aws:dynamodb'
+              - Ref: 'AWS::Region'
+              - Ref: 'AWS::AccountId'
+              - 'table/${self:custom.commentsTableName}'
+        - 'Fn::Join':
+            - ':'
+            - - 'arn:aws:dynamodb'
+              - Ref: 'AWS::Region'
+              - Ref: 'AWS::AccountId'
+              - 'table/${self:custom.commentsTableName}/index/*'
     - Effect: Allow
       Action:
         - ses:SendEmail
