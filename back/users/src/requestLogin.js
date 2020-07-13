@@ -59,8 +59,10 @@ const sendEmail = async function(
   name = undefined,
   commentId = undefined,
   ideaToSaveId = undefined,
+  ideaToLikeId = undefined,
   next = undefined
 ) {
+
   const emailEncoded = encodeURIComponent(email);
   const ses = new AWS.SES({
     region: process.env.SES_REGION
@@ -126,13 +128,14 @@ const sendEmail = async function(
   }
 
   let ideaToSave;
+  let ideaToLike;
 
-  if (ideaToSaveId) {
+  if (ideaToSaveId || ideaToLikeId) {
     const ddbParams = {
       KeyConditionExpression: "ideaId = :ideaId",
       ExpressionAttributeValues: {
         ":ideaId": {
-          S: ideaToSaveId
+          S: ideaToSaveId || ideaToLikeId
         }
       },
       IndexName: "ideasById",
@@ -140,8 +143,13 @@ const sendEmail = async function(
     };
     try {
       const resp = await ddb.query(ddbParams).promise();
-      ideaToSave = resp.Items[0];
-      console.log("ideaToSave");
+      if(ideaToSaveId) {
+        console.log("ideaToSave");
+        ideaToSave = resp.Items[0];
+      } else {
+        console.log("ideaToLike");
+        ideaToLike = resp.Items[0];
+      }
     } catch (err) {
       console.log("Error when fetching idea");
       console.log(process.env.IDEAS_TABLE_NAME);
@@ -167,22 +175,30 @@ const sendEmail = async function(
     templateParams.commentText = comment.body.S;
     templateParams.ideaHref = `https://${templateParams.DOMAIN_NAME}${ideaURLPath}`;
     templateParams.ideaName = comment.ideaName.S;
-  } else if (ideaToSave) {
+  } else if (ideaToSave || ideaToLike) {
+    const idea = ideaToSave || ideaToLike;
+    
+    let aa = 'si';
+   
+    if(ideaToLike) {
+      aa = 'li';
+    }
+
     try {
-      const ideaURLPath = `/i/${ideaToSave.shortId.S}/${ideaToSave.slug.S}`;
+      const ideaURLPath = `/i/${idea.shortId.S}/${idea.slug.S}`;
       templateParams.verifyAdditionalUrlParams = `&fis=1&next=${encodeURIComponent(
-        `${ideaURLPath}?aa=si`
+        `${ideaURLPath}?aa=${aa}`
       )}`;
       templateParams.ideaHref = `https://${templateParams.DOMAIN_NAME}${ideaURLPath}`;
-      templateParams.ideaName = ideaToSave.title.S;
+      templateParams.ideaName = idea.title.S;
     } catch (err) {
       console.log(JSON.stringify(err, null, ""));
     }
-  }else if(next){
+  } else if(next){
     templateParams.verifyAdditionalUrlParams = `&next=${encodeURIComponent(next)}`;
   }
 
-  const htmlTemplate = getLoginTemplate(firstLogin, !!comment, !!ideaToSave);
+  const htmlTemplate = getLoginTemplate(firstLogin, !!comment, !!(ideaToSave || ideaToLike));
 
   const eParams = {
     Destination: {
@@ -229,7 +245,7 @@ const sendEmail = async function(
 // This is your common handler, no way different than what you are used to do every day
 // in AWS Lambda
 const sendMail = async (event, context) => {
-  const { email, commentId, ideaToSaveId, next } = event.body;
+  const { email, commentId, ideaToLikeId, ideaToSaveId, next } = event.body;
   // commentId is defined in case when user logs in after unauth comment attempt
   // ideaToSaveId is defined in case when user logs in after unauth save idea attempt
   console.log("generating log token", email);
@@ -265,6 +281,7 @@ const sendMail = async (event, context) => {
         name,
         commentId,
         ideaToSaveId,
+        ideaToLikeId,
         next,
         context
       );

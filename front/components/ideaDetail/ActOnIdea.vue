@@ -6,9 +6,8 @@
       :is-loading="isLoading"
       :is-logged-in="isLoggedIn"
       :idea="idea"
-      @init-like-state="initIdeaState"
       @is-liked-by-me="handleIsIdeaLikedByMe"
-      @show-ask-email="handleShowAskEmail"
+      @show-ask-email="handleShowAskEmail('like')"
       @like-idea="likeIdea"
       @unlike-idea="unlikeIdea"
     ></like-idea>
@@ -18,21 +17,31 @@
       :is-saved="isActedOn"
       :is-logged-in="isLoggedIn"
       :idea="idea"
-      @init-save-state="initIdeaState"
       @is-saved-by-me="handleIsIdeaSavedByMe"
-      @show-ask-email="handleShowAskEmail"
+      @show-ask-email="handleShowAskEmail('save')"
       @save-idea="saveIdea"
       @unsave-idea="unsaveIdea"
     ></save-idea>
 
     <ask-email-dialog
-      v-model="showAskEmail"
+      v-model="showAskEmailSave"
       header="Introduce yourself?"
+      action-type="save"
       message="What's your email address so you can find your saved ideas later?
                       (Just so I know how to find this for you in the future.)"
       @data="onNoAuthEmail"
     ></ask-email-dialog>
+    
+    <ask-email-dialog
+      v-model="showAskEmailLike"
+      header="Introduce yourself?"
+      action-type="like"
+      message="What's your email address so you can finish liking this idea?
+                      (Just so I know how to find this for you in the future.)"
+      @data="onNoAuthEmail"
+    ></ask-email-dialog>
 
+      
     <ask-name-dialog
       v-model="showAskName"
       header="Almost there"
@@ -105,6 +114,8 @@ import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
 import AskNameDialog from '@/components/ideaDetail/AskNameDialog'
+import likeIdeaMutation from '@/graphql/mutations/likeIdea'
+import saveIdeaMutation from '@/graphql/mutations/saveIdea'
 
 export default {
   name: 'ActOnIdea',
@@ -134,7 +145,8 @@ export default {
       isActedOn: false,
       isLoading: false,
 
-      showAskEmail: false,
+      showAskEmailLike: false,
+      showAskEmailSave: false,
       email: '',
 
       showAskName: false,
@@ -155,6 +167,10 @@ export default {
     })
   },
 
+  mounted() {
+    this.initIdeaState();
+  },
+
   methods: {
     ...mapMutations({
       showProgressBar: 'layoutState/showProgressBar',
@@ -165,13 +181,18 @@ export default {
       registerUser: 'cognito/registerUser'
     }),
 
-    async initIdeaState(mutation) {
+    async initIdeaState() {
       if (this.$route.query.aa) {
         const additionalAction = this.$route.query.aa
-        if (additionalAction === 'si') {
-          // save or like idea depending on action prop
+        if (additionalAction === 'si' || additionalAction === 'li') {
           this.$router.replace({ query: null })
-          await this.doIdeaAction(mutation)
+          if(additionalAction === 'si') {
+            alert("SAVE IDEA")
+            await this.doIdeaAction(saveIdeaMutation)
+          } else {
+            alert("LIKE IDEA")
+            await this.doIdeaAction(likeIdeaMutation)
+          }
           if (this.userWasWelcomed) {
             this.showSavedByLoginLink = true
           } else {
@@ -283,18 +304,28 @@ export default {
       }
     },
 
-    async requestAuthAndProcessIdeaSaving(email, ideaToSaveId) {
+    async requestAuthAndProcessIdeaAction(email, ideaToActOnId, actionType) {
       this.showProgressBar()
+
+      const data = { email }
+
+      if (actionType === 'save') {
+        data.ideaToSaveId = ideaToActOnId
+      } else {
+        data.ideaToLikeId = ideaToActOnId
+      }
+
       await this.$amplifyApi.post('RequestLogin', '', {
-        body: { email, ideaToSaveId }
+        body: data
       })
       this.showWelcomeBack = true
       this.hideProgressBar()
     },
 
-    async onNoAuthEmail(email) {
+    async onNoAuthEmail(email, actionType) {
       this.email = email.toLowerCase()
-      this.showAskEmail = false
+      this.showAskEmailSave = false
+      this.showAskEmailLike = false
       this.showProgressBar()
       try {
         const result = await this.checkEmailBelongsToExistingUser(this.email)
@@ -304,7 +335,7 @@ export default {
         this.hideProgressBar()
 
         if (belongsToExistingUser) {
-          this.requestAuthAndProcessIdeaSaving(this.email, this.idea.ideaId)
+          this.requestAuthAndProcessIdeaAction(this.email, this.idea.ideaId, actionType)
         } else {
           this.showAskName = true
         }
@@ -313,8 +344,12 @@ export default {
       }
     },
 
-    handleShowAskEmail() {
-      this.showAskEmail = true
+    handleShowAskEmail(actionType) {
+      if(actionType === 'save') {
+        this.showAskEmailSave = true
+      } else {
+        this.showAskEmailLike = true
+      }
     },
 
     async handleIsIdeaSavedByMe(query) {

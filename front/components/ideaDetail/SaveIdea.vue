@@ -43,7 +43,6 @@ export default {
 
   methods: {
     initIdeaState() {
-      this.$emit('init-save-state', saveIdea)
       if (!this.$route.query.aa && this.isLoggedIn) {
         this.isSavedByMe()
       }
