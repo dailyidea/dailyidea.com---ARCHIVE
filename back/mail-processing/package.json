@@ -7,13 +7,15 @@
     "sls:deploy-dev": "env-cmd -f ./conf/dev.env sls deploy",
     "sls:deploy-prod": "env-cmd -f ./conf/prod.env sls deploy",
     "sls:deploy-ci": "serverless deploy",
-    "run-dev": "env-cmd -f ./conf/dev.env ./run.py"
+    "run-dev": "env-cmd -f ./conf/dev.env ./run.py",
+    "compile-emails": "node mail-mjml/compile-emails.js"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "cross-env": "5.2.0",
     "env-cmd": "10.1.0",
+    "mjml": "^4.6.3",
     "serverless": "1.46.1",
     "serverless-dynamodb-local": "0.2.38",
     "serverless-localstack": "0.3.0",

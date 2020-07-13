@@ -7,6 +7,8 @@ Resources:
           AttributeType: S
         - AttributeName: userId
           AttributeType: S
+        - AttributeName: ideaOwnerId
+          AttributeType: S
         - AttributeName: savedTime
           AttributeType: S
       KeySchema:
@@ -26,6 +28,14 @@ Resources:
         - IndexName: userSavesByDate
           KeySchema:
             - AttributeName: userId
+              KeyType: HASH
+            - AttributeName: savedTime
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+        - IndexName: ownerSavesByDate
+          KeySchema:
+            - AttributeName: ideaOwnerId
               KeyType: HASH
             - AttributeName: savedTime
               KeyType: RANGE
