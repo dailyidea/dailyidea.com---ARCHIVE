@@ -2,6 +2,8 @@ const withSentry = require('serverless-sentry-lib')
 const AWS = require('aws-sdk')
 const dayjs = require('dayjs')
 const jwt = require('jsonwebtoken')
+const middy = require('middy')
+const { cors, jsonBodyParser, httpErrorHandler } = require('middy/middlewares')
 
 async function getUser (email) {
   const docClient = new AWS.DynamoDB.DocumentClient()
@@ -26,7 +28,7 @@ async function getUser (email) {
 }
 
 
-async function revomeLoginCode(id) {
+async function revomeLoginCode (id) {
   const docClient = new AWS.DynamoDB.DocumentClient()
 
   await docClient.update({
@@ -34,7 +36,7 @@ async function revomeLoginCode(id) {
     Key: {
       userId: id,
     },
-    UpdateExpression: "REMOVE loginCode, loginCodeDate",
+    UpdateExpression: 'REMOVE loginCode, loginCodeDate',
   }).promise()
 }
 
@@ -56,7 +58,7 @@ const generateToken = function (email) {
   )
 }
 
-exports.handler = withSentry(async (event, context) => {
+const loginWithCode = async (event, context) => {
   const { email, code } = event.body
   let user
 
@@ -87,4 +89,11 @@ exports.handler = withSentry(async (event, context) => {
   await revomeLoginCode(user.userId)
 
   return { body: JSON.stringify({ token: generateToken(email) }) }
-})
+}
+
+const handler = withSentry(middy(loginWithCode)
+  .use(jsonBodyParser())
+  .use(httpErrorHandler())
+  .use(cors()))
+
+module.exports = { handler }

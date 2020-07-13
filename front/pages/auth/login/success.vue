@@ -12,7 +12,7 @@
         <validation-observer v-slot="{ valid, validated, handleSubmit }">
           <v-form class="mainForm" @submit.prevent="login">
             <div class="additional-message">
-              <div class="additional-message__text"></div>
+              <div class="additional-message__text">{{ error }}</div>
             </div>
             <!-- Email Input Box -->
             <v-text-field-with-validation
@@ -74,6 +74,7 @@ export default {
     email: null,
     code: '',
     checkingCode: false,
+    error: '',
     showResendEmail: false
   }),
 
@@ -93,13 +94,12 @@ export default {
         return
       }
       this.checkingCode = true
+      this.error = ''
 
       try {
         const resp = await this.$amplifyApi.post('LoginWithCode', '', {
           body: { email: this.email, code: this.code }
         })
-
-        console.log({ resp })
 
         const user = await this.$store.dispatch('cognito/signInUser', {
           username: this.email
@@ -109,10 +109,41 @@ export default {
           answer: resp.token
         })
         await this.$store.commit('userData/setUserIsAuthenticated')
+        await this.$store.dispatch('userData/fetchUserData')
+
+        this.$router.replace('/ideas/all')
       } catch (e) {
-        console.log(e, e.response, e.response && e.response.data)
+        if (e.response && e.response.status === 400) {
+          await this.processError(e.response.data)
+        }
       }
       this.checkingCode = false
+    },
+
+    async processError(data) {
+      switch (data.code) {
+        case 'WRONG_CODE':
+          this.error =
+            'Sorry this code is invalid. please try logging in again.'
+          break
+        case 'EXPIRED':
+          this.error =
+            'Sorry this code has expired. We sent you another one to the same email address.'
+          await this.sendEmail()
+          break
+        default:
+          this.error = data.message
+      }
+    },
+
+    async sendEmail() {
+      try {
+        await this.$amplifyApi.post('RequestLogin', '', {
+          body: { email: this.email }
+        })
+      } catch (e) {
+        this.$sentry.captureException(e)
+      }
     }
   }
 }
@@ -120,4 +151,13 @@ export default {
 
 <style scoped lang="scss">
 @import '~assets/style/common';
+
+.additional-message {
+  &__text {
+    color: red;
+    max-width: 300px;
+    margin: auto;
+    min-height: 50px;
+  }
+}
 </style>
