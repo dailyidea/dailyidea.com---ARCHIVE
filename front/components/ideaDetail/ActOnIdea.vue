@@ -121,16 +121,30 @@
     </default-dialog>
 
     <default-dialog
-      v-model="showWelcomeBack"
+      v-model="showWelcomeBackSave"
       :header="`Welcome back ${name}!`"
       :show-cancel-button="false"
       button-ok-text="Nice!"
-      @ok="showWelcomeBack = false"
+      @ok="showWelcomeBackSave = false"
     >
       <p>We sent you a confirmation email.</p>
       <p>
         Please check your inbox and click the verification link in the message
         so we can make sure we're saving this idea to the right account.
+      </p>
+    </default-dialog>
+
+    <default-dialog
+      v-model="showWelcomeBackLike"
+      :header="`Welcome back ${name}!`"
+      :show-cancel-button="false"
+      button-ok-text="Nice!"
+      @ok="showWelcomeBackLike = false"
+    >
+      <p>We sent you a confirmation email.</p>
+      <p>
+        Please check your inbox and click the verification link in the message
+        so we can make sure we're liking the idea with the correct account.
       </p>
     </default-dialog>
   </span>
@@ -189,7 +203,8 @@ export default {
       showFirstIdeaLiked: false,
       showSavedByLoginLink: false,
       showLikedByLoginLink: false,
-      showWelcomeBack: false
+      showWelcomeBackSave: false,
+      showWelcomeBackLike: false
     }
   },
 
@@ -368,14 +383,15 @@ export default {
 
       if (this.action === 'save') {
         data.ideaToSaveId = ideaToActOnId
+        this.showWelcomeBackSave = true
       } else {
         data.ideaToLikeId = ideaToActOnId
+        this.showWelcomeBackLike = true
       }
 
       await this.$amplifyApi.post('RequestLogin', '', {
         body: data
       })
-      this.showWelcomeBack = true
       this.hideProgressBar()
     },
 
