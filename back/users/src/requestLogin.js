@@ -18,7 +18,8 @@ const getCompiledTemplateFromPath = templatePath => {
 const getLoginTemplate = (
   firstLogin,
   withComment = false,
-  ideaToSave = false
+  ideaToSave = false,
+  isMobile = false
 ) => {
   let activePath;
   if (firstLogin) {
@@ -27,12 +28,14 @@ const getLoginTemplate = (
     } else if (ideaToSave) {
       activePath = "../mail-templates/magic_link_template_with_idea_save.html";
     } else {
-      activePath = "../mail-templates/signup_template.html";
+      activePath = "../mail-templates/signup_template_mobile.html";
     }
   } else if (withComment) {
     activePath = "../mail-templates/require_login_template_with_comment.html";
   } else if (ideaToSave) {
     activePath = "../mail-templates/require_login_template_with_idea_save.html";
+  } else if (isMobile) {
+    activePath = "../mail-templates/require_login_template_mobile.html";
   } else {
     activePath = "../mail-templates/require_login_template.html";
   }
@@ -61,7 +64,8 @@ const sendEmail = async function(
   ideaToSaveId = undefined,
   next = undefined,
   context,
-  code
+  code,
+  isMobile
 ) {
   const emailEncoded = encodeURIComponent(email);
   const ses = new AWS.SES({
@@ -185,7 +189,7 @@ const sendEmail = async function(
     templateParams.verifyAdditionalUrlParams = `&next=${encodeURIComponent(next)}`;
   }
 
-  const htmlTemplate = getLoginTemplate(firstLogin, !!comment, !!ideaToSave);
+  const htmlTemplate = getLoginTemplate(firstLogin, !!comment, !!ideaToSave, isMobile);
 
   const eParams = {
     Destination: {
@@ -251,7 +255,7 @@ async function updateLoginCode(docClient, id) {
 // This is your common handler, no way different than what you are used to do every day
 // in AWS Lambda
 const sendMail = async (event, context) => {
-  const { email, commentId, ideaToSaveId, next } = event.body;
+  const { email, commentId, ideaToSaveId, next, isMobile } = event.body;
   // commentId is defined in case when user logs in after unauth comment attempt
   // ideaToSaveId is defined in case when user logs in after unauth save idea attempt
   console.log("generating log token", email);
@@ -291,7 +295,8 @@ const sendMail = async (event, context) => {
         ideaToSaveId,
         next,
         context,
-        code
+        code,
+        isMobile
       );
       console.log("---------mail sending------");
       console.log(sendMailResp);

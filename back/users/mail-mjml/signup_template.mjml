@@ -43,14 +43,6 @@
         </mj-button>
       </mj-column>
     </mj-section>
-    <mj-section background-color="white" padding-top="0" padding-bottom="0">
-      <mj-column>
-        <mj-text font-family="helvetica" align="center">
-          <p>Log in by entering the following numeric code.<br> This code is valid for 15 minutes from the time it is was sent.</p>
-          <p style="font-size: 20px;">Code: {{code}}</p>
-        </mj-text>
-      </mj-column>
-    </mj-section>
     <mj-section background-color="white" padding-top="0">
       <mj-column>
         <mj-text font-size="12px" font-family="helvetica">
