@@ -82,7 +82,7 @@
       </p>
       <p>
         Do you want to:<br />
-        <a href="#" @click.prevent="showFirstIdaLiked = false"
+        <a href="#" @click.prevent="showFirstIdeaLiked = false"
           >go back to the idea you liked</a
         >,<br />
         <router-link to="/ideas/all?order=LIKES">browse other ideas</router-link
