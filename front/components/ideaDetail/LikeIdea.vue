@@ -43,7 +43,6 @@ export default {
 
   methods: {
     initIdeaState() {
-      this.$emit('init-like-state', likeIdea)
       if (!this.$route.query.aa && this.isLoggedIn) {
         this.isLikedByMe()
       }

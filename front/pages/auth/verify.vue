@@ -120,7 +120,7 @@ export default {
           await this.setDefaultAvatar() // Get and upload default SVG avatar
         } else {
           this.message = redirectToIdeaPage
-            ? "Hooray! We'll direct you to your home page bext..."
+            ? "Hooray! We'll direct you to your home page next..."
             : "Hooray! We'll direct you to your dashboard next..."
         }
 
