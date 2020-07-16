@@ -11,7 +11,7 @@
     <mj-section background-color="white" padding-top="0" padding-bottom="0">
       <mj-column>
         <mj-text padding-top="0" padding-bottom="0" font-family="helvetica" color="#2d2d2d">
-          <h1>Well Hello There, Chris!</h1>
+          <h1>We Missed You, {{ name }}!</h1>
         </mj-text>
       </mj-column>
     </mj-section>
@@ -24,22 +24,23 @@
       </mj-column>
     </mj-section>
     <mj-section background-color="white" padding-top="0" padding-bottom="0">
-      <mj-column width="60%">
-        <mj-text padding-top="10px" padding-right="0" font-family="helvetica" color="#2d2d2d" font-size="18px" line-height="22px">
-          <p>Yay! Thanks for joining Daily Idea!<p>
-          <p>You're the coolest person in all the land (and I've met a lot of really cool people!)</p>
-          <p>Before we proceed, I just want to make sure I got your email address right.</p>
-          <p>Press the button below to proceed.</p>
-        </mj-text>
+      <mj-column>
+        <mj-image width="180px" align="center" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/login/login.png"></mj-image>
       </mj-column>
-      <mj-column width="40%">
-        <mj-image width="150px" align="center" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/create-account/create-account.png"></mj-image>
+    </mj-section>
+    <mj-section background-color="white" padding-top="0" padding-bottom="0">
+      <mj-column>
+        <mj-text padding-top="10px" padding-right="0" font-family="helvetica" color="#2d2d2d" font-size="18px" line-height="22px">
+          <p>Welcome back, {{ name }}. 🎈<p>
+          <p>You know the drill.</p>
+          <p>Press the button below so I know you're not a {{ name }}-impersonator.</p>
+        </mj-text>
       </mj-column>
     </mj-section>
     <mj-section background-color="white" padding-top="0" padding-bottom="0">
       <mj-column>
         <mj-button inner-padding="10px 65px" border-radius="30px" font-family="helvetica" font-size="20px" background-color="#FFC61F" color="white" href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}{{verifyAdditionalUrlParams}}">
-          Yep! It's me!
+          Don't worry, it's me!
         </mj-button>
       </mj-column>
     </mj-section>
@@ -54,7 +55,7 @@
       <mj-column>
         <mj-text font-size="12px" align="center" font-family="helvetica">
           <p>Made with <span style="color:red; font-size: 18px">♥</span> in Chicago</p>
-          <p><a href="https://www.dailyidea.com/" style="text-decoration:none; font-weight:bold; color:#2d2d2d">www.dailyidea.com</a></p>
+          <p><a href="https://{{ DOMAIN_NAME }}/" style="text-decoration:none; font-weight:bold; color:#2d2d2d">{{ DOMAIN_NAME }}</a></p>
         </mj-text>
       </mj-column>
     </mj-section>

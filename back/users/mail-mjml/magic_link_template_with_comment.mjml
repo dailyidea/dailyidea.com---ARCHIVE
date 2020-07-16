@@ -1,5 +1,5 @@
 <mjml>
-	<mj-body>
+	<mj-body background-color="#FCFCFC">
 		<mj-section padding-bottom="5px" background-color="white">
     	<mj-column>
       	<mj-image align="left" width="120px" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/common/logo_full.png"></mj-image>
@@ -12,12 +12,12 @@
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section padding-top="0" padding-bottom="0">
+    <mj-section padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
       	<mj-image src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/post-comment/post-comment.png" width="200px" align="center"></mj-image>
       </mj-column>
     </mj-section>
-    <mj-section padding-top="0" padding-bottom="0">
+    <mj-section padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
       	<mj-text>
           <p style="font-size: 18px; line-height: 1.5;">Hey Welcome, Stranger!</p>
@@ -26,42 +26,42 @@
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section padding-top="0" padding-bottom="0">
+    <mj-section padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
-      	<mj-button  href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}{{verifyAdditionalUrlParams}}" font-size="20px" width="70%" height="50px" background-color="#FFC61E" border-radius="50px">
+      	<mj-button href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}{{verifyAdditionalUrlParams}}" font-size="20px" width="70%" height="50px" background-color="#FFC61E" border-radius="50px">
         	Post Comment
         </mj-button>
       </mj-column>
     </mj-section>
-    <mj-section padding-top="0" padding-bottom="0">
+    <mj-section padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
       	<mj-text>
           <p style="font-size: 18px">This confirmation email is regarding this comment:</p>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section>
+    <mj-section background-color="white">
     	<mj-column width="91%" background-color="#eff6ff" border-radius="9px">
       	<mj-text color="#c0c0c0" padding-top="13px" padding-bottom="13px">
         	<p style="font-size: 13px; color: #c0c0c0; font-style: italic;">{{commentText}}</p>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section padding-top="0" padding-bottom="0">
+    <mj-section padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
       	<mj-text>
           <p style="font-size: 18px;">On this idea:</p>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section padding-top="0" padding-bottom="0">
+    <mj-section padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
         <mj-text>
         	<a style="font-size: 16px;" href="{{ideaHref}}">{{ideaName}}</a>
       	</mj-text>
       </mj-column>
     </mj-section>
-    <mj-section>
+    <mj-section background-color="white">
     	<mj-column>
       	<mj-text color="#c8c8c8" font-size="12px">
         	<a href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}&next=/settings" style="color:#C8C8C8;">Unsubscribe from email</a> 
