@@ -2,6 +2,7 @@
   <layout :hide-slide-menu="hideSlideMenu">
     <swiper
       v-slot="{ rotationStyle }"
+      :swipe-disabled="lightBoxExpanded"
       @swipe-start="setHideSlideMenuTrue"
       @swipe-end="setHideSlideMenuFalse"
       @swipe-left="nextIdea"
@@ -10,9 +11,12 @@
       @right-arrow-clicked="nextIdea"
     >
       <v-row
+        ref="page"
         :style="rotationStyle"
         align="stretch"
+        :class="{'fixed-height': !lightBoxExpanded, 'full-height': lightBoxExpanded}"
         class="elevation-2 ma-1 card"
+        @click="cardTapped"
       >
         <v-col cols="12" md="8" class="idea-part">
           <validation-observer v-slot="{ valid, validated, handleSubmit }">
@@ -231,6 +235,7 @@ export default {
       editMode: false,
       hideSlideMenu: false,
       idea: null,
+      lightBoxExpanded: false,
       ideaTags: [],
       ideaEditData: {
         title: '',
@@ -257,12 +262,24 @@ export default {
   },
 
   mounted() {
+    this.$refs.page.addEventListener("touchmove", this.preventScrollOnMobileWhenCardIsNotExpanded)
+
     this.cacheIdeas()
     this.loadSecondaryData()
     this.incrementViews()
   },
 
   methods: {
+    preventScrollOnMobileWhenCardIsNotExpanded(event) {
+      if(this.lightBoxExpanded === false) {
+        event.preventDefault() 
+      } else {
+        return true 
+      }
+    },
+    cardTapped() {
+      this.lightBoxExpanded = !this.lightBoxExpanded
+    },
     nextIdea() {
       this.loadNewIdea(1)
     },
@@ -534,13 +551,28 @@ export default {
   font-size: 24px;
 }
 
+.v-layout { 
+  background-color: blue;
+}
+
 .card {
+  background-color: white;
   border: 1px solid $color-insanely-crazy-light-greyish-purple;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
-  border-radius: 4px;
+  border-radius: 8px;
   /* .rounded doesn't work because i'm applying this to a .row (which i shouldn't) */
 }
+
+.fixed-height {
+  height: 60vh;
+  overflow-y: hidden;
+}
+
+.full-height {
+  height: 100%;
+}
+
 .idea-part {
   @media (min-width: $screen-md-min) {
     min-height: calc(100vh - 88px);

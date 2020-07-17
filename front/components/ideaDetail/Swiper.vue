@@ -16,6 +16,9 @@
 <script>
 export default {
   name: 'Swiper',
+  props: {
+    swipeDisabled: Boolean
+  },
   data() {
     return {
       tapping: false,
@@ -108,6 +111,10 @@ export default {
       }
     },
     setPos(event) {
+      if(this.swipeDisabled) {
+        return
+      }
+
       const { x } = this.getPos(event)
       if (this.swipeInProgress === false) {
         // We haven't lifted the card yet
@@ -265,15 +272,5 @@ export default {
   top: 40vh;
   right: -3vw;
   cursor: pointer;
-}
-
-.swipe-parent {
-  width: 100%;
-  height: 100%;
-}
-
-.swipe-container {
-  width: 100%;
-  height: 100%;
 }
 </style>
