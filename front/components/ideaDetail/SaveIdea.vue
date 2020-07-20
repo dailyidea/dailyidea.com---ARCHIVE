@@ -2,11 +2,11 @@
   <span>
     <v-btn small icon @click="toggleIsSaved">
       <v-icon v-if="isLoading">fas fa-circle-notch fa-spin</v-icon>
-      <div v-else-if="isLoading || !isSaved" class="d-flex align-center">
-        <img class="action-button" src="~/assets/images/idea-card/save.svg" />
-        <span>{{ idea.savesCount }}</span>
+      <div v-else class="d-flex align-center">
+        <v-icon v-if="isSaved">mdi-bookmark</v-icon>
+        <v-icon v-else>mdi-bookmark-outline</v-icon>
+        <span class="count">{{ idea.savesCount }}</span>
       </div>
-      <v-icon v-else>mdi-bookmark-plus-outline</v-icon>
     </v-btn>
   </span>
 </template>
@@ -90,5 +90,10 @@ export default {
     color: rgba(255, 185, 45, 0.76) !important;
   }
   width: 15px;
+}
+
+.count {
+  padding-top: 2px;
+  padding-left: 2px;
 }
 </style>

@@ -2,11 +2,11 @@
   <span>
     <v-btn small icon @click="toggleIsLiked">
       <v-icon v-if="isLoading">fas fa-circle-notch fa-spin</v-icon>
-      <div v-else-if="isLoading || !isLiked" class="d-flex align-center">
-        <img class="action-button" src="~/assets/images/idea-card/like.svg" />
-        <span>{{ idea.likesCount }}</span>
+      <div v-else class="d-flex align-center">
+        <v-icon v-if="isLiked">mdi-heart</v-icon>
+        <v-icon v-else>mdi-heart-outline</v-icon>
+        <span class="count">{{ idea.savesCount }}</span>
       </div>
-      <v-icon v-else>mdi-thumb-up</v-icon>
     </v-btn>
   </span>
 </template>
@@ -84,6 +84,11 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.count {
+  padding-top: 4px;
+  padding-left: 2px;
+}
+
 .action-button {
   color: #ffb92d !important;
   &:hover {
