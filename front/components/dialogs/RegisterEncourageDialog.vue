@@ -91,6 +91,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.benefits {
+  list-style-type: none;
+  i.fa {
+    color: #5b41bb;
+  }
+}
 .emailExistsMsg {
   text-align: center;
   width: 70%;
