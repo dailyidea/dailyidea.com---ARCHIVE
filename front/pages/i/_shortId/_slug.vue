@@ -2,7 +2,7 @@
   <layout :hide-slide-menu="hideSlideMenu">
     <swiper
       v-slot="{ rotationStyle }"
-      :swipe-disabled="lightBoxExpanded"
+      :swipe-disabled="swipeDisabled"
       @swipe-start="setHideSlideMenuTrue"
       @swipe-end="setHideSlideMenuFalse"
       @swipe-left="nextIdea"
@@ -10,13 +10,10 @@
       @left-arrow-clicked="previousIdea"
       @right-arrow-clicked="nextIdea"
     >
-      <v-row
+      <idea-card
         ref="page"
         :style="rotationStyle"
-        align="stretch"
-        :class="{'fixed-height': !lightBoxExpanded, 'full-height': lightBoxExpanded}"
-        class="elevation-2 ma-1 card"
-        @click="cardTapped"
+        @expand-toggle="swipeDisabled = !swipeDisabled"
       >
         <v-col cols="12" md="8" class="idea-part">
           <validation-observer v-slot="{ valid, validated, handleSubmit }">
@@ -37,45 +34,47 @@
                     {{ idea.title }}
                   </h2>
                 </v-col>
-                <v-col v-if="!editMode" cols="auto" offset="1">
-                  <menu-panel
-                    :editable="isMyIdea"
-                    :idea="idea"
-                    @enable-edit-mode="enableEditMode"
-                    @saved-state-changed="onIdeaSaveStateChanged"
-                    @liked-state-changed="onIdeaLikeStateChanged"
-                    @on-notification="onNotification"
-                    @on-idea-shared="onIdeaShared"
-                    @on-delete-idea="onDeleteIdea"
-                    @on-idea-visibility-changed="onIdeaVisibilityChanged"
-                    @on-idea-visibility-change-error="
-                      onIdeaVisibilityChangeError
-                    "
-                  ></menu-panel>
-                </v-col>
               </v-row>
-              <div v-if="!editMode" class="idea-part__info">
+              <div v-if="!editMode" class="idea-part__info pt-2 pb-2">
                 <v-row no-gutters>
                   <v-col>
-                    <span class="muted">By</span>
                     <span class="idea-part__info__author">
                       <router-link
-                        class="idea-part__info__author__link muted"
+                        class="idea-part__info__author__link"
                         :to="{
                           name: 'profile-userSlug',
                           params: {
                             userSlug: idea.authorSlug
                           }
                         }"
-                        >{{ idea.authorName }}</router-link
                       >
+                        <img
+                          class="idea-part__author-avatar"
+                          :src="idea.authorAvatar"
+                        />
+                        {{ idea.authorName }}
+                      </router-link>
                     </span>
-                    <span class="idea-part__info__created-time">{{
+                    <span class="muted">{{
                       idea.createdDate | toRelativeDate
                     }}</span>
                   </v-col>
                 </v-row>
               </div>
+              <v-row v-if="!editMode" cols="auto" offset="1">
+                <menu-panel
+                  :editable="isMyIdea"
+                  :idea="idea"
+                  @enable-edit-mode="enableEditMode"
+                  @saved-state-changed="onIdeaSaveStateChanged"
+                  @liked-state-changed="onIdeaLikeStateChanged"
+                  @on-notification="onNotification"
+                  @on-idea-shared="onIdeaShared"
+                  @on-delete-idea="onDeleteIdea"
+                  @on-idea-visibility-changed="onIdeaVisibilityChanged"
+                  @on-idea-visibility-change-error="onIdeaVisibilityChangeError"
+                ></menu-panel>
+              </v-row>
             </div>
             <!-- /idea-part__info -->
 
@@ -162,7 +161,7 @@
             @onNotification="onNotification"
           ></idea-comments>
         </v-col>
-      </v-row>
+      </idea-card>
     </swiper>
     <visual-notifier ref="notifier"></visual-notifier>
     <register-encourage-dialog v-model="showRegisterEncourageDialog" />
@@ -178,6 +177,7 @@ import Layout from '@/components/layout/Layout'
 import TrixWrapper from '@/components/TrixWrapper'
 
 import getAllIdeas from '@/components/ideaDetail/ideaSwipeQueue.js'
+import IdeaCard from '@/components/ideaDetail/IdeaCard'
 import Swiper from '@/components/ideaDetail/Swiper'
 import IdeaComments from '@/components/ideaDetail/IdeaComments'
 import MenuPanel from '@/components/ideaDetail/MenuPanel'
@@ -197,6 +197,7 @@ export default {
     Layout,
     MenuPanel,
     Swiper,
+    IdeaCard,
     IdeaComments,
     TrixWrapper,
     VisualNotifier,
@@ -235,7 +236,7 @@ export default {
       editMode: false,
       hideSlideMenu: false,
       idea: null,
-      lightBoxExpanded: false,
+      swipeDisabled: false,
       ideaTags: [],
       ideaEditData: {
         title: '',
@@ -262,24 +263,12 @@ export default {
   },
 
   mounted() {
-    this.$refs.page.addEventListener("touchmove", this.preventScrollOnMobileWhenCardIsNotExpanded)
-
     this.cacheIdeas()
     this.loadSecondaryData()
     this.incrementViews()
   },
 
   methods: {
-    preventScrollOnMobileWhenCardIsNotExpanded(event) {
-      if(this.lightBoxExpanded === false) {
-        event.preventDefault() 
-      } else {
-        return true 
-      }
-    },
-    cardTapped() {
-      this.lightBoxExpanded = !this.lightBoxExpanded
-    },
     nextIdea() {
       this.loadNewIdea(1)
     },
@@ -551,28 +540,6 @@ export default {
   font-size: 24px;
 }
 
-.v-layout { 
-  background-color: blue;
-}
-
-.card {
-  background-color: white;
-  border: 1px solid $color-insanely-crazy-light-greyish-purple;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 8px;
-  /* .rounded doesn't work because i'm applying this to a .row (which i shouldn't) */
-}
-
-.fixed-height {
-  height: 60vh;
-  overflow-y: hidden;
-}
-
-.full-height {
-  height: 100%;
-}
-
 .idea-part {
   @media (min-width: $screen-md-min) {
     min-height: calc(100vh - 88px);
@@ -580,19 +547,20 @@ export default {
   min-height: 200px;
   position: relative;
 
+  &__author-avatar {
+    width: 24px;
+  }
+
   &__info {
     &__author {
       &__link {
         text-transform: capitalize;
         text-decoration: none;
+        color: $disabled-purple;
         &:hover {
           text-decoration: underline;
         }
       }
-    }
-
-    &__created-time {
-      color: rgb(255, 185, 45);
     }
   }
 
@@ -618,6 +586,9 @@ export default {
   &__header {
     &__title {
       text-transform: capitalize;
+      &__label {
+        font-weight: 100;
+      }
     }
   }
 

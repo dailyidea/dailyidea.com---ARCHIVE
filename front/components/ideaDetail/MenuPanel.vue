@@ -1,54 +1,5 @@
 <template>
-  <div class="idea-part__header__buttons-panel">
-    <v-btn
-      v-if="editable"
-      x-small
-      text
-      icon
-      color="gray"
-      class="privacyButton"
-      @click="toggleIdeaPrivacy"
-    >
-      <v-icon v-if="isPrivate">mdi-lock</v-icon>
-      <v-icon v-else>mdi-lock-open-variant-outline</v-icon>
-    </v-btn>
-    <v-btn x-small icon text class="shareButton">
-      <v-icon @click="showShareIdeaDialog">share</v-icon>
-    </v-btn>
-    <v-menu v-if="editable" offset-y left transition="slide-y-transition">
-      <template v-slot:activator="{ on }">
-        <v-btn x-small icon v-on="on">
-          <v-icon class="moreActionsButton">fas fa-ellipsis-v</v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item @click="enableEditMode">
-          <v-list-item-title>
-            <v-icon small class="editButton">mdi-pencil</v-icon>
-            <span>Edit Idea</span>
-          </v-list-item-title>
-        </v-list-item>
-        <v-list-item @click="deleteIdea">
-          <v-list-item-title>
-            <v-icon small class="deleteButton">mdi-trash-can-outline</v-icon>
-            <span>Delete Idea</span>
-          </v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-    <act-on-idea
-      v-if="!editable"
-      :idea="idea"
-      action="like"
-      @liked-state-changed="onIdeaLikeStateChanged"
-    ></act-on-idea>
-    <act-on-idea
-      v-if="!editable"
-      :idea="idea"
-      action="save"
-      @saved-state-changed="onIdeaSaveStateChanged"
-    ></act-on-idea>
-
+  <div class="menu-panel-container">
     <share-idea-by-email-dialog
       v-model="showEmailShareDialog"
       :idea-id="idea.ideaId"
@@ -86,6 +37,69 @@
       </p>
       <p>Ideas want to be shared! Make this idea public with just one click.</p>
     </default-dialog>
+
+    <div class="idea-part__header__buttons-panel">
+      <v-btn
+        v-if="editable"
+        x-small
+        text
+        icon
+        color="gray"
+        class="privacyButton"
+        @click="toggleIdeaPrivacy"
+      >
+        <v-icon v-if="isPrivate">mdi-lock</v-icon>
+        <v-icon v-else>mdi-lock-open-variant-outline</v-icon>
+      </v-btn>
+      <v-menu v-if="editable" offset-y left transition="slide-y-transition">
+        <template v-slot:activator="{ on }">
+          <v-btn x-small icon v-on="on">
+            <v-icon class="moreActionsButton">fas fa-ellipsis-v</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item @click="enableEditMode">
+            <v-list-item-title>
+              <v-icon small class="editButton">mdi-pencil</v-icon>
+              <span>Edit Idea</span>
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="deleteIdea">
+            <v-list-item-title>
+              <v-icon small class="deleteButton">mdi-trash-can-outline</v-icon>
+              <span>Delete Idea</span>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <div class="actions-row d-flex align-center justify-space-between">
+        <act-on-idea
+          v-if="!editable"
+          :idea="idea"
+          action="like"
+          @liked-state-changed="onIdeaLikeStateChanged"
+        ></act-on-idea>
+        <act-on-idea
+          v-if="!editable"
+          :idea="idea"
+          action="save"
+          @saved-state-changed="onIdeaSaveStateChanged"
+        ></act-on-idea>
+        <v-btn x-small icon text class="img-count">
+          <img src="~/assets/images/idea-card/comment.svg" />
+          <span class="count">{{ idea.commentsCount }}</span>
+        </v-btn>
+        <v-btn
+          x-small
+          icon
+          text
+          class="shareButton"
+          @click="showShareIdeaDialog"
+        >
+          <img src="~/assets/images/idea-card/share.svg" />
+        </v-btn>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -229,8 +243,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.menu-panel-container {
+  width: 100%;
+}
+
 .idea-part__header__buttons-panel {
+  width: 100%;
   padding-top: 4px; /* this is just to offset the buttons to match the baseline of the title, because the title font is a different height than the button icon height */
+  padding-bottom: 4px;
+  border-top: 2px solid $color-off-white;
+  border-bottom: 2px solid $color-off-white;
   .privacyButton {
     /* color: #1867c0 !important; */
     color: #5cbbf6 !important;
@@ -240,6 +262,22 @@ export default {
   }
   .moreActionsButton {
     color: silver !important;
+  }
+
+  .actions-row {
+    width: 85%;
+    margin: 0 auto;
+  }
+
+  .img-count {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .count {
+      padding-top: 3px;
+      padding-left: 3px;
+    }
   }
 }
 </style>

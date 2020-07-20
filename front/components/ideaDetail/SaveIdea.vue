@@ -2,9 +2,10 @@
   <span>
     <v-btn small icon @click="toggleIsSaved">
       <v-icon v-if="isLoading">fas fa-circle-notch fa-spin</v-icon>
-      <v-icon v-else-if="!isLoading && isSaved" class="action-button">
-        mdi-bookmark-plus
-      </v-icon>
+      <div v-else-if="isLoading || !isSaved" class="d-flex align-center">
+        <img class="action-button" src="~/assets/images/idea-card/save.svg" />
+        <span>{{ idea.savesCount }}</span>
+      </div>
       <v-icon v-else>mdi-bookmark-plus-outline</v-icon>
     </v-btn>
   </span>
@@ -88,5 +89,6 @@ export default {
   &:hover {
     color: rgba(255, 185, 45, 0.76) !important;
   }
+  width: 15px;
 }
 </style>

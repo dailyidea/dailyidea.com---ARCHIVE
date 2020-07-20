@@ -111,7 +111,7 @@ export default {
       }
     },
     setPos(event) {
-      if(this.swipeDisabled) {
+      if (this.swipeDisabled) {
         return
       }
 
