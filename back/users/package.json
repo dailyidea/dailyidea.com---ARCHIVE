@@ -4,16 +4,18 @@
   "main": "mailparser.js",
   "scripts": {
     "sls": "sls",
-    "sls:deploy-dev": "env-cmd -f ./conf/dev.env serverless deploy --verbose",
-    "sls:deploy-prod": "env-cmd -f ./conf/prod.env serverless deploy",
+    "sls:deploy-dev": "node mail-mjml/compile-emails.js && env-cmd -f ./conf/dev.env serverless deploy --verbose",
+    "sls:deploy-prod": "node mail-mjml/compile-emails.js && env-cmd -f ./conf/prod.env serverless deploy",
     "sls:deploy-ci": "serverless deploy",
-    "compile-emails": "node mail-mjml/compile-emails.js"
+    "compile-emails": "node mail-mjml/compile-emails.js",
+    "run-dev": "env-cmd -f ./conf/dev.env serverless invoke local --function"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@sentry/node": "^5.15.5",
     "aws-sdk": "^2.484.0",
+    "dayjs": "^1.8.29",
     "jsonwebtoken": "^8.5.1",
     "middy": "^0.28.2",
     "serverless-sentry-lib": "^2.0.1",
