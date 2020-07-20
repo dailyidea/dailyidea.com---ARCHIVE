@@ -8,6 +8,14 @@
       </p>
       <p>Please click the button in that email to log in to daily idea.</p>
 
+      <v-btn
+        v-if="isGmail"
+        rounded
+        href="https://mail.google.com/mail/u/0/#search/in%3Aanywhere+subject%3A%22[Daily+Idea]+Log+in+link%22"
+        target="_blank"
+        >Check your Gmail inbox
+      </v-btn>
+
       <div class="mt-10">
         <p class="muted smaller">
           Didn't get a confirmation email?
@@ -33,6 +41,12 @@ export default {
     email: null,
     showResendEmail: false
   }),
+
+  computed: {
+    isGmail() {
+      return this.email && this.email.match(/gmail.com$/i)
+    }
+  },
 
   mounted() {
     if (this.$route.query.email) {
