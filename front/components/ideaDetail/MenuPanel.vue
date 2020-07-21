@@ -75,7 +75,7 @@
     </v-menu>
 
     <div class="idea-part__header__buttons-panel">
-      <div class="actions-row d-flex align-center justify-space-between">
+      <div class="actions-row d-flex align-center justify-space-around">
         <act-on-idea
           :idea="idea"
           action="like"

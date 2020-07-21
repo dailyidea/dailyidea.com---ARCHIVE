@@ -1,8 +1,5 @@
 <template>
   <div class="comments-part">
-    <div class="comments-part__header text-center">
-      <strong class="muted">Comments</strong>
-    </div>
     <v-container ref="scroller" class="comments-part__container">
       <div v-if="commentList.length" ref="commentsCol" class="">
         <div

@@ -37,28 +37,26 @@
               </v-row>
               <div v-if="!editMode" class="idea-part__info pt-2 pb-2">
                 <v-row no-gutters>
-                  <v-col>
-                    <span class="idea-part__info__author">
-                      <router-link
-                        class="idea-part__info__author__link"
-                        :to="{
-                          name: 'profile-userSlug',
-                          params: {
-                            userSlug: idea.authorSlug
-                          }
-                        }"
-                      >
-                        <img
-                          class="idea-part__author-avatar"
-                          :src="idea.authorAvatar"
-                        />
-                        {{ idea.authorName }}
-                      </router-link>
-                    </span>
-                    <span class="muted">{{
-                      idea.createdDate | toRelativeDate
-                    }}</span>
-                  </v-col>
+                  <span class="idea-part__info__author">
+                    <router-link
+                      class="idea-part__info__author__link d-flex align-center"
+                      :to="{
+                        name: 'profile-userSlug',
+                        params: {
+                          userSlug: idea.authorSlug
+                        }
+                      }"
+                    >
+                      <img
+                        class="idea-part__author-avatar"
+                        :src="idea.authorAvatar"
+                      />
+                      <span class="ml-2">{{ idea.authorName }}</span>
+                    </router-link>
+                  </span>
+                  <span class="muted ml-2">{{
+                    idea.createdDate | toRelativeDate
+                  }}</span>
                 </v-row>
               </div>
               <v-row v-if="!editMode" cols="auto" offset="1">
