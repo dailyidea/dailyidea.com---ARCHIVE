@@ -85,10 +85,6 @@ export default {
         }
       }
       return ''
-    },
-
-    isMobile() {
-      return this.$vuetify.breakpoint.width < 600 // TODO refactor into mixin
     }
   },
 
@@ -105,13 +101,15 @@ export default {
           body: {
             email: this.email.toLowerCase(),
             next: this.$route.query.r,
-            isMobile: this.isMobile
+            isMobile: this.$vuetify.breakpoint.smAndDown
           }
         })
 
         // Redirect to login success page
         this.$router.push({
-          name: this.isMobile ? 'auth-login-confirm' : 'auth-login-success',
+          name: this.$vuetify.breakpoint.smAndDown
+            ? 'auth-login-confirm'
+            : 'auth-login-success',
           query: { email: this.email.toLowerCase() }
         })
       } catch (e) {

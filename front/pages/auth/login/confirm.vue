@@ -2,29 +2,30 @@
   <auth-page lamp-on>
     <div class="text-center">
       <h1 class="pt-10 pb-6">Check your inbox!</h1>
-      <p>
+      <p class="px-10">
         We've sent you confirmation code to <strong>{{ email }}</strong
         >. Submit it below to complete your account set-up.
       </p>
 
-      <div class="mt-10 px-10">
+      <div class="mt-4 px-10">
         <validation-observer v-slot="{ valid, validated, handleSubmit }">
           <v-form class="mainForm" @submit.prevent="login">
-            <div class="additional-message">
-              <div class="additional-message__text">{{ error }}</div>
-            </div>
-            <!-- Email Input Box -->
-            <v-text-field-with-validation
+            <login-code-input
               v-model="code"
-              v-focus
-              single-line
-              flat
               name="Code"
-              prepend-inner-icon="mdi-lock-outline"
-              placeholder="The code from email"
               rules="required"
-              @keydown.enter="handleSubmit(login)"
-            />
+              @complete="handleSubmit(login)"
+            ></login-code-input>
+
+            <div v-if="error" class="mt-4 error--text">
+              <v-icon
+                small
+                color="#b71c1c"
+                class="mr-1"
+                style="margin-top: -4px;"
+                >mdi-alert</v-icon
+              >{{ error }}
+            </div>
 
             <!-- Login Button -->
             <v-btn
@@ -56,16 +57,16 @@
 import { ValidationObserver } from 'vee-validate'
 import AuthPage from '@/components/authPage/AuthPage'
 import ResendAuthEmailDialog from '@/components/dialogs/ResendAuthEmail'
-import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
+import LoginCodeInput from '@/components/authPage/LoginCodeInput'
 
 export default {
   name: 'Success',
 
   components: {
+    LoginCodeInput,
     AuthPage,
     ResendAuthEmailDialog,
-    ValidationObserver,
-    VTextFieldWithValidation
+    ValidationObserver
   },
 
   data: () => ({
@@ -121,12 +122,11 @@ export default {
     async processError(data) {
       switch (data.code) {
         case 'WRONG_CODE':
-          this.error =
-            'Sorry this code is invalid. please try logging in again.'
+          this.error = 'Hmm... looks like that is not valid code'
           break
         case 'EXPIRED':
           this.error =
-            'Sorry this code has expired. We sent you another one to the same email address.'
+            'This code is expired. We sent you another one to the same email address.'
           await this.sendEmail()
           break
         default:
@@ -146,16 +146,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-@import '~assets/style/common';
-
-.additional-message {
-  &__text {
-    color: red;
-    max-width: 300px;
-    margin: auto;
-    min-height: 50px;
-  }
-}
-</style>

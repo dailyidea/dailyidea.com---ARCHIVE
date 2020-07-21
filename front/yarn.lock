@@ -10464,6 +10464,13 @@ vue-notifications@1.0.2:
   resolved "https://registry.yarnpkg.com/vue-notifications/-/vue-notifications-1.0.2.tgz#988a0f42b472eb28afdcae4d7300307da3de1734"
   integrity sha512-D9a3bhqW18tf4uRqFwh3Q0vIlcP9ipVnieyX2hAb/bqrGyVAx/JWPTqky7py9mU/DDaL5BY49MJzsctIDr7i2g==
 
+vue-pincode-input@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/vue-pincode-input/-/vue-pincode-input-0.2.0.tgz#da469a1c92f4cc4c309c4d9d4fafb9cd947fde1c"
+  integrity sha512-A6OPYY07Mw3o5F6F1amvremWGtOi4te7m2SHRXZ2yoDnsVF1VgEbIpCAsK+9GX1V+RiTAsCLhcdVpd+QHxaubA==
+  dependencies:
+    core-js "^2.6.5"
+
 vue-router@~3.0.7:
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.7.tgz#b36ca107b4acb8ff5bc4ff824584059c23fcb87b"
