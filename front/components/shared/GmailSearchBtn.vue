@@ -13,8 +13,14 @@
 <script>
 export default {
   props: {
-    email: String,
-    search: String
+    email: {
+      type: String,
+      required: true
+    },
+    search: {
+      type: String,
+      required: true
+    }
   },
 
   computed: {
