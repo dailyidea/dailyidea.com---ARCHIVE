@@ -11,34 +11,27 @@
         started!
       </p>
 
-      <v-btn
-        v-if="isGmail"
-        rounded
-        href="https://mail.google.com/mail/u/0/#search/in%3Aanywhere+subject%3A%22[Daily+Idea]+Magic+link%22"
-        target="_blank"
-        >Check your Gmail inbox
-      </v-btn>
+      <gmail-search-btn
+        v-if="$vuetify.breakpoint.mdAndUp"
+        :email="email"
+        search="[Daily+Idea]+Magic+link"
+      ></gmail-search-btn>
     </div>
   </auth-page>
 </template>
 
 <script>
 import AuthPage from '@/components/authPage/AuthPage'
+import GmailSearchBtn from '@/components/shared/GmailSearchBtn'
 
 export default {
   name: 'Success',
 
-  components: { AuthPage },
+  components: { GmailSearchBtn, AuthPage },
 
   data: () => ({
     email: null
   }),
-
-  computed: {
-    isGmail() {
-      return this.email && this.email.match(/gmail.com$/i)
-    }
-  },
 
   mounted() {
     if (this.$route.params.email) {
