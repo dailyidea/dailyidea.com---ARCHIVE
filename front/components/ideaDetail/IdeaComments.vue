@@ -22,9 +22,6 @@
       </div>
       <v-row v-else class="empty" align="center">
         <v-col class="muted">
-          <p>
-            <v-icon>mdi-comment-plus-outline</v-icon>
-          </p>
           <p>No comments yet.</p>
           <p>Be the first!</p>
         </v-col>
@@ -546,7 +543,6 @@ export default {
 
 <style scoped lang="scss">
 @import '~assets/style/common';
-$light-grey: #f3f0f4;
 $counters-font-size: 18px;
 
 .likes-counter {
@@ -607,11 +603,9 @@ $counters-font-size: 18px;
 
   &__header {
     padding: 15px;
-    background-color: $light-grey;
   }
 
   &__container {
-    background-color: $light-grey;
     @media (min-width: $screen-md-min) {
       height: calc(100vh - 64px - 12px - 54px - 54px - 10px - 24px);
       /*64 desktop header height 12 main content area padding (below header) 54 comment header 54 comment input*/

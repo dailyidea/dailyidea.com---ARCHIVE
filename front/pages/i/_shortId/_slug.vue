@@ -106,8 +106,6 @@
                     v-for="(item, index) in ideaTags"
                     :key="index"
                     class="tag"
-                    text-color="white"
-                    color="secondary"
                     >{{ item }}
                   </v-chip>
                 </div>
@@ -601,6 +599,10 @@ export default {
 
       .tag {
         margin: 4px;
+        background-color: white;
+        color: $disabled-purple;
+        border-radius: 5px;
+        border: 1px solid $disabled-purple;
       }
     }
 

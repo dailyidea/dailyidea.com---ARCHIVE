@@ -2,7 +2,10 @@
   <div class="commentItem" :class="{ temporary: comment.temporary }">
     <div class="header">
       <div class="commentUser">
-        <span v-if="!comment.fake">{{ comment.userName }}</span>
+        <span v-if="!comment.fake" class="d-flex align-center">
+          <span class="pr-3">(PIC)</span>
+          <span class="name">{{ comment.userName }}</span>
+        </span>
         <v-skeleton-loader v-else light height="14" type="text" min-width="90">
         </v-skeleton-loader>
       </div>
@@ -83,16 +86,13 @@ export default {
   margin: 15px;
   padding: 10px;
   background-color: #ffffff;
-  border-radius: 0px 7px 7px 7px;
   transition: background-color ease 3s;
   &.temporary {
     background-color: #ffebbf;
   }
 
   @media #{$small-screen} {
-    border-left: 0px;
-    border-right: 0px;
-    border-bottom: none;
+    border-top: 3px solid $light-grey;
     margin-top: 0px;
   }
 
@@ -102,6 +102,11 @@ export default {
       vertical-align: top;
       font-size: 12px;
       color: #b5b5b5;
+
+      .name {
+        font-size: 1.2rem;
+        color: $default-purple;
+      }
     }
 
     .timing {

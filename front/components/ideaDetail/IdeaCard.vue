@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      isExpanded: this.expanded === undefined ? false : this.expanded
+      isExpanded: true // this.expanded === undefined ? false : this.expanded
     }
   },
   mounted() {
@@ -37,8 +37,8 @@ export default {
       }
     },
     expandToggle() {
-      this.isExpanded = !this.isExpanded
-      this.$emit('expand-toggle')
+      // this.isExpanded = !this.isExpanded
+      // this.$emit('expand-toggle')
     }
   }
 }
