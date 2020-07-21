@@ -9,7 +9,7 @@ MAILBOX_ADDR = os.getenv('MAILBOX_ADDR', 'ideas-dev@beta.dailyidea.com')
 SENDER = f"Daily Idea <{MAILBOX_ADDR}>"
 
 
-def send_mail_to_user(recepient, subject, body_text, body_html):
+def send_mail_to_user(recepient, subject, body_text, body_html, sender = 'Daily Idea'):
     client = boto3.client('ses', region_name=AWS_REGION)
     body = {}
     if body_html:
@@ -37,7 +37,7 @@ def send_mail_to_user(recepient, subject, body_text, body_html):
                     'Data': subject,
                 },
             },
-            Source=SENDER,
+            Source=f"{sender} <{MAILBOX_ADDR}>",
         )
     except ClientError as e:
         print(e.response['Error']['Message'])

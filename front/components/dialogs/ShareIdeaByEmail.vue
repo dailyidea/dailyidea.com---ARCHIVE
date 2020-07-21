@@ -134,7 +134,7 @@ export default {
         friendName: '',
         friendEmail: ''
       }
-      this.errors.clear()
+      this.$refs.validator.reset()
     },
 
     getShareUrl() {
@@ -168,7 +168,7 @@ export default {
     },
 
     close() {
-      this.$validator.reset()
+      this.$refs.validator.reset()
       this.$emit('input', false)
       this.cleanData()
     },

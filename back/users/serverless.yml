@@ -49,6 +49,21 @@ functions:
           path: requestLogin
           method: post
           cors: true
+  loginWithCode:
+    handler: src/loginWithCode.handler
+    role: CustomUserOnboardingRole
+    environment:
+      DOMAIN_NAME: ${self:provider.domainName}
+      BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
+      SES_REGION: ${self:provider.region}
+      DYNAMO_REGION: ${self:provider.region}
+      SECRET_TOKEN: ${self:custom.secretToken}
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
+    events:
+      - http:
+          path: loginWithCode
+          method: post
+          cors: true
   defineAuthChallenge:
     handler: src/defineAuthChallenge.handler
     events:

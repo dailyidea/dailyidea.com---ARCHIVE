@@ -18,7 +18,8 @@ const getCompiledTemplateFromPath = templatePath => {
 const getLoginTemplate = (
   firstLogin,
   withComment = false,
-  ideaToSave = false
+  ideaToSave = false,
+  isMobile = false
 ) => {
   let activePath;
   if (firstLogin) {
@@ -27,12 +28,14 @@ const getLoginTemplate = (
     } else if (ideaToSave) {
       activePath = "../mail-templates/magic_link_template_with_idea_save.html";
     } else {
-      activePath = "../mail-templates/signup_template.html";
+      activePath = "../mail-templates/signup_template_mobile.html";
     }
   } else if (withComment) {
     activePath = "../mail-templates/require_login_template_with_comment.html";
   } else if (ideaToSave) {
     activePath = "../mail-templates/require_login_template_with_idea_save.html";
+  } else if (isMobile) {
+    activePath = "../mail-templates/require_login_template_mobile.html";
   } else {
     activePath = "../mail-templates/require_login_template.html";
   }
@@ -60,7 +63,10 @@ const sendEmail = async function(
   commentId = undefined,
   ideaToSaveId = undefined,
   ideaToLikeId = undefined,
-  next = undefined
+  next = undefined,
+  context,
+  code,
+  isMobile
 ) {
 
   const emailEncoded = encodeURIComponent(email);
@@ -164,7 +170,8 @@ const sendEmail = async function(
     token,
     emailEncoded,
     name,
-    verifyAdditionalUrlParams: ""
+    verifyAdditionalUrlParams: "",
+    code,
   };
 
   if (comment && commentIdea) {
@@ -177,9 +184,9 @@ const sendEmail = async function(
     templateParams.ideaName = comment.ideaName.S;
   } else if (ideaToSave || ideaToLike) {
     const idea = ideaToSave || ideaToLike;
-    
+
     let aa = 'si';
-   
+
     if(ideaToLike) {
       aa = 'li';
     }
@@ -198,7 +205,7 @@ const sendEmail = async function(
     templateParams.verifyAdditionalUrlParams = `&next=${encodeURIComponent(next)}`;
   }
 
-  const htmlTemplate = getLoginTemplate(firstLogin, !!comment, !!(ideaToSave || ideaToLike));
+  const htmlTemplate = getLoginTemplate(firstLogin, !!comment, !!(ideaToSave || ideaToLike), isMobile);
 
   const eParams = {
     Destination: {
@@ -242,10 +249,29 @@ const sendEmail = async function(
   return ses.sendEmail(eParams).promise();
 };
 
+async function updateLoginCode(docClient, id) {
+  const code = Math.round(Math.random()* 10000).toString().padStart(4, '0')
+  const date = (new Date()).toISOString()
+
+  await docClient.update({
+    TableName: process.env.USERS_TABLE_NAME,
+    Key: {
+      userId: id,
+    },
+    UpdateExpression: "SET loginCode = :code, loginCodeDate = :date",
+    ExpressionAttributeValues: {
+      ':code': code,
+      ':date': date,
+    },
+  }).promise()
+
+  return code
+}
+
 // This is your common handler, no way different than what you are used to do every day
 // in AWS Lambda
 const sendMail = async (event, context) => {
-  const { email, commentId, ideaToLikeId, ideaToSaveId, next } = event.body;
+  const { email, commentId, ideaToLikeId, ideaToSaveId, next, isMobile } = event.body;
   // commentId is defined in case when user logs in after unauth comment attempt
   // ideaToSaveId is defined in case when user logs in after unauth save idea attempt
   console.log("generating log token", email);
@@ -275,6 +301,8 @@ const sendMail = async (event, context) => {
       console.log("Found", email);
       const token = generateToken(email);
       const name = result.Items[0].name;
+      const code = await updateLoginCode(docClient, result.Items[0].userId)
+
       const sendMailResp = await sendEmail(
         email,
         token,
@@ -283,7 +311,9 @@ const sendMail = async (event, context) => {
         ideaToSaveId,
         ideaToLikeId,
         next,
-        context
+        context,
+        code,
+        isMobile
       );
       console.log("---------mail sending------");
       console.log(sendMailResp);

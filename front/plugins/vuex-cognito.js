@@ -56,6 +56,10 @@ export default (ctx, inject) => {
       {
         name: 'RequestLogin',
         endpoint: process.env.REQUEST_LOGIN_ENDPOINT
+      },
+      {
+        name: 'LoginWithCode',
+        endpoint: process.env.LOGIN_WITH_CODE_ENDPOINT
       }
     ]
   }
