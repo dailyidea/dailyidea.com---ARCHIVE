@@ -104,6 +104,6 @@ def endpoint(event, context):
             txt_template = Template(txt_template_file.read())
             html_content = html_template.render(**render_context)
             txt_content = txt_template.render(**render_context)
-            send_mail_to_user(email, SUBJECT, txt_content, html_content)
+            send_mail_to_user(email, SUBJECT, txt_content, html_content, f"{sender_name} via Daily Idea")
     create_stats_record(idea_id, idea_owner_id, email, sender_id if sender_id else sender_name, sender_id is not None)
     return {"ok": True}

@@ -85,6 +85,10 @@ export default {
         }
       }
       return ''
+    },
+
+    isMobile() {
+      return this.$vuetify.breakpoint.width < 600 // TODO refactor into mixin
     }
   },
 
@@ -98,12 +102,16 @@ export default {
         this.emailNotFoundMsg = ''
 
         await this.$amplifyApi.post('RequestLogin', '', {
-          body: { email: this.email.toLowerCase(), next: this.$route.query.r }
+          body: {
+            email: this.email.toLowerCase(),
+            next: this.$route.query.r,
+            isMobile: this.isMobile
+          }
         })
 
         // Redirect to login success page
         this.$router.push({
-          name: 'auth-login-success',
+          name: this.isMobile ? 'auth-login-confirm' : 'auth-login-success',
           query: { email: this.email.toLowerCase() }
         })
       } catch (e) {

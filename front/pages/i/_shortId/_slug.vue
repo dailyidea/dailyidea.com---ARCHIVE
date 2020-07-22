@@ -370,6 +370,7 @@ export default {
       const confirmed = await this.$dialog.show({
         header: 'Delete Idea',
         message: 'Are you sure you want to delete this Idea?',
+        imagePath: require('~/assets/images/dialogs/undraw_throw_away_ldjd.svg'),
         buttonOkText: 'Delete',
         showCancelButton: true
       })
