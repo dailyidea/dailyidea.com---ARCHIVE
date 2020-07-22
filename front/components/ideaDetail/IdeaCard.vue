@@ -2,10 +2,10 @@
   <v-row
     ref="page"
     align="stretch"
-    :class="{ 'fixed-height': !isExpanded, 'full-height': isExpanded }"
+    :class="{ 'fixed-height': !isExpanded }"
     class="elevation-2 ma-1 card"
-    @click="expandToggle"
   >
+    <div class="tap-bar" @click="expandToggle"></div>
     <slot></slot>
   </v-row>
 </template>
@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      isExpanded: true // this.expanded === undefined ? false : this.expanded
+      isExpanded: this.expanded === undefined ? false : this.expanded
     }
   },
   mounted() {
@@ -37,8 +37,8 @@ export default {
       }
     },
     expandToggle() {
-      // this.isExpanded = !this.isExpanded
-      // this.$emit('expand-toggle')
+      this.isExpanded = !this.isExpanded
+      this.$emit('expand-toggle')
     }
   }
 }
@@ -55,11 +55,15 @@ export default {
 }
 
 .fixed-height {
-  max-height: 70vh;
   overflow-y: hidden;
 }
 
-.full-height {
-  height: 100%;
+.tap-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10%;
+  z-index: 100;
 }
 </style>
