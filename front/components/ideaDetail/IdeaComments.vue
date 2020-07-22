@@ -24,35 +24,32 @@
         </v-col>
       </v-row>
     </v-container>
-    <div class="comments-part__input-container">
-      <v-text-field
-        v-model="newCommentText"
-        label="Add a comment..."
-        single-line
-        flat
-        hide-details
-        solo
-        @keydown.enter="onAddCommentAttempt"
-      >
-        <template v-slot:append>
-          <v-slide-y-transition hide-on-leave>
+    <div class="comment-and-post-btn d-flex flex-column">
+      <div class="comments-part__input-container d-flex flex-row align-center">
+        <img :src="avatar" class="comment-avatar" />
+        <v-text-field
+          v-model="newCommentText"
+          label="Join the conversation..."
+          single-line
+          flat
+          hide-details
+          solo
+          @keydown.enter="onAddCommentAttempt"
+        >
+          <template v-slot:append>
             <v-icon
-              v-if="readyForSend && !showAddCommentLoader"
+              v-if="showAddCommentLoader"
               small
               class="color-primary"
               @click="onAddCommentAttempt"
-              >fa-paper-plane
+              >fas fa-circle-notch fa-spin flag-icon
             </v-icon>
-          </v-slide-y-transition>
-          <v-icon
-            v-if="showAddCommentLoader"
-            small
-            class="color-primary"
-            @click="onAddCommentAttempt"
-            >fas fa-circle-notch fa-spin flag-icon
-          </v-icon>
-        </template>
-      </v-text-field>
+          </template>
+        </v-text-field>
+      </div>
+      <div v-if="newCommentText" class="post-comment-btn">
+        <v-btn width="100%" @click="onAddCommentAttempt">Post Comment </v-btn>
+      </div>
     </div>
 
     <default-dialog
@@ -148,7 +145,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      isAuthenticated: 'userData/isAuthenticated'
+      isAuthenticated: 'userData/isAuthenticated',
+      avatar: 'userData/avatar'
     }),
 
     readyForSend() {
@@ -590,43 +588,60 @@ $counters-font-size: 18px;
   }
 }
 
-.comments-part {
-  @media (min-width: $screen-md-min) {
-    height: calc(100vh - 88px - 24px);
-    /* i hate these height calculations. right now this is a mess. i added 24 here because that's how much padding there is */
-  }
-
-  overflow: hidden;
-
-  &__header {
-    padding: 15px;
-  }
-
-  &__container {
+.comment-and-post-btn {
+  .comments-part {
     @media (min-width: $screen-md-min) {
-      height: calc(100vh - 64px - 12px - 54px - 54px - 10px - 24px);
-      /*64 desktop header height 12 main content area padding (below header) 54 comment header 54 comment input*/
-      /* why the extra 10 at the end? I don't know! */
+      height: calc(100vh - 88px - 24px);
+      /* i hate these height calculations. right now this is a mess. i added 24 here because that's how much padding there is */
     }
-    overflow: auto;
-    /*height: 100%;*/
 
-    display: block;
-  }
-  .loadComments {
-    text-align: center;
-    padding: 5px 0;
-    cursor: pointer;
-    /* legacy */
-  }
-  .empty {
-    height: 100%;
-    text-align: center;
+    overflow: hidden;
+
+    &__header {
+      padding: 15px;
+    }
+
+    &__container {
+      @media (min-width: $screen-md-min) {
+        height: calc(100vh - 64px - 12px - 54px - 54px - 10px - 24px);
+        /*64 desktop header height 12 main content area padding (below header) 54 comment header 54 comment input*/
+        /* why the extra 10 at the end? I don't know! */
+      }
+      overflow: auto;
+      /*height: 100%;*/
+
+      display: block;
+    }
+    .loadComments {
+      text-align: center;
+      padding: 5px 0;
+      cursor: pointer;
+      /* legacy */
+    }
+    .empty {
+      height: 100%;
+      text-align: center;
+    }
+
+    &__input-container {
+      border-radius: 0;
+      border-top: 2px solid $light-grey;
+      border-bottom: 2px solid $light-grey;
+
+      .comment-avatar {
+        width: 32px;
+      }
+    }
   }
 
-  &__input-container {
-    border-radius: 0;
-    border: 1px solid $light-grey;
+  .post-comment-btn {
+    margin: 0 auto;
+    margin-top: 3rem;
+    width: 100%;
+
+    .v-btn {
+      background-color: $default-purple !important;
+    }
   }
 }
 </style>
