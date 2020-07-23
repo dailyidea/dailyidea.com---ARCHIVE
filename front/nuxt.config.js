@@ -154,6 +154,7 @@ module.exports = {
         }
       }
     },
+    transpile: ['vue-pincode-input'],
     /*
      ** You can extend webpack config here
      */
