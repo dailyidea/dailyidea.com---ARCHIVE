@@ -10,16 +10,16 @@
     @ok="sendEmail"
   >
     <div class="emailSentMessage">
-      <span v-if="sendingEmail"
-        >Sending another email to <strong>{{ email }}</strong
-        >...</span
-      >
-      <span v-else>
+      <p v-if="sendingEmail">
+        Sending another email to <strong>{{ email }}</strong
+        >...
+      </p>
+      <p v-else>
         We've sent another login email to you at <strong>{{ email }}</strong
         >. Make sure the email address is spelled correctly, and try checking
         your spam or junk folder. Click <strong>Back to Log In</strong> and
         input correct email if you have mistaken.
-      </span>
+      </p>
     </div>
   </default-dialog>
 </template>
@@ -80,7 +80,10 @@ export default {
       this.sendingEmail = true
       try {
         await this.$amplifyApi.post('RequestLogin', '', {
-          body: { email: this.email }
+          body: {
+            email: this.email,
+            isMobile: this.$vuetify.breakpoint.smAndDown
+          }
         })
         this.sent = true
         this.blockSendAgainTime = 31

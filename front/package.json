@@ -43,6 +43,7 @@
     "vee-validate": "^3.3.7",
     "vue-advanced-cropper": "^0.16.0",
     "vue-notifications": "1.0.2",
+    "vue-pincode-input": "^0.2.0",
     "vue-snotify": "3.2.1",
     "vue-trix": "^0.9.0"
   },
