@@ -1,12 +1,16 @@
 <template>
   <!-- eslint-disable vue/no-v-html -->
-  <div class="idea-content" v-html="content"></div>
+  <div
+    :class="{ 'idea-content-collapsed': collapsed, 'idea-content': !collapsed }"
+    v-html="content"
+  ></div>
 </template>
 
 <script>
 export default {
   name: 'IdeaContent',
   props: {
+    collapsed: Boolean,
     content: {
       type: String,
       default: ''
@@ -16,9 +20,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.idea-content-collapsed {
+  max-width: 100%;
+  max-height: 25vh;
+  overflow-y: hidden;
+}
+
 .idea-content {
   max-width: 100%;
 }
+
 .idea-content ::v-deep {
   h1 {
     font-size: 22px;

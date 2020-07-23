@@ -3,8 +3,12 @@
     <v-btn small icon @click="toggleIsLiked">
       <v-icon v-if="isLoading">fas fa-circle-notch fa-spin</v-icon>
       <div v-else class="d-flex align-center">
-        <v-icon v-if="isLiked">mdi-heart</v-icon>
-        <v-icon v-else>mdi-heart-outline</v-icon>
+        <img
+          v-if="isLiked"
+          class="icon"
+          src="~/assets/images/idea-card/like-filled.png"
+        />
+        <img v-else class="icon" src="~/assets/images/idea-card/like.png" />
         <span class="count">{{ idea.savesCount }}</span>
       </div>
     </v-btn>
@@ -84,9 +88,14 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.icon {
+  width: 20px;
+}
+
 .count {
-  padding-top: 4px;
-  padding-left: 2px;
+  font-size: 14px;
+  padding-top: 3px;
+  padding-left: 4px;
 }
 
 .action-button {

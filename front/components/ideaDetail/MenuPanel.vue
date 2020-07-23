@@ -87,7 +87,7 @@
           @saved-state-changed="onIdeaSaveStateChanged"
         ></act-on-idea>
         <v-btn x-small icon text class="img-count">
-          <img src="~/assets/images/idea-card/comment.svg" />
+          <img width="15" src="~/assets/images/idea-card/comment.png" />
           <span class="count">{{ idea.commentsCount }}</span>
         </v-btn>
         <v-btn
@@ -97,7 +97,7 @@
           class="shareButton"
           @click="showShareIdeaDialog"
         >
-          <img src="~/assets/images/idea-card/share.svg" />
+          <img width="20" src="~/assets/images/idea-card/share.png" />
         </v-btn>
       </div>
     </div>
@@ -289,8 +289,9 @@ export default {
     }
 
     .count {
+      font-size: 14px;
       padding-top: 3px;
-      padding-left: 2px;
+      padding-left: 4px;
     }
   }
 }

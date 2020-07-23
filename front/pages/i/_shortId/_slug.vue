@@ -101,7 +101,10 @@
                     </client-only>
                   </div>
                   <div v-else>
-                    <idea-content :content="idea.content"></idea-content>
+                    <idea-content
+                      :collapsed="!swipeDisabled"
+                      :content="idea.content"
+                    ></idea-content>
                   </div>
                 </div>
                 <div class="idea-part__tags-panel">
