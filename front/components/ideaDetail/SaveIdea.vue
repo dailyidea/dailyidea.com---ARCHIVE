@@ -89,7 +89,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .icon {
-  height: 20px;
+  height: 18px;
 }
 
 .action-button {

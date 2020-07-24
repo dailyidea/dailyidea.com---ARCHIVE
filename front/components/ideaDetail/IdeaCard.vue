@@ -51,19 +51,31 @@ export default {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
+  
+  @media only screen and (min-width: $screen-md-min) {
+    margin: 0 auto !important;
+    margin-top: 2vh !important;
+    width: 50vw;
+    height: 40vw;
+    overflow-y: auto;
+  }
+
   /* .rounded doesn't work because i'm applying this to a .row (which i shouldn't) */
 }
 
-.fixed-height {
-  overflow-y: hidden;
-}
+@media only screen and (max-width: $screen-sm-max) {
 
-.tap-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 10%;
-  z-index: 100;
+  .fixed-height {
+    overflow-y: hidden;
+  }
+
+  .tap-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10%;
+    z-index: 100;
+  }
 }
 </style>

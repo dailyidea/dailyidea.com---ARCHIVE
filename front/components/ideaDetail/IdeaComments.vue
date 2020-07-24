@@ -1,7 +1,7 @@
 <template>
   <div class="comments-part">
     <v-container ref="scroller" class="comments-part__container">
-      <div v-if="commentList.length" ref="commentsCol" class="">
+      <div v-if="commentList.length" ref="commentsCol" class="comments-part__comment-col">
         <div
           v-if="idea.commentsCount > commentList.length && !deletingComment"
           class="loadComments"
@@ -9,6 +9,8 @@
         >
           <v-btn small :loading="loadingMore">Load More...</v-btn>
         </div>
+
+        <div class="muted desktop-comments-title hidden-sm-and-down">Comments</div>
 
         <idea-comments-comment
           v-for="comment in commentList"
@@ -540,6 +542,11 @@ export default {
 @import '~assets/style/common';
 $counters-font-size: 18px;
 
+.desktop-comments-title {
+  font-size: 18px;
+}
+
+
 .likes-counter {
   display: inline-block;
 
@@ -591,6 +598,10 @@ $counters-font-size: 18px;
 .comment-and-post-btn {
   .comments-part {
     @media (min-width: $screen-md-min) {
+      .comment-col {
+        height: 100%;
+        overflow-y: auto;
+      }
       height: calc(100vh - 88px - 24px);
       /* i hate these height calculations. right now this is a mess. i added 24 here because that's how much padding there is */
     }

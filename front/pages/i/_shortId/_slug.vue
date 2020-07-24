@@ -4,7 +4,7 @@
     <layout :hide-slide-menu="hideSlideMenu">
       <swiper
         v-slot="{ rotationStyle }"
-        :swipe-disabled="swipeDisabled"
+        :swipe-disabled="isExpanded"
         @swipe-start="setHideSlideMenuTrue"
         @swipe-end="setHideSlideMenuFalse"
         @swipe-left="nextIdea"
@@ -15,7 +15,7 @@
         <idea-card
           ref="page"
           :style="rotationStyle"
-          @expand-toggle="swipeDisabled = !swipeDisabled"
+          @expand-toggle="isExpanded = !isExpanded"
         >
           <v-col cols="12" md="8" class="idea-part">
             <validation-observer v-slot="{ valid, validated, handleSubmit }">
@@ -102,7 +102,7 @@
                   </div>
                   <div v-else>
                     <idea-content
-                      :collapsed="!swipeDisabled"
+                      :collapsed="!isExpanded"
                       :content="idea.content"
                     ></idea-content>
                   </div>
@@ -161,7 +161,7 @@
           </v-col>
           <v-col cols="12" md="4">
             <idea-comments
-              v-if="!editMode && swipeDisabled"
+              v-if="!editMode && isExpanded"
               :idea="idea"
               @onNotification="onNotification"
             ></idea-comments>
@@ -245,7 +245,7 @@ export default {
       editMode: false,
       hideSlideMenu: false,
       idea: null,
-      swipeDisabled: false,
+      expandedState: false,
       ideaTags: [],
       ideaEditData: {
         title: '',
@@ -265,6 +265,19 @@ export default {
       userId: 'userData/userId',
       isAuthenticated: 'userData/isAuthenticated'
     }),
+
+    isExpanded: {
+      set() {
+        this.expandedState = !this.expandedState
+      },
+      get() {
+        if(this.$vuetify.breakpoint.mdAndUp) {
+          return true
+        }
+
+        return this.expandedState === undefined ? false : this.expandedState
+      }
+    },
 
     isMyIdea() {
       return this.idea.userId === this.userId

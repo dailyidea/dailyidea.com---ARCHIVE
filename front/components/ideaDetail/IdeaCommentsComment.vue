@@ -88,7 +88,13 @@ export default {
 @import '~/assets/style/common';
 
 .comment-container {
-  border-top: 2px solid $light-grey;
+  @media only screen and (max-width: $screen-sm-max) {
+    border-top: 2px solid $light-grey;
+  }
+
+  @media only screen and (min-width: $screen-md-min) {
+    border-bottom: 2px solid $light-grey;
+  }
 }
 
 .comment-item {

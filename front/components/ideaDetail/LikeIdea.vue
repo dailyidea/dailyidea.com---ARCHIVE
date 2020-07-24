@@ -89,7 +89,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .icon {
-  width: 20px;
+  height: 18px;
 }
 
 .count {
