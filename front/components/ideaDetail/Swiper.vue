@@ -1,10 +1,10 @@
 <template>
   <span>
     <div class="left-arrow hidden-sm-and-down" @click="leftArrowClick">
-      <v-icon>mdi-arrow-left</v-icon>
+      <img src="~/assets/images/idea-card/left-arrow.png">
     </div>
     <div class="right-arrow hidden-sm-and-down" @click="rightArrowClick">
-      <v-icon>mdi-arrow-right</v-icon>
+      <img src="~/assets/images/idea-card/left-arrow.png">
     </div>
     <div class="swipe-parent">
       <div ref="swipe" :style="positionStyle" class="swipe-container">
@@ -263,14 +263,21 @@ export default {
 .left-arrow {
   position: absolute;
   top: 40vh;
-  left: -3vw;
+  left: -4vw;
   cursor: pointer;
+  img {
+    width: 50px;
+  }
 }
 
 .right-arrow {
   position: absolute;
   top: 40vh;
-  right: -3vw;
+  right: -4vw;
   cursor: pointer;
+  transform: rotate(180deg);
+  img {
+    width: 50px;
+  }
 }
 </style>
