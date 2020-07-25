@@ -192,7 +192,7 @@ export default {
     },
 
     showShareIdeaDialog() {
-      if (navigator.share) {
+      if (this.isMobile) {
         navigator.share({
           title: this.idea.title,
           url: window.location.href
