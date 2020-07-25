@@ -643,6 +643,10 @@ $counters-font-size: 18px;
       border-top: 2px solid $light-grey;
       border-bottom: 2px solid $light-grey;
 
+      @media only screen and (min-width: $screen-md-min) {
+        margin-top: 5rem !important;
+      }
+
       .comment-avatar {
         width: 32px;
       }
