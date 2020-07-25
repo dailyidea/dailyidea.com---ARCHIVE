@@ -1,7 +1,11 @@
 <template>
   <div class="comments-part">
     <v-container ref="scroller" class="comments-part__container">
-      <div v-if="commentList.length" ref="commentsCol" class="comments-part__comment-col">
+      <div
+        v-if="commentList.length"
+        ref="commentsCol"
+        class="comments-part__comment-col"
+      >
         <div
           v-if="idea.commentsCount > commentList.length && !deletingComment"
           class="loadComments"
@@ -9,8 +13,9 @@
         >
           <v-btn small :loading="loadingMore">Load More...</v-btn>
         </div>
-
-        <div class="muted desktop-comments-title hidden-sm-and-down">Comments</div>
+        <div class="muted desktop-comments-title hidden-sm-and-down">
+          Comments
+        </div>
 
         <idea-comments-comment
           v-for="comment in commentList"
@@ -545,7 +550,6 @@ $counters-font-size: 18px;
 .desktop-comments-title {
   font-size: 18px;
 }
-
 
 .likes-counter {
   display: inline-block;

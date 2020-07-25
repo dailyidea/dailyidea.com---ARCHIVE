@@ -1,10 +1,10 @@
 <template>
   <span>
     <div class="left-arrow hidden-sm-and-down" @click="leftArrowClick">
-      <img src="~/assets/images/idea-card/left-arrow.png">
+      <img src="~/assets/images/idea-card/left-arrow.png" />
     </div>
     <div class="right-arrow hidden-sm-and-down" @click="rightArrowClick">
-      <img src="~/assets/images/idea-card/left-arrow.png">
+      <img src="~/assets/images/idea-card/left-arrow.png" />
     </div>
     <div class="swipe-parent">
       <div ref="swipe" :style="positionStyle" class="swipe-container">

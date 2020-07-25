@@ -87,7 +87,7 @@
           @saved-state-changed="onIdeaSaveStateChanged"
         ></act-on-idea>
         <v-btn x-small icon text class="img-count">
-          <img src="~/assets/images/idea-card/comment.png">
+          <img src="~/assets/images/idea-card/comment.png" />
           <span class="count">{{ idea.commentsCount }}</span>
         </v-btn>
         <v-btn

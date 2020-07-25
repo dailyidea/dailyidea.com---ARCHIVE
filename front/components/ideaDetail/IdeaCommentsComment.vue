@@ -1,11 +1,8 @@
 <template>
-  <div class="comment-container">
-    <div
-      class="comment-item d-flex flex-row"
-      :class="{ temporary: comment.temporary }"
-    >
+  <div class="comment-cont">
+    <div class="item d-flex flex-row" :class="{ temporary: comment.temporary }">
       <div class="profilePic">(PIC)</div>
-      <div class="comment d-flex flex-column">
+      <div class="comment-info d-flex flex-column">
         <div class="header d-flex flex-row justify-space-between ml-2">
           <div class="name">{{ comment.userName }}</div>
           <div class="time">
@@ -86,8 +83,7 @@ export default {
 
 <style scoped lang="scss">
 @import '~/assets/style/common';
-
-.comment-container {
+.comment-cont {
   @media only screen and (max-width: $screen-sm-max) {
     border-top: 2px solid $light-grey;
   }
@@ -95,26 +91,26 @@ export default {
   @media only screen and (min-width: $screen-md-min) {
     border-bottom: 2px solid $light-grey;
   }
-}
 
-.comment-item {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  .comment {
-    width: 100%;
-
-    .header {
+  .item {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    .comment-info {
       width: 100%;
-    }
 
-    .name {
-      color: $default-purple;
-      font-size: 1.1rem;
-      padding-bottom: 0.3rem;
-    }
+      .header {
+        width: 100%;
+      }
 
-    .date-posted {
-      font-size: 0.9rem;
+      .name {
+        color: $default-purple;
+        font-size: 1.1rem;
+        padding-bottom: 0.3rem;
+      }
+
+      .date-posted {
+        font-size: 0.9rem;
+      }
     }
   }
 }

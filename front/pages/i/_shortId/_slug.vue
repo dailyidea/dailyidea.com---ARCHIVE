@@ -271,7 +271,7 @@ export default {
         this.expandedState = !this.expandedState
       },
       get() {
-        if(this.$vuetify.breakpoint.mdAndUp) {
+        if (this.$vuetify.breakpoint.mdAndUp) {
           return true
         }
 
