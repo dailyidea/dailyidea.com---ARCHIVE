@@ -1,8 +1,8 @@
 <template>
   <div class="comment-cont">
     <div class="item d-flex flex-row" :class="{ temporary: comment.temporary }">
-      <div class="profilePic">
-        <img :src="comment.userAvatar"> 
+      <div class="profile-pic">
+        <img :src="commentAvatar" />
       </div>
       <div class="comment-info d-flex flex-column">
         <div class="header d-flex flex-row justify-space-between ml-2">
@@ -58,6 +58,10 @@ export default {
     }
   },
   computed: {
+    commentAvatar() {
+      return this.comment.userAvatar || this.$store.getters['userData/avatar']
+    },
+
     deletable() {
       const currUsrId = this.$store.getters['userData/userId']
       if (currUsrId === undefined) {
@@ -85,6 +89,13 @@ export default {
 
 <style scoped lang="scss">
 @import '~/assets/style/common';
+
+.profile-pic {
+  img {
+    height: 24px;
+  }
+}
+
 .comment-cont {
   @media only screen and (max-width: $screen-sm-max) {
     border-top: 2px solid $light-grey;

@@ -5,8 +5,8 @@ Vue.mixin({
     isMobile() {
       try {
         return !!navigator.share || this.$vuetify.breakpoint.smAndDown
-      } catch(e) {
-        return false;
+      } catch (e) {
+        return false
       }
     }
   },
