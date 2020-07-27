@@ -7,6 +7,7 @@ query getComments($ideaId: String!, $nextToken: String, $limit: Int) {
       userId
       userName
       userSlug
+      userAvatar
       createdDate
     }
     nextToken

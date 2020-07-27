@@ -1,7 +1,9 @@
 <template>
   <div class="comment-cont">
     <div class="item d-flex flex-row" :class="{ temporary: comment.temporary }">
-      <div class="profilePic">(PIC)</div>
+      <div class="profilePic">
+        <img :src="comment.userAvatar"> 
+      </div>
       <div class="comment-info d-flex flex-column">
         <div class="header d-flex flex-row justify-space-between ml-2">
           <div class="name">{{ comment.userName }}</div>
