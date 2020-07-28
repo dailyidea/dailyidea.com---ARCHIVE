@@ -551,107 +551,64 @@ $counters-font-size: 18px;
   font-size: 18px;
 }
 
-.likes-counter {
-  display: inline-block;
-
-  &__image-container {
-    display: inline-block;
-    vertical-align: bottom;
-    min-width: $counters-font-size + 7px;
-    text-align: center;
-    min-height: $counters-font-size + 5px;
-  }
-
-  &__image {
-    display: inline-block;
-    vertical-align: bottom;
-    height: $counters-font-size + 1px;
-
-    &.on {
-      height: $counters-font-size + 5px;
-    }
-  }
-
-  &__label {
-    margin-left: 5px;
-    display: inline-block;
-    vertical-align: bottom;
-    height: $counters-font-size;
-    line-height: $counters-font-size;
-    font-size: $counters-font-size;
+.container {
+  @media only screen and (min-width: $screen-md-min) {
+    height: 50vh;
+    overflow-y: auto;
+    padding-left: 0;
+    padding-right: 12px;
   }
 }
 
-.comments-counter {
-  &__image {
-    display: inline-block;
-    vertical-align: bottom;
-    height: $counters-font-size;
+.comments-part {
+  @media only screen and (min-width: $screen-md-min) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+
+    border-left: 2px solid $light-grey;
+    padding-left: 1rem;
+    overflow-y: auto;
   }
 
-  &__label {
-    margin-left: 8px;
-    display: inline-block;
-    vertical-align: bottom;
-    height: $counters-font-size;
-    line-height: $counters-font-size;
-    font-size: $counters-font-size;
+  &__header {
+    padding: 15px;
+  }
+
+  &__container {
+    @media (min-width: $screen-md-min) {
+      height: 55vh;
+    }
+    overflow: auto;
+    /*height: 100%;*/
+
+    display: block;
+  }
+  .loadComments {
+    text-align: center;
+    padding: 5px 0;
+    cursor: pointer;
+    /* legacy */
+  }
+  .empty {
+    height: 100%;
+    text-align: center;
+  }
+
+  &__input-container {
+    border-radius: 0;
+    border-top: 2px solid $light-grey;
+    border-bottom: 2px solid $light-grey;
+
+    .comment-avatar {
+      width: 32px;
+    }
   }
 }
 
 .comment-and-post-btn {
-  .comments-part {
-    @media (min-width: $screen-md-min) {
-      .comment-col {
-        height: 100%;
-        overflow-y: auto;
-      }
-      height: calc(100vh - 88px - 24px);
-      /* i hate these height calculations. right now this is a mess. i added 24 here because that's how much padding there is */
-    }
-
-    overflow: hidden;
-
-    &__header {
-      padding: 15px;
-    }
-
-    &__container {
-      @media (min-width: $screen-md-min) {
-        height: calc(100vh - 64px - 12px - 54px - 54px - 10px - 24px);
-        /*64 desktop header height 12 main content area padding (below header) 54 comment header 54 comment input*/
-        /* why the extra 10 at the end? I don't know! */
-      }
-      overflow: auto;
-      /*height: 100%;*/
-
-      display: block;
-    }
-    .loadComments {
-      text-align: center;
-      padding: 5px 0;
-      cursor: pointer;
-      /* legacy */
-    }
-    .empty {
-      height: 100%;
-      text-align: center;
-    }
-
-    &__input-container {
-      border-radius: 0;
-      border-top: 2px solid $light-grey;
-      border-bottom: 2px solid $light-grey;
-
-      @media only screen and (min-width: $screen-md-min) {
-        margin-top: 5rem !important;
-      }
-
-      .comment-avatar {
-        width: 32px;
-      }
-    }
-  }
+  overflow: hidden;
 
   .post-comment-btn {
     margin: 0 auto;

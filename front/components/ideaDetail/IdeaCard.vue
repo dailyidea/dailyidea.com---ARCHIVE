@@ -55,9 +55,8 @@ export default {
   @media only screen and (min-width: $screen-md-min) {
     margin: 0 auto !important;
     margin-top: 2vh !important;
-    width: 50vw;
-    height: 40vw;
-    overflow-y: auto;
+    width: 65vw;
+    height: 80vh;
   }
 
   /* .rounded doesn't work because i'm applying this to a .row (which i shouldn't) */

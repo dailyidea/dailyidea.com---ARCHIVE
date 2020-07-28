@@ -28,6 +28,12 @@ export default {
 
 .idea-content {
   max-width: 100%;
+
+  @media only screen and (min-width: $screen-md-min) {
+    height: 45vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 
 .idea-content ::v-deep {

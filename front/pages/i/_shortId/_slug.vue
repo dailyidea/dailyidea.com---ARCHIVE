@@ -80,7 +80,7 @@
               </div>
               <!-- /idea-part__info -->
 
-              <div class="idea-part__content">
+              <div class="idea-part__content-container">
                 <!-- /idea-part__info -->
 
                 <div class="idea-part__content">
@@ -574,10 +574,6 @@ export default {
 }
 
 .idea-part {
-  @media (min-width: $screen-md-min) {
-    min-height: calc(100vh - 88px);
-  }
-  min-height: 200px;
   position: relative;
 
   &__author-avatar {
@@ -597,12 +593,13 @@ export default {
     }
   }
 
-  &__content {
+  &__content-container {
+    @media only screen and (min-width: $screen-md-min) {
+      overflow-y: auto;
+    }
+
     word-break: break-word;
     margin-top: 1rem;
-    @media (min-width: $screen-md-min) {
-      min-height: 300px;
-    }
     &__idea-editor {
       ::v-deep .trix-content {
         overflow-y: auto;
