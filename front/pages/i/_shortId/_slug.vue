@@ -1,9 +1,13 @@
 <template>
   <div>
-    <div class="light-box-bg"></div>
+    <div
+      class="light-box-bg"
+      :class="{ 'light-box-expanded': isExpanded && isMobile }"
+    ></div>
     <layout :hide-slide-menu="hideSlideMenu">
       <swiper
         v-slot="{ rotationStyle }"
+        class="idea-card"
         :swipe-disabled="isExpanded"
         @swipe-start="setHideSlideMenuTrue"
         @swipe-end="setHideSlideMenuFalse"
@@ -100,7 +104,11 @@
                       />
                     </client-only>
                   </div>
-                  <div v-else>
+                  <div
+                    v-else
+                    class="idea-part__idea-content hide-scrollbar"
+                    :class="{ 'fade-bottom': shouldFadeBottom }"
+                  >
                     <idea-content
                       :collapsed="!isExpanded"
                       :content="idea.content"
@@ -265,6 +273,14 @@ export default {
       userId: 'userData/userId',
       isAuthenticated: 'userData/isAuthenticated'
     }),
+
+    shouldFadeBottom() {
+      if (this.isMobile) {
+        return !this.isExpanded
+      }
+
+      return true
+    },
 
     isExpanded: {
       set() {
@@ -560,6 +576,13 @@ export default {
 <style lang="scss" scoped>
 @import '~assets/style/common.scss';
 
+.idea-card {
+  @media (max-width: $screen-sm-max) {
+    position: absolute;
+    z-index: 100;
+  }
+}
+
 .light-box-bg {
   position: absolute;
   height: 100%;
@@ -567,6 +590,12 @@ export default {
   top: 0;
   left: 0;
   background-color: $color-off-white;
+}
+
+.light-box-expanded {
+  position: fixed;
+  background-color: $color-light-box;
+  z-index: 1;
 }
 
 .idea-name-field {
@@ -593,11 +622,14 @@ export default {
     }
   }
 
-  &__content-container {
+  &__idea-content {
     @media only screen and (min-width: $screen-md-min) {
       overflow-y: auto;
+      max-height: 50vh;
     }
+  }
 
+  &__content-container {
     word-break: break-word;
     margin-top: 1rem;
     &__idea-editor {

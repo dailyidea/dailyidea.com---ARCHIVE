@@ -1,6 +1,10 @@
 <template>
   <div class="comments-part">
-    <v-container ref="scroller" class="comments-part__container">
+    <v-container
+      ref="scroller"
+      class="comments-part__container hide-scrollbar"
+      :class="{ 'fade-bottom': !isMobile }"
+    >
       <div
         v-if="commentList.length"
         ref="commentsCol"
@@ -570,6 +574,10 @@ $counters-font-size: 18px;
     border-left: 2px solid $light-grey;
     padding-left: 1rem;
     overflow-y: auto;
+
+    &__comment-col {
+      padding-bottom: 2rem;
+    }
   }
 
   &__header {
@@ -579,6 +587,7 @@ $counters-font-size: 18px;
   &__container {
     @media (min-width: $screen-md-min) {
       height: 55vh;
+      padding-bottom: 2rem;
     }
     overflow: auto;
     /*height: 100%;*/

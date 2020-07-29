@@ -1,7 +1,10 @@
 <template>
   <!-- eslint-disable vue/no-v-html -->
   <div
-    :class="{ 'idea-content-collapsed': collapsed, 'idea-content': !collapsed }"
+    :class="{
+      'idea-content-collapsed fade-bottom': collapsed,
+      'idea-content': !collapsed
+    }"
     v-html="content"
   ></div>
 </template>
@@ -30,9 +33,9 @@ export default {
   max-width: 100%;
 
   @media only screen and (min-width: $screen-md-min) {
-    height: 45vh;
     overflow-y: auto;
     overflow-x: hidden;
+    padding-bottom: 2rem;
   }
 }
 
