@@ -579,6 +579,7 @@ export default {
 .idea-card {
   @media (max-width: $screen-sm-max) {
     position: absolute;
+    width: 100%;
     z-index: 100;
   }
 }
