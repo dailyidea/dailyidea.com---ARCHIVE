@@ -1,12 +1,16 @@
 <template>
-  <v-toolbar class="desktop hidden-sm-and-down" flat color="white">
+  <v-toolbar class="desktop hidden-sm-and-down elevation-1" flat color="white">
     <v-container>
       <v-row>
         <v-col cols="auto">
           <v-toolbar-title>
             <!-- Logo on top left corner -->
-            <nuxt-link class="logo" :to="logoLink">
-              <img class="logo" src="~/assets/images/logo_full.svg" />
+            <nuxt-link
+              class="logo d-flex flex-column justify-center align-center mt-1"
+              :to="logoLink"
+            >
+              <img class="logo__bulb" src="~/assets/images/lamp_on.png" />
+              <img class="logo__text" src="~/assets/images/logo_text.png" />
             </nuxt-link>
           </v-toolbar-title>
         </v-col>
@@ -17,49 +21,53 @@
             @onToggleSearchIdeaMode="onToggleSearchIdeaMode"
           ></search-component>
         </v-col>
-        <v-col cols="auto">
-          <!-- Profile Icon -->
-          <v-menu offset-y nudge-bottom="15" left :disabled="!isAuthenticated">
-            <template v-slot:activator="{ on }">
-              <div>
-                <a v-if="isAuthenticated" v-on="on">
-                  <header-avatar></header-avatar>
-                  <span class="userName">{{ userName }}</span>
-                </a>
-                <router-link
-                  v-else
-                  :to="{ name: 'auth-login' }"
-                  class="text-decoration-none"
-                  >Log In
-                </router-link>
-              </div>
-            </template>
-            <v-list class="header-nav-dropdown">
-              <router-link to="/profile">
-                <v-list-item>
-                  <v-list-item-title
-                    ><v-icon small>mdi-account-circle-outline</v-icon> My
-                    Profile</v-list-item-title
-                  >
-                </v-list-item>
-              </router-link>
-
-              <router-link to="/settings">
-                <v-list-item>
-                  <v-list-item-title
-                    ><v-icon small>mdi-cog-outline</v-icon>
-                    Settings</v-list-item-title
-                  >
-                </v-list-item>
-              </router-link>
-              <v-list-item @click="signOut">
-                <v-list-item-title
-                  ><v-icon small>mdi-exit-run</v-icon> Sign
-                  Out</v-list-item-title
-                >
-              </v-list-item>
-            </v-list>
-          </v-menu>
+        <v-col cols="auto d-flex flex-row align-center justify-space-between">
+          <nuxt-link
+            class="link"
+            :class="{ active: page === 'explore' }"
+            :to="{ name: 'ideas-all' }"
+          >
+            <img
+              v-if="page === 'explore'"
+              class="active-bulb"
+              src="~/assets/images/navbar/bulb-active.svg"
+            />
+            <img v-else src="~/assets/images/navbar/bulb.svg" />
+            <span class="link-text">
+              <span class="text-shadow"></span>
+              <span class="text">Explore</span>
+            </span>
+          </nuxt-link>
+          <nuxt-link
+            class="link"
+            :class="{ active: page === 'post' }"
+            :to="{ name: 'ideas-create' }"
+          >
+            <img
+              v-if="page === 'post'"
+              src="~/assets/images/navbar/post-active.svg"
+            />
+            <img v-else src="~/assets/images/navbar/post.svg" />
+            <span class="link-text">
+              <span class="text-shadow"></span>
+              <span class="text">Post</span>
+            </span>
+          </nuxt-link>
+          <nuxt-link
+            class="link"
+            :class="{ active: page === 'profile' }"
+            :to="{ name: 'ideas-me' }"
+          >
+            <img
+              v-if="page === 'profile'"
+              src="~/assets/images/navbar/profile-active.svg"
+            />
+            <img v-else src="~/assets/images/navbar/profile.svg" />
+            <span class="link-text">
+              <span class="text-shadow"></span>
+              <span class="text">My Ideas</span>
+            </span>
+          </nuxt-link>
         </v-col>
       </v-row>
     </v-container>
@@ -68,21 +76,28 @@
 
 <script>
 import SearchComponent from './SearchComponent'
-import HeaderAvatar from './HeaderAvatar'
 
 export default {
   name: 'DesktopHeader',
   components: {
-    SearchComponent,
-    HeaderAvatar
+    SearchComponent
   },
   data() {
     return {
       searchIdeaMode: false,
-      label: ''
+      label: '',
+      pages: {
+        '/ideas/all': 'explore',
+        '/ideas/me': 'profile',
+        '/ideas/create': 'post'
+      }
     }
   },
   computed: {
+    page() {
+      return this.pages[this.$route.path]
+    },
+
     userName() {
       return this.$store.getters['userData/userName']
     },
@@ -125,9 +140,48 @@ export default {
     cursor: pointer;
   }
 
+  .link {
+    text-decoration: none;
+    color: black;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+
+    img {
+      height: 20px;
+      padding-right: 10px;
+    }
+  }
+
+  .active {
+    color: $primary-color;
+    border-bottom: 3px solid $secondary-color;
+    height: 100%;
+    .link-text {
+      position: relative;
+      .text-shadow {
+        position: absolute;
+        height: 50%;
+        width: 100%;
+        background-color: $primary-color;
+        opacity: 0.2;
+        bottom: 0;
+      }
+    }
+
+    .active-bulb {
+      height: 25px;
+    }
+  }
+
   .logo {
-    height: 32px;
-    vertical-align: middle;
+    &__bulb {
+      width: 30px;
+    }
+
+    &__text {
+      width: 90px;
+    }
   }
 }
 </style>
