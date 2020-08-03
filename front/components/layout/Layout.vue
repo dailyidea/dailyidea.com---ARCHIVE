@@ -30,8 +30,11 @@
       </v-content>
     </v-container>
 
-    <div class="sticky-footer">
-      <mobile-header @showSideMenu="showSideMenu"></mobile-header>
+    <div v-if="isMobile" class="sticky-footer d-flex align-center">
+      <mobile-header
+        class="mobile"
+        @showSideMenu="showSideMenu"
+      ></mobile-header>
     </div>
   </div>
 </template>
@@ -106,15 +109,28 @@ export default {
 </script>
 
 <style lang="scss">
+.v-toolbar__content {
+  width: 100%;
+}
+
 .sticky-footer {
   border-top: 2px solid $secondary-color;
   position: fixed;
   bottom: 0;
   z-index: 2;
   width: 100%;
+  margin-top: 5em;
+
+  .mobile {
+    height: 75px !important;
+  }
 }
 
 #commonHeader {
+  @media (max-width: $screen-sm-max) {
+    padding-bottom: 5em;
+  }
+
   position: relative;
   .loggedInHeader {
     width: 100%;

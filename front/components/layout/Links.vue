@@ -1,5 +1,5 @@
 <template>
-  <span class="d-flex flex-row align-center justify-space-around">
+  <span class="links d-flex flex-row align-center justify-space-between">
     <nuxt-link
       class="link"
       :class="{ active: page === 'explore' }"

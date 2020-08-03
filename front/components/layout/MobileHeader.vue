@@ -1,5 +1,9 @@
 <template>
-  <v-app-bar flat color="white" class="hidden-md-and-up mobile-toolbar">
+  <v-app-bar
+    flat
+    color="white"
+    class="hidden-md-and-up mobile-toolbar d-flex align-center"
+  >
     <!-- Hamburber or back button -->
     <v-container fluid>
       <links></links>
