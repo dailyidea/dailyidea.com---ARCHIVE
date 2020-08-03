@@ -120,6 +120,7 @@ def send_weekly_stats_bulk(users_list):
                     "SAVES_PEOPLE": 'person' if saves_count == 1 else 'people',
                     "SHARES_PEOPLE": 'person' if shares_coount == 1 else 'people',
                     "COMMENTS_PEOPLE": 'person' if comments_count == 1 else 'people',
+                    "IMAGE_NUMBER": '10-plus' if ideas_count > 10 else ideas_count,
                 }
             )
         })
