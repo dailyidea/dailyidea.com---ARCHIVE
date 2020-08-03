@@ -15,7 +15,6 @@
       ></navigation-menu>
       <div class="loggedInHeader">
         <desktop-header @signOut="signOut"></desktop-header>
-        <mobile-header @showSideMenu="showSideMenu"></mobile-header>
       </div>
     </template>
 
@@ -30,6 +29,10 @@
         <vue-snotify />
       </v-content>
     </v-container>
+
+    <div class="sticky-footer">
+      <mobile-header @showSideMenu="showSideMenu"></mobile-header>
+    </div>
   </div>
 </template>
 
@@ -103,6 +106,14 @@ export default {
 </script>
 
 <style lang="scss">
+.sticky-footer {
+  border-top: 2px solid $secondary-color;
+  position: fixed;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
+}
+
 #commonHeader {
   position: relative;
   .loggedInHeader {

@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar class="desktop hidden-sm-and-down elevation-1" flat color="white">
+  <v-toolbar class="desktop hidden-sm-and-down" flat color="white">
     <v-container>
       <v-row>
         <v-col cols="auto">
@@ -14,60 +14,9 @@
             </nuxt-link>
           </v-toolbar-title>
         </v-col>
-        <v-col>
-          <search-component
-            :search-idea-mode="searchIdeaMode"
-            :label="label"
-            @onToggleSearchIdeaMode="onToggleSearchIdeaMode"
-          ></search-component>
-        </v-col>
-        <v-col cols="auto d-flex flex-row align-center justify-space-between">
-          <nuxt-link
-            class="link"
-            :class="{ active: page === 'explore' }"
-            :to="{ name: 'ideas-all' }"
-          >
-            <img
-              v-if="page === 'explore'"
-              class="active-bulb"
-              src="~/assets/images/navbar/bulb-active.svg"
-            />
-            <img v-else src="~/assets/images/navbar/bulb.svg" />
-            <span class="link-text">
-              <span class="text-shadow"></span>
-              <span class="text">Explore</span>
-            </span>
-          </nuxt-link>
-          <nuxt-link
-            class="link"
-            :class="{ active: page === 'post' }"
-            :to="{ name: 'ideas-create' }"
-          >
-            <img
-              v-if="page === 'post'"
-              src="~/assets/images/navbar/post-active.svg"
-            />
-            <img v-else src="~/assets/images/navbar/post.svg" />
-            <span class="link-text">
-              <span class="text-shadow"></span>
-              <span class="text">Post</span>
-            </span>
-          </nuxt-link>
-          <nuxt-link
-            class="link"
-            :class="{ active: page === 'profile' }"
-            :to="{ name: 'ideas-me' }"
-          >
-            <img
-              v-if="page === 'profile'"
-              src="~/assets/images/navbar/profile-active.svg"
-            />
-            <img v-else src="~/assets/images/navbar/profile.svg" />
-            <span class="link-text">
-              <span class="text-shadow"></span>
-              <span class="text">My Ideas</span>
-            </span>
-          </nuxt-link>
+        <v-col> </v-col>
+        <v-col cols="auto">
+          <links></links>
         </v-col>
       </v-row>
     </v-container>
@@ -75,29 +24,20 @@
 </template>
 
 <script>
-import SearchComponent from './SearchComponent'
+import Links from './Links'
 
 export default {
   name: 'DesktopHeader',
   components: {
-    SearchComponent
+    Links
   },
   data() {
     return {
       searchIdeaMode: false,
-      label: '',
-      pages: {
-        '/ideas/all': 'explore',
-        '/ideas/me': 'profile',
-        '/ideas/create': 'post'
-      }
+      label: ''
     }
   },
   computed: {
-    page() {
-      return this.pages[this.$route.path]
-    },
-
     userName() {
       return this.$store.getters['userData/userName']
     },
@@ -127,7 +67,7 @@ export default {
 
 <style scoped lang="scss">
 .desktop {
-  z-index: 100;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
   width: 100%;
 
   .backButon {
@@ -138,40 +78,6 @@ export default {
     font-size: 15px;
     line-height: 20px;
     cursor: pointer;
-  }
-
-  .link {
-    text-decoration: none;
-    color: black;
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-
-    img {
-      height: 20px;
-      padding-right: 10px;
-    }
-  }
-
-  .active {
-    color: $primary-color;
-    border-bottom: 3px solid $secondary-color;
-    height: 100%;
-    .link-text {
-      position: relative;
-      .text-shadow {
-        position: absolute;
-        height: 50%;
-        width: 100%;
-        background-color: $primary-color;
-        opacity: 0.2;
-        bottom: 0;
-      }
-    }
-
-    .active-bulb {
-      height: 25px;
-    }
   }
 
   .logo {
