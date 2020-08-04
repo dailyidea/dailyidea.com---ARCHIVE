@@ -8,11 +8,6 @@
       absolute
     ></v-progress-linear>
     <template>
-      <navigation-menu
-        v-if="!hideSlideMenu"
-        ref="sideMenu"
-        @signOut="signOut"
-      ></navigation-menu>
       <div class="loggedInHeader">
         <desktop-header @signOut="signOut"></desktop-header>
       </div>
@@ -40,12 +35,11 @@
 </template>
 
 <script>
-import NavigationMenu from './NavigationMenu'
 import DesktopHeader from './DesktopHeader'
 import MobileHeader from './MobileHeader'
 
 export default {
-  components: { MobileHeader, NavigationMenu, DesktopHeader },
+  components: { MobileHeader, DesktopHeader },
   props: {
     hideSlideMenu: Boolean
   },
