@@ -4,17 +4,16 @@
   </button>
 </template>
 <script>
-
 export default {
   name: 'IdeaBtn',
   props: {
     fixedWidth: {
-      type:Boolean,
-      default:false
+      type: Boolean,
+      default: false
     },
     disabled: {
-      type:Boolean,
-      default:false
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -25,13 +24,12 @@ export default {
       }
     }
   }
-
 }
 </script>
 <style scoped lang="scss">
 $font-stack: Avenir LT Std;
 
-.idea-btn{
+.idea-btn {
   background-color: rgba(91, 65, 187, 1);
   width: 131px;
   height: 36px;
@@ -45,16 +43,16 @@ $font-stack: Avenir LT Std;
     height: 46px;
   }
 
-  &:focus{
+  &:focus {
     height: 46px;
     background-color: rgba(66, 39, 169, 1);
   }
 
-  &:disabled{
-    background-color: rgba(91, 65, 187, .6);
+  &:disabled {
+    background-color: rgba(91, 65, 187, 0.6);
   }
 
-  &.fixed-width{
+  &.fixed-width {
     width: 311px;
   }
 }
