@@ -55,15 +55,16 @@ export default {
   data() {
     return {
       pages: {
-        '/ideas/all': 'explore',
-        '/ideas/me': 'profile',
-        '/ideas/create': 'post'
+        'i-shortId-slug': 'explore',
+        'ideas-all': 'explore',
+        'ideas-me': 'profile',
+        'ideas-create': 'post'
       }
     }
   },
   computed: {
     page() {
-      return this.pages[this.$route.path]
+      return this.pages[this.$route.name]
     }
   }
 }
