@@ -332,6 +332,7 @@ type Comment @aws_api_key @aws_cognito_user_pools{
 	createdDate: String!
 	userName: String
 	userSlug: String
+  userAvatar: String
 }
 
 type Result  @aws_api_key @aws_cognito_user_pools{

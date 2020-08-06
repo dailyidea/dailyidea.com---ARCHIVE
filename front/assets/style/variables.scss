@@ -3,10 +3,20 @@ $secondary-color: #ffc61e;
 $secondary-gradient: linear-gradient(to left, #ffb92d, #ffdf01);
 $color-muted-grey: #c0b7c5;
 $color-insanely-crazy-light-greyish-purple: #f3f0f4;
-$color-off-white: #efefef;
+$color-off-white: #fafafa;
+$color-dark-off-white: #efefef;
+$color-light-box: #9a9a9a;
 $welcome-background-color: #aaaaaa99;
 $welcome-background-yellow: #fbe192;
 $welcome-arrow-background: #5b41bb;
+
+$light-grey: #f3f0f4;
+$background-grey: #f8f8fa;
+
+$disabled-purple: rgba(91, 65, 187, 0.6);
+$clicked-purple: rgba(66, 39, 169, 1);
+$hover-purple: rgba(91, 65, 187, 1);
+$default-purple: rgba(91, 65, 187, 1);
 
 $screen-xs-max: 599px;
 $screen-sm-min: 600px;

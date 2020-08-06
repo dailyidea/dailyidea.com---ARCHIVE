@@ -1,16 +1,24 @@
 <template>
   <div class="comments-part">
-    <div class="comments-part__header text-center">
-      <strong class="muted">Comments</strong>
-    </div>
-    <v-container ref="scroller" class="comments-part__container">
-      <div v-if="commentList.length" ref="commentsCol" class="">
+    <v-container
+      ref="scroller"
+      class="comments-part__container hide-scrollbar"
+      :class="{ 'fade-bottom': !isMobile }"
+    >
+      <div
+        v-if="commentList.length"
+        ref="commentsCol"
+        class="comments-part__comment-col"
+      >
         <div
           v-if="idea.commentsCount > commentList.length && !deletingComment"
           class="loadComments"
           @click="loadComments"
         >
           <v-btn small :loading="loadingMore">Load More...</v-btn>
+        </div>
+        <div class="muted desktop-comments-title hidden-sm-and-down">
+          Comments
         </div>
 
         <idea-comments-comment
@@ -22,43 +30,37 @@
       </div>
       <v-row v-else class="empty" align="center">
         <v-col class="muted">
-          <p>
-            <v-icon>mdi-comment-plus-outline</v-icon>
-          </p>
           <p>No comments yet.</p>
           <p>Be the first!</p>
         </v-col>
       </v-row>
     </v-container>
-    <div class="comments-part__input-container">
-      <v-text-field
-        v-model="newCommentText"
-        label="Add a comment..."
-        single-line
-        flat
-        hide-details
-        solo
-        @keydown.enter="onAddCommentAttempt"
-      >
-        <template v-slot:append>
-          <v-slide-y-transition hide-on-leave>
+    <div class="comment-and-post-btn d-flex flex-column">
+      <div class="comments-part__input-container d-flex flex-row align-center">
+        <img :src="avatar" class="comment-avatar" />
+        <v-text-field
+          v-model="newCommentText"
+          label="Join the conversation..."
+          single-line
+          flat
+          hide-details
+          solo
+          @keydown.enter="onAddCommentAttempt"
+        >
+          <template v-slot:append>
             <v-icon
-              v-if="readyForSend && !showAddCommentLoader"
+              v-if="showAddCommentLoader"
               small
               class="color-primary"
               @click="onAddCommentAttempt"
-              >fa-paper-plane
+              >fas fa-circle-notch fa-spin flag-icon
             </v-icon>
-          </v-slide-y-transition>
-          <v-icon
-            v-if="showAddCommentLoader"
-            small
-            class="color-primary"
-            @click="onAddCommentAttempt"
-            >fas fa-circle-notch fa-spin flag-icon
-          </v-icon>
-        </template>
-      </v-text-field>
+          </template>
+        </v-text-field>
+      </div>
+      <div v-if="newCommentText" class="post-comment-btn">
+        <v-btn width="100%" @click="onAddCommentAttempt">Post Comment </v-btn>
+      </div>
     </div>
 
     <default-dialog
@@ -154,7 +156,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      isAuthenticated: 'userData/isAuthenticated'
+      isAuthenticated: 'userData/isAuthenticated',
+      avatar: 'userData/avatar'
     }),
 
     readyForSend() {
@@ -546,76 +549,45 @@ export default {
 
 <style scoped lang="scss">
 @import '~assets/style/common';
-$light-grey: #f3f0f4;
 $counters-font-size: 18px;
 
-.likes-counter {
-  display: inline-block;
-
-  &__image-container {
-    display: inline-block;
-    vertical-align: bottom;
-    min-width: $counters-font-size + 7px;
-    text-align: center;
-    min-height: $counters-font-size + 5px;
-  }
-
-  &__image {
-    display: inline-block;
-    vertical-align: bottom;
-    height: $counters-font-size + 1px;
-
-    &.on {
-      height: $counters-font-size + 5px;
-    }
-  }
-
-  &__label {
-    margin-left: 5px;
-    display: inline-block;
-    vertical-align: bottom;
-    height: $counters-font-size;
-    line-height: $counters-font-size;
-    font-size: $counters-font-size;
-  }
+.desktop-comments-title {
+  font-size: 18px;
 }
 
-.comments-counter {
-  &__image {
-    display: inline-block;
-    vertical-align: bottom;
-    height: $counters-font-size;
-  }
-
-  &__label {
-    margin-left: 8px;
-    display: inline-block;
-    vertical-align: bottom;
-    height: $counters-font-size;
-    line-height: $counters-font-size;
-    font-size: $counters-font-size;
+.container {
+  @media only screen and (min-width: $screen-md-min) {
+    height: 50vh;
+    overflow-y: auto;
+    padding-left: 0;
+    padding-right: 12px;
   }
 }
 
 .comments-part {
-  @media (min-width: $screen-md-min) {
-    height: calc(100vh - 88px - 24px);
-    /* i hate these height calculations. right now this is a mess. i added 24 here because that's how much padding there is */
-  }
+  @media only screen and (min-width: $screen-md-min) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 
-  overflow: hidden;
+    border-left: 2px solid $light-grey;
+    padding-left: 1rem;
+    overflow-y: auto;
+
+    &__comment-col {
+      padding-bottom: 2rem;
+    }
+  }
 
   &__header {
     padding: 15px;
-    background-color: $light-grey;
   }
 
   &__container {
-    background-color: $light-grey;
     @media (min-width: $screen-md-min) {
-      height: calc(100vh - 64px - 12px - 54px - 54px - 10px - 24px);
-      /*64 desktop header height 12 main content area padding (below header) 54 comment header 54 comment input*/
-      /* why the extra 10 at the end? I don't know! */
+      height: 55vh;
+      padding-bottom: 2rem;
     }
     overflow: auto;
     /*height: 100%;*/
@@ -635,7 +607,26 @@ $counters-font-size: 18px;
 
   &__input-container {
     border-radius: 0;
-    border: 1px solid $light-grey;
+    border-top: 2px solid $light-grey;
+    border-bottom: 2px solid $light-grey;
+
+    .comment-avatar {
+      width: 32px;
+    }
+  }
+}
+
+.comment-and-post-btn {
+  overflow: hidden;
+
+  .post-comment-btn {
+    margin: 0 auto;
+    margin-top: 3rem;
+    width: 100%;
+
+    .v-btn {
+      background-color: $default-purple !important;
+    }
   }
 }
 </style>

@@ -1,7 +1,8 @@
 <template>
   <layout>
+    <user-profile-header-section></user-profile-header-section>
+    <!--
     <v-row class="header" :class="{ editMode: editMode }">
-      <!-- left side image on desktop -->
       <v-col
         class="profileImage d-flex align-start justify-center"
         cols="12"
@@ -15,9 +16,7 @@
         </user-profile-avatar>
       </v-col>
 
-      <!-- right side profile info on desktop -->
       <v-col cols="12" sm="8">
-        <!-- username -->
         <validation-observer v-slot="{ valid }">
           <v-row>
             <v-col>
@@ -62,7 +61,6 @@
           </v-row>
         </validation-observer>
 
-        <!-- counters / stats -->
         <v-row class="profileStats">
           <v-col id="ideasCount" cols="auto">
             <span class="stat">
@@ -89,9 +87,7 @@
             </span>
           </v-col>
         </v-row>
-        <!-- end counters / stats -->
 
-        <!-- profile bio -->
         <v-row>
           <v-col>
             <div class="profileBio">
@@ -110,7 +106,6 @@
           </v-col>
         </v-row>
 
-        <!-- profile tags  -->
         <v-row>
           <v-col>
             <div
@@ -163,13 +158,11 @@
               </div>
             </div>
           </v-col>
-        </v-row> </v-col
-      ><!-- end right side of header --> </v-row
-    ><!-- header info -->
+        </v-row> 
+      </v-col>
+    </v-row>
 
-    <!-- -->
     <v-row
-      ><!-- ideas section -->
       <v-col>
         <div v-if="ideas.length">
           <div>
@@ -211,33 +204,36 @@
         <user-profile-avatar-crop-dialog
           ref="UserProfileAvatarCropDialog"
         ></user-profile-avatar-crop-dialog>
-      </v-col> </v-row
-    ><!-- end ideas section -->
+      </v-col> 
+    </v-row>
+    -->
   </layout>
 </template>
 
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
-import { ValidationObserver } from 'vee-validate'
-import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
-import UserProfileAvatar from './UserProfileAvatar'
+// import { ValidationObserver } from 'vee-validate'
+// import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
+// import UserProfileAvatar from './UserProfileAvatar'
+import UserProfileHeaderSection from './UserProfileHeaderSection'
 import Layout from '@/components/layout/Layout'
 import updateProfileInfo from '@/graphql/mutations/updateProfileInfo'
-import IdeasListIdea from '@/components/ideasList/ideasListIdea'
-import VisualNotifier from '~/components/VisualNotifier'
+// import IdeasListIdea from '@/components/ideasList/ideasListIdea'
+// import VisualNotifier from '~/components/VisualNotifier'
 import uploadAvatar from '~/graphql/mutations/uploadAvatar'
-import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
+// import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
 
 export default {
   name: 'UsersProfile',
   components: {
-    VTextFieldWithValidation,
-    UserProfileAvatar,
-    IdeasListIdea,
+    // VTextFieldWithValidation,
+    // UserProfileAvatar,
+    // IdeasListIdea,
     Layout,
-    VisualNotifier,
-    UserProfileAvatarCropDialog,
-    ValidationObserver
+    UserProfileHeaderSection
+    // VisualNotifier,
+    // UserProfileAvatarCropDialog,
+    // ValidationObserver
   },
   props: {
     initialProfileData: {

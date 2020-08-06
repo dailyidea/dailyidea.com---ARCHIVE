@@ -14,7 +14,7 @@
     </template>
 
     <!-- Router contents -->
-    <v-container>
+    <v-container class="content-container">
       <v-content class="nuxtContainer">
         <v-layout>
           <v-flex>
@@ -103,6 +103,12 @@ export default {
 </script>
 
 <style lang="scss">
+.content-container {
+  height: 100%;
+  padding: 0;
+  background-color: $background-grey;
+}
+
 .v-toolbar__content {
   width: 100%;
 }
@@ -124,6 +130,8 @@ export default {
   @media (max-width: $screen-sm-max) {
     padding-bottom: 5em;
   }
+
+  height: 100%;
 
   position: relative;
   .loggedInHeader {
