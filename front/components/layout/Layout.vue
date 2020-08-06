@@ -13,6 +13,8 @@
       </div>
     </template>
 
+    <slot name="header"></slot>
+
     <!-- Router contents -->
     <v-container class="content-container">
       <v-content class="nuxtContainer">
@@ -38,7 +40,7 @@ import MobileHeader from './MobileHeader'
 export default {
   components: { MobileHeader, DesktopHeader },
   props: {
-    hideSlideMenu: Boolean
+    bgColor: String
   },
   data() {
     return {
@@ -94,12 +96,6 @@ export default {
 </script>
 
 <style lang="scss">
-.content-container {
-  height: 100%;
-  padding: 0;
-  background-color: $background-grey;
-}
-
 .v-toolbar__content {
   width: 100%;
 }
@@ -118,6 +114,7 @@ export default {
 }
 
 #commonHeader {
+  background-color: $background-grey;
   @media (max-width: $screen-sm-max) {
     padding-bottom: 5em;
   }

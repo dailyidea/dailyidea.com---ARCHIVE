@@ -1,6 +1,15 @@
 <template>
-  <layout>
-    <user-profile-header-section></user-profile-header-section>
+  <layout :bg-color="blue">
+    <template v-slot:header>
+      <user-profile-header-section
+        :profile-data="profileData"
+        :is-my-profile="isMyProfile"
+        :selectAvatar="selectAvatar"
+      ></user-profile-header-section>
+    </template>
+    <template>
+      body
+    </template>
     <!--
     <v-row class="header" :class="{ editMode: editMode }">
       <v-col
@@ -8,11 +17,6 @@
         cols="12"
         sm="4"
       >
-        <user-profile-avatar
-          :profile-data="profileData"
-          :is-my-profile="isMyProfile"
-          @select-avatar="selectAvatar"
-        >
         </user-profile-avatar>
       </v-col>
 
@@ -213,8 +217,6 @@
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 // import { ValidationObserver } from 'vee-validate'
-// import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
-// import UserProfileAvatar from './UserProfileAvatar'
 import UserProfileHeaderSection from './UserProfileHeaderSection'
 import Layout from '@/components/layout/Layout'
 import updateProfileInfo from '@/graphql/mutations/updateProfileInfo'
@@ -227,12 +229,10 @@ export default {
   name: 'UsersProfile',
   components: {
     // VTextFieldWithValidation,
-    // UserProfileAvatar,
     // IdeasListIdea,
     Layout,
     UserProfileHeaderSection
     // VisualNotifier,
-    // UserProfileAvatarCropDialog,
     // ValidationObserver
   },
   props: {

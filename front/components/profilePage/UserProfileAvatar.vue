@@ -53,8 +53,8 @@ export default {
     justify-content: center;
     background-size: cover;
     background-repeat: no-repeat;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
 
     @media (max-width: $screen-md-max) {
       width: 120px;
