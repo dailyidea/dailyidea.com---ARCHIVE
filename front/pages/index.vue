@@ -31,9 +31,9 @@
 
               <!-- Signup Button -->
               <div class="text-center text-sm-left">
-                <v-btn dark rounded class="wider" :to="{ name: 'auth-signup' }"
-                  >Sign Up
-                </v-btn>
+                <nuxt-link :to="{ name: 'auth-signup' }">
+                  <idea-btn>Sign Up</idea-btn>
+                </nuxt-link>
               </div>
             </div>
           </v-col>
@@ -130,12 +130,14 @@ import Layout from '@/components/layout/Layout'
 import MainFooter from '@/components/layout/MainFooter'
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
 import ideasListIdea from '~/components/ideasList/ideasListIdea'
+import ideaBtn from '~/components/IdeaBtn'
 
 export default {
   components: {
     ideasListIdea,
     Layout,
-    MainFooter
+    MainFooter,
+    ideaBtn
   },
   async asyncData({ app }) {
     let result = await app.$amplifyApi.graphql({
