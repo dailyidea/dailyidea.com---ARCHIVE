@@ -26,10 +26,7 @@
     </v-container>
 
     <div v-if="isMobile" class="sticky-footer d-flex align-center">
-      <mobile-header
-        class="mobile"
-        @showSideMenu="showSideMenu"
-      ></mobile-header>
+      <mobile-header class="mobile"></mobile-header>
     </div>
   </div>
 </template>
@@ -80,12 +77,6 @@ export default {
         js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js'
         fjs.parentNode.insertBefore(js, fjs)
       })(document, 'script', 'facebook-jssdk')
-    },
-    showSideMenu() {
-      if (!this.$refs.sideMenu) {
-        return
-      }
-      this.$refs.sideMenu.show()
     },
     signOut() {
       this.$store.dispatch('cognito/signOut')
