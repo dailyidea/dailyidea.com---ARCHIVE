@@ -26,9 +26,6 @@ export default {
     }
   },
   methods: {
-    showSideMenu() {
-      this.$emit('showSideMenu')
-    },
     onToggleSearchIdeaMode(value) {
       this.searchIdeaMode = value
     }
