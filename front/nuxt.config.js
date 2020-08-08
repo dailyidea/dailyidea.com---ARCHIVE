@@ -121,7 +121,12 @@ module.exports = {
           success: '#2E7D32'
         }
       }
-    }
+    },
+    treeShake: true,
+    options: {
+      customProperties: true
+    },
+    customVariables: ['~/assets/style/variables.scss']
   },
 
   render: {
