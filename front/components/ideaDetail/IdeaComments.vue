@@ -2,8 +2,7 @@
   <div class="comments-part">
     <v-container
       ref="scroller"
-      class="comments-part__container hide-scrollbar"
-      :class="{ 'fade-bottom': !isMobile }"
+      class="comments-part__container hide-scrollbar fade-bottom"
     >
       <div
         v-if="commentList.length"
