@@ -2,7 +2,7 @@
   <div>
     <div
       class="light-box-bg"
-      :class="{ 'light-box-expanded': isExpanded && isMobile }"
+      :class="{ 'light-box-expanded': isExpanded }"
     ></div>
     <layout :hide-slide-menu="hideSlideMenu">
       <swiper
@@ -106,8 +106,7 @@
                   </div>
                   <div
                     v-else
-                    class="idea-part__idea-content hide-scrollbar"
-                    :class="{ 'fade-bottom': shouldFadeBottom }"
+                    class="idea-part__idea-content hide-scrollbar fade-bottom"
                   >
                     <idea-content
                       :collapsed="!isExpanded"
@@ -274,23 +273,11 @@ export default {
       isAuthenticated: 'userData/isAuthenticated'
     }),
 
-    shouldFadeBottom() {
-      if (this.isMobile) {
-        return !this.isExpanded
-      }
-
-      return true
-    },
-
     isExpanded: {
       set() {
         this.expandedState = !this.expandedState
       },
       get() {
-        if (!this.isMobile) {
-          return true
-        }
-
         return this.expandedState === undefined ? false : this.expandedState
       }
     },
@@ -594,9 +581,11 @@ export default {
 }
 
 .light-box-expanded {
-  position: fixed;
-  background-color: $color-light-box;
-  z-index: 1;
+  @media (max-width: $screen-sm-max) {
+    position: fixed;
+    background-color: $color-light-box;
+    z-index: 1;
+  }
 }
 
 .idea-name-field {

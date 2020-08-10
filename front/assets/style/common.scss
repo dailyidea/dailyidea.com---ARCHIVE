@@ -46,8 +46,10 @@ form .v-input__prepend-inner {
 }
 
 .fade-bottom {
-  -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  @media(min-width: $screen-md-min) {
+    -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  }
 }
 
 .text-decoration-none {
