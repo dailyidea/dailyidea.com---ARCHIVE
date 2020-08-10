@@ -103,6 +103,7 @@
   </Layout>
 </template>
 <script>
+import { mapMutations } from 'vuex'
 import { ValidationObserver } from 'vee-validate'
 import { graphqlOperation } from '@aws-amplify/api'
 import TrixWrapper from '@/components/TrixWrapper'
@@ -143,8 +144,14 @@ export default {
     }
   },
   created() {},
+
   mounted() {},
+
   methods: {
+    ...mapMutations({
+      updateCreatedIdea: 'ideas/UPDATE_CREATED'
+    }),
+
     focusIdeaText() {
       document.querySelector('trix-editor').focus()
     },
@@ -192,12 +199,13 @@ export default {
         this.snackbarVisible = true
 
         // Redirect to idea deail page
-        const { shortId, slug } = result.data.createIdea
+        const { shortId, slug, ideaId } = result.data.createIdea
         this.$router.push({
           name: 'i-shortId-slug',
           params: { shortId, slug },
           force: true
         })
+        this.updateCreatedIdea(ideaId)
       } catch (err) {
         this.creatingIdea = false
         this.snackbarMessage = 'Something went wrong!!'

@@ -37,6 +37,7 @@
                   <menu-panel
                     :editable="isMyIdea"
                     :idea="idea"
+                    :share-idea.sync="shareIdea"
                     @enable-edit-mode="enableEditMode"
                     @saved-state-changed="onIdeaSaveStateChanged"
                     @liked-state-changed="onIdeaLikeStateChanged"
@@ -162,17 +163,20 @@
     </swiper>
     <visual-notifier ref="notifier"></visual-notifier>
     <register-encourage-dialog v-model="showRegisterEncourageDialog" />
+    <idea-posted-dialog
+      v-model="showIdeaPostedDialog"
+      @share=";(shareIdea = true) && (showIdeaPostedDialog = false)"
+    />
   </layout>
 </template>
 
 <script>
 import { ValidationObserver } from 'vee-validate'
 import clip from 'text-clipper'
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 import { graphqlOperation } from '@aws-amplify/api'
 import Layout from '@/components/layout/Layout'
 import TrixWrapper from '@/components/TrixWrapper'
-
 import getAllIdeas from '@/components/ideaDetail/ideaSwipeQueue.js'
 import Swiper from '@/components/ideaDetail/Swiper'
 import IdeaComments from '@/components/ideaDetail/IdeaComments'
@@ -186,9 +190,11 @@ import IdeaContent from '@/components/IdeaContent'
 import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 import getIdea from '@/graphql/query/getIdea'
 import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
+import IdeaPostedDialog from '@/components/dialogs/IdeaPostedDialog'
 
 export default {
   components: {
+    IdeaPostedDialog,
     VTextFieldWithValidation,
     Layout,
     MenuPanel,
@@ -241,11 +247,17 @@ export default {
       },
 
       updatingIdea: false,
-      showRegisterEncourageDialog: false
+      showRegisterEncourageDialog: false,
+      showIdeaPostedDialog: false,
+      shareIdea: false
     }
   },
 
   computed: {
+    ...mapState({
+      createdIdeaId: s => s.ideas.createdIdeaId
+    }),
+
     ...mapGetters({
       userId: 'userData/userId',
       isAuthenticated: 'userData/isAuthenticated'
@@ -260,9 +272,19 @@ export default {
     this.cacheIdeas()
     this.loadSecondaryData()
     this.incrementViews()
+
+    // Show success diaslog for jsut created idea
+    if (this.idea && this.createdIdeaId === this.idea.ideaId) {
+      this.showIdeaPostedDialog = true
+      // this.updateCreatedIdea(null)
+    }
   },
 
   methods: {
+    ...mapMutations({
+      updateCreatedIdea: 'ideas/UPDATE_CREATED'
+    }),
+
     nextIdea() {
       this.loadNewIdea(1)
     },
