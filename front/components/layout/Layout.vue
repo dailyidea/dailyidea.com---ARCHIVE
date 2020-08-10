@@ -8,7 +8,7 @@
       absolute
     ></v-progress-linear>
     <template>
-      <div class="loggedInHeader">
+      <div class="loggedInHeader hidden-sm-and-down">
         <desktop-header @signOut="signOut"></desktop-header>
       </div>
     </template>
@@ -25,7 +25,7 @@
       </v-content>
     </v-container>
 
-    <div v-if="isMobile" class="sticky-footer d-flex align-center">
+    <div class="hidden-md-and-up sticky-footer d-flex align-center">
       <mobile-header class="mobile"></mobile-header>
     </div>
   </div>
@@ -98,16 +98,18 @@ export default {
   width: 100%;
 }
 
-.sticky-footer {
-  border-top: 2px solid $secondary-color;
-  position: fixed;
-  bottom: 0;
-  z-index: 2;
-  width: 100%;
-  margin-top: 5em;
+@media (max-width: $screen-sm-max) {
+  .sticky-footer {
+    border-top: 2px solid $secondary-color;
+    position: fixed;
+    bottom: 0;
+    z-index: 2;
+    width: 100%;
+    margin-top: 5em;
 
-  .mobile {
-    height: 75px !important;
+    .mobile {
+      height: 75px !important;
+    }
   }
 }
 
