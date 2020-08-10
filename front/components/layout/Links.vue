@@ -81,9 +81,15 @@ export default {
     padding: 1.1rem;
   }
 
+  @media (max-width: $screen-sm-max) {
+    flex-direction: column;
+  }
+
   img {
     height: 20px;
-    padding-right: 10px;
+    @media (min-width: $screen-md-min) {
+      padding-right: 15px;
+    }
   }
 }
 
@@ -98,16 +104,32 @@ export default {
     position: relative;
     .text-shadow {
       position: absolute;
+      bottom: 0;
       height: 50%;
+
+      @media (max-width: $screen-sm-max) {
+        bottom: 15%;
+        height: 20%;
+      }
+
       width: 100%;
       background-color: $primary-color;
       opacity: 0.2;
-      bottom: 0;
     }
   }
 
   .active-bulb {
-    height: 25px;
+    height: 30px;
+
+    @media (min-width: $screen-md-min) {
+      padding-right: 6px;
+      padding-bottom: 3px;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      /* Prevent image from offsetting itself due to light rays */
+      margin-top: -10px;
+    }
   }
 }
 </style>
