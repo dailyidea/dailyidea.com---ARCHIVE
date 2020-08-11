@@ -31,13 +31,6 @@
         </a>
       </div>
     </div>
-    <v-divider></v-divider>
-    <div class="d-flex justify-space-between">
-      <div class="pt-5">Turn on post activity emails</div>
-      <div class="pt-4">
-        <v-switch />
-      </div>
-    </div>
     <template v-slot:footer>&#8203;</template>
   </default-dialog>
 </template>
