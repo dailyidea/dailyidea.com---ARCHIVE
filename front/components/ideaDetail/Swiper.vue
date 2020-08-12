@@ -1,10 +1,10 @@
 <template>
   <span>
     <div class="left-arrow hidden-sm-and-down" @click="leftArrowClick">
-      <v-icon>mdi-arrow-left</v-icon>
+      <img src="~/assets/images/idea-card/left-arrow.png" />
     </div>
     <div class="right-arrow hidden-sm-and-down" @click="rightArrowClick">
-      <v-icon>mdi-arrow-right</v-icon>
+      <img src="~/assets/images/idea-card/left-arrow.png" />
     </div>
     <div class="swipe-parent">
       <div ref="swipe" :style="positionStyle" class="swipe-container">
@@ -16,6 +16,9 @@
 <script>
 export default {
   name: 'Swiper',
+  props: {
+    swipeDisabled: Boolean
+  },
   data() {
     return {
       tapping: false,
@@ -108,6 +111,10 @@ export default {
       }
     },
     setPos(event) {
+      if (this.swipeDisabled) {
+        return
+      }
+
       const { x } = this.getPos(event)
       if (this.swipeInProgress === false) {
         // We haven't lifted the card yet
@@ -256,24 +263,23 @@ export default {
 .left-arrow {
   position: absolute;
   top: 40vh;
-  left: -3vw;
+  left: 0vw;
+  z-index: 1000;
   cursor: pointer;
+  img {
+    width: 50px;
+  }
 }
 
 .right-arrow {
   position: absolute;
   top: 40vh;
-  right: -3vw;
+  right: 0vw;
+  z-index: 1000;
   cursor: pointer;
-}
-
-.swipe-parent {
-  width: 100%;
-  height: 100%;
-}
-
-.swipe-container {
-  width: 100%;
-  height: 100%;
+  transform: rotate(180deg);
+  img {
+    width: 50px;
+  }
 }
 </style>
