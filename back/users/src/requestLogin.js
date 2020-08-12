@@ -8,6 +8,8 @@ const { cors, jsonBodyParser, httpErrorHandler } = require("middy/middlewares");
 const Sqrl = require("squirrelly");
 const withSentry = require("serverless-sentry-lib"); // This helper library
 const Sentry = require("@sentry/node");
+const uuid = require('uuid')
+const fetch = require('node-fetch')
 
 const getCompiledTemplateFromPath = templatePath => {
   const fullTemplatePath = path.join(__dirname, templatePath);
@@ -52,9 +54,30 @@ const generateToken = function(email) {
   );
 };
 
-// AWS.config.update({
-//   region: process.env.DYNAMO_REGION
-// })
+async function setDefaultAvatar (docClient, user) {
+  // Skip if avatar already exists
+  if (user.avatar) {
+    return
+  }
+
+  const resp = await fetch(`https://avatars.dicebear.com/api/bottts/${user.userId}.svg`)
+  const svg = await resp.text()
+  const idParts = uuid.v4().split('-')
+  const id = idParts[idParts.length - 2]
+  const filename = `daily-idea-avatar-${user.userId}-${id}.svg`
+  const s3 = new AWS.S3()
+  await s3.putObject({Bucket: process.env.AVATAR_STATIC_BUCKET_NAME, Key: filename, Body: svg, ACL: 'public-read', ContentType: 'image/svg+xml'}).promise()
+  const url = `${process.env.AVATAR_STATIC_BUCKET_URL}/${filename}`
+
+  await docClient.update({
+    TableName: process.env.USERS_TABLE_NAME,
+    Key: { userId: user.userId },
+    UpdateExpression: "SET avatar = :avatar",
+    ExpressionAttributeValues: {
+      ':avatar': url,
+    },
+  }).promise()
+}
 
 const sendEmail = async function(
   email,
@@ -301,7 +324,8 @@ const sendMail = async (event, context) => {
       console.log("Found", email);
       const token = generateToken(email);
       const name = result.Items[0].name;
-      const code = await updateLoginCode(docClient, result.Items[0].userId)
+      const code = isMobile ? (await updateLoginCode(docClient, result.Items[0].userId)) : null
+      await setDefaultAvatar(docClient, result.Items[0])
 
       const sendMailResp = await sendEmail(
         email,
