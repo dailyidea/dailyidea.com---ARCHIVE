@@ -25,7 +25,7 @@
       </v-content>
     </v-container>
 
-    <div class="hidden-md-and-up sticky-footer d-flex align-center">
+    <div class="hidden-md-and-up sticky-footer">
       <mobile-header class="mobile"></mobile-header>
     </div>
   </div>
@@ -100,6 +100,8 @@ export default {
 
 @media (max-width: $screen-sm-max) {
   .sticky-footer {
+    display: flex;
+    align-items: center;
     border-top: 2px solid $secondary-color;
     position: fixed;
     bottom: 0;

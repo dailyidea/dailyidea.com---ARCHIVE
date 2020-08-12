@@ -5,12 +5,17 @@
       :class="{ active: page === 'explore' }"
       :to="{ name: 'ideas-all' }"
     >
-      <img
-        v-if="page === 'explore'"
+      <bulb-icon
+        v-if="page !== 'explore'"
+        :fill="inactiveColor"
+        class="img"
+      ></bulb-icon>
+      <bulb-on-icon
+        v-else
+        :fill="activeColor"
         class="active-bulb"
-        src="~/assets/images/navbar/bulb-active.svg"
-      />
-      <img v-else src="~/assets/images/navbar/bulb.svg" />
+      ></bulb-on-icon>
+
       <span class="link-text">
         <span class="text-shadow"></span>
         <span class="text">Explore</span>
@@ -21,11 +26,12 @@
       :class="{ active: page === 'post' }"
       :to="{ name: 'ideas-create' }"
     >
-      <img
-        v-if="page === 'post'"
-        src="~/assets/images/navbar/post-active.svg"
-      />
-      <img v-else src="~/assets/images/navbar/post.svg" />
+      <post-icon
+        :stroke="page !== 'post' ? inactiveColor : activeColor"
+        :fill="page !== 'post' ? inactiveColor : activeColor"
+        class="img"
+      ></post-icon>
+
       <span class="link-text">
         <span class="text-shadow"></span>
         <span class="text">Post</span>
@@ -36,11 +42,11 @@
       :class="{ active: page === 'profile' }"
       :to="{ name: 'ideas-me' }"
     >
-      <img
-        v-if="page === 'profile'"
-        src="~/assets/images/navbar/profile-active.svg"
-      />
-      <img v-else src="~/assets/images/navbar/profile.svg" />
+      <profile-icon
+        :fill="page !== 'profile' ? inactiveColor : activeColor"
+        class="img"
+      ></profile-icon>
+
       <span class="link-text">
         <span class="text-shadow"></span>
         <span class="text">My Ideas</span>
@@ -50,10 +56,23 @@
 </template>
 
 <script>
+import ProfileIcon from './svgIcons/ProfileIcon.vue'
+import PostIcon from './svgIcons/PostIcon.vue'
+import BulbIcon from './svgIcons/BulbIcon.vue'
+import BulbOnIcon from './svgIcons/BulbOnIcon.vue'
+
 export default {
   name: 'Links',
+  components: {
+    ProfileIcon,
+    PostIcon,
+    BulbIcon,
+    BulbOnIcon
+  },
   data() {
     return {
+      activeColor: '#ffc61e',
+      inactiveColor: '#151125',
       pages: {
         'i-shortId-slug': 'explore',
         'ideas-all': 'explore',
@@ -85,8 +104,9 @@ export default {
     flex-direction: column;
   }
 
-  img {
+  .img {
     height: 20px;
+    width: 40px;
     @media (min-width: $screen-md-min) {
       padding-right: 15px;
     }
@@ -104,12 +124,12 @@ export default {
     position: relative;
     .text-shadow {
       position: absolute;
-      bottom: 0;
-      height: 50%;
+      bottom: 10%;
+      height: 35%;
 
       @media (max-width: $screen-sm-max) {
         bottom: 15%;
-        height: 20%;
+        height: 30%;
       }
 
       width: 100%;
@@ -122,7 +142,7 @@ export default {
     height: 30px;
 
     @media (min-width: $screen-md-min) {
-      padding-right: 6px;
+      padding-right: 9px;
       padding-bottom: 3px;
     }
 
