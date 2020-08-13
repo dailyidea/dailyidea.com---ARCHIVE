@@ -16,23 +16,22 @@
               <h1 class="info-section__title">{{ profileData.name }}</h1>
               <div class="info-section__stats d-flex flex-row mt-3">
                 <div class="info-section__stats__stat">
-                  <span>{{ profileData.ideasCreated + 96 }}</span>
+                  <span>{{ profileData.ideasCreated }}</span>
                   <span>Ideas</span>
                 </div>
                 <div class="pipe"></div>
                 <div class="info-section__stats__stat">
-                  <span>{{ profileData.followersCount + 154 }}</span>
+                  <span>{{ profileData.followersCount }}</span>
                   <span>Followers</span>
                 </div>
                 <div class="pipe"></div>
                 <div class="info-section__stats__stat">
-                  <span>{{ profileData.followeesCount + 334 }}</span>
+                  <span>{{ profileData.followeesCount }}</span>
                   <span>Following</span>
                 </div>
               </div>
               <div class="info-section__bio mt-3">
-                {{ profileData.bio }} A long description about me to see how the
-                bio fits in the bio section of this website.
+                {{ profileData.bio }}
               </div>
               <div class="info-section__edit mt-3">Edit</div>
             </div>
@@ -44,9 +43,15 @@
         <v-col></v-col>
       </v-row>
       <div class="d-flex flex-row align-center justify-space-between px-6 pt-1">
-        <span class="pb-3">My Ideas</span>
-        <span class="pb-3">Saved Ideas</span>
-        <span class="pb-3">Settings</span>
+        <nuxt-link to="#" class="link active pb-3">
+          <link-text active text="My Ideas"></link-text>
+        </nuxt-link>
+        <nuxt-link to="#" class="link pb-3">
+          <link-text text="Saved Ideas"></link-text>
+        </nuxt-link>
+        <nuxt-link to="/settings" class="link pb-3">
+          <link-text text="Settings"></link-text>
+        </nuxt-link>
       </div>
     </div>
   </div>
@@ -55,12 +60,14 @@
 <script>
 // import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
 import UserProfileAvatar from './UserProfileAvatar'
+import LinkText from '@/components/layout/LinkText.vue'
 
 export default {
   name: 'UserProfileHeaderSection',
   components: {
     // UserProfileAvatarCropDialog,
-    UserProfileAvatar
+    UserProfileAvatar,
+    LinkText
   },
   props: {
     selectAvatar: {
@@ -82,6 +89,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.link {
+  color: black;
+  text-decoration: none;
+}
+
+.active {
+  text-decoration: none;
+  border-bottom: 2px solid $secondary-color;
+}
+
 .header-container {
   display: flex;
   align-items: center;

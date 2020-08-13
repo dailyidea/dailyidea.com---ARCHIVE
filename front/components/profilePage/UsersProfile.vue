@@ -8,7 +8,7 @@
       ></user-profile-header-section>
     </template>
     <template>
-      body
+      {{ ideas }}
     </template>
     <!--
     <v-row class="header" :class="{ editMode: editMode }">
