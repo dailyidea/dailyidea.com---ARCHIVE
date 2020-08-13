@@ -16,10 +16,7 @@
         class="active-bulb"
       ></bulb-on-icon>
 
-      <span class="link-text">
-        <span class="text-shadow"></span>
-        <span class="text">Explore</span>
-      </span>
+      <link-text :active="page === 'explore'" text="Explore"></link-text>
     </nuxt-link>
     <nuxt-link
       class="link"
@@ -32,10 +29,7 @@
         class="img"
       ></post-icon>
 
-      <span class="link-text">
-        <span class="text-shadow"></span>
-        <span class="text">Post</span>
-      </span>
+      <link-text :active="page === 'post'" text="Post"></link-text>
     </nuxt-link>
     <nuxt-link
       class="link"
@@ -47,10 +41,7 @@
         class="img"
       ></profile-icon>
 
-      <span class="link-text">
-        <span class="text-shadow"></span>
-        <span class="text">My Ideas</span>
-      </span>
+      <link-text :active="page === 'profile'" text="My Ideas"></link-text>
     </nuxt-link>
   </span>
 </template>
@@ -60,6 +51,7 @@ import ProfileIcon from './svgIcons/ProfileIcon.vue'
 import PostIcon from './svgIcons/PostIcon.vue'
 import BulbIcon from './svgIcons/BulbIcon.vue'
 import BulbOnIcon from './svgIcons/BulbOnIcon.vue'
+import LinkText from './LinkText.vue'
 
 export default {
   name: 'Links',
@@ -67,7 +59,8 @@ export default {
     ProfileIcon,
     PostIcon,
     BulbIcon,
-    BulbOnIcon
+    BulbOnIcon,
+    LinkText
   },
   data() {
     return {
@@ -114,29 +107,11 @@ export default {
 }
 
 .active {
-  color: $primary-color;
   @media (min-width: $screen-md-min) {
     border-bottom: 3px solid $secondary-color;
   }
 
   height: 100%;
-  .link-text {
-    position: relative;
-    .text-shadow {
-      position: absolute;
-      bottom: 10%;
-      height: 35%;
-
-      @media (max-width: $screen-sm-max) {
-        bottom: 15%;
-        height: 30%;
-      }
-
-      width: 100%;
-      background-color: $primary-color;
-      opacity: 0.2;
-    }
-  }
 
   .active-bulb {
     height: 30px;
