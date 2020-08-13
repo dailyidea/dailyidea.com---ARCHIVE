@@ -140,7 +140,7 @@ export default {
     shareIdea(val) {
       if (val) {
         this.showShareIdeaDialog()
-        this.$emit('update:shareIdea', false)
+        this.$emit('update:share-idea', false)
       }
     }
   },
