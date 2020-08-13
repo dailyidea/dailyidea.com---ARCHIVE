@@ -107,21 +107,23 @@
 
 /* dark theme styles */
 .theme--dark.v-btn {
-  background-color: $btn-default-background !important;
   padding: 11px 24px !important;
   color: $btn-default-color !important;
   font-family: Avenir LT Std;
 
   &:hover {
-    height: 46px !important;
+    background-color: $btn-hover-background !important;
   }
   &:focus {
-    height: 46px !important;
     background-color: $btn-focus-background !important;
   }
   &.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
     background-color: $btn-disabled-background !important;
   }
+}
+
+.theme--dark.v-btn.btn-default-bg {
+  background-color: $btn-default-background !important;
 }
 
 .theme--dark.v-btn.v-btn--flat,
