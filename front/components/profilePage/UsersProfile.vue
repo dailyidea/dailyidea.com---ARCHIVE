@@ -4,7 +4,7 @@
       <user-profile-header-section
         :profile-data="profileData"
         :is-my-profile="isMyProfile"
-        :selectAvatar="selectAvatar"
+        :select-avatar="selectAvatar"
       ></user-profile-header-section>
     </template>
     <template>

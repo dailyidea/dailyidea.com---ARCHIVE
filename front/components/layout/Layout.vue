@@ -40,7 +40,10 @@ import MobileHeader from './MobileHeader'
 export default {
   components: { MobileHeader, DesktopHeader },
   props: {
-    bgColor: String
+    bgColor: {
+      type: String,
+      default: String
+    }
   },
   data() {
     return {

@@ -1,40 +1,55 @@
 <template>
-  <v-row class="header-container">
-    <v-col></v-col>
-    <v-col class="d-flex flex-row align-center">
-      <div class="d-flex flex-row justify-space-around">
-        <user-profile-avatar
-          :profile-data="profileData"
-          :is-my-profile="isMyProfile"
-          @select-avatar="selectAvatar"
-        ></user-profile-avatar>
-        <div class="info-section pl-3">
-          <h1 class="info-section__title">{{ profileData.name }}</h1>
-          <div class="info-section__stats d-flex flex-row">
-            <div class="info-section__stats__stat">
-              <span>{{ profileData.ideasCreated }}</span>
-              <span>Ideas</span>
+  <div class="header-container ">
+    <div class="header-content">
+      <v-row>
+        <v-col></v-col>
+        <v-col class="d-flex flex-row align-center">
+          <div class="d-flex flex-row justify-space-around info-container">
+            <div class="mr-5">
+              <user-profile-avatar
+                :profile-data="profileData"
+                :is-my-profile="isMyProfile"
+                @select-avatar="selectAvatar"
+              ></user-profile-avatar>
             </div>
-            <div class="pipe"></div>
-            <div class="info-section__stats__stat">
-              <span>{{ profileData.followersCount }}</span>
-              <span>Followers</span>
+            <div class="info-section pl-3 pb-3">
+              <h1 class="info-section__title">{{ profileData.name }}</h1>
+              <div class="info-section__stats d-flex flex-row mt-3">
+                <div class="info-section__stats__stat">
+                  <span>{{ profileData.ideasCreated + 96 }}</span>
+                  <span>Ideas</span>
+                </div>
+                <div class="pipe"></div>
+                <div class="info-section__stats__stat">
+                  <span>{{ profileData.followersCount + 154 }}</span>
+                  <span>Followers</span>
+                </div>
+                <div class="pipe"></div>
+                <div class="info-section__stats__stat">
+                  <span>{{ profileData.followeesCount + 334 }}</span>
+                  <span>Following</span>
+                </div>
+              </div>
+              <div class="info-section__bio mt-3">
+                {{ profileData.bio }} A long description about me to see how the
+                bio fits in the bio section of this website.
+              </div>
+              <div class="info-section__edit mt-3">Edit</div>
             </div>
-            <div class="pipe"></div>
-            <div class="info-section__stats__stat">
-              <span>{{ profileData.followeesCount }}</span>
-              <span>Following</span>
+            <div class="bell">
+              (BELL)
             </div>
           </div>
-          <div class="info-section__bio">{{ profileData.bio }}</div>
-        </div>
-        <div class="bell">
-          (BELL)
-        </div>
+        </v-col>
+        <v-col></v-col>
+      </v-row>
+      <div class="d-flex flex-row align-center justify-space-between px-6 pt-1">
+        <span class="pb-3">My Ideas</span>
+        <span class="pb-3">Saved Ideas</span>
+        <span class="pb-3">Settings</span>
       </div>
-    </v-col>
-    <v-col></v-col>
-  </v-row>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -43,6 +58,10 @@ import UserProfileAvatar from './UserProfileAvatar'
 
 export default {
   name: 'UserProfileHeaderSection',
+  components: {
+    // UserProfileAvatarCropDialog,
+    UserProfileAvatar
+  },
   props: {
     selectAvatar: {
       type: Function,
@@ -58,37 +77,47 @@ export default {
       type: Boolean,
       requried: true
     }
-  },
-  components: {
-    // UserProfileAvatarCropDialog,
-    UserProfileAvatar
   }
 }
 </script>
 
 <style scoped lang="scss">
 .header-container {
+  display: flex;
+  align-items: center;
   width: 100vw;
-  height: 30vh;
   background-color: white;
+}
+
+.header-content {
+  margin: 0 auto;
+  margin-top: 2rem;
+}
+
+.info-container {
+  border-bottom: 2px solid $light-grey;
 }
 
 .info-section {
   width: 25vw;
-  
+
   &__title {
     font-weight: 400;
     font-size: 2rem;
   }
 
+  &__edit {
+    cursor: pointer;
+    color: $primary-color;
+  }
+
   &__stats {
-    
     .pipe {
       background-color: $dark-grey;
       width: 2px;
-      height: 25px;
-      margin-left: 0.5rem;
-      margin-right: 0.5rem;
+      height: 2.3rem;
+      margin-left: 0.8rem;
+      margin-right: 0.8rem;
     }
 
     &__stat {
@@ -97,6 +126,10 @@ export default {
       flex-direction: column;
       align-items: center;
     }
+  }
+
+  &__bio {
+    font-size: 1.1rem;
   }
 }
 </style>
