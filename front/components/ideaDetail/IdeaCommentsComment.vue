@@ -1,42 +1,49 @@
 <template>
-  <div class="commentItem" :class="{ temporary: comment.temporary }">
-    <div class="header">
-      <div class="commentUser">
-        <span v-if="!comment.fake">{{ comment.userName }}</span>
-        <v-skeleton-loader v-else light height="14" type="text" min-width="90">
-        </v-skeleton-loader>
+  <div class="comment-cont">
+    <div class="item d-flex flex-row" :class="{ temporary: comment.temporary }">
+      <div class="profile-pic">
+        <img :src="commentAvatar" />
       </div>
-      <div class="timing">
-        <span v-if="!comment.fake && comment.createdDate">{{
-          comment.createdDate | toRelativeDate
-        }}</span>
-        <v-skeleton-loader
-          v-else-if="comment.fake"
-          light
-          height="14"
-          type="text"
-          min-width="90"
-        >
-        </v-skeleton-loader>
-        <v-btn
-          v-if="deletable && !comment.fake"
-          class="deleteCommentBtn"
-          color="red"
-          icon
-          text
-          x-small
-          @click="onDeleteComment"
-        >
-          <v-icon class="color-danger" small>mdi-close-circle-outline</v-icon>
-        </v-btn>
+      <div class="comment-info d-flex flex-column">
+        <div class="header d-flex flex-row justify-space-between ml-2">
+          <div class="name">{{ comment.userName }}</div>
+          <div class="time">
+            <span
+              v-if="!comment.fake && comment.createdDate"
+              class="muted date-posted"
+              >{{ comment.createdDate | toRelativeDate }}</span
+            >
+            <v-skeleton-loader
+              v-else-if="comment.fake"
+              light
+              height="14"
+              type="text"
+              min-width="90"
+            >
+            </v-skeleton-loader>
+            <v-btn
+              v-if="deletable && !comment.fake"
+              class="deleteCommentBtn"
+              color="red"
+              icon
+              text
+              x-small
+              @click="onDeleteComment"
+            >
+              <v-icon class="color-danger" small
+                >mdi-close-circle-outline</v-icon
+              >
+            </v-btn>
+          </div>
+        </div>
+        <div class="body ml-2">
+          <span v-if="!comment.fake">
+            {{ comment.body }}
+          </span>
+          <v-skeleton-loader v-else light height="21" type="text">
+          </v-skeleton-loader>
+        </div>
       </div>
-    </div>
-    <div class="commentBody">
-      <span v-if="!comment.fake">
-        {{ comment.body }}
-      </span>
-      <v-skeleton-loader v-else light height="21" type="text">
-      </v-skeleton-loader>
     </div>
   </div>
 </template>
@@ -51,6 +58,10 @@ export default {
     }
   },
   computed: {
+    commentAvatar() {
+      return this.comment.userAvatar || this.$store.getters['userData/avatar']
+    },
+
     deletable() {
       const currUsrId = this.$store.getters['userData/userId']
       if (currUsrId === undefined) {
@@ -79,49 +90,41 @@ export default {
 <style scoped lang="scss">
 @import '~/assets/style/common';
 
-.commentItem {
-  margin: 15px;
-  padding: 10px;
-  background-color: #ffffff;
-  border-radius: 0px 7px 7px 7px;
-  transition: background-color ease 3s;
-  &.temporary {
-    background-color: #ffebbf;
+.profile-pic {
+  img {
+    height: 24px;
+  }
+}
+
+.comment-cont {
+  @media only screen and (max-width: $screen-sm-max) {
+    border-top: 2px solid $light-grey;
   }
 
-  @media #{$small-screen} {
-    border-left: 0px;
-    border-right: 0px;
-    border-bottom: none;
-    margin-top: 0px;
+  @media only screen and (min-width: $screen-md-min) {
+    border-bottom: 2px solid $light-grey;
   }
 
-  .header {
-    .commentUser {
-      display: inline-block;
-      vertical-align: top;
-      font-size: 12px;
-      color: #b5b5b5;
+  .item {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    .comment-info {
+      width: 100%;
+
+      .header {
+        width: 100%;
+      }
+
+      .name {
+        color: $default-purple;
+        font-size: 1.1rem;
+        padding-bottom: 0.3rem;
+      }
+
+      .date-posted {
+        font-size: 0.9rem;
+      }
     }
-
-    .timing {
-      vertical-align: top;
-      float: right;
-      font-size: 12px;
-      text-align: right;
-      color: #c0b7c5;
-    }
-  }
-
-  .commentBody {
-    width: 100%;
-
-    @media #{$small-screen} {
-      padding-top: 3px;
-    }
-
-    font-size: 14px;
-    color: #827c85;
   }
 }
 </style>

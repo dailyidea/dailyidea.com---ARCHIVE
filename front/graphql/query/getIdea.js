@@ -5,12 +5,14 @@ query getIdea($shortId: String!) {
     userId
     shortId
     slug
+    authorAvatar
     authorSlug
     authorName
     content
     title
     createdDate
     ideaDate
+    savesCount
     likesCount
     commentsCount
     visibility

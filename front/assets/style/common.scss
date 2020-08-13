@@ -34,6 +34,22 @@ form .v-input__prepend-inner {
   .min-vh100-fh {
     min-height: calc(100vh - 160px);
   }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+.fade-bottom {
+  @media(min-width: $screen-md-min) {
+    -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  }
 }
 
 .text-decoration-none {
