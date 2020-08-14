@@ -5,20 +5,22 @@
         "userId" : { "S" : "${context.identity.username}" },
     },
     "update" : {
-        "expression" : "SET #unsubscribedAt = :unsubscribedAt, #ideaReminders = :ideaReminders, #hotStreaks = :hotStreaks, #dailyDigests = :dailyDigests, #weeklyDigests = :weeklyDigests",
+        "expression" : "SET #unsubscribedAt = :unsubscribedAt, #ideaReminders = :ideaReminders, #hotStreaks = :hotStreaks, #dailyDigests = :dailyDigests, #weeklyDigests = :weeklyDigests, #ideaActivity = :ideaActivity",
         "expressionNames" : {
            "#unsubscribedAt" : "unsubscribedAt",
            "#ideaReminders" : "ideaReminders",
            "#hotStreaks" : "hotStreaks",
            "#dailyDigests" : "dailyDigests",
-           "#weeklyDigests" : "weeklyDigests"
+           "#weeklyDigests" : "weeklyDigests",
+           "#ideaActivity" : "ideaActivity"
         },
         "expressionValues" : {
             ":unsubscribedAt" : $util.dynamodb.toDynamoDBJson($context.arguments.state.unsubscribedAt),
             ":ideaReminders" : { "BOOL" : $context.arguments.state.ideaReminders},
             ":hotStreaks" : { "BOOL" : $context.arguments.state.hotStreaks},
             ":dailyDigests" : { "BOOL" : $context.arguments.state.dailyDigests},
-            ":weeklyDigests" : { "BOOL" : $context.arguments.state.weeklyDigests}
+            ":weeklyDigests" : { "BOOL" : $context.arguments.state.weeklyDigests},
+            ":ideaActivity" : { "BOOL" : $context.arguments.state.ideaActivity}
         }
     }
 }

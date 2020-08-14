@@ -6,5 +6,6 @@ query getEmailNotificationsSettings {
     hotStreaks
     dailyDigests
     weeklyDigests
+    ideaActivity
   }
 }`

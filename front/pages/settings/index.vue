@@ -111,6 +111,26 @@
             ></v-switch>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col>
+            <label>Idea Activity</label>
+            <p class="smaller muted">
+              Updates when people like and comment on your idea
+            </p>
+          </v-col>
+          <v-col>
+            <v-switch
+              v-model="emailNotificationsState.ideaActivity"
+              dense
+              flat
+              inset
+              hide-details
+              color="secondary"
+              :disabled="emailNotificationsState.unsubscribedAt"
+              @change="changeNotificationsState"
+            ></v-switch>
+          </v-col>
+        </v-row>
       </section>
     </div>
     <visual-notifier ref="notifier"></visual-notifier>
@@ -132,7 +152,7 @@ export default {
 
   components: { Layout, VisualNotifier },
 
-  async asyncData({ app }) {
+  async asyncData({ app, $sentry }) {
     try {
       const { data } = await app.$amplifyApi.graphql(
         graphqlOperation(getEmailNotificationsSettings, {})
@@ -146,7 +166,9 @@ export default {
         }
       }
     } catch (e) {
-      this.$refs.notifier.error("Can't load Email Settings")
+      $sentry.captureException(e)
+      return { emailNotificationsState: {} }
+      // this.$refs.notifier.error("Can't load Email Settings") // "this" is not available here
     }
   },
 

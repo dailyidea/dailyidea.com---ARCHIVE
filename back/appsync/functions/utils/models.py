@@ -110,6 +110,7 @@ class UserModel(BaseModel):
     hotStreaks = BooleanAttribute(null=True)
     dailyDigests = BooleanAttribute(null=True)
     weeklyDigests = BooleanAttribute(null=True)
+    ideaActivity = BooleanAttribute(null=True)
     snoozeEmails = UTCDateTimeAttribute(null=True)
     unsubscribedAt = UTCDateTimeAttribute(null=True)
     emailToken = UnicodeAttribute(null=True)
