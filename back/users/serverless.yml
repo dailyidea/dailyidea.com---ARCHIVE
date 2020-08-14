@@ -8,6 +8,8 @@ provider:
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
   emailStaticBucketName: dailyidea-serverless-email-static-${self:provider.stage}
   userUploadsStaticBucketName: dailyidea-appsync-user-uploads-static-${self:provider.stage}
+  avatarsStaticBucketName: dailyidea-serverless-avatars-static-${self:provider.stage}
+  avatarsStaticBucketURL: https://${self:provider.avatarsStaticBucketName}.s3.amazonaws.com
   environment:
     SENTRY_ENVIRONMENT: ${opt:stage, self:provider.stage}
     SENTRY_DSN: ${env:SENTRY_DSN}
@@ -44,6 +46,8 @@ functions:
       USERS_TABLE_NAME: ${self:custom.usersTableName}
       IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
       IDEA_COMMENTS_TEMPORARY_TABLE_NAME: ${self:custom.ideaCommentsTemporaryTableName}
+      AVATAR_STATIC_BUCKET_URL: ${self:provider.avatarsStaticBucketURL}
+      AVATAR_STATIC_BUCKET_NAME: ${self:provider.avatarsStaticBucketName}
     events:
       - http:
           path: requestLogin

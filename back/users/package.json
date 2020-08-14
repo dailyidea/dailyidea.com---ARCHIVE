@@ -18,8 +18,10 @@
     "dayjs": "^1.8.29",
     "jsonwebtoken": "^8.5.1",
     "middy": "^0.28.2",
+    "node-fetch": "^2.6.0",
     "serverless-sentry-lib": "^2.0.1",
-    "squirrelly": "^7.9.0"
+    "squirrelly": "^7.9.0",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "env-cmd": "10.1.0",
