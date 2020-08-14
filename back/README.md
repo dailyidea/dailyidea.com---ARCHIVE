@@ -1,3 +1,11 @@
+# Backend Applications
+
+This folder contains 3 backend applications:
+
+- "appsync": general application API
+- "mail-processing": sending sheduled emails, recieving incoming emails
+- "users": users authentication
+
 
 # Testing emails
 
