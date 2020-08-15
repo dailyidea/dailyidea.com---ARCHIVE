@@ -2,7 +2,7 @@
   <v-row
     ref="page"
     align="stretch"
-    :class="{ 'fixed-height': !isExpanded }"
+    :class="{ 'fixed-height': !isExpanded && !preview }"
     class="elevation-2 ma-1 card"
   >
     <div class="tap-bar" @click="expandToggle"></div>
@@ -14,7 +14,8 @@
 export default {
   name: 'IdeaCard',
   props: {
-    expanded: Boolean
+    expanded: Boolean,
+    preview: Boolean
   },
   data() {
     return {
@@ -54,9 +55,12 @@ export default {
 
   @media only screen and (min-width: $screen-md-min) {
     margin: 0 auto !important;
-    margin-top: 2vh !important;
-    width: 65vw;
-    height: 80vh;
+    margin-top: 4vh !important;
+    width: 65%;
+
+    .fixed-height {
+      height: 80vh;
+    }
   }
 
   /* .rounded doesn't work because i'm applying this to a .row (which i shouldn't) */

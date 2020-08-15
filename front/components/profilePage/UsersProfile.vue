@@ -8,11 +8,12 @@
       ></user-profile-header-section>
     </template>
     <template>
-      <idea-card v-for="(idea, index) in ideas" :key="index">
-        {{ idea }}
-        <h1>{{ idea['title'] }}</h1>
-        <menu-panel :editable="isMyIdea" :idea="idea"></menu-panel>
-      </idea-card>
+      <full-idea
+        v-for="(idea, index) in ideas"
+        :key="index"
+        preview
+        :idea="idea"
+      ></full-idea>
     </template>
     <!--
     <v-row class="header" :class="{ editMode: editMode }">
@@ -220,28 +221,18 @@
 
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
-// import { ValidationObserver } from 'vee-validate'
 import UserProfileHeaderSection from './UserProfileHeaderSection'
 import Layout from '@/components/layout/Layout'
-import IdeaCard from '@/components/ideaDetail/IdeaCard.vue'
-import MenuPanel from '@/components/ideaDetail/MenuPanel.vue'
+import FullIdea from '@/components/ideaDetail/FullIdea.vue'
 import updateProfileInfo from '@/graphql/mutations/updateProfileInfo'
-// import IdeasListIdea from '@/components/ideasList/ideasListIdea'
-// import VisualNotifier from '~/components/VisualNotifier'
 import uploadAvatar from '~/graphql/mutations/uploadAvatar'
-// import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
 
 export default {
   name: 'UsersProfile',
   components: {
-    // VTextFieldWithValidation,
-    // IdeasListIdea,
-    IdeaCard,
     Layout,
     UserProfileHeaderSection,
-    MenuPanel
-    // VisualNotifier,
-    // ValidationObserver
+    FullIdea
   },
   props: {
     initialProfileData: {

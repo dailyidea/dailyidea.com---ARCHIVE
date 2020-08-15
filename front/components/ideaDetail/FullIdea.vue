@@ -1,6 +1,6 @@
 <template>
-  <idea-card @expand-toggle="isExpanded = !isExpanded">
-    <v-col cols="12" md="8" class="idea-part">
+  <idea-card :preview="preview" @expand-toggle="isExpanded = !isExpanded">
+    <v-col cols="12" :md="preview ? '' : 8" class="idea-part">
       <validation-observer v-slot="{ valid, validated, handleSubmit }">
         <div>
           <v-row class="idea-part__header" no-gutters>
@@ -136,7 +136,7 @@
         </div>
       </validation-observer>
     </v-col>
-    <v-col cols="12" md="4">
+    <v-col v-if="!preview" cols="12" md="4">
       <idea-comments
         v-if="!editMode && isExpanded"
         :idea="idea"
@@ -184,6 +184,11 @@ export default {
     idea: {
       type: Object,
       required: true
+    },
+
+    preview: {
+      type: Boolean,
+      default: Boolean
     }
   },
   data() {
