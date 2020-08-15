@@ -45,9 +45,6 @@
 </template>
 
 <script>
-import { graphqlOperation } from '@aws-amplify/api'
-import uploadAvatar from '~/graphql/mutations/uploadAvatar'
-
 export default {
   data: () => ({
     message:
@@ -62,28 +59,6 @@ export default {
     this.login()
   },
   methods: {
-    async setDefaultAvatar() {
-      const userId = this.$store.getters['userData/userId']
-      const resp = await fetch(`
-        https://avatars.dicebear.com/api/bottts/${userId}.svg
-      `)
-      const svg = await resp.text()
-      try {
-        const uploadResp = await this.$amplifyApi.graphql(
-          graphqlOperation(uploadAvatar, {
-            avatar: svg,
-            isSVG: true
-          })
-        )
-        this.$store.commit(
-          'userData/updateUserAvatar',
-          uploadResp.data.uploadAvatar.avatar
-        )
-      } catch (e) {
-        this.$sentry.captureException(e)
-      }
-    },
-
     async login() {
       try {
         this.progressBarActive = true
@@ -116,8 +91,6 @@ export default {
           this.message = redirectToIdeaPage
             ? "Hooray! You're officially signed up! Now we'll give you a quick tour..."
             : "Hooray! You're officially signed up!"
-
-          await this.setDefaultAvatar() // Get and upload default SVG avatar
         } else {
           this.message = redirectToIdeaPage
             ? "Hooray! We'll direct you to your home page next..."
