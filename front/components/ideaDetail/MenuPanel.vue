@@ -250,8 +250,8 @@ export default {
 
 .menu-button {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 1%;
+  right: 1%;
   z-index: 1000;
 
   .v-icon {

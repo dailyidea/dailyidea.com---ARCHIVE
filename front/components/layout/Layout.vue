@@ -27,7 +27,7 @@
       </v-content>
     </v-container>
 
-    <div class="hidden-md-and-up sticky-footer">
+    <div v-if="!hideMobileNav" class="hidden-md-and-up sticky-footer">
       <mobile-header class="mobile"></mobile-header>
     </div>
   </div>
@@ -43,6 +43,11 @@ export default {
     bgColor: {
       type: String,
       default: String
+    },
+
+    hideMobileNav: {
+      type: Boolean,
+      default: Boolean
     }
   },
   data() {

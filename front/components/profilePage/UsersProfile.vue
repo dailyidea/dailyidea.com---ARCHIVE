@@ -8,7 +8,11 @@
       ></user-profile-header-section>
     </template>
     <template>
-      {{ ideas }}
+      <idea-card v-for="(idea, index) in ideas" :key="index">
+        {{ idea }}
+        <h1>{{ idea['title'] }}</h1>
+        <menu-panel :editable="isMyIdea" :idea="idea"></menu-panel>
+      </idea-card>
     </template>
     <!--
     <v-row class="header" :class="{ editMode: editMode }">
@@ -219,6 +223,8 @@ import { graphqlOperation } from '@aws-amplify/api'
 // import { ValidationObserver } from 'vee-validate'
 import UserProfileHeaderSection from './UserProfileHeaderSection'
 import Layout from '@/components/layout/Layout'
+import IdeaCard from '@/components/ideaDetail/IdeaCard.vue'
+import MenuPanel from '@/components/ideaDetail/MenuPanel.vue'
 import updateProfileInfo from '@/graphql/mutations/updateProfileInfo'
 // import IdeasListIdea from '@/components/ideasList/ideasListIdea'
 // import VisualNotifier from '~/components/VisualNotifier'
@@ -230,8 +236,10 @@ export default {
   components: {
     // VTextFieldWithValidation,
     // IdeasListIdea,
+    IdeaCard,
     Layout,
-    UserProfileHeaderSection
+    UserProfileHeaderSection,
+    MenuPanel
     // VisualNotifier,
     // ValidationObserver
   },

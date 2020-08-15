@@ -33,10 +33,7 @@
               <div class="info-section__bio mt-3">
                 {{ profileData.bio }}
               </div>
-              <div class="info-section__edit mt-3">Edit</div>
-            </div>
-            <div class="bell">
-              (BELL)
+              <div v-if="isMyProfile" class="info-section__edit mt-3">Edit</div>
             </div>
           </div>
         </v-col>
@@ -44,12 +41,17 @@
       </v-row>
       <div class="d-flex flex-row align-center justify-space-between px-6 pt-1">
         <nuxt-link to="#" class="link active pb-3">
-          <link-text active text="My Ideas"></link-text>
+          <link-text v-if="isMyProfile" active text="My Ideas"></link-text>
+          <link-text
+            v-else
+            active
+            :text="`${profileData.name}'s Ideas`"
+          ></link-text>
         </nuxt-link>
         <nuxt-link to="#" class="link pb-3">
           <link-text text="Saved Ideas"></link-text>
         </nuxt-link>
-        <nuxt-link to="/settings" class="link pb-3">
+        <nuxt-link v-if="isMyProfile" to="/settings" class="link pb-3">
           <link-text text="Settings"></link-text>
         </nuxt-link>
       </div>
@@ -129,6 +131,7 @@ export default {
   }
 
   &__stats {
+    font-size: 0.9rem;
     .pipe {
       background-color: $dark-grey;
       width: 2px;
