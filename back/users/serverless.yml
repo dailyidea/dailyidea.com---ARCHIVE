@@ -24,14 +24,32 @@ custom:
   usersTableName: dailyidea-users-${self:provider.stage}
   ideasTableName: dailyidea-ideas-${self:provider.stage}
   ideaCommentsTemporaryTableName: dailyidea-comments-temporary-${self:provider.stage}
+  migrationsTableName: dailyidea-migrations-${self:provider.stage}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
   sentry:
     dsn: ${env:SENTRY_DSN}
   prune:
     automatic: true
     number: 10
+  scripts:
+    hooks:
+      'deploy:finalize': sls invoke -f up
 
 functions:
+  up:
+    handler: migrations.up
+    timeout: 900
+    package: {}
+    role: CustomUserOnboardingRole
+    environment:
+      MIGRATION_TABLE: ${self:custom.migrationsTableName}
+  down:
+    handler: migrations.down
+    timeout: 900
+    package: {}
+    role: CustomUserOnboardingRole
+    environment:
+      MIGRATION_TABLE: ${self:custom.migrationsTableName}
   requestLogin:
     handler: src/requestLogin.handler
     role: CustomUserOnboardingRole
@@ -156,6 +174,8 @@ plugins:
   - serverless-localstack
   - serverless-offline
   - serverless-prune-plugin
+  - "@clarityhub/serverless-dynamodb-migrations"
+  - serverless-plugin-scripts
 
 resources:
   - ${file(resources/dynamo-user-table.yml)}
