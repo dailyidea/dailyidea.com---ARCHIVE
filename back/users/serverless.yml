@@ -21,10 +21,16 @@ provider:
       Resource: "*"
 
 custom:
-  usersTableName: dailyidea-users-${self:provider.stage}
-  ideasTableName: dailyidea-ideas-${self:provider.stage}
+  commentsTableName: dailyidea-comments-${self:provider.stage}
   ideaCommentsTemporaryTableName: dailyidea-comments-temporary-${self:provider.stage}
+  followingTableName: dailyidea-following-${self:provider.stage}
+  ideasTableName: dailyidea-ideas-${self:provider.stage}
+  likesTableName: dailyidea-likes-${self:provider.stage}
   migrationsTableName: dailyidea-migrations-${self:provider.stage}
+  savesTableName: dailyidea-saves-${self:provider.stage}
+  statsActionsTableName: dailyidea-stats-actions-${self:provider.stage}
+  tagsTableName: dailyidea-tags-${self:provider.stage}
+  usersTableName: dailyidea-users-${self:provider.stage}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
   sentry:
     dsn: ${env:SENTRY_DSN}
@@ -40,16 +46,18 @@ functions:
     handler: migrations.up
     timeout: 900
     package: {}
-    role: CustomUserOnboardingRole
+    role: FullDBAccessRole
     environment:
       MIGRATION_TABLE: ${self:custom.migrationsTableName}
+      STAGE: ${self:provider.stage}
   down:
     handler: migrations.down
     timeout: 900
     package: {}
-    role: CustomUserOnboardingRole
+    role: FullDBAccessRole
     environment:
       MIGRATION_TABLE: ${self:custom.migrationsTableName}
+      STAGE: ${self:provider.stage}
   requestLogin:
     handler: src/requestLogin.handler
     role: CustomUserOnboardingRole
@@ -181,3 +189,4 @@ resources:
   - ${file(resources/dynamo-user-table.yml)}
   - ${file(resources/cognito-user-pool.yml)}
   - ${file(resources/cognito-identity-pool.yml)}
+  - ${file(resources/full-db-access-role.yml)}
