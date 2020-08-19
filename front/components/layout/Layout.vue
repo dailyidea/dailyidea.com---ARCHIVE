@@ -14,7 +14,7 @@
     </template>
 
     <!-- Router contents -->
-    <v-container>
+    <v-container :class="{ 'pa-0 container--fluid': containerFull }">
       <v-content class="nuxtContainer">
         <v-layout>
           <v-flex>
@@ -38,7 +38,11 @@ import MobileHeader from './MobileHeader'
 export default {
   components: { MobileHeader, DesktopHeader },
   props: {
-    hideSlideMenu: Boolean
+    hideSlideMenu: Boolean,
+    containerFull: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
