@@ -1,0 +1,105 @@
+<template>
+  <v-container class="fill-height mx-auto my-auto d-md-none d-lg-flex">
+    <v-row v-show="params.title" align="center" no-gutters>
+      <v-col>
+        <h1 class="text-center">{{ params.title }}</h1>
+      </v-col>
+    </v-row>
+
+    <v-row v-show="params.subTitle" align="center" no-gutters>
+      <v-col>
+        <h3 class="text-center">
+          {{ params.subTitle }}
+        </h3>
+      </v-col>
+    </v-row>
+
+    <v-row align="center" no-gutters justify="center">
+      <v-col lg="6" sm="12" class="text-center">
+        <img :src="params.rightImage" alt="img" />
+      </v-col>
+    </v-row>
+
+    <v-row
+      v-for="(bullet, index) in params.bulletPoints"
+      :key="index"
+      class="py-2"
+      justify="center"
+      no-gutters
+    >
+      <v-col lg="3" sm="1">
+        <img :src="bullet.icon" alt="img" style="float: right;" />
+      </v-col>
+
+      <v-col lg="5" sm="10" class="mx-2">
+        <h3>{{ bullet.text }}</h3>
+      </v-col>
+    </v-row>
+
+    <v-row
+      v-show="params.subSubTitle"
+      no-gutters
+      align="center"
+      justify="center"
+    >
+      <v-col lg="6" md="12" sm="12">
+        <h3 class="text-center">{{ params.subSubTitle }}</h3>
+      </v-col>
+    </v-row>
+
+    <v-row align="center" no-gutters justify="center">
+      <v-col cols="6" class="text-center">
+        <v-btn dark x-large class="col-12">Sign Up</v-btn>
+
+        <nuxt-link class="link text-center my-2" :to="{ name: 'ideas-all' }">
+          <link-text active="active" text="Login"></link-text>
+        </nuxt-link>
+      </v-col>
+    </v-row>
+
+    <v-row v-if="params.footer" align="center" no-gutters justify="center">
+      <swipe-footer></swipe-footer>
+    </v-row>
+  </v-container>
+</template>
+<script>
+import LinkText from '../layout/LinkText.vue'
+import SwipeFooter from '@/components/layout/SwipeFooter'
+
+export default {
+  name: 'WelcomePortrait',
+  components: {
+    LinkText,
+    SwipeFooter
+  },
+  props: {
+    params: {
+      type: Object,
+      required: true
+    },
+    hideNextBtn: Boolean
+  }
+}
+</script>
+<style lang="scss" scoped>
+@media (max-height: $screen-small-height) {
+  .v-container {
+    /* display: none !important;*/
+  }
+}
+
+.link {
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+  display: block;
+  align-items: center;
+  @media (min-width: $screen-md-min) {
+    padding: 1.1rem;
+  }
+
+  @media (max-width: $screen-sm-max) {
+    flex-direction: column;
+  }
+}
+</style>
