@@ -1,5 +1,8 @@
 <template>
   <span>
+    <div class="swipe-header justify-center py-5 d-lg-none d-sm-flex ">
+      <slot name="header"></slot>
+    </div>
     <div class="left-arrow hidden-sm-and-down" @click="leftArrowClick">
       <img src="~/assets/images/idea-card/left-arrow.png" />
     </div>
@@ -10,6 +13,9 @@
       <div ref="swipe" :style="positionStyle" class="swipe-container">
         <slot :rotation-style="rotationStyle"></slot>
       </div>
+    </div>
+    <div class="swipe-footer text-center py-5 hidden-md-and-down">
+      <slot name="footer"></slot>
     </div>
   </span>
 </template>
@@ -263,7 +269,7 @@ export default {
 .left-arrow {
   position: absolute;
   top: 40vh;
-  left: 0vw;
+  left: 10vw;
   z-index: 1000;
   cursor: pointer;
   img {
@@ -274,12 +280,23 @@ export default {
 .right-arrow {
   position: absolute;
   top: 40vh;
-  right: 0vw;
+  right: 10vw;
   z-index: 1000;
   cursor: pointer;
   transform: rotate(180deg);
   img {
     width: 50px;
   }
+}
+
+.swipe-footer {
+  position: absolute;
+  height: 100px;
+  width: 100%;
+}
+
+.swipe-header {
+  height: 100px;
+  width: 100%;
 }
 </style>
