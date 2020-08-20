@@ -85,11 +85,16 @@
             >
               <idea-content
                 :collapsed="!isExpanded"
-                :content="idea.content"
+                :content="ideaContent"
               ></idea-content>
+              <div v-if="preview" class="mt-3 text-center">
+                <nuxt-link class="idea-link" :to="ideaLink">
+                  <link-text active text="View Idea"></link-text>
+                </nuxt-link>
+              </div>
             </div>
           </div>
-          <div class="idea-part__tags-panel">
+          <div v-if="!preview" class="idea-part__tags-panel">
             <div v-if="!editMode" class="tagsContainer">
               <v-chip v-for="(item, index) in ideaTags" :key="index" class="tag"
                 >{{ item }}
@@ -164,6 +169,7 @@ import RegisterEncourageDialog from '@/components/dialogs/RegisterEncourageDialo
 import updateIdea from '@/graphql/mutations/updateIdea'
 import deleteIdea from '@/graphql/mutations/deleteIdea'
 import IdeaContent from '@/components/IdeaContent'
+import LinkText from '@/components/layout/LinkText'
 import getIdeaTags from '@/graphql/query/getIdeaTags'
 import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
 
@@ -174,6 +180,7 @@ export default {
     TrixWrapper,
     IdeaCard,
     IdeaComments,
+    LinkText,
     MenuPanel,
     IdeaContent,
     VTextFieldWithValidation,
@@ -212,6 +219,17 @@ export default {
       userId: 'userData/userId'
     }),
 
+    ideaContent() {
+      const content = this.idea.content || this.idea.strippedContent
+      if (this.preview) {
+        if (content.length > 255) {
+          return `${content.substring(0, 255)}...`
+        }
+      }
+
+      return content
+    },
+
     isExpanded: {
       set(state) {
         this.$emit('toggle-expand', state)
@@ -221,6 +239,10 @@ export default {
       get() {
         return this.isMobile ? this.isExpandedState : true
       }
+    },
+
+    ideaLink() {
+      return `/i/${this.idea.shortId}/${this.idea.slug}`
     },
 
     isMyIdea() {
@@ -417,6 +439,10 @@ export default {
 <style scoped lang="scss">
 .idea-name-field {
   font-size: 24px;
+}
+
+.idea-link {
+  text-decoration: none;
 }
 
 .idea-part {

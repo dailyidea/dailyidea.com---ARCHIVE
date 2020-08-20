@@ -1,5 +1,5 @@
 <template>
-  <layout :bg-color="blue">
+  <layout>
     <template v-slot:header>
       <user-profile-header-section
         :profile-data="profileData"

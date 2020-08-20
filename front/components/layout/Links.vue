@@ -34,7 +34,7 @@
     <nuxt-link
       class="link"
       :class="{ active: page === 'profile' }"
-      :to="{ name: 'ideas-me' }"
+      :to="{ name: 'profile' }"
     >
       <profile-icon
         :fill="page !== 'profile' ? inactiveColor : activeColor"
@@ -70,6 +70,7 @@ export default {
         'i-shortId-slug': 'explore',
         'ideas-all': 'explore',
         'ideas-me': 'profile',
+        profile: 'profile',
         'ideas-create': 'post'
       }
     }

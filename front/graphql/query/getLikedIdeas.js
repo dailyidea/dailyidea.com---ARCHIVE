@@ -10,6 +10,7 @@ query getLikedIdeas($nextToken: String, $limit: Int) {
       authorSlug
       userId
       strippedContent
+      content
       title
       createdDate
       ideaDate

@@ -131,11 +131,12 @@ export default {
   }
 
   &__stats {
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     .pipe {
+      margin: auto 0;
       background-color: $dark-grey;
-      width: 2px;
-      height: 2.3rem;
+      width: 1px;
+      height: 1.5rem;
       margin-left: 0.8rem;
       margin-right: 0.8rem;
     }
