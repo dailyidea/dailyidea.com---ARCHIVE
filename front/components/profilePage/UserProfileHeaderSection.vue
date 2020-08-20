@@ -166,7 +166,7 @@ export default {
   }
 
   &__stats {
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     .pipe {
       margin: auto 0;
       background-color: $dark-grey;

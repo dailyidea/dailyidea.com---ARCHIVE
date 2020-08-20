@@ -18,6 +18,7 @@
       >
         <full-idea
           ref="page"
+          class="card"
           :idea="idea"
           :style="rotationStyle"
           @toggle-expand="isExpanded = !isExpanded"
@@ -196,6 +197,12 @@ export default {
     position: absolute;
     width: 100%;
     z-index: 100;
+  }
+
+  .card {
+    @media (min-width: $screen-md-min) {
+      width: 70%;
+    }
   }
 }
 

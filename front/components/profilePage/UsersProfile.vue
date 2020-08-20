@@ -8,12 +8,20 @@
       ></user-profile-header-section>
     </template>
     <template>
-      <full-idea
-        v-for="(idea, index) in ideas"
-        :key="index"
-        preview
-        :idea="idea"
-      ></full-idea>
+      <div v-if="ideas.length > 0" class="cards-container">
+        <full-idea
+          v-for="(idea, index) in ideas"
+          :key="index"
+          preview
+          :idea="idea"
+        ></full-idea>
+      </div>
+      <div v-else class="cards-container">
+        <no-ideas-placeholder
+          title="You haven't posted an idea yet."
+          body="Browse ideas to get inspiration!"
+        ></no-ideas-placeholder>
+      </div>
     </template>
     <!--
     <v-row class="header" :class="{ editMode: editMode }">
@@ -223,7 +231,8 @@
 import { graphqlOperation } from '@aws-amplify/api'
 import UserProfileHeaderSection from './UserProfileHeaderSection'
 import Layout from '@/components/layout/Layout'
-import FullIdea from '@/components/ideaDetail/FullIdea.vue'
+import FullIdea from '@/components/ideaDetail/FullIdea'
+import NoIdeasPlaceholder from '@/components/ideaDetail/NoIdeasPlaceholder'
 import updateProfileInfo from '@/graphql/mutations/updateProfileInfo'
 import uploadAvatar from '~/graphql/mutations/uploadAvatar'
 
@@ -232,7 +241,8 @@ export default {
   components: {
     Layout,
     UserProfileHeaderSection,
-    FullIdea
+    FullIdea,
+    NoIdeasPlaceholder
   },
   props: {
     initialProfileData: {
@@ -397,11 +407,11 @@ export default {
 <style scoped lang="scss">
 @import '~assets/style/common';
 
-.profile-page {
-  min-height: 100px;
-}
-.rxxow {
-  border: 1px solid blue;
+.cards-container {
+  margin: 0 auto;
+  @media (min-width: $screen-md-min) {
+    width: 33vw;
+  }
 }
 
 .profileStats {

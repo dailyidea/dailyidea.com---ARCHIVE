@@ -52,11 +52,12 @@ export default {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
+  border: 1px solid $light-grey !important;
+  box-shadow: $card-shadow !important;
 
   @media only screen and (min-width: $screen-md-min) {
     margin: 0 auto !important;
     margin-top: 4vh !important;
-    width: 65%;
 
     .fixed-height {
       height: 80vh;
