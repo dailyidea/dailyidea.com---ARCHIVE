@@ -41,14 +41,14 @@
       </v-row>
       <div class="d-flex flex-row align-center justify-space-between px-6 pt-1">
         <nuxt-link
-          to="#"
+          :to="{ name: 'ideas-me' }"
           class="link pb-3"
           :class="{ active: page === 'profile' }"
         >
           <link-text
             v-if="isMyProfile"
             :active="page === 'profile'"
-            text="My Ideas"
+            :text="linkText('My Ideas', 'profile')"
           ></link-text>
           <link-text
             v-else
@@ -57,13 +57,13 @@
           ></link-text>
         </nuxt-link>
         <nuxt-link
-          to="#"
+          to="/ideas/saved"
           class="link pb-3"
           :class="{ active: page === 'saved-ideas' }"
         >
           <link-text
-            text="Saved Ideas"
             :active="page === 'saved-ideas'"
+            :text="linkText('Saved Ideas', 'saved-ideas')"
           ></link-text>
         </nuxt-link>
         <nuxt-link
@@ -80,7 +80,6 @@
 </template>
 
 <script>
-// import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
 import UserProfileAvatar from './UserProfileAvatar'
 import LinkText from '@/components/layout/LinkText.vue'
 
@@ -102,6 +101,11 @@ export default {
       required: true
     },
 
+    ideaCount: {
+      type: Number,
+      default: 0
+    },
+
     isMyProfile: {
       type: Boolean,
       requried: true
@@ -109,17 +113,32 @@ export default {
   },
   data() {
     return {
+      editMode: false,
       pages: {
         profile: 'profile',
         'profile-userSlug': 'profile',
         settings: 'settings',
-        'ideas-saved': 'saved-ideas'
+        'ideas-saved': 'saved-ideas',
+        'ideas-me': 'profile'
       }
     }
   },
   computed: {
     page() {
       return this.pages[this.$route.name]
+    }
+  },
+  methods: {
+    linkText(baseText, page) {
+      if (this.page !== page) {
+        return baseText
+      }
+
+      if (this.ideaCount > 0) {
+        return baseText + ` (${this.ideaCount})`
+      }
+
+      return baseText
     }
   }
 }
