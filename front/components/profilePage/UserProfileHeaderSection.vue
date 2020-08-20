@@ -40,19 +40,39 @@
         <v-col></v-col>
       </v-row>
       <div class="d-flex flex-row align-center justify-space-between px-6 pt-1">
-        <nuxt-link to="#" class="link active pb-3">
-          <link-text v-if="isMyProfile" active text="My Ideas"></link-text>
+        <nuxt-link
+          to="#"
+          class="link pb-3"
+          :class="{ active: page === 'profile' }"
+        >
+          <link-text
+            v-if="isMyProfile"
+            :active="page === 'profile'"
+            text="My Ideas"
+          ></link-text>
           <link-text
             v-else
-            active
+            :active="page === 'profile'"
             :text="`${profileData.name}'s Ideas`"
           ></link-text>
         </nuxt-link>
-        <nuxt-link to="#" class="link pb-3">
-          <link-text text="Saved Ideas"></link-text>
+        <nuxt-link
+          to="#"
+          class="link pb-3"
+          :class="{ active: page === 'saved-ideas' }"
+        >
+          <link-text
+            text="Saved Ideas"
+            :active="page === 'saved-ideas'"
+          ></link-text>
         </nuxt-link>
-        <nuxt-link v-if="isMyProfile" to="/settings" class="link pb-3">
-          <link-text text="Settings"></link-text>
+        <nuxt-link
+          v-if="isMyProfile"
+          to="/settings"
+          class="link pb-3"
+          :class="{ active: page === 'settings' }"
+        >
+          <link-text text="Settings" :active="page === 'settings'"></link-text>
         </nuxt-link>
       </div>
     </div>
@@ -85,6 +105,21 @@ export default {
     isMyProfile: {
       type: Boolean,
       requried: true
+    }
+  },
+  data() {
+    return {
+      pages: {
+        profile: 'profile',
+        'profile-userSlug': 'profile',
+        settings: 'settings',
+        'ideas-saved': 'saved-ideas'
+      }
+    }
+  },
+  computed: {
+    page() {
+      return this.pages[this.$route.name]
     }
   }
 }
