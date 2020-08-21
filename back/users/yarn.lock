@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@aws/dynamodb-query-iterator@^0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@aws/dynamodb-query-iterator/-/dynamodb-query-iterator-0.7.1.tgz#d43bbf7644cfee55de0aec273475d680a05f3981"
+  integrity sha512-x28lcgj2HDadxszYEwQjAJyGMrdy3aznLM2TSEeQxqCxKzFT1qewmKxgWSMslH+CiLuuqs9H1FaIwvP15b6UHQ==
+  dependencies:
+    tslib "^1.8.1"
+
 "@babel/runtime@^7.8.7":
   version "7.10.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.10.2.tgz#d103f21f2602497d38348a32e008637d506db839"
@@ -4755,7 +4762,7 @@ trim-repeated@^1.0.0:
   dependencies:
     escape-string-regexp "^1.0.2"
 
-tslib@^1.9.3:
+tslib@^1.8.1, tslib@^1.9.3:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
   integrity sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==
