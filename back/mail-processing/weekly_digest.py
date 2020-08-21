@@ -13,7 +13,14 @@ sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegra
 
 def get_mails_to_send():
     today = datetime.now()
-    for user in UserModel.scan((UserModel.firstLogin == True) & (UserModel.weeklyDigests == True)):
+    for user in UserModel.scan(
+        (UserModel.firstLogin == True) 
+        & (UserModel.weeklyDigests == True) 
+        & (UserModel.unsubscribedAt.does_not_exist() | (UserModel.unsubscribedAt.exists() & ~UserModel.unsubscribedAt.is_type()))
+        ,
+        attributes_to_get=['name', 'email', 'userId', 'emailToken']
+    ):
+
         week_ago = today - timedelta(weeks=1)
         ideas_last_week = IdeaModel.usersIdeasByDateIndex.query(user.userId, (IdeaModel.createdDate > week_ago),
                                                                 limit=100, scan_index_forward=False)

@@ -8,6 +8,8 @@ provider:
   domainName: ${env:DOMAIN_NAME, 'beta.dailyidea.com'}
   emailStaticBucketName: dailyidea-serverless-email-static-${self:provider.stage}
   userUploadsStaticBucketName: dailyidea-appsync-user-uploads-static-${self:provider.stage}
+  avatarsStaticBucketName: dailyidea-serverless-avatars-static-${self:provider.stage}
+  avatarsStaticBucketURL: https://${self:provider.avatarsStaticBucketName}.s3.amazonaws.com
   environment:
     SENTRY_ENVIRONMENT: ${opt:stage, self:provider.stage}
     SENTRY_DSN: ${env:SENTRY_DSN}
@@ -19,17 +21,43 @@ provider:
       Resource: "*"
 
 custom:
-  usersTableName: dailyidea-users-${self:provider.stage}
-  ideasTableName: dailyidea-ideas-${self:provider.stage}
+  commentsTableName: dailyidea-comments-${self:provider.stage}
   ideaCommentsTemporaryTableName: dailyidea-comments-temporary-${self:provider.stage}
+  followingTableName: dailyidea-following-${self:provider.stage}
+  ideasTableName: dailyidea-ideas-${self:provider.stage}
+  likesTableName: dailyidea-likes-${self:provider.stage}
+  migrationsTableName: dailyidea-migrations-${self:provider.stage}
+  savesTableName: dailyidea-saves-${self:provider.stage}
+  statsActionsTableName: dailyidea-stats-actions-${self:provider.stage}
+  tagsTableName: dailyidea-tags-${self:provider.stage}
+  usersTableName: dailyidea-users-${self:provider.stage}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
   sentry:
     dsn: ${env:SENTRY_DSN}
   prune:
     automatic: true
     number: 10
+  scripts:
+    hooks:
+      'deploy:finalize': sls invoke -f up
 
 functions:
+  up:
+    handler: migrations.up
+    timeout: 900
+    package: {}
+    role: FullDBAccessRole
+    environment:
+      MIGRATION_TABLE: ${self:custom.migrationsTableName}
+      STAGE: ${self:provider.stage}
+  down:
+    handler: migrations.down
+    timeout: 900
+    package: {}
+    role: FullDBAccessRole
+    environment:
+      MIGRATION_TABLE: ${self:custom.migrationsTableName}
+      STAGE: ${self:provider.stage}
   requestLogin:
     handler: src/requestLogin.handler
     role: CustomUserOnboardingRole
@@ -44,6 +72,8 @@ functions:
       USERS_TABLE_NAME: ${self:custom.usersTableName}
       IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
       IDEA_COMMENTS_TEMPORARY_TABLE_NAME: ${self:custom.ideaCommentsTemporaryTableName}
+      AVATAR_STATIC_BUCKET_URL: ${self:provider.avatarsStaticBucketURL}
+      AVATAR_STATIC_BUCKET_NAME: ${self:provider.avatarsStaticBucketName}
     events:
       - http:
           path: requestLogin
@@ -152,8 +182,11 @@ plugins:
   - serverless-localstack
   - serverless-offline
   - serverless-prune-plugin
+  - "@clarityhub/serverless-dynamodb-migrations"
+  - serverless-plugin-scripts
 
 resources:
   - ${file(resources/dynamo-user-table.yml)}
   - ${file(resources/cognito-user-pool.yml)}
   - ${file(resources/cognito-identity-pool.yml)}
+  - ${file(resources/full-db-access-role.yml)}

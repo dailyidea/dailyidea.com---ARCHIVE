@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "mailparser.js",
   "scripts": {
-    "sls": "sls",
+    "sls": "env-cmd -f ./conf/dev.env sls",
     "sls:deploy-dev": "node mail-mjml/compile-emails.js && env-cmd -f ./conf/dev.env serverless deploy --verbose",
     "sls:deploy-prod": "node mail-mjml/compile-emails.js && env-cmd -f ./conf/prod.env serverless deploy",
     "sls:deploy-ci": "serverless deploy",
@@ -13,13 +13,16 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@clarityhub/serverless-dynamodb-migrations": "^1.1.1",
     "@sentry/node": "^5.15.5",
     "aws-sdk": "^2.484.0",
     "dayjs": "^1.8.29",
     "jsonwebtoken": "^8.5.1",
     "middy": "^0.28.2",
+    "node-fetch": "^2.6.0",
     "serverless-sentry-lib": "^2.0.1",
-    "squirrelly": "^7.9.0"
+    "squirrelly": "^7.9.0",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "env-cmd": "10.1.0",
@@ -28,6 +31,7 @@
     "serverless-dynamodb-local": "0.2.38",
     "serverless-localstack": "0.4.15",
     "serverless-offline": "5.5.0",
+    "serverless-plugin-scripts": "^1.0.2",
     "serverless-prune-plugin": "1.3.2",
     "serverless-sentry": "^2.0.0"
   }

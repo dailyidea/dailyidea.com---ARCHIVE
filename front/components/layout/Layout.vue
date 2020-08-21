@@ -8,14 +8,8 @@
       absolute
     ></v-progress-linear>
     <template>
-      <navigation-menu
-        v-if="!hideSlideMenu"
-        ref="sideMenu"
-        @signOut="signOut"
-      ></navigation-menu>
-      <div class="loggedInHeader">
+      <div class="loggedInHeader hidden-sm-and-down">
         <desktop-header @signOut="signOut"></desktop-header>
-        <mobile-header @showSideMenu="showSideMenu"></mobile-header>
       </div>
     </template>
 
@@ -30,16 +24,19 @@
         <vue-snotify />
       </v-content>
     </v-container>
+
+    <div class="hidden-md-and-up sticky-footer">
+      <mobile-header class="mobile"></mobile-header>
+    </div>
   </div>
 </template>
 
 <script>
-import NavigationMenu from './NavigationMenu'
 import DesktopHeader from './DesktopHeader'
 import MobileHeader from './MobileHeader'
 
 export default {
-  components: { MobileHeader, NavigationMenu, DesktopHeader },
+  components: { MobileHeader, DesktopHeader },
   props: {
     hideSlideMenu: Boolean
   },
@@ -81,12 +78,6 @@ export default {
         fjs.parentNode.insertBefore(js, fjs)
       })(document, 'script', 'facebook-jssdk')
     },
-    showSideMenu() {
-      if (!this.$refs.sideMenu) {
-        return
-      }
-      this.$refs.sideMenu.show()
-    },
     signOut() {
       this.$store.dispatch('cognito/signOut')
       setTimeout(() => {
@@ -103,7 +94,32 @@ export default {
 </script>
 
 <style lang="scss">
+.v-toolbar__content {
+  width: 100%;
+}
+
+@media (max-width: $screen-sm-max) {
+  .sticky-footer {
+    display: flex;
+    align-items: center;
+    border-top: 2px solid $secondary-color;
+    position: fixed;
+    bottom: 0;
+    z-index: 2;
+    width: 100%;
+    margin-top: 5em;
+
+    .mobile {
+      height: 75px !important;
+    }
+  }
+}
+
 #commonHeader {
+  @media (max-width: $screen-sm-max) {
+    padding-bottom: 5em;
+  }
+
   position: relative;
   .loggedInHeader {
     width: 100%;

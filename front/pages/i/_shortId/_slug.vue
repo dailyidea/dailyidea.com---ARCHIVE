@@ -1,39 +1,71 @@
 <template>
-  <layout :hide-slide-menu="hideSlideMenu">
-    <swiper
-      v-slot="{ rotationStyle }"
-      @swipe-start="setHideSlideMenuTrue"
-      @swipe-end="setHideSlideMenuFalse"
-      @swipe-left="nextIdea"
-      @swipe-right="previousIdea"
-      @left-arrow-clicked="previousIdea"
-      @right-arrow-clicked="nextIdea"
-    >
-      <v-row
-        :style="rotationStyle"
-        align="stretch"
-        class="elevation-2 ma-1 card"
+  <div>
+    <div
+      class="light-box-bg"
+      :class="{ 'light-box-expanded': isExpanded }"
+    ></div>
+    <layout :hide-slide-menu="hideSlideMenu">
+      <swiper
+        v-slot="{ rotationStyle }"
+        class="idea-card"
+        :swipe-disabled="isExpanded"
+        @swipe-start="setHideSlideMenuTrue"
+        @swipe-end="setHideSlideMenuFalse"
+        @swipe-left="nextIdea"
+        @swipe-right="previousIdea"
+        @left-arrow-clicked="previousIdea"
+        @right-arrow-clicked="nextIdea"
       >
-        <v-col cols="12" md="8" class="idea-part">
-          <validation-observer v-slot="{ valid, validated, handleSubmit }">
-            <div>
-              <v-row class="idea-part__header" no-gutters>
-                <v-col class="idea-part__header__title">
-                  <v-text-field-with-validation
-                    v-if="editMode"
-                    v-model="ideaEditData.title"
-                    rules="required|max:100"
-                    label="Type your idea title"
-                    name="title"
-                    class="idea-name-field"
-                    :single-line="true"
-                    :disabled="updatingIdea"
-                  ></v-text-field-with-validation>
-                  <h2 v-else class="idea-part__header__title__label">
-                    {{ idea.title }}
-                  </h2>
-                </v-col>
-                <v-col v-if="!editMode" cols="auto" offset="1">
+        <idea-card
+          ref="page"
+          :style="rotationStyle"
+          @expand-toggle="isExpanded = !isExpanded"
+        >
+          <v-col cols="12" md="8" class="idea-part">
+            <validation-observer v-slot="{ valid, validated, handleSubmit }">
+              <div>
+                <v-row class="idea-part__header" no-gutters>
+                  <v-col class="idea-part__header__title">
+                    <v-text-field-with-validation
+                      v-if="editMode"
+                      v-model="ideaEditData.title"
+                      rules="required|max:100"
+                      label="Type your idea title"
+                      name="title"
+                      class="idea-name-field"
+                      :single-line="true"
+                      :disabled="updatingIdea"
+                    ></v-text-field-with-validation>
+                    <h2 v-else class="idea-part__header__title__label">
+                      {{ idea.title }}
+                    </h2>
+                  </v-col>
+                </v-row>
+                <div v-if="!editMode" class="idea-part__info pt-2 pb-2">
+                  <v-row no-gutters>
+                    <span class="idea-part__info__author">
+                      <router-link
+                        class="idea-part__info__author__link d-flex align-center"
+                        :to="{
+                          name: 'profile-userSlug',
+                          params: {
+                            userSlug: idea.authorSlug
+                          }
+                        }"
+                      >
+                        <img
+                          class="idea-part__author-avatar"
+                          :src="idea.authorAvatar"
+                        />
+                        <span class="ml-2">{{ idea.authorName }}</span>
+                      </router-link>
+                    </span>
+                    <span class="muted ml-2">{{
+                      idea.createdDate | toRelativeDate
+                    }}</span>
+                  </v-row>
+                </div>
+                <v-row v-if="!editMode" cols="auto" offset="1">
                   <menu-panel
                     :editable="isMyIdea"
                     :idea="idea"
@@ -49,125 +81,112 @@
                       onIdeaVisibilityChangeError
                     "
                   ></menu-panel>
-                </v-col>
-              </v-row>
-              <div v-if="!editMode" class="idea-part__info">
-                <v-row no-gutters>
-                  <v-col>
-                    <span class="muted">By</span>
-                    <span class="idea-part__info__author">
-                      <router-link
-                        class="idea-part__info__author__link muted"
-                        :to="{
-                          name: 'profile-userSlug',
-                          params: {
-                            userSlug: idea.authorSlug
-                          }
-                        }"
-                        >{{ idea.authorName }}</router-link
-                      >
-                    </span>
-                    <span class="idea-part__info__created-time">{{
-                      idea.createdDate | toRelativeDate
-                    }}</span>
-                  </v-col>
                 </v-row>
               </div>
-            </div>
-            <!-- /idea-part__info -->
-
-            <div class="idea-part__content">
               <!-- /idea-part__info -->
 
-              <div class="idea-part__content">
-                <div v-if="editMode" class="idea-part__content__idea-editor">
-                  <client-only>
-                    <trix-wrapper
-                      v-model="ideaEditData.content"
-                      v-focus
-                      class="editor"
-                      placeholder="Type your idea text"
-                      @attachmentsUploadStarted="onAttachmentsUploadStarted"
-                      @attachmentsUploadCompleted="onAttachmentsUploadCompleted"
-                      @fileAttached="onFileAttached"
-                      @fileRemoved="onFileRemoved"
-                    />
-                  </client-only>
-                </div>
-                <div v-else>
-                  <idea-content :content="idea.content"></idea-content>
-                </div>
-              </div>
-              <div class="idea-part__tags-panel">
-                <div v-if="!editMode" class="tagsContainer">
-                  <v-chip
-                    v-for="(item, index) in ideaTags"
-                    :key="index"
-                    class="tag"
-                    text-color="white"
-                    color="secondary"
-                    >{{ item }}
-                  </v-chip>
-                </div>
-                <div v-else class="idea-part__tags-panel__tags-editor">
-                  <v-combobox
-                    v-model="ideaEditData.ideaTags"
-                    placeholder="Add tags here"
-                    class="ideaTag"
-                    hide-details
-                    times
-                    chips
-                    multiple
-                    :disabled="updatingIdea"
+              <div class="idea-part__content-container">
+                <!-- /idea-part__info -->
+
+                <div class="idea-part__content">
+                  <div v-if="editMode" class="idea-part__content__idea-editor">
+                    <client-only>
+                      <trix-wrapper
+                        v-model="ideaEditData.content"
+                        v-focus
+                        class="editor"
+                        placeholder="Type your idea text"
+                        @attachmentsUploadStarted="onAttachmentsUploadStarted"
+                        @attachmentsUploadCompleted="
+                          onAttachmentsUploadCompleted
+                        "
+                        @fileAttached="onFileAttached"
+                        @fileRemoved="onFileRemoved"
+                      />
+                    </client-only>
+                  </div>
+                  <div
+                    v-else
+                    class="idea-part__idea-content hide-scrollbar fade-bottom"
                   >
-                    <template
-                      v-slot:selection="{ attrs, item, select, selected }"
+                    <idea-content
+                      :collapsed="!isExpanded"
+                      :content="idea.content"
+                    ></idea-content>
+                  </div>
+                </div>
+                <div class="idea-part__tags-panel">
+                  <div v-if="!editMode" class="tagsContainer">
+                    <v-chip
+                      v-for="(item, index) in ideaTags"
+                      :key="index"
+                      class="tag"
+                      >{{ item }}
+                    </v-chip>
+                  </div>
+                  <div v-else class="idea-part__tags-panel__tags-editor">
+                    <v-combobox
+                      v-model="ideaEditData.ideaTags"
+                      placeholder="Add tags here"
+                      class="ideaTag"
+                      hide-details
+                      times
+                      chips
+                      multiple
+                      :disabled="updatingIdea"
                     >
-                      <v-chip
-                        v-bind="attrs"
-                        :input-value="selected"
-                        close
-                        text-color="#fff"
-                        color="secondary"
-                        @click="() => {}"
-                        @click:close="removeTag(item)"
+                      <template
+                        v-slot:selection="{ attrs, item, select, selected }"
                       >
-                        {{ item }}
-                      </v-chip>
-                    </template>
-                  </v-combobox>
+                        <v-chip
+                          v-bind="attrs"
+                          :input-value="selected"
+                          close
+                          text-color="#fff"
+                          color="secondary"
+                          @click="() => {}"
+                          @click:close="removeTag(item)"
+                        >
+                          {{ item }}
+                        </v-chip>
+                      </template>
+                    </v-combobox>
+                  </div>
+                </div>
+                <div v-if="editMode" class="idea-part__edit-buttons-panel">
+                  <v-btn text rounded @click="disableEditMode">Cancel</v-btn>
+                  <v-btn
+                    color="secondary"
+                    :loading="updatingIdea"
+                    rounded
+                    :disabled="!valid"
+                    @click="handleSubmit(saveIdeaContent)"
+                    >Save
+                  </v-btn>
                 </div>
               </div>
-              <div v-if="editMode" class="idea-part__edit-buttons-panel">
-                <v-btn text rounded @click="disableEditMode">Cancel</v-btn>
-                <v-btn
-                  color="secondary"
-                  :loading="updatingIdea"
-                  rounded
-                  :disabled="!valid"
-                  @click="handleSubmit(saveIdeaContent)"
-                  >Save
-                </v-btn>
-              </div>
-            </div>
-          </validation-observer>
-        </v-col>
-        <v-col cols="12" md="4">
-          <idea-comments
-            v-if="!editMode"
-            :idea="idea"
-            @onNotification="onNotification"
-          ></idea-comments>
-        </v-col>
-      </v-row>
-    </swiper>
-    <visual-notifier ref="notifier"></visual-notifier>
-    <register-encourage-dialog v-model="showRegisterEncourageDialog" />
-    <idea-posted-dialog
-      v-model="showIdeaPostedDialog"
-      @share=";(shareIdea = true) && (showIdeaPostedDialog = false)"
-    />
-  </layout>
+            </validation-observer>
+          </v-col>
+          <v-col cols="12" md="4">
+            <idea-comments
+              v-if="!editMode && isExpanded"
+              :idea="idea"
+              @onNotification="onNotification"
+            ></idea-comments>
+            <span v-else class="muted"
+              >View all {{ idea.commentsCount }} comments</span
+            >
+          </v-col>
+        </idea-card>
+      </swiper>
+      <visual-notifier ref="notifier"></visual-notifier>
+      <register-encourage-dialog v-model="showRegisterEncourageDialog" />
+      <idea-posted-dialog
+        v-model="showIdeaPostedDialog"
+        @share=";(shareIdea = true) && (showIdeaPostedDialog = false)"
+      />
+    </layout>
+  </div>
 </template>
 
 <script>
@@ -178,6 +197,7 @@ import { graphqlOperation } from '@aws-amplify/api'
 import Layout from '@/components/layout/Layout'
 import TrixWrapper from '@/components/TrixWrapper'
 import getAllIdeas from '@/components/ideaDetail/ideaSwipeQueue.js'
+import IdeaCard from '@/components/ideaDetail/IdeaCard'
 import Swiper from '@/components/ideaDetail/Swiper'
 import IdeaComments from '@/components/ideaDetail/IdeaComments'
 import MenuPanel from '@/components/ideaDetail/MenuPanel'
@@ -199,6 +219,7 @@ export default {
     Layout,
     MenuPanel,
     Swiper,
+    IdeaCard,
     IdeaComments,
     TrixWrapper,
     VisualNotifier,
@@ -237,6 +258,7 @@ export default {
       editMode: false,
       hideSlideMenu: false,
       idea: null,
+      expandedState: false,
       ideaTags: [],
       ideaEditData: {
         title: '',
@@ -262,6 +284,15 @@ export default {
       userId: 'userData/userId',
       isAuthenticated: 'userData/isAuthenticated'
     }),
+
+    isExpanded: {
+      set() {
+        this.expandedState = !this.expandedState
+      },
+      get() {
+        return this.expandedState === undefined ? false : this.expandedState
+      }
+    },
 
     isMyIdea() {
       return this.idea.userId === this.userId
@@ -553,46 +584,66 @@ export default {
 
 <style lang="scss" scoped>
 @import '~assets/style/common.scss';
+
+.idea-card {
+  @media (max-width: $screen-sm-max) {
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+  }
+}
+
+.light-box-bg {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: $color-off-white;
+}
+
+.light-box-expanded {
+  @media (max-width: $screen-sm-max) {
+    position: fixed;
+    background-color: $color-light-box;
+    z-index: 1;
+  }
+}
+
 .idea-name-field {
   font-size: 24px;
 }
 
-.card {
-  border: 1px solid $color-insanely-crazy-light-greyish-purple;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  /* .rounded doesn't work because i'm applying this to a .row (which i shouldn't) */
-}
 .idea-part {
-  @media (min-width: $screen-md-min) {
-    min-height: calc(100vh - 88px);
-  }
-  min-height: 200px;
   position: relative;
+
+  &__author-avatar {
+    width: 24px;
+  }
 
   &__info {
     &__author {
       &__link {
         text-transform: capitalize;
         text-decoration: none;
+        color: $disabled-purple;
         &:hover {
           text-decoration: underline;
         }
       }
     }
+  }
 
-    &__created-time {
-      color: rgb(255, 185, 45);
+  &__idea-content {
+    @media only screen and (min-width: $screen-md-min) {
+      overflow-y: auto;
+      max-height: 50vh;
     }
   }
 
-  &__content {
+  &__content-container {
     word-break: break-word;
     margin-top: 1rem;
-    @media (min-width: $screen-md-min) {
-      min-height: 300px;
-    }
     &__idea-editor {
       ::v-deep .trix-content {
         overflow-y: auto;
@@ -609,6 +660,9 @@ export default {
   &__header {
     &__title {
       text-transform: capitalize;
+      &__label {
+        font-weight: 100;
+      }
     }
   }
 
@@ -621,6 +675,10 @@ export default {
 
       .tag {
         margin: 4px;
+        background-color: white;
+        color: $disabled-purple;
+        border-radius: 5px;
+        border: 1px solid $disabled-purple;
       }
     }
 

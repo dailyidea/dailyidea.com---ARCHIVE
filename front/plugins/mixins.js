@@ -3,7 +3,7 @@ import Vue from 'vue'
 Vue.mixin({
   computed: {
     isMobile() {
-      return !!navigator.share || this.$vuetify.breakpoint.smAndDown
+      return this.$vuetify.breakpoint.smAndDown
     }
   },
   methods: {

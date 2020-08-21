@@ -65,7 +65,11 @@ Resources:
                     - logs:CreateLogGroup
                     - logs:CreateLogStream
                     - logs:PutLogEvents
+                    - s3:PutObject
+                    - s3:PutObjectAcl
                   Resource:
+                    - "arn:aws:s3:::${self:provider.avatarsStaticBucketName}"
+                    - "arn:aws:s3:::${self:provider.avatarsStaticBucketName}/*"
                     - 'Fn::Join':
                       - ':'
                       -

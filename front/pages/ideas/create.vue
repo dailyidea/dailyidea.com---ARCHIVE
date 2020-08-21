@@ -297,8 +297,10 @@ export default {
   }
   /* stuff for making the toolbar stuck to the bottom */
   .trix-button-row {
-    position: fixed;
-    bottom: 0;
+    @media (min-width: $screen-md-min) {
+      position: fixed;
+      bottom: 0;
+    }
   }
 
   #toggle-trix-panel {

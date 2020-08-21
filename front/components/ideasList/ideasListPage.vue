@@ -29,11 +29,6 @@
         @order-change="onChangeOrder"
       ></ideas-list>
 
-      <!-- Add Idea Button -->
-      <v-btn class="addBtn" fab to="/ideas/create">
-        <v-icon>add</v-icon>
-      </v-btn>
-
       <!-- Bottom snackbar message -->
       <visual-notifier ref="notifier"></visual-notifier>
     </v-layout>

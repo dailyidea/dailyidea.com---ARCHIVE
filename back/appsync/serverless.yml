@@ -96,6 +96,12 @@ functions:
       IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
       USERS_TABLE_NAME: ${self:custom.usersTableName}
       TAGS_TABLE_NAME: ${self:custom.tagsTableName}
+  getComments:
+    handler: functions.get_comments.get_comments.endpoint
+    role: LambdaGetCommentsFunctionRole
+    environment:
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
+      COMMENTS_TABLE_NAME: ${self:custom.ideaCommentsTableName} 
   updateIdea:
     handler: functions.update_idea.update_idea.endpoint
     role: LambdaUpdateIdeaFunctionRole
@@ -280,11 +286,13 @@ custom:
         field: deleteIdeaTemporaryComment
         request: "idea-comments/deleteIdeaTemporaryComment-request-mapping-template.txt"
         response: "idea-comments/deleteIdeaTemporaryComment-response-mapping-template.txt"
-      - dataSource: IdeaComments
+      - dataSource: GetCommentsHandler
         type: Query
-        field: getComments
-        request: "idea-comments/getComments-request-mapping-template.txt"
-        response: "idea-comments/getComments-response-mapping-template.txt"
+        field: getComments 
+        #request: "idea-comments/getComments-request-mapping-template.txt"
+        #response: "idea-comments/getComments-response-mapping-template.txt"
+        request: "common/before-invoke-mapping-template.txt"
+        response: "common/after-invoke-mapping-template.txt"
       - dataSource: Ideas
         type: Mutation
         field: deleteIdea
@@ -456,6 +464,12 @@ custom:
     # schema: # defaults schema.graphql
     serviceRole: "AppSyncServiceRole"
     dataSources:
+      - type: AWS_LAMBDA
+        name: GetCommentsHandler
+        description: 'Lambda get comments'
+        config:
+          lambdaFunctionArn: { Fn::GetAtt: [GetCommentsLambdaFunction, Arn] }
+          serviceRoleArm: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AWS_LAMBDA
         name: LikedIdeasHandler
         description: 'Lambda Liked Ideas Data Source'
@@ -703,6 +717,7 @@ custom:
 
 resources:
   - Resources:
+      LambdaGetCommentsFunctionRole: ${file(functions/get_comments/function_role.yml):LambdaGetCommentsFunctionRole}
       LambdaGetActedOnIdeasFunctionRole: ${file(functions/get_acted_on_ideas/function_role.yml):LambdaGetActedOnIdeasFunctionRole}
       LambdaGetStatsFunctionRole: ${file(functions/get_stats/function_role.yml):LambdaGetStatsFunctionRole}
       LambdaSnoozeEmailsFunctionRole: ${file(functions/snooze_emails/function_role.yml):LambdaSnoozeEmailsFunctionRole}
@@ -752,6 +767,8 @@ resources:
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getLikedIdeas:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-createIdea"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-createIdea:*"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getComments"
+                      - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-getComments:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-updateIdea"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-updateIdea:*"
                       - "arn:aws:lambda:${self:provider.region}:*:function:dailyidea-appsync-backend-${self:provider.stage}-shareIdea"
