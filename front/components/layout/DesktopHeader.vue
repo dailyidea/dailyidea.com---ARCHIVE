@@ -5,61 +5,18 @@
         <v-col cols="auto">
           <v-toolbar-title>
             <!-- Logo on top left corner -->
-            <nuxt-link class="logo" :to="logoLink">
-              <img class="logo" src="~/assets/images/logo_full.svg" />
+            <nuxt-link
+              class="logo d-flex flex-column justify-center align-center mt-1"
+              :to="logoLink"
+            >
+              <img class="logo__bulb" src="~/assets/images/lamp_on.png" />
+              <img class="logo__text" src="~/assets/images/logo_text.png" />
             </nuxt-link>
           </v-toolbar-title>
         </v-col>
-        <v-col>
-          <search-component
-            :search-idea-mode="searchIdeaMode"
-            :label="label"
-            @onToggleSearchIdeaMode="onToggleSearchIdeaMode"
-          ></search-component>
-        </v-col>
+        <v-col> </v-col>
         <v-col cols="auto">
-          <!-- Profile Icon -->
-          <v-menu offset-y nudge-bottom="15" left :disabled="!isAuthenticated">
-            <template v-slot:activator="{ on }">
-              <div>
-                <a v-if="isAuthenticated" v-on="on">
-                  <header-avatar></header-avatar>
-                  <span class="userName">{{ userName }}</span>
-                </a>
-                <router-link
-                  v-else
-                  :to="{ name: 'auth-login' }"
-                  class="text-decoration-none"
-                  >Log In
-                </router-link>
-              </div>
-            </template>
-            <v-list class="header-nav-dropdown">
-              <router-link to="/profile">
-                <v-list-item>
-                  <v-list-item-title
-                    ><v-icon small>mdi-account-circle-outline</v-icon> My
-                    Profile</v-list-item-title
-                  >
-                </v-list-item>
-              </router-link>
-
-              <router-link to="/settings">
-                <v-list-item>
-                  <v-list-item-title
-                    ><v-icon small>mdi-cog-outline</v-icon>
-                    Settings</v-list-item-title
-                  >
-                </v-list-item>
-              </router-link>
-              <v-list-item @click="signOut">
-                <v-list-item-title
-                  ><v-icon small>mdi-exit-run</v-icon> Sign
-                  Out</v-list-item-title
-                >
-              </v-list-item>
-            </v-list>
-          </v-menu>
+          <links></links>
         </v-col>
       </v-row>
     </v-container>
@@ -67,14 +24,12 @@
 </template>
 
 <script>
-import SearchComponent from './SearchComponent'
-import HeaderAvatar from './HeaderAvatar'
+import Links from './Links'
 
 export default {
   name: 'DesktopHeader',
   components: {
-    SearchComponent,
-    HeaderAvatar
+    Links
   },
   data() {
     return {
@@ -112,7 +67,7 @@ export default {
 
 <style scoped lang="scss">
 .desktop {
-  z-index: 100;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
   width: 100%;
 
   .backButon {
@@ -126,8 +81,13 @@ export default {
   }
 
   .logo {
-    height: 32px;
-    vertical-align: middle;
+    &__bulb {
+      width: 30px;
+    }
+
+    &__text {
+      width: 90px;
+    }
   }
 }
 </style>

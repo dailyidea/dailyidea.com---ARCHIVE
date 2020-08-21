@@ -1,3 +1,25 @@
+# Backend Applications
+
+This folder contains 3 backend applications:
+
+- "appsync": general application API
+- "mail-processing": sending sheduled emails, recieving incoming emails
+- "users": users authentication
+
+
+# Database Migrations
+
+For database migrations we have `migrations` folder in `users` app,
+you can copy `1-example.js` migration, rename to next increment and short
+description. It will be run automatically on sls deploy.
+
+To run or test migration locally you can run
+```
+sls migrate up
+# or
+sls migrate down
+```
+
 
 # Testing emails
 
