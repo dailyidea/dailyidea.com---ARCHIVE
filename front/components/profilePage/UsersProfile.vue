@@ -201,7 +201,7 @@
     -->
 
 <template>
-  <layout>
+  <layout gray-bg>
     <template v-slot:header>
       <user-profile-header-section
         :profile-data="profileData"
@@ -212,6 +212,17 @@
     </template>
     <template>
       <slot />
+      <input
+        ref="file"
+        style="display: none"
+        type="file"
+        accept="image/*"
+        @change="uploadImage($event)"
+      />
+      <visual-notifier ref="notifier"></visual-notifier>
+      <user-profile-avatar-crop-dialog
+        ref="UserProfileAvatarCropDialog"
+      ></user-profile-avatar-crop-dialog>
     </template>
   </layout>
 </template>
@@ -219,6 +230,8 @@
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 import UserProfileHeaderSection from './UserProfileHeaderSection'
+import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
+import VisualNotifier from '@/components/VisualNotifier'
 import Layout from '@/components/layout/Layout'
 import updateProfileInfo from '@/graphql/mutations/updateProfileInfo'
 import uploadAvatar from '~/graphql/mutations/uploadAvatar'
@@ -227,7 +240,9 @@ export default {
   name: 'UsersProfile',
   components: {
     Layout,
-    UserProfileHeaderSection
+    UserProfileHeaderSection,
+    VisualNotifier,
+    UserProfileAvatarCropDialog
   },
   props: {
     initialProfileData: {

@@ -39,7 +39,7 @@
                   <span class="ml-2">{{ idea.authorName }}</span>
                 </router-link>
               </span>
-              <span class="muted ml-2">{{
+              <span class="muted ml-2 mt-1">{{
                 idea.createdDate | toRelativeDate
               }}</span>
             </v-row>
@@ -47,6 +47,7 @@
           <v-row v-if="!editMode" cols="auto" offset="1">
             <menu-panel
               :editable="isMyIdea"
+              :preview="preview"
               :idea="idea"
               @enable-edit-mode="enableEditMode"
               @saved-state-changed="onIdeaSaveStateChanged"
@@ -450,6 +451,7 @@ export default {
 
   &__author-avatar {
     width: 24px;
+    margin-bottom: 5px;
   }
 
   &__info {

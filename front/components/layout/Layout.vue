@@ -1,5 +1,5 @@
 <template>
-  <div id="commonHeader" hidden>
+  <div id="commonHeader" hidden :class="{ 'gray-bg': grayBg }">
     <v-progress-linear
       :indeterminate="true"
       :active="progressBarActive"
@@ -40,9 +40,9 @@ import MobileHeader from './MobileHeader'
 export default {
   components: { MobileHeader, DesktopHeader },
   props: {
-    bgColor: {
-      type: String,
-      default: String
+    grayBg: {
+      type: Boolean,
+      default: false
     },
 
     hideMobileNav: {
@@ -125,8 +125,11 @@ export default {
   }
 }
 
-#commonHeader {
+.gray-bg {
   background-color: $background-grey;
+}
+
+#commonHeader {
   @media (max-width: $screen-sm-max) {
     padding-bottom: 5em;
   }

@@ -63,7 +63,7 @@ export default {
 .cards-container {
   margin: 0 auto;
   @media (min-width: $screen-md-min) {
-    width: 33vw;
+    width: 650px;
   }
 }
 </style>
