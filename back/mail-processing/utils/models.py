@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from pynamodb.attributes import MapAttribute, BooleanAttribute, UnicodeAttribute, UTCDateTimeAttribute, NumberAttribute
+from pynamodb.attributes import Attribute, MapAttribute, BooleanAttribute, UnicodeAttribute, UTCDateTimeAttribute, NumberAttribute
 from pynamodb.indexes import GlobalSecondaryIndex, AllProjection
 from pynamodb.models import Model
 
@@ -54,6 +54,14 @@ class UsersIdeasByDateIndex(GlobalSecondaryIndex):
     userId = UnicodeAttribute(hash_key=True)
     createdDate = UTCDateTimeAttribute(range_key=True)
 
+class IdeasById(GlobalSecondaryIndex):
+    class Meta:
+        index_name = 'ideasById'
+        projection = AllProjection()
+        write_capacity_units = 100
+        read_capacity_units = 100
+    ideaId = UnicodeAttribute(hash_key=True)
+
 
 class IdeaModel(BaseModel):
     class Meta:
@@ -77,6 +85,7 @@ class IdeaModel(BaseModel):
     commentsCount = NumberAttribute(default=0)
 
     usersIdeasByDateIndex = UsersIdeasByDateIndex()
+    ideasByIdIndex = IdeasById()
 
 
 class UserEmailIndex(GlobalSecondaryIndex):

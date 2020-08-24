@@ -102,16 +102,16 @@ functions:
       - schedule:
           rate: cron(0 12 ? * SUN *)
           enabled: true
-  indeNotifications:
+  ideaNotifications:
     handler: idea_notifications.endpoint
     memorySize: 512
     timeout: 120
     environment:
       BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
-      WEEKLY_STATS_TEMPLATE_NAME: ${self:provider.ideaNotificationsEmailTemplateName}
+      IDEA_NOTIFICATIONS_TEMPLATE_NAME: ${self:provider.ideaNotificationsEmailTemplateName}
     events:
       - schedule:
-          rate: cron(0 0 * * *)
+          rate: cron(0 18 * * ? *)
           enabled: true
 
 plugins:

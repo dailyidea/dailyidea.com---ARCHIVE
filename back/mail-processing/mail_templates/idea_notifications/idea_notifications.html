@@ -55,12 +55,6 @@
           .mj-outlook-group-fix { width:100% !important; }
         </style>
         <![endif]-->
-  <!--[if !mso]><!-->
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" type="text/css">
-  <style type="text/css">
-    @import url(https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap);
-  </style>
-  <!--<![endif]-->
   <style type="text/css">
     @media only screen and (min-width:480px) {
       .mj-column-per-100 {
@@ -164,7 +158,8 @@
                   <tr>
                     <td align="left" style="font-size:0px;padding:10px 25px;padding-top:0;padding-bottom:0;word-break:break-word;">
                       <div style="font-family:helvetica;font-size:13px;line-height:1;text-align:left;color:#2d2d2d;">
-                        <h1>Your Week In Numbers</h1>
+                        <p>Hi {{ USERNAME }},</p>
+                        <p>Your ideas {{ IDEAS_NAMES }} is sparking conversation, you have new comments!</p>
                       </div>
                     </td>
                   </tr>
@@ -193,11 +188,11 @@
         <tr>
           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
       <![endif]-->
-    <div style="background:white;background-color:white;margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:white;background-color:white;width:100%;">
+    <div style="margin:0px auto;max-width:600px;">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
         <tbody>
           <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:0;padding-top:0;text-align:center;">
+            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
               <!--[if mso | IE]>
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                 
@@ -214,8 +209,8 @@
                       <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
                         <tbody>
                           <tr>
-                            <td style="width:150px;">
-                              <img height="auto" src="{{ BUCKET_URL_PREFIX }}/email/images/weekly-stats/stats-{{ IMAGE_NUMBER }}.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="150" />
+                            <td style="width:85px;">
+                              <img height="auto" src="{{ BUCKET_URL_PREFIX }}/email/images/daily-reminder/idea-cat.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="85" />
                             </td>
                           </tr>
                         </tbody>
@@ -265,64 +260,8 @@
                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                   <tr>
                     <td align="left" style="font-size:0px;padding:10px 25px;padding-top:0;padding-bottom:0;word-break:break-word;">
-                      <div style="font-family:Dancing Script;font-size:13px;font-style:italic;line-height:1;text-align:left;color:#BBB9B9;">
-                        <p>"Daring ideas are like chessmen moved forward. They may be beaten, but they may start a winning game."</p>
-                        <p>- Johann Wolfgang von Goethe</p>
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <!--[if mso | IE]>
-            </td>
-          
-        </tr>
-      
-                  </table>
-                <![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]>
-          </td>
-        </tr>
-      </table>
-      
-      <table
-         align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
-      >
-        <tr>
-          <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
-      <![endif]-->
-    <div style="background:white;background-color:white;margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:white;background-color:white;width:100%;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:0;padding-top:0;text-align:center;">
-              <!--[if mso | IE]>
-                  <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                
-        <tr>
-      
-            <td
-               class="" style="vertical-align:top;width:600px;"
-            >
-          <![endif]-->
-              <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tr>
-                    <td align="left" style="font-size:0px;padding:10px 25px;padding-top:10px;padding-right:0;word-break:break-word;">
-                      <div style="font-family:helvetica;font-size:18px;line-height:22px;text-align:left;color:#2d2d2d;">
-                        <p>
-                          {{#if IDEAS_COUNT}} Most importantly, you submitted <span style="color: #5b41bb; font-weight: bold;">{{ IDEAS_COUNT }}</span> idea{{ IDEAS_PLURAL }} this week! Congrats! {{else}} Bummer! You didn't submit any ideas this week. That's ok though! Try to get 1 idea next week -- or <a href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ AUTH_TOKEN }}&email={{ EMAIL }}&next=%2Fideas%2Fcreate">submit one now by clicking here</a>. {{/if}}
-                        <p>
-                        <p>Some other stats for you:</p>
-                        <div><span style="color: #5b41bb; font-weight: bold;">{{ SAVES_COUNT }}</span> {{ SAVES_PEOPLE }} have <span style="color: #5b41bb; font-weight: bold;">saved</span> your ideas</div>
-                        <div><span style="color: #5b41bb; font-weight: bold;">{{ SHARES_COUNT }}</span> {{ SHARES_PEOPLE }} have <span style="color: #5b41bb; font-weight: bold;">shared</span> your ideas</div>
-                        <div><span style="color: #5b41bb; font-weight: bold;">{{ COMMENTS_COUNT }}</span> {{ COMMENTS_PEOPLE }} have <span style="color: #5b41bb; font-weight: bold;">commented</span> your ideas</div>
-                        <p>Need to submit an idea?</p>
+                      <div style="font-family:helvetica;font-size:13px;line-height:1;text-align:left;color:#2d2d2d;">
+                        <p>Keep the conversation going, click below to reply.</p>
                       </div>
                     </td>
                   </tr>
@@ -372,102 +311,10 @@
                       <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
                         <tr>
                           <td align="center" bgcolor="#FFC61F" role="presentation" style="border:none;border-radius:30px;cursor:auto;mso-padding-alt:10px 65px;background:#FFC61F;" valign="middle">
-                            <a href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ AUTH_TOKEN }}&email={{ EMAIL }}&next=%2Fideas%2Fcreate" style="display:inline-block;background:#FFC61F;color:white;font-family:helvetica;font-size:20px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 65px;mso-padding-alt:0px;border-radius:30px;" target="_blank"> Submit An Idea </a>
+                            <a href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ AUTH_TOKEN }}&email={{ EMAIL }}&next=%2Fideas%2Fcreate" style="display:inline-block;background:#FFC61F;color:white;font-family:helvetica;font-size:20px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 65px;mso-padding-alt:0px;border-radius:30px;" target="_blank"> View Comments </a>
                           </td>
                         </tr>
                       </table>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <!--[if mso | IE]>
-            </td>
-          
-        </tr>
-      
-                  </table>
-                <![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]>
-          </td>
-        </tr>
-      </table>
-      
-      <table
-         align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
-      >
-        <tr>
-          <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
-      <![endif]-->
-    <div style="background:white;background-color:white;margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:white;background-color:white;width:100%;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;padding-top:0;text-align:center;">
-              <!--[if mso | IE]>
-                  <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                
-        <tr>
-      
-            <td
-               class="" style="vertical-align:top;width:600px;"
-            >
-          <![endif]-->
-              <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tr>
-                    <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                      <div style="font-family:helvetica;font-size:18px;line-height:1;text-align:left;color:#000000;">Need a spark of inspiration? <a href="https://www.dailyidea.com/">Visit Daily Idea</a> to view other people's ideas.</div>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <!--[if mso | IE]>
-            </td>
-          
-        </tr>
-      
-                  </table>
-                <![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]>
-          </td>
-        </tr>
-      </table>
-      
-      <table
-         align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
-      >
-        <tr>
-          <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
-      <![endif]-->
-    <div style="background:white;background-color:white;margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:white;background-color:white;width:100%;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;padding-top:0;text-align:center;">
-              <!--[if mso | IE]>
-                  <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                
-        <tr>
-      
-            <td
-               class="" style="vertical-align:top;width:600px;"
-            >
-          <![endif]-->
-              <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tr>
-                    <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                      <div style="font-family:helvetica;font-size:12px;line-height:1;text-align:left;color:#C8C8C8;"><a href="https://{{ DOMAIN_NAME }}/unsubscribe/{{ USER_ID }}/{{ SNOOZE_TOKEN }}" style="color: #C8C8C8;">Usubscribe from email</a> or <a href="https://{{ DOMAIN_NAME }}/settings" style="color: #C8C8C8;">Update your email preferences</a></div>
                     </td>
                   </tr>
                 </table>

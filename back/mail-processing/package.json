@@ -4,6 +4,7 @@
   "main": "mailparser.js",
   "scripts": {
     "test": "jest",
+    "sls": "env-cmd -f ./conf/dev.env sls",
     "sls:deploy-dev": "node mail-mjml/compile-emails.js && env-cmd -f ./conf/dev.env sls deploy",
     "sls:deploy-prod": "node mail-mjml/compile-emails.js && env-cmd -f ./conf/prod.env sls deploy",
     "sls:deploy-ci": "serverless deploy",
