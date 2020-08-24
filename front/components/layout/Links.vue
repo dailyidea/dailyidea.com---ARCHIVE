@@ -72,7 +72,8 @@ export default {
         'ideas-me': 'profile',
         profile: 'profile',
         'ideas-saved': 'profile',
-        'ideas-create': 'post'
+        'ideas-create': 'post',
+        'profile-edit': 'profile'
       }
     }
   },

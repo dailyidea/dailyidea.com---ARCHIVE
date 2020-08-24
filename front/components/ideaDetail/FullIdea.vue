@@ -452,6 +452,7 @@ export default {
   &__author-avatar {
     width: 24px;
     margin-bottom: 5px;
+    border-radius: 100%;
   }
 
   &__info {

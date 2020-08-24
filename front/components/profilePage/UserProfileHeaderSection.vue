@@ -4,7 +4,7 @@
       <v-row>
         <v-col></v-col>
         <v-col class="d-flex flex-row align-center">
-          <div class="d-flex flex-row justify-space-around info-container">
+          <div class="d-flex flex-row justify-space-around info-container pb-4">
             <div class="mr-5">
               <user-profile-avatar
                 :profile-data="profileData"
@@ -33,7 +33,11 @@
               <div class="info-section__bio mt-3">
                 {{ profileData.bio }}
               </div>
-              <div v-if="isMyProfile" class="info-section__edit mt-3">Edit</div>
+              <nuxt-link to="/profile/edit">
+                <div v-if="isMyProfile" class="info-section__edit mt-3">
+                  Edit
+                </div>
+              </nuxt-link>
             </div>
           </div>
         </v-col>
