@@ -56,4 +56,4 @@ def get_idea(idea_id):
 
 def endpoint(event, context):
     users = last_comments()
-    send_idea_notifications_bulk(users)
+    if (len(users)): send_idea_notifications_bulk(users)

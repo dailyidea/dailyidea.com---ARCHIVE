@@ -7,6 +7,7 @@ import jwt
 import urllib.parse
 from utils.generate_quote import GenerateQuote
 from utils.models import IdeaModel, UserModel
+from dateutil.parser import parse
 
 AWS_REGION = os.getenv('SES_AWS_REGION', 'us-east-1')
 MAILBOX_ADDR = os.getenv('MAILBOX_ADDR', 'ideas-dev@beta.dailyidea.com')
@@ -31,9 +32,14 @@ def send_idea_notifications_bulk(users_list):
 
     for user_id, ideas in users_list.items():
         user = get_user(user_id)
-        print(user.email)
-        ideasNames = ''
 
+        if (user.unsubscribedAt): continue
+        if (not user.ideaActivity): continue
+        if (user.snoozeEmails and user.snoozeEmails > datetime.utcnow()): continue
+
+        print(user.email)
+
+        ideasNames = ''
         ideasList = list(ideas.values())
 
         if (len(ideasList) > 1):
@@ -62,6 +68,8 @@ def send_idea_notifications_bulk(users_list):
                 }
             )
         })
+
+    if (len(destinations) == 0): return
 
     client = boto3.client('ses', region_name=AWS_REGION)
     client.send_bulk_templated_email(
