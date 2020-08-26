@@ -1,5 +1,9 @@
 <template>
-  <idea-card :preview="preview" @expand-toggle="isExpanded = !isExpanded">
+  <idea-card
+    :allow-mobile-scroll="allowMobileScroll"
+    :preview="preview"
+    @expand-toggle="isExpanded = !isExpanded"
+  >
     <v-col cols="12" :md="preview ? '' : 8" class="idea-part">
       <validation-observer v-slot="{ valid, validated, handleSubmit }">
         <div>
@@ -189,6 +193,11 @@ export default {
     RegisterEncourageDialog
   },
   props: {
+    allowMobileScroll: {
+      type: Boolean,
+      default: false
+    },
+
     idea: {
       type: Object,
       required: true

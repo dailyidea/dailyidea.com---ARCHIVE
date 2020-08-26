@@ -14,6 +14,7 @@
 export default {
   name: 'IdeaCard',
   props: {
+    allowMobileScroll: Boolean,
     expanded: Boolean,
     preview: Boolean
   },
@@ -24,10 +25,12 @@ export default {
   },
   mounted() {
     // Disable vertical scroll if card is not expanded
-    this.$refs.page.addEventListener(
-      'touchmove',
-      this.preventScrollOnMobileWhenCardIsNotExpanded
-    )
+    if (!this.allowMobileScroll) {
+      this.$refs.page.addEventListener(
+        'touchmove',
+        this.preventScrollOnMobileWhenCardIsNotExpanded
+      )
+    }
   },
   methods: {
     preventScrollOnMobileWhenCardIsNotExpanded(event) {

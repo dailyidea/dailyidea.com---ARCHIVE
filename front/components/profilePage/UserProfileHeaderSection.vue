@@ -2,48 +2,49 @@
   <div class="header-container ">
     <div class="header-content">
       <v-row>
-        <v-col></v-col>
-        <v-col class="d-flex flex-row align-center">
-          <div class="d-flex flex-row justify-space-around info-container pb-4">
-            <div class="mr-5">
-              <user-profile-avatar
-                :profile-data="profileData"
-                :is-my-profile="isMyProfile"
-                @select-avatar="selectAvatar"
-              ></user-profile-avatar>
+        <v-col class="d-flex flex-column align-center">
+          <div class="info-container">
+            <div class="d-flex flex-row">
+              <div class="mr-5">
+                <user-profile-avatar
+                  :profile-data="profileData"
+                ></user-profile-avatar>
+              </div>
+              <div class="info-section pl-3 pb-3 d-flex flex-column">
+                <h1 class="info-section__title">{{ profileData.name }}</h1>
+                <div class="info-section__stats d-flex flex-row mt-3">
+                  <div class="info-section__stats__stat">
+                    <span>{{ profileData.ideasCreated }}</span>
+                    <span>Ideas</span>
+                  </div>
+                  <div class="pipe"></div>
+                  <div class="info-section__stats__stat">
+                    <span>{{ profileData.followersCount }}</span>
+                    <span>Followers</span>
+                  </div>
+                  <div class="pipe"></div>
+                  <div class="info-section__stats__stat">
+                    <span>{{ profileData.followeesCount }}</span>
+                    <span>Following</span>
+                  </div>
+                </div>
+                <div class="info-section__bio mt-3 hidden-sm-and-down">
+                  {{ profileData.bio }}
+                </div>
+                <nuxt-link to="/profile/edit" class="hidden-sm-and-down">
+                  <div v-if="isMyProfile" class="info-section__edit mt-3">
+                    Edit
+                  </div>
+                </nuxt-link>
+              </div>
             </div>
-            <div class="info-section pl-3 pb-3">
-              <h1 class="info-section__title">{{ profileData.name }}</h1>
-              <div class="info-section__stats d-flex flex-row mt-3">
-                <div class="info-section__stats__stat">
-                  <span>{{ profileData.ideasCreated }}</span>
-                  <span>Ideas</span>
-                </div>
-                <div class="pipe"></div>
-                <div class="info-section__stats__stat">
-                  <span>{{ profileData.followersCount }}</span>
-                  <span>Followers</span>
-                </div>
-                <div class="pipe"></div>
-                <div class="info-section__stats__stat">
-                  <span>{{ profileData.followeesCount }}</span>
-                  <span>Following</span>
-                </div>
-              </div>
-              <div class="info-section__bio mt-3">
-                {{ profileData.bio }}
-              </div>
-              <nuxt-link to="/profile/edit">
-                <div v-if="isMyProfile" class="info-section__edit mt-3">
-                  Edit
-                </div>
-              </nuxt-link>
+            <div class="hidden-md-and-up">
+              {{ profileData.bio }}
             </div>
           </div>
         </v-col>
-        <v-col></v-col>
       </v-row>
-      <div class="d-flex flex-row align-center justify-space-between px-6 pt-1">
+      <div class="profile-links">
         <nuxt-link
           :to="{ name: 'ideas-me' }"
           class="link pb-3"
@@ -167,17 +168,33 @@ export default {
 }
 
 .header-content {
-  margin: 0 auto;
-  margin-top: 2rem;
+  @media (min-width: $screen-md-min) {
+    margin: 0 auto;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: $screen-sm-max) {
+    width: 100%;
+  }
 }
 
 .info-container {
-  border-bottom: 2px solid $light-grey;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-links {
+  border-top: 2px solid $light-grey;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
 }
 
 .info-section {
-  width: 25vw;
-
   &__title {
     font-weight: 400;
     font-size: 2rem;

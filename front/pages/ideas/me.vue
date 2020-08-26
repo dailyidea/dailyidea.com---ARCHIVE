@@ -5,6 +5,7 @@
         v-for="(idea, index) in ideas"
         :key="index"
         preview
+        allow-mobile-scroll
         :idea="idea"
       ></full-idea>
     </div>
