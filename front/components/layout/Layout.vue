@@ -1,5 +1,6 @@
 <template>
   <div id="commonHeader" hidden :class="{ 'grey-bg': greyBg }">
+    <slot v-if="showOverlay" name="overlay" />
     <v-progress-linear
       :indeterminate="true"
       :active="progressBarActive"
@@ -40,6 +41,11 @@ import MobileHeader from './MobileHeader'
 export default {
   components: { MobileHeader, DesktopHeader },
   props: {
+    showOverlay: {
+      type: Boolean,
+      default: false
+    },
+
     greyBg: {
       type: Boolean,
       default: false
@@ -104,6 +110,30 @@ export default {
 </script>
 
 <style lang="scss">
+.overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  .overlay-card {
+    width: 70%;
+    @media (max-width: $screen-sm-max) {
+      width: 95%;
+      overflow-y: auto;
+    }
+
+    margin: 0 auto;
+  }
+}
+
 .v-toolbar__content {
   width: 100%;
 }

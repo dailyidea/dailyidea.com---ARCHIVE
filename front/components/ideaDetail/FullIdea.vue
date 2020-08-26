@@ -4,6 +4,9 @@
     :preview="preview"
     @expand-toggle="isExpanded = !isExpanded"
   >
+    <v-icon v-if="closeBtn" class="close-btn" @click="emitExitClicked"
+      >mdi mdi-close</v-icon
+    >
     <v-col cols="12" :md="preview ? '' : 8" class="idea-part">
       <validation-observer v-slot="{ valid, validated, handleSubmit }">
         <div>
@@ -92,10 +95,12 @@
                 :collapsed="!isExpanded"
                 :content="ideaContent"
               ></idea-content>
-              <div v-if="preview" class="mt-3 text-center">
-                <nuxt-link class="idea-link" :to="ideaLink">
-                  <link-text active text="View Idea"></link-text>
-                </nuxt-link>
+              <div
+                v-if="preview"
+                class="text-center pointer"
+                @click="emitViewPreviewIdeaClicked"
+              >
+                <link-text active text="View Idea"></link-text>
               </div>
             </div>
           </div>
@@ -198,6 +203,11 @@ export default {
       default: false
     },
 
+    closeBtn: {
+      type: Boolean,
+      default: false
+    },
+
     idea: {
       type: Object,
       required: true
@@ -206,6 +216,11 @@ export default {
     preview: {
       type: Boolean,
       default: Boolean
+    },
+
+    expanded: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -230,6 +245,10 @@ export default {
     }),
 
     ideaContent() {
+      if (this.isMobile && this.preview) {
+        return ''
+      }
+
       const content = this.idea.content || this.idea.strippedContent
       if (this.preview && content) {
         if (content.length > 255) {
@@ -247,6 +266,10 @@ export default {
       },
 
       get() {
+        if (this.expanded) {
+          return true
+        }
+
         return this.isMobile ? this.isExpandedState : true
       }
     },
@@ -263,6 +286,12 @@ export default {
     this.loadSecondaryData()
   },
   methods: {
+    emitExitClicked() {
+      this.$emit('exit-pressed')
+    },
+    emitViewPreviewIdeaClicked() {
+      this.$emit('view-preview', this.idea)
+    },
     async loadIdeaTags() {
       const ideaTags = []
       if (this.$store.getters['cognito/isLoggedIn']) {
@@ -447,6 +476,24 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.pointer {
+  cursor: pointer;
+}
+
+.close-btn {
+  position: absolute;
+  z-index: 1001;
+  top: 10px;
+  right: 10px;
+  color: $primary-color;
+  font-size: 20px;
+
+  @media (max-width: $screen-sm-max) {
+    left: 10px;
+    justify-content: start;
+  }
+}
+
 .idea-name-field {
   font-size: 24px;
 }

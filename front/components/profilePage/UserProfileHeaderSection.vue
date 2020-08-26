@@ -28,7 +28,7 @@
                     <span>Following</span>
                   </div>
                 </div>
-                <div class="info-section__bio mt-3 hidden-sm-and-down">
+                <div class="info-section__bio mt-3 hidden-mobile-portrait">
                   {{ profileData.bio }}
                 </div>
                 <nuxt-link to="/profile/edit" class="hidden-sm-and-down">
@@ -38,7 +38,7 @@
                 </nuxt-link>
               </div>
             </div>
-            <div class="hidden-md-and-up">
+            <div class="hidden-desktop hidden-landscape">
               {{ profileData.bio }}
             </div>
           </div>
@@ -150,6 +150,24 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.hidden-landscape {
+  @media (orientation: landscape) {
+    display: none;
+  }
+}
+
+.hidden-desktop {
+  @media (min-width: $screen-md-min) {
+    display: none;
+  }
+}
+
+.hidden-mobile-portrait {
+  @media (max-width: $screen-sm-max) and (orientation: portrait) {
+    display: none;
+  }
+}
+
 .link {
   color: black;
   text-decoration: none;

@@ -111,12 +111,12 @@ export default {
 
   methods: {
     cancelClicked() {
-      this.$router.go(-1)
+      this.$router.push({ name: 'ideas-me' })
     },
 
     async doneClicked() {
       await this.saveChanges()
-      this.$router.go(-1)
+      this.$router.push({ name: 'ideas-me' })
     },
 
     selectAvatar() {

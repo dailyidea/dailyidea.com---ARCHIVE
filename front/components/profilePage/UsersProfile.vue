@@ -1,5 +1,17 @@
 <template>
-  <layout grey-bg>
+  <layout grey-bg :show-overlay="showOverlay">
+    <template v-slot:overlay>
+      <div class="overlay">
+        <div class="overlay-card">
+          <full-idea
+            expanded
+            close-btn
+            :idea="selectedIdea"
+            @exit-pressed="handleExitPressed"
+          ></full-idea>
+        </div>
+      </div>
+    </template>
     <template v-slot:header>
       <user-profile-header-section
         :profile-data="profileData"
@@ -9,7 +21,7 @@
       ></user-profile-header-section>
     </template>
     <template>
-      <slot />
+      <slot :handle-view-preview="handleViewPreview" />
       <input
         ref="file"
         style="display: none"
@@ -30,11 +42,13 @@ import UserProfileHeaderSection from './UserProfileHeaderSection'
 import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
 import VisualNotifier from '@/components/VisualNotifier'
 import Layout from '@/components/layout/Layout'
+import FullIdea from '@/components/ideaDetail/FullIdea'
 
 export default {
   name: 'UsersProfile',
   components: {
     Layout,
+    FullIdea,
     UserProfileHeaderSection,
     VisualNotifier,
     UserProfileAvatarCropDialog
@@ -51,6 +65,14 @@ export default {
     loadMoreIdeasIsPossible: {
       type: Boolean,
       default: false
+    },
+    showOverlay: {
+      type: Boolean,
+      default: false
+    },
+    selectedIdea: {
+      type: Object,
+      default: Object
     }
   },
   data() {
@@ -82,6 +104,17 @@ export default {
   },
   created() {
     this.profileData = this.initialProfileData
+  },
+  methods: {
+    handleViewPreview(idea) {
+      this.showOverlay = true
+      this.selectedIdea = idea
+    },
+
+    handleExitPressed() {
+      this.showOverlay = false
+      this.selectedIdea = null
+    }
   }
 }
 </script>

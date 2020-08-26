@@ -50,6 +50,7 @@ export default {
 
 <style lang="scss" scoped>
 .card {
+  position: relative;
   padding: 1rem;
   background-color: white;
   -webkit-border-radius: 8px;

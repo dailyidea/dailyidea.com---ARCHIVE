@@ -1,5 +1,9 @@
 <template>
-  <user-profile :initial-profile-data="initialProfileData" :ideas="ideas">
+  <user-profile
+    v-slot="{ handleViewPreview }"
+    :initial-profile-data="initialProfileData"
+    :ideas="ideas"
+  >
     <div v-if="ideas.length > 0" class="cards-container">
       <full-idea
         v-for="(idea, index) in ideas"
@@ -7,6 +11,7 @@
         preview
         allow-mobile-scroll
         :idea="idea"
+        @view-preview="handleViewPreview(idea)"
       ></full-idea>
     </div>
     <div v-else class="cards-container">
