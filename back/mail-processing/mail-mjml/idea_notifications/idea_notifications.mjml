@@ -18,7 +18,7 @@
     </mj-section>
     <mj-section>
       <mj-column>
-        <mj-image width="85px" align="center" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/daily-reminder/idea-cat.png"></mj-image>
+        <mj-image width="250px" align="center" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/idea-activity/collaboration.png"></mj-image>
       </mj-column>
     </mj-section>
     <mj-section background-color="white" padding-top="0" padding-bottom="0">
@@ -30,9 +30,43 @@
     </mj-section>
     <mj-section background-color="white" padding-top="0">
       <mj-column>
-        <mj-button inner-padding="10px 65px" border-radius="30px" font-family="helvetica" font-size="20px" background-color="#FFC61F" color="white" href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ AUTH_TOKEN }}&email={{ EMAIL }}&next=%2Fideas%2Fcreate">
+        <mj-button inner-padding="10px 65px" border-radius="5px" font-family="helvetica" font-size="16px" background-color="#5B41BB" color="white" href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ AUTH_TOKEN }}&email={{ EMAIL }}&next=%2Fideas%2Fme">
           View Comments
         </mj-button>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="white" padding-top="0" padding-bottom="0">
+      <mj-column>
+        <mj-text font-family="helvetica">
+          <strong>Need to take a break?</strong> Snooze reminder emails for: 
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="white" padding-top="0">
+      <mj-group>
+        <mj-column>
+          <mj-button padding="5px" inner-padding="8px 20px" border-radius="5px" border="2px solid #5B41BB" font-family="helvetica" font-size="14px" background-color="white" color="#000000" href="https://{{DOMAIN_NAME}}/snooze-emails?userId={{USER_ID}}&token={{SNOOZE_TOKEN}}&days=7">
+            1 week
+          </mj-button>
+        </mj-column>
+        <mj-column>
+          <mj-button padding="5px" inner-padding="8px 20px" border-radius="5px" border="2px solid #5B41BB" font-family="helvetica" font-size="14px" background-color="white" color="#000000" href="https://{{DOMAIN_NAME}}/snooze-emails?userId={{USER_ID}}&token={{SNOOZE_TOKEN}}&days=14">
+            2 weeks
+          </mj-button>
+        </mj-column>
+        <mj-column>
+          <mj-button padding="5px" inner-padding="8px 20px" border-radius="5px" border="2px solid #5B41BB" font-family="helvetica" font-size="14px" background-color="white" color="#000000" href="https://{{DOMAIN_NAME}}/snooze-emails?userId={{USER_ID}}&token={{SNOOZE_TOKEN}}&days=28">
+            4 weeks
+          </mj-button>
+        </mj-column>
+      </mj-group>
+    </mj-section>
+    <mj-section background-color="white" padding-top="0">
+      <mj-column>
+        <mj-text font-size="12px" font-family="helvetica">
+          <a href="https://{{DOMAIN_NAME}}/settings" style="color:#C8C8C8; font-size:12px">Review / update your email preferences</a><br>
+          <a href="https://{{DOMAIN_NAME}}/unsubscribe/{{USER_ID}}/{{SNOOZE_TOKEN}}" style="color:#C8C8C8; font-size:12px">Unsubscribe from all emails</a>
+        </mj-text>
       </mj-column>
     </mj-section>
     <mj-section background-color="#EFF6FF">
