@@ -1,5 +1,5 @@
 <template>
-  <layout grey-bg>
+  <layout :grey-bg="isGreyBG">
     <template v-slot:header>
       <div class="sub-header">
         <div class="sub-header-container">
@@ -103,7 +103,11 @@ export default {
     }
   },
 
-  async mounted() {},
+  computed: {
+    isGreyBG() {
+      return !this.isMobile
+    }
+  },
 
   methods: {
     cancelClicked() {
@@ -217,10 +221,17 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: $screen-sm-max) {
+    width: 90%;
+  }
 }
 
 .card-container {
-  width: 60vw;
+  width: 100%;
+  @media (min-width: $screen-md-min) {
+    width: 60vw;
+  }
 }
 
 .border-top {
@@ -259,7 +270,10 @@ export default {
 
     .text-body {
       color: $dark-grey;
-      padding-left: 6rem;
+      margin-left: 6rem;
+      @media (max-width: $screen-sm-max) {
+        margin-left: 5rem;
+      }
     }
 
     .text-input::placeholder {
@@ -274,7 +288,16 @@ export default {
       resize: none;
       color: $dark-grey;
       margin-left: 6rem;
+      @media (max-width: $screen-sm-max) {
+        margin-left: 5rem;
+      }
     }
+  }
+
+  @media (max-width: $screen-sm-max) {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0;
   }
 }
 </style>
