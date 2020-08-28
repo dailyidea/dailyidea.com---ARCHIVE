@@ -34,7 +34,7 @@
     <nuxt-link
       class="link"
       :class="{ active: page === 'profile' }"
-      :to="{ name: 'ideas-me' }"
+      :to="profileLink"
     >
       <profile-icon
         :fill="page !== 'profile' ? inactiveColor : activeColor"
@@ -71,6 +71,8 @@ export default {
         'ideas-all': 'explore',
         'ideas-me': 'profile',
         profile: 'profile',
+        'profile-userSlug-saved': 'profile',
+        'profile-userSlug': 'profile',
         'ideas-saved': 'profile',
         'ideas-create': 'post',
         'profile-edit': 'profile'
@@ -78,6 +80,10 @@ export default {
     }
   },
   computed: {
+    profileLink() {
+      const slug = this.$store.getters['userData/slug']
+      return `/profile/${slug}`
+    },
     page() {
       return this.pages[this.$route.name]
     }

@@ -41,7 +41,7 @@ export default {
   },
   middleware: 'authenticated',
   async asyncData({ app, store }) {
-    const userSlug = store.getters['userData/slug']
+    const userSlug = await app.router.app._route.params.userSlug
     const userInfoRequest = await app.$amplifyApi.graphql(
       graphqlOperation(userInfoBySlug, { slug: userSlug })
     )

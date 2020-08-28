@@ -81,7 +81,7 @@ export default {
     UserProfileAvatarCropDialog,
     VisualNotifier
   },
-
+  middleware: 'authenticated',
   async asyncData({ app, store, route }) {
     const userSlug = store.getters['userData/slug']
     const userInfoRequest = await app.$amplifyApi.graphql(
@@ -98,6 +98,7 @@ export default {
     return {
       avatar,
       name,
+      userSlug,
       bio,
       email
     }
@@ -106,17 +107,21 @@ export default {
   computed: {
     isGreyBG() {
       return !this.isMobile
+    },
+
+    profilePage() {
+      return `/profile/${this.userSlug}`
     }
   },
 
   methods: {
     cancelClicked() {
-      this.$router.push({ name: 'ideas-me' })
+      this.$router.push(this.profilePage)
     },
 
     async doneClicked() {
       await this.saveChanges()
-      this.$router.push({ name: 'ideas-me' })
+      this.$router.push(this.profilePage)
     },
 
     selectAvatar() {

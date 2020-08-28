@@ -46,7 +46,7 @@
                   <span class="ml-2">{{ idea.authorName }}</span>
                 </router-link>
               </span>
-              <span class="muted ml-2 mt-1">{{
+              <span class="muted ml-2 idea-date">{{
                 idea.createdDate | toRelativeDate
               }}</span>
             </v-row>
@@ -496,6 +496,10 @@ export default {
 
 .idea-name-field {
   font-size: 24px;
+}
+
+.idea-date {
+  margin-top: 2px;
 }
 
 .idea-link {

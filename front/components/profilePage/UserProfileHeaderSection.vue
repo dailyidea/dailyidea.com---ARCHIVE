@@ -46,7 +46,7 @@
       </v-row>
       <div class="profile-links">
         <nuxt-link
-          :to="{ name: 'ideas-me' }"
+          :to="ideasLink"
           class="link pb-3"
           :class="{ active: page === 'profile' }"
         >
@@ -58,11 +58,11 @@
           <link-text
             v-else
             :active="page === 'profile'"
-            :text="`${profileData.name}'s Ideas`"
+            :text="linkText(`${profileData.name}'s Ideas`, 'profile')"
           ></link-text>
         </nuxt-link>
         <nuxt-link
-          to="/ideas/saved"
+          :to="savedLink"
           class="link pb-3"
           :class="{ active: page === 'saved-ideas' }"
         >
@@ -122,6 +122,7 @@ export default {
       pages: {
         profile: 'profile',
         'profile-userSlug': 'profile',
+        'profile-userSlug-saved': 'saved-ideas',
         settings: 'settings',
         'ideas-saved': 'saved-ideas',
         'ideas-me': 'profile'
@@ -129,6 +130,14 @@ export default {
     }
   },
   computed: {
+    ideasLink() {
+      return `/profile/${this.profileData.slug}`
+    },
+
+    savedLink() {
+      return `/profile/${this.profileData.slug}/saved`
+    },
+
     page() {
       return this.pages[this.$route.name]
     }
