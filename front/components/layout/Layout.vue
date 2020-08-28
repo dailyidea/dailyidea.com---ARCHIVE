@@ -121,10 +121,14 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+
+  @media (min-width: $screen-md-min) {
+    align-items: center;
+  }
 
   .overlay-card {
     width: 70%;
+    margin: 1rem;
     @media (max-width: $screen-sm-max) {
       width: 95%;
       overflow-y: auto;

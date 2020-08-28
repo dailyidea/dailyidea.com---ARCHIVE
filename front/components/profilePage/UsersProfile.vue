@@ -6,6 +6,7 @@
           <full-idea
             expanded
             close-btn
+            allow-mobile-scroll
             :idea="selectedIdea"
             @exit-pressed="handleExitPressed"
           ></full-idea>
