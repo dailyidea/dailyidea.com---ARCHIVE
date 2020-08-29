@@ -8,6 +8,8 @@
 import WelcomePortrait from './WelcomePortrait'
 import WelcomeLandscape from './WelcomeLandscape'
 import rightImage from '~/assets/images/welcome2/graphic3.svg'
+import sendImage from '~/assets/images/welcome2/send.svg'
+import mailImage from '~/assets/images/welcome2/mail.svg'
 
 export default {
   name: 'WelcomeThird',
@@ -23,11 +25,11 @@ export default {
         subSubTitle: null,
         bulletPoints: [
           {
-            icon: null,
+            icon: sendImage,
             text: "We'll send you an email to remind you to submit an idea."
           },
           {
-            icon: null,
+            icon: mailImage,
             text:
               'You just respond to the email with an idea and we store if for you.'
           }
