@@ -27,11 +27,11 @@
       justify="center"
       no-gutters
     >
-      <v-col lg="3" sm="1">
+      <v-col lg="2" sm="1" cols="1">
         <img :src="bullet.icon" alt="img" style="float: right;" />
       </v-col>
 
-      <v-col lg="5" sm="10" class="mx-2">
+      <v-col lg="5" sm="10" class="mx-2" cols="10">
         <h3>{{ bullet.text }}</h3>
       </v-col>
     </v-row>
