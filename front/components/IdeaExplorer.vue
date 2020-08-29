@@ -249,7 +249,7 @@ import RegisterEncourageDialog from '@/components/dialogs/RegisterEncourageDialo
 import IdeaContent from '@/components/IdeaContent'
 import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
-import Welcome from '@/components/welcome2/Welcome'
+import Welcome from '@/components/welcome/Welcome'
 import DesktopSubHeader from '@/components/layout/DesktopSubHeader'
 
 export default {

@@ -1,89 +1,30 @@
 <template>
-  <v-content>
-    <welcome-desktop
-      :params="params"
-      @next="emitNext"
-      @mark-as-welcomed="emitMarkAsWelcomed"
-      @left-clicked="emitLeftClicked"
-      @right-clicked="emitRightClicked"
-      @go-to-one="emitGoToOne"
-      @go-to-two="emitGoToTwo"
-      @go-to-three="emitGoToThree"
-    ></welcome-desktop>
-    <welcome-mobile-portrait
-      :params="params"
-      hide-next-btn
-      @mark-as-welcomed="emitMarkAsWelcomed"
-      @right-clicked="emitRightClicked"
-      @left-clicked="emitLeftClicked"
-      @go-to-one="emitGoToOne"
-      @go-to-two="emitGoToTwo"
-      @go-to-three="emitGoToThree"
-    ></welcome-mobile-portrait>
-    <welcome-mobile-landscape
-      :params="params"
-      hide-next-btn
-      @mark-as-welcomed="emitMarkAsWelcomed"
-      @right-clicked="emitRightClicked"
-      @left-clicked="emitLeftClicked"
-      @go-to-one="emitGoToOne"
-      @go-to-two="emitGoToTwo"
-      @go-to-three="emitGoToThree"
-    ></welcome-mobile-landscape>
+  <v-content class="fill-height">
+    <welcome-portrait :params="params"></welcome-portrait>
+    <welcome-landscape :params="params"></welcome-landscape>
   </v-content>
 </template>
 <script>
-import WelcomeDesktop from './WelcomeDesktop'
-import WelcomeMobilePortrait from './WelcomeMobilePortrait'
-import WelcomeMobileLandscape from './WelcomeMobileLandscape'
-import rightImage from '~/assets/images/welcome/person-with-letter.png'
+import WelcomePortrait from './WelcomePortrait'
+import WelcomeLandscape from './WelcomeLandscape'
+import rightImage from '~/assets/images/welcome2/graphic2.svg'
 
 export default {
   name: 'WelcomeSecond',
   components: {
-    WelcomeDesktop,
-    WelcomeMobilePortrait,
-    WelcomeMobileLandscape
+    WelcomePortrait,
+    WelcomeLandscape
   },
   data() {
     return {
       params: {
-        rightArrow: true,
-        leftArrow: true,
-        one: true,
-        two: true,
-        rightImage,
-        bulletPoints: [
-          "Overflowing with ideas? Log them here. We'll remind you about your best ideas and show similar ideas that will spark your creativity.",
-          "Only a few ideas? This will help you exercise your idea muscle. With practice you'll become an idea machine!"
-        ],
-        leftTitle: 'Save Your Ideas',
-        rightText:
-          "Just respond to the daily email and we'll automatically save your ideas for you."
+        title: 'Browse Popular Ideas',
+        subTitle: 'Explore other ideas to inspire your own creativity',
+        subSubTitle: null,
+        bulletPoints: null,
+        footer: false,
+        rightImage
       }
-    }
-  },
-  methods: {
-    emitGoToOne() {
-      this.$emit('go-to-one')
-    },
-    emitGoToTwo() {
-      this.$emit('go-to-two')
-    },
-    emitGoToThree() {
-      this.$emit('go-to-three')
-    },
-    emitNext() {
-      this.$emit('next')
-    },
-    emitMarkAsWelcomed() {
-      this.$emit('mark-as-welcomed')
-    },
-    emitRightClicked() {
-      this.$emit('right-clicked')
-    },
-    emitLeftClicked() {
-      this.$emit('left-clicked')
     }
   }
 }
