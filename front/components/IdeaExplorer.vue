@@ -19,11 +19,7 @@
     >
       <template v-slot:header>
         <v-card class="d-flex justify-space-between pa-2 col-md-6 col-sm-12">
-          <img
-            class="swipe-header-icon"
-            src="~/assets/images/welcome2/exit.svg"
-            alt="close"
-          />
+          <exit-icon class="swipe-header-icon" />
 
           <span v-if="ideaIndex === 0" class="d-flex align-center"
             >Swipe right to see the next idea</span
@@ -31,11 +27,7 @@
           <span v-if="ideaIndex === 1" class="d-flex align-center">2 of 3</span>
           <span v-if="ideaIndex === 2" class="d-flex align-center">3 of 3</span>
 
-          <img
-            class="swipe-header-icon"
-            src="~/assets/images/welcome2/swipe.svg"
-            alt="swipe"
-          />
+          <swipe-icon class="swipe-header-icon" />
         </v-card>
       </template>
 
@@ -207,21 +199,7 @@
       </template>
 
       <template v-slot:footer>
-        <img
-          v-if="ideaIndex === 0"
-          src="~/assets/images/welcome2/3dots-1.svg"
-          alt="img"
-        />
-        <img
-          v-if="ideaIndex === 1"
-          src="~/assets/images/welcome2/3dots-2.svg"
-          alt="img"
-        />
-        <img
-          v-if="ideaIndex === 2"
-          src="~/assets/images/welcome2/3dots-3.svg"
-          alt="img"
-        />
+        <slider-dots v-if="ideaIndex < 3" :step="ideaIndex" />
       </template>
     </swiper>
 
@@ -255,6 +233,9 @@ import VTextFieldWithValidation from '@/components/validation/VTextFieldWithVali
 import Welcome from '@/components/welcome/Welcome'
 import DesktopSubHeader from '@/components/layout/DesktopSubHeader'
 import IdeaPostedDialog from '@/components/dialogs/IdeaPostedDialog'
+import SliderDots from '@/components/layout/svgIcons/SliderDots'
+import ExitIcon from '@/components/layout/svgIcons/ExitIcon'
+import SwipeIcon from '@/components/layout/svgIcons/SwipeIcon'
 
 export default {
   components: {
@@ -270,7 +251,10 @@ export default {
     IdeaContent,
     ValidationObserver,
     Welcome,
-    DesktopSubHeader
+    DesktopSubHeader,
+    SliderDots,
+    SwipeIcon,
+    ExitIcon
   },
 
   data() {
@@ -590,7 +574,8 @@ export default {
   }
 
   .swipe-header-icon {
-    height: 40px;
+    height: 45px;
+    width: 50px;
   }
 }
 
