@@ -47,11 +47,11 @@
 
         <v-row no-gutters>
           <v-col cols="12" class="">
-            <v-btn dark large class="col-4">Sign Up</v-btn>
+            <v-btn dark large to="/auth/signup" class="col-4">Sign Up</v-btn>
 
             <nuxt-link
               class="link text-center my-2 col-4"
-              :to="{ name: 'ideas-all' }"
+              :to="{ name: 'auth-login' }"
             >
               <link-text active="active" text="Login"></link-text>
             </nuxt-link>

@@ -49,9 +49,9 @@
 
     <v-row align="center" no-gutters justify="center">
       <v-col cols="6" class="text-center">
-        <v-btn dark x-large class="col-12">Sign Up</v-btn>
+        <v-btn dark x-large to="/auth/signup" class="col-12">Sign Up</v-btn>
 
-        <nuxt-link class="link text-center my-2" :to="{ name: 'ideas-all' }">
+        <nuxt-link class="link text-center my-2" :to="{ name: 'auth-login' }">
           <link-text active="active" text="Login"></link-text>
         </nuxt-link>
       </v-col>

@@ -59,12 +59,12 @@
           <span class=" d-flex flex-row align-center justify-space-between">
             <nuxt-link
               class="link active mx-4 hidden-sm-and-down"
-              :to="{ name: 'ideas-all' }"
+              :to="{ name: 'auth-login' }"
             >
               <link-text active="active" text="Login"></link-text>
             </nuxt-link>
 
-            <v-btn dark>Sign Up</v-btn>
+            <v-btn to="/auth/signup" dark>Sign Up</v-btn>
           </span>
         </v-col>
       </v-row>
