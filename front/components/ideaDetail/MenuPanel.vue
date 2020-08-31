@@ -115,11 +115,13 @@ import makeIdeaPublic from '~/graphql/mutations/makeIdeaPublic'
 
 export default {
   name: 'MenuPanel',
+
   components: {
     ActOnIdea,
     ShareIdeaByEmailDialog,
     DefaultDialog
   },
+
   props: {
     preview: {
       type: Boolean,
@@ -133,8 +135,13 @@ export default {
     idea: {
       type: Object,
       required: true
+    },
+    shareIdea: {
+      type: Boolean,
+      default: false
     }
   },
+
   data() {
     return {
       showEmailShareDialog: false,
@@ -142,6 +149,7 @@ export default {
       showMakeIdeaPublic: false
     }
   },
+
   computed: {
     isPrivate() {
       return this.idea.visibility === 'PRIVATE'
@@ -151,6 +159,16 @@ export default {
       return `/i/${this.idea.shortId}/${this.idea.slug}`
     }
   },
+
+  watch: {
+    shareIdea(val) {
+      if (val) {
+        this.showShareIdeaDialog()
+        this.$emit('update:share-idea', false)
+      }
+    }
+  },
+
   methods: {
     ...mapMutations({
       showProgressBar: 'layoutState/showProgressBar',

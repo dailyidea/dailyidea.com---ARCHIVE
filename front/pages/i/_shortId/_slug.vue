@@ -98,6 +98,12 @@ export default {
   mounted() {
     this.cacheIdeas()
     this.incrementViews()
+
+    // Show success diaslog for jsut created idea
+    if (this.idea && this.createdIdeaId === this.idea.ideaId) {
+      this.showIdeaPostedDialog = true
+      // this.updateCreatedIdea(null)
+    }
   },
 
   methods: {
