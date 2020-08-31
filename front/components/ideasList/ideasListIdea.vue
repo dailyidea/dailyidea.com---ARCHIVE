@@ -1,5 +1,9 @@
 <template>
-  <nuxt-link :to="`/i/${idea.shortId}/${idea.slug}`" class="idea-item">
+  <nuxt-link
+    :to="`/i/${idea.shortId}/${idea.slug}`"
+    target="_blank"
+    class="idea-item"
+  >
     <div class="idea-item__title-row">
       <strong>{{ idea.title }}</strong>
     </div>
