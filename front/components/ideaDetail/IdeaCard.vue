@@ -46,6 +46,7 @@ export default {
 
 <style lang="scss" scoped>
 .card {
+  height: 70vh;
   padding: 1rem;
   background-color: white;
   -webkit-border-radius: 8px;
