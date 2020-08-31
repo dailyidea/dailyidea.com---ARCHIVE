@@ -38,7 +38,7 @@ import getIdeas from '@/graphql/query/getIdeas'
 export default {
   name: 'UserSlugVue',
   components: { UsersProfile, FullIdea, NoIdeasPlaceholder },
-  async asyncData({ app, route, store }) {
+  async asyncData({ app, route, store, error }) {
     const userSlug = route.params.userSlug
     const isMyProfile = store.getters['userData/slug'] === route.params.userSlug
     const userInfoRequest = await app.$amplifyApi.graphql({
@@ -57,7 +57,10 @@ export default {
       userInfoRequest,
       userIdeasRequest
     ])
-    const userInfo = await userInfoResponse.data.userInfoBySlug.userInfo
+    const userInfo = userInfoResponse.data.userInfoBySlug.userInfo
+    if (!userInfo) {
+      error({ statusCode: 404, message: 'User not found' })
+    }
     const userIdeas = userIdeasResponse.ideas
     const loadMoreIdeasIsPossible = !!userIdeasResponse.nextToken
     return {
@@ -66,6 +69,7 @@ export default {
       loadMoreIdeasIsPossible
     }
   },
+
   head() {
     return {
       meta: [
