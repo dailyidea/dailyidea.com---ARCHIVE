@@ -1,6 +1,26 @@
 <template>
   <div class="header-container ">
     <div class="header-content">
+      <v-row v-if="!isMyProfile" class="mobile-follow-header">
+        <div class="follow-header-container">
+          <div class="follow-header">
+            <v-icon class="back-btn" @click="backClicked"
+              >mdi mdi-chevron-left</v-icon
+            >
+            <div class="profile-text">Profile</div>
+            <div></div>
+            <v-btn
+              v-if="!isFollowedByMe"
+              class="follow-btn"
+              @click="followBtnClicked"
+              >Follow</v-btn
+            >
+            <v-btn v-else class="follow-btn" @click="unfollowBtnClicked"
+              >Unfollow</v-btn
+            >
+          </div>
+        </div>
+      </v-row>
       <v-row>
         <v-col class="d-flex flex-column align-center">
           <div class="info-container">
@@ -11,7 +31,20 @@
                 ></user-profile-avatar>
               </div>
               <div class="info-section pl-3 pb-3 d-flex flex-column">
-                <h1 class="info-section__title">{{ profileData.name }}</h1>
+                <div class="name-follow">
+                  <h1 class="info-section__title">{{ profileData.name }}</h1>
+                  <span v-if="!isMyProfile" class="desktop-follow-header">
+                    <v-btn
+                      v-if="!isFollowedByMe"
+                      class="follow-btn"
+                      @click="followBtnClicked"
+                      >Follow</v-btn
+                    >
+                    <v-btn v-else class="follow-btn" @click="unfollowBtnClicked"
+                      >Unfollow</v-btn
+                    >
+                  </span>
+                </div>
                 <div class="info-section__stats d-flex flex-row mt-3">
                   <div class="info-section__stats__stat">
                     <span>{{ profileData.ideasCreated }}</span>
@@ -85,22 +118,20 @@
 </template>
 
 <script>
+import { graphqlOperation } from '@aws-amplify/api'
 import UserProfileAvatar from './UserProfileAvatar'
 import LinkText from '@/components/layout/LinkText.vue'
+import followUser from '~/graphql/mutations/followUser.js'
+import userInfo from '~/graphql/query/userInfo.js'
+import unfollowUser from '~/graphql/mutations/unfollowUser.js'
 
 export default {
   name: 'UserProfileHeaderSection',
   components: {
-    // UserProfileAvatarCropDialog,
     UserProfileAvatar,
     LinkText
   },
   props: {
-    selectAvatar: {
-      type: Function,
-      required: true
-    },
-
     profileData: {
       type: Object,
       required: true
@@ -119,6 +150,7 @@ export default {
   data() {
     return {
       editMode: false,
+      isFollowedByMe: false,
       pages: {
         profile: 'profile',
         'profile-userSlug': 'profile',
@@ -142,7 +174,31 @@ export default {
       return this.pages[this.$route.name]
     }
   },
+
+  mounted() {
+    this.getFollowInfo()
+  },
   methods: {
+    backClicked() {
+      this.$router.go(-1)
+    },
+
+    async unfollowBtnClicked() {
+      await this.$amplifyApi.graphql(
+        graphqlOperation(unfollowUser, { userId: this.profileData.userId })
+      )
+
+      this.getFollowInfo()
+    },
+
+    async followBtnClicked() {
+      await this.$amplifyApi.graphql(
+        graphqlOperation(followUser, { userId: this.profileData.userId })
+      )
+
+      this.getFollowInfo()
+    },
+
     linkText(baseText, page) {
       if (this.page !== page) {
         return baseText
@@ -153,12 +209,39 @@ export default {
       }
 
       return baseText
+    },
+
+    getFollowInfo() {
+      // Coming to this page from certain other pages seems to set
+      // profileData to null for a short time. This waits for profileData
+      // to not be null if it is.
+
+      setTimeout(
+        async () => {
+          const data = await this.$amplifyApi.graphql({
+            query: userInfo,
+            variables: { userId: this.profileData.userId }
+          })
+
+          this.isFollowedByMe = data.data.userInfo.userInfo.isFollowingByMe
+          this.profileData.followersCount =
+            data.data.userInfo.userInfo.followersCount
+        },
+        this.profileData !== null ? 0 : 500
+      )
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.name-follow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .hidden-landscape {
   @media (orientation: landscape) {
     display: none;
@@ -221,6 +304,44 @@ export default {
   padding-top: 1rem;
 }
 
+.follow-header-container {
+  width: 100%;
+  border-bottom: 2px solid $light-grey;
+  box-shadow: $card-shadow;
+
+  .follow-header {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    height: 7vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .back-btn {
+      cursor: pointer;
+      color: $default-purple;
+      font-size: 30px;
+    }
+
+    .profile-text {
+      font-weight: bold;
+      padding-right: 2rem;
+    }
+
+    .follow-btn {
+      position: absolute;
+      right: 0;
+    }
+  }
+}
+
+.follow-btn {
+  background-color: $default-purple !important;
+  text-transform: capitalize;
+}
+
 .info-section {
   &__title {
     font-weight: 400;
@@ -253,6 +374,18 @@ export default {
 
   &__bio {
     font-size: 1.1rem;
+  }
+}
+
+.desktop-follow-header {
+  @media (max-width: $screen-sm-max) {
+    display: none;
+  }
+}
+
+.mobile-follow-header {
+  @media (min-width: $screen-md-min) {
+    display: none;
   }
 }
 </style>

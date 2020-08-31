@@ -110,7 +110,8 @@ export default {
     },
 
     profilePage() {
-      return `/profile/${this.userSlug}`
+      const userSlug = this.$store.getters['userData/slug']
+      return `/profile/${userSlug}`
     }
   },
 

@@ -80,12 +80,20 @@ export default {
     }
   },
   computed: {
+    slug() {
+      return this.$store.getters['userData/slug']
+    },
     profileLink() {
-      const slug = this.$store.getters['userData/slug']
-      return `/profile/${slug}`
+      return this.slug ? `/profile/${this.slug}` : `/auth/login`
     },
     page() {
-      return this.pages[this.$route.name]
+      const pageOn = this.pages[this.$route.name]
+
+      if (pageOn === 'profile' && this.$route.params.userSlug !== this.slug) {
+        return null
+      }
+
+      return pageOn
     }
   }
 }

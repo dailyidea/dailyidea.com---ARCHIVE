@@ -17,7 +17,6 @@
       <user-profile-header-section
         :profile-data="profileData"
         :is-my-profile="isMyProfile"
-        :select-avatar="selectAvatar"
         :idea-count="ideas.length"
       ></user-profile-header-section>
     </template>
@@ -103,7 +102,7 @@ export default {
       return this.$store.getters['userData/userId'] === this.profileData.userId
     }
   },
-  created() {
+  mounted() {
     this.profileData = this.initialProfileData
   },
   methods: {
