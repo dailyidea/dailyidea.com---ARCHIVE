@@ -38,36 +38,48 @@
       <p>Ideas want to be shared! Make this idea public with just one click.</p>
     </default-dialog>
 
-    <v-menu v-if="editable" offset-y left transition="slide-y-transition">
-      <template v-slot:activator="{ on }">
-        <v-btn x-small icon class="menu-button" v-on="on">
-          <v-icon class="moreActionsButton">fas fa-ellipsis-v</v-icon>
-        </v-btn>
+    <v-menu
+      v-if="editable"
+      transition="slide-y-transition"
+      nudge-bottom="10"
+      min-width="400"
+      max-width="400"
+      left
+      offset-y
+    >
+      <template v-slot:activator="{ on, value }">
+        <v-icon
+          :class="{ 'menu-button-selected': value }"
+          class="menu-button moreActionsButton"
+          v-on="on"
+          >fas fa-ellipsis-v</v-icon
+        >
       </template>
+      <div class="text-center mt-5 bold">
+        Post Settings
+      </div>
       <v-list>
         <v-list-item @click="enableEditMode">
           <v-list-item-title>
-            <v-icon small class="editButton">mdi-pencil</v-icon>
-            <span>Edit Idea</span>
+            <pencil-icon fill="none" :stroke="iconColor"></pencil-icon>
+            <span class="item-text ml-7">Edit Idea</span>
           </v-list-item-title>
         </v-list-item>
         <v-list-item @click="deleteIdea">
           <v-list-item-title>
-            <v-icon small class="deleteButton">mdi-trash-can-outline</v-icon>
-            <span>Delete Idea</span>
+            <trash-icon :stroke="iconColor"></trash-icon>
+            <span class="item-text ml-6">Delete Idea</span>
           </v-list-item-title>
         </v-list-item>
         <v-list-item v-show="editable" @click="toggleIdeaPrivacy">
           <v-list-item-title>
-            <span v-if="!isPrivate">
-              <v-icon small class="lockButton"
-                >mdi-lock-open-variant-outline</v-icon
-              >
-              <span>Make Private</span>
+            <span v-if="!isPrivate" class="d-flex align-center">
+              <locked-icon :stroke="iconColor"></locked-icon>
+              <span class="item-text ml-5">Make Private</span>
             </span>
-            <span v-else>
-              <v-icon small class="lockButton">mdi-lock</v-icon>
-              <span>Make Public</span>
+            <span v-else class="d-flex align-center">
+              <unlocked-icon :stroke="iconColor"></unlocked-icon>
+              <span class="item-text ml-5">Make Public</span>
             </span>
           </v-list-item-title>
         </v-list-item>
@@ -109,6 +121,10 @@ import { mapMutations } from 'vuex'
 import { graphqlOperation } from '@aws-amplify/api'
 import ShareIdeaByEmailDialog from '@/components/dialogs/ShareIdeaByEmail'
 import ActOnIdea from '@/components/ideaDetail/ActOnIdea'
+import PencilIcon from '@/components/layout/svgIcons/PencilIcon'
+import TrashIcon from '@/components/layout/svgIcons/TrashIcon'
+import LockedIcon from '@/components/layout/svgIcons/LockedIcon'
+import UnlockedIcon from '@/components/layout/svgIcons/UnlockedIcon'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import makeIdeaPrivate from '~/graphql/mutations/makeIdeaPrivate'
 import makeIdeaPublic from '~/graphql/mutations/makeIdeaPublic'
@@ -118,6 +134,10 @@ export default {
 
   components: {
     ActOnIdea,
+    UnlockedIcon,
+    LockedIcon,
+    TrashIcon,
+    PencilIcon,
     ShareIdeaByEmailDialog,
     DefaultDialog
   },
@@ -144,6 +164,7 @@ export default {
 
   data() {
     return {
+      iconColor: '#5B41BB',
       showEmailShareDialog: false,
       showMakeIdeaPrivate: false,
       showMakeIdeaPublic: false
@@ -277,8 +298,32 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.bold {
+  font-weight: bold;
+}
+
+.v-list-item {
+  margin: 1rem;
+  border-radius: 10px;
+
+  &:hover {
+    background-color: #efecf8 !important;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+  }
+}
+
 .menu-panel-container {
   width: 100%;
+}
+
+.v-menu__content {
+  background-color: white;
+  border: 1px solid $primary-color;
+  border-radius: 10px;
 }
 
 .menu-button {
@@ -286,10 +331,18 @@ export default {
   top: 1%;
   right: 1%;
   z-index: 1000;
+  font-size: 18px;
+  width: 30px;
+  height: 30px;
+  color: silver;
+}
 
-  .v-icon {
-    color: silver;
-  }
+.menu-button-selected {
+  border: 1px solid $secondary-color;
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  color: $secondary-color !important;
 }
 
 .idea-part__header__buttons-panel {
