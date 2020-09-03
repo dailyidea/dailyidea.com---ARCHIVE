@@ -1,19 +1,66 @@
 <template>
-  <Layout container-full>
-    <idea-explorer />
+  <Layout>
+    <div class="swipe-header justify-center py-5 d-lg-none d-sm-flex ">
+      <v-card
+        class="d-flex justify-space-between pa-2 col-md-6 col-sm-12 swipe-header-card"
+      >
+        <exit-icon class="swipe-header-icon-close" />
+
+        <span v-if="ideaIndex === 0" class="d-flex align-center"
+          >Swipe right to see the next idea</span
+        >
+        <span v-if="ideaIndex === 1" class="d-flex align-center">2 of 3</span>
+        <span v-if="ideaIndex === 2" class="d-flex align-center">3 of 3</span>
+
+        <swipe-icon class="swipe-header-icon" />
+      </v-card>
+    </div>
+
+    <swiper
+      v-slot="{ rotationStyle }"
+      class="idea-card"
+      :swipe-disabled="isExpanded"
+      @swipe-start="setHideSlideMenuTrue"
+      @swipe-end="setHideSlideMenuFalse"
+      @swipe-left="nextIdea"
+      @swipe-right="previousIdea"
+      @left-arrow-clicked="previousIdea"
+      @right-arrow-clicked="nextIdea"
+    >
+      <idea-card
+        ref="page"
+        :style="rotationStyle"
+        @expand-toggle="isExpanded = !isExpanded"
+      >
+        <Welcome :page-on="ideaIndex"></Welcome>
+      </idea-card>
+    </swiper>
+
+    <div class="swipe-footer text-center py-5 hidden-md-and-down">
+      <slider-dots v-if="ideaIndex < 3" :step="ideaIndex" />
+    </div>
   </Layout>
 </template>
 
 <script>
-import clip from 'text-clipper'
+import IdeaCard from '@/components/ideaDetail/IdeaCard'
+import Swiper from '@/components/ideaDetail/Swiper'
+import Welcome from '@/components/welcome/Welcome'
+import SliderDots from '@/components/layout/svgIcons/SliderDots'
+import ExitIcon from '@/components/layout/svgIcons/ExitIcon'
+import SwipeIcon from '@/components/layout/svgIcons/SwipeIcon'
 import Layout from '@/components/layout/Layout'
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
-import IdeaExplorer from '@/components/IdeaExplorer'
 
 export default {
   components: {
     Layout,
-    IdeaExplorer
+    Swiper,
+    IdeaCard,
+    Welcome,
+    SliderDots,
+    SwipeIcon,
+    ExitIcon
   },
   async asyncData({ app }) {
     let result = await app.$amplifyApi.graphql({
@@ -35,74 +82,69 @@ export default {
       pageTitle: '',
       leftButtonType: 'hamburder'
     },
-    ideas: null
+    ideas: null,
+    ideaIndex: 0,
+    hideSlideMenu: true
   }),
   computed: {
-    lampsAndWomanImgUrl() {
-      return require('~/assets/images/homeImage.png')
+    isExpanded: {
+      set() {
+        this.expandedState = !this.expandedState
+      },
+      get() {
+        return this.expandedState === undefined ? false : this.expandedState
+      }
     }
   },
+
   created() {},
   methods: {
-    getTruncatedIdeaContent(idea) {
-      return clip(idea.content, 250, {
-        html: true,
-        maxLines: 8,
-        indicator: '... (see more)'
-      })
+    nextIdea() {
+      this.loadNewIdea(1)
     },
-    onIdeaClick(idea) {
-      this.$router.push({
-        name: 'ideas-userId-ideaId',
-        params: {
-          ideaId: idea.ideaId,
-          userId: idea.userId
-        },
-        force: true
-      })
+    previousIdea() {
+      this.loadNewIdea(-1)
+    },
+    loadNewIdea(direction) {
+      if (this.ideaIndex > 3) {
+        return
+      }
+      this.ideaIndex += direction
+    },
+    setHideSlideMenuTrue() {
+      this.hideSlideMenu = true
+    },
+    setHideSlideMenuFalse() {
+      this.hideSlideMenu = false
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-#hero {
-  margin-bottom: 2rem;
-
-  h1 {
-    font-size: 24px;
-
-    @media (min-width: $screen-sm-min) {
-      font-size: 36px;
-    }
-  }
+.swipe-header-card {
+  border-radius: 10px !important;
 }
 
-.hero__image,
-.img2 {
-  max-width: 200px;
-
-  @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
-    max-width: 280px;
-  }
-
-  @media (min-width: $screen-md-min) {
-    max-width: 360px;
-  }
+.swipe-header-icon-close {
+  align-self: center;
 }
 
-a.v-btn.wider {
-  margin-top: 3em;
-  margin-bottom: 3rem;
-  padding-left: 5rem;
-  padding-right: 5rem;
+.swipe-header-icon {
+  height: 45px;
+  width: 50px;
 }
 
-#how-does-it-work {
-  i.v-icon {
-    color: $primary-color;
-    padding-right: 0.5rem;
-    vertical-align: baseline;
-  }
+.swipe-footer {
+  height: 100px;
+  width: 100%;
+}
+.swipe-header {
+  height: 100px;
+  width: 100%;
+}
+
+#commonHeader {
+  background-color: $color-off-white;
 }
 </style>
