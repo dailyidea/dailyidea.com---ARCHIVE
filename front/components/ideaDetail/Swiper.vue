@@ -1,5 +1,6 @@
 <template>
   <span>
+    <slot name="background"></slot>
     <div class="left-arrow hidden-sm-and-down" @click="leftArrowClick">
       <img src="~/assets/images/idea-card/left-arrow.png" />
     </div>
