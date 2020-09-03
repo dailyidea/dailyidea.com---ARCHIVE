@@ -82,6 +82,15 @@ Resources:
         TextPart: ${file(mail_templates/weekly_stats/weekly_stats.txt)}
         HtmlPart: ${file(mail_templates/weekly_stats/weekly_stats.html)}
 
+  DailyIdeaNotificationsTemplate:
+    Type: AWS::SES::Template
+    Properties:
+      Template:
+        TemplateName: ${self:provider.ideaNotificationsEmailTemplateName}
+        SubjectPart: '[Daily Idea] Updates'
+        TextPart: ${file(mail_templates/idea_notifications/idea_notifications.txt)}
+        HtmlPart: ${file(mail_templates/idea_notifications/idea_notifications.html)}
+
   SesEmailStorageS3Bucket:
     Type: AWS::S3::Bucket
     Properties:

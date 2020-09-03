@@ -84,6 +84,7 @@ exports.handler = withSentry(async (event, context) => {
         hotStreaks: { BOOL: true },
         dailyDigests: { BOOL: true },
         weeklyDigests: { BOOL: true },
+        ideaActivity: { BOOL: true },
 
         followersCount: {N: '0'},
         ideasCreated: {N: '0'},
