@@ -6,7 +6,6 @@
     ></div>
     <layout :hide-mobile-nav="isExpanded" :hide-slide-menu="hideSlideMenu">
       <swiper
-        v-slot="{ rotationStyle }"
         class="idea-card"
         :swipe-disabled="isExpanded"
         @swipe-start="setHideSlideMenuTrue"
@@ -16,13 +15,18 @@
         @left-arrow-clicked="previousIdea"
         @right-arrow-clicked="nextIdea"
       >
-        <full-idea
-          ref="page"
-          class="card"
-          :idea="idea"
-          :style="rotationStyle"
-          @toggle-expand="isExpanded = !isExpanded"
-        ></full-idea>
+        <template v-slot:background>
+          <idea-card-skeleton />
+        </template>
+        <template v-slot="{ rotationStyle }">
+          <full-idea
+            ref="page"
+            class="card"
+            :idea="idea"
+            :style="rotationStyle"
+            @toggle-expand="isExpanded = !isExpanded"
+          ></full-idea>
+        </template>
       </swiper>
     </layout>
   </div>
@@ -37,12 +41,14 @@ import getAllIdeas from '@/components/ideaDetail/ideaSwipeQueue.js'
 import Swiper from '@/components/ideaDetail/Swiper'
 import getIdea from '@/graphql/query/getIdea'
 import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
+import IdeaCardSkeleton from '@/components/ideaDetail/IdeaCardSkeleton'
 
 export default {
   components: {
     Layout,
     Swiper,
-    FullIdea
+    FullIdea,
+    IdeaCardSkeleton
   },
 
   async asyncData({ app, route, redirect, error, res, store }) {
