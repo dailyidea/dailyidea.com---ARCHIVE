@@ -13,6 +13,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@aws/dynamodb-query-iterator": "^0.7.1",
     "@clarityhub/serverless-dynamodb-migrations": "^1.1.1",
     "@sentry/node": "^5.15.5",
     "aws-sdk": "^2.484.0",

@@ -367,6 +367,7 @@ input EmailNotificationsInput{
 	hotStreaks: Boolean!
 	dailyDigests: Boolean!
 	weeklyDigests: Boolean!
+	ideaActivity: Boolean!
 }
 
 type EmailNotificationsState {
@@ -375,6 +376,7 @@ type EmailNotificationsState {
 	hotStreaks: Boolean!
 	dailyDigests: Boolean!
 	weeklyDigests: Boolean!
+    ideaActivity: Boolean!
 }
 
 enum IdeaVisibilityState {

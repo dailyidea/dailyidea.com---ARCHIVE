@@ -9,6 +9,7 @@ custom:
   ideasTableName: dailyidea-ideas-${self:provider.stage}
   usersTableName: dailyidea-users-${self:provider.stage}
   savesTableName: dailyidea-saves-${self:provider.stage}
+  likesTableName: dailyidea-likes-${self:provider.stage}
   statsActionsTableName: dailyidea-stats-actions-${self:provider.stage}
   commentsTableName: dailyidea-comments-${self:provider.stage}
   sentry:
@@ -101,6 +102,17 @@ functions:
       - schedule:
           rate: cron(0 12 ? * SUN *)
           enabled: true
+  ideaNotifications:
+    handler: idea_notifications.endpoint
+    memorySize: 512
+    timeout: 120
+    environment:
+      BUCKET_URL_PREFIX: 'https://${self:provider.emailStaticBucketName}.s3.amazonaws.com'
+      IDEA_NOTIFICATIONS_TEMPLATE_NAME: ${self:provider.ideaNotificationsEmailTemplateName}
+    events:
+      - schedule:
+          rate: cron(0 18 * * ? *)
+          enabled: true
 
 plugins:
   - serverless-dynamodb-local
@@ -119,6 +131,7 @@ provider:
   requestDailyIdeaEmailTemplateName: requestDailyIdeaEmailTemplate-${self:provider.stage}
   weeklyDigestEmailTemplateName: weeklyDigestEmailTemplate-${self:provider.stage}
   weeklyStatsEmailTemplateName: weeklyStatsEmailTemplate-${self:provider.stage}
+  ideaNotificationsEmailTemplateName: ideaNotificationsEmailTemplate-${self:provider.stage}
   environment:
     AWS_DEPLOY_REGION: ${self:provider.region}
     MAILBOX_ADDR: ${env:MAILBOX, 'ideas@beta.dailyidea.com'}
@@ -127,6 +140,7 @@ provider:
     USERS_TABLE_NAME: ${self:custom.usersTableName}
     IDEAS_TABLE_NAME: ${self:custom.ideasTableName}
     SAVES_TABLE_NAME: ${self:custom.savesTableName}
+    LIKES_TABLE_NAME: ${self:custom.likesTableName}
     STATS_ACTIONS_TABLE_NAME: ${self:custom.statsActionsTableName}
     COMMENTS_TABLE_NAME: ${self:custom.commentsTableName}
     SENTRY_ENVIRONMENT: ${opt:stage, self:provider.stage}
