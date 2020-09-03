@@ -25,11 +25,11 @@ export default {
         subSubTitle: null,
         bulletPoints: [
           {
-            icon: sendImage,
+            icon: mailImage,
             text: "We'll send you an email to remind you to submit an idea."
           },
           {
-            icon: mailImage,
+            icon: sendImage,
             text:
               'You just respond to the email with an idea and we store if for you.'
           }

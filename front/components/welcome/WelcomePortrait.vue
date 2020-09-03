@@ -16,7 +16,7 @@
 
     <v-row align="center" no-gutters justify="center">
       <v-col lg="6" sm="12" class="text-center">
-        <img :src="params.rightImage" alt="img" />
+        <img :src="params.rightImage" alt="img" class="lead-img" />
       </v-col>
     </v-row>
 
@@ -27,7 +27,7 @@
       justify="center"
       no-gutters
     >
-      <v-col lg="2" sm="1" cols="1">
+      <v-col lg="1" sm="1" cols="1" class="d-flex justify-center">
         <img :src="bullet.icon" alt="img" style="float: right;" />
       </v-col>
 
@@ -48,10 +48,10 @@
     </v-row>
 
     <v-row align="center" no-gutters justify="center">
-      <v-col cols="6" class="text-center">
-        <v-btn dark x-large to="/auth/signup" class="col-12">Sign Up</v-btn>
+      <v-col lg="6" sm="12" class="text-center">
+        <v-btn dark large to="/auth/signup" class="col-12">Sign Up</v-btn>
 
-        <nuxt-link class="link text-center my-2" :to="{ name: 'auth-login' }">
+        <nuxt-link class="link text-center mt-5" :to="{ name: 'auth-login' }">
           <link-text active="active" text="Login"></link-text>
         </nuxt-link>
       </v-col>
@@ -101,5 +101,10 @@ export default {
   @media (max-width: $screen-sm-max) {
     flex-direction: column;
   }
+}
+
+.lead-img {
+  max-width: 90vw;
+  max-height: 50vw;
 }
 </style>
