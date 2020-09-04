@@ -3,7 +3,7 @@
     v-if="isGmail"
     rounded
     :href="
-      `https://mail.google.com/mail/u/0/#search/in%3Aanywhere+subject%3A%22${search}%22`
+      `https://mail.google.com/mail/u/0/#search/in%3Aanywhere+subject%3A%22${search}%22+${dates}`
     "
     target="_blank"
     >Check your Gmail inbox
@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
+
 export default {
   props: {
     email: {
@@ -26,6 +28,16 @@ export default {
   computed: {
     isGmail() {
       return this.email && this.email.match(/gmail.com$/i)
+    },
+    dates() {
+      return encodeURIComponent(
+        'after:' +
+          dayjs().format('YYYY/M/D') +
+          ' before:' +
+          dayjs()
+            .add(1, 'day')
+            .format('YYYY/M/D')
+      )
     }
   }
 }
