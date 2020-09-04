@@ -106,10 +106,15 @@ export default {
       this.loadNewIdea(-1)
     },
     loadNewIdea(direction) {
-      if (this.ideaIndex > 3) {
-        return
+      const newIndex = this.ideaIndex + direction
+      if (newIndex < 0 || newIndex > 3) {
+        const idea = this.ideas[0]
+        if (idea) {
+          this.$router.push(`/i/${idea.shortId}/${idea.slug}`)
+        }
+      } else {
+        this.ideaIndex = newIndex
       }
-      this.ideaIndex += direction
     },
     setHideSlideMenuTrue() {
       this.hideSlideMenu = true
