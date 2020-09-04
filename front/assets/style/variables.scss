@@ -39,3 +39,13 @@ $extra-large-screen: "only screen and (min-width : 1904)";
 
 $mobile: "only screen and (max-width : 1264px)";
 $desktop: "only screen and (min-width: 960px)";
+
+$btn-rounded-border-radius: 6px;
+$btn-sizes : ('default': 36);
+$btn-font-sizes : ('default': 16);
+
+$btn-default-background: rgba(91, 65, 187, 1);
+$btn-default-color: rgba(251, 251, 253, 1);
+$btn-hover-background: #745AD3;
+$btn-focus-background: rgba(66, 39, 169, 1);
+$btn-disabled-background: rgba(91, 65, 187, 0.6);
