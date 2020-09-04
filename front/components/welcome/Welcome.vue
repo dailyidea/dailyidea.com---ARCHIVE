@@ -1,100 +1,31 @@
 <template>
-  <span class="welcome-container">
-    <welcome-first
-      v-if="pageOn === 0"
-      @right-clicked="handleRightClicked"
-      @next="handleNext"
-      @mark-as-welcomed="handleMarkAsWelcomed"
-      @go-to-one="handleGoToOne"
-      @go-to-two="handleGoToTwo"
-      @go-to-three="handleGoToThree"
-    ></welcome-first>
-
-    <welcome-second
-      v-else-if="pageOn === 1"
-      @right-clicked="handleRightClicked"
-      @left-clicked="handleLeftClicked"
-      @next="handleNext"
-      @mark-as-welcomed="handleMarkAsWelcomed"
-      @go-to-one="handleGoToOne"
-      @go-to-two="handleGoToTwo"
-      @go-to-three="handleGoToThree"
-    ></welcome-second>
-
-    <welcome-third
-      v-else-if="pageOn === 2"
-      @left-clicked="handleLeftClicked"
-      @mark-as-welcomed="handleMarkAsWelcomed"
-      @go-to-one="handleGoToOne"
-      @go-to-two="handleGoToTwo"
-      @go-to-three="handleGoToThree"
-    ></welcome-third>
-  </span>
+  <v-col class="fill-height" cols="12" md="12">
+    <welcome-first v-if="pageOn === 0"></welcome-first>
+    <welcome-second v-else-if="pageOn === 1"></welcome-second>
+    <welcome-third v-else-if="pageOn === 2"></welcome-third>
+    <welcome-fourth v-else-if="pageOn === 3"></welcome-fourth>
+  </v-col>
 </template>
 <script>
-import { graphqlOperation } from '@aws-amplify/api'
 import WelcomeFirst from '@/components/welcome/WelcomeFirst.vue'
 import WelcomeSecond from '@/components/welcome/WelcomeSecond.vue'
 import WelcomeThird from '@/components/welcome/WelcomeThird.vue'
-import setWasWelcomed from '~/graphql/mutations/setWasWelcomed'
+import WelcomeFourth from '@/components/welcome/WelcomeFourth.vue'
+
 export default {
   name: 'Welcome',
   components: {
     WelcomeFirst,
     WelcomeSecond,
-    WelcomeThird
+    WelcomeThird,
+    WelcomeFourth
   },
-  data() {
-    return {
-      pageOn: 0
-    }
-  },
-  computed: {
-    userId() {
-      return this.$store.getters['userData/userId']
-    }
-  },
-  methods: {
-    handleGoToOne() {
-      this.pageOn = 0
-    },
-    handleGoToTwo() {
-      this.pageOn = 1
-    },
-    handleGoToThree() {
-      this.pageOn = 2
-    },
-    handleMarkAsWelcomed() {
-      this.$amplifyApi.graphql(
-        graphqlOperation(setWasWelcomed, {
-          userId: this.userId
-        })
-      )
-
-      this.$emit('hide-welcomed')
-    },
-    handleNext() {
-      this.pageOn += 1
-    },
-    handleLeftClicked() {
-      this.pageOn -= 1
-    },
-    handleRightClicked() {
-      this.pageOn += 1
+  props: {
+    pageOn: {
+      type: Number,
+      default: 0
     }
   }
 }
 </script>
-<style lang="scss" scoped>
-.welcome-container {
-  display: flex;
-  position: fixed;
-  align-items: center;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 200;
-  background-color: $welcome-background-color;
-}
-</style>
+<style lang="scss" scoped></style>

@@ -7,10 +7,10 @@
 <script>
 import WelcomePortrait from './WelcomePortrait'
 import WelcomeLandscape from './WelcomeLandscape'
-import rightImage from '~/assets/images/welcome2/graphic2.svg'
+import rightImage from '~/assets/images/welcome2/no_account_graphic.svg'
 
 export default {
-  name: 'WelcomeSecond',
+  name: 'WelcomeFourth',
   components: {
     WelcomePortrait,
     WelcomeLandscape
@@ -18,11 +18,12 @@ export default {
   data() {
     return {
       params: {
-        title: 'Browse Popular Ideas',
-        subTitle: 'Explore other ideas to inspire your own creativity',
-        subSubTitle: null,
+        title: null,
+        subTitle: null,
+        subSubTitle:
+          "Oops, looks like you don't have an account yet! Lets help you out with that.",
         bulletPoints: null,
-        footer: false,
+        footer: true,
         rightImage
       }
     }
