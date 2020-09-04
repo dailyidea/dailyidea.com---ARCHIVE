@@ -6,6 +6,11 @@
 }
 
 @font-face {
+  font-family: 'Avenir LT Std';
+  src: url('~assets/fonts/Avenir_ff/AvenirLTStd-Black.otf');
+}
+
+@font-face {
   font-family: 'QuatroBold';
   src: url('~assets/fonts/quatro_bold/dda013312f72e26a4bcc7df56fb8ce29.eot');
   /* IE9*/
@@ -102,12 +107,23 @@
 
 /* dark theme styles */
 .theme--dark.v-btn {
-  background: $primary-color !important;
-  color: white !important;
+  padding: 11px 24px !important;
+  color: $btn-default-color !important;
+  font-family: Avenir LT Std;
 
   &:hover {
-    background: $primary-color !important;
+    background-color: $btn-hover-background !important;
   }
+  &:focus {
+    background-color: $btn-focus-background !important;
+  }
+  &.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+    background-color: $btn-disabled-background !important;
+  }
+}
+
+.theme--dark.v-btn.btn-default-bg {
+  background-color: $btn-default-background !important;
 }
 
 .theme--dark.v-btn.v-btn--flat,
