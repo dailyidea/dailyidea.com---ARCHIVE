@@ -151,13 +151,13 @@
         </div>
       </validation-observer>
     </v-col>
-    <v-col v-if="!preview" cols="12" md="4">
+    <v-col v-if="!preview" cols="12" md="4" class="comments-section">
       <idea-comments
         v-if="!editMode && isExpanded"
         :idea="idea"
         @onNotification="onNotification"
       ></idea-comments>
-      <span v-else-if="!isExpanded" class="muted"
+      <span v-else-if="!isExpanded" class="muted d-flex flex-column justify-end"
         >View all {{ idea.commentsCount }} comments</span
       >
     </v-col>
@@ -476,6 +476,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.comments-section {
+  display: flex;
+  align-items: flex-end;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -531,7 +536,7 @@ export default {
   &__idea-content {
     @media only screen and (min-width: $screen-md-min) {
       overflow-y: auto;
-      max-height: 50vh;
+      max-height: 65vh;
     }
   }
 

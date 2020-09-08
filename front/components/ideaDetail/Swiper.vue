@@ -1,6 +1,6 @@
 <template>
   <span>
-    <slot name="background"></slot>
+    <slot :is-swiping="swipeInProgress || !!xVal" name="background"></slot>
     <div class="left-arrow hidden-sm-and-down" @click="leftArrowClick">
       <img src="~/assets/images/idea-card/left-arrow.png" />
     </div>
@@ -264,7 +264,7 @@ export default {
 .left-arrow {
   position: absolute;
   top: 40vh;
-  left: 0vw;
+  left: -2vw;
   z-index: 1000;
   cursor: pointer;
   img {
@@ -275,7 +275,7 @@ export default {
 .right-arrow {
   position: absolute;
   top: 40vh;
-  right: 0vw;
+  right: -2vw;
   z-index: 1000;
   cursor: pointer;
   transform: rotate(180deg);

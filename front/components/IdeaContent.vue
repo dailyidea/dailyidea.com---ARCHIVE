@@ -25,7 +25,7 @@ export default {
 <style scoped lang="scss">
 .idea-content-collapsed {
   max-width: 100%;
-  max-height: 25vh;
+  max-height: 35vh;
   overflow-y: hidden;
 }
 
