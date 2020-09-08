@@ -58,13 +58,14 @@ export default {
   border-radius: 8px;
   border: 1px solid $light-grey !important;
   box-shadow: $card-shadow !important;
+  min-height: 71vh;
 
   @media only screen and (min-width: $screen-md-min) {
     margin: 0 auto !important;
-    margin-top: 4vh !important;
+    margin-top: 2vh !important;
 
     .fixed-height {
-      height: 80vh;
+      min-height: 80vh;
     }
   }
 

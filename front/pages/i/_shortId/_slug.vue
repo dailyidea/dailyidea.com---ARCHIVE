@@ -213,7 +213,8 @@ export default {
 
   .card {
     @media (min-width: $screen-md-min) {
-      width: 70%;
+      min-width: 70vw;
+      max-width: 70vw;
     }
   }
 }

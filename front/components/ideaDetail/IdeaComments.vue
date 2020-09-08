@@ -564,6 +564,8 @@ $counters-font-size: 18px;
 }
 
 .comments-part {
+  width: 100%;
+
   @media only screen and (min-width: $screen-md-min) {
     display: flex;
     flex-direction: column;
@@ -617,6 +619,9 @@ $counters-font-size: 18px;
 
 .comment-and-post-btn {
   overflow: hidden;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
 
   .post-comment-btn {
     margin: 0 auto;

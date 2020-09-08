@@ -39,7 +39,7 @@ export default {
     margin: 0 auto !important;
     margin-top: 2vh !important;
     width: 65vw;
-    height: 80vh;
+    height: 70vh;
   }
 }
 </style>
