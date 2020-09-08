@@ -108,7 +108,7 @@ module.exports = {
           secondary: '#ffc61e',
           info: '#35124e',
           warning: '#ffb300',
-          error: '#B71C1C',
+          error: '#DD4040',
           success: '#2E7D32'
         },
         dark: {

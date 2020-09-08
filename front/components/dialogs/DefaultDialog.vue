@@ -33,7 +33,9 @@
     <slot name="footer">
       <section class="modalFooter">
         <!-- Action Buttons -->
-        <div class="text-right">
+        <div
+          class="text-right d-flex flex-row justify-space-around align-center"
+        >
           <v-btn
             v-if="showCancelButton"
             class="cancelBtn"
@@ -42,10 +44,12 @@
             @click="cancelAndHide"
             >{{ buttonCancelText }}</v-btn
           >
+          <span class="grey-bar"></span>
           <v-btn
             rounded
             :disabled="buttonOkDisabled"
             :loading="buttonOkLoading"
+            :class="{ error: error }"
             @click="$emit('ok')"
             >{{ buttonOkText }}</v-btn
           >
@@ -61,6 +65,10 @@ export default {
     header: {
       type: String,
       default: ''
+    },
+    error: {
+      type: Boolean,
+      default: false
     },
     imagePath: {
       type: String,

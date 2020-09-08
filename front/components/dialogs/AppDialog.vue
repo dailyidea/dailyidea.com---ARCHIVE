@@ -6,6 +6,7 @@
     :show-cancel-button="showCancelButton"
     :button-ok-text="buttonOkText"
     :image-path="imagePath"
+    :error="error"
     @ok="confirm"
     @cancel="cancel"
   >
@@ -21,6 +22,7 @@ const initialData = {
   visible: false,
   header: '',
   message: '',
+  error: false,
   showCancelButton: false,
   buttonOkText: 'Ok',
   imagePath: '',

@@ -251,10 +251,10 @@ export default {
 
     async onDeleteComment(comment) {
       const confirmed = await this.$dialog.show({
-        header: 'Delete Comment',
-        message: 'Are you sure you want to delete this comment?',
-        buttonOkText: 'Yes, Delete',
-        imagePath: require('~/assets/images/dialogs/undraw_throw_away_ldjd.svg'),
+        header: 'Do you want to delete your comment?',
+        message: 'This action cannot be undone.',
+        buttonOkText: 'Delete',
+        error: true,
         showCancelButton: true
       })
       if (!confirmed) {
