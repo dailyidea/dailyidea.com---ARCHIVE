@@ -2,6 +2,7 @@
   <idea-card
     :allow-mobile-scroll="allowMobileScroll"
     :preview="preview"
+    :additional-styling="additionalStyling"
     @expand-toggle="isExpanded = !isExpanded"
   >
     <v-icon v-if="closeBtn" class="close-btn" @click="emitExitClicked"
@@ -198,6 +199,11 @@ export default {
     RegisterEncourageDialog
   },
   props: {
+    additionalStyling: {
+      type: Object,
+      default: Object
+    },
+
     allowMobileScroll: {
       type: Boolean,
       default: false

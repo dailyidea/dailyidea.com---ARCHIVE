@@ -4,6 +4,7 @@
     align="stretch"
     :class="{ 'fixed-height': !isExpanded && !preview }"
     class="elevation-2 ma-1 card"
+    :style="additionalStyling"
   >
     <div class="tap-bar" @click="expandToggle"></div>
     <slot></slot>
@@ -16,7 +17,11 @@ export default {
   props: {
     allowMobileScroll: Boolean,
     expanded: Boolean,
-    preview: Boolean
+    preview: Boolean,
+    additionalStyling: {
+      type: Object,
+      default: Object
+    }
   },
   data() {
     return {
@@ -58,12 +63,10 @@ export default {
   border-radius: 8px;
   border: 1px solid $light-grey !important;
   box-shadow: $card-shadow !important;
-  min-height: 71vh;
 
   @media only screen and (min-width: $screen-md-min) {
     margin: 0 auto !important;
     margin-top: 2vh !important;
-    width: 65vw;
 
     .fixed-height {
       min-height: 80vh;

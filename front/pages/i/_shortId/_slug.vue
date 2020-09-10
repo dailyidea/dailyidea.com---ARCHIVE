@@ -24,6 +24,7 @@
             class="card"
             :idea="idea"
             :style="rotationStyle"
+            :additional-styling="{ 'min-height': '71vh' }"
             @toggle-expand="isExpanded = !isExpanded"
           ></full-idea>
         </template>
