@@ -17,7 +17,7 @@
     <slot name="header"></slot>
 
     <!-- Router contents -->
-    <v-container class="content-container">
+    <div class="content-container">
       <v-content class="nuxtContainer">
         <v-layout>
           <v-flex>
@@ -26,7 +26,7 @@
         </v-layout>
         <vue-snotify />
       </v-content>
-    </v-container>
+    </div>
 
     <div v-if="!hideMobileNav" class="hidden-md-and-up sticky-footer">
       <mobile-header class="mobile"></mobile-header>
@@ -110,6 +110,10 @@ export default {
 </script>
 
 <style lang="scss">
+.content-container {
+  margin: 2vw;
+}
+
 .overlay {
   width: 100%;
   height: 100%;

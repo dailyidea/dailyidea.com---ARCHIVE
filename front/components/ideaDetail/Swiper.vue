@@ -264,7 +264,7 @@ export default {
 .left-arrow {
   position: absolute;
   top: 40vh;
-  left: -2vw;
+  left: 2vw;
   z-index: 1000;
   cursor: pointer;
   img {
@@ -275,7 +275,7 @@ export default {
 .right-arrow {
   position: absolute;
   top: 40vh;
-  right: -2vw;
+  right: 2vw;
   z-index: 1000;
   cursor: pointer;
   transform: rotate(180deg);
