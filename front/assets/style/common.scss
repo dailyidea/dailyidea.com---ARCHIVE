@@ -1,5 +1,11 @@
 @import "variables";
 
+.grey-bar {
+  width: 2px;
+  height: 25px;
+  background-color: $light-grey;
+}
+
 .smaller {
   font-size: 0.85rem;
 }
@@ -14,6 +20,7 @@
 
 .color-danger {
   color: #d44950 !important;
+  background-color: red !important;
 }
 
 .muted,

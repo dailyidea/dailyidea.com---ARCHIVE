@@ -11,7 +11,7 @@
 }
 
 .modal {
-  padding: 1em;
+  padding: 1.5rem;
   margin: auto;
   background: white;
 
@@ -25,26 +25,11 @@
 
   section.modalHeader {
     h3 {
-      text-align: center;
-      margin: 1rem;
+      font-size: 1.8rem;
+      font-weight: 200;
+      margin-bottom: 1rem;
     }
   }
-
-  section.modalBody,
-  section.modalFooter {
-    @media #{$small-screen-up} {
-      padding-left: 3em;
-      padding-right: 3em;
-    }
-  }
-
-  section.modalFooter {
-    @media #{$small-screen-up} {
-      padding-top: 1em;
-      padding-bottom: 1em;
-    }
-  }
-
 
   .modalTopImage {
     margin-bottom: 1rem;
