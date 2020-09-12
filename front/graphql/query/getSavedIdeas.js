@@ -10,6 +10,7 @@ query getSavedIdeas($nextToken: String, $limit: Int) {
       shortId
       userId
       strippedContent
+      content
       title
       createdDate
       ideaDate

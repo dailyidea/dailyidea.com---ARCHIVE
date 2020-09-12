@@ -38,8 +38,8 @@ export default {
   @media only screen and (min-width: $screen-md-min) {
     margin: 0 auto !important;
     margin-top: 2vh !important;
-    width: 65vw;
-    height: 80vh;
+    width: 70vw;
+    height: 71vh;
   }
 }
 </style>

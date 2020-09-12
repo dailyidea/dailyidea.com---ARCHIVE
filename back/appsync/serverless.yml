@@ -149,7 +149,7 @@ custom:
   followingTableName: dailyidea-following-${self:provider.stage}
   secretToken: ${env:SECRET_TOKEN, 'secret-tk1x'}
   setUsersSlugFunctionName: dailyidea-appsync-backend-${self:provider.stage}-setUsersSlug
-  updateProfileInfoInCreatedIdeasFunctionName: dailyidea-appsync-${self:provider.stage}-updProfileInfoInCreatedIdeas
+  updateProfileInfoInCreatedIdeasFunctionName: dailyidea-appsync-backend-${self:provider.stage}-updProfileInfoInIdeas
   sentry:
     dsn: ${env:SENTRY_DSN}
   prune:

@@ -48,7 +48,7 @@ export default {
 
     logoLink() {
       if (this.isAuthenticated) {
-        return { name: 'ideas-me' }
+        return { name: 'ideas-all' }
       } else {
         return '/'
       }

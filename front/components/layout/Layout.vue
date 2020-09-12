@@ -1,5 +1,6 @@
 <template>
-  <div id="commonHeader" hidden>
+  <div id="commonHeader" hidden :class="{ 'grey-bg': greyBg }">
+    <slot v-if="showOverlay" name="overlay" />
     <v-progress-linear
       :indeterminate="true"
       :active="progressBarActive"
@@ -13,8 +14,10 @@
       </div>
     </template>
 
+    <slot name="header"></slot>
+
     <!-- Router contents -->
-    <v-container>
+    <div class="content-container">
       <v-content class="nuxtContainer">
         <v-layout>
           <v-flex>
@@ -23,9 +26,9 @@
         </v-layout>
         <vue-snotify />
       </v-content>
-    </v-container>
+    </div>
 
-    <div class="hidden-md-and-up sticky-footer">
+    <div v-if="!hideMobileNav" class="hidden-md-and-up sticky-footer">
       <mobile-header class="mobile"></mobile-header>
     </div>
   </div>
@@ -38,7 +41,20 @@ import MobileHeader from './MobileHeader'
 export default {
   components: { MobileHeader, DesktopHeader },
   props: {
-    hideSlideMenu: Boolean
+    showOverlay: {
+      type: Boolean,
+      default: false
+    },
+
+    greyBg: {
+      type: Boolean,
+      default: false
+    },
+
+    hideMobileNav: {
+      type: Boolean,
+      default: Boolean
+    }
   },
   data() {
     return {
@@ -94,6 +110,38 @@ export default {
 </script>
 
 <style lang="scss">
+.content-container {
+  margin: 2vw;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  @media (min-width: $screen-md-min) {
+    align-items: center;
+  }
+
+  .overlay-card {
+    width: 70%;
+    margin: 1rem;
+    @media (max-width: $screen-sm-max) {
+      width: 95%;
+      overflow-y: auto;
+    }
+
+    margin: 0 auto;
+  }
+}
+
 .v-toolbar__content {
   width: 100%;
 }
@@ -115,10 +163,16 @@ export default {
   }
 }
 
+.grey-bg {
+  background-color: $background-grey;
+}
+
 #commonHeader {
   @media (max-width: $screen-sm-max) {
     padding-bottom: 5em;
   }
+
+  height: 100%;
 
   position: relative;
   .loggedInHeader {

@@ -6,9 +6,11 @@ query getUsersIdeas($authorSlug: String!, $nextToken: String, $limit: Int) {
       userId
       shortId
       slug
+      authorAvatar
       authorName
       authorSlug
       strippedContent
+      content
       title
       createdDate
       ideaDate

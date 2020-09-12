@@ -11,6 +11,8 @@ $welcome-background-yellow: #fbe192;
 $welcome-arrow-background: #5b41bb;
 
 $light-grey: #f3f0f4;
+$background-grey: #f8f8fa;
+$dark-grey: #acabb2;
 
 $disabled-purple: rgba(91, 65, 187, 0.6);
 $clicked-purple: rgba(66, 39, 169, 1);
@@ -24,6 +26,8 @@ $screen-md-min: 961px;
 $screen-md-max: 1264px;
 $screen-lg-min: 1265px;
 $screen-small-height: 640px;
+
+$card-shadow: 0px 4px 20px rgba(0, 0, 0, .1);
 
 $extra-small-screen: "only screen and (max-width : 600px)";
 $small-screen: "only screen and (max-width : 959px)";

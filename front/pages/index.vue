@@ -30,6 +30,7 @@
       <idea-card
         ref="page"
         :style="rotationStyle"
+        :additional-styling="{ 'min-height': '71vh' }"
         @expand-toggle="isExpanded = !isExpanded"
       >
         <Welcome :page-on="ideaIndex"></Welcome>

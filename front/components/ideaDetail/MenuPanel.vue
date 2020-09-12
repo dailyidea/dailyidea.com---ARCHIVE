@@ -86,7 +86,7 @@
           action="save"
           @saved-state-changed="onIdeaSaveStateChanged"
         ></act-on-idea>
-        <v-btn x-small icon text class="img-count">
+        <v-btn x-small icon text class="img-count" @click="commentClicked">
           <img src="~/assets/images/idea-card/comment.png" />
           <span class="count">{{ idea.commentsCount }}</span>
         </v-btn>
@@ -123,6 +123,11 @@ export default {
   },
 
   props: {
+    preview: {
+      type: Boolean,
+      default: false
+    },
+
     editable: {
       type: Boolean,
       default: false
@@ -148,6 +153,10 @@ export default {
   computed: {
     isPrivate() {
       return this.idea.visibility === 'PRIVATE'
+    },
+
+    ideaLink() {
+      return `/i/${this.idea.shortId}/${this.idea.slug}`
     }
   },
 
@@ -165,6 +174,12 @@ export default {
       showProgressBar: 'layoutState/showProgressBar',
       hideProgressBar: 'layoutState/hideProgressBar'
     }),
+
+    commentClicked() {
+      if (this.preview) {
+        this.$router.push(this.ideaLink)
+      }
+    },
 
     deleteIdea() {
       this.$emit('on-delete-idea')
@@ -268,8 +283,8 @@ export default {
 
 .menu-button {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 1%;
+  right: 1%;
   z-index: 1000;
 
   .v-icon {

@@ -2,8 +2,9 @@
   <v-row
     ref="page"
     align="stretch"
-    :class="{ 'fixed-height': !isExpanded }"
+    :class="{ 'fixed-height': !isExpanded && !preview }"
     class="elevation-2 ma-1 card"
+    :style="additionalStyling"
   >
     <div class="tap-bar" @click="expandToggle"></div>
     <slot></slot>
@@ -14,7 +15,13 @@
 export default {
   name: 'IdeaCard',
   props: {
-    expanded: Boolean
+    allowMobileScroll: Boolean,
+    expanded: Boolean,
+    preview: Boolean,
+    additionalStyling: {
+      type: Object,
+      default: Object
+    }
   },
   data() {
     return {
@@ -23,10 +30,12 @@ export default {
   },
   mounted() {
     // Disable vertical scroll if card is not expanded
-    this.$refs.page.addEventListener(
-      'touchmove',
-      this.preventScrollOnMobileWhenCardIsNotExpanded
-    )
+    if (!this.allowMobileScroll) {
+      this.$refs.page.addEventListener(
+        'touchmove',
+        this.preventScrollOnMobileWhenCardIsNotExpanded
+      )
+    }
   },
   methods: {
     preventScrollOnMobileWhenCardIsNotExpanded(event) {
@@ -46,18 +55,22 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-  height: 70vh;
+  position: relative;
   padding: 1rem;
   background-color: white;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
+  border: 1px solid $light-grey !important;
+  box-shadow: $card-shadow !important;
 
   @media only screen and (min-width: $screen-md-min) {
     margin: 0 auto !important;
-    margin-top: 10vh !important;
-    width: 65vw;
-    height: 60vh;
+    margin-top: 2vh !important;
+
+    .fixed-height {
+      min-height: 80vh;
+    }
   }
 
   /* .rounded doesn't work because i'm applying this to a .row (which i shouldn't) */
