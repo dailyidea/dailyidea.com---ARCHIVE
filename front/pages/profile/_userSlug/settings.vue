@@ -106,6 +106,29 @@
         </div>
       </IdeaCard>
     </div>
+    <div class="links">
+      <div class="link-col">
+        <nuxt-link to="/about" class="link">
+          <h3>About</h3>
+          <v-icon>mdi mdi-chevron-right</v-icon>
+        </nuxt-link>
+        <nuxt-link to="/faq" class="link">
+          <h3>FAQ</h3>
+          <v-icon>mdi mdi-chevron-right</v-icon>
+        </nuxt-link>
+      </div>
+      <div class="link-col">
+        <nuxt-link to="/terms" class="link">
+          <h3>Terms & Conditions</h3>
+          <v-icon>mdi mdi-chevron-right</v-icon>
+        </nuxt-link>
+        <nuxt-link to="/privacy" class="link">
+          <h3>Privacy Policy</h3>
+          <v-icon>mdi mdi-chevron-right</v-icon>
+        </nuxt-link>
+      </div>
+    </div>
+
     <visual-notifier ref="notifier"></visual-notifier>
   </user-profile>
 </template>
@@ -175,7 +198,7 @@ export default {
 .cards-container {
   margin: 0 auto;
   @media (min-width: $screen-md-min) {
-    width: 33vw;
+    width: 40vw;
   }
 
   label {
@@ -234,6 +257,47 @@ export default {
     padding-top: 0.5rem;
     margin-top: 1rem;
     cursor: pointer;
+  }
+}
+
+.links {
+  width: 98%;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: $screen-md-min) {
+    width: 70%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .link-col {
+    width: 100%;
+    margin-right: 1rem;
+
+    .link {
+      text-decoration: none;
+      color: black;
+      width: 100%;
+      background-color: white;
+      border-radius: 10px;
+      padding: 0.5rem;
+      border-left: 10px solid $primary-color;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      @media (min-width: $screen-md-min) {
+        margin: 1rem 0 1rem 0;
+      }
+
+      .v-icon {
+        font-size: 40px;
+      }
+    }
   }
 }
 </style>
