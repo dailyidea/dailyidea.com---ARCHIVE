@@ -13,7 +13,7 @@
               <div class="toggle-info">
                 <label>Unsubscribe From All</label>
                 <div class="smaller muted">
-                  Daily reminder email to respond with a new idea
+                  Unsubscribe from all sheduled emails
                 </div>
               </div>
               <div class="toggle">
@@ -49,7 +49,7 @@
               <div class="toggle-info">
                 <label>Weeky Digest</label>
                 <div class="smaller muted">
-                  Daily reminder email to respond with a new idea
+                  Weekly digest of the best ideas from all users
                 </div>
               </div>
               <div class="toggle">
@@ -67,7 +67,8 @@
               <div class="toggle-info">
                 <label>Hot Streaks</label>
                 <div class="smaller muted">
-                  Daily reminder email to respond with a new idea
+                  Weekly scorecard of your activity and reminder of when you go
+                  on a streak
                 </div>
               </div>
               <div class="toggle">
