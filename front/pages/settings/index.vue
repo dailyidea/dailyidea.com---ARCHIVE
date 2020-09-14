@@ -33,7 +33,7 @@
         </h2>
         <v-row>
           <v-col>
-            <label>Unsubscribe Form All</label>
+            <label>Unsubscribe From All</label>
             <p class="smaller muted">
               Unsubscribe from all sheduled emails
             </p>
