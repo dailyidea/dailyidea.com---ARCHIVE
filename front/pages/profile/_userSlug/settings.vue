@@ -204,7 +204,7 @@ export default {
 <style scoped lang="scss">
 a {
   text-decoration: none;
-  color: black;
+  color: black !important;
 }
 
 h3 {
