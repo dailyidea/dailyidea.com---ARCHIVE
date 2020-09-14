@@ -1,14 +1,14 @@
 <template>
   <user-profile :initial-profile-data="initialProfileData" :ideas="ideas">
     <div class="cards-container">
-      <IdeaCard>
-        <div class="card-header">
-          <span>Edit Profile</span>
+      <IdeaCard allow-mobile-scroll>
+        <nuxt-link to="/profile/edit" class="card-header">
+          <span class="ml-3">Edit Profile</span>
           <v-icon>mdi mdi-chevron-right</v-icon>
-        </div>
+        </nuxt-link>
         <div class="card-toggles">
-          <span class="muted">Email Settings</span>
-          <div class="toggles">
+          <span class="muted ml-3">Email Settings</span>
+          <div class="toggles ml-3">
             <div class="toggle-container">
               <div class="toggle-info">
                 <label>Unsubscribe From All</label>
@@ -100,8 +100,8 @@
               </div>
             </div>
           </div>
-          <div class="logout">
-            <span class="muted">Logout</span>
+          <div class="sign-out">
+            <span class="muted ml-3" @click="signOut">Log out</span>
           </div>
         </div>
       </IdeaCard>
@@ -177,6 +177,12 @@ export default {
   },
 
   methods: {
+    signOut() {
+      this.$store.dispatch('cognito/signOut')
+      this.$store.commit('userData/resetUserData')
+      this.$router.push({ name: 'index' })
+    },
+
     async changeNotificationsState() {
       const state = Object.assign({}, this.emailNotificationsState)
       state.unsubscribedAt = state.unsubscribedAt ? dayjs().toISOString() : null
@@ -195,6 +201,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
+a {
+  text-decoration: none;
+  color: black;
+}
+
+h3 {
+  font-weight: 200;
+}
+
 .cards-container {
   margin: 0 auto;
   @media (min-width: $screen-md-min) {
@@ -252,7 +267,7 @@ export default {
     }
   }
 
-  .logout {
+  .sign-out {
     border-top: 2px solid $light-grey;
     padding-top: 0.5rem;
     margin-top: 1rem;
@@ -263,12 +278,13 @@ export default {
 .links {
   width: 98%;
   margin: 0 auto;
+  margin-top: 2rem;
 
   display: flex;
   flex-direction: column;
 
   @media (min-width: $screen-md-min) {
-    width: 70%;
+    width: 65%;
     flex-direction: row;
     justify-content: space-between;
   }
