@@ -542,8 +542,6 @@ export default {
   &__idea-content {
     @media only screen and (min-width: $screen-md-min) {
       overflow-y: auto;
-      min-height: 46vh;
-      max-height: 46vh;
     }
   }
 
