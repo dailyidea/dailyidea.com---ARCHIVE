@@ -14,12 +14,20 @@
         @swipe-right="previousIdea"
         @left-arrow-clicked="previousIdea"
         @right-arrow-clicked="nextIdea"
+        @animation-out-end="animationOutEnd"
       >
         <template v-slot:background>
           <idea-card-skeleton />
         </template>
         <template v-slot="{ rotationStyle }">
+          <swipe-explainer
+            v-if="showExplainer"
+            class="card"
+            :style="rotationStyle"
+            :additional-styling="{ 'min-height': '71vh' }"
+          ></swipe-explainer>
           <full-idea
+            v-else
             ref="page"
             class="card"
             :idea="idea"
@@ -35,6 +43,7 @@
 
 <script>
 import clip from 'text-clipper'
+import Cookies from 'js-cookie'
 import { mapGetters } from 'vuex'
 import Layout from '@/components/layout/Layout'
 import FullIdea from '@/components/ideaDetail/FullIdea.vue'
@@ -43,13 +52,15 @@ import Swiper from '@/components/ideaDetail/Swiper'
 import getIdea from '@/graphql/query/getIdea'
 import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 import IdeaCardSkeleton from '@/components/ideaDetail/IdeaCardSkeleton'
+import SwipeExplainer from '@/components/ideaDetail/SwipeExplainer'
 
 export default {
   components: {
     Layout,
     Swiper,
     FullIdea,
-    IdeaCardSkeleton
+    IdeaCardSkeleton,
+    SwipeExplainer
   },
 
   async asyncData({ app, route, redirect, error, res, store }) {
@@ -82,7 +93,8 @@ export default {
       editMode: false,
       hideSlideMenu: false,
       idea: null,
-      expandedState: false
+      expandedState: false,
+      showExplainer: true
     }
   },
 
@@ -100,6 +112,10 @@ export default {
         return this.expandedState === undefined ? false : this.expandedState
       }
     }
+  },
+
+  beforeCreate() {
+    this.showExplainer = Cookies.get('hasSeenExplainer')
   },
 
   mounted() {
@@ -167,6 +183,12 @@ export default {
     },
     setHideSlideMenuFalse() {
       this.hideSlideMenu = false
+    },
+
+    animationOutEnd() {
+      console.log('animationOutEnd')
+      this.showExplainer = false
+      // Cookies.set('hasSeenExplainer', 1, { expires: 365 })
     }
   },
 

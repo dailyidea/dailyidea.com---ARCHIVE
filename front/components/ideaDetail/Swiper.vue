@@ -169,6 +169,7 @@ export default {
       this.y = 0
       this.rotation = 0
       this.queueNextAnimation(this.disableAnimation)
+      this.$emit('animation-in-end')
     },
     setSwipeLeftCardPos(args) {
       // If we don't disable animation
@@ -181,6 +182,7 @@ export default {
         this.rotation = this.getRotation(this.x)
       }
       this.queueNextAnimation(this.resetSwipePosition)
+      this.$emit('animation-out-end')
     },
     setSwipeRightCardPos(args) {
       this.disableAnimation()
@@ -189,6 +191,7 @@ export default {
         this.rotation = this.getRotation(this.x)
       }
       this.queueNextAnimation(this.resetSwipePosition)
+      this.$emit('animation-out-end')
     },
     fingerDown(event) {
       this.disableScroll()
