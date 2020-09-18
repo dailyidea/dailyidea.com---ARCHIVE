@@ -106,7 +106,7 @@
         </nuxt-link>
         <nuxt-link
           v-if="isMyProfile"
-          to="/settings"
+          :to="settingsLink"
           class="link pb-3"
           :class="{ active: page === 'settings' }"
         >
@@ -155,7 +155,7 @@ export default {
         profile: 'profile',
         'profile-userSlug': 'profile',
         'profile-userSlug-saved': 'saved-ideas',
-        settings: 'settings',
+        'profile-userSlug-settings': 'settings',
         'ideas-saved': 'saved-ideas',
         'ideas-me': 'profile'
       }
@@ -168,6 +168,10 @@ export default {
 
     savedLink() {
       return `/profile/${this.profileData.slug}/saved`
+    },
+
+    settingsLink() {
+      return `/profile/${this.profileData.slug}/settings`
     },
 
     page() {
