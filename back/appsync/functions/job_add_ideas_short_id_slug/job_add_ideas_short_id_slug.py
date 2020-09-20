@@ -1,7 +1,7 @@
 import boto3
 import os
 from slugify import slugify
-from ..utils.idea_utils import generate_short_id
+from common.utils.idea_utils import generate_short_id
 
 def endpoint(event, lambda_context):
     client = boto3.client('dynamodb', region_name='us-east-1')

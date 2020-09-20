@@ -6,7 +6,7 @@ import datetime
 import os
 from slugify import slugify
 from ..utils.common_db_utils import chunks, BATCH_WRITE_CHUNK_SIZE
-from ..utils.idea_utils import strip_html, sanitize_idea_content, prepare_idea_tags_for_put_request, find_unique_short_id
+from common.utils.idea_utils import strip_html, sanitize_idea_content, prepare_idea_tags_for_put_request, find_unique_short_id
 import sentry_sdk
 from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
 
