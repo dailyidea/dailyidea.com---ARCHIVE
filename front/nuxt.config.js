@@ -163,10 +163,7 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    publicPath:
-      process.env.CLOUDFRONT_DOMAIN || process.env.S3_DOMAIN
-        ? `https://${process.env.CLOUDFRONT_DOMAIN || process.env.S3_DOMAIN}/`
-        : undefined,
+    publicPath: undefined,
     cache: true,
     modern: true,
     sourceMap: true,

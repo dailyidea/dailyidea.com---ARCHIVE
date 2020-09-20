@@ -1,6 +1,6 @@
 import boto3
 import os
-from ..utils.idea_utils import strip_html
+from common.utils.idea_utils import strip_html
 
 def endpoint(event, lambda_context):
     client = boto3.client('dynamodb', region_name='us-east-1')
@@ -9,12 +9,12 @@ def endpoint(event, lambda_context):
         TableName=os.environ.get('IDEAS_TABLE_NAME', 'dailyidea-ideas-dev'),
         FilterExpression="attribute_not_exists(strippedContent)",
     )
-    
+
     num_updated = 0
 
     for idea in response['Items']:
         content = idea.get('content', {}).get('S')
-        
+
         if not content:
             continue
 
@@ -28,7 +28,7 @@ def endpoint(event, lambda_context):
             },
             UpdateExpression='SET strippedContent = :strippedContent',
             ExpressionAttributeValues={
-                ':strippedContent': {'S': stripped_content} 
+                ':strippedContent': {'S': stripped_content}
             }
         )
 

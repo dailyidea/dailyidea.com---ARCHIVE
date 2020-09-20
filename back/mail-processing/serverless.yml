@@ -4,6 +4,8 @@ package:
   exclude:
     - node_modules/**
     - venv/**
+  include:
+    - ./../common/**
 
 custom:
   ideasTableName: dailyidea-ideas-${self:provider.stage}

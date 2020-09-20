@@ -25,6 +25,10 @@ plugins:
   - serverless-prune-plugin
   - serverless-sentry
 
+package:
+  include:
+    - ./../functions/**
+
 functions:
   getStats:
     handler: functions.get_stats.get_stats.endpoint
@@ -101,7 +105,7 @@ functions:
     role: LambdaGetCommentsFunctionRole
     environment:
       USERS_TABLE_NAME: ${self:custom.usersTableName}
-      COMMENTS_TABLE_NAME: ${self:custom.ideaCommentsTableName} 
+      COMMENTS_TABLE_NAME: ${self:custom.ideaCommentsTableName}
   updateIdea:
     handler: functions.update_idea.update_idea.endpoint
     role: LambdaUpdateIdeaFunctionRole
@@ -288,7 +292,7 @@ custom:
         response: "idea-comments/deleteIdeaTemporaryComment-response-mapping-template.txt"
       - dataSource: GetCommentsHandler
         type: Query
-        field: getComments 
+        field: getComments
         #request: "idea-comments/getComments-request-mapping-template.txt"
         #response: "idea-comments/getComments-response-mapping-template.txt"
         request: "common/before-invoke-mapping-template.txt"
@@ -475,7 +479,7 @@ custom:
         description: 'Lambda Liked Ideas Data Source'
         config:
           lambdaFunctionArn: { Fn::GetAtt: [GetLikedIdeasLambdaFunction, Arn] }
-          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] } 
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
       - type: AWS_LAMBDA
         name: SavedIdeasHandler
         description: 'Lambda Saved Ideas Data Source'
@@ -855,7 +859,7 @@ resources:
                             - Ref: 'AWS::Region'
                             - Ref: 'AWS::AccountId'
                             - 'table/${self:custom.savesTableName}/*'
-                            
+
                       - 'Fn::Join':
                           - ':'
                           - - 'arn:aws:dynamodb'
