@@ -14,7 +14,7 @@ from mail_templates.idea_sender_not_is_not_registered.idea_sender_not_is_not_reg
     send_not_registered_error_message
 import sentry_sdk
 from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
-from common.utils import slugify, find_unique_short_id
+from common.utils.idea_utils import slugify, find_unique_short_id
 sentry_sdk.init(dsn=os.environ.get('SENTRY_DSN'), integrations=[AwsLambdaIntegration()])
 
 AWS_REGION = os.environ['SES_AWS_REGION']
