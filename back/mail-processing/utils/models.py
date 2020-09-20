@@ -75,6 +75,8 @@ class IdeaModel(BaseModel):
     userId = UnicodeAttribute(hash_key=True)
     content = UnicodeAttribute(null=True)
     title = UnicodeAttribute(null=True)
+    slug = UnicodeAttribute(null=True)
+    shortId = UnicodeAttribute(null=True)
     visibility = UnicodeAttribute(null=True)
     authorName = UnicodeAttribute(null=True)
     authorSlug = UnicodeAttribute(null=True)
