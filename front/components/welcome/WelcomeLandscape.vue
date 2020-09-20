@@ -50,10 +50,10 @@
             <v-btn dark large to="/auth/signup" class="col-4">Sign Up</v-btn>
 
             <nuxt-link
-              class="link text-center my-2 col-4"
+              class="inline-block link-highlight text-center my-2"
               :to="{ name: 'auth-login' }"
             >
-              <link-text active="active" text="Login"></link-text>
+              Login
             </nuxt-link>
           </v-col>
         </v-row>
@@ -66,13 +66,11 @@
   </v-container>
 </template>
 <script>
-import LinkText from '../layout/LinkText.vue'
 import SwipeFooter from '@/components/layout/SwipeFooter'
 
 export default {
   name: 'WelcomeLandscape',
   components: {
-    LinkText,
     SwipeFooter
   },
   props: {

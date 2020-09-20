@@ -83,26 +83,23 @@
           class="link pb-3"
           :class="{ active: page === 'profile' }"
         >
-          <link-text
+          <span
             v-if="isMyProfile"
-            :active="page === 'profile'"
-            :text="linkText('My Ideas', 'profile')"
-          ></link-text>
-          <link-text
-            v-else
-            :active="page === 'profile'"
-            :text="linkText(`${profileData.name}'s Ideas`, 'profile')"
-          ></link-text>
+            :class="{ 'link-highlight': page === 'profile' }"
+            >{{ linkText('My Ideas', 'profile') }}</span
+          >
+          <span v-else :class="{ 'link-highlight': page === 'profile' }">{{
+            linkText(`${profileData.name}'s Ideas`, 'profile')
+          }}</span>
         </nuxt-link>
         <nuxt-link
           :to="savedLink"
           class="link pb-3"
           :class="{ active: page === 'saved-ideas' }"
         >
-          <link-text
-            :active="page === 'saved-ideas'"
-            :text="linkText('Saved Ideas', 'saved-ideas')"
-          ></link-text>
+          <span :class="{ 'link-highlight': page === 'saved-ideas' }">{{
+            linkText('Saved Ideas', 'saved-ideas')
+          }}</span>
         </nuxt-link>
         <nuxt-link
           v-if="isMyProfile"
@@ -110,7 +107,9 @@
           class="link pb-3"
           :class="{ active: page === 'settings' }"
         >
-          <link-text text="Settings" :active="page === 'settings'"></link-text>
+          <span :class="{ 'link-highlight': page === 'settings' }"
+            >Settings</span
+          >
         </nuxt-link>
       </div>
     </div>
@@ -120,7 +119,6 @@
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 import UserProfileAvatar from './UserProfileAvatar'
-import LinkText from '@/components/layout/LinkText.vue'
 import followUser from '~/graphql/mutations/followUser.js'
 import userInfo from '~/graphql/query/userInfo.js'
 import unfollowUser from '~/graphql/mutations/unfollowUser.js'
@@ -128,8 +126,7 @@ import unfollowUser from '~/graphql/mutations/unfollowUser.js'
 export default {
   name: 'UserProfileHeaderSection',
   components: {
-    UserProfileAvatar,
-    LinkText
+    UserProfileAvatar
   },
   props: {
     profileData: {
