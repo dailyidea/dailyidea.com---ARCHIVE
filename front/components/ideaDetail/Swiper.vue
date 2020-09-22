@@ -1,10 +1,18 @@
 <template>
   <span>
     <slot :is-swiping="swipeInProgress || !!xVal" name="background"></slot>
-    <div class="left-arrow hidden-sm-and-down" @click="leftArrowClick">
+    <div
+      v-if="allowLeft"
+      class="left-arrow hidden-sm-and-down"
+      @click="leftArrowClick"
+    >
       <img src="~/assets/images/idea-card/left-arrow.png" />
     </div>
-    <div class="right-arrow hidden-sm-and-down" @click="rightArrowClick">
+    <div
+      v-if="allowRight"
+      class="right-arrow hidden-sm-and-down"
+      @click="rightArrowClick"
+    >
       <img src="~/assets/images/idea-card/left-arrow.png" />
     </div>
     <div class="swipe-parent">
@@ -18,7 +26,9 @@
 export default {
   name: 'Swiper',
   props: {
-    swipeDisabled: Boolean
+    swipeDisabled: Boolean,
+    allowLeft: { type: Boolean, default: true },
+    allowRight: { type: Boolean, default: true }
   },
   data() {
     return {
@@ -210,12 +220,16 @@ export default {
           this.x = this.offPageWidth
           this.rotation = this.getRotation(this.x)
           this.queueNextAnimation(this.setSwipeRightCardPos)
-          this.$emit('swipe-right')
+          if (this.allowLeft) {
+            this.$emit('swipe-right')
+          }
         } else if (this.x < -this.minSwipeDistanceBeforeAction) {
           this.x = -this.offPageWidth
           this.rotation = this.getRotation(this.x)
           this.queueNextAnimation(this.setSwipeLeftCardPos)
-          this.$emit('swipe-left')
+          if (this.allowRight) {
+            this.$emit('swipe-left')
+          }
         } else {
           this.resetSwipePosition()
         }
