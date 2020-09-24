@@ -33,7 +33,7 @@
         :style="rotationStyle"
         :additional-styling="{
           'min-height': '60vh',
-          'max-height': '60vh',
+          'max-height': isLandscape ? '' : '60vh',
           'max-width': isMobile ? '' : '60vw'
         }"
         @expand-toggle="isExpanded = !isExpanded"
@@ -90,6 +90,7 @@ export default {
     },
     ideas: null,
     ideaIndex: 0,
+    isLandscape: false,
     hideSlideMenu: true
   }),
   computed: {
@@ -103,7 +104,13 @@ export default {
     }
   },
 
-  created() {},
+  mounted() {
+    this.isLandscape = window.innerWidth > window.innerHeight
+    window.addEventListener('resize', event => {
+      this.isLandscape = window.innerWidth > window.innerHeight
+    })
+  },
+
   methods: {
     nextIdea() {
       this.loadNewIdea(1)
