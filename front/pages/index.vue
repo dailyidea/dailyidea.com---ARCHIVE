@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <div class="swipe-header justify-center py-5 d-lg-none d-sm-flex ">
+    <div class="swipe-header justify-center py-1 d-lg-none d-sm-flex ">
       <v-card
         class="d-flex justify-space-between pa-2 col-md-6 col-sm-12 swipe-header-card"
       >
@@ -9,8 +9,9 @@
         <span v-if="ideaIndex === 0" class="d-flex align-center"
           >Swipe right to see the next idea</span
         >
-        <span v-if="ideaIndex === 1" class="d-flex align-center">2 of 3</span>
-        <span v-if="ideaIndex === 2" class="d-flex align-center">3 of 3</span>
+        <span v-if="ideaIndex === 1" class="d-flex align-center">1 of 3</span>
+        <span v-if="ideaIndex === 2" class="d-flex align-center">2 of 3</span>
+        <span v-if="ideaIndex === 3" class="d-flex align-center">3 of 3</span>
 
         <swipe-icon class="swipe-header-icon" />
       </v-card>
@@ -30,7 +31,11 @@
       <idea-card
         ref="page"
         :style="rotationStyle"
-        :additional-styling="{ 'min-height': '71vh', 'max-width': '60vw' }"
+        :additional-styling="{
+          'min-height': '60vh',
+          'max-height': '60vh',
+          'max-width': isMobile ? '' : '60vw'
+        }"
         @expand-toggle="isExpanded = !isExpanded"
       >
         <Welcome :page-on="ideaIndex"></Welcome>
@@ -146,7 +151,6 @@ export default {
   width: 100%;
 }
 .swipe-header {
-  height: 100px;
   width: 100%;
 }
 

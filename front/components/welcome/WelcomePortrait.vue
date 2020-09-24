@@ -28,7 +28,12 @@
       no-gutters
     >
       <v-col lg="1" sm="1" cols="1" class="d-flex justify-center">
-        <img :src="bullet.icon" alt="img" style="float: right;" />
+        <img
+          :src="bullet.icon"
+          alt="img"
+          style="float: right;"
+          class="bullet-img"
+        />
       </v-col>
 
       <v-col lg="5" sm="10" class="mx-2" cols="10">
@@ -88,6 +93,14 @@ export default {
   }
 }
 
+h1 {
+  font-size: 1.3rem;
+}
+
+h3 {
+  font-size: 0.9rem;
+}
+
 .link {
   cursor: pointer;
   text-decoration: none;
@@ -103,8 +116,15 @@ export default {
   }
 }
 
+.bullet-img {
+  width: 24px;
+  margin-right: 1rem;
+}
+
 .lead-img {
-  max-width: 90vw;
-  max-height: 50vw;
+  max-width: 35vw;
+  max-height: 35vw;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
 }
 </style>
