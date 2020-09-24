@@ -58,11 +58,10 @@ export default {
   position: relative;
   padding: 1rem;
   background-color: white;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
   border-radius: 8px;
   border: 1px solid $light-grey !important;
   box-shadow: $card-shadow !important;
+  overflow: hidden;
 
   @media only screen and (min-width: $screen-md-min) {
     margin: 0 auto !important;
