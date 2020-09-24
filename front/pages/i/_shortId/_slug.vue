@@ -94,7 +94,7 @@ export default {
       hideSlideMenu: false,
       idea: null,
       expandedState: false,
-      showExplainer: true
+      showExplainer: false
     }
   },
 
@@ -114,8 +114,8 @@ export default {
     }
   },
 
-  beforeCreate() {
-    this.showExplainer = Cookies.get('hasSeenExplainer')
+  created() {
+    this.showExplainer = !Cookies.get('hasSeenExplainer')
   },
 
   mounted() {
@@ -186,9 +186,8 @@ export default {
     },
 
     animationOutEnd() {
-      console.log('animationOutEnd')
       this.showExplainer = false
-      // Cookies.set('hasSeenExplainer', 1, { expires: 365 })
+      Cookies.set('hasSeenExplainer', 1, { expires: 365 })
     }
   },
 
