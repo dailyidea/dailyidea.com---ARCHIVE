@@ -1,9 +1,9 @@
 <template>
   <span class="links d-flex flex-row align-center justify-space-between">
-    <nuxt-link
+    <span
       class="link"
       :class="{ active: page === 'explore' }"
-      :to="{ name: 'ideas-all' }"
+      @click="exploreClicked"
     >
       <bulb-icon
         v-if="page !== 'explore'"
@@ -16,7 +16,7 @@
         class="active-bulb"
       ></bulb-on-icon>
       <span :class="{ 'link-highlight': page === 'explore' }">Explore</span>
-    </nuxt-link>
+    </span>
     <nuxt-link
       class="link"
       :class="{ active: page === 'post' }"
@@ -48,6 +48,7 @@ import ProfileIcon from './svgIcons/ProfileIcon.vue'
 import PostIcon from './svgIcons/PostIcon.vue'
 import BulbIcon from './svgIcons/BulbIcon.vue'
 import BulbOnIcon from './svgIcons/BulbOnIcon.vue'
+import getAllIdeas from '@/components/ideaDetail/ideaSwipeQueue'
 
 export default {
   name: 'Links',
@@ -89,6 +90,13 @@ export default {
       }
 
       return pageOn
+    }
+  },
+  methods: {
+    async exploreClicked() {
+      const ideas = await getAllIdeas(this.$amplifyApi)
+      const firstIdea = ideas.ideas[0]
+      this.$router.push(`/i/${firstIdea.shortId}/${firstIdea.slug}`)
     }
   }
 }
