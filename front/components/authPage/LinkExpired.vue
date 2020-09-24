@@ -32,10 +32,9 @@
 <script>
 import Layout from '@/components/layout/Layout'
 import IdeaCard from '@/components/ideaDetail/IdeaCard'
-import LinkText from '@/components/layout/LinkText'
 
 export default {
-  components: { LinkText, IdeaCard, Layout },
+  components: { IdeaCard, Layout },
 
   props: {
     email: { type: String, required: true },
