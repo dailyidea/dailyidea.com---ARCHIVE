@@ -20,8 +20,8 @@
           <img width="325" src="@/assets/images/bird-illustration.png" alt="" />
         </div>
         <div v-if="!hideSend" style="margin-top: -70px;">
-          <a href="#" @click.prevent="send2ndTime">
-            <link-text active="active" text="Resend link"></link-text>
+          <a href="#" class="link-highlight" @click.prevent="send2ndTime">
+            Resend link
           </a>
         </div>
       </div>
@@ -32,10 +32,9 @@
 <script>
 import Layout from '@/components/layout/Layout'
 import IdeaCard from '@/components/ideaDetail/IdeaCard'
-import LinkText from '@/components/layout/LinkText'
 
 export default {
-  components: { LinkText, IdeaCard, Layout },
+  components: { IdeaCard, Layout },
 
   props: {
     email: { type: String, required: true },
