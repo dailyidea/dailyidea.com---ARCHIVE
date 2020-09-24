@@ -62,3 +62,21 @@ form .v-input__prepend-inner {
 .text-decoration-none {
   text-decoration: none;
 }
+
+.inline-block {
+  display: inline-block;
+}
+
+.block {
+  display: block;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+.link-highlight {
+  text-decoration: none;
+  color: $primary-color;
+  background: linear-gradient(to top, transparent 15%, rgba(91, 65, 187, 0.2) 15%, rgba(91, 65, 187, 0.2) 55%, transparent 55%);
+}

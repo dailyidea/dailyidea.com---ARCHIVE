@@ -15,8 +15,7 @@
         :fill="activeColor"
         class="active-bulb"
       ></bulb-on-icon>
-
-      <link-text :active="page === 'explore'" text="Explore"></link-text>
+      <span :class="{ 'link-highlight': page === 'explore' }">Explore</span>
     </nuxt-link>
     <nuxt-link
       class="link"
@@ -28,8 +27,7 @@
         :fill="page !== 'post' ? inactiveColor : activeColor"
         class="img"
       ></post-icon>
-
-      <link-text :active="page === 'post'" text="Post"></link-text>
+      <span :class="{ 'link-highlight': page === 'post' }">Post</span>
     </nuxt-link>
     <nuxt-link
       class="link"
@@ -40,8 +38,7 @@
         :fill="page !== 'profile' ? inactiveColor : activeColor"
         class="img"
       ></profile-icon>
-
-      <link-text :active="page === 'profile'" text="My Ideas"></link-text>
+      <span :class="{ 'link-highlight': page === 'profile' }">My Ideas</span>
     </nuxt-link>
   </span>
 </template>
@@ -51,7 +48,6 @@ import ProfileIcon from './svgIcons/ProfileIcon.vue'
 import PostIcon from './svgIcons/PostIcon.vue'
 import BulbIcon from './svgIcons/BulbIcon.vue'
 import BulbOnIcon from './svgIcons/BulbOnIcon.vue'
-import LinkText from './LinkText.vue'
 
 export default {
   name: 'Links',
@@ -59,8 +55,7 @@ export default {
     ProfileIcon,
     PostIcon,
     BulbIcon,
-    BulbOnIcon,
-    LinkText
+    BulbOnIcon
   },
   data() {
     return {
@@ -112,6 +107,9 @@ export default {
 
   @media (max-width: $screen-sm-max) {
     flex-direction: column;
+  }
+  > span {
+    margin-top: 0.2em;
   }
 
   .img {

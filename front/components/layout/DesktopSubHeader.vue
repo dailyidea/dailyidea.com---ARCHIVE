@@ -12,45 +12,44 @@
               class="link hidden-sm-and-down"
               :to="{ name: 'ideas-all' }"
             >
-              <link-text
-                :active="page === 'explore'"
-                text="Following"
-              ></link-text>
+              <span :class="{ 'link-highlight': page === 'explore' }"
+                >Following</span
+              >
             </nuxt-link>
 
             <nuxt-link
               class="link hidden-sm-and-down"
               :to="{ name: 'ideas-all' }"
             >
-              <link-text text="New"></link-text>
+              <span>New</span>
             </nuxt-link>
 
             <nuxt-link
               class="link hidden-sm-and-down"
               :to="{ name: 'ideas-all' }"
             >
-              <link-text text="#Products"></link-text>
+              <span>#Products</span>
             </nuxt-link>
 
             <nuxt-link
               class="link hidden-sm-and-down"
               :to="{ name: 'ideas-all' }"
             >
-              <link-text text="#startup Ideas"></link-text>
+              <span>#startup Ideas</span>
             </nuxt-link>
 
             <nuxt-link
               class="link hidden-sm-and-down"
               :to="{ name: 'ideas-all' }"
             >
-              <link-text text="#cloud"></link-text>
+              <span>#cloud</span>
             </nuxt-link>
 
             <nuxt-link
               class="link hidden-sm-and-down"
               :to="{ name: 'ideas-all' }"
             >
-              <link-text text="#music"></link-text>
+              <span>#music</span>
             </nuxt-link>
           </span>
         </v-col>
@@ -61,7 +60,7 @@
               class="link active mx-4 hidden-sm-and-down"
               :to="{ name: 'auth-login' }"
             >
-              <link-text active="active" text="Login"></link-text>
+              <span class="link-highlight">Login</span>
             </nuxt-link>
 
             <v-btn to="/auth/signup" dark>Sign Up</v-btn>
@@ -73,13 +72,8 @@
 </template>
 
 <script>
-import LinkText from './LinkText.vue'
-
 export default {
   name: 'DesktopSubHeader',
-  components: {
-    LinkText
-  },
   data() {
     return {
       searchIdeaMode: false,

@@ -7,8 +7,8 @@
         src="~/assets/images/idea-card/no-ideas-placeholder.png"
       />
       <span class="card-body">{{ body }}</span>
-      <nuxt-link to="/" class="mt-7">
-        <link-text text="Explore ideas" active></link-text>
+      <nuxt-link to="/" class="link-highlight mt-7">
+        Explore ideas
       </nuxt-link>
     </div>
   </idea-card>
@@ -16,13 +16,11 @@
 
 <script>
 import IdeaCard from '~/components/ideaDetail/IdeaCard'
-import LinkText from '~/components/layout/LinkText'
 
 export default {
   name: 'NoIdeasPlaceholder',
   components: {
-    IdeaCard,
-    LinkText
+    IdeaCard
   },
   props: {
     title: {

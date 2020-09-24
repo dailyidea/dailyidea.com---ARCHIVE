@@ -8,7 +8,13 @@
       absolute
     ></v-progress-linear>
 
-    <v-container class="fill-height">
+    <link-expired
+      v-if="expired"
+      :email="$route.query.email"
+      :next="$route.query.next"
+    />
+
+    <v-container v-else class="fill-height">
       <v-row align="center" justify="center" class="text-center">
         <v-col cols="12" sm="8" md="4">
           <section id="lightBulb" class="mb-6">
@@ -23,21 +29,6 @@
               src="~/assets/images/verify/lamp-inactive-large.png"
             />
           </section>
-
-          <div
-            :class="{
-              'color-danger': errorOccurred,
-              'has-success': !errorOccurred && authCompleted
-            }"
-          >
-            <div v-text="message"></div>
-            <div v-if="errorOccurred" class="mt-6">
-              <p>Error message: {{ errorMessage }}</p>
-              <a href="/auth/login" @click.stop.prevent="goToLogin"
-                >Get a fresh login link.</a
-              >
-            </div>
-          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -45,19 +36,23 @@
 </template>
 
 <script>
+import LinkExpired from '@/components/authPage/LinkExpired'
 export default {
+  components: { LinkExpired },
   data: () => ({
     message:
       'Hang on tight! Just checking to make sure you are who you say you are...',
-    errorOccurred: false,
     progressBarValue: 0,
     progressBarUndetermined: false,
     progressBarActive: true,
-    authCompleted: false
+    authCompleted: false,
+    expired: false
   }),
+
   mounted() {
     this.login()
   },
+
   methods: {
     async login() {
       try {
@@ -100,11 +95,10 @@ export default {
         this.$router.replace(next || '/ideas/all')
       } catch (e) {
         this.progressBarActive = false
-        this.message = 'Oops, something went wrong. Please try again.'
-        this.errorMessage = e.message
-        this.errorOccurred = true
+        this.expired = true
       }
     },
+
     goToLogin() {
       this.$router.replace('/auth/login')
     }

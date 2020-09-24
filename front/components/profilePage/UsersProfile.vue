@@ -17,7 +17,7 @@
       <user-profile-header-section
         :profile-data="profileData"
         :is-my-profile="isMyProfile"
-        :idea-count="ideas.length"
+        :idea-count="ideas ? ideas.length : 0"
       ></user-profile-header-section>
     </template>
     <template>

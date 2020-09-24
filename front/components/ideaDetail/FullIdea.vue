@@ -101,7 +101,7 @@
                 class="text-center pointer"
                 @click="emitViewPreviewIdeaClicked"
               >
-                <link-text active text="View Idea"></link-text>
+                <span class="link-highlight">View Idea</span>
               </div>
             </div>
           </div>
@@ -180,7 +180,6 @@ import RegisterEncourageDialog from '@/components/dialogs/RegisterEncourageDialo
 import updateIdea from '@/graphql/mutations/updateIdea'
 import deleteIdea from '@/graphql/mutations/deleteIdea'
 import IdeaContent from '@/components/IdeaContent'
-import LinkText from '@/components/layout/LinkText'
 import getIdeaTags from '@/graphql/query/getIdeaTags'
 import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
 
@@ -191,7 +190,6 @@ export default {
     TrixWrapper,
     IdeaCard,
     IdeaComments,
-    LinkText,
     MenuPanel,
     IdeaContent,
     VTextFieldWithValidation,

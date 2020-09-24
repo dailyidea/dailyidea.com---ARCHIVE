@@ -21,6 +21,7 @@
       v-slot="{ rotationStyle }"
       class="idea-card"
       :swipe-disabled="isExpanded"
+      :allow-left="ideaIndex > 0"
       @swipe-start="setHideSlideMenuTrue"
       @swipe-end="setHideSlideMenuFalse"
       @swipe-left="nextIdea"
@@ -115,12 +116,17 @@ export default {
     nextIdea() {
       this.loadNewIdea(1)
     },
+
     previousIdea() {
       this.loadNewIdea(-1)
     },
+
     loadNewIdea(direction) {
-      const newIndex = this.ideaIndex + direction
-      if (newIndex < 0 || newIndex > 3) {
+      let newIndex = this.ideaIndex + direction
+      if (newIndex < 0) {
+        newIndex = 0
+      }
+      if (newIndex > 3) {
         const idea = this.ideas[0]
         if (idea) {
           this.$router.push(`/i/${idea.shortId}/${idea.slug}`)
@@ -129,9 +135,11 @@ export default {
         this.ideaIndex = newIndex
       }
     },
+
     setHideSlideMenuTrue() {
       this.hideSlideMenu = true
     },
+
     setHideSlideMenuFalse() {
       this.hideSlideMenu = false
     }
