@@ -11,7 +11,10 @@
       <div class="d-flex justify-center align-center">
         <span class="card-title">{{ title }}</span>
       </div>
-      <v-btn class="card-button flex-shrink-0">
+      <v-btn
+        :to="{ name: 'ideas-create' }"
+        class="card-button d-flex justify-center align-center flex-shrink-0"
+      >
         +
       </v-btn>
     </div>
@@ -51,7 +54,6 @@ export default {
   padding: 1rem;
 }
 .card-button {
-  display: block;
   width: 48px !important;
   height: auto !important;
   padding: 0 !important;
