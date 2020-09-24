@@ -27,6 +27,11 @@ export default {
 .idea-content-collapsed {
   max-width: 100%;
   max-height: 47vh;
+  @media (max-width: $screen-sm-max) {
+    max-height: 35vh;
+    -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  }
   overflow-y: hidden;
 }
 
