@@ -1,15 +1,22 @@
 <template>
   <idea-card expanded>
-    <div class="card-container p-3">
-      <span class="card-title">{{ title }}</span>
-      <img
-        class="py-6"
-        src="~/assets/images/idea-card/no-ideas-placeholder.png"
-      />
-      <span class="card-body">{{ body }}</span>
-      <nuxt-link to="/" class="link-highlight mt-7">
-        Explore ideas
-      </nuxt-link>
+    <div class="d-flex justify-space-between align-content-space-between">
+      <div class="flex-shrink-0">
+        <img
+          class="card-image"
+          src="~assets/images/idea-card/empty-state-my-ideas.png"
+          alt="No ideas"
+        />
+      </div>
+      <div class="d-flex justify-center align-center">
+        <span class="card-title">{{ title }}</span>
+      </div>
+      <v-btn
+        :to="{ name: 'ideas-create' }"
+        class="card-button d-flex justify-center align-center flex-shrink-0"
+      >
+        +
+      </v-btn>
     </div>
   </idea-card>
 </template>
@@ -18,17 +25,12 @@
 import IdeaCard from '~/components/ideaDetail/IdeaCard'
 
 export default {
-  name: 'NoIdeasPlaceholder',
   components: {
     IdeaCard
   },
+
   props: {
     title: {
-      type: String,
-      required: true
-    },
-
-    body: {
       type: String,
       required: true
     }
@@ -37,29 +39,28 @@ export default {
 </script>
 
 <style scoped lang="scss">
-a {
-  text-decoration: none;
+.card {
+  max-width: 409px;
+  margin: auto !important;
+  padding: 0 !important;
+  overflow: hidden;
 }
-
-.card-container {
-  img {
-    width: 40%;
-  }
-
-  .card-title {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 300;
-  }
-
-  .card-body {
-    font-size: 1rem;
-  }
-
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
+.card-image {
+  margin: 0.75rem 0 0.75rem 0.5rem;
+  width: 135px;
+}
+.card-title {
+  font-size: 18px;
+  padding: 1rem;
+}
+.card-button {
+  width: 48px !important;
+  height: auto !important;
+  padding: 0 !important;
+  min-width: 0 !important;
+  background-color: $primary-color !important;
+  border-radius: 0;
+  color: white;
+  font-size: 28px;
 }
 </style>

@@ -18,8 +18,7 @@
     </div>
     <div v-else class="cards-container">
       <no-ideas-placeholder
-        title="You haven't posted an idea yet."
-        body="Browse ideas to get inspiration!"
+        title="Time to post your first idea!"
       ></no-ideas-placeholder>
     </div>
   </users-profile>
