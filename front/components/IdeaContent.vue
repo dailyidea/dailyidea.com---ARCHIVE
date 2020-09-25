@@ -2,9 +2,10 @@
   <!-- eslint-disable vue/no-v-html -->
   <div
     :class="{
-      'idea-content-collapsed fade-bottom': collapsed,
+      'idea-content-collapsed fade-bottom': isMobile ? collapsed : true,
       'idea-content': !collapsed
     }"
+    class="hide-scrollbar"
     v-html="content"
   ></div>
 </template>
@@ -25,7 +26,12 @@ export default {
 <style scoped lang="scss">
 .idea-content-collapsed {
   max-width: 100%;
-  max-height: 35vh;
+  max-height: 47vh;
+  @media (max-width: $screen-sm-max) {
+    max-height: 35vh;
+    -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  }
   overflow-y: hidden;
 }
 
