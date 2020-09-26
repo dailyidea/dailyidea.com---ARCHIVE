@@ -27,7 +27,7 @@ plugins:
 
 package:
   include:
-    - ./../functions/**
+    - ./../common/**
 
 functions:
   getStats:
