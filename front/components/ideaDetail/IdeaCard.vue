@@ -7,7 +7,7 @@
     :style="additionalStyling"
   >
     <div class="tap-bar" @click="expandToggle"></div>
-    <slot></slot>
+    <slot :expand-toggle="expandToggle"></slot>
   </v-row>
 </template>
 
