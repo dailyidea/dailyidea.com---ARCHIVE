@@ -526,7 +526,10 @@ export default {
 
 .idea-part {
   position: relative;
-  padding: 8px 16px;
+
+  @media (min-width: $screen-md-min) {
+    padding: 8px 16px;
+  }
 
   &__author-avatar {
     width: 24px;
