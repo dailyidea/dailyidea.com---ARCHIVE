@@ -90,4 +90,10 @@ export default {
     }
   }
 }
+::v-deep {
+  a[href$='.jpg'] {
+    pointer-events: none;
+    cursor: default;
+  }
+}
 </style>
