@@ -27,12 +27,11 @@
       justify="center"
       no-gutters
     >
-      <v-col lg="1" sm="1" cols="1" class="d-flex justify-center">
+      <v-col lg="1" sm="1" cols="1" class="justify-center">
         <img
           :src="bullet.icon"
           alt="img"
-          style="float: right;"
-          class="bullet-img"
+          class="bullet-img flex"
         />
       </v-col>
 
@@ -120,6 +119,7 @@ h3 {
 .bullet-img {
   width: 24px;
   margin-right: 1rem;
+  float: right;
 }
 
 .lead-img {
