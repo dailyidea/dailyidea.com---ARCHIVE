@@ -45,7 +45,7 @@ export default {
 .header-container {
   width: 100%;
   background-color: white;
-  height: 5vh;
+  height: 60px;
 
   .header-sub-container {
     width: 92%;
