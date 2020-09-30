@@ -5,6 +5,11 @@
       :class="{ 'light-box-expanded': isExpanded }"
     ></div>
     <layout :hide-mobile-nav="isExpanded" :hide-slide-menu="hideSlideMenu">
+      <template v-slot:header>
+        <categories-sub-header
+          @category-clicked="handleCategoryClicked"
+        ></categories-sub-header>
+      </template>
       <swiper
         class="idea-card"
         :swipe-disabled="isExpanded"
@@ -53,6 +58,7 @@ import getIdea from '@/graphql/query/getIdea'
 import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 import IdeaCardSkeleton from '@/components/ideaDetail/IdeaCardSkeleton'
 import SwipeExplainer from '@/components/ideaDetail/SwipeExplainer'
+import CategoriesSubHeader from '@/components/layout/CategoriesSubHeader'
 
 export default {
   components: {
@@ -60,6 +66,7 @@ export default {
     Swiper,
     FullIdea,
     IdeaCardSkeleton,
+    CategoriesSubHeader,
     SwipeExplainer
   },
 
@@ -103,6 +110,10 @@ export default {
       userId: 'userData/userId',
       isAuthenticated: 'userData/isAuthenticated'
     }),
+
+    ideaSlug() {
+      return `/i/${this.idea.shortId}/${this.idea.slug}`
+    },
 
     isExpanded: {
       set() {
@@ -151,6 +162,10 @@ export default {
       this.updateIdeaSlug()
     },
 
+    handleCategoryClicked(category) {
+      this.$router.push(`${this.ideaSlug}?category=${category}`)
+    },
+
     async incrementViews() {
       try {
         await this.$amplifyApi.graphql({
@@ -167,11 +182,7 @@ export default {
     },
 
     updateIdeaSlug() {
-      window.history.pushState(
-        '',
-        '',
-        `/i/${this.idea.shortId}/${this.idea.slug}`
-      )
+      window.history.pushState('', '', this.ideaSlug)
     },
     async cacheIdeas() {
       const ideas = await getAllIdeas(this.$amplifyApi, this.nextToken)
