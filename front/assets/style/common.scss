@@ -75,6 +75,18 @@ form .v-input__prepend-inner {
   text-decoration: none;
 }
 
+.w-full {
+  width: 100%;
+}
+
+.m-auto {
+  margin: auto;
+}
+
+.text-lg {
+  font-size: 1.25rem;
+}
+
 .link-highlight {
   text-decoration: none;
   color: $primary-color;
