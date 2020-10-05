@@ -7,6 +7,7 @@
     <layout :hide-mobile-nav="isExpanded" :hide-slide-menu="hideSlideMenu">
       <template v-slot:header>
         <categories-sub-header
+          :category-selected="category"
           @category-clicked="handleCategoryClicked"
         ></categories-sub-header>
       </template>
@@ -104,7 +105,8 @@ export default {
       hideSlideMenu: false,
       idea: null,
       expandedState: false,
-      showExplainer: false
+      showExplainer: false,
+      category: 'top'
     }
   },
 
@@ -129,7 +131,7 @@ export default {
   },
 
   mounted() {
-    this.cacheIdeas(this.getCategory())
+    this.cacheIdeas(this.getCategoryFromURL())
     this.incrementViews()
 
     // Show success diaslog for jsut created idea
@@ -150,7 +152,7 @@ export default {
     },
 
     ideaSlug(newCategory) {
-      let category = this.getCategory()
+      let category = this.category
 
       if (newCategory) {
         category = newCategory
@@ -159,13 +161,15 @@ export default {
       return `/i/${this.idea.shortId}/${this.idea.slug}?category=${category}`
     },
 
-    getCategory() {
+    getCategoryFromURL() {
       let category = 'top'
 
       const queryCategory = this.$route.query.category
       if (queryCategory) {
         category = queryCategory
       }
+
+      this.category = category
 
       return category
     },
@@ -185,16 +189,18 @@ export default {
 
       this.idea = this.ideaQueue[this.ideaIndex]
       if (this.ideaIndex > this.ideaQueue.length / 2) {
-        this.cacheIdeas(this.getCategory())
+        this.cacheIdeas(this.category)
       }
       this.updateIdeaSlug()
     },
 
     async handleCategoryClicked(category) {
+      this.ideaIndex = 0
+      this.category = category
       this.ideaQueue = []
+      this.nextToken = null
       await this.cacheIdeas(category)
-      this.ideaIndex = 1
-      this.loadNewIdea(0)
+      this.idea = this.ideaQueue[this.ideaIndex]
       this.$router.push(`${this.ideaSlug(category)}`)
     },
 
@@ -231,7 +237,6 @@ export default {
 
     animationOutEnd() {
       this.showExplainer = false
-      Cookies.set('hasSeenExplainer', 1, { expires: 365 })
     }
   },
 

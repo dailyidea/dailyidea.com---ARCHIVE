@@ -22,9 +22,16 @@
 <script>
 export default {
   name: 'CategoriesSubHeader',
+  props: {
+    categorySelected: {
+      type: String,
+      required: true
+    }
+  },
+
   computed: {
     category() {
-      switch (this.$route.query.category) {
+      switch (this.categorySelected) {
         case 'new':
           return 'new'
         default:
