@@ -40,9 +40,10 @@
         ref="page"
         :style="rotationStyle"
         :additional-styling="{
-          'min-height': '60vh',
-          'max-height': isLandscape ? '' : '60vh',
-          'max-width': isMobile ? '' : '60vw'
+          //            - bottom-bar - top-swipper - allowance-from-paddings
+          'min-height': 'calc(100vh - 80px - 70px - 20px)',
+          'max-height': isLandscape ? '' : 'calc(100vh - 80px - 70px - 20px)',
+          'max-width': isMobile ? '' : '70vw'
         }"
         @expand-toggle="isExpanded = !isExpanded"
       >

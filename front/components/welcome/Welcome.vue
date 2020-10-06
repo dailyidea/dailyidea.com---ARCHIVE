@@ -1,5 +1,5 @@
 <template>
-  <v-col class="fill-height" cols="12" md="12">
+  <v-col cols="12" md="12">
     <welcome-first v-if="pageOn === 0"></welcome-first>
     <welcome-second v-else-if="pageOn === 1"></welcome-second>
     <welcome-third v-else-if="pageOn === 2"></welcome-third>
