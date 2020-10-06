@@ -194,7 +194,6 @@ import getIdeaTags from '@/graphql/query/getIdeaTags'
 import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
 
 export default {
-  name: 'FullCard',
   components: {
     ValidationObserver,
     TrixWrapper,
@@ -527,6 +526,10 @@ export default {
 
 .idea-part {
   position: relative;
+
+  @media (min-width: $screen-md-min) {
+    padding: 8px 16px;
+  }
 
   &__author-avatar {
     width: 24px;
