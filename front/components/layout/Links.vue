@@ -32,7 +32,7 @@
     <nuxt-link
       class="link"
       :class="{ active: page === 'profile' }"
-      :to="profileLink"
+      :to="slug ? `/profile/${slug}` : '/auth/unathorized'"
     >
       <profile-icon
         :fill="page !== 'profile' ? inactiveColor : activeColor"
@@ -78,9 +78,6 @@ export default {
   computed: {
     slug() {
       return this.$store.getters['userData/slug']
-    },
-    profileLink() {
-      return this.slug ? `/profile/${this.slug}` : `/auth/login`
     },
     page() {
       const pageOn = this.pages[this.$route.name]
