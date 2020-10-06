@@ -4,16 +4,23 @@
       <v-card
         class="d-flex justify-space-between pa-2 col-md-6 col-sm-12 swipe-header-card"
       >
-        <exit-icon class="swipe-header-icon-close" />
+        <div class="pl-4 pt-3">
+          <span v-if="ideaIndex === 0">Swipe right to see the next idea</span>
+          <span v-if="ideaIndex > 0">{{ ideaIndex }} of 3</span>
+        </div>
 
-        <span v-if="ideaIndex === 0" class="d-flex align-center"
-          >Swipe right to see the next idea</span
+        <div
+          v-if="ideaIndex === 0"
+          class="overflow-hidden"
+          style="width: 40px; height: 45px; overflow: hidden;"
         >
-        <span v-if="ideaIndex === 1" class="d-flex align-center">1 of 3</span>
-        <span v-if="ideaIndex === 2" class="d-flex align-center">2 of 3</span>
-        <span v-if="ideaIndex === 3" class="d-flex align-center">3 of 3</span>
-
-        <swipe-icon class="swipe-header-icon" />
+          <img
+            src="~assets/images/home/swipeicon-right.svg"
+            alt="Swipe right"
+            style="height: 68px; margin-top: -9px; margin-left: -15px;"
+          />
+        </div>
+        <swipe-icon v-else class="swipe-header-icon" />
       </v-card>
     </div>
 
@@ -54,7 +61,6 @@ import IdeaCard from '@/components/ideaDetail/IdeaCard'
 import Swiper from '@/components/ideaDetail/Swiper'
 import Welcome from '@/components/welcome/Welcome'
 import SliderDots from '@/components/layout/svgIcons/SliderDots'
-import ExitIcon from '@/components/layout/svgIcons/ExitIcon'
 import SwipeIcon from '@/components/layout/svgIcons/SwipeIcon'
 import Layout from '@/components/layout/Layout'
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
@@ -66,8 +72,7 @@ export default {
     IdeaCard,
     Welcome,
     SliderDots,
-    SwipeIcon,
-    ExitIcon
+    SwipeIcon
   },
   async asyncData({ app }) {
     let result = await app.$amplifyApi.graphql({
