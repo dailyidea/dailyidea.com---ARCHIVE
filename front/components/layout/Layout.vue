@@ -153,7 +153,7 @@ export default {
     border-top: 2px solid $secondary-color;
     position: fixed;
     bottom: 0;
-    z-index: 2;
+    z-index: 101;
     width: 100%;
     margin-top: 5em;
 

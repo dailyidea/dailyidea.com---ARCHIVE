@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <div>
     <slot :is-swiping="swipeInProgress || !!xVal" name="background"></slot>
     <div
       v-if="allowLeft"
@@ -20,7 +20,7 @@
         <slot :rotation-style="rotationStyle"></slot>
       </div>
     </div>
-  </span>
+  </div>
 </template>
 <script>
 export default {
@@ -278,6 +278,12 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+@media (max-width: $screen-sm-max) {
+  .swipe-parent {
+    height: 100vh;
+    overflow: hidden;
+  }
+}
 .left-arrow {
   position: absolute;
   top: 40vh;
