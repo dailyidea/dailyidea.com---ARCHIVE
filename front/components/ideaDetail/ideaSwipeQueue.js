@@ -13,3 +13,12 @@ export default async function getAllIdeas(api, nextToken) {
   )
   return data
 }
+
+export async function getFirstIdea(api) {
+  const ideas = await getAllIdeas(api)
+  if (ideas !== null && ideas.ideas) {
+    return ideas.ideas[0]
+  }
+
+  return null
+}
