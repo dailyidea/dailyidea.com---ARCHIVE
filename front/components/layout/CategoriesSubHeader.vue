@@ -3,17 +3,17 @@
     <div class="header-sub-container d-flex flex-row">
       <span
         class="link"
-        :class="{ 'link-highlight active': category === 'top' }"
+        :class="{ active: category === 'top' }"
         @click="emitCategoryClicked('top')"
       >
-        Top
+        <span :class="{ 'link-highlight mt-1': category === 'top' }">Top</span>
       </span>
       <span
         class="link"
-        :class="{ 'link-highlight active': category === 'new' }"
+        :class="{ active: category === 'new' }"
         @click="emitCategoryClicked('new')"
       >
-        New
+        <span :class="{ 'link-highlight mt-1': category === 'new' }">New</span>
       </span>
     </div>
   </div>
@@ -51,11 +51,13 @@ export default {
 <style scoped lang="scss">
 .header-container {
   width: 100%;
+  height: 100%;
   background-color: white;
   height: 60px;
 
   .header-sub-container {
     width: 92%;
+    height: 100%;
     margin: 0 auto;
 
     .link {
@@ -63,6 +65,10 @@ export default {
       z-index: 1000;
       margin-right: 1.5rem;
       cursor: pointer;
+      height: 100%;
+      display: flex;
+      flex-direciton: row;
+      align-items: center;
     }
 
     .active {
