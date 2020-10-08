@@ -9,7 +9,7 @@
           src="~/assets/images/idea-card/like-filled.png"
         />
         <img v-else class="icon" src="~/assets/images/idea-card/like.png" />
-        <span class="count">{{ idea.savesCount }}</span>
+        <span class="count">{{ idea.likesCount || 0 }}</span>
       </div>
     </v-btn>
   </span>

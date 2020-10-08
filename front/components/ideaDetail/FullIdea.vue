@@ -168,7 +168,7 @@
         <span
           v-else-if="!isExpanded"
           class="muted d-flex flex-column justify-end"
-          >View all {{ idea.commentsCount }} comments</span
+          >View all {{ idea.commentsCount || 0 }} comments</span
         >
       </v-col>
       <register-encourage-dialog v-model="showRegisterEncourageDialog" />

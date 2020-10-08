@@ -183,7 +183,7 @@ export default {
     loadNewIdea(direction) {
       this.ideaIndex += direction
 
-      if (this.ideaIndex >= this.ideaQueue.length || this.ideaIndex < 1) {
+      if (this.ideaIndex >= this.ideaQueue.length || this.ideaIndex < 0) {
         this.ideaIndex -= direction
       }
 
