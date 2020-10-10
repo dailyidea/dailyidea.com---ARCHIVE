@@ -197,8 +197,9 @@ export default {
     }),
 
     commentClicked() {
+      this.$emit('comments-btn-click')
       if (this.preview) {
-        this.$router.push(this.ideaLink)
+        this.$router.push({ path: this.ideaLink, query: { comment: 1 } })
       }
     },
 

@@ -66,6 +66,7 @@
                 @on-delete-idea="onDeleteIdea"
                 @on-idea-visibility-changed="onIdeaVisibilityChanged"
                 @on-idea-visibility-change-error="onIdeaVisibilityChangeError"
+                @comments-btn-click="commentsBtnClick"
               ></menu-panel>
             </v-row>
           </div>
@@ -162,6 +163,7 @@
       <v-col v-if="!preview" cols="12" md="4" class="comments-section">
         <idea-comments
           v-if="!editMode && isExpanded"
+          ref="ideaComments"
           :idea="idea"
           @onNotification="onNotification"
         ></idea-comments>
@@ -236,6 +238,7 @@ export default {
       default: false
     }
   },
+
   data() {
     return {
       editMode: false,
@@ -252,6 +255,7 @@ export default {
       }
     }
   },
+
   computed: {
     ...mapGetters({
       userId: 'userData/userId'
@@ -295,16 +299,23 @@ export default {
       return this.idea.userId === this.userId
     }
   },
+
   mounted() {
     this.loadSecondaryData()
+    if (this.$route.query.comment) {
+      setTimeout(() => this.commentsBtnClick(), 500)
+    }
   },
+
   methods: {
     emitExitClicked() {
       this.$emit('exit-pressed')
     },
+
     emitViewPreviewIdeaClicked() {
       this.$emit('view-preview', this.idea)
     },
+
     async loadIdeaTags() {
       const ideaTags = []
       if (this.$store.getters['cognito/isLoggedIn']) {
@@ -483,6 +494,16 @@ export default {
       this.$refs.notifier.success(
         `Your Idea is ${isPrivate ? 'private' : 'public'} now!`
       )
+    },
+
+    commentsBtnClick() {
+      if (!this.isExpanded) {
+        this.isExpanded = true
+      }
+      setTimeout(() => {
+        console.log(this.$refs.ideaComments)
+        this.$refs.ideaComments.$refs.commentInput.focus()
+      }, 100)
     }
   }
 }
