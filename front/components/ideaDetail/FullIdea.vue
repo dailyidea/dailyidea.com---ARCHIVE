@@ -501,7 +501,6 @@ export default {
         this.isExpanded = true
       }
       setTimeout(() => {
-        console.log(this.$refs.ideaComments)
         this.$refs.ideaComments.$refs.commentInput.focus()
       }, 100)
     }
