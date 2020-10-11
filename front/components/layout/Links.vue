@@ -48,7 +48,7 @@ import ProfileIcon from './svgIcons/ProfileIcon.vue'
 import PostIcon from './svgIcons/PostIcon.vue'
 import BulbIcon from './svgIcons/BulbIcon.vue'
 import BulbOnIcon from './svgIcons/BulbOnIcon.vue'
-import getAllIdeas from '@/components/ideaDetail/ideaSwipeQueue'
+import { getNewIdeas } from '@/components/ideaDetail/ideaSwipeQueue'
 
 export default {
   name: 'Links',
@@ -91,7 +91,7 @@ export default {
   },
   methods: {
     async exploreClicked() {
-      const ideas = await getAllIdeas(this.$amplifyApi)
+      const ideas = await getNewIdeas(this.$amplifyApi)
       const firstIdea = ideas.ideas[0]
       this.$router.push(`/i/${firstIdea.shortId}/${firstIdea.slug}`)
     }

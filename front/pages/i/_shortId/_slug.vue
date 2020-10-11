@@ -5,6 +5,12 @@
       :class="{ 'light-box-expanded': isExpanded }"
     ></div>
     <layout :hide-mobile-nav="isExpanded" :hide-slide-menu="hideSlideMenu">
+      <template v-slot:header>
+        <categories-sub-header
+          :category-selected="category"
+          @category-clicked="handleCategoryClicked"
+        ></categories-sub-header>
+      </template>
       <swiper
         class="idea-card"
         :swipe-disabled="isExpanded"
@@ -47,12 +53,16 @@ import Cookies from 'js-cookie'
 import { mapGetters } from 'vuex'
 import Layout from '@/components/layout/Layout'
 import FullIdea from '@/components/ideaDetail/FullIdea.vue'
-import getAllIdeas from '@/components/ideaDetail/ideaSwipeQueue.js'
+import {
+  getNewIdeas,
+  getTopIdeas
+} from '@/components/ideaDetail/ideaSwipeQueue.js'
 import Swiper from '@/components/ideaDetail/Swiper'
 import getIdea from '@/graphql/query/getIdea'
 import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 import IdeaCardSkeleton from '@/components/ideaDetail/IdeaCardSkeleton'
 import SwipeExplainer from '@/components/ideaDetail/SwipeExplainer'
+import CategoriesSubHeader from '@/components/layout/CategoriesSubHeader'
 
 export default {
   components: {
@@ -60,6 +70,7 @@ export default {
     Swiper,
     FullIdea,
     IdeaCardSkeleton,
+    CategoriesSubHeader,
     SwipeExplainer
   },
 
@@ -87,14 +98,15 @@ export default {
 
   data() {
     return {
-      ideaIndex: 0,
+      ideaIndex: 1,
       ideaQueue: [],
       nextToken: null,
       editMode: false,
       hideSlideMenu: false,
       idea: null,
       expandedState: false,
-      showExplainer: false
+      showExplainer: false,
+      category: 'top'
     }
   },
 
@@ -119,7 +131,7 @@ export default {
   },
 
   mounted() {
-    this.cacheIdeas()
+    this.cacheIdeas(this.getCategoryFromURL())
     this.incrementViews()
 
     // Show success diaslog for jsut created idea
@@ -130,6 +142,38 @@ export default {
   },
 
   methods: {
+    getIdeasFunction(category) {
+      switch (category) {
+        case 'top':
+          return getTopIdeas
+        default:
+          return getNewIdeas
+      }
+    },
+
+    ideaSlug(newCategory) {
+      let category = this.category
+
+      if (newCategory) {
+        category = newCategory
+      }
+
+      return `/i/${this.idea.shortId}/${this.idea.slug}?category=${category}`
+    },
+
+    getCategoryFromURL() {
+      let category = 'top'
+
+      const queryCategory = this.$route.query.category
+      if (queryCategory) {
+        category = queryCategory
+      }
+
+      this.category = category
+
+      return category
+    },
+
     nextIdea() {
       this.loadNewIdea(1)
     },
@@ -138,17 +182,26 @@ export default {
     },
     loadNewIdea(direction) {
       this.ideaIndex += direction
-      if (this.ideaIndex >= this.ideaQueue.length) {
-        this.ideaIndex = 0
-      } else if (this.ideaIndex < 0) {
-        this.ideaIndex = this.ideaQueue.length - 1
+
+      if (this.ideaIndex >= this.ideaQueue.length || this.ideaIndex < 0) {
+        this.ideaIndex -= direction
       }
 
       this.idea = this.ideaQueue[this.ideaIndex]
       if (this.ideaIndex > this.ideaQueue.length / 2) {
-        this.cacheIdeas()
+        this.cacheIdeas(this.category)
       }
       this.updateIdeaSlug()
+    },
+
+    async handleCategoryClicked(category) {
+      this.ideaIndex = 0
+      this.category = category
+      this.ideaQueue = []
+      this.nextToken = null
+      await this.cacheIdeas(category)
+      this.idea = this.ideaQueue[this.ideaIndex]
+      this.$router.push(`${this.ideaSlug(category)}`)
     },
 
     async incrementViews() {
@@ -167,14 +220,11 @@ export default {
     },
 
     updateIdeaSlug() {
-      window.history.pushState(
-        '',
-        '',
-        `/i/${this.idea.shortId}/${this.idea.slug}`
-      )
+      window.history.pushState('', '', this.ideaSlug())
     },
-    async cacheIdeas() {
-      const ideas = await getAllIdeas(this.$amplifyApi, this.nextToken)
+    async cacheIdeas(category) {
+      const ideasFunction = await this.getIdeasFunction(category)
+      const ideas = await ideasFunction(this.$amplifyApi, this.nextToken)
       this.ideaQueue = Array.prototype.concat(this.ideaQueue, ideas.ideas)
       this.nextToken = ideas.nextToken
     },
@@ -187,7 +237,6 @@ export default {
 
     animationOutEnd() {
       this.showExplainer = false
-      Cookies.set('hasSeenExplainer', 1, { expires: 365 })
     }
   },
 

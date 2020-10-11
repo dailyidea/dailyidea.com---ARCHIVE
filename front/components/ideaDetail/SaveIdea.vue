@@ -9,7 +9,7 @@
           src="~/assets/images/idea-card/save-filled.png"
         />
         <img v-else class="icon" src="~/assets/images/idea-card/save.png" />
-        <span class="count">{{ idea.savesCount }}</span>
+        <span class="count">{{ idea.savesCount || 0 }}</span>
       </div>
     </v-btn>
   </span>
