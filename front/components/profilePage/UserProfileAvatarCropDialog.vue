@@ -23,8 +23,8 @@
           classname="cropper"
           :stencil-component="CircleStencil"
           :src="image"
-          :max-width="1200"
-          :max-height="1200"
+          :max-width="3000"
+          :max-height="3000"
           :restrictions="pixelsRestriction"
         ></Cropper>
       </v-card-text>
@@ -81,7 +81,7 @@ export default {
     },
     select() {
       const { canvas } = this.$refs.cropper.getResult()
-      const imageToUpload = canvas.toDataURL('image/jpeg', 1.0)
+      const imageToUpload = canvas.toDataURL('image/jpeg', 0.1)
       this.resolve(imageToUpload)
       this.visible = false
     }
