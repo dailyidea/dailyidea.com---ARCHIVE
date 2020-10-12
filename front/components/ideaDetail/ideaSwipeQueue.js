@@ -28,10 +28,20 @@ export async function getNewIdeas(api, nextToken) {
 }
 
 export async function getFirstIdea(api) {
-  const ideas = await getAllIdeas(api)
+  const ideas = await getTopIdeas(api)
   if (ideas !== null && ideas.ideas) {
     return ideas.ideas[0]
   }
 
   return null
+}
+
+export async function getFirstIdeaURL(api) {
+  const firstIdea = await getFirstIdea(api)
+
+  if (firstIdea === null) {
+    return '/'
+  }
+
+  return `/i/${firstIdea.shortId}/${firstIdea.slug}`
 }
