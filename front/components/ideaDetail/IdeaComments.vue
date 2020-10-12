@@ -38,6 +38,7 @@
       <div class="comments-part__input-container d-flex flex-row align-center">
         <img :src="avatar" class="comment-avatar" />
         <v-text-field
+          ref="commentInput"
           v-model="newCommentText"
           label="Join the conversation..."
           single-line
