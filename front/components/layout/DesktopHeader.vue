@@ -6,8 +6,8 @@
           <v-toolbar-title>
             <!-- Logo on top left corner -->
             <nuxt-link
-              class="logo d-flex flex-column justify-center align-center mt-1"
               :to="logoLink"
+              class="logo d-flex flex-column justify-center align-center mt-1"
             >
               <img class="logo__bulb" src="~/assets/images/lamp_on.png" />
               <img class="logo__text" src="~/assets/images/logo_text.png" />
@@ -25,6 +25,7 @@
 
 <script>
 import Links from './Links'
+import { getFirstIdea } from '@/components/ideaDetail/ideaSwipeQueue'
 
 export default {
   name: 'DesktopHeader',
@@ -34,7 +35,8 @@ export default {
   data() {
     return {
       searchIdeaMode: false,
-      label: ''
+      label: '',
+      logoLink: '/'
     }
   },
   computed: {
@@ -44,17 +46,25 @@ export default {
 
     isAuthenticated() {
       return this.$store.state.userData.isAuthenticated
-    },
-
-    logoLink() {
-      if (this.isAuthenticated) {
-        return { name: 'ideas-all' }
-      } else {
-        return '/'
-      }
     }
   },
+
+  async mounted() {
+    this.logoLink = await this.getLogoLink()
+  },
+
   methods: {
+    async getLogoLink() {
+      if (this.isAuthenticated) {
+        const firstIdea = await getFirstIdea(this.$amplifyApi)
+        if (firstIdea) {
+          return `/i/${firstIdea.shortId}/${firstIdea.slug}`
+        }
+      }
+
+      return '/'
+    },
+
     signOut() {
       this.$emit('signOut')
     },
@@ -81,6 +91,7 @@ export default {
   }
 
   .logo {
+    cursor: pointer;
     &__bulb {
       width: 30px;
     }
