@@ -28,7 +28,7 @@ export async function getNewIdeas(api, nextToken) {
 }
 
 export async function getFirstIdea(api) {
-  const ideas = await getAllIdeas(api)
+  const ideas = await getNewIdeas(api)
   if (ideas !== null && ideas.ideas) {
     return ideas.ideas[0]
   }
