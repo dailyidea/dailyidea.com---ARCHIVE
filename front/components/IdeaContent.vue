@@ -6,7 +6,6 @@
       'idea-content': !collapsed
     }"
     class="hide-scrollbar"
-    @click="$emit('click')"
     v-html="content"
   ></div>
 </template>

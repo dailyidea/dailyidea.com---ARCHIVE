@@ -5,8 +5,8 @@
     :class="{ 'fixed-height': !isExpanded && !preview }"
     class="elevation-2 ma-1 card"
     :style="additionalStyling"
+    @click="expandToggle"
   >
-    <div class="tap-bar" @click="expandToggle"></div>
     <slot :expand-toggle="expandToggle"></slot>
   </v-row>
 </template>
@@ -14,6 +14,7 @@
 <script>
 export default {
   name: 'IdeaCard',
+
   props: {
     allowMobileScroll: Boolean,
     expanded: Boolean,
@@ -23,11 +24,13 @@ export default {
       default: Object
     }
   },
+
   data() {
     return {
       isExpanded: this.expanded === undefined ? false : this.expanded
     }
   },
+
   mounted() {
     // Disable vertical scroll if card is not expanded
     if (!this.allowMobileScroll) {
@@ -45,6 +48,7 @@ export default {
         return true
       }
     },
+
     expandToggle() {
       this.isExpanded = !this.isExpanded
       this.$emit('expand-toggle')
@@ -78,15 +82,6 @@ export default {
 @media only screen and (max-width: $screen-sm-max) {
   .fixed-height {
     overflow-y: hidden;
-  }
-
-  .tap-bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 10%;
-    z-index: 100;
   }
 }
 </style>
