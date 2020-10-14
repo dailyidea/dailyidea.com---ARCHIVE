@@ -28,7 +28,7 @@ export default {
 
 .card {
   position: absolute;
-  height: 70vh;
+  height: 55vh;
   width: calc(100% - 8px);
   padding: 1rem;
   background-color: white;
@@ -39,7 +39,7 @@ export default {
     margin: 0 auto !important;
     margin-top: 2vh !important;
     width: 70vw;
-    height: 71vh;
+    height: 69vh;
   }
 }
 </style>

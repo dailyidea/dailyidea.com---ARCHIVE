@@ -28,23 +28,7 @@ export default {
       isExpanded: this.expanded === undefined ? false : this.expanded
     }
   },
-  mounted() {
-    // Disable vertical scroll if card is not expanded
-    if (!this.allowMobileScroll) {
-      this.$refs.page.addEventListener(
-        'touchmove',
-        this.preventScrollOnMobileWhenCardIsNotExpanded
-      )
-    }
-  },
   methods: {
-    preventScrollOnMobileWhenCardIsNotExpanded(event) {
-      if (this.isExpanded === false) {
-        event.preventDefault()
-      } else {
-        return true
-      }
-    },
     expandToggle() {
       this.isExpanded = !this.isExpanded
       this.$emit('expand-toggle')
@@ -69,6 +53,7 @@ export default {
 
     .fixed-height {
       min-height: 80vh;
+      max-height: 80vh;
     }
   }
 

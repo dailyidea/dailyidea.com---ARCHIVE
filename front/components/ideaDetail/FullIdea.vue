@@ -1,8 +1,8 @@
 <template>
   <idea-card
     :allow-mobile-scroll="allowMobileScroll"
-    :preview="preview"
     :additional-styling="additionalStyling"
+    :preview="preview"
     @expand-toggle="isExpanded = !isExpanded"
   >
     <template v-slot:default="{ expandToggle }">

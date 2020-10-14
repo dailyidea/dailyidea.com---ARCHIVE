@@ -30,7 +30,6 @@
             v-if="showExplainer"
             class="card"
             :style="rotationStyle"
-            :additional-styling="{ 'min-height': '71vh' }"
           ></swipe-explainer>
           <full-idea
             v-else
@@ -38,7 +37,6 @@
             class="card"
             :idea="idea"
             :style="rotationStyle"
-            :additional-styling="{ 'min-height': '71vh' }"
             @toggle-expand="isExpanded = !isExpanded"
           ></full-idea>
         </template>
