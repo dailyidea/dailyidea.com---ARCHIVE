@@ -1,5 +1,5 @@
 <template>
-  <idea-card expanded>
+  <card>
     <div class="d-flex justify-space-between align-content-space-between">
       <div class="flex-shrink-0">
         <img
@@ -18,16 +18,14 @@
         +
       </v-btn>
     </div>
-  </idea-card>
+  </card>
 </template>
 
 <script>
-import IdeaCard from '~/components/ideaDetail/IdeaCard'
+import Card from '@/components/shared/Card'
 
 export default {
-  components: {
-    IdeaCard
-  },
+  components: { Card },
 
   props: {
     title: {

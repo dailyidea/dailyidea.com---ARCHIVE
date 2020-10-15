@@ -3,13 +3,13 @@
     <template v-slot:overlay>
       <div class="overlay">
         <div class="overlay-card">
-          <full-idea
+          <idea-card
             expanded
             close-btn
             allow-mobile-scroll
             :idea="selectedIdea"
             @exit-pressed="handleExitPressed"
-          ></full-idea>
+          ></idea-card>
         </div>
       </div>
     </template>
@@ -42,13 +42,13 @@ import UserProfileHeaderSection from './UserProfileHeaderSection'
 import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
 import VisualNotifier from '@/components/VisualNotifier'
 import Layout from '@/components/layout/Layout'
-import FullIdea from '@/components/ideaDetail/FullIdea'
+import IdeaCard from '@/components/ideaDetail/IdeaCard'
 
 export default {
   name: 'UsersProfile',
   components: {
     Layout,
-    FullIdea,
+    IdeaCard,
     UserProfileHeaderSection,
     VisualNotifier,
     UserProfileAvatarCropDialog

@@ -6,7 +6,7 @@
     :load-more-ideas-is-possible="loadMoreIdeasIsPossible"
   >
     <div v-if="userIdeas.length > 0" class="cards-container">
-      <full-idea
+      <idea-card
         v-for="(idea, index) in userIdeas"
         :key="index"
         class="my-8"
@@ -14,7 +14,7 @@
         allow-mobile-scroll
         :idea="idea"
         @view-preview="handleViewPreview(idea)"
-      ></full-idea>
+      ></idea-card>
     </div>
     <div v-else class="cards-container">
       <no-ideas-placeholder
@@ -27,7 +27,7 @@
 <script>
 import userInfoBySlug from '@/graphql/query/userInfoBySlug'
 import UsersProfile from '@/components/profilePage/UsersProfile'
-import FullIdea from '@/components/ideaDetail/FullIdea'
+import IdeaCard from '@/components/ideaDetail/IdeaCard'
 import NoIdeasPlaceholder from '@/components/ideaDetail/NoIdeasPlaceholder'
 
 import getUsersIdeas from '@/graphql/query/getUsersIdeas'
@@ -36,7 +36,7 @@ import getIdeas from '@/graphql/query/getIdeas'
 
 export default {
   name: 'UserSlugVue',
-  components: { UsersProfile, FullIdea, NoIdeasPlaceholder },
+  components: { UsersProfile, IdeaCard, NoIdeasPlaceholder },
   async asyncData({ app, route, store, error }) {
     const userSlug = route.params.userSlug
     const isMyProfile = store.getters['userData/slug'] === route.params.userSlug

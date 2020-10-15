@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <idea-card
+    <card
       :additional-styling="{
         'min-height': '60vh',
         'max-width': isMobile ? '' : '60vw'
@@ -38,19 +38,19 @@
       <div class="w-full">
         <swipe-footer />
       </div>
-    </idea-card>
+    </card>
   </Layout>
 </template>
 
 <script>
 import Layout from '@/components/layout/Layout'
-import IdeaCard from '@/components/ideaDetail/IdeaCard'
+import Card from '@/components/shared/Card'
 import SwipeFooter from '@/components/layout/SwipeFooter'
 
 export default {
   components: {
     SwipeFooter,
-    IdeaCard,
+    Card,
     Layout
   }
 }

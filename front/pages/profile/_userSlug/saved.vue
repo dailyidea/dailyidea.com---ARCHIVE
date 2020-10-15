@@ -5,14 +5,14 @@
     :ideas="ideas"
   >
     <div v-if="ideas.length > 0" class="cards-container">
-      <full-idea
+      <idea-card
         v-for="(idea, index) in ideas"
         :key="index"
         preview
         allow-mobile-scroll
         :idea="idea"
         @view-preview="handleViewPreview(idea)"
-      ></full-idea>
+      ></idea-card>
     </div>
     <div v-else class="cards-container">
       <no-ideas-placeholder
@@ -27,7 +27,7 @@
 import { graphqlOperation } from '@aws-amplify/api'
 import userInfoBySlug from '@/graphql/query/userInfoBySlug'
 import UserProfile from '@/components/profilePage/UsersProfile'
-import FullIdea from '@/components/ideaDetail/FullIdea'
+import IdeaCard from '@/components/ideaDetail/IdeaCard'
 import NoIdeasPlaceholder from '@/components/ideaDetail/NoIdeasPlaceholder'
 
 import loadIdeas from '@/components/ideasList/loadIdeas'
@@ -36,7 +36,7 @@ import getSavedIdeas from '~/graphql/query/getSavedIdeas'
 export default {
   components: {
     UserProfile,
-    FullIdea,
+    IdeaCard,
     NoIdeasPlaceholder
   },
   middleware: 'authenticated',

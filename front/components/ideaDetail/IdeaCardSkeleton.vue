@@ -1,6 +1,6 @@
 <template>
-  <div class="idea-card-skeleton">
-    <div ref="page" align="stretch" class="elevation-2 ma-1 card">
+  <div class="skeleton-card">
+    <card :additional-styling="additionalStyling">
       <v-skeleton-loader
         ref="skeleton"
         :boilerplate="true"
@@ -8,36 +8,33 @@
         :tile="false"
         class="mx-auto"
       ></v-skeleton-loader>
-    </div>
+    </card>
   </div>
 </template>
 
 <script>
+import Card from '@/components/shared/Card'
+
 export default {
-  //
+  components: { Card },
+
+  props: {
+    additionalStyling: { type: Object, default: Object }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.idea-card-skeleton {
-  display: flex;
-  justify-content: center;
-  position: relative;
+.skeleton-card {
+  position: absolute;
   width: 100%;
+  padding: 4px;
 }
 
 .card {
-  position: absolute;
-  height: 70vh;
-  width: calc(100% - 8px);
-  padding: 1rem;
-  background-color: white;
-  border-radius: 8px;
-  overflow: hidden;
+  margin: 0 auto !important;
 
   @media only screen and (min-width: $screen-md-min) {
-    margin: 0 auto !important;
-    margin-top: 2vh !important;
     width: 70vw;
     height: 71vh;
   }
