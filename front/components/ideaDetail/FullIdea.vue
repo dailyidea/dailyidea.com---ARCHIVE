@@ -1,6 +1,5 @@
 <template>
   <idea-card
-    :allow-mobile-scroll="allowMobileScroll"
     :additional-styling="additionalStyling"
     :preview="preview"
     @expand-toggle="isExpanded = !isExpanded"

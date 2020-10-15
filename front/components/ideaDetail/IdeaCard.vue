@@ -15,7 +15,6 @@
 export default {
   name: 'IdeaCard',
   props: {
-    allowMobileScroll: Boolean,
     expanded: Boolean,
     preview: Boolean,
     additionalStyling: {
