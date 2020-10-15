@@ -1,10 +1,12 @@
 <template>
   <idea-card
-    :additional-styling="additionalStyling"
+    ref="ideaCard"
+    :allow-mobile-scroll="allowMobileScroll"
     :preview="preview"
+    :additional-styling="additionalStyling"
     @expand-toggle="isExpanded = !isExpanded"
   >
-    <template v-slot:default="{ expandToggle }">
+    <template>
       <v-icon v-if="closeBtn" class="close-btn" @click="emitExitClicked"
         >mdi mdi-close</v-icon
       >
@@ -22,6 +24,7 @@
                   class="idea-name-field"
                   :single-line="true"
                   :disabled="updatingIdea"
+                  @click.native="e => e.stopPropagation()"
                 ></v-text-field-with-validation>
                 <h2 v-else class="idea-part__header__title__label">
                   {{ idea.title }}
@@ -30,9 +33,9 @@
             </v-row>
             <div v-if="!editMode" class="idea-part__info pt-2 pb-2">
               <v-row no-gutters>
-                <span class="idea-part__info__author">
+                <span class="idea-part__info__author" @click.stop>
                   <router-link
-                    class="idea-part__info__author__link d-flex align-center"
+                    class="idea-part__info__author__link d-flex align-center ignore-whole-click"
                     :to="{
                       name: 'profile-userSlug',
                       params: {
@@ -54,6 +57,7 @@
             </div>
             <v-row v-if="!editMode" cols="auto" offset="1">
               <menu-panel
+                class="ignore-whole-click"
                 :editable="isMyIdea"
                 :preview="preview"
                 :idea="idea"
@@ -75,7 +79,11 @@
             <!-- /idea-part__info -->
 
             <div class="idea-part__content">
-              <div v-if="editMode" class="idea-part__content__idea-editor">
+              <div
+                v-if="editMode"
+                class="idea-part__content__idea-editor"
+                @click.stop
+              >
                 <client-only>
                   <trix-wrapper
                     v-model="ideaEditData.content"
@@ -96,7 +104,6 @@
                 <idea-content
                   :collapsed="!isExpanded"
                   :content="ideaContent"
-                  @click="expandToggle"
                 ></idea-content>
                 <div
                   v-if="preview"
@@ -116,7 +123,11 @@
                   >{{ item }}
                 </v-chip>
               </div>
-              <div v-else class="idea-part__tags-panel__tags-editor">
+              <div
+                v-else
+                class="idea-part__tags-panel__tags-editor"
+                @click.stop
+              >
                 <v-combobox
                   v-model="ideaEditData.ideaTags"
                   placeholder="Add tags here"
@@ -145,7 +156,11 @@
                 </v-combobox>
               </div>
             </div>
-            <div v-if="editMode" class="idea-part__edit-buttons-panel">
+            <div
+              v-if="editMode"
+              class="idea-part__edit-buttons-panel"
+              @click.stop
+            >
               <v-btn text rounded @click="disableEditMode">Cancel</v-btn>
               <v-btn
                 color="secondary"

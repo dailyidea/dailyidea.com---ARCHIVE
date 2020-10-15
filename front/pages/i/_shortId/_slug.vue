@@ -3,6 +3,7 @@
     <div
       class="light-box-bg"
       :class="{ 'light-box-expanded': isExpanded }"
+      @click="expandToggle()"
     ></div>
     <layout :hide-mobile-nav="isExpanded" :hide-slide-menu="hideSlideMenu">
       <template v-slot:header>
@@ -235,6 +236,10 @@ export default {
 
     animationOutEnd() {
       this.showExplainer = false
+    },
+
+    expandToggle() {
+      this.$refs.page.$refs.ideaCard.expandToggle()
     }
   },
 

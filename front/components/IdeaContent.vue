@@ -6,7 +6,6 @@
       'idea-content': !collapsed
     }"
     class="hide-scrollbar"
-    @click="$emit('click')"
     v-html="content"
   ></div>
 </template>
@@ -28,14 +27,13 @@ export default {
 .idea-content-collapsed {
   max-width: 100%;
   max-height: 47vh;
-  min-height: 47vh;
+  overflow-y: hidden;
+
   @media (max-width: $screen-sm-max) {
     max-height: 20vh;
     min-height: 20vh;
-    -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
   }
-  overflow-y: hidden;
 }
 
 .idea-content {
@@ -85,17 +83,22 @@ export default {
       max-width: 80%;
     }
   }
+}
+
+::v-deep {
+  a[href$='.jpg'],
+  a[href$='.png'],
+  a[href$='.gif'] {
+    pointer-events: none;
+    cursor: default;
+  }
+
   @media (max-width: $screen-sm-max) {
     img {
+      height: auto;
       max-height: 400px;
       max-width: 100%;
     }
-  }
-}
-::v-deep {
-  a[href$='.jpg'] {
-    pointer-events: none;
-    cursor: default;
   }
 }
 </style>

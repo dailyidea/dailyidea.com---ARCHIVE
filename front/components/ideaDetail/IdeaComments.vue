@@ -1,5 +1,5 @@
 <template>
-  <div class="comments-part">
+  <div class="comments-part" @click.stop>
     <v-container
       ref="scroller"
       class="comments-part__container hide-scrollbar fade-bottom"
