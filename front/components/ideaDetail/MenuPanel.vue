@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-panel-container">
+  <div class="menu-panel-container" @click.stop>
     <share-idea-by-email-dialog
       v-model="showEmailShareDialog"
       :idea-id="idea.ideaId"
