@@ -76,7 +76,6 @@ export default {
   methods: {
     updateIdea(oldIdea, idea) {
       const idx = this.userIdeas.findIndex(i => i.ideaId === idea.ideaId)
-      console.log(oldIdea, idea, idx)
       this.$set(this.userIdeas, idx, idea)
     }
   },
