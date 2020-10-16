@@ -96,7 +96,7 @@ export default {
 }
 </script>
 
-<style la lang="scss" scoped>
+<style lang="scss" scoped>
 .close-btn {
   position: absolute;
   z-index: 1001;

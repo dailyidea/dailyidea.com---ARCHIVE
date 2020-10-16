@@ -230,10 +230,6 @@ export default {
   margin-top: 2px;
 }
 
-.idea-link {
-  text-decoration: none;
-}
-
 .idea-part {
   position: relative;
 

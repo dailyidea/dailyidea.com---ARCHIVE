@@ -79,7 +79,7 @@
         v-if="expanded"
         ref="ideaComments"
         :idea="idea"
-        @onNotification="onNotification"
+        @on-notification="onNotification"
         @click.native.stop
       ></idea-comments>
       <span v-else-if="!expanded" class="muted d-flex flex-column justify-end"
