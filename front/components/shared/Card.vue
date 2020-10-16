@@ -26,7 +26,6 @@ export default {
   methods: {
     preventScrollOnMobile(event) {
       if (this.preventMobileScroll) {
-        console.log('preventScrollOnMobile')
         event.preventDefault()
       }
     }
