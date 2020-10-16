@@ -14,21 +14,20 @@ export default {
   props: {
     lightboxMode: Boolean,
     additionalStyling: { type: [Object, String], default: Object },
-    allowMobileScroll: { type: Boolean, default: false }
+    preventMobileScroll: { type: Boolean, default: false }
   },
 
   mounted() {
-    // if (!this.allowMobileScroll) {
-    //   this.$refs.card.addEventListener('touchmove', this.preventScrollOnMobile)
-    // }
+    if (this.preventMobileScroll) {
+      this.$refs.card.addEventListener('touchmove', this.preventScrollOnMobile)
+    }
   },
 
   methods: {
     preventScrollOnMobile(event) {
-      if (this.isExpanded === false) {
+      if (this.preventMobileScroll) {
+        console.log('preventScrollOnMobile')
         event.preventDefault()
-      } else {
-        return true
       }
     }
   }

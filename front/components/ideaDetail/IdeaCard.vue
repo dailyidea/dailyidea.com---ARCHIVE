@@ -2,6 +2,7 @@
   <card
     :class="{ 'fixed-height': !isExpanded && !preview }"
     :additional-styling="additionalStyling"
+    :prevent-mobile-scroll="!isExpanded && !allowMobileScroll"
     @click="expandToggle"
   >
     <v-icon v-if="closeBtn" class="close-btn" @click="$emit('exit-pressed')"
@@ -43,7 +44,8 @@ export default {
     idea: { type: Object, required: true },
     additionalStyling: { type: Object, default: Object },
     expanded: { type: Boolean, default: false },
-    closeBtn: { type: Boolean, default: false }
+    closeBtn: { type: Boolean, default: false },
+    allowMobileScroll: { type: Boolean, default: false }
   },
 
   data() {
