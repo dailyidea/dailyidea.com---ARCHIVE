@@ -40,7 +40,7 @@
             :idea="idea"
             :style="rotationStyle"
             :additional-styling="{ 'min-height': '71vh' }"
-            @update="i => (idea = i)"
+            @updated="i => (idea = i)"
             @expand-toggle="val => (isExpanded = val)"
           ></idea-card>
         </template>

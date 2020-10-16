@@ -276,6 +276,7 @@ export default {
   align-items: center;
   width: 100vw;
   background-color: white;
+  overflow: hidden;
 }
 
 .header-content {

@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col cols="12" md="8" class="idea-part">
+    <v-col cols="12" :md="preview ? '' : 8" class="idea-part">
       <div>
         <v-row class="idea-part__header" no-gutters>
           <v-col class="idea-part__header__title">

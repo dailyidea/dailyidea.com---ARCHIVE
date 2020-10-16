@@ -4,6 +4,7 @@
     :initial-profile-data="userInfo"
     :ideas="userIdeas"
     :load-more-ideas-is-possible="loadMoreIdeasIsPossible"
+    @idea-updated="(oldIdea, idea) => updateIdea(oldIdea, idea)"
   >
     <div v-if="userIdeas.length > 0" class="cards-container">
       <idea-card
@@ -14,6 +15,7 @@
         allow-mobile-scroll
         :idea="idea"
         @view-preview="handleViewPreview(idea)"
+        @updated="i => $set(userIdeas, index, i)"
       ></idea-card>
     </div>
     <div v-else class="cards-container">
@@ -36,7 +38,9 @@ import getIdeas from '@/graphql/query/getIdeas'
 
 export default {
   name: 'UserSlugVue',
+
   components: { UsersProfile, IdeaCard, NoIdeasPlaceholder },
+
   async asyncData({ app, route, store, error }) {
     const userSlug = route.params.userSlug
     const isMyProfile = store.getters['userData/slug'] === route.params.userSlug
@@ -66,6 +70,14 @@ export default {
       userInfo,
       userIdeas,
       loadMoreIdeasIsPossible
+    }
+  },
+
+  methods: {
+    updateIdea(oldIdea, idea) {
+      const idx = this.userIdeas.findIndex(i => i.ideaId === idea.ideaId)
+      console.log(oldIdea, idea, idx)
+      this.$set(this.userIdeas, idx, idea)
     }
   },
 

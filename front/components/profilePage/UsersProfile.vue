@@ -9,6 +9,7 @@
             allow-mobile-scroll
             :idea="selectedIdea"
             @exit-pressed="handleExitPressed"
+            @updated="ideaUpdated"
           ></idea-card>
         </div>
       </div>
@@ -65,14 +66,6 @@ export default {
     loadMoreIdeasIsPossible: {
       type: Boolean,
       default: false
-    },
-    showOverlay: {
-      type: Boolean,
-      default: false
-    },
-    selectedIdea: {
-      type: Object,
-      default: Object
     }
   },
   data() {
@@ -94,7 +87,9 @@ export default {
         bio: ''
       },
       savingChanges: false,
-      image: undefined
+      image: undefined,
+      showOverlay: false,
+      selectedIdea: null
     }
   },
   computed: {
@@ -114,6 +109,11 @@ export default {
     handleExitPressed() {
       this.showOverlay = false
       this.selectedIdea = null
+    },
+
+    ideaUpdated(idea) {
+      this.$emit('idea-updated', this.selectedIdea, idea)
+      this.selectedIdea = idea
     }
   }
 }

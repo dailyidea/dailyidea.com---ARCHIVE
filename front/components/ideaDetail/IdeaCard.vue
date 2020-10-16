@@ -1,6 +1,6 @@
 <template>
   <card
-    :class="{ 'fixed-height': !isExpanded }"
+    :class="{ 'fixed-height': !isExpanded && !preview }"
     :additional-styling="additionalStyling"
     @click="expandToggle"
   >
@@ -87,7 +87,7 @@ export default {
     },
 
     onUpdate(idea) {
-      this.$emit('update', merge({}, this.idea, idea))
+      this.$emit('updated', merge({}, this.idea, idea))
       this.editMode = false
     }
   }
