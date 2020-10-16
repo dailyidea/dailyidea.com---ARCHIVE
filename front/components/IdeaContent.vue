@@ -30,7 +30,8 @@ export default {
   overflow-y: hidden;
 
   @media (max-width: $screen-sm-max) {
-    max-height: 35vh;
+    max-height: 20vh;
+    min-height: 20vh;
     mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
   }
 }

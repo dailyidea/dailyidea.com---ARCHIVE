@@ -1,10 +1,5 @@
 <template>
-  <idea-card
-    :allow-mobile-scroll="allowMobileScroll"
-    :preview="preview"
-    :additional-styling="additionalStyling"
-    @expand-toggle="isExpanded = !isExpanded"
-  >
+  <idea-card :additional-styling="additionalStyling" class="welcome-card">
     <v-col cols="12" :md="preview ? '' : 8" class="idea-part">
       <v-row class="idea-part__header no-gutters" no-gutters>
         <v-col class="idea-part__header__title">
@@ -100,6 +95,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.welcome-card {
+  min-height: 55vh;
+  max-height: 55vh;
+}
+
 .comments-section {
   display: flex;
   align-items: flex-end;
