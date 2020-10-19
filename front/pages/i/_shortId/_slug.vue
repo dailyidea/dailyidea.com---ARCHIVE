@@ -3,7 +3,7 @@
     <div
       class="light-box-bg"
       :class="{ 'light-box-expanded': isExpanded }"
-      @click="expandToggle()"
+      @click="$refs.page.expandToggle()"
     ></div>
     <layout :hide-mobile-nav="isExpanded" :hide-slide-menu="hideSlideMenu">
       <template v-slot:header>
@@ -24,22 +24,25 @@
         @animation-out-end="animationOutEnd"
       >
         <template v-slot:background>
-          <idea-card-skeleton />
+          <idea-card-skeleton :additional-styling="{ 'min-height': '71vh' }" />
         </template>
         <template v-slot="{ rotationStyle }">
           <swipe-explainer
             v-if="showExplainer"
             class="card"
             :style="rotationStyle"
+            :additional-styling="{ 'min-height': '71vh' }"
           ></swipe-explainer>
-          <full-idea
+          <idea-card
             v-else
             ref="page"
             class="card"
             :idea="idea"
             :style="rotationStyle"
-            @toggle-expand="isExpanded = !isExpanded"
-          ></full-idea>
+            :additional-styling="{ 'min-height': '71vh' }"
+            @updated="i => (idea = i)"
+            @expand-toggle="val => (isExpanded = val)"
+          ></idea-card>
         </template>
       </swiper>
     </layout>
@@ -51,7 +54,6 @@ import clip from 'text-clipper'
 import Cookies from 'js-cookie'
 import { mapGetters } from 'vuex'
 import Layout from '@/components/layout/Layout'
-import FullIdea from '@/components/ideaDetail/FullIdea.vue'
 import {
   getNewIdeas,
   getTopIdeas
@@ -62,12 +64,13 @@ import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 import IdeaCardSkeleton from '@/components/ideaDetail/IdeaCardSkeleton'
 import SwipeExplainer from '@/components/ideaDetail/SwipeExplainer'
 import CategoriesSubHeader from '@/components/layout/CategoriesSubHeader'
+import IdeaCard from '@/components/ideaDetail/IdeaCard'
 
 export default {
   components: {
+    IdeaCard,
     Layout,
     Swiper,
-    FullIdea,
     IdeaCardSkeleton,
     CategoriesSubHeader,
     SwipeExplainer
@@ -105,7 +108,8 @@ export default {
       idea: null,
       expandedState: false,
       showExplainer: false,
-      category: 'top'
+      category: 'top',
+      isExpanded: false
     }
   },
 
@@ -113,16 +117,7 @@ export default {
     ...mapGetters({
       userId: 'userData/userId',
       isAuthenticated: 'userData/isAuthenticated'
-    }),
-
-    isExpanded: {
-      set() {
-        this.expandedState = !this.expandedState
-      },
-      get() {
-        return this.expandedState === undefined ? false : this.expandedState
-      }
-    }
+    })
   },
 
   created() {
@@ -236,10 +231,6 @@ export default {
 
     animationOutEnd() {
       this.showExplainer = false
-    },
-
-    expandToggle() {
-      this.$refs.page.$refs.ideaCard.expandToggle()
     }
   },
 

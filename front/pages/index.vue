@@ -36,19 +36,17 @@
       @left-arrow-clicked="previousIdea"
       @right-arrow-clicked="nextIdea"
     >
-      <idea-card
+      <card
         ref="page"
         :style="rotationStyle"
         :additional-styling="{
-          //            - bottom-bar - top-swipper - allowance-from-paddings
           'min-height': 'calc(100vh - 80px - 70px - 20px)',
           'max-height': isLandscape ? '' : 'calc(100vh - 80px - 70px - 20px)',
           'max-width': isMobile ? '' : '70vw'
         }"
-        @expand-toggle="isExpanded = !isExpanded"
       >
-        <Welcome :page-on="ideaIndex"></Welcome>
-      </idea-card>
+        <welcome :page-on="ideaIndex"></welcome>
+      </card>
     </swiper>
 
     <div class="swipe-footer text-center py-5 hidden-md-and-down">
@@ -58,7 +56,7 @@
 </template>
 
 <script>
-import IdeaCard from '@/components/ideaDetail/IdeaCard'
+import Card from '@/components/shared/Card'
 import Swiper from '@/components/ideaDetail/Swiper'
 import Welcome from '@/components/welcome/Welcome'
 import SliderDots from '@/components/layout/svgIcons/SliderDots'
@@ -70,7 +68,7 @@ export default {
   components: {
     Layout,
     Swiper,
-    IdeaCard,
+    Card,
     Welcome,
     SliderDots,
     SwipeIcon
@@ -90,6 +88,7 @@ export default {
       ideas: result.items
     }
   },
+
   data: () => ({
     mobileHeaderUiOptions: {
       pageTitle: '',
@@ -100,6 +99,7 @@ export default {
     isLandscape: false,
     hideSlideMenu: true
   }),
+
   computed: {
     isExpanded: {
       set() {

@@ -92,3 +92,7 @@ form .v-input__prepend-inner {
   color: $primary-color;
   background: linear-gradient(to top, transparent 15%, rgba(91, 65, 187, 0.2) 15%, rgba(91, 65, 187, 0.2) 55%, transparent 55%);
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}

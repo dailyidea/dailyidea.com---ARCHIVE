@@ -1,70 +1,113 @@
 <template>
-  <v-row
-    ref="page"
-    align="stretch"
+  <card
     :class="{ 'fixed-height': !isExpanded && !preview }"
-    class="elevation-2 ma-1 card"
-    :style="additionalStyling"
+    :additional-styling="additionalStyling"
+    :prevent-mobile-scroll="!isExpanded && !allowMobileScroll"
     @click="expandToggle"
   >
-    <slot :expand-toggle="expandToggle"></slot>
-  </v-row>
+    <v-icon v-if="closeBtn" class="close-btn" @click="$emit('exit-pressed')"
+      >mdi mdi-close</v-icon
+    >
+    <idea-edit
+      v-if="editMode"
+      :idea="idea"
+      :idea-tags="ideaTags"
+      @updated="onUpdate"
+      @cancel="editMode = false"
+    />
+    <idea-show
+      v-else
+      :idea="idea"
+      :expanded="isExpanded"
+      :preview="preview"
+      :idea-tags="ideaTags"
+      @edit="editMode = true"
+      @close="isExpanded = false"
+      @view-preview="$emit('view-preview')"
+      @updated="onUpdate"
+    />
+  </card>
 </template>
 
 <script>
+import merge from 'lodash/merge'
+import Card from '@/components/shared/Card'
+import IdeaShow from '@/components/ideaDetail/IdeaShow'
+import IdeaEdit from '@/components/ideaDetail/IdeaEdit'
+import getIdeaTags from '@/graphql/query/getIdeaTags'
+
 export default {
-  name: 'IdeaCard',
+  components: { IdeaEdit, IdeaShow, Card },
 
   props: {
-    expanded: Boolean,
     preview: Boolean,
-    additionalStyling: {
-      type: Object,
-      default: Object
-    }
+    idea: { type: Object, required: true },
+    additionalStyling: { type: Object, default: Object },
+    expanded: { type: Boolean, default: false },
+    closeBtn: { type: Boolean, default: false },
+    allowMobileScroll: { type: Boolean, default: false }
   },
 
   data() {
     return {
-      isExpanded: this.expanded === undefined ? false : this.expanded
+      ideaTags: [],
+      isExpanded: false,
+      editMode: false
     }
+  },
+
+  mounted() {
+    this.loadIdeaTags()
+    if (this.$route.query.comment) {
+      setTimeout(() => this.commentsBtnClick(), 500)
+    }
+    this.isExpanded = this.isMobile ? this.expanded : true
   },
 
   methods: {
     expandToggle() {
+      if (this.expanded || !this.isMobile) {
+        return
+      }
       this.isExpanded = !this.isExpanded
-      this.$emit('expand-toggle')
+      this.$emit('expand-toggle', this.isExpanded)
+    },
+
+    async loadIdeaTags() {
+      const ideaTags = []
+      if (this.$store.getters['cognito/isLoggedIn']) {
+        const tag = await this.$amplifyApi.graphql({
+          query: getIdeaTags,
+          variables: { ideaId: this.idea.ideaId }
+        })
+
+        for (let i = 0; i < tag.data.ideaTags.length; i++) {
+          ideaTags.push(tag.data.ideaTags[i].tag)
+        }
+      }
+      this.ideaTags = ideaTags
+    },
+
+    onUpdate(idea) {
+      this.$emit('updated', merge({}, this.idea, idea))
+      this.editMode = false
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.card {
-  position: relative;
-  padding: 1rem;
-  background-color: white;
-  border-radius: 8px;
-  border: 1px solid $light-grey !important;
-  box-shadow: $card-shadow !important;
-  overflow: hidden;
+.close-btn {
+  position: absolute;
+  z-index: 1001;
+  top: 10px;
+  right: 10px;
+  color: $primary-color;
+  font-size: 20px;
 
-  @media only screen and (min-width: $screen-md-min) {
-    margin: 0 auto !important;
-    margin-top: 2vh !important;
-
-    .fixed-height {
-      min-height: 80vh;
-      max-height: 80vh;
-    }
-  }
-
-  /* .rounded doesn't work because i'm applying this to a .row (which i shouldn't) */
-}
-
-@media only screen and (max-width: $screen-sm-max) {
-  .fixed-height {
-    overflow-y: hidden;
+  @media (max-width: $screen-sm-max) {
+    left: 10px;
+    justify-content: start;
   }
 }
 </style>

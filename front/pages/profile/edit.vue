@@ -11,7 +11,7 @@
     </template>
     <template>
       <div class="card-container mx-auto">
-        <idea-card expanded class="edit-card">
+        <card class="edit-card">
           <div class="edit-card__avatar-section">
             <img :src="avatar" @click="selectAvatar" />
             <span class="purple-text" @click="selectAvatar"
@@ -57,7 +57,7 @@
           <div class="edit-card__text-section border-top pt-5">
             <span class="purple-text">Deactivate your account</span>
           </div>
-        </idea-card>
+        </card>
       </div>
     </template>
   </layout>
@@ -66,7 +66,7 @@
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 import Layout from '@/components/layout/Layout'
-import IdeaCard from '@/components/ideaDetail/IdeaCard'
+import Card from '@/components/shared/Card'
 import VisualNotifier from '@/components/VisualNotifier'
 import UserProfileAvatarCropDialog from '@/components/profilePage/UserProfileAvatarCropDialog'
 import uploadAvatar from '~/graphql/mutations/uploadAvatar'
@@ -77,7 +77,7 @@ export default {
   name: 'Edit',
   components: {
     Layout,
-    IdeaCard,
+    Card,
     UserProfileAvatarCropDialog,
     VisualNotifier
   },

@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <idea-card>
+    <card>
       <div class="text-center" style="position: relative; width: 100%;">
         <v-progress-linear
           :indeterminate="true"
@@ -25,16 +25,16 @@
           </a>
         </div>
       </div>
-    </idea-card>
+    </card>
   </Layout>
 </template>
 
 <script>
 import Layout from '@/components/layout/Layout'
-import IdeaCard from '@/components/ideaDetail/IdeaCard'
+import Card from '@/components/shared/Card'
 
 export default {
-  components: { IdeaCard, Layout },
+  components: { Card, Layout },
 
   props: {
     email: { type: String, required: true },

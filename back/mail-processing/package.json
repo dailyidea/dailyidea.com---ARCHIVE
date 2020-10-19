@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@sentry/node": "^5.15.5",
+    "lodash": "^4.17.20",
     "serverless-sentry-lib": "^2.0.1"
   }
 }

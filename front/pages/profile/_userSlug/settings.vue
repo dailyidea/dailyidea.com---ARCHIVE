@@ -1,7 +1,7 @@
 <template>
   <user-profile :initial-profile-data="initialProfileData" :ideas="ideas">
     <div class="cards-container">
-      <IdeaCard allow-mobile-scroll>
+      <card>
         <nuxt-link to="/profile/edit" class="card-header">
           <span class="ml-3">Edit Profile</span>
           <v-icon>mdi mdi-chevron-right</v-icon>
@@ -105,7 +105,7 @@
             <span class="muted ml-3" @click="signOut">Log out</span>
           </div>
         </div>
-      </IdeaCard>
+      </card>
     </div>
     <div class="links">
       <div class="link-col">
@@ -141,7 +141,7 @@ import userInfoBySlug from '@/graphql/query/userInfoBySlug'
 import getEmailNotificationSettings from '@/graphql/query/getEmailNotificationsSettings'
 import updateEmailNotificationsSettings from '@/graphql/mutations/updateEmailNotificationsSettings'
 import UserProfile from '@/components/profilePage/UsersProfile'
-import IdeaCard from '@/components/ideaDetail/IdeaCard'
+import Card from '@/components/shared/Card'
 import VisualNotifier from '~/components/VisualNotifier'
 
 export default {
@@ -149,7 +149,7 @@ export default {
   middleware: 'authenticated',
   components: {
     UserProfile,
-    IdeaCard,
+    Card,
     VisualNotifier
   },
 
