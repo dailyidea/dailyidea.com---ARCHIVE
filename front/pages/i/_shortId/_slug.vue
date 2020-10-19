@@ -120,10 +120,6 @@ export default {
     })
   },
 
-  created() {
-    this.showExplainer = !Cookies.get('hasSeenExplainer')
-  },
-
   mounted() {
     this.cacheIdeas(this.getCategoryFromURL())
     this.incrementViews()
@@ -133,6 +129,7 @@ export default {
       this.showIdeaPostedDialog = true
       // this.updateCreatedIdea(null)
     }
+    this.showExplainer = process.client && !Cookies.get('hasSeenExplainer')
   },
 
   methods: {
@@ -179,6 +176,10 @@ export default {
 
       if (this.ideaIndex >= this.ideaQueue.length || this.ideaIndex < 0) {
         this.ideaIndex -= direction
+      }
+
+      if (!this.ideaQueue[this.ideaIndex]) {
+        return
       }
 
       this.idea = this.ideaQueue[this.ideaIndex]
@@ -230,6 +231,9 @@ export default {
     },
 
     animationOutEnd() {
+      if (this.showExplainer) {
+        Cookies.set('hasSeenExplainer', 1, { expires: 365 })
+      }
       this.showExplainer = false
     }
   },
