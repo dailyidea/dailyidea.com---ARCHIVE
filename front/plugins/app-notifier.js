@@ -12,7 +12,6 @@ const Notifier = {
         Notifier.eventBus.$emit('show', params)
       },
       success(params) {
-        console.log('success')
         Notifier.eventBus.$emit('success', params)
       },
       error(params) {
