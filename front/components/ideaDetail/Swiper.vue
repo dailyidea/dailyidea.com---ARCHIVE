@@ -148,12 +148,6 @@ export default {
       this.y = Math.abs(rotation * 5)
       return rotation > 180 ? 180 : rotation
     },
-    disableScroll() {
-      document.querySelector('body').style.overflow = 'hidden'
-    },
-    enableScroll() {
-      document.querySelector('body').style.overflow = ''
-    },
     startSwipe() {
       this.$emit('swipe-start')
       this.swipeInProgress = true
@@ -180,6 +174,11 @@ export default {
       this.rotation = 0
       this.queueNextAnimation(this.disableAnimation)
       this.$emit('animation-in-end')
+
+      // Wait until the card is back in its original position to reenable side scroll.
+      setTimeout(() => {
+        this.enableSideScroll()
+      }, this.cardAnimationSpeed)
     },
     setSwipeLeftCardPos(args) {
       // If we don't disable animation
@@ -204,7 +203,6 @@ export default {
       this.$emit('animation-out-end')
     },
     fingerDown(event) {
-      this.disableScroll()
       this.tapping = true
       const { x, y } = this.getPos(event)
       this.xStart = x
@@ -214,10 +212,12 @@ export default {
       this.setPos(event)
     },
     fingerUp(event) {
-      this.enableScroll()
       this.tapping = false
       this.endSwipe()
       if (this.x) {
+        // Disable side scrolling otherwise swiping during the animation
+        // will create weird behavior.
+        this.disableSideScroll()
         this.enableAnimation()
         if (this.x > this.minSwipeDistanceBeforeAction) {
           this.x = this.offPageWidth
@@ -237,6 +237,12 @@ export default {
           this.resetSwipePosition()
         }
       }
+    },
+    disableSideScroll() {
+      document.querySelector('body').style.overflowX = 'hidden'
+    },
+    enableSideScroll() {
+      document.querySelector('body').style.overflowX = ''
     },
     fingerMove(event) {
       if (!this.tapping) {
@@ -281,9 +287,9 @@ export default {
 @media (max-width: $screen-sm-max) {
   .swipe-parent {
     height: 100vh;
-    overflow: hidden;
   }
 }
+
 .left-arrow {
   position: absolute;
   top: 40vh;
