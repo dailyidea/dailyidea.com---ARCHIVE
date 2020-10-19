@@ -24,7 +24,6 @@
               accept="image/*"
               @change="uploadImage($event)"
             />
-            <visual-notifier ref="notifier"></visual-notifier>
             <user-profile-avatar-crop-dialog
               ref="UserProfileAvatarCropDialog"
             ></user-profile-avatar-crop-dialog>
@@ -67,7 +66,6 @@
 import { graphqlOperation } from '@aws-amplify/api'
 import Layout from '@/components/layout/Layout'
 import Card from '@/components/shared/Card'
-import VisualNotifier from '@/components/VisualNotifier'
 import UserProfileAvatarCropDialog from '@/components/profilePage/UserProfileAvatarCropDialog'
 import uploadAvatar from '~/graphql/mutations/uploadAvatar'
 import userInfoBySlug from '@/graphql/query/userInfoBySlug'
@@ -78,8 +76,7 @@ export default {
   components: {
     Layout,
     Card,
-    UserProfileAvatarCropDialog,
-    VisualNotifier
+    UserProfileAvatarCropDialog
   },
   middleware: 'authenticated',
   async asyncData({ app, store, route }) {
@@ -175,14 +172,14 @@ export default {
           */
           this.$store.commit('userData/updateUserName', this.name)
           this.$store.commit('userData/updateUserSlug', this.slug)
-          this.$refs.notifier.success('Profile Updated')
+          this.$notifier.success('Profile Updated')
         } else {
-          this.$refs.notifier.error(
+          this.$notifier.error(
             resp.data.updateProfileInfo.result.error || 'Cannot update profile'
           )
         }
       } catch (err) {
-        this.$refs.notifier.error('Cannot update profile')
+        this.$notifier.error('Cannot update profile')
       }
     },
 
@@ -197,9 +194,9 @@ export default {
         const newAvatarUrl = response.data.uploadAvatar.avatar
         this.avatar = newAvatarUrl
         this.$store.commit('userData/updateUserAvatar', newAvatarUrl)
-        this.$refs.notifier.success('Avatar updated')
+        this.$notifier.success('Avatar updated')
       } catch (e) {
-        this.$refs.notifier.error('Error during avatar updating')
+        this.$notifier.error('Error during avatar updating')
       }
       this.$store.commit('layoutState/hideProgressBar')
     }

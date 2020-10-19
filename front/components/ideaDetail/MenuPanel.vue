@@ -262,7 +262,7 @@ export default {
     },
 
     showShareIdeaDialog() {
-      if (this.isMobile) {
+      if (this.isMobile && navigator.share) {
         navigator.share({
           title: this.idea.title,
           url: window.location.href
@@ -277,22 +277,16 @@ export default {
     },
 
     onSharedIdeaOverEmail() {
-      this.$emit('on-notification', {
-        type: 'success',
-        message: 'Idea shared!'
-      })
+      this.$notifier.success('Idea shared!')
       this.$emit('on-idea-shared')
     },
 
     onSharedIdeaOverEmailError() {
-      this.$emit('on-notification', {
-        type: 'error',
-        message: "Can't share Idea"
-      })
+      this.$notifier.error("Can't share Idea")
     },
 
     onCopyShareLink() {
-      this.$emit('on-notification', { type: 'success', message: 'Link copied' })
+      this.$notifier.success('Link copied')
     }
   }
 }

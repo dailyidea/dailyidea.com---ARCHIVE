@@ -129,8 +129,6 @@
         </nuxt-link>
       </div>
     </div>
-
-    <visual-notifier ref="notifier"></visual-notifier>
   </user-profile>
 </template>
 
@@ -142,15 +140,13 @@ import getEmailNotificationSettings from '@/graphql/query/getEmailNotificationsS
 import updateEmailNotificationsSettings from '@/graphql/mutations/updateEmailNotificationsSettings'
 import UserProfile from '@/components/profilePage/UsersProfile'
 import Card from '@/components/shared/Card'
-import VisualNotifier from '~/components/VisualNotifier'
 
 export default {
   name: 'Settings',
   middleware: 'authenticated',
   components: {
     UserProfile,
-    Card,
-    VisualNotifier
+    Card
   },
 
   async asyncData({ app, store }) {
@@ -192,9 +188,9 @@ export default {
         await this.$amplifyApi.graphql(
           graphqlOperation(updateEmailNotificationsSettings, { state })
         )
-        this.$refs.notifier.success('Email Settings Updated')
+        this.$notifier.success('Email Settings Updated')
       } catch (e) {
-        this.$refs.notifier.error("Can't update Email Settings")
+        this.$notifier.error("Can't update Email Settings")
       }
     }
   }

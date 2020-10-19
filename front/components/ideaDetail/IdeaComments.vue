@@ -280,15 +280,8 @@ export default {
           c => c.commentId !== comment.commentId
         )
         this.idea.commentsCount -= 1
-        this.$emit('onNotification', {
-          type: 'success',
-          message: 'Comment Deleted!'
-        })
       } catch (err) {
-        this.$emit('onNotification', {
-          type: 'error',
-          message: "Can't Delete Comment!"
-        })
+        this.$notifier.error("Can't Delete Comment!")
       }
       this.deletingComment = false
       this.hideProgressBar()

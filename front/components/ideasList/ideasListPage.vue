@@ -28,9 +28,6 @@
         @load-more="loadIdeas"
         @order-change="onChangeOrder"
       ></ideas-list>
-
-      <!-- Bottom snackbar message -->
-      <visual-notifier ref="notifier"></visual-notifier>
     </v-layout>
   </Layout>
 </template>
@@ -38,12 +35,11 @@
 <script>
 import Layout from '@/components/layout/Layout'
 import IdeasList from '@/components/ideasList/ideasList'
-import VisualNotifier from '@/components/VisualNotifier'
 import loadIdeas from '@/components/ideasList/loadIdeas'
 
 export default {
   name: 'IdeasListPage',
-  components: { Layout, IdeasList, VisualNotifier },
+  components: { Layout, IdeasList },
   props: {
     initialIdeas: {
       type: Array,
