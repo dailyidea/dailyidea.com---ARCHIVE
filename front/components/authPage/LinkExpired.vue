@@ -41,10 +41,7 @@ export default {
     next: { type: String, default: null }
   },
 
-  data: () => ({
-    sending: false,
-    hideSend: false
-  }),
+  data: () => ({ sending: false, hideSend: false }),
 
   mounted() {
     this.sendEmail()

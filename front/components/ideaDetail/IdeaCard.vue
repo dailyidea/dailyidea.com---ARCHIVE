@@ -37,7 +37,11 @@ import IdeaEdit from '@/components/ideaDetail/IdeaEdit'
 import getIdeaTags from '@/graphql/query/getIdeaTags'
 
 export default {
-  components: { IdeaEdit, IdeaShow, Card },
+  components: {
+    IdeaEdit,
+    IdeaShow,
+    Card
+  },
 
   props: {
     preview: Boolean,

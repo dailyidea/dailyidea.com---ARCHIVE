@@ -39,9 +39,7 @@
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 
 export default {
-  components: {
-    DefaultDialog
-  },
+  components: { DefaultDialog },
 
   props: {
     value: Boolean

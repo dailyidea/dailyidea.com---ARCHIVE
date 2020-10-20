@@ -17,13 +17,8 @@
 export default {
   name: 'UserProfileAvatar',
   props: {
-    profileData: {
-      type: Object,
-      required: true
-    },
-    isMyProfile: {
-      type: Boolean
-    }
+    profileData: { type: Object, required: true },
+    isMyProfile: { type: Boolean }
   },
 
   computed: {
@@ -32,9 +27,7 @@ export default {
     },
 
     avatarStyle() {
-      return {
-        'background-image': `url(${this.userAvatar})`
-      }
+      return { 'background-image': `url(${this.userAvatar})` }
     }
   },
 

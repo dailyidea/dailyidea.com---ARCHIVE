@@ -43,12 +43,13 @@ import loadIdeas from '@/components/ideasList/loadIdeas'
 
 export default {
   name: 'IdeasListPage',
-  components: { Layout, IdeasList, VisualNotifier },
+  components: {
+    Layout,
+    IdeasList,
+    VisualNotifier
+  },
   props: {
-    initialIdeas: {
-      type: Array,
-      default: () => []
-    },
+    initialIdeas: { type: Array, default: () => [] },
     initialNextToken: {
       type: String,
       required: false,
@@ -59,35 +60,17 @@ export default {
       required: false,
       default: undefined
     },
-    title: {
-      type: String,
-      default: 'Ideas'
-    },
-    endPoint: {
-      type: String,
-      required: true
-    },
-    endPointName: {
-      type: String,
-      required: true
-    },
+    title: { type: String, default: 'Ideas' },
+    endPoint: { type: String, required: true },
+    endPointName: { type: String, required: true },
     endPointMode: {
       type: String,
       required: false,
       default: undefined
     },
-    endPointVariables: {
-      type: Object,
-      default: () => ({})
-    },
-    showAuthor: {
-      type: Boolean,
-      default: false
-    },
-    allowOrder: {
-      type: Boolean,
-      default: true
-    }
+    endPointVariables: { type: Object, default: () => ({}) },
+    showAuthor: { type: Boolean, default: false },
+    allowOrder: { type: Boolean, default: true }
   },
   data() {
     return {
@@ -99,9 +82,7 @@ export default {
   },
   computed: {
     mobileHeaderUiOptions() {
-      return {
-        pageTitle: this.title
-      }
+      return { pageTitle: this.title }
     },
     isAuthenticated() {
       return this.$store.state.userData.isAuthenticated

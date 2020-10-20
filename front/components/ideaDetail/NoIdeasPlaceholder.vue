@@ -28,10 +28,7 @@ export default {
   components: { Card },
 
   props: {
-    title: {
-      type: String,
-      required: true
-    }
+    title: { type: String, required: true }
   }
 }
 </script>
