@@ -285,14 +285,15 @@ export default {
 </script>
 <style scoped lang="scss">
 @media (max-width: $screen-sm-max) {
-  .swipe-parent {
-    height: 100vh;
+  .swipe-parent,
+  .swipe-container {
+    height: 100%;
   }
 }
 
 .left-arrow {
   position: absolute;
-  top: 40vh;
+  top: 30vh;
   left: 2vw;
   z-index: 1000;
   cursor: pointer;
@@ -303,7 +304,7 @@ export default {
 
 .right-arrow {
   position: absolute;
-  top: 40vh;
+  top: 30vh;
   right: 2vw;
   z-index: 1000;
   cursor: pointer;

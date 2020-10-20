@@ -45,11 +45,6 @@ export default {
 
   @media only screen and (min-width: $screen-md-min) {
     margin: 0 auto !important;
-    margin-top: 2vh !important;
-
-    .fixed-height {
-      min-height: 80vh;
-    }
   }
 }
 

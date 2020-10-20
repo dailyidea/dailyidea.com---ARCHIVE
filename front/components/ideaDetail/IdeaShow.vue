@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row class="container-row">
     <v-col cols="12" :md="preview ? '' : 8" class="idea-part">
       <div>
         <v-row class="idea-part__header" no-gutters>
@@ -216,6 +216,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.container-row {
+  height: 100%;
+}
+
 .comments-section {
   display: flex;
   align-items: flex-end;
