@@ -331,7 +331,7 @@ export default {
   position: absolute;
   top: 1%;
   right: 1%;
-  z-index: 1000;
+  z-index: 1;
   font-size: 18px;
   width: 30px;
   height: 30px;
