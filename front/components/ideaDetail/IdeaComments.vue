@@ -620,7 +620,6 @@ $counters-font-size: 18px;
 
 .comment-and-post-btn {
   overflow: hidden;
-  height: 100%;
   display: flex;
   justify-content: flex-end;
 

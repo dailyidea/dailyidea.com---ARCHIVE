@@ -82,7 +82,7 @@
         @on-notification="onNotification"
         @click.native.stop
       ></idea-comments>
-      <span v-else-if="!expanded" class="muted d-flex flex-column justify-end"
+      <span v-else-if="!expanded" class="muted view-all-comments-text"
         >View all {{ idea.commentsCount || 0 }} comments</span
       >
     </v-col>
@@ -223,6 +223,11 @@ export default {
 .comments-section {
   display: flex;
   align-items: flex-end;
+  position: relative;
+
+  .view-all-comments-text {
+    position: absolute;
+  }
 }
 
 .idea-date {
