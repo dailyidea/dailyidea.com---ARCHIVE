@@ -41,21 +41,10 @@ export default {
   border-radius: 8px;
   border: 1px solid $light-grey !important;
   box-shadow: $card-shadow !important;
-  overflow: hidden;
 
   @media only screen and (min-width: $screen-md-min) {
     margin: 0 auto !important;
     margin-top: 2vh !important;
-
-    .fixed-height {
-      min-height: 80vh;
-    }
-  }
-}
-
-@media only screen and (max-width: $screen-sm-max) {
-  .fixed-height {
-    overflow-y: hidden;
   }
 }
 </style>
