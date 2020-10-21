@@ -23,10 +23,7 @@
 export default {
   name: 'CategoriesSubHeader',
   props: {
-    categorySelected: {
-      type: String,
-      required: true
-    }
+    categorySelected: { type: String, required: true }
   },
 
   computed: {

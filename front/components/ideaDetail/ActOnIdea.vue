@@ -181,10 +181,7 @@ export default {
       required: true,
       validator: val => ['like', 'save'].includes(val)
     },
-    idea: {
-      type: Object,
-      required: true
-    }
+    idea: { type: Object, required: true }
   },
 
   data() {
@@ -227,9 +224,7 @@ export default {
       hideProgressBar: 'layoutState/hideProgressBar'
     }),
 
-    ...mapActions({
-      registerUser: 'cognito/registerUser'
-    }),
+    ...mapActions({ registerUser: 'cognito/registerUser' }),
 
     async initIdeaState() {
       if (this.$route.query.aa) {
@@ -303,10 +298,7 @@ export default {
       this.isLoading = true
       const res = await this.$amplifyApi.graphql({
         query: mutation,
-        variables: {
-          ideaId: this.idea.ideaId,
-          ideaOwnerId: this.idea.userId
-        }
+        variables: { ideaId: this.idea.ideaId, ideaOwnerId: this.idea.userId }
       })
       this.isActedOn = true
       this.isLoading = false
@@ -317,10 +309,7 @@ export default {
       this.isLoading = true
       const res = await this.$amplifyApi.graphql({
         query: mutation,
-        variables: {
-          ideaId: this.idea.ideaId,
-          ideaOwnerId: this.idea.userId
-        }
+        variables: { ideaId: this.idea.ideaId, ideaOwnerId: this.idea.userId }
       })
 
       this.isActedOn = false
@@ -351,9 +340,7 @@ export default {
         data.ideaToLikeId = this.idea.ideaId
       }
 
-      await this.$amplifyApi.post('RequestLogin', '', {
-        body: data
-      })
+      await this.$amplifyApi.post('RequestLogin', '', { body: data })
 
       let message = `We just sent you an email, which we'll just use to make sure we can find your saved
                     ideas later. Please check your inbox and click the confirmation link to finish saving this idea.`
@@ -389,9 +376,7 @@ export default {
         this.showWelcomeBackLike = true
       }
 
-      await this.$amplifyApi.post('RequestLogin', '', {
-        body: data
-      })
+      await this.$amplifyApi.post('RequestLogin', '', { body: data })
       this.hideProgressBar()
     },
 
@@ -446,9 +431,7 @@ export default {
         this.isLoading = true
         const res = await this.$amplifyApi.graphql({
           query,
-          variables: {
-            ideaId: this.idea.ideaId
-          }
+          variables: { ideaId: this.idea.ideaId }
         })
 
         this.isLoading = false

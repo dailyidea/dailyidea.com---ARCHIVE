@@ -37,14 +37,8 @@
 export default {
   name: 'SearchComponent',
   props: {
-    searchIdeaMode: {
-      type: Boolean,
-      default: false
-    },
-    label: {
-      type: String,
-      default: ''
-    }
+    searchIdeaMode: { type: Boolean, default: false },
+    label: { type: String, default: '' }
   },
   methods: {
     toggleSearchIdeaMode() {

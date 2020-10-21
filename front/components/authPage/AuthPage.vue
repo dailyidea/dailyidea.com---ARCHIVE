@@ -73,10 +73,7 @@
 export default {
   name: 'AuthPage',
   props: {
-    lampOn: {
-      type: Boolean,
-      default: false
-    }
+    lampOn: { type: Boolean, default: false }
   },
 
   computed: {},

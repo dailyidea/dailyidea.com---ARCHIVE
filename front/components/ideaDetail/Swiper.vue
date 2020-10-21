@@ -116,10 +116,7 @@ export default {
         y = event.clientY
       }
 
-      return {
-        x,
-        y
-      }
+      return { x, y }
     },
     setPos(event) {
       if (this.swipeDisabled) {
@@ -267,17 +264,13 @@ export default {
     leftArrowClick() {
       this.enableAnimation()
       this.x = this.offPageWidth
-      this.queueNextAnimation(this.setSwipeRightCardPos, {
-        noRotation: true
-      })
+      this.queueNextAnimation(this.setSwipeRightCardPos, { noRotation: true })
       this.$emit('left-arrow-clicked')
     },
     rightArrowClick() {
       this.enableAnimation()
       this.x = -this.offPageWidth
-      this.queueNextAnimation(this.setSwipeLeftCardPos, {
-        noRotation: true
-      })
+      this.queueNextAnimation(this.setSwipeLeftCardPos, { noRotation: true })
       this.$emit('right-arrow-clicked')
     }
   }

@@ -32,10 +32,7 @@ export default {
 
   props: {
     value: Boolean,
-    email: {
-      type: String,
-      default: undefined
-    }
+    email: { type: String, default: undefined }
   },
 
   data: () => ({

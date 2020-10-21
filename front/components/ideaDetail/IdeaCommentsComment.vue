@@ -52,10 +52,7 @@
 export default {
   name: 'IdeaCommentsComment',
   props: {
-    comment: {
-      type: Object,
-      required: true
-    }
+    comment: { type: Object, required: true }
   },
   computed: {
     commentAvatar() {
