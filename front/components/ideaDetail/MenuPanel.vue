@@ -143,23 +143,11 @@ export default {
   },
 
   props: {
-    preview: {
-      type: Boolean,
-      default: false
-    },
+    preview: { type: Boolean, default: false },
 
-    editable: {
-      type: Boolean,
-      default: false
-    },
-    idea: {
-      type: Object,
-      required: true
-    },
-    shareIdea: {
-      type: Boolean,
-      default: false
-    }
+    editable: { type: Boolean, default: false },
+    idea: { type: Object, required: true },
+    shareIdea: { type: Boolean, default: false }
   },
 
   data() {
@@ -263,10 +251,7 @@ export default {
 
     showShareIdeaDialog() {
       if (this.isMobile) {
-        navigator.share({
-          title: this.idea.title,
-          url: window.location.href
-        })
+        navigator.share({ title: this.idea.title, url: window.location.href })
       } else {
         this.showEmailShareDialog = true
       }
@@ -331,7 +316,7 @@ export default {
   position: absolute;
   top: 1%;
   right: 1%;
-  z-index: 1000;
+  z-index: 1;
   font-size: 18px;
   width: 30px;
   height: 30px;

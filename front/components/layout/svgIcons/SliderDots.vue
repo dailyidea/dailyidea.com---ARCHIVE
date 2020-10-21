@@ -16,10 +16,7 @@
 export default {
   name: 'SliderDots',
   props: {
-    step: {
-      type: Number,
-      default: 0
-    }
+    step: { type: Number, default: 0 }
   }
 }
 </script>

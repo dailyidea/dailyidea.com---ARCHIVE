@@ -21,10 +21,7 @@ export default {
     WelcomeFourth
   },
   props: {
-    pageOn: {
-      type: Number,
-      default: 0
-    }
+    pageOn: { type: Number, default: 0 }
   }
 }
 </script>

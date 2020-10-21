@@ -117,14 +117,10 @@ export default {
     expanded: { type: Boolean, default: false }
   },
 
-  data: () => ({
-    showRegisterEncourageDialog: false
-  }),
+  data: () => ({ showRegisterEncourageDialog: false }),
 
   computed: {
-    ...mapGetters({
-      userId: 'userData/userId'
-    }),
+    ...mapGetters({ userId: 'userData/userId' }),
 
     ideaContent() {
       if (this.isMobile && this.preview) {

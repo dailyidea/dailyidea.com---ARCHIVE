@@ -34,18 +34,14 @@
 import Card from '@/components/shared/Card'
 
 export default {
-  components: {
-    Card
-  },
+  components: { Card },
 
   props: {
     additionalStyling: { type: Object, default: Object }
   },
 
   data() {
-    return {
-      isExpandedState: false
-    }
+    return { isExpandedState: false }
   },
 
   computed: {

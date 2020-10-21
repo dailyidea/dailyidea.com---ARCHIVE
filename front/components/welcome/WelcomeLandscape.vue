@@ -70,15 +70,10 @@ import SwipeFooter from '@/components/layout/SwipeFooter'
 
 export default {
   name: 'WelcomeLandscape',
-  components: {
-    SwipeFooter
-  },
+  components: { SwipeFooter },
   props: {
     hideNextBtn: Boolean,
-    params: {
-      type: Object,
-      required: true
-    }
+    params: { type: Object, required: true }
   }
 }
 </script>
