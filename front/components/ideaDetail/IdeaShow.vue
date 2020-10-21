@@ -138,7 +138,7 @@ export default {
         }
       }
 
-      return content
+      return `${content}<br><br>`
     }
   },
 
