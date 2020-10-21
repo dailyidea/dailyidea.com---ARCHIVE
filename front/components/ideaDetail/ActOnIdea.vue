@@ -97,6 +97,7 @@
       v-model="showSavedByLoginLink"
       header="Yay!"
       :show-cancel-button="false"
+      :image-path="require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')"
       button-ok-text="Nice!"
       @ok="showSavedByLoginLink = false"
     >
@@ -111,6 +112,7 @@
       v-model="showLikedByLoginLink"
       header="Yay!"
       :show-cancel-button="false"
+      :image-path="require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')"
       button-ok-text="Nice!"
       @ok="showLikedByLoginLink = false"
     >
@@ -124,6 +126,7 @@
       v-model="showWelcomeBackSave"
       :header="`Welcome back ${name}!`"
       :show-cancel-button="false"
+      :image-path="require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')"
       button-ok-text="Nice!"
       @ok="showWelcomeBackSave = false"
     >
@@ -138,6 +141,7 @@
       v-model="showWelcomeBackLike"
       :header="`Welcome back ${name}!`"
       :show-cancel-button="false"
+      :image-path="require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')"
       button-ok-text="Nice!"
       @ok="showWelcomeBackLike = false"
     >

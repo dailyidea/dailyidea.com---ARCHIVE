@@ -6,6 +6,7 @@
 
 <script>
 import Layout from '@/components/layout/Layout'
+
 export default {
   components: { Layout },
   layout: 'bare',

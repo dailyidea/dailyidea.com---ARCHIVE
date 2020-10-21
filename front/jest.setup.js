@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { RouterLinkStub, TransitionGroupStub } from '@vue/test-utils'
 // eslint-disable-next-line no-unused-vars
 import Mixins from '@/plugins/mixins'
+
 Vue.config.productionTip = false
 // TODO https://github.com/vuejs/vue-test-utils/issues/532
 const nuxtLinkStub = {

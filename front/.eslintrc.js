@@ -25,7 +25,12 @@ module.exports = {
   rules: {
     'no-console': 1,
     'no-debugger': 1,
-    curly: ['error', 'all']
+    curly: ['error', 'all'],
+    'padding-line-between-statements': [
+      'warn',
+      { blankLine: 'always', prev: 'import', next: '*' },
+      { blankLine: 'never', prev: 'import', next: 'import' }
+    ],
   },
 
   globals: {}
