@@ -1,6 +1,7 @@
 <template>
   <card
     :class="{ 'fixed-height': !isExpanded && !preview }"
+    class="card"
     :additional-styling="additionalStyling"
     :prevent-mobile-scroll="!isExpanded && !allowMobileScroll"
     @click="expandToggle"
@@ -109,5 +110,9 @@ export default {
     left: 10px;
     justify-content: start;
   }
+}
+
+.fixed-height {
+  height: 60vh;
 }
 </style>
