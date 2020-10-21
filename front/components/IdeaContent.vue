@@ -11,7 +11,7 @@
       v-html="content"
     ></div>
     <div v-if="!atScrollEnd" class="read-more hidden-sm-and-down">
-      Read More...
+      Read more...
     </div>
   </div>
 </template>
