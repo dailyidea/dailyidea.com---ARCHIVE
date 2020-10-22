@@ -44,7 +44,7 @@
             @click="cancelAndHide"
             >{{ buttonCancelText }}</v-btn
           >
-          <span class="grey-bar"></span>
+          <span v-if="showCancelButton" class="grey-bar"></span>
           <v-btn
             rounded
             :disabled="buttonOkDisabled"
@@ -56,6 +56,7 @@
         </div>
       </section>
     </slot>
+    <slot name="after-footer"></slot>
   </v-dialog>
 </template>
 

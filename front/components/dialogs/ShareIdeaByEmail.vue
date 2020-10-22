@@ -8,8 +8,12 @@
       :image-path="
         require('~/assets/images/dialogs/undraw_real_time_collaboration_c62i.svg')
       "
+      :button-ok-loading="sendingEmail"
+      :button-ok-disabled="!valid || !validated"
+      button-ok-text="Share"
       header="Share Idea With A Friend"
       @input="v => $emit('input', v)"
+      @ok="handleSubmit(sendEmail)"
     >
       <form
         id="share-idea-without-login-form"
@@ -49,19 +53,8 @@
         ></v-text-field-with-validation>
       </form>
 
-      <template v-slot:footer>
+      <template v-slot:after-footer>
         <section class="modalFooter">
-          <!-- Action Buttons -->
-          <div class="text-right">
-            <v-btn class="cancelBtn" rounded text @click="close">Cancel</v-btn>
-            <v-btn
-              rounded
-              :loading="sendingEmail"
-              :disabled="!valid || !validated"
-              @click="handleSubmit(sendEmail)"
-              >Share</v-btn
-            >
-          </div>
           <div class="mt-3 text-center">
             <client-only>
               <a

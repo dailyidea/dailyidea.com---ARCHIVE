@@ -38,8 +38,10 @@
 <script>
 import LinkExpired from '@/components/authPage/LinkExpired'
 import { getFirstIdeaURL } from '@/components/ideaDetail/ideaSwipeQueue'
+
 export default {
   components: { LinkExpired },
+
   data: () => ({
     message:
       'Hang on tight! Just checking to make sure you are who you say you are...',

@@ -11,6 +11,7 @@
 
 <script>
 import { ValidationProvider } from 'vee-validate'
+
 export default {
   name: 'VTextFieldWithValidation',
   components: { ValidationProvider },
@@ -37,5 +38,3 @@ export default {
   }
 }
 </script>
-
-<style scoped></style>

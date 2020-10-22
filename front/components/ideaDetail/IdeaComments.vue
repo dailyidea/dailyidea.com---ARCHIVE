@@ -250,7 +250,8 @@ export default {
         message: 'This action cannot be undone.',
         buttonOkText: 'Delete',
         error: true,
-        showCancelButton: true
+        showCancelButton: true,
+        imagePath: require('~/assets/images/dialogs/undraw_throw_away_ldjd.svg')
       })
       if (!confirmed) {
         return
@@ -331,7 +332,8 @@ export default {
       if (wasWelcomed) {
         this.$dialog.show({
           header: 'Welcome back!',
-          message: 'Thanks for posting that comment!'
+          message: 'Thanks for posting that comment!',
+          imagePath: require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')
         })
       } else {
         this.showFirstCommentInstantiated = true
@@ -368,7 +370,8 @@ export default {
       this.hideProgressBar()
       this.$dialog.show({
         header: 'Welcome back!',
-        message: `It looks like you weren't signed in. We just sent you a verification email. Please check your inbox and click on the link and we'll post your comment ASAP.`
+        message: `It looks like you weren't signed in. We just sent you a verification email. Please check your inbox and click on the link and we'll post your comment ASAP.`,
+        imagePath: require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')
       })
     },
 
@@ -387,7 +390,8 @@ export default {
       this.hideProgressBar()
       this.$dialog.show({
         header: 'Thanks!',
-        message: `We just sent you an email to confirm that you're a real person :) Please check your inbox then click on the link and we'll post your comment ASAP.`
+        message: `We just sent you an email to confirm that you're a real person :) Please check your inbox then click on the link and we'll post your comment ASAP.`,
+        imagePath: require('~/assets/images/dialogs/undraw_super_thank_you_obwk.svg')
       })
       this.hideProgressBar()
     },

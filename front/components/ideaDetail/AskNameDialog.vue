@@ -5,6 +5,7 @@
       :button-ok-disabled="!valid || !validated"
       :button-cancel-text="buttonCancelText"
       :header="header"
+      :image-path="require('~/assets/images/dialogs/undraw_inbox_oppv.svg')"
       @input="v => $emit('input', v)"
       @cancel="() => $emit('cancel')"
       @ok="handleSubmit(onOk)"
