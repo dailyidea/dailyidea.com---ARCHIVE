@@ -37,23 +37,12 @@ export default {
 
   props: {
     value: Boolean,
-    header: {
-      type: String,
-      default: 'Introduce yourself?'
-    },
-    message: {
-      type: String,
-      default: 'Your Email?'
-    },
-    buttonCancelText: {
-      type: String,
-      default: 'Cancel'
-    }
+    header: { type: String, default: 'Introduce yourself?' },
+    message: { type: String, default: 'Your Email?' },
+    buttonCancelText: { type: String, default: 'Cancel' }
   },
 
-  data: () => ({
-    email: ''
-  }),
+  data: () => ({ email: '' }),
 
   methods: {
     onOk() {

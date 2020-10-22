@@ -116,10 +116,7 @@ export default {
         y = event.clientY
       }
 
-      return {
-        x,
-        y
-      }
+      return { x, y }
     },
     setPos(event) {
       if (this.swipeDisabled) {
@@ -267,17 +264,13 @@ export default {
     leftArrowClick() {
       this.enableAnimation()
       this.x = this.offPageWidth
-      this.queueNextAnimation(this.setSwipeRightCardPos, {
-        noRotation: true
-      })
+      this.queueNextAnimation(this.setSwipeRightCardPos, { noRotation: true })
       this.$emit('left-arrow-clicked')
     },
     rightArrowClick() {
       this.enableAnimation()
       this.x = -this.offPageWidth
-      this.queueNextAnimation(this.setSwipeLeftCardPos, {
-        noRotation: true
-      })
+      this.queueNextAnimation(this.setSwipeLeftCardPos, { noRotation: true })
       this.$emit('right-arrow-clicked')
     }
   }
@@ -285,14 +278,15 @@ export default {
 </script>
 <style scoped lang="scss">
 @media (max-width: $screen-sm-max) {
-  .swipe-parent {
-    height: 100vh;
+  .swipe-parent,
+  .swipe-container {
+    height: 100%;
   }
 }
 
 .left-arrow {
   position: absolute;
-  top: 40vh;
+  top: 30vh;
   left: 2vw;
   z-index: 1000;
   cursor: pointer;
@@ -303,7 +297,7 @@ export default {
 
 .right-arrow {
   position: absolute;
-  top: 40vh;
+  top: 30vh;
   right: 2vw;
   z-index: 1000;
   cursor: pointer;

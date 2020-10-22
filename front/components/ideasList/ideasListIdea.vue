@@ -63,14 +63,8 @@ export default {
   name: 'IdeasListIdea',
   components: { IdeaContent },
   props: {
-    idea: {
-      type: Object,
-      required: true
-    },
-    showAuthor: {
-      type: Boolean,
-      default: false
-    }
+    idea: { type: Object, required: true },
+    showAuthor: { type: Boolean, default: false }
   },
   computed: {
     truncatedIdeaContent() {

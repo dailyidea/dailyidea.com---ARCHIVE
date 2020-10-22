@@ -41,25 +41,14 @@ import MobileHeader from './MobileHeader'
 export default {
   components: { MobileHeader, DesktopHeader },
   props: {
-    showOverlay: {
-      type: Boolean,
-      default: false
-    },
+    showOverlay: { type: Boolean, default: false },
 
-    greyBg: {
-      type: Boolean,
-      default: false
-    },
+    greyBg: { type: Boolean, default: false },
 
-    hideMobileNav: {
-      type: Boolean,
-      default: Boolean
-    }
+    hideMobileNav: { type: Boolean, default: Boolean }
   },
   data() {
-    return {
-      searchIdeaMode: false
-    }
+    return { searchIdeaMode: false }
   },
   computed: {
     isAuthenticated() {
@@ -101,9 +90,7 @@ export default {
       }, 300)
 
       // Redirect user to home page after logout
-      this.$router.push({
-        name: 'index'
-      })
+      this.$router.push({ name: 'index' })
     }
   }
 }

@@ -28,10 +28,7 @@ import findIdeas from '@/graphql/query/findIdeas'
 
 export default {
   props: {
-    errorMessage: {
-      type: String,
-      default: ''
-    }
+    errorMessage: { type: String, default: '' }
   },
 
   data: () => ({

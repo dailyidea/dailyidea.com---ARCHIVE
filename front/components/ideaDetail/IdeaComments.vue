@@ -127,10 +127,7 @@ export default {
   },
 
   props: {
-    idea: {
-      type: Object,
-      required: true
-    }
+    idea: { type: Object, required: true }
   },
 
   data() {
@@ -203,10 +200,7 @@ export default {
         )
         const fakeComments = []
         for (let i = 0; i < fakeCommentsCount; i++) {
-          fakeComments.push({
-            fake: true,
-            commentId: nanoid()
-          })
+          fakeComments.push({ fake: true, commentId: nanoid() })
         }
         this.commentList = fakeComments
         this.scrollToBottom()
@@ -321,15 +315,17 @@ export default {
     checkEmailBelongsToExistingUser(email) {
       return this.$amplifyApi.graphql({
         query: checkEmailBelongsToExistingUser,
-        variables: {
-          email
-        },
+        variables: { email },
         authMode: 'API_KEY'
       })
     },
 
     addTemporaryFakeComment(text) {
-      this.tmpComment = { userName: 'Me', body: text, temporary: true }
+      this.tmpComment = {
+        userName: 'Me',
+        body: text,
+        temporary: true
+      }
       this.commentList.push(this.tmpComment)
       this.scrollToBottom()
     },
@@ -624,7 +620,6 @@ $counters-font-size: 18px;
 
 .comment-and-post-btn {
   overflow: hidden;
-  height: 100%;
   display: flex;
   justify-content: flex-end;
 

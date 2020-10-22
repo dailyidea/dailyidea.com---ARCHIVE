@@ -21,22 +21,10 @@ export default {
   components: { PincodeInput, ValidationProvider },
 
   props: {
-    value: {
-      type: String,
-      required: true
-    },
-    name: {
-      type: String,
-      default: 'Code'
-    },
-    rules: {
-      type: String,
-      default: void 0
-    },
-    digits: {
-      type: Number,
-      default: 4
-    }
+    value: { type: String, required: true },
+    name: { type: String, default: 'Code' },
+    rules: { type: String, default: void 0 },
+    digits: { type: Number, default: 4 }
   },
 
   watch: {

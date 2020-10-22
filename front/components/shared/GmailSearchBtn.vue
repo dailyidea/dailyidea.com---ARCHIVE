@@ -15,14 +15,8 @@ import dayjs from 'dayjs'
 
 export default {
   props: {
-    email: {
-      type: String,
-      required: true
-    },
-    search: {
-      type: String,
-      required: true
-    }
+    email: { type: String, required: true },
+    search: { type: String, required: true }
   },
 
   computed: {

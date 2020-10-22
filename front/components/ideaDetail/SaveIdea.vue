@@ -22,15 +22,9 @@ import unsaveIdea from '@/graphql/mutations/unsaveIdea'
 export default {
   name: 'SaveIdea',
   props: {
-    isSaved: {
-      type: Boolean,
-      required: true
-    },
+    isSaved: { type: Boolean, required: true },
 
-    idea: {
-      type: Object,
-      required: true
-    },
+    idea: { type: Object, required: true },
 
     isLoading: Boolean,
     isLoggedIn: Boolean

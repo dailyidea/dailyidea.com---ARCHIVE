@@ -63,39 +63,15 @@
 <script>
 export default {
   props: {
-    header: {
-      type: String,
-      default: ''
-    },
-    error: {
-      type: Boolean,
-      default: false
-    },
-    imagePath: {
-      type: String,
-      default: ''
-    },
+    header: { type: String, default: '' },
+    error: { type: Boolean, default: false },
+    imagePath: { type: String, default: '' },
     value: Boolean,
-    buttonOkText: {
-      type: String,
-      default: 'Ok'
-    },
-    buttonCancelText: {
-      type: String,
-      default: 'Cancel'
-    },
-    buttonOkDisabled: {
-      type: Boolean,
-      default: false
-    },
-    buttonOkLoading: {
-      type: Boolean,
-      default: false
-    },
-    showCancelButton: {
-      type: Boolean,
-      default: true
-    }
+    buttonOkText: { type: String, default: 'Ok' },
+    buttonCancelText: { type: String, default: 'Cancel' },
+    buttonOkDisabled: { type: Boolean, default: false },
+    buttonOkLoading: { type: Boolean, default: false },
+    showCancelButton: { type: Boolean, default: true }
   },
 
   methods: {

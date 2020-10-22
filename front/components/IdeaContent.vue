@@ -15,10 +15,7 @@ export default {
   name: 'IdeaContent',
   props: {
     collapsed: Boolean,
-    content: {
-      type: String,
-      default: ''
-    }
+    content: { type: String, default: '' }
   }
 }
 </script>

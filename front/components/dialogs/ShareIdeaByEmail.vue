@@ -89,14 +89,8 @@ export default {
   props: {
     // Show loggedin or loggedout header
     value: Boolean,
-    ideaId: {
-      type: String,
-      default: null
-    },
-    ideaOwnerId: {
-      type: String,
-      default: null
-    }
+    ideaId: { type: String, default: null },
+    ideaOwnerId: { type: String, default: null }
   },
 
   data: () => ({
@@ -109,11 +103,7 @@ export default {
     sendingEmail: false
   }),
 
-  computed: {
-    ...mapGetters({
-      initialName: 'userData/userName'
-    })
-  },
+  computed: { ...mapGetters({ initialName: 'userData/userName' }) },
 
   mounted() {
     this.form.name = this.initialName

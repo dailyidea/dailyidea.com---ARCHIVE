@@ -14,23 +14,13 @@ import { ValidationProvider } from 'vee-validate'
 
 export default {
   name: 'VTextFieldWithValidation',
-  components: {
-    ValidationProvider
-  },
+  components: { ValidationProvider },
   props: {
-    rules: {
-      type: [Object, String],
-      default: ''
-    },
+    rules: { type: [Object, String], default: '' },
     // must be included in props
-    value: {
-      type: null,
-      default: ''
-    }
+    value: { type: null, default: '' }
   },
-  data: () => ({
-    innerValue: ''
-  }),
+  data: () => ({ innerValue: '' }),
   watch: {
     // Handles internal model changes.
     innerValue(newVal) {
