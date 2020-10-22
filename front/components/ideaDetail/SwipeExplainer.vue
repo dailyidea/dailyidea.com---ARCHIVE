@@ -1,5 +1,5 @@
 <template>
-  <card :additional-styling="additionalStyling">
+  <card class="card" :additional-styling="additionalStyling">
     <v-col cols="12" class="idea-part">
       <v-row class="idea-part__header no-gutters" no-gutters>
         <v-col class="idea-part__header__title">
@@ -34,18 +34,14 @@
 import Card from '@/components/shared/Card'
 
 export default {
-  components: {
-    Card
-  },
+  components: { Card },
 
   props: {
     additionalStyling: { type: Object, default: Object }
   },
 
   data() {
-    return {
-      isExpandedState: false
-    }
+    return { isExpandedState: false }
   },
 
   computed: {
@@ -72,6 +68,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.card {
+  height: 60vh;
+}
+
 .idea-part {
   position: relative;
 

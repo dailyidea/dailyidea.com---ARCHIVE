@@ -57,18 +57,9 @@ export default {
     UserProfileAvatarCropDialog
   },
   props: {
-    initialProfileData: {
-      type: Object,
-      required: true
-    },
-    ideas: {
-      type: Array,
-      required: true
-    },
-    loadMoreIdeasIsPossible: {
-      type: Boolean,
-      default: false
-    }
+    initialProfileData: { type: Object, required: true },
+    ideas: { type: Array, required: true },
+    loadMoreIdeasIsPossible: { type: Boolean, default: false }
   },
   data() {
     return {
@@ -84,10 +75,7 @@ export default {
         interestedInTags: null
       },
       editMode: false,
-      editData: {
-        name: '',
-        bio: ''
-      },
+      editData: { name: '', bio: '' },
       savingChanges: false,
       image: undefined,
       showOverlay: false,

@@ -70,14 +70,9 @@ import SwipeFooter from '@/components/layout/SwipeFooter'
 
 export default {
   name: 'WelcomePortrait',
-  components: {
-    SwipeFooter
-  },
+  components: { SwipeFooter },
   props: {
-    params: {
-      type: Object,
-      required: true
-    },
+    params: { type: Object, required: true },
     hideNextBtn: Boolean
   }
 }

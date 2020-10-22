@@ -17,14 +17,8 @@
 export default {
   name: 'BulbIcon',
   props: {
-    fill: {
-      type: String,
-      default: String
-    },
-    stroke: {
-      type: String,
-      default: String
-    }
+    fill: { type: String, default: String },
+    stroke: { type: String, default: String }
   }
 }
 </script>

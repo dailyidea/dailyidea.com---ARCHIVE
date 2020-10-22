@@ -36,3 +36,13 @@ export async function getFirstIdea(api) {
 
   return null
 }
+
+export async function getFirstIdeaURL(api) {
+  const firstIdea = await getFirstIdea(api)
+
+  if (firstIdea === null) {
+    return '/'
+  }
+
+  return `/i/${firstIdea.shortId}/${firstIdea.slug}`
+}

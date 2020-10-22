@@ -34,9 +34,10 @@ export default {
 .card {
   margin: 0 auto !important;
 
+  height: 60vh;
+
   @media only screen and (min-width: $screen-md-min) {
     width: 70vw;
-    height: 71vh;
   }
 }
 </style>

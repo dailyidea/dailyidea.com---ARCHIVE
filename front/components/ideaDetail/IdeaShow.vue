@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row class="container-row">
     <v-col cols="12" :md="preview ? '' : 8" class="idea-part">
       <div>
         <v-row class="idea-part__header" no-gutters>
@@ -82,7 +82,7 @@
         @on-notification="onNotification"
         @click.native.stop
       ></idea-comments>
-      <span v-else-if="!expanded" class="muted d-flex flex-column justify-end"
+      <span v-else-if="!expanded" class="muted view-all-comments-text"
         >View all {{ idea.commentsCount || 0 }} comments</span
       >
     </v-col>
@@ -117,14 +117,10 @@ export default {
     expanded: { type: Boolean, default: false }
   },
 
-  data: () => ({
-    showRegisterEncourageDialog: false
-  }),
+  data: () => ({ showRegisterEncourageDialog: false }),
 
   computed: {
-    ...mapGetters({
-      userId: 'userData/userId'
-    }),
+    ...mapGetters({ userId: 'userData/userId' }),
 
     ideaContent() {
       if (this.isMobile && this.preview) {
@@ -216,9 +212,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.container-row {
+  height: 100%;
+}
+
 .comments-section {
   display: flex;
   align-items: flex-end;
+  position: relative;
+
+  .view-all-comments-text {
+    position: absolute;
+  }
 }
 
 .idea-date {

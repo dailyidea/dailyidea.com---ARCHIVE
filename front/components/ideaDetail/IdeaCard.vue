@@ -1,6 +1,7 @@
 <template>
   <card
     :class="{ 'fixed-height': !isExpanded && !preview }"
+    class="card"
     :additional-styling="additionalStyling"
     :prevent-mobile-scroll="!isExpanded && !allowMobileScroll"
     @click="expandToggle"
@@ -41,7 +42,11 @@ import IdeaEdit from '@/components/ideaDetail/IdeaEdit'
 import getIdeaTags from '@/graphql/query/getIdeaTags'
 
 export default {
-  components: { IdeaEdit, IdeaShow, Card },
+  components: {
+    IdeaEdit,
+    IdeaShow,
+    Card
+  },
 
   props: {
     preview: Boolean,
@@ -116,5 +121,9 @@ export default {
     right: 10px;
     justify-content: start;
   }
+}
+
+.fixed-height {
+  height: 60vh;
 }
 </style>

@@ -125,24 +125,13 @@ import unfollowUser from '~/graphql/mutations/unfollowUser.js'
 
 export default {
   name: 'UserProfileHeaderSection',
-  components: {
-    UserProfileAvatar
-  },
+  components: { UserProfileAvatar },
   props: {
-    profileData: {
-      type: Object,
-      required: true
-    },
+    profileData: { type: Object, required: true },
 
-    ideaCount: {
-      type: Number,
-      default: 0
-    },
+    ideaCount: { type: Number, default: 0 },
 
-    isMyProfile: {
-      type: Boolean,
-      requried: true
-    }
+    isMyProfile: { type: Boolean, requried: true }
   },
   data() {
     return {
