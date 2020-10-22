@@ -119,13 +119,12 @@ export default {
 
   .overlay-card {
     width: 70%;
-    margin: 1rem;
+    margin: 0 auto;
+    padding-top: 3rem;
     @media (max-width: $screen-sm-max) {
       width: 95%;
       overflow-y: auto;
     }
-
-    margin: 0 auto;
   }
 }
 

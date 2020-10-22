@@ -41,7 +41,6 @@ export default {
   border-radius: 8px;
   border: 1px solid $light-grey !important;
   box-shadow: $card-shadow !important;
-  overflow: hidden;
 
   @media only screen and (min-width: $screen-md-min) {
     margin: 0 auto !important;

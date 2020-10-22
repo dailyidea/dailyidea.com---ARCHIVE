@@ -15,8 +15,12 @@
     >
       <img src="~/assets/images/idea-card/left-arrow.png" />
     </div>
-    <div class="swipe-parent">
-      <div ref="swipe" :style="positionStyle" class="swipe-container">
+    <div class="swipe-parent pointer-events-none">
+      <div
+        ref="swipe"
+        :style="positionStyle"
+        class="swipe-container pointer-events-auto"
+      >
         <slot :rotation-style="rotationStyle"></slot>
       </div>
     </div>

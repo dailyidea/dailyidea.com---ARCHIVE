@@ -6,7 +6,10 @@
     :prevent-mobile-scroll="!isExpanded && !allowMobileScroll"
     @click="expandToggle"
   >
-    <v-icon v-if="closeBtn" class="close-btn" @click="$emit('exit-pressed')"
+    <v-icon
+      v-if="closeBtn && isExpanded"
+      class="close-btn"
+      @click="$emit('exit-pressed')"
       >mdi mdi-close</v-icon
     >
     <idea-edit
@@ -26,6 +29,7 @@
       @close="isExpanded = false"
       @view-preview="$emit('view-preview')"
       @updated="onUpdate"
+      @expand="isExpanded || expandToggle()"
     />
   </card>
 </template>
@@ -105,13 +109,16 @@ export default {
 .close-btn {
   position: absolute;
   z-index: 1001;
-  top: 10px;
-  right: 10px;
+  top: -40px;
+  right: 0;
+  padding: 5px 4px 4px 5px;
   color: $primary-color;
   font-size: 20px;
+  background-color: white;
+  border-radius: 100%;
 
   @media (max-width: $screen-sm-max) {
-    left: 10px;
+    right: 10px;
     justify-content: start;
   }
 }

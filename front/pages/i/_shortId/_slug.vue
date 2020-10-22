@@ -3,7 +3,7 @@
     <div
       class="light-box-bg"
       :class="{ 'light-box-expanded': isExpanded }"
-      @click="$refs.page.expandToggle()"
+      @click="isExpanded && $refs.page.expandToggle()"
     ></div>
     <layout :hide-mobile-nav="isExpanded" :hide-slide-menu="hideSlideMenu">
       <template v-slot:header>
@@ -14,7 +14,7 @@
       </template>
       <idea-card-skeleton />
       <swiper
-        class="idea-card"
+        class="idea-card pointer-events-none"
         :swipe-disabled="isExpanded"
         @swipe-start="setHideSlideMenuTrue"
         @swipe-end="setHideSlideMenuFalse"
@@ -23,6 +23,7 @@
         @left-arrow-clicked="previousIdea"
         @right-arrow-clicked="nextIdea"
         @animation-out-end="animationOutEnd"
+        @swipe-parent-click="$refs.page.expandToggle()"
       >
         <template v-slot="{ rotationStyle }">
           <swipe-explainer
@@ -36,6 +37,7 @@
             class="card"
             :idea="idea"
             :style="rotationStyle"
+            close-btn
             @updated="i => (idea = i)"
             @expand-toggle="val => (isExpanded = val)"
           ></idea-card>

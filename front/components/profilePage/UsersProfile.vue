@@ -1,16 +1,18 @@
 <template>
   <layout grey-bg :show-overlay="showOverlay">
     <template v-slot:overlay>
-      <div class="overlay">
-        <div class="overlay-card">
-          <idea-card
-            expanded
-            close-btn
-            allow-mobile-scroll
-            :idea="selectedIdea"
-            @exit-pressed="handleExitPressed"
-            @updated="ideaUpdated"
-          ></idea-card>
+      <div class="overlay" @click="handleExitPressed">
+        <div class="overlay-card" @click="handleExitPressed">
+          <div @click.stop>
+            <idea-card
+              expanded
+              close-btn
+              allow-mobile-scroll
+              :idea="selectedIdea"
+              @exit-pressed="handleExitPressed"
+              @updated="ideaUpdated"
+            ></idea-card>
+          </div>
         </div>
       </div>
     </template>
