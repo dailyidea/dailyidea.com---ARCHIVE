@@ -129,7 +129,7 @@ export default {
       this.showIdeaPostedDialog = true
       // this.updateCreatedIdea(null)
     }
-    this.showExplainer = process.client && !Cookies.get('hasSeenExplainer')
+    this.showExplainer = !Cookies.get('hasSeenExplainer')
   },
 
   methods: {
