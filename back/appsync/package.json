@@ -7,10 +7,11 @@
   },
   "scripts": {
     "start": "yarn dynamodb-generate-seed-data && serverless dynamodb install && serverless offline start",
-    "sls:deploy-dev": "env-cmd -f ./conf/dev.env sls deploy",
-    "sls:deploy-prod": "env-cmd -f ./conf/prod.env sls deploy",
+    "sls:deploy-dev": "node mail-mjml/compile-emails.js && env-cmd -f ./conf/dev.env sls deploy",
+    "sls:deploy-prod": "node mail-mjml/compile-emails.js && env-cmd -f ./conf/prod.env sls deploy",
     "sls:deploy-ci": "serverless deploy",
-    "run-dev": "env-cmd -f ./conf/dev.env ./run.py"
+    "run-dev": "env-cmd -f ./conf/dev.env ./run.py",
+    "compile-emails": "node mail-mjml/compile-emails.js"
   },
   "dependencies": {
     "@sentry/node": "^5.15.5",
@@ -20,6 +21,8 @@
   },
   "devDependencies": {
     "env-cmd": "^10.0.1",
+    "klaw": "^3.0.0",
+    "mjml": "^4.7.1",
     "serverless": "^1.51.0",
     "serverless-offline": "^5.10.1",
     "serverless-prune-plugin": "^1.4.2",
