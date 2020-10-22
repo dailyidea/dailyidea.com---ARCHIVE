@@ -1,13 +1,19 @@
 <template>
   <!-- eslint-disable vue/no-v-html -->
-  <div
-    :class="{
-      'idea-content-collapsed fade-bottom': isMobile ? collapsed : true,
-      'idea-content': !collapsed
-    }"
-    class="hide-scrollbar"
-    v-html="content"
-  ></div>
+  <div class="content-container">
+    <div
+      ref="scroll-container"
+      :class="{
+        'idea-content-collapsed fade-bottom': isMobile ? collapsed : true,
+        'idea-content': !collapsed
+      }"
+      class="content hide-scrollbar"
+      v-html="content"
+    ></div>
+    <div v-if="!atScrollEnd" class="read-more hidden-sm-and-down">
+      Read more...
+    </div>
+  </div>
 </template>
 
 <script>
@@ -16,11 +22,62 @@ export default {
   props: {
     collapsed: Boolean,
     content: { type: String, default: '' }
+  },
+
+  data() {
+    return {
+      atScrollEnd: false
+    }
+  },
+
+  watch: {
+    content(val) {
+      setTimeout(() => {
+        const scrollContainer = this.$refs['scroll-container']
+        const currentScrollLocation = scrollContainer.scrollTop
+        const scrollMax = scrollContainer.scrollTopMax
+
+        this.setAtScrollEnd(currentScrollLocation, scrollMax)
+      }, 300)
+    }
+  },
+
+  mounted() {
+    const containerElement = this.$refs['scroll-container']
+    containerElement.addEventListener('scroll', e => {
+      const currentScrollLocation = e.target.scrollTop
+      const scrollMax = e.target.scrollTopMax
+      this.setAtScrollEnd(currentScrollLocation, scrollMax)
+    })
+  },
+
+  methods: {
+    setAtScrollEnd(currentScrollLocation, scrollMax) {
+      if (scrollMax < 100) {
+        this.atScrollEnd = true
+        return
+      }
+
+      if (currentScrollLocation >= scrollMax - scrollMax * 0.05) {
+        this.atScrollEnd = true
+      } else {
+        this.atScrollEnd = false
+      }
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.content-container {
+  position: relative;
+}
+
+.read-more {
+  position: absolute;
+  bottom: -2vh;
+}
+
 .idea-content-collapsed {
   max-width: 100%;
   max-height: 47vh;
