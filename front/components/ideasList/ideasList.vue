@@ -64,30 +64,12 @@ export default {
   name: 'IdeasList',
   components: { ideasListIdea, ideasListEmptyMessage },
   props: {
-    ideas: {
-      type: Array,
-      required: true
-    },
-    allowLoadMore: {
-      type: Boolean,
-      default: false
-    },
-    loading: {
-      type: Boolean,
-      default: false
-    },
-    showAuthor: {
-      type: Boolean,
-      default: false
-    },
-    initialOrder: {
-      type: String,
-      default: ORDER.DATE_DESC
-    },
-    allowOrder: {
-      type: Boolean,
-      default: true
-    }
+    ideas: { type: Array, required: true },
+    allowLoadMore: { type: Boolean, default: false },
+    loading: { type: Boolean, default: false },
+    showAuthor: { type: Boolean, default: false },
+    initialOrder: { type: String, default: ORDER.DATE_DESC },
+    allowOrder: { type: Boolean, default: true }
   },
   data() {
     return {

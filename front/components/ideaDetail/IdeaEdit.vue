@@ -117,11 +117,7 @@ export default {
     }
   },
 
-  computed: {
-    ...mapGetters({
-      userId: 'userData/userId'
-    })
-  },
+  computed: { ...mapGetters({ userId: 'userData/userId' }) },
 
   mounted() {
     this.form = pick(this.idea, ['title', 'content'])

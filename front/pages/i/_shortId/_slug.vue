@@ -12,6 +12,7 @@
           @category-clicked="handleCategoryClicked"
         ></categories-sub-header>
       </template>
+      <idea-card-skeleton />
       <swiper
         class="idea-card"
         :swipe-disabled="isExpanded"
@@ -23,15 +24,11 @@
         @right-arrow-clicked="nextIdea"
         @animation-out-end="animationOutEnd"
       >
-        <template v-slot:background>
-          <idea-card-skeleton :additional-styling="{ 'min-height': '71vh' }" />
-        </template>
         <template v-slot="{ rotationStyle }">
           <swipe-explainer
             v-if="showExplainer"
             class="card"
             :style="rotationStyle"
-            :additional-styling="{ 'min-height': '71vh' }"
           ></swipe-explainer>
           <idea-card
             v-else
@@ -39,7 +36,6 @@
             class="card"
             :idea="idea"
             :style="rotationStyle"
-            :additional-styling="{ 'min-height': '71vh' }"
             @updated="i => (idea = i)"
             @expand-toggle="val => (isExpanded = val)"
           ></idea-card>

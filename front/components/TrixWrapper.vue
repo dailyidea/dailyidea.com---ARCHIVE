@@ -99,25 +99,13 @@ export default {
   components: { VueTrix },
 
   props: {
-    value: {
-      type: String,
-      default: ''
-    },
-    placeholder: {
-      type: String,
-      default: 'Enter content'
-    },
-    autoDeleteAttachments: {
-      type: Boolean,
-      default: false
-    }
+    value: { type: String, default: '' },
+    placeholder: { type: String, default: 'Enter content' },
+    autoDeleteAttachments: { type: Boolean, default: false }
   },
 
   data() {
-    return {
-      attachmentsProcessing: 0,
-      uploadedFiles: []
-    }
+    return { attachmentsProcessing: 0, uploadedFiles: [] }
   },
 
   computed: {

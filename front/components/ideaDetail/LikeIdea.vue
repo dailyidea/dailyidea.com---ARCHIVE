@@ -22,15 +22,9 @@ import getIsIdeaLikedByMe from '@/graphql/query/getIsIdeaLikedByMe'
 export default {
   name: 'LikeIdea',
   props: {
-    isLiked: {
-      type: Boolean,
-      required: true
-    },
+    isLiked: { type: Boolean, required: true },
 
-    idea: {
-      type: Object,
-      required: true
-    },
+    idea: { type: Object, required: true },
 
     isLoading: Boolean,
     isLoggedIn: Boolean

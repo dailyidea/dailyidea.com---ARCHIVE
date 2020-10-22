@@ -39,51 +39,20 @@ import loadIdeas from '@/components/ideasList/loadIdeas'
 
 export default {
   name: 'IdeasListPage',
+
   components: { Layout, IdeasList },
+
   props: {
-    initialIdeas: {
-      type: Array,
-      default: () => []
-    },
-    initialNextToken: {
-      type: String,
-      required: false,
-      default: null
-    },
-    initialOrder: {
-      type: String,
-      required: false,
-      default: undefined
-    },
-    title: {
-      type: String,
-      default: 'Ideas'
-    },
-    endPoint: {
-      type: String,
-      required: true
-    },
-    endPointName: {
-      type: String,
-      required: true
-    },
-    endPointMode: {
-      type: String,
-      required: false,
-      default: undefined
-    },
-    endPointVariables: {
-      type: Object,
-      default: () => ({})
-    },
-    showAuthor: {
-      type: Boolean,
-      default: false
-    },
-    allowOrder: {
-      type: Boolean,
-      default: true
-    }
+    initialIdeas: { type: Array, default: () => [] },
+    initialNextToken: { type: String, required: false, default: null },
+    initialOrder: { type: String, required: false, default: undefined },
+    title: { type: String, default: 'Ideas' },
+    endPoint: { type: String, required: true },
+    endPointName: { type: String, required: true },
+    endPointMode: { type: String, required: false, default: undefined },
+    endPointVariables: { type: Object, default: () => ({}) },
+    showAuthor: { type: Boolean, default: false },
+    allowOrder: { type: Boolean, default: true }
   },
   data() {
     return {
