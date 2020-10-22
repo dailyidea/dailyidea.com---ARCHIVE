@@ -30,7 +30,6 @@
         accept="image/*"
         @change="uploadImage($event)"
       />
-      <visual-notifier ref="notifier"></visual-notifier>
       <user-profile-avatar-crop-dialog
         ref="UserProfileAvatarCropDialog"
       ></user-profile-avatar-crop-dialog>
@@ -41,7 +40,6 @@
 <script>
 import UserProfileHeaderSection from './UserProfileHeaderSection'
 import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
-import VisualNotifier from '@/components/VisualNotifier'
 import Layout from '@/components/layout/Layout'
 import IdeaCard from '@/components/ideaDetail/IdeaCard'
 
@@ -51,7 +49,6 @@ export default {
     Layout,
     IdeaCard,
     UserProfileHeaderSection,
-    VisualNotifier,
     UserProfileAvatarCropDialog
   },
   props: {

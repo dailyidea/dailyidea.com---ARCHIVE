@@ -76,7 +76,6 @@
         </div>
       </validation-observer>
     </v-col>
-    <visual-notifier ref="notifier"></visual-notifier>
   </div>
 </template>
 
@@ -87,7 +86,6 @@ import { mapGetters } from 'vuex'
 import pick from 'lodash/pick'
 import merge from 'lodash/merge'
 import TrixWrapper from '@/components/TrixWrapper'
-import VisualNotifier from '@/components/VisualNotifier'
 import updateIdea from '@/graphql/mutations/updateIdea'
 import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
 
@@ -95,8 +93,7 @@ export default {
   components: {
     ValidationObserver,
     TrixWrapper,
-    VTextFieldWithValidation,
-    VisualNotifier
+    VTextFieldWithValidation
   },
 
   props: {
@@ -187,7 +184,7 @@ export default {
             })
           )
           this.$emit('updated', merge({}, this.form))
-          this.$refs.notifier.success('Idea Updated!')
+          this.$notifier.success('Idea Updated!')
           // Redirect to updated URL slug if needed
           if (resp.data.updateIdea.idea.slug !== this.idea.slug) {
             this.$router.replace({
@@ -199,7 +196,7 @@ export default {
             })
           }
         } catch (e) {
-          this.$refs.notifier.error("Can't update Idea!")
+          this.$notifier.error("Can't update Idea!")
         }
         this.updatingIdea = false
       }, 10) // if last tag not saved yet editor needs time to process outer click event

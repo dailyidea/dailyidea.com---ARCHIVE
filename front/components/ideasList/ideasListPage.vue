@@ -28,9 +28,6 @@
         @load-more="loadIdeas"
         @order-change="onChangeOrder"
       ></ideas-list>
-
-      <!-- Bottom snackbar message -->
-      <visual-notifier ref="notifier"></visual-notifier>
     </v-layout>
   </Layout>
 </template>
@@ -38,36 +35,21 @@
 <script>
 import Layout from '@/components/layout/Layout'
 import IdeasList from '@/components/ideasList/ideasList'
-import VisualNotifier from '@/components/VisualNotifier'
 import loadIdeas from '@/components/ideasList/loadIdeas'
 
 export default {
   name: 'IdeasListPage',
-  components: {
-    Layout,
-    IdeasList,
-    VisualNotifier
-  },
+
+  components: { Layout, IdeasList },
+
   props: {
     initialIdeas: { type: Array, default: () => [] },
-    initialNextToken: {
-      type: String,
-      required: false,
-      default: null
-    },
-    initialOrder: {
-      type: String,
-      required: false,
-      default: undefined
-    },
+    initialNextToken: { type: String, required: false, default: null },
+    initialOrder: { type: String, required: false, default: undefined },
     title: { type: String, default: 'Ideas' },
     endPoint: { type: String, required: true },
     endPointName: { type: String, required: true },
-    endPointMode: {
-      type: String,
-      required: false,
-      default: undefined
-    },
+    endPointMode: { type: String, required: false, default: undefined },
     endPointVariables: { type: Object, default: () => ({}) },
     showAuthor: { type: Boolean, default: false },
     allowOrder: { type: Boolean, default: true }
@@ -82,7 +64,9 @@ export default {
   },
   computed: {
     mobileHeaderUiOptions() {
-      return { pageTitle: this.title }
+      return {
+        pageTitle: this.title
+      }
     },
     isAuthenticated() {
       return this.$store.state.userData.isAuthenticated

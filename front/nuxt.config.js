@@ -82,6 +82,7 @@ module.exports = {
     '@/plugins/toRelativeDate',
     '@/plugins/mixins',
     '@/plugins/app-dialog',
+    '@/plugins/app-notifier',
     '@/plugins/directives'
   ],
 

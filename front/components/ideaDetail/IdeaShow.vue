@@ -39,7 +39,6 @@
             @enable-edit-mode="$emit('edit')"
             @saved-state-changed="onIdeaSaveStateChanged"
             @liked-state-changed="onIdeaLikeStateChanged"
-            @on-notification="onNotification"
             @on-idea-shared="onIdeaShared"
             @on-delete-idea="onDeleteIdea"
             @on-idea-visibility-changed="onIdeaVisibilityChanged"
@@ -79,7 +78,6 @@
         v-if="expanded"
         ref="ideaComments"
         :idea="idea"
-        @on-notification="onNotification"
         @click.native.stop
       ></idea-comments>
       <span v-else-if="!expanded" class="muted view-all-comments-text"
@@ -87,7 +85,6 @@
       >
     </v-col>
     <register-encourage-dialog v-model="showRegisterEncourageDialog" />
-    <visual-notifier ref="notifier"></visual-notifier>
   </v-row>
 </template>
 
@@ -99,15 +96,13 @@ import MenuPanel from '@/components/ideaDetail/MenuPanel'
 import deleteIdea from '@/graphql/mutations/deleteIdea'
 import IdeaContent from '@/components/IdeaContent'
 import RegisterEncourageDialog from '@/components/dialogs/RegisterEncourageDialog'
-import VisualNotifier from '@/components/VisualNotifier'
 
 export default {
   components: {
     RegisterEncourageDialog,
     IdeaComments,
     MenuPanel,
-    IdeaContent,
-    VisualNotifier
+    IdeaContent
   },
 
   props: {
@@ -153,21 +148,17 @@ export default {
       }
     },
 
-    onNotification({ type, message }) {
-      this.$refs.notifier[type](message)
-    },
-
     onIdeaSaveStateChanged({ saved }) {
-      this.$refs.notifier.success(saved ? 'Idea Saved!' : 'Idea Unsaved!')
+      this.$notifier.success(saved ? 'Idea Saved!' : 'Idea Unsaved!')
     },
 
     onIdeaLikeStateChanged({ liked, likesCount }) {
       this.idea.likesCount = likesCount
-      this.$refs.notifier.success(liked ? 'Idea Liked!' : 'Idea Unliked')
+      this.$notifier.success(liked ? 'Idea Liked!' : 'Idea Unliked')
     },
 
     onIdeaVisibilityChangeError({ isPrivate }) {
-      this.$refs.notifier.error(`can't change Idea visibility!`)
+      this.$notifier.error(`can't change Idea visibility!`)
     },
 
     async onDeleteIdea() {
@@ -185,17 +176,17 @@ export default {
       try {
         const ideaId = this.idea.ideaId
         await this.$amplifyApi.graphql(graphqlOperation(deleteIdea, { ideaId }))
-        this.$refs.notifier.success('Idea deleted')
+        this.$notifier.success('Idea deleted')
         this.$router.push('/ideas/me')
       } catch (err) {
-        this.$refs.notifier.error('Something went wrong!!')
+        this.$notifier.error('Something went wrong!!')
       }
       this.$store.commit('layoutState/hideProgressBar')
     },
 
     onIdeaVisibilityChanged({ isPrivate }) {
       this.$emit('updated', { visibility: isPrivate ? 'PRIVATE' : 'PUBLIC' })
-      this.$refs.notifier.success(
+      this.$notifier.success(
         `Your Idea is ${isPrivate ? 'private' : 'public'} now!`
       )
     },
