@@ -1,67 +1,93 @@
 <mjml>
-	<mj-body background-color="#FCFCFC">
-		<mj-section padding-bottom="5px" background-color="white">
+  <mj-head>
+    <mj-raw>
+      <meta name="color-scheme" content="light dark">
+      <meta name="supported-color-schemes" content="light dark">
+    </mj-raw>
+    <mj-style>
+      .logo-dark { display: none; }
+      .img-dark { display: none; }
+      .link { color: #5B41BB; }
+      .comment-text { color: #c0c0c0; }
+      @media (prefers-color-scheme: dark) {
+        .body { background-color: black !important; }
+        .section > table > tbody > tr > td { background-color: #161025 !important; }
+        .heading div { color: #FBFBFD !important; }
+        .quote div { color: #FBFBFD !important; }
+        .text div { color: #FBFBFD !important; }
+        
+        .logo { display: none; }
+        .logo-dark { display: block; }
+        .login-img { display: none; }
+        .img-dark { display: block; }
+        .link { color: #FFC61E; }
+        .comment-text { color: #5B41BB; }
+      }
+    </mj-style>
+  </mj-head>
+	<mj-body css-class="body" background-color="#FCFCFC">
+		<mj-section css-class="section" padding-bottom="5px" background-color="white">
     	<mj-column>
-      	<mj-image align="left" width="120px" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/common/logo_full.png"></mj-image>
+        <mj-image width="150px" align="left" padding-left="5px" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/common/logo_full_dark.png"></mj-image>
       </mj-column>
     </mj-section>
-    <mj-section padding-top="0" padding-bottom="0" background-color="white">
+    <mj-section css-class="section" padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
-      	<mj-text padding-top="0" padding-bottom="0">
-          <h2>Finish posting your comment</h2>
+      	<mj-text css-class="heading" padding-top="0" padding-bottom="0">
+          <h1>Finish posting your comment</h1>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section padding-top="0" padding-bottom="0" background-color="white">
+    <mj-section css-class="section" padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
       	<mj-image src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/post-comment/post-comment.png" width="200px" align="center"></mj-image>
       </mj-column>
     </mj-section>
-    <mj-section padding-top="0" padding-bottom="0" background-color="white">
+    <mj-section css-class="section" padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
-      	<mj-text>
+      	<mj-text css-class="text">
           <p style="font-size: 18px; line-height: 1.5;">Hey Welcome, Stranger!</p>
           <br/>
           <p style="font-size: 18px; line-height: 1.5">Please push this button to confirm your identity and we'll setup your account and finish posting this comment.</p>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section padding-top="0" padding-bottom="0" background-color="white">
-    	<mj-column>
-      	<mj-button href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}{{verifyAdditionalUrlParams}}" font-size="20px" width="70%" height="50px" background-color="#FFC61E" border-radius="50px">
-        	Post Comment
+    <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">
+      <mj-column>
+        <mj-button inner-padding="10px 65px" border-radius="7px" font-family="helvetica" font-size="20px" background-color="#5B41BB" color="white" href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}{{verifyAdditionalUrlParams}}">
+          Post Comment
         </mj-button>
       </mj-column>
     </mj-section>
-    <mj-section padding-top="0" padding-bottom="0" background-color="white">
+    <mj-section css-class="section" padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
-      	<mj-text>
+      	<mj-text css-class="text">
           <p style="font-size: 18px">This confirmation email is regarding this comment:</p>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section background-color="white">
-    	<mj-column width="91%" background-color="#eff6ff" border-radius="9px">
+    <mj-section css-class="section" background-color="white">
+    	<mj-column width="91%" background-color="#F8F8FA" border-radius="9px">
       	<mj-text color="#c0c0c0" padding-top="13px" padding-bottom="13px">
-        	<p style="font-size: 13px; color: #c0c0c0; font-style: italic;">{{commentText}}</p>
+        	<p style="font-size: 13px; font-style: italic;" class="comment-text">{{commentText}}</p>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section padding-top="0" padding-bottom="0" background-color="white">
+    <mj-section css-class="section" padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
-      	<mj-text>
+      	<mj-text css-class="text">
           <p style="font-size: 18px;">On this idea:</p>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section padding-top="0" padding-bottom="0" background-color="white">
+    <mj-section css-class="section" padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
         <mj-text>
-        	<a style="font-size: 16px;" href="{{ideaHref}}">{{ideaName}}</a>
+        	<a class="link" style="font-size: 16px;" href="{{ideaHref}}">{{ideaName}}</a>
       	</mj-text>
       </mj-column>
     </mj-section>
-    <mj-section background-color="white">
+    <mj-section css-class="section" background-color="white">
     	<mj-column>
       	<mj-text color="#c8c8c8" font-size="12px">
         	<a href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}&next=/settings" style="color:#C8C8C8;">Unsubscribe from email</a> 
@@ -70,11 +96,11 @@
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section background-color="#EFF6FF">
+    <mj-section background-color="#5B41BB">
       <mj-column>
-        <mj-text font-size="12px" align="center" font-family="helvetica">
+        <mj-text font-size="12px" align="center" font-family="helvetica" color="#FFFFFF">
           <p>Made with <span style="color:red; font-size: 18px">♥</span> in Chicago</p>
-          <p><a href="https://www.dailyidea.com/" style="text-decoration:none; font-weight:bold; color:#2d2d2d">www.dailyidea.com</a></p>
+          <p><a href="https://{{ DOMAIN_NAME }}/" style="text-decoration:none; font-weight:bold; color:#FFFFFF">{{ DOMAIN_NAME }}</a></p>
         </mj-text>
       </mj-column>
     </mj-section>

@@ -1,62 +1,87 @@
 <mjml>
   <mj-head>
-    <mj-font name="Dancing Script" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" />
+    <mj-raw>
+      <meta name="color-scheme" content="light dark">
+      <meta name="supported-color-schemes" content="light dark">
+    </mj-raw>
+    <mj-style>
+      .logo-dark { display: none; }
+      .login-img-dark { display: none; }
+      .link { color: #5B41BB; }
+      .comment-text { color: #c0c0c0; }
+      .idea-card { background-color:#fffaeb; border-radius:9px; border:1px solid purple; padding:10px 25px; color:#2d2d2d; }
+      @media (prefers-color-scheme: dark) {
+        .body { background-color: black !important; }
+        .section > table > tbody > tr > td { background-color: #161025 !important; }
+        .heading div { color: #FBFBFD !important; }
+        .quote div { color: #FBFBFD !important; }
+        .text div { color: #FBFBFD !important; }
+        
+        .logo { display: none; }
+        .logo-dark { display: block; }
+        .login-img { display: none; }
+        .login-img-dark { display: block; }
+        .comment-text { color: #5B41BB; }
+        .idea-card { background-color: #5B41BB; border-color: #AB9BE5; color: white; }
+        .idea-card .link { color: white; }
+      }
+    </mj-style>
   </mj-head>
-  <mj-body background-color="#FCFCFC">
-    <mj-section background-color="white" padding-bottom="5px">
+  <mj-body css-class="body"  background-color="#FCFCFC">
+    <mj-section css-class="section" background-color="white" padding-bottom="5px">
       <mj-column>
         <mj-image width="120px" align="left" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/common/logo_full.png"></mj-image>
       </mj-column>
     </mj-section>
-    <mj-section padding-top="0" padding-bottom="0" background-color="white">
+    <mj-section css-class="section" padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
-      	<mj-text padding-top="0" padding-bottom="0" color="#2d2d2d">
+      	<mj-text css-class="heading" padding-top="0" padding-bottom="0" color="#2d2d2d">
           <h1>{{ sender_name }} sent you an idea!</h1>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section>
+    <mj-section css-class="section">
       <mj-column>
         <mj-image width="250px" align="center" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/share-idea/share-idea.png"></mj-image>
       </mj-column>
     </mj-section>
-    <mj-section background-color="white" padding-top="0">
+    <mj-section css-class="section" background-color="white" padding-top="0">
       <mj-column>
-        <mj-text padding-top="0" padding-bottom="0" font-family="helvetica" color="#2d2d2d" font-size="18px">
+        <mj-text css-class="text" padding-top="0" padding-bottom="0" font-family="helvetica" color="#2d2d2d" font-size="18px">
           <p>Hi {{ friend_name }}!</p>
           <p>{{ sender_name }} sent you this idea that he thought you might be interested in:</p>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section background-color="white" padding-top="0">
+    <mj-section css-class="section" background-color="white" padding-top="0">
       <mj-column>
         <mj-text padding-top="0" padding-bottom="0" font-family="helvetica" color="#2d2d2d" font-size="18px">
-          <div style="background-color:#fffaeb;border-radius:9px;border:1px solid purple;padding:10px 25px;">
-            <div style="font-family:Helvetica, sans-serif;font-size:13px;line-height:1;text-align:left;color:#2d2d2d;">
-              <p style="font-weight:bold; font-size:16px">{{ idea.title }}</p>
-              <p style="color:#b8b8b8; font-size:12px">by {{ idea.authorName }}</p>
-              <p style="line-height:16px">
+          <div class="idea-card">
+            <div style="font-family:Helvetica, sans-serif;font-size:13px;line-height:1;text-align:left;">
+              <p style="font-weight:bold; font-size:16px; margin-bottom: 5px;">{{ idea.title }}</p>
+              <p style="color: #b8b8b8; font-size:12px; margin-top: 0;">by {{ idea.authorName }}</p>
+              <p style="line-height: 16px;">
                 {{ idea.content | safe }}
-                <a style="color:#551a8b" href="{{ link_to_idea }}">(see more)</a>
+                <a class="link" href="{{ link_to_idea }}">(see more)</a>
               </p>
             </div>
           </div>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section background-color="white" padding-top="0">
+    <mj-section css-class="section" background-color="white" padding-top="0">
       <mj-column>
         <mj-text padding-top="0" padding-bottom="0" font-family="helvetica" color="#2d2d2d" font-size="14px">
-          <p><a href="{{ link_to_idea }}" style="color:#551a8b;">View the full idea and comments. </a></p>
-          <p><a href="{{ BASE_SITE_URL }}" style="color:#551a8b;">Browse other creative ideas. </a></p>
+          <p><a class="link" href="{{ link_to_idea }}">View the full idea and comments. </a></p>
+          <p><a class="link" href="{{ BASE_SITE_URL }}">Browse other creative ideas. </a></p>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section background-color="#EFF6FF">
+    <mj-section background-color="#5B41BB">
       <mj-column>
-        <mj-text font-size="12px" align="center" font-family="helvetica">
+        <mj-text font-size="12px" align="center" font-family="helvetica" color="#FFFFFF">
           <p>Made with <span style="color:red; font-size: 18px">♥</span> in Chicago</p>
-          <p><a href="https://www.dailyidea.com/" style="text-decoration:none; font-weight:bold; color:#2d2d2d">www.dailyidea.com</a></p>
+          <p><a href="https://{{ DOMAIN_NAME }}/" style="text-decoration:none; font-weight:bold; color:#FFFFFF">{{ DOMAIN_NAME }}</a></p>
         </mj-text>
       </mj-column>
     </mj-section>

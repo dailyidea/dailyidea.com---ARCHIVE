@@ -2,11 +2,10 @@
   <mj-head>
     <mj-raw>
       <meta name="color-scheme" content="light dark">
-    <meta name="supported-color-schemes" content="light dark">
+      <meta name="supported-color-schemes" content="light dark">
     </mj-raw>
     <mj-font name="Dancing Script" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" />
     <mj-style>
-      .logo-dark { display: none; }
       .login-img-dark { display: none; }
       @media (prefers-color-scheme: dark) {
         .body { background-color: black !important; }
@@ -15,8 +14,6 @@
         .quote div { color: #FBFBFD !important; }
         .text div { color: #FBFBFD !important; }
         
-        .logo { display: none; }
-        .logo-dark { display: block; }
         .login-img { display: none; }
         .login-img-dark { display: block; }
       }
@@ -25,8 +22,7 @@
   <mj-body css-class="body" background-color="#FCFCFC">
     <mj-section css-class="section" background-color="white" padding-bottom="5px">
       <mj-column>
-        <mj-image css-class="logo" width="120px" align="left" src="https://dailyidea-serverless-email-static-dev.s3.amazonaws.com/email/images/common/logo_full.png"></mj-image>
-        <mj-image css-class="logo-dark" width="120px" align="left" src="https://dailyidea-serverless-email-static-dev.s3.amazonaws.com/email/images/common/logo_full_dark.png"></mj-image>
+        <mj-image width="150px" align="left" padding-left="5px" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/common/logo_full_dark.png"></mj-image>
       </mj-column>
     </mj-section>
     <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">
