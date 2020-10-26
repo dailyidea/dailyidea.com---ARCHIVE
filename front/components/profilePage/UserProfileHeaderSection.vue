@@ -71,7 +71,7 @@
                 </nuxt-link>
               </div>
             </div>
-            <div class="hidden-desktop hidden-landscape">
+            <div class="hidden-desktop hidden-landscape px-3">
               {{ profileData.bio }}
             </div>
           </div>
