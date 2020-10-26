@@ -10,7 +10,7 @@
       class="content hide-scrollbar"
       v-html="content"
     ></div>
-    <div v-if="!atScrollEnd" class="read-more hidden-sm-and-down">
+    <div v-if="!preview && !atScrollEnd" class="read-more hidden-sm-and-down">
       Read more...
     </div>
   </div>
@@ -21,6 +21,7 @@ export default {
   name: 'IdeaContent',
   props: {
     collapsed: Boolean,
+    preview: Boolean,
     content: { type: String, default: '' }
   },
 

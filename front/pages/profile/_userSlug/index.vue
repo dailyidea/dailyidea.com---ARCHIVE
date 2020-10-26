@@ -10,7 +10,7 @@
       <idea-card
         v-for="(idea, index) in userIdeas"
         :key="index"
-        class="my-8"
+        class="card"
         preview
         allow-mobile-scroll
         :idea="idea"
@@ -98,6 +98,10 @@ export default {
   margin: 0 auto;
   @media (min-width: $screen-md-min) {
     width: 650px;
+  }
+
+  .card {
+    margin-top: 1rem !important;
   }
 }
 </style>
