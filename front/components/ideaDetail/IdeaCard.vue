@@ -7,7 +7,7 @@
     @click="expandToggle"
   >
     <v-icon
-      v-if="closeBtn && isExpanded"
+      v-if="closeBtn && isExpanded && (isMobile || isLightbox)"
       class="close-btn"
       @click="$emit('exit-pressed')"
       >mdi mdi-close</v-icon
@@ -50,6 +50,7 @@ export default {
 
   props: {
     preview: Boolean,
+    isLightbox: Boolean,
     idea: { type: Object, required: true },
     additionalStyling: { type: Object, default: Object },
     expanded: { type: Boolean, default: false },
