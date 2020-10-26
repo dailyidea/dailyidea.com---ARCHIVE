@@ -1,4 +1,4 @@
-const pageSize = 25
+const pageSize = 1
 
 async function loadIdeas(
   api,
@@ -7,6 +7,7 @@ async function loadIdeas(
   customVariables = {},
   authMode = undefined
 ) {
+  console.log(pageSize)
   const variables = Object.assign(
     {
       limit: pageSize

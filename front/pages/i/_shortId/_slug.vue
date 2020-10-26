@@ -119,18 +119,46 @@ export default {
   },
 
   mounted() {
-    this.cacheIdeas(this.getCategoryFromURL())
-    this.incrementViews()
+    const category = this.getCategoryFromURL()
+    
+    if(!this.loadStoredIdeaQueue(category)) {  
+      this.cacheIdeas(category)
+      this.incrementViews()
 
-    // Show success diaslog for jsut created idea
-    if (this.idea && this.createdIdeaId === this.idea.ideaId) {
-      this.showIdeaPostedDialog = true
-      // this.updateCreatedIdea(null)
+      // Show success diaslog for jsut created idea
+      if (this.idea && this.createdIdeaId === this.idea.ideaId) {
+        this.showIdeaPostedDialog = true
+        // this.updateCreatedIdea(null)
+      }
     }
     this.showExplainer = !Cookies.get('hasSeenExplainer')
   },
 
   methods: {
+    saveIdeaQueue() {  
+      const ideaQueue = this.ideaQueue
+      const ideaIndex = this.ideaIndex
+      const nextToken = this.nextToken
+
+      localStorage.setItem(this.category, JSON.stringify({ ideaQueue, ideaIndex, nextToken })) 
+    },
+
+    loadStoredIdeaQueue(category) {
+      const storedIdeas = localStorage.getItem(category)
+      
+      if(storedIdeas) {
+        const storedIdeasObj = JSON.parse(storedIdeas)
+
+        this.ideaQueue = storedIdeasObj.ideaQueue
+        this.nextToken = storedIdeasObj.nextToken
+        this.ideaIndex = storedIdeasObj.ideaIndex
+        this.idea = this.ideaQueue[this.ideaIndex] 
+        return true
+      }
+
+      return false
+    },
+
     getIdeasFunction(category) {
       switch (category) {
         case 'top':
@@ -173,6 +201,7 @@ export default {
       this.ideaIndex += direction
 
       if (this.ideaIndex >= this.ideaQueue.length || this.ideaIndex < 0) {
+
         this.ideaIndex -= direction
       }
 
@@ -181,20 +210,24 @@ export default {
       }
 
       this.idea = this.ideaQueue[this.ideaIndex]
-      if (this.ideaIndex > this.ideaQueue.length / 2) {
+      if (this.ideaIndex > this.ideaQueue.length - 10) {
         this.cacheIdeas(this.category)
       }
       this.updateIdeaSlug()
+      this.saveIdeaQueue()
+
     },
 
     async handleCategoryClicked(category) {
-      this.ideaIndex = 0
       this.category = category
-      this.ideaQueue = []
-      this.nextToken = null
-      await this.cacheIdeas(category)
-      this.idea = this.ideaQueue[this.ideaIndex]
-      this.$router.push(`${this.ideaSlug(category)}`)
+      if(!this.loadStoredIdeaQueue(category)) {
+        this.ideaIndex = 0
+        this.ideaQueue = []
+        this.nextToken = null
+        await this.cacheIdeas(category)
+        this.idea = this.ideaQueue[this.ideaIndex]
+        this.$router.push(`${this.ideaSlug(category)}`)
+      }
     },
 
     async incrementViews() {
