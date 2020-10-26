@@ -31,7 +31,7 @@
     </mj-section>
     <mj-section css-class="section">
       <mj-column>
-        <mj-image width="250px" align="center" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/idea-activity/collaboration.png"></mj-image>
+        <mj-image width="328px" align="center" src="../../static/email/images/idea-activity/collaboration.png"></mj-image>
       </mj-column>
     </mj-section>
     <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">

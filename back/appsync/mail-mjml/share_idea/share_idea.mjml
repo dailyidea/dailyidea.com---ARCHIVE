@@ -6,7 +6,7 @@
     </mj-raw>
     <mj-style>
       .logo-dark { display: none; }
-      .login-img-dark { display: none; }
+      .share-image-dark { display: none; }
       .link { color: #5B41BB; }
       .comment-text { color: #c0c0c0; }
       .idea-card { background-color:#fffaeb; border-radius:9px; border:1px solid purple; padding:10px 25px; color:#2d2d2d; }
@@ -19,8 +19,8 @@
         
         .logo { display: none; }
         .logo-dark { display: block; }
-        .login-img { display: none; }
-        .login-img-dark { display: block; }
+        .share-image { display: none; }
+        .share-image-dark { display: block; }
         .comment-text { color: #5B41BB; }
         .idea-card { background-color: #5B41BB; border-color: #AB9BE5; color: white; }
         .idea-card .link { color: white; }
@@ -42,7 +42,8 @@
     </mj-section>
     <mj-section css-class="section">
       <mj-column>
-        <mj-image width="250px" align="center" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/share-idea/share-idea.png"></mj-image>
+        <mj-image css-class="share-image" width="400px" padding="0" align="center" src="../../../mail-processing/static/email/images/share-idea/share-idea.png"></mj-image>
+        <mj-image css-class="share-image-dark" width="280px" padding="40px 0" align="center" src="../../../mail-processing/static/email/images/share-idea/share-idea-dark.png"></mj-image>
       </mj-column>
     </mj-section>
     <mj-section css-class="section" background-color="white" padding-top="0">
