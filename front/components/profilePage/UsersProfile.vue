@@ -9,6 +9,7 @@
               close-btn
               allow-mobile-scroll
               :idea="selectedIdea"
+              is-lightbox
               @exit-pressed="handleExitPressed"
               @updated="ideaUpdated"
             ></idea-card>

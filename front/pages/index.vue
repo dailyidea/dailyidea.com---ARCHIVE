@@ -1,12 +1,13 @@
 <template>
   <Layout>
-    <div class="swipe-header justify-center py-1 d-lg-none d-sm-flex ">
+    <div class="swipe-header justify-center py-2 d-sm-flex ">
       <v-card
         class="d-flex justify-space-between pa-2 col-md-6 col-sm-12 swipe-header-card"
       >
-        <div class="pl-4 pt-3">
+        <div style="width: 50px;">&nbsp;</div>
+        <div class="pt-3">
           <span v-if="ideaIndex === 0">Swipe right to see the next idea</span>
-          <span v-if="ideaIndex > 0">{{ ideaIndex }} of 3</span>
+          <span v-if="ideaIndex > 0">{{ ideaIndex + 1 }} of 3</span>
         </div>
 
         <div
@@ -132,7 +133,7 @@ export default {
       if (newIndex < 0) {
         newIndex = 0
       }
-      if (newIndex > 3) {
+      if (newIndex > 2) {
         const idea = this.ideas[0]
         if (idea) {
           this.$router.push(`/i/${idea.shortId}/${idea.slug}`)

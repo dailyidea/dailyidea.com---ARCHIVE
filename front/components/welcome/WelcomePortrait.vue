@@ -47,9 +47,11 @@
       </v-col>
     </v-row>
 
-    <v-row align="center" no-gutters justify="center">
+    <v-row align="center" no-gutters justify="center" class="mt-5">
       <v-col lg="6" sm="12" class="text-center">
-        <v-btn dark large to="/auth/signup" class="col-12">Sign Up</v-btn>
+        <v-btn color="primary" large to="/auth/signup" class="col-12"
+          >Sign Up</v-btn
+        >
 
         <nuxt-link
           class="inline-block link-highlight text-center mt-8"

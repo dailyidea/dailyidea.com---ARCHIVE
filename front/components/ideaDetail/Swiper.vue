@@ -3,14 +3,14 @@
     <slot :is-swiping="swipeInProgress || !!xVal" name="background"></slot>
     <div
       v-if="allowLeft"
-      class="left-arrow hidden-sm-and-down"
+      class="left-arrow hidden-sm-and-down pointer-events-auto"
       @click="leftArrowClick"
     >
       <img src="~/assets/images/idea-card/left-arrow.png" />
     </div>
     <div
       v-if="allowRight"
-      class="right-arrow hidden-sm-and-down"
+      class="right-arrow hidden-sm-and-down pointer-events-auto"
       @click="rightArrowClick"
     >
       <img src="~/assets/images/idea-card/left-arrow.png" />
