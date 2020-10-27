@@ -50,7 +50,7 @@
           justify="center"
         >
           <v-col cols="1">
-            <img :src="bullet.icon" alt="img" />
+            <img :src="bullet.icon" alt="img" class="bullet-img flex" />
           </v-col>
 
           <v-col cols="10" lg="5" class="mx-2">
@@ -101,5 +101,18 @@ export default {
 <style lang="scss" scoped>
 .graphic-left {
   width: 100%;
+}
+
+.bullet-img {
+  width: 24px;
+  margin-right: 1rem;
+  float: right;
+}
+
+.lead-img {
+  max-width: 35vw;
+  max-height: 35vw;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
 }
 </style>
