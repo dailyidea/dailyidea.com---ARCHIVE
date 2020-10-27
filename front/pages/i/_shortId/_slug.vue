@@ -120,8 +120,8 @@ export default {
 
   mounted() {
     const category = this.getCategoryFromURL()
-    
-    if(!this.loadStoredIdeaQueue(category)) {  
+
+    if (!this.loadStoredIdeaQueue(category)) {
       this.cacheIdeas(category)
       this.incrementViews()
 
@@ -135,24 +135,33 @@ export default {
   },
 
   methods: {
-    saveIdeaQueue() {  
+    saveIdeaQueue() {
       const ideaQueue = this.ideaQueue
       const ideaIndex = this.ideaIndex
       const nextToken = this.nextToken
 
-      localStorage.setItem(this.category, JSON.stringify({ ideaQueue, ideaIndex, nextToken })) 
+      const ideaObject = {
+        category: this.category,
+        ideas: { ideaQueue, ideaIndex, nextToken }
+      }
+
+      this.$store.commit('ideas/setCachedIdeas', ideaObject)
     },
 
     loadStoredIdeaQueue(category) {
-      const storedIdeas = localStorage.getItem(category)
-      
-      if(storedIdeas) {
-        const storedIdeasObj = JSON.parse(storedIdeas)
+      const storedIdeas = this.$store.getters['ideas/cachedIdeas']
+
+      if (storedIdeas) {
+        const storedIdeasObj = storedIdeas[category]
+
+        if (!storedIdeasObj) {
+          return false
+        }
 
         this.ideaQueue = storedIdeasObj.ideaQueue
         this.nextToken = storedIdeasObj.nextToken
         this.ideaIndex = storedIdeasObj.ideaIndex
-        this.idea = this.ideaQueue[this.ideaIndex] 
+        this.idea = this.ideaQueue[this.ideaIndex]
         return true
       }
 
@@ -201,7 +210,6 @@ export default {
       this.ideaIndex += direction
 
       if (this.ideaIndex >= this.ideaQueue.length || this.ideaIndex < 0) {
-
         this.ideaIndex -= direction
       }
 
@@ -210,17 +218,17 @@ export default {
       }
 
       this.idea = this.ideaQueue[this.ideaIndex]
-      if (this.ideaIndex > this.ideaQueue.length - 10) {
+      if (this.ideaIndex >= this.ideaQueue.length - 1) {
         this.cacheIdeas(this.category)
       }
       this.updateIdeaSlug()
       this.saveIdeaQueue()
-
     },
 
     async handleCategoryClicked(category) {
+      this.$store.commit('ideas/resetCachedIdeas')
       this.category = category
-      if(!this.loadStoredIdeaQueue(category)) {
+      if (!this.loadStoredIdeaQueue(category)) {
         this.ideaIndex = 0
         this.ideaQueue = []
         this.nextToken = null
