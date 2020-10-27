@@ -37,6 +37,7 @@ export default {
 .card {
   position: relative;
   padding: 1rem;
+  height: 100%;
   background-color: white;
   border-radius: 8px;
   border: 1px solid $light-grey !important;

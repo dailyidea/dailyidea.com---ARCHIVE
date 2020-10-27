@@ -6,7 +6,7 @@
         :boilerplate="true"
         type="card-heading, list-item-avatar, divider, list-item-three-line, image, actions"
         :tile="false"
-        class="mx-auto"
+        class="skeleton"
       ></v-skeleton-loader>
     </card>
   </div>
@@ -29,15 +29,16 @@ export default {
   position: absolute;
   width: 100%;
   padding: 4px;
-}
-
-.card {
-  margin: 0 auto !important;
 
   height: 60vh;
 
   @media only screen and (min-width: $screen-md-min) {
     width: 70vw;
+    left: calc(50% - 35vw);
+  }
+
+  .skeleton {
+    height: 100%;
   }
 }
 </style>
