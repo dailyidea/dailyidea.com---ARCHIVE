@@ -5,8 +5,7 @@
       <meta name="supported-color-schemes" content="light dark">
     </mj-raw>
     <mj-style>
-      .logo-dark { display: none; }
-      .login-img-dark { display: none; }
+      .img-dark { display: none; }
       .link { color: #5B41BB; }
       .comment-text { color: #c0c0c0; }
       @media (prefers-color-scheme: dark) {
@@ -18,8 +17,8 @@
         
         .logo { display: none; }
         .logo-dark { display: block; }
-        .login-img { display: none; }
-        .login-img-dark { display: block; }
+        .img-dark { display: block; }
+        .img-normal { display: none; }
         .link { color: #FFC61E; }
         .comment-text { color: #5B41BB; }
       }
@@ -40,7 +39,8 @@
     </mj-section>
     <mj-section css-class="section" padding-top="0" padding-bottom="0" background-color="white">
     	<mj-column>
-      	<mj-image src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/post-comment/post-comment.png" width="200px" align="center"></mj-image>
+      	<mj-image css-class="img-normal" padding-bottom="0" src="../../mail-processing/static/email/images/post-comment/post-comment.png" width="300px" align="center"></mj-image>
+      	<mj-image css-class="img-dark" src="../../mail-processing/static/email/images/post-comment/post-comment-dark.png" width="260px" align="center"></mj-image>
       </mj-column>
     </mj-section>
     <mj-section css-class="section" padding-top="0" padding-bottom="0" background-color="white">

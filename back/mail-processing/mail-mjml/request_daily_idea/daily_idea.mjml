@@ -6,6 +6,7 @@
       <meta name="supported-color-schemes" content="light dark">
     </mj-raw>
     <mj-style>
+      .img-dark { display: none; }
       @media (prefers-color-scheme: dark) {
         .body { background-color: black !important; }
         .section > table > tbody > tr > td { background-color: #161025 !important; }
@@ -13,6 +14,8 @@
         .quote div { color: #FBFBFD !important; }
         .text div { color: #FBFBFD !important; }
         .snooze-btn td, .snooze-btn a { background-color: #161025 !important; color: white !important; }
+        .img-dark { display: block; }
+        .img-normal { display: none; }
       }
     </mj-style>
   </mj-head>
@@ -37,17 +40,20 @@
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">
-      <mj-column width="70%">
-        <mj-text css-class="text" padding-top="10px" padding-right="0" font-family="helvetica" color="#2d2d2d" font-size="15px" line-height="22px">
-          <p>Hi, {{ USERNAME }}!<p>
-          <p>Just <strong>respond</strong> to this email with an idea and we'll save it for you.</p>
-          <p>If you prefer to enter your ideas on the site, you can click the button below!</p>
-        </mj-text>
-      </mj-column>
-      <mj-column width="30%">
-        <mj-image width="85px" align="center" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/daily-reminder/idea-cat.png"></mj-image>
-      </mj-column>
+    <mj-section css-class="section" background-color="white" padding-top="0">
+      <mj-group>
+        <mj-column width="55%" padding-right="0">
+          <mj-text css-class="text" padding-top="10px" padding-right="0" font-family="helvetica" color="#2d2d2d" font-size="15px" line-height="22px">
+            <p>Hi, {{ USERNAME }}!<p>
+            <p>Just <strong>respond</strong> to this email with an idea and we'll save it for you.</p>
+            <p>If you prefer to enter your ideas on the site, you can click the button below!</p>
+          </mj-text>
+        </mj-column>
+        <mj-column width="45%" padding-left="0">
+          <mj-image css-class="img-normal" width="150px" padding-top="0" padding-left="0" padding-right="0" align="center" src="../../static/email/images/daily-reminder/rocket-lamp.png"></mj-image>
+          <mj-image css-class="img-dark" width="150px" padding-left="0" padding-right="0" align="center" src="../../static/email/images/daily-reminder/rocket-lamp-dark.png"></mj-image>
+        </mj-column>
+      </mj-group>
     </mj-section>
     <mj-section css-class="section" background-color="white" padding-top="0">
       <mj-column>

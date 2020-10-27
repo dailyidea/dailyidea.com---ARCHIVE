@@ -6,6 +6,7 @@
     </mj-raw>
     <mj-style>
       .link { color: #5B41BB; }
+      .img-dark { display: none; }
       @media (prefers-color-scheme: dark) {
         .body { background-color: black !important; }
         .section > table > tbody > tr > td { background-color: #161025 !important; }
@@ -13,6 +14,8 @@
         .quote div { color: #FBFBFD !important; }
         .text div { color: #FBFBFD !important; }
         .link { color: #FFC61E; }
+        .img-dark { display: block; }
+        .img-normal { display: none; }
       }
     </mj-style>
   </mj-head>
@@ -31,7 +34,8 @@
     </mj-section>
     <mj-section css-class="section">
       <mj-column>
-        <mj-image width="160px" align="center" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/received-email-idea/received-emailed-idea.png"></mj-image>
+        <mj-image css-class="img-normal" width="356px" padding-top="0" padding-bottom="0" align="center" src="../../static/email/images/received-email-idea/woohoooo-bubble.png"></mj-image>
+        <mj-image css-class="img-dark" width="160px" align="center" src="../../static/email/images/received-email-idea/woohoooo-dark.png"></mj-image>
       </mj-column>
     </mj-section>
     <mj-section css-class="section" background-color="white" padding-top="0">
