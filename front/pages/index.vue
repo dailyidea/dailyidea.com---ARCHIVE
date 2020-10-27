@@ -4,7 +4,8 @@
       <v-card
         class="d-flex justify-space-between pa-2 col-md-6 col-sm-12 swipe-header-card"
       >
-        <div class="pl-4 pt-3">
+        <div style="width: 50px;">&nbsp;</div>
+        <div class="pt-3">
           <span v-if="ideaIndex === 0">Swipe right to see the next idea</span>
           <span v-if="ideaIndex > 0">{{ ideaIndex + 1 }} of 3</span>
         </div>
