@@ -33,6 +33,7 @@
     "autolinker": "^3.13.0",
     "dayjs": "^1.8.15",
     "js-cookie": "^2.2.1",
+    "lodash": "^4.17.20",
     "nanoid": "^2.1.6",
     "node-fetch": "2.6.0",
     "nuxt-start-edge": "2.10.3-26225291.78fda348",
