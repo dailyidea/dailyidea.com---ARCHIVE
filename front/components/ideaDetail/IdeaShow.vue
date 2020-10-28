@@ -54,6 +54,7 @@
             <idea-content
               :collapsed="!expanded"
               :content="ideaContent"
+              :preview="preview"
             ></idea-content>
             <div
               v-if="preview"
