@@ -41,9 +41,8 @@
         ref="page"
         :style="rotationStyle"
         :additional-styling="{
-          'min-height': 'calc(100vh - 80px - 70px - 20px)',
           'max-height': isLandscape ? '' : 'calc(100vh - 80px - 70px - 20px)',
-          'max-width': isMobile ? '' : '70vw'
+          'max-width': isMobile ? '' : '50vw'
         }"
       >
         <welcome :page-on="ideaIndex"></welcome>
