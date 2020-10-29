@@ -42,8 +42,8 @@
     </mj-section>
     <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">
       <mj-column>
-        <mj-image css-class="login-img" width="180px" align="center" src="https://dailyidea-serverless-email-static-dev.s3.amazonaws.com/email/images/login/login.png"></mj-image>
-        <mj-image css-class="login-img-dark" width="180px" align="center" src="https://dailyidea-serverless-email-static-dev.s3.amazonaws.com/email/images/login/login-dark.png"></mj-image>
+        <mj-image css-class="login-img" width="300px" padding-top="0" padding-bottom="0" align="center" src="../../mail-processing/static/email/images/login/login.png"></mj-image>
+        <mj-image css-class="login-img-dark" width="180px" align="center" src="../../mail-processing/static/email/images/login/login-dark.png"></mj-image>
       </mj-column>
     </mj-section>
     <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">

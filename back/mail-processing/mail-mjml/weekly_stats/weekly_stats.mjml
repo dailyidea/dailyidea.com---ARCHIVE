@@ -6,6 +6,7 @@
       <meta name="supported-color-schemes" content="light dark">
     </mj-raw>
     <mj-style>
+      .img-dark { display: none; }
       @media (prefers-color-scheme: dark) {
         .body { background-color: black !important; }
         .section > table > tbody > tr > td { background-color: #161025 !important; }
@@ -13,6 +14,8 @@
         .quote div { color: #FBFBFD !important; }
         .text div { color: #FBFBFD !important; }
         .snooze-btn td, .snooze-btn a { background-color: #161025 !important; color: white !important; }
+        .img-dark { display: block; }
+        .img-normal { display: none; }
       }
     </mj-style>
   </mj-head>
@@ -31,7 +34,8 @@
     </mj-section>
     <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">
       <mj-column>
-        <mj-image width="150px" align="center" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/weekly-stats/stats-5.png"></mj-image>
+        <mj-image css-class="img-normal" width="200px" align="center" src="../../static/email/images/weekly-stats/stats-5.png"></mj-image>
+        <mj-image css-class="img-dark" width="150px" align="center" src="../../static/email/images/weekly-stats/dark/stats-5.png"></mj-image>
       </mj-column>
     </mj-section>
     <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">
