@@ -1,4 +1,6 @@
 {
   "https://dailyidea-serverless-email-static-prod.s3.amazonaws.com": "{{ BUCKET_URL_PREFIX }}",
-  "email/images/weekly-stats/stats-5.png": "email/images/weekly-stats/stats-{{ IMAGE_NUMBER }}.png"
+  "../../static": "{{ BUCKET_URL_PREFIX }}",
+  "email/images/weekly-stats/stats-5.png": "email/images/weekly-stats/stats-{{ IMAGE_NUMBER }}.png",
+  "email/images/weekly-stats/dark/stats-5.png": "email/images/weekly-stats/dark/stats-{{ IMAGE_NUMBER }}.png"
 }
