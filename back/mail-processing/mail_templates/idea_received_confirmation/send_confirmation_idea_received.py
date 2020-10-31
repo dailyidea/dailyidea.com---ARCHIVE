@@ -12,7 +12,7 @@ def send_confirmation(email_to_reply, idea, user, subject):
         "BUCKET_URL_PREFIX": BUCKET_URL_PREFIX,
         "DOMAIN_NAME": DOMAIN_NAME,
         "BASE_SITE_URL": BASE_SITE_URL,
-        "IDEA_LINK": f"{BASE_SITE_URL}/ideas/{idea.userId}/{idea.ideaId}",
+        "IDEA_LINK": f"{BASE_SITE_URL}/i/{idea.shortId}/{idea.slug}",
         "idea": idea,
         "SNOOZE_TOKEN": user.emailToken,
         "USER_ID": user.userId,
