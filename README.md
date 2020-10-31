@@ -29,7 +29,6 @@
         <p><strong>Update</strong> The documents will be designed to let you come back and update them or add to them. Ideas start as fragile, barely-formed sparks, but with nurturing and care, they can grow into amazing things.</p>
         <p><strong>Reminders</strong> I can send you occasional reminders of ideas you've had in the past, or let you know if a previous idea is receiving attention from other people.</p>
         <p><strong>Privacy?</strong> For now all ideas will be publicly searchable. Soon I'll allow users to have private ideas. I will probably charge for ideas. Ideas want to be shared!</p>
-
     </div>
     
     
