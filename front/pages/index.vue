@@ -6,7 +6,12 @@
       >
         <div style="width: 50px;">&nbsp;</div>
         <div class="pt-3">
-          <span v-if="ideaIndex === 0">Swipe right to see the next idea</span>
+          <span v-if="ideaIndex === 0">
+            <span v-if="$vuetify.breakpoint.smAndDown"
+              >Swipe right to see the next idea</span
+            >
+            <span>Use arrow keys to see the next idea</span>
+          </span>
           <span v-if="ideaIndex > 0">{{ ideaIndex + 1 }} of 3</span>
         </div>
 
