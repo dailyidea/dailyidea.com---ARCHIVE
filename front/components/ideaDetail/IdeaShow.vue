@@ -27,7 +27,7 @@
                   <span class="ml-2">{{ idea.authorName }}</span>
                 </router-link>
               </span>
-              <span class="muted ml-2 idea-date">{{
+              <span class="muted ml-2">{{
                 idea.createdDate | toRelativeDate
               }}</span>
             </v-row>
@@ -55,7 +55,8 @@
             :content="ideaContent"
             :preview="preview"
           ></idea-content>
-
+        </div>
+        <div>
           <div v-if="!preview" class="idea-part__tags-panel">
             <div class="tagsContainer">
               <v-chip v-for="(item, index) in ideaTags" :key="index" class="tag"
@@ -66,25 +67,24 @@
 
           <div
             v-if="preview"
-            class="text-center cursor-pointer"
-            style="flex: 1;"
+            class="text-center cursor-pointer flex-1"
             @click.stop="$emit('view-preview', idea)"
           >
             <span class="link-highlight">View Idea</span>
           </div>
+
+          <div v-if="!expanded" class="muted view-all-comments-text">
+            View all {{ idea.commentsCount || 0 }} comments
+          </div>
         </div>
       </div>
     </v-col>
-    <v-col v-if="!preview" cols="12" md="4" class="comments-section">
+    <v-col v-if="!preview && expanded" cols="12" md="4" class="fill-height">
       <idea-comments
-        v-if="expanded"
         ref="ideaComments"
         :idea="idea"
         @click.native.stop
       ></idea-comments>
-      <span v-else-if="!expanded" class="muted view-all-comments-text"
-        >View all {{ idea.commentsCount || 0 }} comments</span
-      >
     </v-col>
     <register-encourage-dialog v-model="showRegisterEncourageDialog" />
   </v-row>
@@ -207,20 +207,6 @@ export default {
 <style scoped lang="scss">
 .container-row {
   height: 100%;
-}
-
-.comments-section {
-  display: flex;
-  align-items: flex-end;
-  position: relative;
-
-  .view-all-comments-text {
-    position: absolute;
-  }
-}
-
-.idea-date {
-  margin-top: 2px;
 }
 
 .idea-part {

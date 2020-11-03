@@ -12,7 +12,11 @@
           @category-clicked="handleCategoryClicked"
         ></categories-sub-header>
       </template>
-      <idea-card-skeleton />
+      <idea-card-skeleton
+        :additional-styling="{
+          height: $vuetify.breakpoint.mdAndUp ? 'calc(100vh - 12rem)' : ''
+        }"
+      />
       <swiper
         class="idea-card pointer-events-none"
         :swipe-disabled="isExpanded"
@@ -30,7 +34,9 @@
             v-if="showExplainer"
             class="card"
             :style="rotationStyle"
-            :additional-styling="{ height: 'calc(100vh - 12rem)' }"
+            :additional-styling="{
+              height: $vuetify.breakpoint.mdAndUp ? 'calc(100vh - 12rem)' : ''
+            }"
           ></swipe-explainer>
           <idea-card
             v-else
@@ -38,7 +44,9 @@
             class="card"
             :idea="idea"
             :style="rotationStyle"
-            :additional-styling="{ height: 'calc(100vh - 12rem)' }"
+            :additional-styling="{
+              height: $vuetify.breakpoint.mdAndUp ? 'calc(100vh - 12rem)' : ''
+            }"
             close-btn
             @updated="i => (idea = i)"
             @expand-toggle="val => (isExpanded = val)"
