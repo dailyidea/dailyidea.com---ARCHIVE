@@ -8,23 +8,31 @@
         <div class="pt-3">
           <span v-if="ideaIndex === 0">
             <span v-if="$vuetify.breakpoint.smAndDown"
-              >Swipe right to see the next idea</span
+              >Swipe left to see the next idea</span
             >
-            <span>Use arrow keys to see the next idea</span>
+            <span v-else>Use arrow keys to see the next idea</span>
           </span>
           <span v-if="ideaIndex > 0">{{ ideaIndex + 1 }} of 3</span>
         </div>
 
-        <div
-          v-if="ideaIndex === 0"
-          class="overflow-hidden"
-          style="width: 40px; height: 45px; overflow: hidden;"
-        >
-          <img
-            src="~assets/images/home/swipeicon-right.svg"
-            alt="Swipe right"
-            style="height: 68px; margin-top: -9px; margin-left: -15px;"
-          />
+        <div v-if="ideaIndex === 0" class="overflow-hidden">
+          <div
+            v-if="$vuetify.breakpoint.smAndDown"
+            style="width: 48px; height: 45px;"
+          >
+            <img
+              src="~assets/images/home/swipeicon-left.svg"
+              alt="Swipe right"
+              style="height: 68px; margin-top: -9px;"
+            />
+          </div>
+          <div v-else style="width: 69px; height: 45px;">
+            <img
+              src="~assets/images/home/press-right-arrow.svg"
+              alt="Swipe right"
+              style="width: 60px; margin: 3px 0 0 3px;"
+            />
+          </div>
         </div>
         <swipe-icon v-else class="swipe-header-icon" />
       </v-card>
