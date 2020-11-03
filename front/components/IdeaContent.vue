@@ -35,9 +35,9 @@ export default {
     content(val) {
       setTimeout(() => {
         this.setAtScrollEnd(
-          this.$refs.scrollContainer.target.scrollTop,
-          this.$refs.scrollContainer.target.scrollHeight -
-            this.$refs.scrollContainer.target.clientHeight
+          this.$refs.scrollContainer.scrollTop,
+          this.$refs.scrollContainer.scrollHeight -
+            this.$refs.scrollContainer.clientHeight
         )
       }, 300)
     }
