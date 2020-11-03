@@ -1,43 +1,6 @@
 <template>
   <Layout>
-    <div class="swipe-header justify-center py-2 d-sm-flex ">
-      <v-card
-        class="d-flex justify-space-between pa-2 col-md-6 col-sm-12 swipe-header-card"
-      >
-        <div style="width: 50px;">&nbsp;</div>
-        <div class="pt-3">
-          <span v-if="ideaIndex === 0">
-            <span v-if="$vuetify.breakpoint.smAndDown"
-              >Swipe left to see the next idea</span
-            >
-            <span v-else>Use arrow keys to see the next idea</span>
-          </span>
-          <span v-if="ideaIndex > 0">{{ ideaIndex + 1 }} of 3</span>
-        </div>
-
-        <div v-if="ideaIndex === 0" class="overflow-hidden">
-          <div
-            v-if="$vuetify.breakpoint.smAndDown"
-            style="width: 48px; height: 45px;"
-          >
-            <img
-              src="~assets/images/home/swipeicon-left.svg"
-              alt="Swipe right"
-              style="height: 68px; margin-top: -9px;"
-            />
-          </div>
-          <div v-else style="width: 69px; height: 45px;">
-            <img
-              src="~assets/images/home/press-right-arrow.svg"
-              alt="Swipe right"
-              style="width: 60px; margin: 3px 0 0 3px;"
-            />
-          </div>
-        </div>
-        <swipe-icon v-else class="swipe-header-icon" />
-      </v-card>
-    </div>
-
+    <swipe-explainer-bar :idea-index="ideaIndex" />
     <swiper
       v-slot="{ rotationStyle }"
       class="idea-card"
@@ -73,18 +36,18 @@ import Card from '@/components/shared/Card'
 import Swiper from '@/components/ideaDetail/Swiper'
 import Welcome from '@/components/welcome/Welcome'
 import SliderDots from '@/components/layout/svgIcons/SliderDots'
-import SwipeIcon from '@/components/layout/svgIcons/SwipeIcon'
 import Layout from '@/components/layout/Layout'
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
+import SwipeExplainerBar from '@/components/home/SwipeExplainerBar'
 
 export default {
   components: {
+    SwipeExplainerBar,
     Layout,
     Swiper,
     Card,
     Welcome,
-    SliderDots,
-    SwipeIcon
+    SliderDots
   },
   async asyncData({ app }) {
     let result = await app.$amplifyApi.graphql({
