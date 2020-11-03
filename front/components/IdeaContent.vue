@@ -1,13 +1,14 @@
 <template>
-  <!-- eslint-disable vue/no-v-html -->
-  <div class="content-container">
+  <div class="d-flex flex-column fill-height" style="flex: 1;">
+    <!-- eslint-disable vue/no-v-html -->
     <div
-      ref="scroll-container"
+      ref="scrollContainer"
+      class="idea-content content overflow-y-auto fade-bottom hide-scrollbar d-flex"
+      style="flex: 1;"
       :class="{
         'idea-content-collapsed fade-bottom': isMobile ? collapsed : true,
         'idea-content': !collapsed
       }"
-      class="content hide-scrollbar"
       v-html="content"
     ></div>
     <div v-if="!preview && !atScrollEnd" class="read-more hidden-sm-and-down">
@@ -18,7 +19,6 @@
 
 <script>
 export default {
-  name: 'IdeaContent',
   props: {
     collapsed: Boolean,
     preview: Boolean,
@@ -34,70 +34,37 @@ export default {
   watch: {
     content(val) {
       setTimeout(() => {
-        const scrollContainer = this.$refs['scroll-container']
-        const currentScrollLocation = scrollContainer.scrollTop
-        const scrollMax = scrollContainer.scrollTopMax
-
-        this.setAtScrollEnd(currentScrollLocation, scrollMax)
+        this.setAtScrollEnd(
+          this.$refs.scrollContainer.target.scrollTop,
+          this.$refs.scrollContainer.target.scrollHeight -
+            this.$refs.scrollContainer.target.clientHeight
+        )
       }, 300)
     }
   },
 
   mounted() {
-    const containerElement = this.$refs['scroll-container']
+    const containerElement = this.$refs.scrollContainer
     containerElement.addEventListener('scroll', e => {
-      const currentScrollLocation = e.target.scrollTop
-      const scrollMax = e.target.scrollTopMax
-      this.setAtScrollEnd(currentScrollLocation, scrollMax)
+      this.setAtScrollEnd(
+        e.target.scrollTop,
+        e.target.scrollHeight - e.target.clientHeight
+      )
     })
   },
 
   methods: {
     setAtScrollEnd(currentScrollLocation, scrollMax) {
-      if (scrollMax < 100) {
-        this.atScrollEnd = true
-        return
-      }
-
-      if (currentScrollLocation >= scrollMax - scrollMax * 0.05) {
-        this.atScrollEnd = true
-      } else {
-        this.atScrollEnd = false
-      }
+      this.atScrollEnd = currentScrollLocation >= scrollMax - 5
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.content-container {
-  position: relative;
-}
-
-.read-more {
-  position: absolute;
-  bottom: -2vh;
-}
-
 .idea-content-collapsed {
-  max-width: 100%;
-  max-height: 47vh;
-  overflow-y: hidden;
-
   @media (max-width: $screen-sm-max) {
-    max-height: 20vh;
-    min-height: 20vh;
     mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
-  }
-}
-
-.idea-content {
-  max-width: 100%;
-
-  @media only screen and (min-width: $screen-md-min) {
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-bottom: 2rem;
   }
 }
 

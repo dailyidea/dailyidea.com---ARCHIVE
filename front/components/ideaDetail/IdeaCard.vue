@@ -1,7 +1,6 @@
 <template>
   <card
     :class="{ 'fixed-height': !isExpanded && !preview }"
-    class="card"
     :additional-styling="additionalStyling"
     :prevent-mobile-scroll="!isExpanded && !allowMobileScroll"
     @click="expandToggle"

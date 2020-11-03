@@ -30,6 +30,7 @@
             v-if="showExplainer"
             class="card"
             :style="rotationStyle"
+            :additional-styling="{ height: 'calc(100vh - 12rem)' }"
           ></swipe-explainer>
           <idea-card
             v-else
@@ -37,6 +38,7 @@
             class="card"
             :idea="idea"
             :style="rotationStyle"
+            :additional-styling="{ height: 'calc(100vh - 12rem)' }"
             close-btn
             @updated="i => (idea = i)"
             @expand-toggle="val => (isExpanded = val)"
