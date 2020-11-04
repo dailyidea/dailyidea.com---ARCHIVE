@@ -1,6 +1,5 @@
 <template>
   <users-profile
-    v-slot="{ handleViewPreview }"
     :initial-profile-data="userInfo"
     :ideas="userIdeas"
     :load-more-ideas-is-possible="loadMoreIdeasIsPossible"
@@ -14,7 +13,6 @@
         preview
         allow-mobile-scroll
         :idea="idea"
-        @view-preview="handleViewPreview(idea)"
         @updated="i => $set(userIdeas, index, i)"
       ></idea-card>
     </div>
@@ -36,8 +34,6 @@ import loadIdeas from '@/components/ideasList/loadIdeas'
 import getIdeas from '@/graphql/query/getIdeas'
 
 export default {
-  name: 'UserSlugVue',
-
   components: { UsersProfile, IdeaCard, NoIdeasPlaceholder },
 
   async asyncData({ app, route, store, error }) {

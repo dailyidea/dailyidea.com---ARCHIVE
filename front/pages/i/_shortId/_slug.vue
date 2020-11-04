@@ -1,25 +1,22 @@
 <template>
   <div>
-    <div
-      class="light-box-bg"
-      :class="{ 'light-box-expanded': isExpanded }"
-      @click="isExpanded && $refs.page.expandToggle()"
-    ></div>
-    <layout :hide-mobile-nav="isExpanded" :hide-slide-menu="hideSlideMenu">
+    <idea-lightbox
+      :value="!!expandedIdea && $vuetify.breakpoint.mdAndDown"
+      :idea="expandedIdea"
+      @input="expandedIdea = null"
+      @updated="i => (idea = i)"
+    />
+    <layout :hide-mobile-nav="!!expandedIdea" :hide-slide-menu="hideSlideMenu">
       <template v-slot:header>
         <categories-sub-header
           :category-selected="category"
           @category-clicked="handleCategoryClicked"
         ></categories-sub-header>
       </template>
-      <idea-card-skeleton
-        :additional-styling="{
-          height: $vuetify.breakpoint.mdAndUp ? 'calc(100vh - 12rem)' : ''
-        }"
-      />
+      <idea-card-skeleton />
       <swiper
         class="idea-card pointer-events-none"
-        :swipe-disabled="isExpanded"
+        :swipe-disabled="!!expandedIdea"
         @swipe-start="setHideSlideMenuTrue"
         @swipe-end="setHideSlideMenuFalse"
         @swipe-left="nextIdea"
@@ -34,9 +31,6 @@
             v-if="showExplainer"
             class="card"
             :style="rotationStyle"
-            :additional-styling="{
-              height: $vuetify.breakpoint.mdAndUp ? 'calc(100vh - 12rem)' : ''
-            }"
           ></swipe-explainer>
           <idea-card
             v-else
@@ -44,12 +38,9 @@
             class="card"
             :idea="idea"
             :style="rotationStyle"
-            :additional-styling="{
-              height: $vuetify.breakpoint.mdAndUp ? 'calc(100vh - 12rem)' : ''
-            }"
             close-btn
             @updated="i => (idea = i)"
-            @expand-toggle="val => (isExpanded = val)"
+            @expand-idea="i => (expandedIdea = i)"
           ></idea-card>
         </template>
       </swiper>
@@ -73,9 +64,11 @@ import IdeaCardSkeleton from '@/components/ideaDetail/IdeaCardSkeleton'
 import SwipeExplainer from '@/components/ideaDetail/SwipeExplainer'
 import CategoriesSubHeader from '@/components/layout/CategoriesSubHeader'
 import IdeaCard from '@/components/ideaDetail/IdeaCard'
+import IdeaLightbox from '@/components/ideaDetail/IdeaLightbox'
 
 export default {
   components: {
+    IdeaLightbox,
     IdeaCard,
     Layout,
     Swiper,
@@ -114,10 +107,9 @@ export default {
       editMode: false,
       hideSlideMenu: false,
       idea: null,
-      expandedState: false,
       showExplainer: false,
       category: 'top',
-      isExpanded: false
+      expandedIdea: null
     }
   },
 
@@ -277,39 +269,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '~assets/style/common.scss';
-
-.idea-card {
-  @media (max-width: $screen-sm-max) {
-    position: absolute;
-    width: 100%;
-    z-index: 100;
-  }
-
-  .card {
-    @media (min-width: $screen-md-min) {
-      min-width: 70vw;
-      max-width: 70vw;
-    }
-  }
-}
-
-.light-box-bg {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background-color: $color-off-white;
-}
-
-.light-box-expanded {
-  @media (max-width: $screen-sm-max) {
-    position: fixed;
-    background-color: $color-light-box;
-    z-index: 1;
-  }
-}
-</style>

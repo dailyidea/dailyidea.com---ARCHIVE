@@ -32,29 +32,25 @@ export default {
   },
 
   watch: {
-    content(val) {
-      setTimeout(() => {
-        this.setAtScrollEnd(
-          this.$refs.scrollContainer.scrollTop,
-          this.$refs.scrollContainer.scrollHeight -
-            this.$refs.scrollContainer.clientHeight
-        )
-      }, 300)
+    content() {
+      setTimeout(() => this.setAtScrollEnd(), 300)
     }
   },
 
   mounted() {
-    const containerElement = this.$refs.scrollContainer
-    containerElement.addEventListener('scroll', e => {
-      this.setAtScrollEnd(
-        e.target.scrollTop,
-        e.target.scrollHeight - e.target.clientHeight
-      )
+    this.setAtScrollEnd()
+    this.$refs.scrollContainer.addEventListener('scroll', () => {
+      this.setAtScrollEnd()
     })
   },
 
   methods: {
-    setAtScrollEnd(currentScrollLocation, scrollMax) {
+    setAtScrollEnd() {
+      const $el = this.$refs.scrollContainer
+      const currentScrollLocation = $el.scrollTop
+      const scrollMax = $el.scrollHeight - $el.clientHeight
+
+      console.log({ currentScrollLocation, scrollMax })
       this.atScrollEnd = currentScrollLocation >= scrollMax - 5
     }
   }

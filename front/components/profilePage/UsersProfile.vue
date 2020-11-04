@@ -1,22 +1,11 @@
 <template>
-  <layout grey-bg :show-overlay="showOverlay">
-    <template v-slot:overlay>
-      <div class="overlay" @click="handleExitPressed">
-        <div class="overlay-card" @click="handleExitPressed">
-          <div @click.stop>
-            <idea-card
-              expanded
-              close-btn
-              allow-mobile-scroll
-              :idea="selectedIdea"
-              is-lightbox
-              @exit-pressed="handleExitPressed"
-              @updated="ideaUpdated"
-            ></idea-card>
-          </div>
-        </div>
-      </div>
-    </template>
+  <layout grey-bg>
+    <idea-lightbox
+      :idea="selectedIdea"
+      :value="!!selectedIdea"
+      @input="selectedIdea = null"
+      @updated="ideaUpdated"
+    />
     <template v-slot:header>
       <user-profile-header-section
         :profile-data="profileData"
@@ -25,7 +14,6 @@
       ></user-profile-header-section>
     </template>
     <template>
-      <slot :handle-view-preview="handleViewPreview" />
       <input
         ref="file"
         style="display: none"
@@ -44,13 +32,13 @@
 import UserProfileHeaderSection from './UserProfileHeaderSection'
 import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
 import Layout from '@/components/layout/Layout'
-import IdeaCard from '@/components/ideaDetail/IdeaCard'
+import IdeaLightbox from '@/components/ideaDetail/IdeaLightbox'
 
 export default {
   name: 'UsersProfile',
   components: {
+    IdeaLightbox,
     Layout,
-    IdeaCard,
     UserProfileHeaderSection,
     UserProfileAvatarCropDialog
   },
@@ -89,16 +77,6 @@ export default {
     this.profileData = this.initialProfileData
   },
   methods: {
-    handleViewPreview(idea) {
-      this.showOverlay = true
-      this.selectedIdea = idea
-    },
-
-    handleExitPressed() {
-      this.showOverlay = false
-      this.selectedIdea = null
-    },
-
     ideaUpdated(idea) {
       this.$emit('idea-updated', this.selectedIdea, idea)
       this.selectedIdea = idea

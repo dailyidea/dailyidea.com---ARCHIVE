@@ -1,36 +1,27 @@
 <template>
-  <v-row class="container-row">
+  <v-row class="fill-height">
     <v-col cols="12" :md="preview ? '' : 8" class="idea-part">
       <div class="d-flex flex-column fill-height">
-        <div class="idea-part__top">
-          <v-row class="idea-part__header" no-gutters>
-            <v-col class="idea-part__header__title">
-              <h2 class="idea-part__header__title__label">
-                {{ idea.title }}
-              </h2>
-            </v-col>
-          </v-row>
-          <div class="idea-part__info pt-2 pb-2">
-            <v-row no-gutters>
-              <span class="idea-part__info__author">
-                <router-link
-                  class="idea-part__info__author__link d-flex align-center"
-                  :to="{
-                    name: 'profile-userSlug',
-                    params: { userSlug: idea.authorSlug }
-                  }"
-                >
-                  <img
-                    class="idea-part__author-avatar"
-                    :src="idea.authorAvatar"
-                  />
-                  <span class="ml-2">{{ idea.authorName }}</span>
-                </router-link>
-              </span>
-              <span class="muted ml-2">{{
-                idea.createdDate | toRelativeDate
-              }}</span>
-            </v-row>
+        <div>
+          <h2 class="card-title">
+            {{ idea.title }}
+          </h2>
+          <div class="pt-2 pb-2">
+            <span class="d-inline-block align-middle">
+              <router-link
+                class="author-link d-flex align-center"
+                :to="{
+                  name: 'profile-userSlug',
+                  params: { userSlug: idea.authorSlug }
+                }"
+              >
+                <img class="author-avatar" :src="idea.authorAvatar" />
+                <span class="ml-2">{{ idea.authorName }}</span>
+              </router-link>
+            </span>
+            <span class="d-inline-block align-middle muted ml-2">{{
+              idea.createdDate | toRelativeDate
+            }}</span>
           </div>
           <v-row cols="auto" offset="1">
             <menu-panel
@@ -57,7 +48,7 @@
           ></idea-content>
         </div>
         <div>
-          <div v-if="!preview" class="idea-part__tags-panel">
+          <div v-if="!preview" class="tags-panel">
             <div class="tagsContainer">
               <v-chip v-for="(item, index) in ideaTags" :key="index" class="tag"
                 >{{ item }}
@@ -205,8 +196,38 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.container-row {
-  height: 100%;
+.card-title {
+  text-transform: capitalize;
+  font-weight: 100;
+}
+
+.author-avatar {
+  width: 24px;
+  margin-bottom: 5px;
+  border-radius: 100%;
+}
+
+.author-link {
+  text-transform: capitalize;
+  text-decoration: none;
+  color: $disabled-purple;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.tags-panel {
+  .tagsContainer {
+    margin-top: 20px;
+
+    .tag {
+      margin: 4px;
+      background-color: white;
+      color: $disabled-purple;
+      border-radius: 5px;
+      border: 1px solid $disabled-purple;
+    }
+  }
 }
 
 .idea-part {
@@ -215,48 +236,6 @@ export default {
 
   @media (min-width: $screen-md-min) {
     padding: 8px 16px;
-  }
-
-  &__author-avatar {
-    width: 24px;
-    margin-bottom: 5px;
-    border-radius: 100%;
-  }
-
-  &__info {
-    &__author {
-      &__link {
-        text-transform: capitalize;
-        text-decoration: none;
-        color: $disabled-purple;
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-  }
-
-  &__header {
-    &__title {
-      text-transform: capitalize;
-      &__label {
-        font-weight: 100;
-      }
-    }
-  }
-
-  &__tags-panel {
-    .tagsContainer {
-      margin-top: 20px;
-
-      .tag {
-        margin: 4px;
-        background-color: white;
-        color: $disabled-purple;
-        border-radius: 5px;
-        border: 1px solid $disabled-purple;
-      }
-    }
   }
 }
 </style>
