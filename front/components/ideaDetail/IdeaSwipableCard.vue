@@ -1,10 +1,10 @@
 <template>
-  <swipable-card class="absolute" @click.native="$emit('expand-idea', idea)">
+  <swipable-card class="absolute" @click.native="$emit('expand')">
     <full-idea
       :idea="idea"
       :preview="preview"
       :expanded="$vuetify.breakpoint.lgAndUp"
-      @expand="$emit('expand-idea', idea)"
+      @expand="$emit('expand')"
       @updated="i => $emit('updated', i)"
     />
   </swipable-card>

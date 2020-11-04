@@ -4,6 +4,7 @@
       v-if="editMode"
       :idea="idea"
       :idea-tags="ideaTags"
+      class="fill-height overflow-y-auto"
       @updated="onUpdate"
       @cancel="editMode = false"
     />

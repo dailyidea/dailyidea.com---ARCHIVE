@@ -64,7 +64,10 @@
             <span class="link-highlight">View Idea</span>
           </div>
 
-          <div v-if="!expanded" class="muted view-all-comments-text">
+          <div
+            v-if="!expanded && !preview"
+            class="muted view-all-comments-text"
+          >
             View all {{ idea.commentsCount || 0 }} comments
           </div>
         </div>
@@ -87,7 +90,7 @@ import { mapGetters } from 'vuex'
 import IdeaComments from '@/components/ideaDetail/IdeaComments'
 import MenuPanel from '@/components/ideaDetail/MenuPanel'
 import deleteIdea from '@/graphql/mutations/deleteIdea'
-import IdeaContent from '@/components/IdeaContent'
+import IdeaContent from '@/components/ideaDetail/IdeaContent'
 import RegisterEncourageDialog from '@/components/dialogs/RegisterEncourageDialog'
 
 export default {

@@ -32,7 +32,7 @@
             class="card"
             :style="rotationStyle"
           ></swipe-explainer>
-          <idea-card
+          <idea-swipable-card
             v-else
             ref="page"
             class="card"
@@ -40,8 +40,8 @@
             :style="rotationStyle"
             close-btn
             @updated="i => (idea = i)"
-            @expand-idea="i => (expandedIdea = i)"
-          ></idea-card>
+            @expand="expandedIdea = idea"
+          ></idea-swipable-card>
         </template>
       </swiper>
     </layout>
@@ -63,13 +63,13 @@ import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 import IdeaCardSkeleton from '@/components/ideaDetail/IdeaCardSkeleton'
 import SwipeExplainer from '@/components/ideaDetail/SwipeExplainer'
 import CategoriesSubHeader from '@/components/layout/CategoriesSubHeader'
-import IdeaCard from '@/components/ideaDetail/IdeaCard'
 import IdeaLightbox from '@/components/ideaDetail/IdeaLightbox'
+import IdeaSwipableCard from '@/components/ideaDetail/IdeaSwipableCard'
 
 export default {
   components: {
+    IdeaSwipableCard,
     IdeaLightbox,
-    IdeaCard,
     Layout,
     Swiper,
     IdeaCardSkeleton,
@@ -104,12 +104,12 @@ export default {
       ideaIndex: 1,
       ideaQueue: [],
       nextToken: null,
-      editMode: false,
       hideSlideMenu: false,
       idea: null,
       showExplainer: false,
       category: 'top',
-      expandedIdea: null
+      expandedIdea: null,
+      expandWithEdit: false
     }
   },
 
@@ -168,9 +168,11 @@ export default {
     nextIdea() {
       this.loadNewIdea(1)
     },
+
     previousIdea() {
       this.loadNewIdea(-1)
     },
+
     loadNewIdea(direction) {
       this.ideaIndex += direction
 

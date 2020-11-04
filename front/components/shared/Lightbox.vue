@@ -38,7 +38,10 @@ export default {
 .lightbox-card {
   position: relative;
   z-index: 502;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem;
+  @media (min-width: $screen-md-min) {
+    max-width: 70vw;
+  }
 }
 
 .lightbox-bg {

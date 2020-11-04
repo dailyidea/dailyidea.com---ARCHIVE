@@ -1,5 +1,9 @@
 <template>
-  <div class="d-flex flex-column fill-height" style="flex: 1;">
+  <div
+    class="d-flex flex-column fill-height"
+    style="flex: 1;"
+    :class="{ preview }"
+  >
     <!-- eslint-disable vue/no-v-html -->
     <div
       ref="scrollContainer"
@@ -11,7 +15,12 @@
       }"
       v-html="content"
     ></div>
-    <div v-if="!preview && !atScrollEnd" class="read-more hidden-sm-and-down">
+    <div
+      v-if="!atScrollEnd"
+      class="hidden-sm-and-down cursor-pointer"
+      style="user-select: none;"
+      @click="$refs.scrollContainer.scrollTop += 20"
+    >
       Read more...
     </div>
   </div>
@@ -38,10 +47,10 @@ export default {
   },
 
   mounted() {
-    this.setAtScrollEnd()
     this.$refs.scrollContainer.addEventListener('scroll', () => {
       this.setAtScrollEnd()
     })
+    setTimeout(() => this.setAtScrollEnd(), 300)
   },
 
   methods: {
@@ -50,7 +59,6 @@ export default {
       const currentScrollLocation = $el.scrollTop
       const scrollMax = $el.scrollHeight - $el.clientHeight
 
-      console.log({ currentScrollLocation, scrollMax })
       this.atScrollEnd = currentScrollLocation >= scrollMax - 5
     }
   }
@@ -58,10 +66,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.preview {
+  max-height: 200px;
+}
+
 .idea-content-collapsed {
   @media (max-width: $screen-sm-max) {
     mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
   }
+}
+
+.idea-content {
+  padding-bottom: 5px;
 }
 
 .idea-content ::v-deep {

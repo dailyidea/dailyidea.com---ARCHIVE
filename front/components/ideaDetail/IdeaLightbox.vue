@@ -8,8 +8,9 @@
       :idea="idea"
       :preview="false"
       :expanded="true"
+      class="idea-lightbox"
       @updated="i => $emit('updated', i)"
-      @click.native="$emit('input', false)"
+      @click.native="$vuetify.breakpoint.mdAndDown && $emit('input', false)"
     />
   </lightbox>
 </template>
@@ -30,3 +31,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.idea-lightbox {
+  @media (min-width: $screen-md-min) {
+    height: calc(100vh - 7rem);
+  }
+}
+</style>
