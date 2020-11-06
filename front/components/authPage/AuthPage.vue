@@ -44,11 +44,7 @@
         </div>
       </div>
       <div class="auth-page__content__content">
-        <v-row>
-          <v-col>
-            <slot></slot>
-          </v-col>
-        </v-row>
+        <slot></slot>
       </div>
     </v-col>
     <v-col cols="0" md="4" class="auth-page__right">
