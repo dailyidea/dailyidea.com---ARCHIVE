@@ -6,17 +6,10 @@
   background-color: $light-grey;
 }
 
-.smaller {
-  font-size: 0.85rem;
-}
+.smaller { font-size: 0.85rem; }
 
-.color-primary {
-  color: $primary-color;
-}
-
-.color-secondary {
-  color: $secondary-color;
-}
+.color-primary { color: $primary-color; }
+.color-secondary { color: $secondary-color; }
 
 .color-danger {
   color: #d44950 !important;
@@ -59,48 +52,21 @@
   }
 }
 
-.text-decoration-none {
-  text-decoration: none;
-}
-
-.inline-block {
-  display: inline-block;
-}
-
-.block {
-  display: block;
-}
-
-.no-underline {
-  text-decoration: none;
-}
-
-.w-full {
-  width: 100%;
-}
-
-.m-auto {
-  margin: auto;
-}
-
-.text-lg {
-  font-size: 1.25rem;
-}
-
 .link-highlight {
   text-decoration: none;
   color: $primary-color;
   background: linear-gradient(to top, transparent 15%, rgba(91, 65, 187, 0.2) 15%, rgba(91, 65, 187, 0.2) 55%, transparent 55%);
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.pointer-events-auto {
-  pointer-events: auto;
-}
-
-.pointer-events-none {
-  pointer-events: none;
-}
+.text-decoration-none {text-decoration: none;}
+.block { display: block; }
+.no-underline { text-decoration: none; }
+.w-full { width: 100%; }
+.m-auto { margin: auto; }
+.text-lg { font-size: 1.25rem;}
+.cursor-pointer { cursor: pointer; }
+.pointer-events-auto { pointer-events: auto; }
+.pointer-events-none { pointer-events: none; }
+.flex-1 { flex: 1; }
+.align-middle { vertical-align: middle; }
+.absolute { position: absolute; }

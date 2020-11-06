@@ -54,7 +54,7 @@
         >
 
         <nuxt-link
-          class="inline-block link-highlight text-center mt-8"
+          class="d-inline-block link-highlight text-center mt-8"
           :to="{ name: 'auth-login' }"
         >
           Login

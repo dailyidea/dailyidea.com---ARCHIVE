@@ -59,7 +59,7 @@ export default {
 
     .link {
       position: relative;
-      z-index: 1000;
+      z-index: 10;
       margin-right: 1.5rem;
       cursor: pointer;
       height: 100%;

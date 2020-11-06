@@ -1,25 +1,11 @@
 <template>
-  <user-profile
-    v-slot="{ handleViewPreview }"
-    :initial-profile-data="initialProfileData"
-    :ideas="ideas"
-  >
-    <div v-if="ideas.length > 0" class="cards-container">
-      <idea-card
-        v-for="(idea, index) in ideas"
-        :key="index"
-        preview
-        allow-mobile-scroll
-        :idea="idea"
-        @view-preview="handleViewPreview(idea)"
-      ></idea-card>
-    </div>
-    <div v-else class="cards-container">
+  <user-profile :initial-profile-data="initialProfileData" :ideas="ideas">
+    <template v-slot:no-ideas>
       <no-ideas-placeholder
         title="Start saving inspiration"
         body="You don't have any saved ideas yet."
       ></no-ideas-placeholder>
-    </div>
+    </template>
   </user-profile>
 </template>
 
@@ -27,7 +13,6 @@
 import { graphqlOperation } from '@aws-amplify/api'
 import userInfoBySlug from '@/graphql/query/userInfoBySlug'
 import UserProfile from '@/components/profilePage/UsersProfile'
-import IdeaCard from '@/components/ideaDetail/IdeaCard'
 import NoIdeasPlaceholder from '@/components/ideaDetail/NoIdeasPlaceholder'
 import loadIdeas from '@/components/ideasList/loadIdeas'
 import getSavedIdeas from '~/graphql/query/getSavedIdeas'
@@ -35,7 +20,6 @@ import getSavedIdeas from '~/graphql/query/getSavedIdeas'
 export default {
   components: {
     UserProfile,
-    IdeaCard,
     NoIdeasPlaceholder
   },
   middleware: 'authenticated',
@@ -65,12 +49,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-.cards-container {
-  margin: 0 auto;
-  @media (min-width: $screen-md-min) {
-    width: 33vw;
-  }
-}
-</style>

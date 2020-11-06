@@ -1,42 +1,30 @@
 <template>
-  <card
-    :class="{ 'fixed-height': !isExpanded && !preview }"
-    class="card"
-    :additional-styling="additionalStyling"
-    :prevent-mobile-scroll="!isExpanded && !allowMobileScroll"
-    @click="expandToggle"
-  >
-    <v-icon
-      v-if="closeBtn && isExpanded && (isMobile || isLightbox)"
-      class="close-btn"
-      @click="$emit('exit-pressed')"
-      >mdi mdi-close</v-icon
-    >
+  <div class="fill-width fill-height">
     <idea-edit
       v-if="editMode"
       :idea="idea"
       :idea-tags="ideaTags"
+      class="fill-height overflow-y-auto"
       @updated="onUpdate"
       @cancel="editMode = false"
     />
     <idea-show
       v-else
       :idea="idea"
-      :expanded="isExpanded"
+      :expanded="expanded"
       :preview="preview"
       :idea-tags="ideaTags"
       @edit="editMode = true"
-      @close="isExpanded = false"
+      @close="$emit('close')"
       @view-preview="$emit('view-preview')"
       @updated="onUpdate"
-      @expand="isExpanded || expandToggle()"
+      @expand="$emit('expand')"
     />
-  </card>
+  </div>
 </template>
 
 <script>
 import merge from 'lodash/merge'
-import Card from '@/components/shared/Card'
 import IdeaShow from '@/components/ideaDetail/IdeaShow'
 import IdeaEdit from '@/components/ideaDetail/IdeaEdit'
 import getIdeaTags from '@/graphql/query/getIdeaTags'
@@ -44,24 +32,18 @@ import getIdeaTags from '@/graphql/query/getIdeaTags'
 export default {
   components: {
     IdeaEdit,
-    IdeaShow,
-    Card
+    IdeaShow
   },
 
   props: {
     preview: Boolean,
-    isLightbox: Boolean,
     idea: { type: Object, required: true },
-    additionalStyling: { type: Object, default: Object },
-    expanded: { type: Boolean, default: false },
-    closeBtn: { type: Boolean, default: false },
-    allowMobileScroll: { type: Boolean, default: false }
+    expanded: { type: Boolean, default: false }
   },
 
   data() {
     return {
       ideaTags: [],
-      isExpanded: false,
       editMode: false
     }
   },
@@ -71,7 +53,6 @@ export default {
     if (this.$route.query.comment) {
       setTimeout(() => this.commentsBtnClick(), 500)
     }
-    this.isExpanded = this.isMobile ? this.expanded : true
   },
 
   methods: {
@@ -105,26 +86,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.close-btn {
-  position: absolute;
-  z-index: 1001;
-  top: -40px;
-  right: 0;
-  padding: 5px 4px 4px 5px;
-  color: $primary-color;
-  font-size: 20px;
-  background-color: white;
-  border-radius: 100%;
-
-  @media (max-width: $screen-sm-max) {
-    right: 10px;
-    justify-content: start;
-  }
-}
-
-.fixed-height {
-  height: 60vh;
-}
-</style>
