@@ -5,45 +5,35 @@
       :class="{ active: page === 'explore' }"
       @click="exploreClicked"
     >
-      <bulb-icon
-        v-if="page !== 'explore'"
-        :fill="inactiveColor"
-        class="img"
-      ></bulb-icon>
-      <bulb-on-icon
-        v-else
-        :fill="activeColor"
-        class="active-bulb"
-      ></bulb-on-icon>
+      <bulb-icon v-if="page !== 'explore'" :fill="inactiveColor" class="img" />
+      <bulb-on-icon v-else :fill="activeColor" class="active-bulb" />
       <span :class="{ 'link-highlight': page === 'explore' }">Explore</span>
     </span>
     <nuxt-link
       class="link"
-      :class="{ active: page === 'post' }"
+      :class="{ active: page === 'post', disabled: !slug }"
       :to="{ name: 'ideas-create' }"
     >
       <post-icon
-        :stroke="page !== 'post' ? inactiveColor : activeColor"
-        :fill="page !== 'post' ? inactiveColor : activeColor"
+        :stroke="iconColor('post')"
+        :fill="iconColor('post')"
         class="img"
-      ></post-icon>
+      />
       <span :class="{ 'link-highlight': page === 'post' }">Post</span>
     </nuxt-link>
     <nuxt-link
       class="link"
-      :class="{ active: page === 'profile' }"
+      :class="{ active: page === 'profile', disabled: !slug }"
       :to="slug ? `/profile/${slug}` : '/auth/unathorized'"
     >
-      <profile-icon
-        :fill="page !== 'profile' ? inactiveColor : activeColor"
-        class="img"
-      ></profile-icon>
+      <profile-icon :fill="iconColor('profile')" class="img" />
       <span :class="{ 'link-highlight': page === 'profile' }">My Ideas</span>
     </nuxt-link>
   </span>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ProfileIcon from './svgIcons/ProfileIcon.vue'
 import PostIcon from './svgIcons/PostIcon.vue'
 import BulbIcon from './svgIcons/BulbIcon.vue'
@@ -62,6 +52,7 @@ export default {
     return {
       activeColor: '#ffc61e',
       inactiveColor: '#151125',
+      disabledColor: '#acabb2',
       pages: {
         'i-shortId-slug': 'explore',
         'ideas-all': 'explore',
@@ -75,10 +66,12 @@ export default {
       }
     }
   },
+
   computed: {
-    slug() {
-      return this.$store.getters['userData/slug']
-    },
+    ...mapGetters({
+      slug: 'userData/slug'
+    }),
+
     page() {
       const pageOn = this.pages[this.$route.name]
 
@@ -89,11 +82,20 @@ export default {
       return pageOn
     }
   },
+
   methods: {
     async exploreClicked() {
       const ideas = await getNewIdeas(this.$amplifyApi)
       const firstIdea = ideas.ideas[0]
       this.$router.push(`/i/${firstIdea.shortId}/${firstIdea.slug}`)
+    },
+
+    iconColor(page) {
+      return this.slug
+        ? this.page !== page
+          ? this.inactiveColor
+          : this.activeColor
+        : this.disabledColor
     }
   }
 }
