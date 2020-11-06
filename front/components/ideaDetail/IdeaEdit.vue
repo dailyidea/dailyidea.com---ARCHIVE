@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click.stop>
     <v-col cols="12" :md="preview ? '' : 8" class="idea-part">
       <validation-observer v-slot="{ valid, validated, handleSubmit }">
         <div>

@@ -80,18 +80,97 @@
       }
     }
   </style>
+  <style type="text/css">
+    .logo-dark {
+      display: none;
+    }
+
+    .share-image-dark {
+      display: none;
+    }
+
+    .link {
+      color: #5B41BB;
+    }
+
+    .comment-text {
+      color: #c0c0c0;
+    }
+
+    .idea-card {
+      background-color: #fffaeb;
+      border-radius: 9px;
+      border: 1px solid purple;
+      padding: 10px 25px;
+      color: #2d2d2d;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .body {
+        background-color: black !important;
+      }
+
+      .section>table>tbody>tr>td {
+        background-color: #161025 !important;
+      }
+
+      .heading div {
+        color: #FBFBFD !important;
+      }
+
+      .quote div {
+        color: #FBFBFD !important;
+      }
+
+      .text div {
+        color: #FBFBFD !important;
+      }
+
+      .logo {
+        display: none;
+      }
+
+      .logo-dark {
+        display: block;
+      }
+
+      .share-image {
+        display: none;
+      }
+
+      .share-image-dark {
+        display: block;
+      }
+
+      .comment-text {
+        color: #5B41BB;
+      }
+
+      .idea-card {
+        background-color: #5B41BB;
+        border-color: #AB9BE5;
+        color: white;
+      }
+
+      .idea-card .link {
+        color: white;
+      }
+    }
+  </style>
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
 </head>
 
 <body style="background-color:#FCFCFC;">
-  <div style="background-color:#FCFCFC;">
+  <div class="body" style="background-color:#FCFCFC;">
     <!--[if mso | IE]>
       <table
-         align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
+         align="center" border="0" cellpadding="0" cellspacing="0" class="section-outlook" style="width:600px;" width="600"
       >
         <tr>
           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
       <![endif]-->
-    <div style="background:white;background-color:white;margin:0px auto;max-width:600px;">
+    <div class="section" style="background:white;background-color:white;margin:0px auto;max-width:600px;">
       <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:white;background-color:white;width:100%;">
         <tbody>
           <tr>
@@ -108,12 +187,12 @@
               <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                   <tr>
-                    <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <td align="left" style="font-size:0px;padding:10px 25px;padding-left:5px;word-break:break-word;">
                       <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
                         <tbody>
                           <tr>
-                            <td style="width:120px;">
-                              <img height="auto" src="{{ BUCKET_URL_PREFIX }}/email/images/common/logo_full.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="120" />
+                            <td style="width:150px;">
+                              <img height="auto" src="{{ BUCKET_URL_PREFIX }}/email/images/common/logo_full_dark.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="150" />
                             </td>
                           </tr>
                         </tbody>
@@ -140,12 +219,12 @@
       </table>
       
       <table
-         align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
+         align="center" border="0" cellpadding="0" cellspacing="0" class="section-outlook" style="width:600px;" width="600"
       >
         <tr>
           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
       <![endif]-->
-    <div style="background:white;background-color:white;margin:0px auto;max-width:600px;">
+    <div class="section" style="background:white;background-color:white;margin:0px auto;max-width:600px;">
       <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:white;background-color:white;width:100%;">
         <tbody>
           <tr>
@@ -162,7 +241,7 @@
               <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                   <tr>
-                    <td align="left" style="font-size:0px;padding:10px 25px;padding-top:0;padding-bottom:0;word-break:break-word;">
+                    <td align="left" class="heading" style="font-size:0px;padding:10px 25px;padding-top:0;padding-bottom:0;word-break:break-word;">
                       <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#2d2d2d;">
                         <h1>{{ sender_name }} sent you an idea!</h1>
                       </div>
@@ -188,12 +267,12 @@
       </table>
       
       <table
-         align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
+         align="center" border="0" cellpadding="0" cellspacing="0" class="section-outlook" style="width:600px;" width="600"
       >
         <tr>
           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
       <![endif]-->
-    <div style="margin:0px auto;max-width:600px;">
+    <div class="section" style="margin:0px auto;max-width:600px;">
       <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
         <tbody>
           <tr>
@@ -210,12 +289,25 @@
               <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                   <tr>
-                    <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <td align="center" class="share-image" style="font-size:0px;padding:0;word-break:break-word;">
                       <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
                         <tbody>
                           <tr>
-                            <td style="width:250px;">
-                              <img height="auto" src="{{ BUCKET_URL_PREFIX }}/email/images/share-idea/share-idea.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="250" />
+                            <td style="width:400px;">
+                              <img height="auto" src="{{ BUCKET_URL_PREFIX }}/email/images/share-idea/share-idea.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="400" />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center" class="share-image-dark" style="font-size:0px;padding:40px 0;word-break:break-word;">
+                      <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                        <tbody>
+                          <tr>
+                            <td style="width:280px;">
+                              <img height="auto" src="{{ BUCKET_URL_PREFIX }}/email/images/share-idea/share-idea-dark.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="280" />
                             </td>
                           </tr>
                         </tbody>
@@ -242,12 +334,12 @@
       </table>
       
       <table
-         align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
+         align="center" border="0" cellpadding="0" cellspacing="0" class="section-outlook" style="width:600px;" width="600"
       >
         <tr>
           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
       <![endif]-->
-    <div style="background:white;background-color:white;margin:0px auto;max-width:600px;">
+    <div class="section" style="background:white;background-color:white;margin:0px auto;max-width:600px;">
       <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:white;background-color:white;width:100%;">
         <tbody>
           <tr>
@@ -264,7 +356,7 @@
               <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                   <tr>
-                    <td align="left" style="font-size:0px;padding:10px 25px;padding-top:0;padding-bottom:0;word-break:break-word;">
+                    <td align="left" class="text" style="font-size:0px;padding:10px 25px;padding-top:0;padding-bottom:0;word-break:break-word;">
                       <div style="font-family:helvetica;font-size:18px;line-height:1;text-align:left;color:#2d2d2d;">
                         <p>Hi {{ friend_name }}!</p>
                         <p>{{ sender_name }} sent you this idea that he thought you might be interested in:</p>
@@ -291,12 +383,12 @@
       </table>
       
       <table
-         align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
+         align="center" border="0" cellpadding="0" cellspacing="0" class="section-outlook" style="width:600px;" width="600"
       >
         <tr>
           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
       <![endif]-->
-    <div style="background:white;background-color:white;margin:0px auto;max-width:600px;">
+    <div class="section" style="background:white;background-color:white;margin:0px auto;max-width:600px;">
       <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:white;background-color:white;width:100%;">
         <tbody>
           <tr>
@@ -315,13 +407,13 @@
                   <tr>
                     <td align="left" style="font-size:0px;padding:10px 25px;padding-top:0;padding-bottom:0;word-break:break-word;">
                       <div style="font-family:helvetica;font-size:18px;line-height:1;text-align:left;color:#2d2d2d;">
-                        <div style="background-color:#fffaeb;border-radius:9px;border:1px solid purple;padding:10px 25px;">
-                          <div style="font-family:Helvetica, sans-serif;font-size:13px;line-height:1;text-align:left;color:#2d2d2d;">
-                            <p style="font-weight:bold; font-size:16px">{{ idea.title }}</p>
-                            <p style="color:#b8b8b8; font-size:12px">by {{ idea.authorName }}</p>
-                            <p style="line-height:16px">
+                        <div class="idea-card">
+                          <div style="font-family:Helvetica, sans-serif;font-size:13px;line-height:1;text-align:left;">
+                            <p style="font-weight:bold; font-size:16px; margin-bottom: 5px;">{{ idea.title }}</p>
+                            <p style="color: #b8b8b8; font-size:12px; margin-top: 0;">by {{ idea.authorName }}</p>
+                            <p style="line-height: 16px;">
                               {{ idea.content | safe }}
-                              <a style="color:#551a8b" href="{{ link_to_idea }}">(see more)</a>
+                              <a class="link" href="{{ link_to_idea }}">(see more)</a>
                             </p>
                           </div>
                         </div>
@@ -348,12 +440,12 @@
       </table>
       
       <table
-         align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
+         align="center" border="0" cellpadding="0" cellspacing="0" class="section-outlook" style="width:600px;" width="600"
       >
         <tr>
           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
       <![endif]-->
-    <div style="background:white;background-color:white;margin:0px auto;max-width:600px;">
+    <div class="section" style="background:white;background-color:white;margin:0px auto;max-width:600px;">
       <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:white;background-color:white;width:100%;">
         <tbody>
           <tr>
@@ -372,8 +464,8 @@
                   <tr>
                     <td align="left" style="font-size:0px;padding:10px 25px;padding-top:0;padding-bottom:0;word-break:break-word;">
                       <div style="font-family:helvetica;font-size:14px;line-height:1;text-align:left;color:#2d2d2d;">
-                        <p><a href="{{ link_to_idea }}" style="color:#551a8b;">View the full idea and comments. </a></p>
-                        <p><a href="{{ BASE_SITE_URL }}" style="color:#551a8b;">Browse other creative ideas. </a></p>
+                        <p><a class="link" href="{{ link_to_idea }}">View the full idea and comments. </a></p>
+                        <p><a class="link" href="{{ BASE_SITE_URL }}">Browse other creative ideas. </a></p>
                       </div>
                     </td>
                   </tr>
@@ -402,8 +494,8 @@
         <tr>
           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
       <![endif]-->
-    <div style="background:#EFF6FF;background-color:#EFF6FF;margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#EFF6FF;background-color:#EFF6FF;width:100%;">
+    <div style="background:#5B41BB;background-color:#5B41BB;margin:0px auto;max-width:600px;">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#5B41BB;background-color:#5B41BB;width:100%;">
         <tbody>
           <tr>
             <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
@@ -420,9 +512,9 @@
                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                   <tr>
                     <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                      <div style="font-family:helvetica;font-size:12px;line-height:1;text-align:center;color:#000000;">
+                      <div style="font-family:helvetica;font-size:12px;line-height:1;text-align:center;color:#FFFFFF;">
                         <p>Made with <span style="color:red; font-size: 18px">♥</span> in Chicago</p>
-                        <p><a href="https://www.dailyidea.com/" style="text-decoration:none; font-weight:bold; color:#2d2d2d">www.dailyidea.com</a></p>
+                        <p><a href="https://{{ DOMAIN_NAME }}/" style="text-decoration:none; font-weight:bold; color:#FFFFFF">{{ DOMAIN_NAME }}</a></p>
                       </div>
                     </td>
                   </tr>

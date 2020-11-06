@@ -1,30 +1,56 @@
 <mjml>
   <mj-head>
-    <mj-font name="Dancing Script" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" />
+    <mj-raw>
+      <meta name="color-scheme" content="light dark">
+      <meta name="supported-color-schemes" content="light dark">
+    </mj-raw>
+    <mj-style>
+      .logo-dark { display: none; }
+      .link { color: #5B41BB; }
+      @media (prefers-color-scheme: dark) {
+        .body { background-color: black !important; }
+        .section > table > tbody > tr > td { background-color: #161025 !important; }
+        .heading div { color: #FBFBFD !important; }
+        .quote div { color: #FBFBFD !important; }
+        .text div { color: #FBFBFD !important; }
+        
+        .logo { display: none; }
+        .logo-dark { display: block; }
+        .link { color: #FFC61E; }
+      }
+    </mj-style>
   </mj-head>
-  <mj-body background-color="#FCFCFC">
-    <mj-section background-color="white" padding-top="0" padding-bottom="0">
+  <mj-body css-class="body" background-color="#FCFCFC">
+    <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">
       <mj-column>
-        <mj-image width="170px" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/Group18.png"></mj-image>
+        <mj-image width="150px" align="left" padding-left="5px" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/common/logo_full_dark.png"></mj-image>
       </mj-column>
     </mj-section>
-    <mj-section background-color="white" padding-bottom="0">
+    <mj-section css-class="section" background-color="white" padding-bottom="0">
       <mj-column>
-        <mj-text padding-top="0" font-family="helvetica" font-size="18px" color="#2d2d2d">
+        <mj-text css-class="text" padding-top="0" font-family="helvetica" font-size="18px" color="#2d2d2d">
           <p>Your login code is:</p>
           <p style="font-size: 20px; text-align: center;">{{code}}</p>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section background-color="white" padding-top="0" padding-bottom="0">
+    <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">
       <mj-column>
-        <mj-text padding-top="10px" padding-bottom="0" padding-right="0" font-family="helvetica" color="#2d2d2d" font-size="18px" line-height="22px">
+        <mj-text css-class="text" padding-top="10px" padding-right="0" font-family="helvetica" color="#2d2d2d" font-size="18px" line-height="22px">
           <p>Return to your login page and enter your code to continue<p>
           <p>This code will expire in 15 minutes and can be used only once.</p>
           <p>
             Lost your login page? Paste this link into your browser to continue. 
-            <a stlye="color: #2d2d2d;" href="https://{{ DOMAIN_NAME }}/auth/login/confirm?email={{email}}">https://{{ DOMAIN_NAME }}/auth/login/confirm?email={{email}}</a>
+            <a class="link" href="https://{{ DOMAIN_NAME }}/auth/login/confirm?email={{email}}">https://{{ DOMAIN_NAME }}/auth/login/confirm?email={{email}}</a>
           </p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="#5B41BB">
+      <mj-column>
+        <mj-text font-size="12px" align="center" font-family="helvetica" color="#FFFFFF">
+          <p>Made with <span style="color:red; font-size: 18px">♥</span> in Chicago</p>
+          <p><a href="https://{{ DOMAIN_NAME }}/" style="text-decoration:none; font-weight:bold; color:#FFFFFF">{{ DOMAIN_NAME }}</a></p>
         </mj-text>
       </mj-column>
     </mj-section>

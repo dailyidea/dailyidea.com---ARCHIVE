@@ -1,4 +1,5 @@
 {
   "https://dailyidea-serverless-email-static-prod.s3.amazonaws.com": "{{ BUCKET_URL_PREFIX }}",
-  "https://dailyidea-serverless-email-static-dev.s3.amazonaws.com": "{{ BUCKET_URL_PREFIX }}"
+  "https://dailyidea-serverless-email-static-dev.s3.amazonaws.com": "{{ BUCKET_URL_PREFIX }}",
+  "../../mail-processing/static": "{{ BUCKET_URL_PREFIX }}"
 }

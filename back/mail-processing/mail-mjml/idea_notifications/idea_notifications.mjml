@@ -1,79 +1,92 @@
 <mjml>
   <mj-head>
-    <mj-font name="Dancing Script" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" />
+    <mj-raw>
+      <meta name="color-scheme" content="light dark">
+      <meta name="supported-color-schemes" content="light dark">
+    </mj-raw>
+    <mj-style>
+      @media (prefers-color-scheme: dark) {
+        .body { background-color: black !important; }
+        .section > table > tbody > tr > td { background-color: #161025 !important; }
+        .heading div { color: #FBFBFD !important; }
+        .quote div { color: #FBFBFD !important; }
+        .text div { color: #FBFBFD !important; }
+        .snooze-btn td, .snooze-btn a { background-color: #161025 !important; color: white !important; }
+      }
+    </mj-style>
   </mj-head>
-  <mj-body background-color="#FCFCFC">
-    <mj-section background-color="white" padding-bottom="5px">
+  <mj-body css-class="body" background-color="#FCFCFC">
+    <mj-section css-class="section" background-color="white" padding-bottom="5px">
       <mj-column>
-        <mj-image width="120px" align="left" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/common/logo_full.png"></mj-image>
+        <mj-image width="150px" align="left" padding-left="5px" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/common/logo_full_dark.png"></mj-image>
       </mj-column>
     </mj-section>
-    <mj-section background-color="white" padding-top="0" padding-bottom="0">
+    <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">
       <mj-column>
-        <mj-text padding-top="0" padding-bottom="0" font-family="helvetica" color="#2d2d2d">
+        <mj-text css-class="text" padding-top="0" padding-bottom="0" font-family="helvetica" color="#2d2d2d">
           <p>Hi {{ USERNAME }},</p>
           <p>Your ideas {{ IDEAS_NAMES }} is sparking conversation, you have new comments!</p>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section>
+    <mj-section css-class="section">
       <mj-column>
-        <mj-image width="250px" align="center" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/idea-activity/collaboration.png"></mj-image>
+        <mj-image width="328px" align="center" src="../../static/email/images/idea-activity/collaboration.png"></mj-image>
       </mj-column>
     </mj-section>
-    <mj-section background-color="white" padding-top="0" padding-bottom="0">
+    <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">
       <mj-column>
-        <mj-text padding-top="0" padding-bottom="0" font-family="helvetica" color="#2d2d2d">
+        <mj-text css-class="text" padding-top="0" padding-bottom="0" font-family="helvetica" color="#2d2d2d">
           <p>Keep the conversation going, click below to reply.</p>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section background-color="white" padding-top="0">
+    <mj-section css-class="section" background-color="white" padding-top="0">
       <mj-column>
         <mj-button inner-padding="10px 65px" border-radius="5px" font-family="helvetica" font-size="16px" background-color="#5B41BB" color="white" href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ AUTH_TOKEN }}&email={{ EMAIL }}&next=%2Fideas%2Fme">
           View Comments
         </mj-button>
       </mj-column>
     </mj-section>
-    <mj-section background-color="white" padding-top="0" padding-bottom="0">
+    <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">
       <mj-column>
-        <mj-text font-family="helvetica">
+        <mj-text css-class="text" font-family="helvetica">
           <strong>Need to take a break?</strong> Snooze reminder emails for: 
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section background-color="white" padding-top="0">
+    <mj-section css-class="section" background-color="white" padding-top="0">
       <mj-group>
         <mj-column>
-          <mj-button padding="5px" inner-padding="8px 20px" border-radius="5px" border="2px solid #5B41BB" font-family="helvetica" font-size="14px" background-color="white" color="#000000" href="https://{{DOMAIN_NAME}}/snooze-emails?userId={{USER_ID}}&token={{SNOOZE_TOKEN}}&days=7">
+          <mj-button css-class="snooze-btn" padding="5px" inner-padding="8px 20px" border-radius="5px" border="2px solid #5B41BB" font-family="helvetica" font-size="14px" background-color="white" color="#000000" href="https://{{DOMAIN_NAME}}/snooze-emails?userId={{USER_ID}}&token={{SNOOZE_TOKEN}}&days=7">
             1 week
           </mj-button>
         </mj-column>
         <mj-column>
-          <mj-button padding="5px" inner-padding="8px 20px" border-radius="5px" border="2px solid #5B41BB" font-family="helvetica" font-size="14px" background-color="white" color="#000000" href="https://{{DOMAIN_NAME}}/snooze-emails?userId={{USER_ID}}&token={{SNOOZE_TOKEN}}&days=14">
+          <mj-button css-class="snooze-btn" padding="5px" inner-padding="8px 20px" border-radius="5px" border="2px solid #5B41BB" font-family="helvetica" font-size="14px" background-color="white" color="#000000" href="https://{{DOMAIN_NAME}}/snooze-emails?userId={{USER_ID}}&token={{SNOOZE_TOKEN}}&days=14">
             2 weeks
           </mj-button>
         </mj-column>
         <mj-column>
-          <mj-button padding="5px" inner-padding="8px 20px" border-radius="5px" border="2px solid #5B41BB" font-family="helvetica" font-size="14px" background-color="white" color="#000000" href="https://{{DOMAIN_NAME}}/snooze-emails?userId={{USER_ID}}&token={{SNOOZE_TOKEN}}&days=28">
+          <mj-button css-class="snooze-btn" padding="5px" inner-padding="8px 20px" border-radius="5px" border="2px solid #5B41BB" font-family="helvetica" font-size="14px" background-color="white" color="#000000" href="https://{{DOMAIN_NAME}}/snooze-emails?userId={{USER_ID}}&token={{SNOOZE_TOKEN}}&days=28">
             4 weeks
           </mj-button>
         </mj-column>
       </mj-group>
     </mj-section>
-    <mj-section background-color="white" padding-top="0">
+    <mj-section css-class="section" background-color="white" padding-top="0">
       <mj-column>
-        <mj-text font-size="12px" font-family="helvetica">
-          <a href="https://{{DOMAIN_NAME}}/settings" style="color:#C8C8C8; font-size:12px">Review / update your email preferences</a><br>
+        <mj-text css-class="text" font-size="12px" font-family="helvetica" color="#C8C8C8">
+          <a href="https://{{DOMAIN_NAME}}/settings" style="color:#C8C8C8; font-size:12px">Review / update your email preferences</a> or 
           <a href="https://{{DOMAIN_NAME}}/unsubscribe/{{USER_ID}}/{{SNOOZE_TOKEN}}" style="color:#C8C8C8; font-size:12px">Unsubscribe from all emails</a>
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section background-color="#EFF6FF">
+    <mj-section background-color="#5B41BB">
       <mj-column>
-        <mj-text font-size="12px" align="center" font-family="helvetica">
+        <mj-text font-size="12px" align="center" font-family="helvetica" color="#FFFFFF">
           <p>Made with <span style="color:red; font-size: 18px">♥</span> in Chicago</p>
-          <p><a href="https://www.dailyidea.com/" style="text-decoration:none; font-weight:bold; color:#2d2d2d">www.dailyidea.com</a></p>
+          <p><a href="https://{{ DOMAIN_NAME }}/" style="text-decoration:none; font-weight:bold; color:#FFFFFF">{{ DOMAIN_NAME }}</a></p>
         </mj-text>
       </mj-column>
     </mj-section>

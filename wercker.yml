@@ -52,7 +52,7 @@ deploy-init:
   steps:
     - script:
         name: init deploy
-        code: echo "empty"
+        code: echo "init of deploy"
 
 deploy-appsync:
   steps:

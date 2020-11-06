@@ -1,33 +1,8 @@
 <template>
   <Layout>
-    <div class="swipe-header justify-center py-2 d-sm-flex ">
-      <v-card
-        class="d-flex justify-space-between pa-2 col-md-6 col-sm-12 swipe-header-card"
-      >
-        <div style="width: 50px;">&nbsp;</div>
-        <div class="pt-3">
-          <span v-if="ideaIndex === 0">Swipe right to see the next idea</span>
-          <span v-if="ideaIndex > 0">{{ ideaIndex + 1 }} of 3</span>
-        </div>
-
-        <div
-          v-if="ideaIndex === 0"
-          class="overflow-hidden"
-          style="width: 40px; height: 45px; overflow: hidden;"
-        >
-          <img
-            src="~assets/images/home/swipeicon-right.svg"
-            alt="Swipe right"
-            style="height: 68px; margin-top: -9px; margin-left: -15px;"
-          />
-        </div>
-        <swipe-icon v-else class="swipe-header-icon" />
-      </v-card>
-    </div>
-
+    <swipe-explainer-bar :idea-index="ideaIndex" />
     <swiper
       v-slot="{ rotationStyle }"
-      class="idea-card"
       :swipe-disabled="isExpanded"
       :allow-left="ideaIndex > 0"
       @swipe-start="setHideSlideMenuTrue"
@@ -37,17 +12,17 @@
       @left-arrow-clicked="previousIdea"
       @right-arrow-clicked="nextIdea"
     >
-      <card
+      <swipable-card
         ref="page"
         :style="rotationStyle"
-        :additional-styling="{
-          'min-height': 'calc(100vh - 80px - 70px - 20px)',
-          'max-height': isLandscape ? '' : 'calc(100vh - 80px - 70px - 20px)',
-          'max-width': isMobile ? '' : '70vw'
-        }"
+        top-padding-desktop="15rem"
+        top-padding-mobile="11rem"
       >
-        <welcome :page-on="ideaIndex"></welcome>
-      </card>
+        <welcome
+          :page-on="ideaIndex"
+          class="fill-height overflow-y-auto"
+        ></welcome>
+      </swipable-card>
     </swiper>
 
     <div class="swipe-footer text-center py-5 hidden-md-and-down">
@@ -57,22 +32,22 @@
 </template>
 
 <script>
-import Card from '@/components/shared/Card'
 import Swiper from '@/components/ideaDetail/Swiper'
 import Welcome from '@/components/welcome/Welcome'
 import SliderDots from '@/components/layout/svgIcons/SliderDots'
-import SwipeIcon from '@/components/layout/svgIcons/SwipeIcon'
 import Layout from '@/components/layout/Layout'
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
+import SwipableCard from '@/components/shared/SwipableCard'
+import SwipeExplainerBar from '@/components/home/SwipeExplainerBar'
 
 export default {
   components: {
+    SwipableCard,
+    SwipeExplainerBar,
     Layout,
     Swiper,
-    Card,
     Welcome,
-    SliderDots,
-    SwipeIcon
+    SliderDots
   },
   async asyncData({ app }) {
     let result = await app.$amplifyApi.graphql({

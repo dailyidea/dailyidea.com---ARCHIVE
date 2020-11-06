@@ -28,7 +28,7 @@
             >Sign Up</v-btn
           >
           <nuxt-link
-            class="inline-block link-highlight text-lg text-center mt-6"
+            class="d-inline-block link-highlight text-lg text-center mt-6"
             :to="{ name: 'auth-login' }"
           >
             Login

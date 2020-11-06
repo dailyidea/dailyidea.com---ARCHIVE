@@ -1,6 +1,5 @@
 <template>
   <div id="commonHeader" hidden :class="{ 'grey-bg': greyBg }">
-    <slot v-if="showOverlay" name="overlay" />
     <v-progress-linear
       :indeterminate="true"
       :active="progressBarActive"
@@ -40,16 +39,16 @@ import MobileHeader from './MobileHeader'
 
 export default {
   components: { MobileHeader, DesktopHeader },
+
   props: {
-    showOverlay: { type: Boolean, default: false },
-
     greyBg: { type: Boolean, default: false },
-
     hideMobileNav: { type: Boolean, default: Boolean }
   },
+
   data() {
     return { searchIdeaMode: false }
   },
+
   computed: {
     isAuthenticated() {
       return this.$store.state.userData.isAuthenticated
@@ -58,10 +57,10 @@ export default {
       return this.$store.getters['layoutState/progressBarActive']
     }
   },
+
   mounted() {
     this.$el.removeAttribute('hidden')
   },
-  created() {},
 
   methods: {
     signOut() {

@@ -1,11 +1,12 @@
 <template>
   <div>
-    <div
-      class="light-box-bg"
-      :class="{ 'light-box-expanded': isExpanded }"
-      @click="isExpanded && $refs.page.expandToggle()"
-    ></div>
-    <layout :hide-mobile-nav="isExpanded" :hide-slide-menu="hideSlideMenu">
+    <idea-lightbox
+      :value="!!expandedIdea && $vuetify.breakpoint.mdAndDown"
+      :idea="expandedIdea"
+      @input="expandedIdea = null"
+      @updated="i => (idea = i)"
+    />
+    <layout :hide-mobile-nav="!!expandedIdea" :hide-slide-menu="hideSlideMenu">
       <template v-slot:header>
         <categories-sub-header
           :category-selected="category"
@@ -15,7 +16,7 @@
       <idea-card-skeleton />
       <swiper
         class="idea-card pointer-events-none"
-        :swipe-disabled="isExpanded"
+        :swipe-disabled="!!expandedIdea"
         @swipe-start="setHideSlideMenuTrue"
         @swipe-end="setHideSlideMenuFalse"
         @swipe-left="nextIdea"
@@ -31,7 +32,7 @@
             class="card"
             :style="rotationStyle"
           ></swipe-explainer>
-          <idea-card
+          <idea-swipable-card
             v-else
             ref="page"
             class="card"
@@ -39,8 +40,8 @@
             :style="rotationStyle"
             close-btn
             @updated="i => (idea = i)"
-            @expand-toggle="val => (isExpanded = val)"
-          ></idea-card>
+            @expand="expandedIdea = idea"
+          ></idea-swipable-card>
         </template>
       </swiper>
     </layout>
@@ -62,11 +63,13 @@ import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 import IdeaCardSkeleton from '@/components/ideaDetail/IdeaCardSkeleton'
 import SwipeExplainer from '@/components/ideaDetail/SwipeExplainer'
 import CategoriesSubHeader from '@/components/layout/CategoriesSubHeader'
-import IdeaCard from '@/components/ideaDetail/IdeaCard'
+import IdeaLightbox from '@/components/ideaDetail/IdeaLightbox'
+import IdeaSwipableCard from '@/components/ideaDetail/IdeaSwipableCard'
 
 export default {
   components: {
-    IdeaCard,
+    IdeaSwipableCard,
+    IdeaLightbox,
     Layout,
     Swiper,
     IdeaCardSkeleton,
@@ -101,13 +104,12 @@ export default {
       ideaIndex: 1,
       ideaQueue: [],
       nextToken: null,
-      editMode: false,
       hideSlideMenu: false,
       idea: null,
-      expandedState: false,
       showExplainer: false,
       category: 'top',
-      isExpanded: false
+      expandedIdea: null,
+      expandWithEdit: false
     }
   },
 
@@ -203,9 +205,11 @@ export default {
     nextIdea() {
       this.loadNewIdea(1)
     },
+
     previousIdea() {
       this.loadNewIdea(-1)
     },
+
     loadNewIdea(direction) {
       this.ideaIndex += direction
 
@@ -308,39 +312,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '~assets/style/common.scss';
-
-.idea-card {
-  @media (max-width: $screen-sm-max) {
-    position: absolute;
-    width: 100%;
-    z-index: 100;
-  }
-
-  .card {
-    @media (min-width: $screen-md-min) {
-      min-width: 70vw;
-      max-width: 70vw;
-    }
-  }
-}
-
-.light-box-bg {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background-color: $color-off-white;
-}
-
-.light-box-expanded {
-  @media (max-width: $screen-sm-max) {
-    position: fixed;
-    background-color: $color-light-box;
-    z-index: 1;
-  }
-}
-</style>

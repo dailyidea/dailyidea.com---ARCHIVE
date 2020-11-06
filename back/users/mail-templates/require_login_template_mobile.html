@@ -74,18 +74,63 @@
       }
     }
   </style>
+  <style type="text/css">
+    .logo-dark {
+      display: none;
+    }
+
+    .link {
+      color: #5B41BB;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .body {
+        background-color: black !important;
+      }
+
+      .section>table>tbody>tr>td {
+        background-color: #161025 !important;
+      }
+
+      .heading div {
+        color: #FBFBFD !important;
+      }
+
+      .quote div {
+        color: #FBFBFD !important;
+      }
+
+      .text div {
+        color: #FBFBFD !important;
+      }
+
+      .logo {
+        display: none;
+      }
+
+      .logo-dark {
+        display: block;
+      }
+
+      .link {
+        color: #FFC61E;
+      }
+    }
+  </style>
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
 </head>
 
 <body style="background-color:#FCFCFC;">
-  <div style="background-color:#FCFCFC;">
+  <div class="body" style="background-color:#FCFCFC;">
     <!--[if mso | IE]>
       <table
-         align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
+         align="center" border="0" cellpadding="0" cellspacing="0" class="section-outlook" style="width:600px;" width="600"
       >
         <tr>
           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
       <![endif]-->
-    <div style="background:white;background-color:white;margin:0px auto;max-width:600px;">
+    <div class="section" style="background:white;background-color:white;margin:0px auto;max-width:600px;">
       <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:white;background-color:white;width:100%;">
         <tbody>
           <tr>
@@ -102,12 +147,12 @@
               <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                   <tr>
-                    <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <td align="left" style="font-size:0px;padding:10px 25px;padding-left:5px;word-break:break-word;">
                       <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
                         <tbody>
                           <tr>
-                            <td style="width:170px;">
-                              <img height="auto" src="{{ BUCKET_URL_PREFIX }}/email/images/Group18.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="170" />
+                            <td style="width:150px;">
+                              <img height="auto" src="{{ BUCKET_URL_PREFIX }}/email/images/common/logo_full_dark.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="150" />
                             </td>
                           </tr>
                         </tbody>
@@ -134,12 +179,12 @@
       </table>
       
       <table
-         align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
+         align="center" border="0" cellpadding="0" cellspacing="0" class="section-outlook" style="width:600px;" width="600"
       >
         <tr>
           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
       <![endif]-->
-    <div style="background:white;background-color:white;margin:0px auto;max-width:600px;">
+    <div class="section" style="background:white;background-color:white;margin:0px auto;max-width:600px;">
       <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:white;background-color:white;width:100%;">
         <tbody>
           <tr>
@@ -156,10 +201,62 @@
               <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                   <tr>
-                    <td align="left" style="font-size:0px;padding:10px 25px;padding-top:0;word-break:break-word;">
+                    <td align="left" class="text" style="font-size:0px;padding:10px 25px;padding-top:0;word-break:break-word;">
                       <div style="font-family:helvetica;font-size:18px;line-height:1;text-align:left;color:#2d2d2d;">
                         <p>Your login code is:</p>
                         <p style="font-size: 20px; text-align: center;">{{code}}</p>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <!--[if mso | IE]>
+            </td>
+          
+        </tr>
+      
+                  </table>
+                <![endif]-->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--[if mso | IE]>
+          </td>
+        </tr>
+      </table>
+      
+      <table
+         align="center" border="0" cellpadding="0" cellspacing="0" class="section-outlook" style="width:600px;" width="600"
+      >
+        <tr>
+          <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
+      <![endif]-->
+    <div class="section" style="background:white;background-color:white;margin:0px auto;max-width:600px;">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:white;background-color:white;width:100%;">
+        <tbody>
+          <tr>
+            <td style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:0;padding-top:0;text-align:center;">
+              <!--[if mso | IE]>
+                  <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                
+        <tr>
+      
+            <td
+               class="" style="vertical-align:top;width:600px;"
+            >
+          <![endif]-->
+              <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                  <tr>
+                    <td align="left" class="text" style="font-size:0px;padding:10px 25px;padding-top:10px;padding-right:0;word-break:break-word;">
+                      <div style="font-family:helvetica;font-size:18px;line-height:22px;text-align:left;color:#2d2d2d;">
+                        <p>Return to your login page and enter your code to continue
+                        <p>
+                        <p>This code will expire in 15 minutes and can be used only once.</p>
+                        <p> Lost your login page? Paste this link into your browser to continue. <a class="link" href="https://{{ DOMAIN_NAME }}/auth/login/confirm?email={{email}}">https://{{ DOMAIN_NAME }}/auth/login/confirm?email={{email}}</a>
+                        </p>
                       </div>
                     </td>
                   </tr>
@@ -188,11 +285,11 @@
         <tr>
           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
       <![endif]-->
-    <div style="background:white;background-color:white;margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:white;background-color:white;width:100%;">
+    <div style="background:#5B41BB;background-color:#5B41BB;margin:0px auto;max-width:600px;">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#5B41BB;background-color:#5B41BB;width:100%;">
         <tbody>
           <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:0;padding-top:0;text-align:center;">
+            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
               <!--[if mso | IE]>
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                 
@@ -205,13 +302,10 @@
               <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                   <tr>
-                    <td align="left" style="font-size:0px;padding:10px 25px;padding-top:10px;padding-right:0;padding-bottom:0;word-break:break-word;">
-                      <div style="font-family:helvetica;font-size:18px;line-height:22px;text-align:left;color:#2d2d2d;">
-                        <p>Return to your login page and enter your code to continue
-                        <p>
-                        <p>This code will expire in 15 minutes and can be used only once.</p>
-                        <p> Lost your login page? Paste this link into your browser to continue. <a stlye="color: #2d2d2d;" href="https://{{ DOMAIN_NAME }}/auth/login/confirm?email={{email}}">https://{{ DOMAIN_NAME }}/auth/login/confirm?email={{email}}</a>
-                        </p>
+                    <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                      <div style="font-family:helvetica;font-size:12px;line-height:1;text-align:center;color:#FFFFFF;">
+                        <p>Made with <span style="color:red; font-size: 18px">♥</span> in Chicago</p>
+                        <p><a href="https://{{ DOMAIN_NAME }}/" style="text-decoration:none; font-weight:bold; color:#FFFFFF">{{ DOMAIN_NAME }}</a></p>
                       </div>
                     </td>
                   </tr>
