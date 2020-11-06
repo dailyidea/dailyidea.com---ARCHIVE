@@ -50,7 +50,7 @@
             <v-btn dark large to="/auth/signup" class="col-4">Sign Up</v-btn>
 
             <nuxt-link
-              class="inline-block link-highlight text-center my-2"
+              class="d-inline-block link-highlight text-center my-2"
               :to="{ name: 'auth-login' }"
             >
               Login

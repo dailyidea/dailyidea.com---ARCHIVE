@@ -1,14 +1,10 @@
 <template>
-  <div class="comments-part" @click.stop>
-    <v-container
+  <div class="comments-part d-flex flex-column fill-height" @click.stop>
+    <div
       ref="scroller"
-      class="comments-part__container hide-scrollbar fade-bottom"
+      class="comments-part__container overflow-y-auto hide-scrollbar fade-bottom flex-1"
     >
-      <div
-        v-if="commentList.length"
-        ref="commentsCol"
-        class="comments-part__comment-col"
-      >
+      <div v-if="commentList.length" ref="commentsCol">
         <div
           v-if="idea.commentsCount > commentList.length && !deletingComment"
           class="loadComments"
@@ -27,15 +23,13 @@
           @onDeleteComment="onDeleteComment"
         ></idea-comments-comment>
       </div>
-      <v-row v-else class="empty" align="center">
-        <v-col class="muted">
-          <p>No comments yet.</p>
-          <p>Be the first!</p>
-        </v-col>
-      </v-row>
-    </v-container>
+      <div v-else class="text-center muted">
+        <p>No comments yet.</p>
+        <p>Be the first!</p>
+      </div>
+    </div>
     <div class="comment-and-post-btn d-flex flex-column">
-      <div class="comments-part__input-container d-flex flex-row align-center">
+      <div class="comments-part__input-container d-flex align-center">
         <img :src="avatar" class="comment-avatar" />
         <v-text-field
           ref="commentInput"
@@ -58,9 +52,13 @@
           </template>
         </v-text-field>
       </div>
-      <div v-if="newCommentText" class="post-comment-btn">
-        <v-btn width="100%" @click="onAddCommentAttempt">Post Comment </v-btn>
-      </div>
+      <v-btn
+        v-if="newCommentText"
+        color="primary"
+        class="mt-5 fill-width"
+        @click="onAddCommentAttempt"
+        >Post Comment
+      </v-btn>
     </div>
 
     <default-dialog
@@ -550,7 +548,6 @@ $counters-font-size: 18px;
 
 .container {
   @media only screen and (min-width: $screen-md-min) {
-    height: 50vh;
     overflow-y: auto;
     padding-left: 0;
     padding-right: 12px;
@@ -569,10 +566,6 @@ $counters-font-size: 18px;
     border-left: 2px solid $light-grey;
     padding-left: 1rem;
     overflow-y: auto;
-
-    &__comment-col {
-      padding-bottom: 2rem;
-    }
   }
 
   &__header {
@@ -581,11 +574,9 @@ $counters-font-size: 18px;
 
   &__container {
     @media (min-width: $screen-md-min) {
-      height: 55vh;
       padding-bottom: 2rem;
     }
     overflow: auto;
-    /*height: 100%;*/
 
     display: block;
   }
@@ -593,11 +584,6 @@ $counters-font-size: 18px;
     text-align: center;
     padding: 5px 0;
     cursor: pointer;
-    /* legacy */
-  }
-  .empty {
-    height: 100%;
-    text-align: center;
   }
 
   &__input-container {
@@ -617,10 +603,6 @@ $counters-font-size: 18px;
   justify-content: flex-end;
 
   .post-comment-btn {
-    margin: 0 auto;
-    margin-top: 3rem;
-    width: 100%;
-
     .v-btn {
       background-color: $default-purple !important;
     }

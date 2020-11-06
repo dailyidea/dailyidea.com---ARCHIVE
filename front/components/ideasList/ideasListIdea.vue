@@ -57,7 +57,7 @@
 
 <script>
 import clip from 'text-clipper'
-import IdeaContent from '~/components/IdeaContent'
+import IdeaContent from '@/components/ideaDetail/IdeaContent'
 
 export default {
   name: 'IdeasListIdea',

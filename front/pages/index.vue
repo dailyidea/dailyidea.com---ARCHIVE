@@ -3,7 +3,6 @@
     <swipe-explainer-bar :idea-index="ideaIndex" />
     <swiper
       v-slot="{ rotationStyle }"
-      class="idea-card"
       :swipe-disabled="isExpanded"
       :allow-left="ideaIndex > 0"
       @swipe-start="setHideSlideMenuTrue"
@@ -13,16 +12,17 @@
       @left-arrow-clicked="previousIdea"
       @right-arrow-clicked="nextIdea"
     >
-      <card
+      <swipable-card
         ref="page"
         :style="rotationStyle"
-        :additional-styling="{
-          'max-height': isLandscape ? '' : 'calc(100vh - 80px - 70px - 20px)',
-          'max-width': isMobile ? '' : '50vw'
-        }"
+        top-padding-desktop="15rem"
+        top-padding-mobile="11rem"
       >
-        <welcome :page-on="ideaIndex"></welcome>
-      </card>
+        <welcome
+          :page-on="ideaIndex"
+          class="fill-height overflow-y-auto"
+        ></welcome>
+      </swipable-card>
     </swiper>
 
     <div class="swipe-footer text-center py-5 hidden-md-and-down">
@@ -32,20 +32,20 @@
 </template>
 
 <script>
-import Card from '@/components/shared/Card'
 import Swiper from '@/components/ideaDetail/Swiper'
 import Welcome from '@/components/welcome/Welcome'
 import SliderDots from '@/components/layout/svgIcons/SliderDots'
 import Layout from '@/components/layout/Layout'
 import getPublicIdeas from '~/graphql/query/getPublicIdeas'
+import SwipableCard from '@/components/shared/SwipableCard'
 import SwipeExplainerBar from '@/components/home/SwipeExplainerBar'
 
 export default {
   components: {
+    SwipableCard,
     SwipeExplainerBar,
     Layout,
     Swiper,
-    Card,
     Welcome,
     SliderDots
   },

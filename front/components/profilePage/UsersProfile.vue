@@ -1,22 +1,11 @@
 <template>
-  <layout grey-bg :show-overlay="showOverlay">
-    <template v-slot:overlay>
-      <div class="overlay" @click="handleExitPressed">
-        <div class="overlay-card" @click="handleExitPressed">
-          <div @click.stop>
-            <idea-card
-              expanded
-              close-btn
-              allow-mobile-scroll
-              :idea="selectedIdea"
-              is-lightbox
-              @exit-pressed="handleExitPressed"
-              @updated="ideaUpdated"
-            ></idea-card>
-          </div>
-        </div>
-      </div>
-    </template>
+  <layout grey-bg>
+    <idea-lightbox
+      :idea="selectedIdea"
+      :value="!!selectedIdea"
+      @input="selectedIdea = null"
+      @updated="ideaUpdated"
+    />
     <template v-slot:header>
       <user-profile-header-section
         :profile-data="profileData"
@@ -25,7 +14,17 @@
       ></user-profile-header-section>
     </template>
     <template>
-      <slot :handle-view-preview="handleViewPreview" />
+      <div v-if="ideas.length" class="cards-container">
+        <idea-short-card
+          v-for="(idea, index) in ideas"
+          :key="index"
+          :idea="idea"
+          @updated="i => $set(ideas, index, i)"
+          @view-preview="i => (selectedIdea = i)"
+        ></idea-short-card>
+      </div>
+      <slot v-if="!ideas.length" name="no-ideas" />
+      <slot />
       <input
         ref="file"
         style="display: none"
@@ -44,21 +43,24 @@
 import UserProfileHeaderSection from './UserProfileHeaderSection'
 import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
 import Layout from '@/components/layout/Layout'
-import IdeaCard from '@/components/ideaDetail/IdeaCard'
+import IdeaLightbox from '@/components/ideaDetail/IdeaLightbox'
+import IdeaShortCard from '@/components/ideaDetail/IdeaShortCard'
 
 export default {
-  name: 'UsersProfile',
   components: {
+    IdeaLightbox,
     Layout,
-    IdeaCard,
     UserProfileHeaderSection,
-    UserProfileAvatarCropDialog
+    UserProfileAvatarCropDialog,
+    IdeaShortCard
   },
+
   props: {
     initialProfileData: { type: Object, required: true },
     ideas: { type: Array, required: true },
     loadMoreIdeasIsPossible: { type: Boolean, default: false }
   },
+
   data() {
     return {
       profileData: {
@@ -80,25 +82,18 @@ export default {
       selectedIdea: null
     }
   },
+
   computed: {
     isMyProfile() {
       return this.$store.getters['userData/userId'] === this.profileData.userId
     }
   },
+
   mounted() {
     this.profileData = this.initialProfileData
   },
+
   methods: {
-    handleViewPreview(idea) {
-      this.showOverlay = true
-      this.selectedIdea = idea
-    },
-
-    handleExitPressed() {
-      this.showOverlay = false
-      this.selectedIdea = null
-    },
-
     ideaUpdated(idea) {
       this.$emit('idea-updated', this.selectedIdea, idea)
       this.selectedIdea = idea
@@ -122,6 +117,17 @@ export default {
     .label {
       color: $color-muted-grey;
     }
+  }
+}
+
+.cards-container {
+  margin: 0 auto;
+  @media (min-width: $screen-md-min) {
+    width: 650px;
+  }
+
+  .card {
+    margin-top: 1rem !important;
   }
 }
 </style>
