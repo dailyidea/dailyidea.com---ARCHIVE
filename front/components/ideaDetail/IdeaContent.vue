@@ -7,7 +7,7 @@
     <!-- eslint-disable vue/no-v-html -->
     <div
       ref="scrollContainer"
-      class="idea-content content overflow-y-auto fade-bottom hide-scrollbar d-flex"
+      class="idea-content content overflow-y-auto fade-bottom hide-scrollbar"
       style="flex: 1;"
       :class="{
         'idea-content-collapsed fade-bottom': isMobile ? collapsed : true,
