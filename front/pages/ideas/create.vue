@@ -301,6 +301,9 @@ export default {
       position: fixed;
       bottom: 0;
     }
+    @media (max-width: $screen-md-min) {
+      display: none;
+    }
   }
 
   #toggle-trix-panel {
