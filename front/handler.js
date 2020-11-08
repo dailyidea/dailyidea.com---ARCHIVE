@@ -1,5 +1,5 @@
 // todo https://github.com/nuxt/nuxt.js/issues/3626
-const { Nuxt } = require('nuxt-start-edge')
+const { Nuxt } = require('nuxt-start')
 
 const serverless = require('serverless-http')
 
