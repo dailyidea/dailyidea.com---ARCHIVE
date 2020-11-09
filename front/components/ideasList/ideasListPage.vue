@@ -35,7 +35,7 @@
 <script>
 import Layout from '@/components/layout/Layout'
 import IdeasList from '@/components/ideasList/ideasList'
-import loadIdeas from '@/components/ideasList/loadIdeas'
+import loadIdeas from '@/helpers/load-ideas'
 
 export default {
   name: 'IdeasListPage',

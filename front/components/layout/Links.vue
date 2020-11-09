@@ -1,10 +1,6 @@
 <template>
   <span class="links d-flex flex-row align-center justify-space-between">
-    <span
-      class="link"
-      :class="{ active: page === 'explore' }"
-      @click="exploreClicked"
-    >
+    <span class="link" :class="{ active: page === 'explore' }" :to="'/'">
       <bulb-icon v-if="page !== 'explore'" :fill="inactiveColor" class="img" />
       <bulb-on-icon v-else :fill="activeColor" class="active-bulb" />
       <span :class="{ 'link-highlight': page === 'explore' }">Explore</span>
@@ -38,16 +34,17 @@ import ProfileIcon from './svgIcons/ProfileIcon.vue'
 import PostIcon from './svgIcons/PostIcon.vue'
 import BulbIcon from './svgIcons/BulbIcon.vue'
 import BulbOnIcon from './svgIcons/BulbOnIcon.vue'
-import { getNewIdeas } from '@/components/ideaDetail/ideaSwipeQueue'
 
 export default {
   name: 'Links',
+
   components: {
     ProfileIcon,
     PostIcon,
     BulbIcon,
     BulbOnIcon
   },
+
   data() {
     return {
       activeColor: '#ffc61e',
@@ -84,12 +81,6 @@ export default {
   },
 
   methods: {
-    async exploreClicked() {
-      const ideas = await getNewIdeas(this.$amplifyApi)
-      const firstIdea = ideas.ideas[0]
-      this.$router.push(`/i/${firstIdea.shortId}/${firstIdea.slug}`)
-    },
-
     iconColor(page) {
       return this.slug
         ? this.page !== page

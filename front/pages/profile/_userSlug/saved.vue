@@ -14,7 +14,7 @@ import { graphqlOperation } from '@aws-amplify/api'
 import userInfoBySlug from '@/graphql/query/userInfoBySlug'
 import UserProfile from '@/components/profilePage/UsersProfile'
 import NoIdeasPlaceholder from '@/components/ideaDetail/NoIdeasPlaceholder'
-import loadIdeas from '@/components/ideasList/loadIdeas'
+import loadIdeas from '@/helpers/load-ideas'
 import getSavedIdeas from '~/graphql/query/getSavedIdeas'
 
 export default {

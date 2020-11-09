@@ -18,7 +18,7 @@ import userInfoBySlug from '@/graphql/query/userInfoBySlug'
 import UsersProfile from '@/components/profilePage/UsersProfile'
 import NoIdeasPlaceholder from '@/components/ideaDetail/NoIdeasPlaceholder'
 import getUsersIdeas from '@/graphql/query/getUsersIdeas'
-import loadIdeas from '@/components/ideasList/loadIdeas'
+import loadIdeas from '@/helpers/load-ideas'
 import getIdeas from '@/graphql/query/getIdeas'
 
 export default {
