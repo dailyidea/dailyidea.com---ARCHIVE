@@ -119,8 +119,8 @@ export default {
 
   watch: {
     idea(val) {
-      if (val) {
-        window.history.pushState('', '', this.ideaUrl())
+      if (val && window.history.state.prev !== this.ideaUrl()) {
+        window.history.pushState({ prev: this.ideaUrl() }, '', this.ideaUrl())
       }
     },
 
