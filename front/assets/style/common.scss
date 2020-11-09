@@ -70,3 +70,7 @@
 .flex-1 { flex: 1; }
 .align-middle { vertical-align: middle; }
 .absolute { position: absolute; }
+
+.disabled {
+  &.link { color: $dark-grey !important; }
+}

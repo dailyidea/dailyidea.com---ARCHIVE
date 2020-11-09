@@ -1,19 +1,16 @@
 <template>
   <v-content class="fill-height">
-    <welcome-portrait :params="params"></welcome-portrait>
-    <welcome-landscape :params="params"></welcome-landscape>
+    <welcome-content :params="params"></welcome-content>
   </v-content>
 </template>
 <script>
-import WelcomePortrait from './WelcomePortrait'
-import WelcomeLandscape from './WelcomeLandscape'
+import WelcomeContent from './WelcomeContent'
 import rightImage from '~/assets/images/welcome2/graphic2.svg'
 
 export default {
   name: 'WelcomeSecond',
   components: {
-    WelcomePortrait,
-    WelcomeLandscape
+    WelcomeContent
   },
   data() {
     return {
