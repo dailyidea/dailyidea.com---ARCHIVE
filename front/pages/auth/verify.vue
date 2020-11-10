@@ -37,7 +37,6 @@
 
 <script>
 import LinkExpired from '@/components/authPage/LinkExpired'
-import { getFirstIdeaURL } from '@/components/ideaDetail/ideaSwipeQueue'
 
 export default {
   components: { LinkExpired },
@@ -95,9 +94,7 @@ export default {
             : "Hooray! We'll direct you to your dashboard next..."
         }
 
-        const firstIdeaURL = await getFirstIdeaURL(this.$amplifyApi)
-
-        this.$router.replace(next || firstIdeaURL)
+        this.$router.replace(next || '/')
       } catch (e) {
         this.progressBarActive = false
         this.expired = true

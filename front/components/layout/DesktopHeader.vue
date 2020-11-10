@@ -25,7 +25,6 @@
 
 <script>
 import Links from './Links'
-import { getFirstIdea } from '@/components/ideaDetail/ideaSwipeQueue'
 
 export default {
   name: 'DesktopHeader',
@@ -49,22 +48,7 @@ export default {
     }
   },
 
-  async mounted() {
-    this.logoLink = await this.getLogoLink()
-  },
-
   methods: {
-    async getLogoLink() {
-      if (this.isAuthenticated) {
-        const firstIdea = await getFirstIdea(this.$amplifyApi)
-        if (firstIdea) {
-          return `/i/${firstIdea.shortId}/${firstIdea.slug}`
-        }
-      }
-
-      return '/'
-    },
-
     signOut() {
       this.$emit('signOut')
     },

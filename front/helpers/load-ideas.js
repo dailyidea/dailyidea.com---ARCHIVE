@@ -1,4 +1,4 @@
-const pageSize = 25
+const pageSize = 1
 
 async function loadIdeas(
   api,

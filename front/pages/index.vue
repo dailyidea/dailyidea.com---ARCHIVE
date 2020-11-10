@@ -49,8 +49,9 @@ export default {
     Welcome,
     SliderDots
   },
+
   async asyncData({ app }) {
-    let result = await app.$amplifyApi.graphql({
+    const result = await app.$amplifyApi.graphql({
       query: getPublicIdeas,
       variables: {
         nextToken: null,
@@ -59,10 +60,7 @@ export default {
       authMode: 'API_KEY'
     })
 
-    result = result.data.getPublicIdeas
-    return {
-      ideas: result.items
-    }
+    return { ideas: result.data.getPublicIdeas.items }
   },
 
   data: () => ({

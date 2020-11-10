@@ -49,20 +49,13 @@
 <script>
 import ideasListIdea from './ideasListIdea'
 import ideasListEmptyMessage from './ideasListEmptyMessage'
-import { ORDER } from '@/components/ideasList/ideasOrdering'
-
-const orderOptions = [
-  { title: 'Sort by Newest', code: ORDER.DATE_DESC },
-  { title: 'Sort by Oldest', code: ORDER.DATE_ASC },
-  { title: 'Most Popular', code: ORDER.LIKES },
-  { title: 'Most Commented', code: ORDER.COMMENTS },
-  { title: 'Alphabetically Up', code: ORDER.TITLE_ASC },
-  { title: 'Alphabetically Down', code: ORDER.TITLE_DESC }
-]
+import { ORDER, orderOptions } from '@/helpers/ideas-ordering'
 
 export default {
   name: 'IdeasList',
+
   components: { ideasListIdea, ideasListEmptyMessage },
+
   props: {
     ideas: { type: Array, required: true },
     allowLoadMore: { type: Boolean, default: false },
@@ -71,13 +64,16 @@ export default {
     initialOrder: { type: String, default: ORDER.DATE_DESC },
     allowOrder: { type: Boolean, default: true }
   },
+
   data() {
     return {
       selectedOrder: orderOptions.filter(o => o.code === this.initialOrder)[0],
       orderOptions
     }
   },
+
   computed: {},
+
   methods: {
     onChangeOrder(val) {
       this.selectedOrder = orderOptions.filter(o => o.code === val)[0]

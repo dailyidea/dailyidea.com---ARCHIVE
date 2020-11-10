@@ -14,7 +14,7 @@
 
 <script>
 import ideasListPage from '@/components/ideasList/ideasListPage'
-import loadIdeas from '@/components/ideasList/loadIdeas'
+import loadIdeas from '@/helpers/load-ideas'
 import getUsersIdeas from '~/graphql/query/getUsersIdeas'
 
 export default {

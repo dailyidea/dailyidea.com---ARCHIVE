@@ -1,6 +1,7 @@
 <template>
   <div>
     <idea-lightbox
+      v-if="idea"
       :value="!!expandedIdea && $vuetify.breakpoint.mdAndDown"
       :idea="expandedIdea"
       @input="expandedIdea = null"
@@ -10,15 +11,15 @@
       <template v-slot:header>
         <categories-sub-header
           :category-selected="category"
-          @category-clicked="handleCategoryClicked"
+          @category-clicked="updateCurrCategory"
         ></categories-sub-header>
       </template>
       <idea-card-skeleton />
       <swiper
         class="idea-card pointer-events-none"
         :swipe-disabled="!!expandedIdea"
-        @swipe-start="setHideSlideMenuTrue"
-        @swipe-end="setHideSlideMenuFalse"
+        @swipe-start="hideSlideMenu = true"
+        @swipe-end="hideSlideMenu = false"
         @swipe-left="nextIdea"
         @swipe-right="previousIdea"
         @left-arrow-clicked="previousIdea"
@@ -33,7 +34,7 @@
             :style="rotationStyle"
           ></swipe-explainer>
           <idea-swipable-card
-            v-else
+            v-else-if="idea"
             ref="page"
             class="card"
             :idea="idea"
@@ -51,14 +52,9 @@
 <script>
 import clip from 'text-clipper'
 import Cookies from 'js-cookie'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState, mapActions, mapMutations } from 'vuex'
 import Layout from '@/components/layout/Layout'
-import {
-  getNewIdeas,
-  getTopIdeas
-} from '@/components/ideaDetail/ideaSwipeQueue.js'
 import Swiper from '@/components/ideaDetail/Swiper'
-import getIdea from '@/graphql/query/getIdea'
 import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 import IdeaCardSkeleton from '@/components/ideaDetail/IdeaCardSkeleton'
 import SwipeExplainer from '@/components/ideaDetail/SwipeExplainer'
@@ -77,23 +73,23 @@ export default {
     SwipeExplainer
   },
 
-  async asyncData({ app, route, redirect, error, res, store }) {
+  async fetch({ app, route, store, redirect, error }) {
+    const { shortId, slug } = route.params
+    const queue = store.state.ideas.ideasQueues[store.state.ideas.currCategory]
+    const ideaIdx = queue.ideas.findIndex(i => i.shortId === shortId)
+    if (ideaIdx !== -1) {
+      // We already have that idea loaded, just return to needed index
+      return store.dispatch('ideas/updateIndex', { app, ideaIdx })
+    }
+
     try {
-      const { data } = await app.$amplifyApi.graphql({
-        query: getIdea,
-        variables: { shortId: route.params.shortId },
-        authMode: store.getters['userData/isAuthenticated']
-          ? undefined
-          : 'API_KEY'
-      })
-      const idea = data.getIdea
+      await store.dispatch('ideas/getIdea', { app, shortId })
 
       // Redirect to correct slug if it doesn't match
-      if (idea.slug !== route.params.slug) {
+      const idea = store.getters['ideas/currIdea']
+      if (idea.slug !== slug) {
         return redirect(301, `/i/${idea.shortId}/${idea.slug}`)
       }
-
-      return { idea, ideaQueue: [idea] }
     } catch (e) {
       error({ statusCode: 404, message: 'Idea not found' })
     }
@@ -101,104 +97,76 @@ export default {
 
   data() {
     return {
-      ideaIndex: 1,
-      ideaQueue: [],
-      nextToken: null,
       hideSlideMenu: false,
-      idea: null,
       showExplainer: false,
-      category: 'top',
       expandedIdea: null,
       expandWithEdit: false
     }
   },
 
   computed: {
+    ...mapState({
+      category: s => s.ideas.currCategory
+    }),
+
     ...mapGetters({
       userId: 'userData/userId',
-      isAuthenticated: 'userData/isAuthenticated'
+      isAuthenticated: 'userData/isAuthenticated',
+      idea: 'ideas/currIdea',
+      currIdeas: 'ideas/currIdeas'
     })
   },
 
-  mounted() {
-    this.cacheIdeas(this.getCategoryFromURL())
-    this.incrementViews()
+  watch: {
+    idea(val) {
+      if (val && window.history.state.prev !== this.ideaUrl()) {
+        window.history.pushState({ prev: this.ideaUrl() }, '', this.ideaUrl())
+      }
+    },
 
-    // Show success diaslog for jsut created idea
+    category() {
+      if (!this.currIdeas.length) {
+        this.getQueue({ app: this })
+      }
+    }
+  },
+
+  created() {
+    this.updateCurrCategory(this.$route.query.category)
+  },
+
+  mounted() {
+    // Show success dialog for jsut created idea
     if (this.idea && this.createdIdeaId === this.idea.ideaId) {
       this.showIdeaPostedDialog = true
-      // this.updateCreatedIdea(null)
     }
     this.showExplainer = !Cookies.get('hasSeenExplainer')
+    this.incrementViews()
+    this.getQueue({ app: this })
   },
 
   methods: {
-    getIdeasFunction(category) {
-      switch (category) {
-        case 'top':
-          return getTopIdeas
-        default:
-          return getNewIdeas
-      }
-    },
+    ...mapActions({
+      getIdea: 'ideas/getIdea',
+      getQueue: 'ideas/getQueue',
+      updateIndex: 'ideas/updateIndex'
+    }),
 
-    ideaSlug(newCategory) {
-      let category = this.category
+    ...mapMutations({
+      updateCurrCategory: 'ideas/UPDATE_CURR_CATEGORY'
+    }),
 
-      if (newCategory) {
-        category = newCategory
-      }
-
-      return `/i/${this.idea.shortId}/${this.idea.slug}?category=${category}`
-    },
-
-    getCategoryFromURL() {
-      let category = 'top'
-
-      const queryCategory = this.$route.query.category
-      if (queryCategory) {
-        category = queryCategory
-      }
-
-      this.category = category
-
-      return category
+    ideaUrl(newCategory) {
+      const { shortId, slug } = this.idea
+      return `/i/${shortId}/${slug}?category=${newCategory || this.category}`
     },
 
     nextIdea() {
-      this.loadNewIdea(1)
+      this.updateIndex({ app: this, direction: 1 })
     },
 
     previousIdea() {
-      this.loadNewIdea(-1)
-    },
-
-    loadNewIdea(direction) {
-      this.ideaIndex += direction
-
-      if (this.ideaIndex >= this.ideaQueue.length || this.ideaIndex < 0) {
-        this.ideaIndex -= direction
-      }
-
-      if (!this.ideaQueue[this.ideaIndex]) {
-        return
-      }
-
-      this.idea = this.ideaQueue[this.ideaIndex]
-      if (this.ideaIndex > this.ideaQueue.length / 2) {
-        this.cacheIdeas(this.category)
-      }
-      this.updateIdeaSlug()
-    },
-
-    async handleCategoryClicked(category) {
-      this.ideaIndex = 0
-      this.category = category
-      this.ideaQueue = []
-      this.nextToken = null
-      await this.cacheIdeas(category)
-      this.idea = this.ideaQueue[this.ideaIndex]
-      this.$router.push(`${this.ideaSlug(category)}`)
+      this.updateIndex({ app: this, direction: -1 })
     },
 
     async incrementViews() {
@@ -216,31 +184,19 @@ export default {
       }
     },
 
-    updateIdeaSlug() {
-      window.history.pushState('', '', this.ideaSlug())
-    },
-    async cacheIdeas(category) {
-      const ideasFunction = await this.getIdeasFunction(category)
-      const ideas = await ideasFunction(this.$amplifyApi, this.nextToken)
-      this.ideaQueue = Array.prototype.concat(this.ideaQueue, ideas.ideas)
-      this.nextToken = ideas.nextToken
-    },
-    setHideSlideMenuTrue() {
-      this.hideSlideMenu = true
-    },
-    setHideSlideMenuFalse() {
-      this.hideSlideMenu = false
-    },
-
     animationOutEnd() {
       if (this.showExplainer) {
         Cookies.set('hasSeenExplainer', 1, { expires: 365 })
+        this.showExplainer = false
       }
-      this.showExplainer = false
     }
   },
 
   head() {
+    if (!this.idea) {
+      return {}
+    }
+
     const truncatedIdeaContent = clip(this.idea.content, 180, {
       html: true,
       maxLines: 8,
