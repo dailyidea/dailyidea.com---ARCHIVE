@@ -1,7 +1,7 @@
 <template>
-  <v-content class="fill-height">
+  <v-main class="fill-height">
     <welcome-content :params="params"></welcome-content>
-  </v-content>
+  </v-main>
 </template>
 <script>
 import WelcomeContent from './WelcomeContent'

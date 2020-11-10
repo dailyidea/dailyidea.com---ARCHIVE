@@ -17,14 +17,14 @@
 
     <!-- Router contents -->
     <div class="content-container">
-      <v-content class="nuxtContainer">
+      <v-main class="nuxtContainer">
         <v-layout>
           <v-flex>
             <slot />
           </v-flex>
         </v-layout>
         <vue-snotify />
-      </v-content>
+      </v-main>
     </div>
 
     <div v-if="!hideMobileNav" class="hidden-md-and-up sticky-footer">

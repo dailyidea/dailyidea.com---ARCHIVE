@@ -53,7 +53,7 @@ export const actions = {
         app.$amplifyApi,
         'getPublicIdeas',
         getPublicIdeasForQueue,
-        { nextToken, order: categoriesOrders[state.currCategory], limit: 10 },
+        { nextToken, order: categoriesOrders[state.currCategory], limit },
         'API_KEY'
       )
 
