@@ -1,10 +1,14 @@
 <template>
   <span class="links d-flex flex-row align-center justify-space-between">
-    <span class="link" :class="{ active: page === 'explore' }" :to="'/'">
+    <nuxt-link
+      class="link"
+      :class="{ active: page === 'explore' }"
+      to="/ideas-cards"
+    >
       <bulb-icon v-if="page !== 'explore'" :fill="inactiveColor" class="img" />
       <bulb-on-icon v-else :fill="activeColor" class="active-bulb" />
       <span :class="{ 'link-highlight': page === 'explore' }">Explore</span>
-    </span>
+    </nuxt-link>
     <nuxt-link
       class="link"
       :class="{ active: page === 'post', disabled: !slug }"

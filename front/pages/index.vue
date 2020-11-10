@@ -36,7 +36,6 @@ import Swiper from '@/components/ideaDetail/Swiper'
 import Welcome from '@/components/welcome/Welcome'
 import SliderDots from '@/components/layout/svgIcons/SliderDots'
 import Layout from '@/components/layout/Layout'
-import getPublicIdeas from '~/graphql/query/getPublicIdeas'
 import SwipableCard from '@/components/shared/SwipableCard'
 import SwipeExplainerBar from '@/components/home/SwipeExplainerBar'
 
@@ -48,19 +47,6 @@ export default {
     Swiper,
     Welcome,
     SliderDots
-  },
-
-  async asyncData({ app }) {
-    const result = await app.$amplifyApi.graphql({
-      query: getPublicIdeas,
-      variables: {
-        nextToken: null,
-        limit: 3
-      },
-      authMode: 'API_KEY'
-    })
-
-    return { ideas: result.data.getPublicIdeas.items }
   },
 
   data: () => ({
@@ -102,17 +88,11 @@ export default {
     },
 
     loadNewIdea(direction) {
-      let newIndex = this.ideaIndex + direction
-      if (newIndex < 0) {
-        newIndex = 0
-      }
-      if (newIndex > 2) {
-        const idea = this.ideas[0]
-        if (idea) {
-          this.$router.push(`/i/${idea.shortId}/${idea.slug}`)
-        }
+      const index = Math.max(this.ideaIndex + direction, 0)
+      if (index > 2) {
+        this.$router.push('/ideas-cards')
       } else {
-        this.ideaIndex = newIndex
+        this.ideaIndex = index
       }
     },
 

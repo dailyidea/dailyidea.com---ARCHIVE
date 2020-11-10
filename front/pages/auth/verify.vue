@@ -94,7 +94,7 @@ export default {
             : "Hooray! We'll direct you to your dashboard next..."
         }
 
-        this.$router.replace(next || '/')
+        this.$router.replace(next || '/ideas-cards')
       } catch (e) {
         this.progressBarActive = false
         this.expired = true

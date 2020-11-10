@@ -1,5 +1,5 @@
 <template>
-  <card class="card" :additional-styling="additionalStyling">
+  <swipable-card>
     <v-col cols="12" class="idea-part">
       <v-row class="idea-part__header no-gutters" no-gutters>
         <v-col class="idea-part__header__title">
@@ -27,14 +27,14 @@
         </div>
       </div>
     </v-col>
-  </card>
+  </swipable-card>
 </template>
 
 <script>
-import Card from '@/components/shared/Card'
+import SwipableCard from '@/components/shared/SwipableCard'
 
 export default {
-  components: { Card },
+  components: { SwipableCard },
 
   props: {
     additionalStyling: { type: Object, default: Object }
