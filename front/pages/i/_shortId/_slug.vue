@@ -18,6 +18,8 @@
       <swiper
         class="idea-card pointer-events-none"
         :swipe-disabled="!!expandedIdea"
+        :reverse-in-right="firstInStack"
+        :reverse-in-left="lastInStack"
         @swipe-start="hideSlideMenu = true"
         @swipe-end="hideSlideMenu = false"
         @swipe-left="nextIdea"
@@ -25,6 +27,7 @@
         @left-arrow-clicked="previousIdea"
         @right-arrow-clicked="nextIdea"
         @animation-out-end="animationOutEnd"
+        @animation-in-end="animationInEnd"
         @swipe-parent-click="$refs.page.expandToggle()"
       >
         <template v-slot="{ rotationStyle }">
@@ -100,7 +103,9 @@ export default {
       hideSlideMenu: false,
       showExplainer: false,
       expandedIdea: null,
-      expandWithEdit: false
+      expandWithEdit: false,
+      firstInStack: true,
+      lastInStack: false
     }
   },
 
@@ -112,6 +117,7 @@ export default {
     ...mapGetters({
       userId: 'userData/userId',
       isAuthenticated: 'userData/isAuthenticated',
+      currIndex: 'ideas/currIndex',
       idea: 'ideas/currIdea',
       currIdeas: 'ideas/currIdeas'
     })
@@ -161,12 +167,22 @@ export default {
       return `/i/${shortId}/${slug}?category=${newCategory || this.category}`
     },
 
-    nextIdea() {
-      this.updateIndex({ app: this, direction: 1 })
+    async nextIdea() {
+      if (this.lastInStack) {
+        this.$notifier.error(
+          "Oops, you've reached the end! Please swipe the other way!"
+        )
+      }
+      await this.updateIndex({ app: this, direction: 1 })
     },
 
-    previousIdea() {
-      this.updateIndex({ app: this, direction: -1 })
+    async previousIdea() {
+      if (this.firstInStack) {
+        this.$notifier.error(
+          "Oops, you're already at the beginning -- Please swipe the other way! :)"
+        )
+      }
+      await this.updateIndex({ app: this, direction: -1 })
     },
 
     async incrementViews() {
@@ -189,6 +205,11 @@ export default {
         Cookies.set('hasSeenExplainer', 1, { expires: 365 })
         this.showExplainer = false
       }
+    },
+
+    animationInEnd() {
+      this.firstInStack = this.currIndex === 0
+      this.lastInStack = this.currIndex === this.currIdeas.length - 1
     }
   },
 
