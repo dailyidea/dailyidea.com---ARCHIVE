@@ -28,12 +28,14 @@
 </template>
 <script>
 export default {
-  name: 'Swiper',
   props: {
     swipeDisabled: Boolean,
     allowLeft: { type: Boolean, default: true },
-    allowRight: { type: Boolean, default: true }
+    allowRight: { type: Boolean, default: true },
+    reverseInRight: { type: Boolean, default: false },
+    reverseInLeft: { type: Boolean, default: false }
   },
+
   data() {
     return {
       tapping: false,
@@ -51,41 +53,12 @@ export default {
       cardAnimationSpeed: 200 // milliseconds
     }
   },
+
   computed: {
     offPageWidth() {
       const swipeContainerWidth = this.$refs.swipe.clientWidth
 
       return window.outerWidth + swipeContainerWidth
-    },
-
-    x: {
-      set(val) {
-        this.xVal = val
-      },
-
-      get() {
-        return this.xVal
-      }
-    },
-
-    y: {
-      set(val) {
-        this.yVal = val
-      },
-
-      get() {
-        return this.yVal
-      }
-    },
-
-    rotation: {
-      set(val) {
-        this.rotationVal = val
-      },
-
-      get() {
-        return this.rotationVal
-      }
     },
 
     positionStyle() {
@@ -97,16 +70,18 @@ export default {
 
     rotationStyle() {
       return {
-        transform: `rotate(${this.rotation}deg)`,
+        transform: `rotate(${this.rotationVal}deg)`,
         transformOrigin: '50% 500px',
         transition: this.animate ? `${this.cardAnimationSpeed / 1000}s` : ''
       }
     }
   },
+
   mounted() {
     this.setupTouchListener()
     this.setupArrowKeyListener()
   },
+
   methods: {
     getPos(event) {
       let x
@@ -122,6 +97,7 @@ export default {
 
       return { x, y }
     },
+
     setPos(event) {
       if (this.swipeDisabled) {
         return
@@ -141,68 +117,77 @@ export default {
       }
 
       event.preventDefault()
-      this.x = x - this.xStart
-      this.rotation = this.getRotation(x)
+      this.xVal = x - this.xStart
+      this.rotationVal = this.getRotation(x)
     },
+
     getRotation(x) {
       const rotation = (x - this.xStart) / 10
-      this.y = Math.abs(rotation * 5)
+      this.yVal = Math.abs(rotation * 5)
       return rotation > 180 ? 180 : rotation
     },
+
     startSwipe() {
       this.$emit('swipe-start')
       this.swipeInProgress = true
     },
+
     endSwipe() {
       this.$emit('swipe-end')
       this.swipeInProgress = false
     },
+
     enableAnimation() {
       this.animate = true
     },
+
     disableAnimation() {
       this.animate = false
     },
-    queueNextAnimation(method, args = {}) {
-      setTimeout(() => {
-        method(args)
-      }, this.cardAnimationSpeed)
-    },
-    resetSwipePosition() {
-      this.enableAnimation()
-      this.x = 0
-      this.y = 0
-      this.rotation = 0
-      this.queueNextAnimation(this.disableAnimation)
-      this.$emit('animation-in-end')
 
-      // Wait until the card is back in its original position to reenable side scroll.
-      setTimeout(() => {
-        this.enableSideScroll()
-      }, this.cardAnimationSpeed)
+    queueNextAnimation(method, args = {}) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          method(args)
+          resolve()
+        }, this.cardAnimationSpeed)
+      })
     },
+
+    async resetSwipePosition() {
+      this.enableAnimation()
+      this.xVal = 0
+      this.yVal = 0
+      this.rotationVal = 0
+      await this.queueNextAnimation(this.disableAnimation)
+      this.enableSideScroll()
+      this.$emit('animation-in-end')
+    },
+
     setSwipeLeftCardPos(args) {
       // If we don't disable animation
       // Then the card will look like it's zooming
       // across the page
 
       this.disableAnimation()
-      this.x = this.offPageWidth
+      this.xVal = this.reverseInLeft ? -this.offPageWidth : this.offPageWidth
       if (!args.noRotation) {
-        this.rotation = this.getRotation(this.x)
+        this.rotationVal = this.getRotation(this.xVal)
       }
       this.queueNextAnimation(this.resetSwipePosition)
       this.$emit('animation-out-end')
     },
+
     setSwipeRightCardPos(args) {
       this.disableAnimation()
-      this.x = -this.offPageWidth
+      this.xVal = this.reverseInRight ? this.offPageWidth : -this.offPageWidth
       if (!args.noRotation) {
-        this.rotation = this.getRotation(this.x)
+        this.rotationVal = this.getRotation(this.xVal)
       }
       this.queueNextAnimation(this.resetSwipePosition)
       this.$emit('animation-out-end')
     },
+
     fingerDown(event) {
       this.tapping = true
       const { x, y } = this.getPos(event)
@@ -212,24 +197,25 @@ export default {
       this.xDistanceToCenter = x - this.xCenter
       this.setPos(event)
     },
+
     fingerUp(event) {
       this.tapping = false
       this.endSwipe()
-      if (this.x) {
+      if (this.xVal) {
         // Disable side scrolling otherwise swiping during the animation
         // will create weird behavior.
         this.disableSideScroll()
         this.enableAnimation()
-        if (this.x > this.minSwipeDistanceBeforeAction) {
-          this.x = this.offPageWidth
-          this.rotation = this.getRotation(this.x)
+        if (this.xVal > this.minSwipeDistanceBeforeAction) {
+          this.xVal = this.offPageWidth
+          this.rotationVal = this.getRotation(this.xVal)
           this.queueNextAnimation(this.setSwipeRightCardPos)
           if (this.allowLeft) {
             this.$emit('swipe-right')
           }
-        } else if (this.x < -this.minSwipeDistanceBeforeAction) {
-          this.x = -this.offPageWidth
-          this.rotation = this.getRotation(this.x)
+        } else if (this.xVal < -this.minSwipeDistanceBeforeAction) {
+          this.xVal = -this.offPageWidthf
+          this.rotationVal = this.getRotation(this.xVal)
           this.queueNextAnimation(this.setSwipeLeftCardPos)
           if (this.allowRight) {
             this.$emit('swipe-left')
@@ -239,12 +225,15 @@ export default {
         }
       }
     },
+
     disableSideScroll() {
       document.querySelector('body').style.overflowX = 'hidden'
     },
+
     enableSideScroll() {
       document.querySelector('body').style.overflowX = ''
     },
+
     fingerMove(event) {
       if (!this.tapping) {
         this.fingerDown(event)
@@ -252,6 +241,7 @@ export default {
         this.setPos(event)
       }
     },
+
     setupArrowKeyListener() {
       window.onkeydown = event => {
         if (event.key === 'ArrowLeft') {
@@ -261,25 +251,29 @@ export default {
         }
       }
     },
+
     setupTouchListener() {
       this.$refs.swipe.addEventListener('touchend', this.fingerUp)
       this.$refs.swipe.addEventListener('touchmove', this.fingerMove)
     },
+
     leftArrowClick() {
       this.enableAnimation()
-      this.x = this.offPageWidth
+      this.xVal = this.offPageWidth
       this.queueNextAnimation(this.setSwipeRightCardPos, { noRotation: true })
       this.$emit('left-arrow-clicked')
     },
+
     rightArrowClick() {
       this.enableAnimation()
-      this.x = -this.offPageWidth
+      this.xVal = -this.offPageWidth
       this.queueNextAnimation(this.setSwipeLeftCardPos, { noRotation: true })
       this.$emit('right-arrow-clicked')
     }
   }
 }
 </script>
+
 <style scoped lang="scss">
 @media (max-width: $screen-sm-max) {
   .swipe-parent,
