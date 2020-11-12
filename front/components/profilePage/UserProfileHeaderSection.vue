@@ -36,11 +36,14 @@
                   <span v-if="!isMyProfile" class="desktop-follow-header">
                     <v-btn
                       v-if="!isFollowedByMe"
-                      class="follow-btn"
+                      class="follow-btn ml-4"
                       @click="followBtnClicked"
                       >Follow</v-btn
                     >
-                    <v-btn v-else class="follow-btn" @click="unfollowBtnClicked"
+                    <v-btn
+                      v-else
+                      class="follow-btn ml-4"
+                      @click="unfollowBtnClicked"
                       >Unfollow</v-btn
                     >
                   </span>
