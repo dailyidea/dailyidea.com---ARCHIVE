@@ -57,6 +57,10 @@ export default {
     height: 100%;
     margin: 0 auto;
 
+    @media (min-width: $screen-md-min) {
+      max-width: 70vw;
+    }
+
     .link {
       position: relative;
       z-index: 10;
