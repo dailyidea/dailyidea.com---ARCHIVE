@@ -124,21 +124,21 @@
 
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
+import { mapGetters } from 'vuex'
 import UserProfileAvatar from './UserProfileAvatar'
 import followUser from '~/graphql/mutations/followUser.js'
 import userInfo from '~/graphql/query/userInfo.js'
 import unfollowUser from '~/graphql/mutations/unfollowUser.js'
 
 export default {
-  name: 'UserProfileHeaderSection',
   components: { UserProfileAvatar },
+
   props: {
     profileData: { type: Object, required: true },
-
     ideaCount: { type: Number, default: 0 },
-
     isMyProfile: { type: Boolean, requried: true }
   },
+
   data() {
     return {
       editMode: false,
@@ -153,7 +153,10 @@ export default {
       }
     }
   },
+
   computed: {
+    ...mapGetters({ userId: 'userData/userId' }),
+
     ideasLink() {
       return `/profile/${this.profileData.slug}`
     },
@@ -174,6 +177,7 @@ export default {
   mounted() {
     this.getFollowInfo()
   },
+
   methods: {
     backClicked() {
       this.$router.go(-1)
@@ -188,6 +192,9 @@ export default {
     },
 
     async followBtnClicked() {
+      if (!this.userId) {
+        return this.$router.push('/auth/login')
+      }
       await this.$amplifyApi.graphql(
         graphqlOperation(followUser, { userId: this.profileData.userId })
       )
