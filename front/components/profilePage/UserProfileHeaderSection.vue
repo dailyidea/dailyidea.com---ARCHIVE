@@ -86,10 +86,16 @@
           <span
             v-if="isMyProfile"
             :class="{ 'link-highlight': page === 'profile' }"
-            >{{ linkText('My Ideas', 'profile') }}</span
+            >{{
+              linkText('My Ideas', 'profile', profileData.ideasCreated)
+            }}</span
           >
           <span v-else :class="{ 'link-highlight': page === 'profile' }">{{
-            linkText(`${profileData.name}'s Ideas`, 'profile')
+            linkText(
+              `${profileData.name}'s Ideas`,
+              'profile',
+              profileData.ideasCreated
+            )
           }}</span>
         </nuxt-link>
         <nuxt-link
@@ -189,13 +195,13 @@ export default {
       this.getFollowInfo()
     },
 
-    linkText(baseText, page) {
+    linkText(baseText, page, count = this.ideaCount) {
       if (this.page !== page) {
         return baseText
       }
 
-      if (this.ideaCount > 0) {
-        return baseText + ` (${this.ideaCount})`
+      if (count > 0) {
+        return baseText + ` (${count})`
       }
 
       return baseText
