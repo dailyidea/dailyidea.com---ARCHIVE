@@ -110,7 +110,7 @@ export default {
         await this.$store.commit('userData/setUserIsAuthenticated')
         await this.$store.dispatch('userData/fetchUserData')
 
-        this.$router.replace('/ideas/all')
+        this.$router.replace('/ideas-cards')
       } catch (e) {
         if (e.response && e.response.status === 400) {
           await this.processError(e.response.data)

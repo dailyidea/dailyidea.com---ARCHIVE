@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     goToIdeasPage() {
-      this.$router.replace('/ideas/all')
+      this.$router.replace('/ideas-cards')
     },
     setWasWelcomed() {
       this.$amplifyApi.graphql(
