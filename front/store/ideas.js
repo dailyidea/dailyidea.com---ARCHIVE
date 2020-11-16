@@ -11,7 +11,7 @@ const categoriesOrders = {
 }
 
 const queueData = {
-  category: 'top',
+  category: 'new',
   loading: false,
   ideas: [],
   currIndex: 0,
@@ -20,7 +20,7 @@ const queueData = {
 
 export const state = () => ({
   createdIdeaId: null,
-  currCategory: 'top',
+  currCategory: 'new',
 
   ideasQueues: {
     top: merge({}, queueData),
