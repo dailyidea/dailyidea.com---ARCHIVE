@@ -3,14 +3,16 @@
     <swipe-explainer-bar :idea-index="ideaIndex" />
     <swiper
       v-slot="{ rotationStyle }"
-      :swipe-disabled="isExpanded"
       :allow-left="ideaIndex > 0"
+      :reverse-in-right="firstInStack"
       @swipe-start="setHideSlideMenuTrue"
       @swipe-end="setHideSlideMenuFalse"
       @swipe-left="nextIdea"
       @swipe-right="previousIdea"
       @left-arrow-clicked="previousIdea"
       @right-arrow-clicked="nextIdea"
+      @animation-in-end="animationInEnd"
+      @animation-out-end="animationOutEnd"
     >
       <swipable-card
         ref="page"
@@ -56,31 +58,14 @@ export default {
     },
     ideas: null,
     ideaIndex: 0,
-    isLandscape: false,
-    hideSlideMenu: true
+    hideSlideMenu: true,
+    firstInStack: true
   }),
-
-  computed: {
-    isExpanded: {
-      set() {
-        this.expandedState = !this.expandedState
-      },
-      get() {
-        return this.expandedState === undefined ? false : this.expandedState
-      }
-    }
-  },
-
-  mounted() {
-    this.isLandscape = window.innerWidth > window.innerHeight
-    window.addEventListener('resize', event => {
-      this.isLandscape = window.innerWidth > window.innerHeight
-    })
-  },
 
   methods: {
     nextIdea() {
       this.loadNewIdea(1)
+      this.firstInStack = this.ideaIndex === 0
     },
 
     previousIdea() {
@@ -102,6 +87,18 @@ export default {
 
     setHideSlideMenuFalse() {
       this.hideSlideMenu = false
+    },
+
+    animationInEnd() {
+      this.firstInStack = this.ideaIndex === 0
+    },
+
+    animationOutEnd() {
+      if (this.firstInStack) {
+        this.$notifier.error(
+          "Oops, you're already at the beginning -- Please swipe the other way! :)"
+        )
+      }
     }
   }
 }
