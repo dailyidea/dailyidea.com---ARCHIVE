@@ -22,7 +22,7 @@ export default {
         throw new Error('Ideas not found')
       }
 
-      return redirect(301, `/i/${idea.shortId}/${idea.slug}?category=top`)
+      return redirect(301, `/i/${idea.shortId}/${idea.slug}?category=new`)
     } catch (e) {
       error({ statusCode: 404, message: 'Ideas not found' })
     }

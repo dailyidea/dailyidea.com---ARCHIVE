@@ -3,17 +3,17 @@
     <div class="header-sub-container d-flex flex-row">
       <span
         class="link"
-        :class="{ active: category === 'top' }"
-        @click="emitCategoryClicked('top')"
-      >
-        <span :class="{ 'link-highlight mt-1': category === 'top' }">Top</span>
-      </span>
-      <span
-        class="link"
         :class="{ active: category === 'new' }"
         @click="emitCategoryClicked('new')"
       >
         <span :class="{ 'link-highlight mt-1': category === 'new' }">New</span>
+      </span>
+      <span
+        class="link"
+        :class="{ active: category === 'top' }"
+        @click="emitCategoryClicked('top')"
+      >
+        <span :class="{ 'link-highlight mt-1': category === 'top' }">Top</span>
       </span>
     </div>
   </div>
