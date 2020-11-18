@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex flex-column fill-height"
+    class="d-flex flex-column fill-height overflow-hidden"
     style="flex: 1;"
     :class="{ preview }"
   >
