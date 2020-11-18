@@ -1,40 +1,37 @@
 <template>
-  <Layout>
-    <card>
-      <div class="text-center" style="position: relative; width: 100%;">
-        <v-progress-linear
-          :indeterminate="true"
-          :active="sending"
-          :height="2"
-          absolute
-        ></v-progress-linear>
+  <card-layout>
+    <div class="text-center" style="position: relative; width: 100%;">
+      <v-progress-linear
+        :indeterminate="true"
+        :active="sending"
+        :height="2"
+        absolute
+      ></v-progress-linear>
 
-        <h1 class="mt-5 font-weight-regular text-h1" style="font-size: 3rem;">
-          Looks like this link is expired.
-        </h1>
-        <p class="mb-10" style="font-size: 1.25rem; line-height: 1.2;">
-          The good news is that we just sent a new confirmation link to<br />
-          {{ email }}
-        </p>
-        <div class="ml-12 pl-2">
-          <img width="325" src="@/assets/images/bird-illustration.png" alt="" />
-        </div>
-        <div v-if="!hideSend" style="margin-top: -70px;">
-          <a href="#" class="link-highlight" @click.prevent="send2ndTime">
-            Resend link
-          </a>
-        </div>
+      <h1 class="mt-8 mb-5 font-weight-regular text-h3">
+        Looks like this link is expired.
+      </h1>
+      <p class="mb-10" style="font-size: 1.25rem; line-height: 1.2;">
+        The good news is that we just sent a new confirmation link to<br />
+        {{ email }}
+      </p>
+      <div class="ml-12 pl-2">
+        <img width="325" src="@/assets/images/bird-illustration.png" alt="" />
       </div>
-    </card>
-  </Layout>
+      <div v-if="!hideSend" style="margin-top: -70px;">
+        <a href="#" class="link-highlight" @click.prevent="send2ndTime">
+          Resend link
+        </a>
+      </div>
+    </div>
+  </card-layout>
 </template>
 
 <script>
-import Layout from '@/components/layout/Layout'
-import Card from '@/components/shared/Card'
+import CardLayout from '@/components/layout/CardLayout'
 
 export default {
-  components: { Card, Layout },
+  components: { CardLayout },
 
   props: {
     email: { type: String, required: true },
