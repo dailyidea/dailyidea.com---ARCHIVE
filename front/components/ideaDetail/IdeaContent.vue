@@ -55,6 +55,9 @@ export default {
 
   methods: {
     setAtScrollEnd() {
+      if (!this.$refs.scrollContainer) {
+        return
+      }
       const $el = this.$refs.scrollContainer
       const currentScrollLocation = $el.scrollTop
       const scrollMax = $el.scrollHeight - $el.clientHeight

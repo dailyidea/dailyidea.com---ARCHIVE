@@ -149,6 +149,7 @@ export default {
     this.showExplainer = !Cookies.get('hasSeenExplainer')
     this.incrementViews()
     this.getQueue({ app: this })
+    this.firstInStack = this.currIndex === 0
   },
 
   methods: {
