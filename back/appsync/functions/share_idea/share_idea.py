@@ -80,6 +80,9 @@ def endpoint(event, context):
     if idea_owner_id != sender_id and idea_to_send['visibility']['S'] != 'PUBLIC':
         return {'ok': False, 'error': 'Idea is private'}
 
+    shortId = idea_to_send['shortId']['S']
+    slug = idea_to_send['slug']['S']
+
     SUBJECT = f"[Daily Idea] {sender_name} sent you Idea!"  # change to name
     BUCKET_URL_PREFIX = os.environ.get('BUCKET_URL_PREFIX')
 
@@ -94,7 +97,7 @@ def endpoint(event, context):
         "BASE_SITE_URL": f"https://{os.environ['DOMAIN_NAME']}/",
         "idea": loads(idea_to_send),
         "idea_created_time": idea_created_time_formatted,
-        "link_to_idea": f"https://{os.environ['DOMAIN_NAME']}/ideas/{idea_owner_id}/{idea_id}",
+        "link_to_idea": f"https://{os.environ['DOMAIN_NAME']}/i/{shortId}/{slug}",
         "datetime": datetime,
     }
 
