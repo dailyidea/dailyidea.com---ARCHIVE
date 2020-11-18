@@ -1,5 +1,5 @@
 <template>
-  <div class="header-container ">
+  <div class="header-container">
     <div class="header-content">
       <v-row v-if="!isMyProfile" class="mobile-follow-header">
         <div class="follow-header-container">
@@ -279,19 +279,15 @@ export default {
 .header-container {
   display: flex;
   align-items: center;
-  width: 100vw;
   background-color: white;
   overflow: hidden;
 }
 
 .header-content {
+  width: 100%;
   @media (min-width: $screen-md-min) {
-    margin: 0 auto;
-    margin-top: 2rem;
-  }
-
-  @media (max-width: $screen-sm-max) {
-    width: 100%;
+    margin: 2rem auto 0;
+    width: 650px;
   }
 }
 
