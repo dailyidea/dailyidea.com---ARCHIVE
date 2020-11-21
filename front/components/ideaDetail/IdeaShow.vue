@@ -118,7 +118,7 @@ export default {
         return ''
       }
 
-      const content = this.idea.content || this.idea.strippedContent
+      const content = this.idea.content || this.idea.strippedContent || ''
       if (this.preview && content) {
         if (content.length > 255) {
           return `${content.substring(0, 255)}...`
