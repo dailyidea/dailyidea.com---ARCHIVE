@@ -17,38 +17,38 @@
       <div v-if="ideaIndex === 0" class="overflow-hidden">
         <div
           v-if="$vuetify.breakpoint.smAndDown"
-          style="width: 48px; height: 45px;"
+          style="width: 72px; height: 39px; margin: 0 -5px 0 5px;"
         >
           <img
-            src="~assets/images/home/swipeicon-left.svg"
+            src="~assets/images/home/swipeicon-left.gif"
             alt="Swipe left"
-            style="height: 68px; margin-top: -9px;"
+            style="width: 72px;"
           />
         </div>
         <div v-else style="width: 69px; height: 45px;">
           <img
-            src="~assets/images/home/press-right-arrow.svg"
+            src="~assets/images/home/press-right-arrow.gif"
             alt="Swipe right"
-            style="width: 60px; margin: 3px 0 0 3px;"
+            style="width: 66px; margin: 3px 0 0 3px;"
           />
         </div>
       </div>
       <div v-else>
         <div
           v-if="$vuetify.breakpoint.smAndDown"
-          style="width: 60px; height: 45px;"
+          style="width: 72px; height: 39px; margin: 0 -5px 0 5px;"
         >
           <img
-            src="~assets/images/home/swipeicon-both.svg"
+            src="~assets/images/home/swipeicon-both.gif"
             alt="Swipe"
-            style="width: 60px; margin: -2px 0 0;"
+            style="width: 72px;"
           />
         </div>
         <div v-else style="width: 69px; height: 45px;">
           <img
-            src="~assets/images/home/press-both-arrows.svg"
+            src="~assets/images/home/press-both-arrows.gif"
             alt="Swipe right"
-            style="width: 60px; margin: 3px 0 0 3px;"
+            style="width: 66px; margin: 3px 0 0 3px;"
           />
         </div>
       </div>
