@@ -4,9 +4,9 @@
 # Read more about containers on our dev center
 # http://devcenter.wercker.com/docs/containers/index.html
 box:
-  id: shaperid/cypress-python
-  username: $DOCKER_USERNAME
-  password: $DOCKER_PASSWORD
+  id: quay.io/shaperid/cypress-python
+  tag: latest
+  registry: quay.io
 
 # This is the build pipeline. Pipelines are the core of wercker
 # Read more about pipelines on our dev center
