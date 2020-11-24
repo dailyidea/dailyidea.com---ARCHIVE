@@ -1,32 +1,45 @@
 <template>
   <swipable-card>
-    <v-col cols="12" class="idea-part">
-      <v-row class="idea-part__header no-gutters" no-gutters>
-        <v-col class="idea-part__header__title">
-          <h2 class="idea-part__header__title__label">
-            Welcome to Daily Idea!
-          </h2>
-        </v-col>
-      </v-row>
-      <div class="idea-part__content-container">
-        <div class="idea-part__content">
-          <div class="idea-part__idea-content hide-scrollbar fade-bottom">
-            <div class="mb-4">
-              Welcome to the idea creating community, introduce yourself in the
-              comments!
-            </div>
-            <div class="mb-4">
-              Image here
-            </div>
-            <div>
-              Then get started exploring ideas, click on the right arrow to see
-              the next idea, and the left arrow to see previous one. Give it a
-              try now!
-            </div>
+    <div class="d-flex fill-height align-center justify-center overflow-y-auto">
+      <div class="m-auto">
+        <h1 class="text-center mb-6">
+          Welcome to Daily Idea!
+        </h1>
+
+        <div class="mb-6 text-center">
+          Welcome to the idea creating community{{
+            $vuetify.breakpoint.mdAndUp ? ',' : '!'
+          }}
+          <div v-if="$vuetify.breakpoint.mdAndUp">
+            introduce yourself in the comments!
           </div>
         </div>
+        <div class="mb-6 text-center">
+          <img
+            v-if="$vuetify.breakpoint.mdAndUp"
+            width="275"
+            src="~assets/images/home/press-both-arrows-big.gif"
+            alt="Arrows"
+          />
+          <img
+            v-else
+            width="202"
+            src="~assets/images/home/swipeicon-both-big.gif"
+            alt="Arrows"
+          />
+        </div>
+        <div v-if="$vuetify.breakpoint.mdAndUp" class="text-center">
+          Then get started exploring ideas, click on the right<br />
+          arrow to see the next idea, and the left arrow to see the<br />
+          previous one. Give it a try now!
+        </div>
+        <div v-else class="text-center">
+          Get started exploring ideas, swipe right<br />
+          to see the next idea, and left to see the<br />
+          previous one. Give it a try now!
+        </div>
       </div>
-    </v-col>
+    </div>
   </swipable-card>
 </template>
 
@@ -66,30 +79,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-.card {
-  height: 60vh;
-}
-
-.idea-part {
-  position: relative;
-
-  &__idea-content {
-    @media only screen and (min-width: $screen-md-min) {
-      overflow-y: auto;
-      min-height: 46vh;
-      max-height: 46vh;
-    }
-  }
-
-  &__header {
-    &__title {
-      text-transform: capitalize;
-      &__label {
-        font-weight: 100;
-      }
-    }
-  }
-}
-</style>
