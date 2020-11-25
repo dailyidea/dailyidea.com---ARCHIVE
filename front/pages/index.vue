@@ -1,9 +1,9 @@
 <template>
   <Layout>
-    <swipe-explainer-bar :idea-index="ideaIndex" />
+    <swipe-explainer-bar :idea-index="page" />
     <swiper
       v-slot="{ rotationStyle }"
-      :allow-left="ideaIndex > 0"
+      :allow-left="page > 0"
       :reverse-in-right="firstInStack"
       @swipe-start="setHideSlideMenuTrue"
       @swipe-end="setHideSlideMenuFalse"
@@ -19,35 +19,35 @@
         :style="rotationStyle"
         top-padding-desktop="15rem"
         top-padding-mobile="11rem"
+        class="overflow-y-auto"
       >
-        <welcome
-          :page-on="ideaIndex"
-          class="fill-height overflow-y-auto"
-        ></welcome>
+        <div class="fill-height d-flex justify-center align-center">
+          <pages :page="page" />
+        </div>
       </swipable-card>
     </swiper>
 
-    <div class="swipe-footer text-center py-5 hidden-md-and-down">
-      <slider-dots v-if="ideaIndex < 3" :step="ideaIndex" />
+    <div class="swipe-footer text-center pt-5 hidden-md-and-down">
+      <slider-dots v-if="page < 3" :step="page" />
     </div>
   </Layout>
 </template>
 
 <script>
 import Swiper from '@/components/ideaDetail/Swiper'
-import Welcome from '@/components/welcome/Welcome'
 import SliderDots from '@/components/layout/svgIcons/SliderDots'
 import Layout from '@/components/layout/Layout'
 import SwipableCard from '@/components/shared/SwipableCard'
 import SwipeExplainerBar from '@/components/home/SwipeExplainerBar'
+import Pages from '@/components/welcome/Pages'
 
 export default {
   components: {
+    Pages,
     SwipableCard,
     SwipeExplainerBar,
     Layout,
     Swiper,
-    Welcome,
     SliderDots
   },
 
@@ -57,7 +57,7 @@ export default {
       leftButtonType: 'hamburder'
     },
     ideas: null,
-    ideaIndex: 0,
+    page: 0,
     hideSlideMenu: true,
     firstInStack: true
   }),
@@ -65,7 +65,7 @@ export default {
   methods: {
     nextIdea() {
       this.loadNewIdea(1)
-      this.firstInStack = this.ideaIndex === 0
+      this.firstInStack = this.page === 0
     },
 
     previousIdea() {
@@ -73,11 +73,11 @@ export default {
     },
 
     loadNewIdea(direction) {
-      const index = Math.max(this.ideaIndex + direction, 0)
+      const index = Math.max(this.page + direction, 0)
       if (index > 2) {
         this.$router.push('/ideas-cards')
       } else {
-        this.ideaIndex = index
+        this.page = index
       }
     },
 
@@ -90,7 +90,7 @@ export default {
     },
 
     animationInEnd() {
-      this.firstInStack = this.ideaIndex === 0
+      this.firstInStack = this.page === 0
     },
 
     animationOutEnd() {
@@ -119,7 +119,6 @@ export default {
 }
 
 .swipe-footer {
-  height: 100px;
   width: 100%;
 }
 .swipe-header {
