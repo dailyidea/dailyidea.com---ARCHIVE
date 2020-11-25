@@ -109,7 +109,10 @@
 .theme--dark.v-btn {
   padding: 11px 24px !important;
   color: $btn-default-color !important;
-  font-family: Avenir LT Std;
+  font-family: Avenir, sans-serif;
+  font-size: 1rem;
+  font-weight: normal;
+  text-transform: none;
 
   &:hover {
     background-color: $btn-hover-background !important;
