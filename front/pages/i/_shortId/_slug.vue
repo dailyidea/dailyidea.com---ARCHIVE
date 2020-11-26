@@ -169,6 +169,9 @@ export default {
     },
 
     async nextIdea() {
+      if (this.showExplainer) {
+        return
+      }
       if (this.lastInStack) {
         this.$notifier.error(
           "Oops, you've reached the end! Please swipe the other way!"
@@ -178,6 +181,9 @@ export default {
     },
 
     async previousIdea() {
+      if (this.showExplainer) {
+        return
+      }
       if (this.firstInStack) {
         this.$notifier.error(
           "Oops, you're already at the beginning -- Please swipe the other way! :)"
