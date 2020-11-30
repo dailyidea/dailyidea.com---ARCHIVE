@@ -7,6 +7,7 @@ exports.handler = withSentry((event, context, callback) => {
     jwt.verify(event.request.challengeAnswer, process.env.SECRET_TOKEN)
     event.response.answerCorrect = true
   } catch (err) {
+    console.error(err.message)
     event.response.answerCorrect = false
   }
   callback(null, event)
