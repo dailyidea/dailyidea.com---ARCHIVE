@@ -236,9 +236,11 @@ export default {
         if (additionalAction) {
           this.$router.replace({ query: null })
           if (additionalAction === 'si' && this.action === 'save') {
-            await this.doIdeaAction(saveIdeaMutation)
+            const res = await this.doIdeaAction(saveIdeaMutation)
+            this.emitSaveStateChange(res.data.saveIdea)
           } else if (additionalAction === 'li' && this.action === 'like') {
-            await this.doIdeaAction(likeIdeaMutation)
+            const res = await this.doIdeaAction(likeIdeaMutation)
+            this.emitLikeStateChange(res.data.likeIdea)
           }
           if (this.userWasWelcomed) {
             if (this.action === 'save' && additionalAction === 'si') {
@@ -276,26 +278,22 @@ export default {
 
     async saveIdea(mutation) {
       const res = await this.doIdeaAction(mutation)
-      const result = res.data.saveIdea
-      this.emitSaveStateChange(result)
+      this.emitSaveStateChange(res.data.saveIdea)
     },
 
     async unsaveIdea(mutation) {
       const res = await this.undoIdeaAction(mutation)
-      const result = res.data.unsaveIdea
-      this.emitSaveStateChange(result)
+      this.emitSaveStateChange(res.data.unsaveIdea)
     },
 
     async likeIdea(mutation) {
       const res = await this.doIdeaAction(mutation)
-      const result = res.data.likeIdea
-      this.emitLikeStateChange(result)
+      this.emitLikeStateChange(res.data.likeIdea)
     },
 
     async unlikeIdea(mutation) {
       const res = await this.undoIdeaAction(mutation)
-      const result = res.data.unlikeIdea
-      this.emitLikeStateChange(result)
+      this.emitLikeStateChange(res.data.unlikeIdea)
     },
 
     async doIdeaAction(mutation) {
