@@ -132,6 +132,16 @@ export const mutations = {
 
   UPDATE_QUEUE_INDEX(state, index) {
     state.ideasQueues[state.currCategory].currIndex = index
+  },
+
+  UPDATE_IDEA(state, idea) {
+    const idx = state.ideasQueues[state.currCategory].ideas.findIndex(
+      i => i.ideaId === idea.ideaId
+    )
+    if (idx === -1) {
+      return
+    }
+    Object.assign(state.ideasQueues[state.currCategory].ideas[idx], idea)
   }
 }
 

@@ -5,5 +5,6 @@ mutation saveIdea( $ideaId: String! , $ideaOwnerId: String!) {
       ok
       error
     }
+    savesCount
   }
 }`
