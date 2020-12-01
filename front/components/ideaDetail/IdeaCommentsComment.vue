@@ -43,6 +43,12 @@
             <span class="muted ml-2 mt-1 delete-text">Delete</span>
           </v-btn>
         </div>
+        <div v-if="comment.temporary" class="pending-wrap">
+          <span class="pending-label">pending</span>
+          <span class="pending-text"
+            >Comment will be posted once email is confirmed</span
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -104,6 +110,11 @@ export default {
   }
 }
 
+.temporary {
+  background-color: #f8f8fa;
+  color: #74707d;
+}
+
 .comment-cont {
   @media only screen and (max-width: $screen-sm-max) {
     border-top: 2px solid $light-grey;
@@ -114,8 +125,11 @@ export default {
   }
 
   .item {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 10px;
     .comment-info {
       width: 100%;
 
@@ -134,5 +148,26 @@ export default {
       }
     }
   }
+}
+
+.pending-wrap {
+  padding: 0 7px;
+  margin-bottom: -0.25rem;
+}
+
+.pending-label {
+  display: inline-block;
+  padding: 0 10px;
+  border: 1px solid #5d43bc;
+  border-radius: 10px;
+  color: #5d43bc;
+  font-size: 0.75rem;
+}
+
+.pending-text {
+  color: #74707d;
+  font-size: 0.75rem;
+  font-style: italic;
+  letter-spacing: -0.8px;
 }
 </style>
