@@ -43,7 +43,7 @@
             :idea="idea"
             :style="rotationStyle"
             close-btn
-            @updated="i => (idea = i)"
+            @updated="updateIdea"
             @expand="expandedIdea = idea"
           ></idea-swipable-card>
         </template>
@@ -160,7 +160,8 @@ export default {
     }),
 
     ...mapMutations({
-      updateCurrCategory: 'ideas/UPDATE_CURR_CATEGORY'
+      updateCurrCategory: 'ideas/UPDATE_CURR_CATEGORY',
+      updateIdea: 'ideas/UPDATE_IDEA'
     }),
 
     ideaUrl(newCategory) {

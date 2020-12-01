@@ -144,12 +144,13 @@ export default {
       }
     },
 
-    onIdeaSaveStateChanged({ saved }) {
+    onIdeaSaveStateChanged({ saved, savesCount }) {
+      this.$emit('updated', { savesCount })
       this.$notifier.success(saved ? 'Idea Saved!' : 'Idea Unsaved!')
     },
 
     onIdeaLikeStateChanged({ liked, likesCount }) {
-      this.idea.likesCount = likesCount
+      this.$emit('updated', { likesCount })
       this.$notifier.success(liked ? 'Idea Liked!' : 'Idea Unliked')
     },
 
