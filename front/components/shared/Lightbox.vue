@@ -20,6 +20,14 @@ export default {
 
   props: {
     value: { type: Boolean, required: true }
+  },
+
+  mounted() {
+    document.addEventListener('keyup', e => {
+      if (e.keyCode === 27) {
+        this.$emit('input', false)
+      }
+    })
   }
 }
 </script>
