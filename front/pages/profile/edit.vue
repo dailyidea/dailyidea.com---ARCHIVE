@@ -172,7 +172,11 @@ export default {
           */
           this.$store.commit('userData/updateUserName', this.name)
           this.$store.commit('userData/updateUserSlug', this.slug)
-          this.$notifier.success('Profile Updated')
+          this.$notifier.show({
+            color: 'green',
+            message: 'Profile Updated',
+            iconName: 'saved'
+          })
         } else {
           this.$notifier.error(
             resp.data.updateProfileInfo.result.error || 'Cannot update profile'
@@ -194,7 +198,11 @@ export default {
         const newAvatarUrl = response.data.uploadAvatar.avatar
         this.avatar = newAvatarUrl
         this.$store.commit('userData/updateUserAvatar', newAvatarUrl)
-        this.$notifier.success('Avatar updated')
+        this.$notifier.show({
+          color: 'green',
+          message: 'Avatar updated',
+          iconName: 'saved'
+        })
       } catch (e) {
         this.$notifier.error('Error during avatar updating')
       }

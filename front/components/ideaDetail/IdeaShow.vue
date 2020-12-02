@@ -146,12 +146,22 @@ export default {
 
     onIdeaSaveStateChanged({ saved, savesCount }) {
       this.$emit('updated', { savesCount })
-      this.$notifier.success(saved ? 'Idea Saved!' : 'Idea Unsaved!')
+      this.$notifier.show({
+        color: 'green',
+        message: saved ? 'Idea Saved!' : 'Idea Unsaved!',
+        iconName: saved ? 'bookmarked' : 'unbookmarked'
+      })
     },
 
     onIdeaLikeStateChanged({ liked, likesCount }) {
       this.$emit('updated', { likesCount })
       this.$notifier.success(liked ? 'Idea Liked!' : 'Idea Unliked')
+
+      this.$notifier.show({
+        color: 'green',
+        message: liked ? 'Idea Liked!' : 'Idea Unliked',
+        iconName: liked ? 'like' : 'unlike'
+      })
     },
 
     onIdeaVisibilityChangeError({ isPrivate }) {
@@ -183,9 +193,11 @@ export default {
 
     onIdeaVisibilityChanged({ isPrivate }) {
       this.$emit('updated', { visibility: isPrivate ? 'PRIVATE' : 'PUBLIC' })
-      this.$notifier.success(
-        `Your Idea is ${isPrivate ? 'private' : 'public'} now!`
-      )
+      this.$notifier.show({
+        color: 'green',
+        message: `Your Idea is ${isPrivate ? 'private' : 'public'} now!`,
+        iconName: isPrivate ? 'private' : 'public'
+      })
     },
 
     commentsBtnClick() {
