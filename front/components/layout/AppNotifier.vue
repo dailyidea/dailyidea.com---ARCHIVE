@@ -8,7 +8,13 @@
     @click.native="visible = false"
   >
     {{ message }}
-    <img v-if="icon" :src="icon" alt="Icon" />
+    <img
+      v-if="icon"
+      :src="icon"
+      alt="Icon"
+      class="ml-4"
+      style="margin-bottom: -4px;"
+    />
   </v-snackbar>
 </template>
 
@@ -20,7 +26,8 @@ const initialData = {
   message: '',
   color: '',
   timeout: 2000,
-  icon: null
+  icon: null,
+  iconName: null
 }
 
 export default {
@@ -45,19 +52,22 @@ export default {
 
     show(params) {
       Object.assign(this, Object.assign({}, initialData), params)
+      if (params.iconName) {
+        this.icon = require(`../../assets/images/icons/${params.iconName}.svg`)
+      }
       this.visible = true
     },
 
     success(params) {
       if (typeof params === 'string') {
-        params = { message: params }
+        params = { message: params, iconName: 'success' }
       }
       this.show(Object.assign(params, { color: 'green' }))
     },
 
     error(params) {
       if (typeof params === 'string') {
-        params = { message: params }
+        params = { message: params, iconName: 'error' }
       }
       this.show(Object.assign(params, { color: 'red' }))
     }

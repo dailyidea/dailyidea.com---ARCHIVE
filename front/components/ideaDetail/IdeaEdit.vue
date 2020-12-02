@@ -186,7 +186,11 @@ export default {
             })
           )
           this.$emit('updated', merge({}, this.form))
-          this.$notifier.success('Idea Updated!')
+          this.$notifier.show({
+            color: 'green',
+            message: 'Idea Updated!',
+            iconName: 'saved'
+          })
           // Redirect to updated URL slug if needed
           if (resp.data.updateIdea.idea.slug !== this.idea.slug) {
             this.$router.replace({

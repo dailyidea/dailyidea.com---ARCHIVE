@@ -188,7 +188,11 @@ export default {
         await this.$amplifyApi.graphql(
           graphqlOperation(updateEmailNotificationsSettings, { state })
         )
-        this.$notifier.success('Email Settings Updated')
+        this.$notifier.show({
+          color: 'green',
+          message: 'Email Settings Updated',
+          iconName: 'saved'
+        })
       } catch (e) {
         this.$notifier.error("Can't update Email Settings")
       }

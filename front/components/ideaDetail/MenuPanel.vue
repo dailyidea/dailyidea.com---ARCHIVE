@@ -264,7 +264,11 @@ export default {
     },
 
     onSharedIdeaOverEmail() {
-      this.$notifier.success('Idea shared!')
+      this.$notifier.show({
+        color: 'green',
+        message: 'Idea shared!',
+        iconName: 'shared'
+      })
       this.$emit('on-idea-shared')
     },
 
@@ -273,7 +277,11 @@ export default {
     },
 
     onCopyShareLink() {
-      this.$notifier.success('Link copied')
+      this.$notifier.show({
+        color: 'green',
+        message: 'Link copied',
+        iconName: 'copied'
+      })
     }
   }
 }
