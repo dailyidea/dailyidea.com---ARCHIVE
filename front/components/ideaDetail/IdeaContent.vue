@@ -36,7 +36,7 @@ export default {
 
   data() {
     return {
-      atScrollEnd: false
+      atScrollEnd: true
     }
   },
 
