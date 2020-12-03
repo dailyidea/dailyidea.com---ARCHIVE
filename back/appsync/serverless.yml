@@ -344,7 +344,7 @@ custom:
         type: Mutation
         field: unsaveIdea
         request: "unsave-idea/before-mapping-template.txt"
-        response: "unsave-idea/before-mapping-template.txt"
+        response: "unsave-idea/after-mapping-template.txt"
         kind: PIPELINE
         functions:
           - deleteSavedIdeaItem
