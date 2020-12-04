@@ -1,182 +1,146 @@
 <template>
-  <Layout
-    v-bind="{
-      currentPage: 'Profile',
-      pageOptions: mobileHeaderUiOptions
-    }"
-  >
+  <Layout>
     <validation-observer v-slot="{ valid, validated, handleSubmit }">
-      <v-container class="createIdeaPage">
-        <v-row id="ideaContentRow">
-          <v-col cols="12" sm="10" md="8" lg="6">
-            <!-- title -->
-            <v-text-field-with-validation
-              v-model="title"
-              v-focus
-              rules="required|max:100"
-              flat
-              label="Add A Title"
-              data-vv-name="title"
-              name="idea_title"
-              class="idea-name-field"
-              :single-line="true"
-              :solo="true"
-              @keyup.13="focusIdeaText"
-            ></v-text-field-with-validation>
+      <v-container class="m-auto d-flex flex-column form-container">
+        <validation-provider
+          v-slot="{ errors }"
+          name="title"
+          rules="required|max:100"
+        >
+          <v-text-field
+            v-model="title"
+            :error-messages="errors"
+            flat
+            label="Add A Title"
+            data-vv-name="title"
+            name="idea_title"
+            class="idea-name-field"
+            :single-line="true"
+            :solo="true"
+            @keyup.13="focusIdeaText"
+          ></v-text-field>
+        </validation-provider>
 
-            <!-- Description = trix editor -->
-            <div class="ideaEditor">
-              <client-only>
-                <trix-wrapper
-                  v-model="contents"
-                  class="editor"
-                  placeholder="Just start typing your idea here! You can add formatting with the toolbar below."
-                  :auto-delete-attachments="true"
-                  @attachmentsUploadStarted="onAttachmentsUploadStarted"
-                  @attachmentsUploadCompleted="onAttachmentsUploadCompleted"
-                  @fileAttached="onFileAttached"
-                  @fileRemoved="onFileRemoved"
-                />
-              </client-only>
-            </div>
+        <div class="idea-editor flex-grow-1 fill-height">
+          <client-only>
+            <trix-wrapper
+              v-model="contents"
+              class="editor"
+              :class="{
+                'fade-bottom': !atScrollEnd,
+                'fade-top': !atScrollStart
+              }"
+              placeholder="Just start typing your idea here! You can add formatting with the toolbar below."
+              :auto-delete-attachments="true"
+              @attachmentsUploadStarted="onAttachmentsUploadStarted"
+              @attachmentsUploadCompleted="onAttachmentsUploadCompleted"
+              @fileAttached="onFileAttached"
+              @fileRemoved="onFileRemoved"
+              @ready="onTrixReady"
+            />
+          </client-only>
+        </div>
 
-            <!-- Tags -->
-            <v-combobox
-              v-if="false"
-              v-model="chips"
-              rules="max:100"
-              flat
-              data-vv-name="tag"
-              class="ideaTag idea-tags-field"
-              chips
-              clearable
-              multiple
-              label="Add Tags"
-              solo
-            >
-              <template v-slot:selection="{ attrs, item, select, selected }">
-                <v-chip
-                  v-bind="attrs"
-                  :input-value="selected"
-                  close
-                  small
-                  color="secondary"
-                  @click="select"
-                  @click:close="remove(item)"
-                >
-                  <strong>{{ item }}</strong>
-                </v-chip>
-              </template>
-            </v-combobox>
-          </v-col>
-        </v-row>
-
-        <v-row id="submitButtonRow">
-          <v-col cols="12" sm="10" md="8" lg="6">
-            <!-- Submit -->
-            <div>
-              <v-btn
-                rounded
-                block
-                :loading="creatingIdea"
-                :disabled="!valid || !validated"
-                @click="handleSubmit(onCreateIdea)"
-                >Submit</v-btn
-              >
-            </div>
-          </v-col>
-        </v-row>
+        <div class="submit-btn">
+          <v-btn
+            rounded
+            dark
+            color="primary"
+            :loading="creatingIdea"
+            :disabled="!valid || !validated"
+            @click="handleSubmit(onCreateIdea)"
+            >Post</v-btn
+          >
+        </div>
       </v-container>
     </validation-observer>
-
-    <!-- Bottom snackbar message -->
-    <v-snackbar
-      v-model="snackbarVisible"
-      :timeout="2000"
-      :color="snackbarColor"
-    >
-      {{ snackbarMessage }}
-      <v-btn color="white" text @click="snackbarVisible = false">
-        Close
-      </v-btn>
-    </v-snackbar>
   </Layout>
 </template>
 <script>
 import { mapMutations } from 'vuex'
-import { ValidationObserver } from 'vee-validate'
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { graphqlOperation } from '@aws-amplify/api'
 import TrixWrapper from '@/components/TrixWrapper'
 import Layout from '@/components/layout/Layout'
 import createIdea from '~/graphql/mutations/createIdea'
-import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
 
 export default {
   components: {
-    VTextFieldWithValidation,
     Layout,
     TrixWrapper,
-    ValidationObserver
+    ValidationObserver,
+    ValidationProvider
   },
+
   middleware: 'authenticated',
+
   data: () => ({
-    mobileHeaderUiOptions: {
-      pageTitle: 'SUBMIT AN IDEA',
-      leftButtonType: 'back'
-    },
     contents: '',
     title: '',
     imageAttachments: [],
     fileAttachments: [],
     creatingIdea: false,
-    chips: [],
-    // sjahj: true,
-    errorMsg: null,
-
-    snackbarVisible: false,
-    snackbarMessage: '',
-    snackbarColor: 'success',
-    uploadingAttachment: false
+    uploadingAttachment: false,
+    atScrollEnd: true,
+    atScrollStart: true,
+    scrollContainer: null
   }),
+
   computed: {
     allowCreateIdea() {
       return this.title && !this.uploadingAttachment
     }
   },
-  created() {},
 
-  mounted() {},
+  watch: {
+    contents() {
+      this.checkScroll()
+    }
+  },
+
+  beforeDestroy() {
+    if (this.scrollContainer) {
+      this.scrollContainer.removeEventListener('scroll')
+    }
+  },
 
   methods: {
     ...mapMutations({
       updateCreatedIdea: 'ideas/UPDATE_CREATED'
     }),
 
+    onTrixReady() {
+      this.scrollContainer = document.querySelector('.trix-content')
+      this.checkScroll()
+      this.scrollContainer.addEventListener('scroll', this.checkScroll)
+    },
+
     focusIdeaText() {
       document.querySelector('trix-editor').focus()
     },
+
     onAttachmentsUploadStarted() {
       this.uploadingAttachment = true
     },
+
     onAttachmentsUploadCompleted() {
       this.uploadingAttachment = false
     },
+
     onFileAttached({ type, key }) {
       if (type.substr(0, 5) === 'image') {
         this.imageAttachments.push(key)
       }
       this.fileAttachments.push(key)
     },
+
     onFileRemoved({ type, key }) {
       if (type.substr(0, 5) === 'image') {
         this.imageAttachments.splice(this.imageAttachments.indexOf(key), 1)
       }
       this.fileAttachments.splice(this.fileAttachments.indexOf(key), 1)
     },
-    remove(item) {
-      this.chips.splice(this.chips.indexOf(item), 1)
-      this.chips = [...this.chips]
-    },
+
     async onCreateIdea() {
       this.creatingIdea = true
 
@@ -185,18 +149,14 @@ export default {
           graphqlOperation(createIdea, {
             content: this.contents,
             title: this.title,
-            tags: this.chips,
+            tags: [],
             fileAttachments: this.fileAttachments,
             imageAttachments: this.imageAttachments
           })
         )
 
         this.creatingIdea = false
-        this.ideaEditorVisible = false
-
-        this.snackbarMessage = 'Idea Created'
-        this.snackbarColor = 'success'
-        this.snackbarVisible = true
+        this.$notifier.success('Idea Created')
 
         // Redirect to idea deail page
         const { shortId, slug, ideaId } = result.data.createIdea
@@ -207,23 +167,50 @@ export default {
         })
         this.updateCreatedIdea(ideaId)
       } catch (err) {
+        this.$notifier.error('Something went wrong!')
         this.creatingIdea = false
-        this.snackbarMessage = 'Something went wrong!!'
-        this.snackbarColor = 'error'
-        this.snackbarVisible = true
-        // console.error(err)
       }
+    },
+
+    checkScroll() {
+      if (!this.scrollContainer) {
+        return
+      }
+      const $el = this.scrollContainer
+      const currentScrollLocation = $el.scrollTop
+      const scrollMax = $el.scrollHeight - $el.clientHeight
+
+      this.atScrollEnd = currentScrollLocation >= scrollMax - 5
+      this.atScrollStart = currentScrollLocation === 0
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.createIdeaPage ::v-deep {
-  .idea-name-field {
-    font-size: 24px;
-    font-weight: 900;
+.form-container {
+  position: relative;
+  height: calc(100vh - 126px);
+  max-width: 500px;
+  overflow-y: hidden;
 
+  @media (max-width: $screen-md-min) {
+    height: calc(100vh - 100px);
+  }
+}
+
+.submit-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 20%;
+}
+
+.idea-name-field {
+  font-size: 24px;
+  font-weight: 900;
+
+  ::v-deep {
     .v-input__slot {
       margin: 0 !important;
       padding: 0 !important;
@@ -232,24 +219,28 @@ export default {
         font-size: 24px;
       }
     }
+    .v-label {
+      height: 24px;
+      line-height: 24px;
+    }
     .v-text-field__details {
-      padding-left: 0px !important;
+      padding-left: 0 !important;
     }
   }
+}
 
-  .idea-tags-field {
-    .v-input__slot {
-      label {
-        color: #c1b8c6;
-      }
-    }
-  }
-
-  .ideaEditor {
+::v-deep {
+  .idea-editor {
     .editor {
-      trix-editor {
-        border: none;
+      height: 100%;
+      padding-bottom: 60px;
+
+      .trix-content {
+        height: 100% !important;
         padding: 0;
+        border: none;
+        overflow-y: auto;
+
         &:active,
         &:focus {
           border: none;
@@ -261,78 +252,46 @@ export default {
           position: relative;
           top: -2px;
         }
-      }
-      .trix-content {
-        height: 32vh;
-        overflow-y: auto;
-      }
-    }
-  }
-  .errorMsg {
-    color: #b71c1c;
-    font-size: 12px;
-    margin-top: 2px;
-    padding-left: 10px;
-  }
-
-  .ideaTag {
-    padding-top: 30px;
-
-    .v-chip {
-      background-color: rgba(192, 183, 197);
-      color: white;
-
-      i {
-        color: white;
+        .attachment--preview {
+          width: auto;
+          max-width: calc(100% - 5px);
+        }
       }
     }
-
-    .v-icon.mdi-menu-down {
-      display: none;
+    .fade-top .trix-content {
+      mask-image: linear-gradient(to top, black 90%, transparent 100%);
     }
-
-    .v-input__append-inner {
-      display: none;
+    .fade-bottom .trix-content {
+      mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+    }
+    .fade-top.fade-bottom .trix-content {
+      mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 10%,
+        black 90%,
+        transparent 100%
+      );
     }
   }
-  /* stuff for making the toolbar stuck to the bottom */
+
   .trix-button-row {
-    @media (min-width: $screen-md-min) {
-      position: fixed;
-      bottom: 0;
-    }
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+  }
+  .trix-button-group {
+    margin: 0 0 5px 0 !important;
+  }
+  .trix-button {
+    margin: 0 5px !important;
     @media (max-width: $screen-md-min) {
-      display: none;
+      margin: 0 !important;
     }
   }
 
   #toggle-trix-panel {
     margin-bottom: 4px;
-  }
-
-  /* stuff for computing the required height of the idea content entry part  */
-  /* header height: 56 on mobile viewports, 64 on wide viewports  */
-
-  $header-height-wide: 64px;
-  $header-height-narrow: 56px;
-  $main-content-container-vertical-padding: 12px;
-  $submit-button-row-height: 60px;
-  $tags-height: 0px; /* not used, but needed when we bring back tags */
-  $trix-button-row-height: 35px;
-
-  #ideaContentRow {
-    @media (min-width: $screen-md-min) {
-      height: calc(
-        100vh - #{$header-height-wide} - 2 * #{$main-content-container-vertical-padding} -
-          #{$submit-button-row-height} - #{$trix-button-row-height}
-      );
-    }
-    @media (max-width: $screen-sm-max) {
-      height: calc(
-        100vh - #{$header-height-narrow} - 2 * #{$main-content-container-vertical-padding} -
-          #{$submit-button-row-height} - #{$trix-button-row-height}
-      );
-    }
   }
 }
 </style>

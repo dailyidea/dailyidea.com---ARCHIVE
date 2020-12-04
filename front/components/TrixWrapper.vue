@@ -27,72 +27,6 @@ function createStorageKey(file) {
   return date.getTime() + '-' + file.name
 }
 
-function customizeTrixPanel(event) {
-  const BUTTON_ACTIVE_CLASS = 'trix-active'
-  const BUTTON_CLASS = 'trix-button'
-  const BUTTON_ID = 'toggle-trix-panel'
-  const BUTTON_INITIAL_VISIBILITY_STATE = true
-  const SHOW_TOGGLE_BUTTON = false
-  const APPEND_TOGGLE_BUTTON = false
-
-  const trixToggleEl = document.querySelector('#' + BUTTON_ID)
-  if (trixToggleEl) {
-    trixToggleEl.remove()
-  }
-  const buttonToAppend = document.createElement('button')
-  buttonToAppend.innerHTML = '<i class="fas fa-bars"></i>'
-  buttonToAppend.setAttribute('type', 'button')
-  buttonToAppend.setAttribute('id', BUTTON_ID)
-  buttonToAppend.setAttribute('class', BUTTON_CLASS)
-  const toggleButtonsVisibility = visible => {
-    const buttonGroups = document.querySelectorAll('.trix-button')
-    for (let i = 0; i < buttonGroups.length - 1; i++) {
-      const button = buttonGroups[i]
-      if (button.id === BUTTON_ID) {
-        continue
-      }
-      button.style.visibility = visible ? 'visible' : 'hidden'
-      button.style.opacity = visible ? 1 : 0
-    }
-  }
-  toggleButtonsVisibility(BUTTON_INITIAL_VISIBILITY_STATE)
-  if (BUTTON_INITIAL_VISIBILITY_STATE === true) {
-    buttonToAppend.classList.add(BUTTON_ACTIVE_CLASS)
-  }
-
-  buttonToAppend.addEventListener('click', function(e) {
-    let panelVisible = false
-
-    const trixToggleBtn = e.target.classList.contains(BUTTON_CLASS)
-      ? e.target
-      : e.target.parentElement
-
-    if (trixToggleBtn.classList.contains(BUTTON_ACTIVE_CLASS)) {
-      trixToggleBtn.classList.remove(BUTTON_ACTIVE_CLASS)
-      panelVisible = false
-    } else {
-      trixToggleBtn.classList.add(BUTTON_ACTIVE_CLASS)
-      panelVisible = true
-    }
-    toggleButtonsVisibility(panelVisible)
-  })
-
-  if (SHOW_TOGGLE_BUTTON === true) {
-    if (APPEND_TOGGLE_BUTTON === true) {
-      // append toggle button
-      event.target.toolbarElement
-        .querySelector('.trix-button-group.trix-button-group--history-tools')
-        .appendChild(buttonToAppend)
-    } else {
-      // prepend it instead
-      const trixButtonRow = event.target.toolbarElement.querySelector(
-        '.trix-button-row'
-      )
-      trixButtonRow.insertBefore(buttonToAppend, trixButtonRow.childNodes[0])
-    }
-  }
-}
-
 export default {
   name: 'TrixWrapper',
 
@@ -126,11 +60,11 @@ export default {
   },
 
   created() {
-    addEventListener('trix-initialize', customizeTrixPanel)
+    addEventListener('trix-initialize', this.customizeTrixPanel)
   },
 
   beforeDestroy() {
-    removeEventListener('trix-initialize', customizeTrixPanel)
+    removeEventListener('trix-initialize', this.customizeTrixPanel)
   },
 
   methods: {
@@ -151,6 +85,78 @@ export default {
           event.preventDefault()
         }
       }
+    },
+
+    customizeTrixPanel(event) {
+      const BUTTON_ACTIVE_CLASS = 'trix-active'
+      const BUTTON_CLASS = 'trix-button'
+      const BUTTON_ID = 'toggle-trix-panel'
+      const BUTTON_INITIAL_VISIBILITY_STATE = true
+      const SHOW_TOGGLE_BUTTON = false
+      const APPEND_TOGGLE_BUTTON = false
+
+      const trixToggleEl = document.querySelector('#' + BUTTON_ID)
+      if (trixToggleEl) {
+        trixToggleEl.remove()
+      }
+      const buttonToAppend = document.createElement('button')
+      buttonToAppend.innerHTML = '<i class="fas fa-bars"></i>'
+      buttonToAppend.setAttribute('type', 'button')
+      buttonToAppend.setAttribute('id', BUTTON_ID)
+      buttonToAppend.setAttribute('class', BUTTON_CLASS)
+      const toggleButtonsVisibility = visible => {
+        const buttonGroups = document.querySelectorAll('.trix-button')
+        for (let i = 0; i < buttonGroups.length - 1; i++) {
+          const button = buttonGroups[i]
+          if (button.id === BUTTON_ID) {
+            continue
+          }
+          button.style.visibility = visible ? 'visible' : 'hidden'
+          button.style.opacity = visible ? 1 : 0
+        }
+      }
+      toggleButtonsVisibility(BUTTON_INITIAL_VISIBILITY_STATE)
+      if (BUTTON_INITIAL_VISIBILITY_STATE === true) {
+        buttonToAppend.classList.add(BUTTON_ACTIVE_CLASS)
+      }
+
+      buttonToAppend.addEventListener('click', function(e) {
+        let panelVisible = false
+
+        const trixToggleBtn = e.target.classList.contains(BUTTON_CLASS)
+          ? e.target
+          : e.target.parentElement
+
+        if (trixToggleBtn.classList.contains(BUTTON_ACTIVE_CLASS)) {
+          trixToggleBtn.classList.remove(BUTTON_ACTIVE_CLASS)
+          panelVisible = false
+        } else {
+          trixToggleBtn.classList.add(BUTTON_ACTIVE_CLASS)
+          panelVisible = true
+        }
+        toggleButtonsVisibility(panelVisible)
+      })
+
+      if (SHOW_TOGGLE_BUTTON === true) {
+        if (APPEND_TOGGLE_BUTTON === true) {
+          // append toggle button
+          event.target.toolbarElement
+            .querySelector(
+              '.trix-button-group.trix-button-group--history-tools'
+            )
+            .appendChild(buttonToAppend)
+        } else {
+          // prepend it instead
+          const trixButtonRow = event.target.toolbarElement.querySelector(
+            '.trix-button-row'
+          )
+          trixButtonRow.insertBefore(
+            buttonToAppend,
+            trixButtonRow.childNodes[0]
+          )
+        }
+      }
+      this.$emit('ready')
     },
 
     handleAttachmentAdd(event) {
