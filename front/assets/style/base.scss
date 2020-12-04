@@ -81,6 +81,10 @@
 }
 
 
+.v-btn__content {
+  margin-bottom: -1px; // Small fix to align button text
+}
+
 /* light theme styles */
 .theme--light.v-btn {
   background: $secondary-color !important;
