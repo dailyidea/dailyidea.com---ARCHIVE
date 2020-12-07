@@ -4,7 +4,7 @@
       <div class="profile-pic">
         <img :src="commentAvatar" />
       </div>
-      <div class="comment-info d-flex flex-column">
+      <div class="comment-info d-flex flex-column flex-grow-1">
         <div class="header d-flex flex-row justify-space-between ml-2">
           <div class="name">{{ comment.userName }}</div>
           <div class="time">
@@ -30,17 +30,18 @@
           <v-skeleton-loader v-else light height="21" type="text">
           </v-skeleton-loader>
         </div>
-        <div class="footer mt-2">
+        <div class="footer mt-2 text-right">
           <v-btn
             v-if="deletable && !comment.fake"
             color="red"
-            icon
             text
             x-small
             @click="onDeleteComment"
           >
             <v-icon class="muted" small>mdi mdi-delete</v-icon>
-            <span class="muted ml-2 mt-1 delete-text">Delete</span>
+            <span class="muted ml-2 mt-1 delete-text" style="font-size: 0.8rem;"
+              >Delete</span
+            >
           </v-btn>
         </div>
         <div v-if="comment.temporary" class="pending-wrap">
@@ -56,10 +57,10 @@
 
 <script>
 export default {
-  name: 'IdeaCommentsComment',
   props: {
     comment: { type: Object, required: true }
   },
+
   computed: {
     commentAvatar() {
       return this.comment.userAvatar || this.$store.getters['userData/avatar']
@@ -82,6 +83,7 @@ export default {
       return isMyIdea || currUsrId === commentUsrId
     }
   },
+
   methods: {
     onDeleteComment() {
       this.$emit('onDeleteComment', this.comment)
@@ -92,17 +94,6 @@ export default {
 
 <style scoped lang="scss">
 @import '~/assets/style/common';
-
-.footer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100%;
-
-  .delete-text {
-    font-size: 0.8rem;
-  }
-}
 
 .profile-pic {
   img {
@@ -131,12 +122,6 @@ export default {
     padding-bottom: 0.5rem;
     border-radius: 10px;
     .comment-info {
-      width: 100%;
-
-      .header {
-        width: 100%;
-      }
-
       .name {
         color: $default-purple;
         font-size: 1.1rem;
