@@ -157,7 +157,6 @@ export default {
 
     async resetSwipePosition() {
       if (this.animateIn) {
-        console.log('this.animateIn', this.animateIn)
         this.enableAnimation()
         this.xVal = 0
         this.yVal = 0
