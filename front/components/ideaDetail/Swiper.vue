@@ -33,7 +33,8 @@ export default {
     allowLeft: { type: Boolean, default: true },
     allowRight: { type: Boolean, default: true },
     reverseInRight: { type: Boolean, default: false },
-    reverseInLeft: { type: Boolean, default: false }
+    reverseInLeft: { type: Boolean, default: false },
+    animateIn: { type: Boolean, default: true }
   },
 
   data() {
@@ -155,11 +156,14 @@ export default {
     },
 
     async resetSwipePosition() {
-      this.enableAnimation()
-      this.xVal = 0
-      this.yVal = 0
-      this.rotationVal = 0
-      await this.queueNextAnimation(this.disableAnimation)
+      if (this.animateIn) {
+        console.log('this.animateIn', this.animateIn)
+        this.enableAnimation()
+        this.xVal = 0
+        this.yVal = 0
+        this.rotationVal = 0
+        await this.queueNextAnimation(this.disableAnimation)
+      }
       this.enableSideScroll()
       this.$emit('animation-in-end')
     },

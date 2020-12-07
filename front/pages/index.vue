@@ -1,10 +1,11 @@
 <template>
   <Layout>
-    <swipe-explainer-bar :idea-index="page" />
+    <swipe-explainer-bar v-if="page < 3" :idea-index="page" />
     <swiper
       v-slot="{ rotationStyle }"
       :allow-left="page > 0"
       :reverse-in-right="firstInStack"
+      :animate-in="page < 3"
       @swipe-start="setHideSlideMenuTrue"
       @swipe-end="setHideSlideMenuFalse"
       @swipe-left="nextIdea"
@@ -76,9 +77,8 @@ export default {
       const index = Math.max(this.page + direction, 0)
       if (index > 2) {
         this.$router.push('/ideas-cards')
-      } else {
-        this.page = index
       }
+      this.page = index
     },
 
     setHideSlideMenuTrue() {
