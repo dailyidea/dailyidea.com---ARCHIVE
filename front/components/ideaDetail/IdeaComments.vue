@@ -40,6 +40,8 @@
           hide-details
           solo
           @keydown.enter="onAddCommentAttempt"
+          @keydown.left.stop
+          @keydown.right.stop
         >
           <template v-slot:append>
             <v-icon
@@ -115,8 +117,6 @@ import deleteComment from '~/graphql/mutations/deleteComment'
 const COMMENTS_COUNT = 25
 
 export default {
-  name: 'IdeaComments',
-
   components: {
     IdeaCommentsComment,
     DefaultDialog,
