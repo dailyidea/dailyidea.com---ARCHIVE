@@ -89,8 +89,7 @@ export default {
   props: {
     // Show loggedin or loggedout header
     value: Boolean,
-    ideaId: { type: String, default: null },
-    ideaOwnerId: { type: String, default: null }
+    idea: { type: Object, required: true }
   },
 
   data: () => ({
@@ -121,7 +120,7 @@ export default {
     },
 
     getShareUrl() {
-      return document.location.href
+      return `${location.origin}/i/${this.idea.shortId}/${this.idea.slug}`
     },
 
     async sendEmail() {
@@ -132,8 +131,8 @@ export default {
         await this.$amplifyApi.graphql({
           query: shareIdea,
           variables: {
-            ideaId: this.ideaId,
-            ideaOwnerId: this.ideaOwnerId,
+            ideaId: this.idea.ideaId,
+            ideaOwnerId: this.idea.userId,
             email: this.form.friendEmail,
             senderName: this.form.name,
             friendName: this.form.friendName
