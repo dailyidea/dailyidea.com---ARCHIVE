@@ -155,4 +155,8 @@ export default {
   font-style: italic;
   letter-spacing: -0.8px;
 }
+
+.body {
+  word-break: break-all;
+}
 </style>
