@@ -19,7 +19,7 @@
           v-for="(idea, index) in ideas"
           :key="index"
           :idea="idea"
-          @updated="i => $set(ideas, index, i)"
+          @updated="ideaUpdated"
           @view-preview="i => (selectedIdea = i)"
         ></idea-short-card>
       </div>
@@ -95,8 +95,10 @@ export default {
 
   methods: {
     ideaUpdated(idea) {
-      this.$emit('idea-updated', this.selectedIdea, idea)
-      this.selectedIdea = idea
+      this.$emit('idea-updated', idea)
+      if (this.selectedIdea) {
+        this.selectedIdea = idea
+      }
     }
   }
 }

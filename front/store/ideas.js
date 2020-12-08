@@ -135,9 +135,11 @@ export const mutations = {
   },
 
   UPDATE_IDEA(state, idea) {
-    const idx = state.ideasQueues[state.currCategory].ideas.findIndex(
-      i => i.ideaId === idea.ideaId
-    )
+    let idx
+    Object.keys(state.ideasQueues).find(k => {
+      idx = state.ideasQueues[k].ideas.findIndex(i => i.ideaId === idea.ideaId)
+      return idx !== -1
+    })
     if (idx === -1) {
       return
     }

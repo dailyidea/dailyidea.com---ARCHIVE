@@ -3,7 +3,7 @@
     :initial-profile-data="userInfo"
     :ideas="userIdeas"
     :load-more-ideas-is-possible="loadMoreIdeasIsPossible"
-    @idea-updated="(oldIdea, idea) => updateIdea(oldIdea, idea)"
+    @idea-updated="updateIdeaLocal"
   >
     <template v-slot:no-ideas>
       <no-ideas-placeholder
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import userInfoBySlug from '@/graphql/query/userInfoBySlug'
 import UsersProfile from '@/components/profilePage/UsersProfile'
 import NoIdeasPlaceholder from '@/components/ideaDetail/NoIdeasPlaceholder'
@@ -56,10 +57,21 @@ export default {
     }
   },
 
+  data: () => ({
+    loadMoreIdeasIsPossible: false,
+    userInfo: {},
+    userIdeas: []
+  }),
+
   methods: {
-    updateIdea(oldIdea, idea) {
+    ...mapMutations({
+      updateIdea: 'ideas/UPDATE_IDEA'
+    }),
+
+    updateIdeaLocal(idea) {
       const idx = this.userIdeas.findIndex(i => i.ideaId === idea.ideaId)
       this.$set(this.userIdeas, idx, idea)
+      this.updateIdea(idea)
     }
   },
 
