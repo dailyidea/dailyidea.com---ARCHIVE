@@ -1,124 +1,124 @@
 type Mutation {
 
     createIdea(
-		title: String!,
-		content: String,
-		isPrivate: Boolean,
-		tags: [String],
-		imageAttachments: [String],
-		fileAttachments: [String],
-	): Idea!
-
-	deleteIdea(
-	    ideaId: String!,
+        title: String!,
+        content: String,
+        isPrivate: Boolean,
+        tags: [String],
+        imageAttachments: [String],
+        fileAttachments: [String],
     ): Idea!
 
-	uploadAvatar(
-		avatar: String!,
-    isSVG: Boolean,
-	): AvatarUploadResult!
+    deleteIdea(
+        ideaId: String!,
+    ): Idea!
 
-	updateIdea(
-	    ideaId: String!,
-	    ideaOwnerId: String!,
-		title: String!
-	    content: String,
-		tags: [String],
-		imageAttachments: [String],
-		fileAttachments: [String],
+    uploadAvatar(
+        avatar: String!,
+        isSVG: Boolean,
+    ): AvatarUploadResult!
+
+    updateIdea(
+        ideaId: String!,
+        ideaOwnerId: String!,
+        title: String!
+        content: String,
+        tags: [String],
+        imageAttachments: [String],
+        fileAttachments: [String],
     ): IdeaUpdateRusult!
 
-	addComment(
-	    body: String!,
-	    ideaId: String!,
-		ideaOwnerId: String!,
-		userName: String!,
-		userSlug: String!
+    addComment(
+        body: String!,
+        ideaId: String!,
+        ideaOwnerId: String!,
+        userName: String!,
+        userSlug: String!
     ): AddCommentResult!
 
-	addIdeaTemporaryComment(
-	    body: String!,
-		ideaName: String!,
-	    ideaId: String!,
-		ideaOwnerId: String!,
-		userId: String!,
+    addIdeaTemporaryComment(
+        body: String!,
+        ideaName: String!,
+        ideaId: String!,
+        ideaOwnerId: String!,
+        userId: String!,
     ): AddCommentResult!
-	@aws_api_key @aws_cognito_user_pools
+    @aws_api_key @aws_cognito_user_pools
 
     deleteIdeaTemporaryComment(
         commentId: String!
     ): Result
 
-	deleteComment(
-		ideaId: String!,
-		ideaOwnerId: String!,
-		commentId: String!
-	): Result
+    deleteComment(
+        ideaId: String!,
+        ideaOwnerId: String!,
+        commentId: String!
+    ): Result
 
-	addTags(
-	    tags: [TagInput],
+    addTags(
+        tags: [TagInput],
     ): [Tag]
 
-	deleteTag(tag: TagInput): Tag
+    deleteTag(tag: TagInput): Tag
 
-	followUser(
-	    userId: String!
+    followUser(
+        userId: String!
     ): Result!
 
-	setWasWelcomed(
-		userId: String!
-	): Result!
-
-	unfollowUser(
-	    userId: String!
+    setWasWelcomed(
+        userId: String!
     ): Result!
 
-	updateEmailNotificationsSettings(
-		state: EmailNotificationsInput!
-	): EmailNotificationsState!
+    unfollowUser(
+        userId: String!
+    ): Result!
 
-	updateProfileInfo(
-		name: String,
-		bio: String,
+    updateEmailNotificationsSettings(
+        state: EmailNotificationsInput!
+    ): EmailNotificationsState!
+
+    updateProfileInfo(
+        name: String,
+        bio: String,
         interestedInTags: [String],
-	): UserUpdateInfoResult!
+    ): UserUpdateInfoResult!
 
-	toggleIdeaVisibility(
-		ideaId: String!,
-		ideaOwnerId: String!,
-		state: IdeaVisibilityState
-	): ToggleIdeaVisibilityResult!
+    toggleIdeaVisibility(
+        ideaId: String!,
+        ideaOwnerId: String!,
+        state: IdeaVisibilityState
+    ): ToggleIdeaVisibilityResult!
 
     shareIdea(
-		ideaId: String!,
-		ideaOwnerId: String!,
-		email: String!,
-		senderName: String!,
-		friendName: String!,
-	):Result
-	@aws_api_key @aws_cognito_user_pools
+        ideaId: String!,
+        ideaOwnerId: String!,
+        email: String!,
+        senderName: String!,
+        friendName: String!,
+    ):Result
+    @aws_api_key @aws_cognito_user_pools
 
-	likeIdea(
-	    ideaId: String!
-		ideaOwnerId: String!
+    likeIdea(
+        ideaId: String!
+        ideaOwnerId: String!
     ): LikeResult
 
-	unlikeIdea(
-	    ideaId: String!
+    unlikeIdea(
+        ideaId: String!
     ): LikeResult
 
-  saveIdea(
-    ideaId: String!
-    ideaOwnerId: String!
-  ): SaveResult
+    saveIdea(
+        ideaId: String!
+        ideaOwnerId: String!
+    ): SaveResult
 
-  unsaveIdea(
-    ideaId: String!
-  ): SaveResult
+    unsaveIdea(
+        ideaId: String!
+    ): SaveResult
 
-	makeIdeaPrivate(ideaId:String!): Result!
+    makeIdeaPrivate(ideaId:String!): Result!
 
-	makeIdeaPublic(ideaId:String!): Result!
+    makeIdeaPublic(ideaId:String!): Result!
 
     snoozeEmails(userId:String!, token:String, days:Int): Result!
     @aws_api_key @aws_cognito_user_pools
@@ -135,80 +135,80 @@ type Mutation {
 
 
 input TagInput {
-   tag: String!
-   ideaId: String!
+    tag: String!
+    ideaId: String!
 }
 
 type Query {
-	meInfo: MyInfo!
+    meInfo: MyInfo!
 
-	getEmailNotificationsSettings: EmailNotificationsState!
+    getEmailNotificationsSettings: EmailNotificationsState!
 
-	userInfo(userId: String!): UserInfoResult!
-	@aws_api_key @aws_cognito_user_pools
-	userInfoBySlug(slug: String!): UserInfoResult!
-	@aws_api_key @aws_cognito_user_pools
-	getStats: StatsResult!
-	@aws_api_key @aws_cognito_user_pools
+    userInfo(userId: String!): UserInfoResult!
+    @aws_api_key @aws_cognito_user_pools
+    userInfoBySlug(slug: String!): UserInfoResult!
+    @aws_api_key @aws_cognito_user_pools
+    getStats: StatsResult!
+    @aws_api_key @aws_cognito_user_pools
 
-	ideas(order: IdeaSortingOrder, nextToken: String, limit: Int): IdeaConnection
-	userIdeas(userId: String!, nextToken: String, limit: Int): IdeaConnection
+    ideas(order: IdeaSortingOrder, nextToken: String, limit: Int): IdeaConnection
+    userIdeas(userId: String!, nextToken: String, limit: Int): IdeaConnection
 
-	@aws_api_key @aws_cognito_user_pools
-	getUsersIdeas(authorSlug: String!, nextToken: String, limit: Int): IdeaConnection!
-	@aws_api_key @aws_cognito_user_pools
-	getIdea(shortId: String!): Idea!
-	@aws_api_key @aws_cognito_user_pools
-	getPublicIdeas(order: IdeaSortingOrder, nextToken: String, limit: Int): IdeaConnection!
-	@aws_api_key @aws_cognito_user_pools
-	findIdeas(query: String): IdeaConnection
-	@aws_api_key @aws_cognito_user_pools
-	getLikedIdeas(nextToken: String, limit: Int): IdeaConnection
-	getSavedIdeas(nextToken: String, limit: Int): IdeaConnection
-  ideaTags(ideaId: String!): [Tag!]!
-	getIsIdeaSavedByMe(
-    ideaId: String!
-  ): IsSavedResult
-  getIsIdeaLikedByMe(
-		ideaId: String!
-	): IsLikedResult
-	getComments(ideaId: String!, nextToken: String, limit: Int): CommentsConnection!
-	@aws_api_key @aws_cognito_user_pools
+    @aws_api_key @aws_cognito_user_pools
+    getUsersIdeas(authorSlug: String!, nextToken: String, limit: Int): IdeaConnection!
+    @aws_api_key @aws_cognito_user_pools
+    getIdea(shortId: String!): Idea!
+    @aws_api_key @aws_cognito_user_pools
+    getPublicIdeas(order: IdeaSortingOrder, nextToken: String, limit: Int): IdeaConnection!
+    @aws_api_key @aws_cognito_user_pools
+    findIdeas(query: String): IdeaConnection
+    @aws_api_key @aws_cognito_user_pools
+    getLikedIdeas(nextToken: String, limit: Int): IdeaConnection
+    getSavedIdeas(nextToken: String, limit: Int): IdeaConnection
+    ideaTags(ideaId: String!): [Tag!]!
+    getIsIdeaSavedByMe(
+        ideaId: String!
+    ): IsSavedResult
+    getIsIdeaLikedByMe(
+        ideaId: String!
+    ): IsLikedResult
+    getComments(ideaId: String!, nextToken: String, limit: Int): CommentsConnection!
+    @aws_api_key @aws_cognito_user_pools
 
-	getIdeaTemporaryComment(commentId: String!): GetTemporaryCommentResult!
-	@aws_api_key @aws_cognito_user_pools
+    getIdeaTemporaryComment(commentId: String!): GetTemporaryCommentResult!
+    @aws_api_key @aws_cognito_user_pools
 
-	checkEmailBelongsToExistingUser(email: String!): EmailBelongsToExistingUserResult!
-	@aws_api_key @aws_cognito_user_pools
+    checkEmailBelongsToExistingUser(email: String!): EmailBelongsToExistingUserResult!
+    @aws_api_key @aws_cognito_user_pools
 }
 
 type EmailBelongsToExistingUserResult @aws_api_key @aws_cognito_user_pools{
-	result: Result!
-	belongsToExistingUser: Boolean
-	userId: String
+    result: Result!
+    belongsToExistingUser: Boolean
+    userId: String
 }
 
 type StatsResult @aws_api_key @aws_cognito_user_pools{
-	ideas: StatsByPeriods!
-	users: StatsByPeriods!
-	shares: StatsByPeriods!
+    ideas: StatsByPeriods!
+    users: StatsByPeriods!
+    shares: StatsByPeriods!
 }
 
 type StatsByPeriods @aws_api_key @aws_cognito_user_pools{
-	today: Int!
-	week: Int!
-	month: Int!
-	total: Int!
+    today: Int!
+    week: Int!
+    month: Int!
+    total: Int!
 }
 
 type SaveResult {
-  result: Result!
-  savesCount: Int
+    result: Result!
+    savesCount: Int
 }
 
 type LikeResult {
-	result: Result!
-	likesCount: Int
+    result: Result!
+    likesCount: Int
 }
 
 type IdeaViewResult @aws_api_key @aws_cognito_user_pools {
@@ -217,127 +217,127 @@ type IdeaViewResult @aws_api_key @aws_cognito_user_pools {
 }
 
 type UserInfoResult @aws_api_key @aws_cognito_user_pools{
-	result: Result!
-	userInfo: UserInfo
+    result: Result!
+    userInfo: UserInfo
 }
 
 type AddCommentResult @aws_api_key @aws_cognito_user_pools{
-	result: Result!
-	comment: Comment
+    result: Result!
+    comment: Comment
 }
 
 type GetTemporaryCommentResult @aws_api_key @aws_cognito_user_pools{
-	result: Result!
-	comment: Comment
+    result: Result!
+    comment: Comment
 }
 
 type AvatarUploadResult {
-	result: Result!
-	avatar: String
+    result: Result!
+    avatar: String
 }
 
 type UserUpdateInfoResult {
-	result: Result!
-	updatedInfo: UserUpdatedInfo
+    result: Result!
+    updatedInfo: UserUpdatedInfo
 }
 
 type UserUpdatedInfo {
-	name: String
-	bio: String
-	slug: String
+    name: String
+    bio: String
+    slug: String
     interestedInTags: [String]
 }
 
 type ToggleNotificationsStateResult {
-	state: EmailNotificationsState!
+    state: EmailNotificationsState!
 }
 
 type ToggleIdeaVisibilityResult {
-	state: IdeaVisibilityState!
+    state: IdeaVisibilityState!
 }
 
 type IsSavedResult {
-  result: Result!
-  isSaved: Boolean
+    result: Result!
+    isSaved: Boolean
 }
 
 type IsLikedResult {
-	result: Result!
-	isLiked: Boolean
+    result: Result!
+    isLiked: Boolean
 }
 
 type Tag {
-   tag: String!
-   ideaId: String!
+    tag: String!
+    ideaId: String!
 }
 
 type Idea @aws_api_key @aws_cognito_user_pools {
-	ideaId: String!
-  shortId: String
-  slug: String
-	authorName: String
-	authorSlug: String
-	authorAvatar: String
-	content: String
-  strippedContent: String
-	title: String
-	userId: String
-	createdDate: String
-	ideaDate: String
-	likesCount: Int
-  savesCount: Int
-	commentsCount: Int
-	visibility: IdeaVisibilityState
+    ideaId: String!
+    shortId: String
+    slug: String
+    authorName: String
+    authorSlug: String
+    authorAvatar: String
+    content: String
+    strippedContent: String
+    title: String
+    userId: String
+    createdDate: Strings
+    ideaDate: String
+    likesCount: Int
+    savesCount: Int
+    commentsCount: Int
+    visibility: IdeaVisibilityState
 
-	imageAttachments: [String]
-	fileAttachments: [String]
-	previewImage: String
+    imageAttachments: [String]
+    fileAttachments: [String]
+    previewImage: String
     viewsCount: Int
 }
 
 type UserUpdateProfileResult{
-	bio:String
-	name: String
-	slug:String
+    bio:String
+    name: String
+    slug:String
 }
 
 type UserInfo  @aws_api_key @aws_cognito_user_pools{
-	userId: String!
-	followersCount: Int
-	followeesCount: Int
-	ideasCreated: Int
-	name: String
-	bio: String
-	slug: String
-	avatar: String
-	interestedInTags: [String]
+    userId: String!
+    followersCount: Int
+    followeesCount: Int
+    ideasCreated: Int
+    name: String
+    bio: String
+    slug: String
+    avatar: String
+    interestedInTags: [String]
 
-	isFollowingByMe: Boolean
-	followsMe: Boolean
+    isFollowingByMe: Boolean
+    followsMe: Boolean
 }
 
 type MyInfo{
-	name: String!
-	email: String!
-	userId: String!
-	wasWelcomed: Boolean
-	slug: String
-	avatar: String
+    name: String!
+    email: String!
+    userId: String!
+    wasWelcomed: Boolean
+    slug: String
+    avatar: String
 }
 
 type Comment @aws_api_key @aws_cognito_user_pools{
-	body: String!
-	userId: String!
-	commentId: String!
-	createdDate: String!
-	userName: String
-	userSlug: String
-  userAvatar: String
+    body: String!
+    userId: String!
+    commentId: String!
+    createdDate: String!
+    userName: String
+    userSlug: String
+    userAvatar: String
 }
 
 type Result  @aws_api_key @aws_cognito_user_pools{
-	error: String
-	ok: Boolean!
+    error: String
+    ok: Boolean!
 }
 
 type UnsubscribeResult  @aws_api_key @aws_cognito_user_pools{
@@ -347,53 +347,53 @@ type UnsubscribeResult  @aws_api_key @aws_cognito_user_pools{
 }
 
 type IdeaUpdateRusult{
-	idea: Idea!
-	result: Result!
+    idea: Idea!
+    result: Result!
 }
 
 type  IdeaConnection @aws_api_key @aws_cognito_user_pools {
-	items: [Idea!]!
-	nextToken: String
+    items: [Idea!]!
+    nextToken: String
 }
 
 type  CommentsConnection @aws_api_key @aws_cognito_user_pools {
-	items: [Comment!]!
-	nextToken: String
+    items: [Comment!]!
+    nextToken: String
 }
 
 input EmailNotificationsInput{
     unsubscribedAt: String
-	ideaReminders: Boolean!
-	hotStreaks: Boolean!
-	dailyDigests: Boolean!
-	weeklyDigests: Boolean!
-	ideaActivity: Boolean!
+    ideaReminders: Boolean!
+    hotStreaks: Boolean!
+    dailyDigests: Boolean!
+    weeklyDigests: Boolean!
+    ideaActivity: Boolean!
 }
 
 type EmailNotificationsState {
     unsubscribedAt: String
-	ideaReminders: Boolean!
-	hotStreaks: Boolean!
-	dailyDigests: Boolean!
-	weeklyDigests: Boolean!
+    ideaReminders: Boolean!
+    hotStreaks: Boolean!
+    dailyDigests: Boolean!
+    weeklyDigests: Boolean!
     ideaActivity: Boolean!
 }
 
 enum IdeaVisibilityState {
-	PRIVATE,
-	PUBLIC
+    PRIVATE,
+    PUBLIC
 }
 
 enum IdeaSortingOrder {
-	DATE_ASC,
-	DATE_DESC,
-	TITLE_ASC,
-	TITLE_DESC,
-	COMMENTS,
-	LIKES
+    DATE_ASC,
+    DATE_DESC,
+    TITLE_ASC,
+    TITLE_DESC,
+    COMMENTS,
+    LIKES
 }
 
 schema {
-	query: Query
-	mutation: Mutation
+    query: Query
+    mutation: Mutation
 }

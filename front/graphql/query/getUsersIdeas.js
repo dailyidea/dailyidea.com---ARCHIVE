@@ -15,6 +15,7 @@ query getUsersIdeas($authorSlug: String!, $nextToken: String, $limit: Int) {
       createdDate
       ideaDate
       likesCount
+      savesCount
       commentsCount
       visibility
     }
