@@ -71,7 +71,7 @@
     >
       <p>
         Thanks for posting that comment! Feel free to
-        <router-link to="/ideas/all">browse for other ideas</router-link> or
+        <router-link to="/ideas-cards">browse for other ideas</router-link> or
         <router-link to="/ideas/create">add your own ideas</router-link>
         .
       </p>

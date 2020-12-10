@@ -12,12 +12,10 @@ export default {
 
   async fetch({ app, store, redirect, error }) {
     try {
-      if (!store.getters['ideas/currIdea']) {
-        await store.dispatch('ideas/getQueue', { app })
-      }
+      await store.dispatch('ideas/getQueue', { app })
 
       // Redirect to correct slug if it doesn't match
-      const idea = store.getters['ideas/currIdea']
+      const idea = store.getters['ideas/firstIdea']
       if (!idea) {
         throw new Error('Ideas not found')
       }
