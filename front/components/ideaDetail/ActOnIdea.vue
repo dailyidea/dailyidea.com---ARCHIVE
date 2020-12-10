@@ -62,8 +62,7 @@
         <a href="#" @click.prevent="showFirstIdeaSaved = false"
           >go back to the idea you saved</a
         >,<br />
-        <router-link to="/ideas/all?order=LIKES">browse other ideas</router-link
-        >,<br />
+        <router-link to="/ideas-cards">browse other ideas</router-link>,<br />
         <router-link to="/ideas/create"
           >start entering your own great ideas</router-link
         >?
@@ -85,8 +84,7 @@
         <a href="#" @click.prevent="showFirstIdeaLiked = false"
           >go back to the idea you liked</a
         >,<br />
-        <router-link to="/ideas/all?order=LIKES">browse other ideas</router-link
-        >,<br />
+        <router-link to="/ideas-cards">browse other ideas</router-link>,<br />
         <router-link to="/ideas/create"
           >start entering your own great ideas</router-link
         >?
@@ -118,7 +116,7 @@
     >
       <p>
         Welcome back {{ userName }}. We liked that idea for you! You can check
-        out more ideas <router-link to="/ideas/all">here</router-link>.
+        out more ideas <a href="/ideas-cards">here</a>.
       </p>
     </default-dialog>
 

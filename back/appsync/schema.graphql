@@ -282,7 +282,7 @@ type Idea @aws_api_key @aws_cognito_user_pools {
     strippedContent: String
     title: String
     userId: String
-    createdDate: Strings
+    createdDate: String
     ideaDate: String
     likesCount: Int
     savesCount: Int
@@ -351,12 +351,12 @@ type IdeaUpdateRusult{
     result: Result!
 }
 
-type  IdeaConnection @aws_api_key @aws_cognito_user_pools {
+type IdeaConnection @aws_api_key @aws_cognito_user_pools {
     items: [Idea!]!
     nextToken: String
 }
 
-type  CommentsConnection @aws_api_key @aws_cognito_user_pools {
+type CommentsConnection @aws_api_key @aws_cognito_user_pools {
     items: [Comment!]!
     nextToken: String
 }

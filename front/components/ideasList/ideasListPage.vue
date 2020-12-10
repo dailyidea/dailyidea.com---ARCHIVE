@@ -7,7 +7,7 @@
         class="text-center d-none d-sm-block"
       >
         <span class="ideas-navigation-item">
-          <router-link to="/ideas/all" class="muted">All Ideas</router-link>
+          <router-link to="/ideas-cards" class="muted">All Ideas</router-link>
         </span>
         <span v-if="isAuthenticated" class="ideas-navigation-item">
           <router-link to="/ideas/me" class="muted">My Ideas</router-link>

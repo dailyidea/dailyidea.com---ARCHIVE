@@ -39,7 +39,7 @@
             If you typed it in manually, please check the link and try again.
           </p>
           <p>
-            Feel free to <a href="/ideas/all/">browse ideas on the site</a> or
+            Feel free to <a href="/ideas-cards">browse ideas on the site</a> or
             <a href="/">go to our home page</a>.
           </p>
         </v-col>
