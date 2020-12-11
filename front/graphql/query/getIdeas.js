@@ -16,6 +16,7 @@ query ideas($order: IdeaSortingOrder, $nextToken: String, $limit: Int) {
       likesCount
       savesCount
       commentsCount
+      visibility
     }
     nextToken
   }

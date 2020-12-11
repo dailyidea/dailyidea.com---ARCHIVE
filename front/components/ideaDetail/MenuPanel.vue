@@ -106,9 +106,14 @@
           icon
           text
           class="shareButton"
+          :disabled="idea.visibility === 'PRIVATE'"
           @click="showShareIdeaDialog"
         >
-          <img src="~/assets/images/idea-card/share.png" />
+          <img
+            v-if="idea.visibility === 'PRIVATE'"
+            src="~assets/images/idea-card/share-disabled.svg"
+          />
+          <img v-else src="~assets/images/idea-card/share.png" />
         </v-btn>
       </div>
     </div>
@@ -368,6 +373,9 @@ export default {
 }
 
 .shareButton {
+  &.theme--light.v-btn[disabled] {
+    opacity: 1;
+  }
   img {
     height: 18px;
   }
