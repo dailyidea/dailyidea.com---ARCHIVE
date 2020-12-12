@@ -101,19 +101,27 @@
           <img src="~/assets/images/idea-card/comment.png" />
           <span class="count">{{ idea.commentsCount }}</span>
         </v-btn>
+
+        <v-tooltip v-if="idea.visibility === 'PRIVATE'" top>
+          <template v-slot:activator="{ on, attrs }">
+            <img
+              v-bind="attrs"
+              src="~assets/images/idea-card/share-disabled.svg"
+              alt="Share disabeld"
+              v-on="on"
+            />
+          </template>
+          <span>Private ideas can't be shared</span>
+        </v-tooltip>
         <v-btn
+          v-else
           x-small
           icon
           text
           class="shareButton"
-          :disabled="idea.visibility === 'PRIVATE'"
           @click="showShareIdeaDialog"
         >
-          <img
-            v-if="idea.visibility === 'PRIVATE'"
-            src="~assets/images/idea-card/share-disabled.svg"
-          />
-          <img v-else src="~assets/images/idea-card/share.png" />
+          <img src="~assets/images/idea-card/share.png" alt="Share" />
         </v-btn>
       </div>
     </div>
@@ -373,9 +381,6 @@ export default {
 }
 
 .shareButton {
-  &.theme--light.v-btn[disabled] {
-    opacity: 1;
-  }
   img {
     height: 18px;
   }
