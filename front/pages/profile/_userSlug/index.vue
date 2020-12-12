@@ -70,8 +70,11 @@ export default {
 
     updateIdeaLocal(idea) {
       const idx = this.userIdeas.findIndex(i => i.ideaId === idea.ideaId)
-      this.$set(this.userIdeas, idx, idea)
-      this.updateIdea(idea)
+      const updatedIdea = Object.assign({}, this.userIdeas[idx], idea)
+      if (idx !== -1) {
+        this.$set(this.userIdeas, idx, updatedIdea)
+      }
+      this.updateIdea(updatedIdea)
     }
   },
 

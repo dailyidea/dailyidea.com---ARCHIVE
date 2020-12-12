@@ -192,7 +192,10 @@ export default {
     },
 
     onIdeaVisibilityChanged({ isPrivate }) {
-      this.$emit('updated', { visibility: isPrivate ? 'PRIVATE' : 'PUBLIC' })
+      this.$emit('updated', {
+        ideaId: this.idea.ideaId,
+        visibility: isPrivate ? 'PRIVATE' : 'PUBLIC'
+      })
       this.$notifier.show({
         color: 'green',
         message: `Your Idea is ${isPrivate ? 'private' : 'public'} now!`,
