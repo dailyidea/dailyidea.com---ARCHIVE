@@ -63,6 +63,13 @@ export default {
     firstInStack: true
   }),
 
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      setTimeout(() => this.$nuxt.$loading.finish(), 5000)
+    })
+  },
+
   methods: {
     nextIdea() {
       this.loadNewIdea(1)
