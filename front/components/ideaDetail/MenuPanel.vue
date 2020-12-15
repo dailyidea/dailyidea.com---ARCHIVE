@@ -142,8 +142,6 @@ import makeIdeaPrivate from '~/graphql/mutations/makeIdeaPrivate'
 import makeIdeaPublic from '~/graphql/mutations/makeIdeaPublic'
 
 export default {
-  name: 'MenuPanel',
-
   components: {
     ActOnIdea,
     UnlockedIcon,
@@ -181,6 +179,11 @@ export default {
   },
 
   watch: {
+    idea() {
+      // This is a workaround, for some reason computed isPrivate doesn't update
+      this.$forceUpdate()
+    },
+
     shareIdea(val) {
       if (val) {
         this.showShareIdeaDialog()
