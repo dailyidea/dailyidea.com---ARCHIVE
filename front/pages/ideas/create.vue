@@ -41,7 +41,13 @@
           </client-only>
         </div>
 
-        <div class="submit-btn">
+        <div class="submit-btn d-flex align-center">
+          <v-switch
+            v-model="isPrivate"
+            inset
+            hint="Private"
+            persistent-hint
+          ></v-switch>
           <v-btn
             rounded
             dark
@@ -57,7 +63,7 @@
   </Layout>
 </template>
 <script>
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { graphqlOperation } from '@aws-amplify/api'
 import TrixWrapper from '@/components/TrixWrapper'
@@ -77,6 +83,7 @@ export default {
   data: () => ({
     contents: '',
     title: '',
+    isPrivate: false,
     imageAttachments: [],
     fileAttachments: [],
     creatingIdea: false,
@@ -87,6 +94,10 @@ export default {
   }),
 
   computed: {
+    ...mapGetters({
+      userSlug: 'userData/slug'
+    }),
+
     allowCreateIdea() {
       return this.title && !this.uploadingAttachment
     }
@@ -151,7 +162,8 @@ export default {
             title: this.title,
             tags: [],
             fileAttachments: this.fileAttachments,
-            imageAttachments: this.imageAttachments
+            imageAttachments: this.imageAttachments,
+            isPrivate: this.isPrivate
           })
         )
 
@@ -160,11 +172,15 @@ export default {
 
         // Redirect to idea deail page
         const { shortId, slug, ideaId } = result.data.createIdea
-        this.$router.push({
-          name: 'i-shortId-slug',
-          params: { shortId, slug },
-          force: true
-        })
+        if (this.isPrivate) {
+          this.$router.push(`/profile/${this.userSlug}`)
+        } else {
+          this.$router.push({
+            name: 'i-shortId-slug',
+            params: { shortId, slug },
+            force: true
+          })
+        }
         this.updateCreatedIdea(ideaId)
       } catch (err) {
         this.$notifier.error('Something went wrong!')
@@ -191,7 +207,7 @@ export default {
 .form-container {
   position: relative;
   height: calc(100vh - 126px);
-  max-width: 500px;
+  max-width: 600px;
   overflow-y: hidden;
 
   @media (max-width: $screen-md-min) {
@@ -201,9 +217,9 @@ export default {
 
 .submit-btn {
   position: absolute;
-  bottom: 12px;
+  bottom: -5px;
   right: 12px;
-  width: 20%;
+  width: 160px;
 }
 
 .idea-name-field {
@@ -279,13 +295,21 @@ export default {
     position: absolute;
     bottom: 12px;
     left: 12px;
+
+    @media (max-width: $screen-xs-max) {
+      bottom: 0;
+      display: flex;
+      flex-wrap: wrap;
+      width: 200px;
+      justify-content: flex-start;
+    }
   }
   .trix-button-group {
     margin: 0 0 5px 0 !important;
   }
   .trix-button {
     margin: 0 5px !important;
-    @media (max-width: $screen-md-min) {
+    @media (max-width: $screen-xs-max) {
       margin: 0 !important;
     }
   }
