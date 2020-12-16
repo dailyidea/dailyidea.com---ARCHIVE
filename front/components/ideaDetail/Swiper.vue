@@ -217,7 +217,7 @@ export default {
             this.$emit('swipe-right')
           }
         } else if (this.xVal < -this.minSwipeDistanceBeforeAction) {
-          this.xVal = -this.offPageWidthf
+          this.xVal = -this.offPageWidth
           this.rotationVal = this.getRotation(this.xVal)
           this.queueNextAnimation(this.setSwipeLeftCardPos)
           if (this.allowRight) {
