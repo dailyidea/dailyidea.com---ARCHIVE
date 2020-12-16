@@ -1,10 +1,10 @@
 <template>
   <div v-if="loading" class="loading-page">
     <img
+      class="loading-image"
       src="~assets/images/general/loading.gif"
       alt="Loading"
-      width="395"
-      height="396"
+      width="197"
     />
   </div>
 </template>
