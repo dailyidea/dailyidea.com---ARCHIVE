@@ -49,6 +49,11 @@
         </template>
       </swiper>
     </layout>
+    <idea-posted-dialog
+      v-model="showIdeaPostedDialog"
+      @share="showShareDialog = true"
+    />
+    <share-idea-by-email v-model="showShareDialog" :idea="idea" />
   </div>
 </template>
 
@@ -64,9 +69,13 @@ import SwipeExplainer from '@/components/ideaDetail/SwipeExplainer'
 import CategoriesSubHeader from '@/components/layout/CategoriesSubHeader'
 import IdeaLightbox from '@/components/ideaDetail/IdeaLightbox'
 import IdeaSwipableCard from '@/components/ideaDetail/IdeaSwipableCard'
+import IdeaPostedDialog from '@/components/dialogs/IdeaPostedDialog'
+import ShareIdeaByEmail from '@/components/dialogs/ShareIdeaByEmail'
 
 export default {
   components: {
+    ShareIdeaByEmail,
+    IdeaPostedDialog,
     IdeaSwipableCard,
     IdeaLightbox,
     Layout,
@@ -105,13 +114,16 @@ export default {
       expandedIdea: null,
       expandWithEdit: false,
       firstInStack: true,
-      lastInStack: false
+      lastInStack: false,
+      showIdeaPostedDialog: false,
+      showShareDialog: false
     }
   },
 
   computed: {
     ...mapState({
-      category: s => s.ideas.currCategory
+      category: s => s.ideas.currCategory,
+      createdIdeaId: s => s.ideas.createdIdeaId
     }),
 
     ...mapGetters({
@@ -143,8 +155,9 @@ export default {
 
   mounted() {
     // Show success dialog for jsut created idea
-    if (this.idea && this.createdIdeaId === this.idea.ideaId) {
+    if (this.idea && this.idea.ideaId === this.createdIdeaId) {
       this.showIdeaPostedDialog = true
+      this.updateCreatedIdea(null)
     }
     this.showExplainer = !Cookies.get('hasSeenExplainer')
     this.incrementViews()
@@ -161,7 +174,8 @@ export default {
 
     ...mapMutations({
       updateCurrCategory: 'ideas/UPDATE_CURR_CATEGORY',
-      updateIdea: 'ideas/UPDATE_IDEA'
+      updateIdea: 'ideas/UPDATE_IDEA',
+      updateCreatedIdea: 'ideas/UPDATE_CREATED'
     }),
 
     ideaUrl(newCategory) {
