@@ -172,6 +172,8 @@ export default {
 
         // Redirect to idea deail page
         const { shortId, slug, ideaId } = result.data.createIdea
+        this.updateCreatedIdea(ideaId)
+
         if (this.isPrivate) {
           this.$router.push(`/profile/${this.userSlug}`)
         } else {
@@ -181,7 +183,6 @@ export default {
             force: true
           })
         }
-        this.updateCreatedIdea(ideaId)
       } catch (err) {
         this.$notifier.error('Something went wrong!')
         this.creatingIdea = false
