@@ -18,7 +18,7 @@
       <swipable-card
         ref="page"
         :style="rotationStyle"
-        top-padding-desktop="15rem"
+        top-padding-desktop="11rem"
         top-padding-mobile="11rem"
         class="overflow-y-auto"
       >
@@ -40,7 +40,7 @@ import SliderDots from '@/components/layout/svgIcons/SliderDots'
 import Layout from '@/components/layout/Layout'
 import SwipableCard from '@/components/shared/SwipableCard'
 import SwipeExplainerBar from '@/components/home/SwipeExplainerBar'
-import Pages from '@/components/welcome/Pages'
+import Pages from '@/components/home/Pages'
 
 export default {
   components: {
