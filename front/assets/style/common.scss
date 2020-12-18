@@ -58,7 +58,7 @@
   background: linear-gradient(to top, transparent 15%, rgba(91, 65, 187, 0.2) 15%, rgba(91, 65, 187, 0.2) 55%, transparent 55%);
 }
 
-.text-decoration-none {text-decoration: none;}
+.text-decoration-none { text-decoration: none; }
 .block { display: block; }
 .no-underline { text-decoration: none; }
 .w-full { width: 100%; }
@@ -70,7 +70,11 @@
 .flex-1 { flex: 1; }
 .align-middle { vertical-align: middle; }
 .absolute { position: absolute; }
+.fill-width { width: 100%; }
 
 .disabled {
   &.link { color: $dark-grey !important; }
+}
+.inset-0 {
+  top: 0; right: 0; bottom: 0; left: 0;
 }

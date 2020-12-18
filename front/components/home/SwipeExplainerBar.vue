@@ -1,5 +1,5 @@
 <template>
-  <div class="swipe-header justify-center py-2 d-sm-flex ">
+  <div class="swipe-header justify-center py-2 d-flex d-sm-none">
     <v-card
       class="d-flex justify-space-between pa-2 col-md-6 col-sm-12 swipe-header-card"
     >
