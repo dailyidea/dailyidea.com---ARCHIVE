@@ -15,25 +15,51 @@
       >
         <span :class="{ 'link-highlight mt-1': category === 'top' }">Top</span>
       </span>
+      <v-select
+        v-if="category === 'top'"
+        v-model="topOption"
+        :items="topOptions"
+        class="top-selector"
+      ></v-select>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'CategoriesSubHeader',
   props: {
-    categorySelected: { type: String, required: true }
+    category: { type: String, required: true }
   },
 
-  computed: {
-    category() {
-      switch (this.categorySelected) {
-        case 'new':
-          return 'new'
-        default:
-          return 'top'
+  data: () => ({
+    topOption: 'all',
+    topOptions: [
+      {
+        value: 'day',
+        text: 'Today'
+      },
+      {
+        value: 'week',
+        text: 'This Week'
+      },
+      {
+        value: 'month',
+        text: 'This Month'
+      },
+      {
+        value: 'year',
+        text: 'This Year'
+      },
+      {
+        value: 'all',
+        text: 'All Time'
       }
+    ]
+  }),
+
+  watch: {
+    topOption(val) {
+      this.$emit('top-option', val)
     }
   },
 
@@ -46,9 +72,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.top-selector {
+  flex: 0 1 120px;
+}
+
 .header-container {
   width: 100%;
-  height: 100%;
   background-color: white;
   height: 60px;
 

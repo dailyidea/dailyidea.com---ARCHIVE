@@ -10,7 +10,8 @@
     <layout :hide-mobile-nav="!!expandedIdea" :hide-slide-menu="hideSlideMenu">
       <template v-slot:header>
         <categories-sub-header
-          :category-selected="category"
+          :category="category"
+          @top-option="onChangeTopOption"
           @category-clicked="updateCurrCategory"
         ></categories-sub-header>
       </template>
@@ -174,6 +175,7 @@ export default {
 
     ...mapMutations({
       updateCurrCategory: 'ideas/UPDATE_CURR_CATEGORY',
+      updateTopOption: 'ideas/UPDATE_TOP_OPTION',
       updateIdea: 'ideas/UPDATE_IDEA',
       updateCreatedIdea: 'ideas/UPDATE_CREATED'
     }),
@@ -205,6 +207,10 @@ export default {
         )
       }
       await this.updateIndex({ app: this, direction: -1 })
+    },
+
+    onChangeTopOption(val) {
+      this.updateTopOption(val)
     },
 
     async incrementViews() {

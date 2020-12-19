@@ -159,7 +159,7 @@ type Query {
     @aws_api_key @aws_cognito_user_pools
     getIdea(shortId: String!): Idea!
     @aws_api_key @aws_cognito_user_pools
-    getPublicIdeas(order: IdeaSortingOrder, nextToken: String, limit: Int): IdeaConnection!
+    getPublicIdeas(order: IdeaSortingOrder, nextToken: String, topOption: String, limit: Int): IdeaConnection!
     @aws_api_key @aws_cognito_user_pools
     findIdeas(query: String): IdeaConnection
     @aws_api_key @aws_cognito_user_pools

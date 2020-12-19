@@ -1,6 +1,6 @@
 export default `
-query getPublicIdeas($order: IdeaSortingOrder, $nextToken: String, $limit: Int) {
-  getPublicIdeas(order: $order, nextToken: $nextToken, limit: $limit) {
+query getPublicIdeas($order: IdeaSortingOrder, $nextToken: String, $topOption: String, $limit: Int) {
+  getPublicIdeas(order: $order, nextToken: $nextToken, topOption: $topOption, limit: $limit) {
     items {
       ideaId
       userId
@@ -9,7 +9,7 @@ query getPublicIdeas($order: IdeaSortingOrder, $nextToken: String, $limit: Int) 
       authorName
       authorAvatar
       authorSlug
-      content 
+      content
       title
       createdDate
       ideaDate

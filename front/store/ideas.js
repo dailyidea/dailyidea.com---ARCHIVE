@@ -21,6 +21,7 @@ const queueData = {
 export const state = () => ({
   createdIdeaId: null,
   currCategory: 'new',
+  topOption: 'all',
 
   ideasQueues: {
     top: merge({}, queueData),
@@ -53,7 +54,12 @@ export const actions = {
         app.$amplifyApi,
         'getPublicIdeas',
         getPublicIdeasForQueue,
-        { nextToken, order: categoriesOrders[state.currCategory], limit },
+        {
+          nextToken,
+          order: categoriesOrders[state.currCategory],
+          topOption: state.topOption,
+          limit
+        },
         'API_KEY'
       )
 
@@ -128,6 +134,10 @@ export const mutations = {
 
   UPDATE_CURR_CATEGORY(state, category) {
     state.currCategory = category || state.currCategory
+  },
+
+  UPDATE_TOP_OPTION(state, option) {
+    state.topOption = option
   },
 
   UPDATE_QUEUE_INDEX(state, index) {
