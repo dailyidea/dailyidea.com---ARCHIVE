@@ -2,7 +2,7 @@
   <users-profile
     :initial-profile-data="userInfo"
     :ideas="userIdeas"
-    :load-more-ideas-is-possible="loadMoreIdeasIsPossible"
+    :loading="loading"
     @idea-updated="updateIdeaLocal"
   >
     <template v-slot:no-ideas>
@@ -14,13 +14,16 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import userInfoBySlug from '@/graphql/query/userInfoBySlug'
 import UsersProfile from '@/components/profilePage/UsersProfile'
 import NoIdeasPlaceholder from '@/components/ideaDetail/NoIdeasPlaceholder'
 import getUsersIdeas from '@/graphql/query/getUsersIdeas'
 import loadIdeas from '@/helpers/load-ideas'
 import getIdeas from '@/graphql/query/getIdeas'
+
+// Ideas per page
+const limit = 25
 
 export default {
   components: { UsersProfile, NoIdeasPlaceholder },
@@ -33,11 +36,12 @@ export default {
       variables: { slug: userSlug },
       authMode: isMyProfile ? undefined : 'API_KEY'
     })
+
     const userIdeasRequest = loadIdeas(
       app.$amplifyApi,
       isMyProfile ? 'ideas' : 'getUsersIdeas',
       isMyProfile ? getIdeas : getUsersIdeas,
-      isMyProfile ? { limit: 25 } : { authorSlug: userSlug, limit: 25 },
+      isMyProfile ? { limit } : { authorSlug: userSlug, limit },
       isMyProfile ? undefined : 'API_KEY'
     )
     const [userInfoResponse, userIdeasResponse] = await Promise.all([
@@ -48,20 +52,34 @@ export default {
     if (!userInfo) {
       error({ statusCode: 404, message: 'User not found' })
     }
-    const userIdeas = userIdeasResponse.ideas
-    const loadMoreIdeasIsPossible = !!userIdeasResponse.nextToken
+
     return {
       userInfo,
-      userIdeas,
-      loadMoreIdeasIsPossible
+      userIdeas: userIdeasResponse.ideas,
+      nextToken: userIdeasResponse.nextToken
     }
   },
 
   data: () => ({
-    loadMoreIdeasIsPossible: false,
     userInfo: {},
-    userIdeas: []
+    userIdeas: [],
+    nextToken: null,
+    loading: false
   }),
+
+  computed: {
+    ...mapGetters({
+      userSlug: 'userData/slug'
+    }),
+
+    isMyProfile() {
+      return this.$route.params.userSlug === this.userSlug
+    }
+  },
+
+  mounted() {
+    this.checkScrollBottom()
+  },
 
   methods: {
     ...mapMutations({
@@ -75,6 +93,46 @@ export default {
         this.$set(this.userIdeas, idx, updatedIdea)
       }
       this.updateIdea(updatedIdea)
+    },
+
+    async loadNextIdeas() {
+      if (this.loading || !this.nextToken) {
+        return
+      }
+      this.loading = true
+
+      const vars = { limit, nextToken: this.nextToken }
+      if (!this.isMyProfile) {
+        vars.authorSlug = this.$route.params.userSlug
+      }
+
+      const resp = await loadIdeas(
+        this.$amplifyApi,
+        this.isMyProfile ? 'ideas' : 'getUsersIdeas',
+        this.isMyProfile ? getIdeas : getUsersIdeas,
+        vars,
+        this.isMyProfile ? undefined : 'API_KEY'
+      )
+      this.userIdeas = this.userIdeas.concat(resp.ideas)
+      this.nextToken = resp.nextToken
+      this.loading = false
+    },
+
+    checkScrollBottom() {
+      window.onscroll = () => {
+        const bottomOfWindow =
+          Math.max(
+            window.pageYOffset,
+            document.documentElement.scrollTop,
+            document.body.scrollTop
+          ) +
+            window.innerHeight ===
+          document.documentElement.offsetHeight
+
+        if (bottomOfWindow) {
+          this.loadNextIdeas()
+        }
+      }
     }
   },
 
