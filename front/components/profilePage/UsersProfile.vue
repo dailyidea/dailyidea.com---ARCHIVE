@@ -22,6 +22,12 @@
           @updated="ideaUpdated"
           @view-preview="i => (selectedIdea = i)"
         ></idea-short-card>
+        <div v-if="loading" class="text-center mt-5">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+        </div>
       </div>
       <slot v-if="!ideas.length" name="no-ideas" />
       <slot />
@@ -58,7 +64,8 @@ export default {
   props: {
     initialProfileData: { type: Object, required: true },
     ideas: { type: Array, required: true },
-    loadMoreIdeasIsPossible: { type: Boolean, default: false }
+    nextToken: { type: String, default: null },
+    loading: { type: Boolean, default: false }
   },
 
   data() {
