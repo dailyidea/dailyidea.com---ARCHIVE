@@ -329,20 +329,32 @@ export default {
     left: 12px;
 
     @media (max-width: $screen-xs-max) {
-      display: flex;
-      justify-content: space-between;
       right: 12px;
       bottom: 2.5rem;
     }
   }
   .trix-button-group {
     margin: 0 0 5px 0 !important;
+    flex-grow: 1;
+    justify-content: space-between;
   }
   .trix-button {
     margin: 0 5px !important;
     @media (max-width: $screen-xs-max) {
       margin: 0 2px !important;
     }
+  }
+
+  .trix-button-group--file-tools {
+    flex-grow: 0;
+  }
+
+  .trix-button-group-spacer {
+    display: none;
+  }
+
+  .trix-button-group--history-tools {
+    display: none;
   }
 
   #toggle-trix-panel {
