@@ -2,7 +2,7 @@
   <div class="page-inner fill-height fill-width">
     <div
       v-if="page === 0"
-      class="d-flex py-6 justify-space-between fill-height fill-width"
+      class="d-flex py-3 py-sm-6 justify-space-between fill-height fill-width"
     >
       <div
         class="absolute inset-0 d-none d-sm-flex justify-center align-center"
@@ -11,11 +11,11 @@
       </div>
 
       <div class="left-col text-center text-sm-left">
-        <h1 class="heading text-h4 mb-8 font-weight-regular">
+        <h1 class="heading text-h4 mb-4 font-weight-regular">
           Become an<br />
           Idea Machine
         </h1>
-        <p class="mb-sm-8">
+        <p class="mb-0 mb-sm-8">
           Bring ideas to life,<br />
           in a few minutes each day.
         </p>
@@ -50,7 +50,7 @@
     </div>
     <div
       v-if="page === 1"
-      class="d-flex py-6 justify-space-between fill-height fill-width"
+      class="d-flex py-3 py-sm-6 justify-space-between fill-height fill-width"
     >
       <div
         class="absolute inset-0 d-none d-sm-flex justify-center align-center"
@@ -59,11 +59,11 @@
       </div>
 
       <div class="left-col text-center text-sm-left">
-        <h1 class="heading text-h4 mb-8 font-weight-regular">
+        <h1 class="heading text-h4 mb-4 font-weight-regular">
           Explore<br />
           Other's Ideas
         </h1>
-        <p class="mb-sm-8">
+        <p class="mb-0 mb-sm-8">
           Be inspired,<br />
           and boost your creativity.
         </p>
@@ -98,7 +98,7 @@
     </div>
     <div
       v-if="page === 2"
-      class="d-flex py-6 justify-space-between fill-height fill-width"
+      class="d-flex py-3 py-sm-6 justify-space-between fill-height fill-width"
     >
       <div
         class="absolute inset-0 d-none d-sm-flex justify-center align-center"
@@ -107,11 +107,11 @@
       </div>
 
       <div class="left-col text-center text-sm-left">
-        <h1 class="heading text-h4 mb-8 font-weight-regular">
+        <h1 class="heading text-h4 mb-4 font-weight-regular">
           Every Day,<br />
           Log an Idea
         </h1>
-        <p class="mb-sm-8">
+        <p class="mb-0 mb-sm-8">
           A project idea,<br />
           a startup idea, a work idea.
         </p>

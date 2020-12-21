@@ -1,10 +1,9 @@
 <template>
   <div class="swipe-header justify-center py-2 d-flex d-sm-none">
     <v-card
-      class="d-flex justify-space-between pa-2 col-md-6 col-sm-12 swipe-header-card"
+      class="d-flex justify-center align-center pa-2 col-md-6 col-sm-12 swipe-header-card"
     >
-      <div style="width: 50px;">&nbsp;</div>
-      <div class="pt-3">
+      <div class="pt-2 pb-1 pl-2 flex-grow-1 text-no-wrap">
         <span v-if="ideaIndex === 0">
           <span v-if="$vuetify.breakpoint.smAndDown"
             >Swipe left to see the next idea</span
@@ -14,7 +13,10 @@
         <span v-if="ideaIndex > 0">{{ ideaIndex + 1 }} of 3</span>
       </div>
 
-      <div v-if="ideaIndex === 0" class="overflow-hidden">
+      <div
+        v-if="ideaIndex === 0"
+        class="overflow-hidden flex-grow-0 align-self-end"
+      >
         <div
           v-if="$vuetify.breakpoint.smAndDown"
           style="width: 72px; height: 39px; margin: 0 -5px 0 5px;"
@@ -33,7 +35,7 @@
           />
         </div>
       </div>
-      <div v-else>
+      <div v-else class="flex-grow-0 align-self-end">
         <div
           v-if="$vuetify.breakpoint.smAndDown"
           style="width: 72px; height: 39px; margin: 0 -5px 0 5px;"
