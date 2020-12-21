@@ -42,12 +42,25 @@
         </div>
 
         <div class="submit-btn d-flex align-center">
-          <v-switch
-            v-model="isPrivate"
-            inset
-            hint="Private"
-            persistent-hint
-          ></v-switch>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <div v-bind="attrs" class="mr-3" v-on="on">
+                <v-switch
+                  v-model="isPrivate"
+                  inset
+                  :label="isPrivate ? 'Private' : 'Public'"
+                ></v-switch>
+              </div>
+            </template>
+            <span v-if="isPrivate"
+              >This idea can only by seen by you.<br />
+              To view it visit My Ideas.</span
+            >
+            <span v-else
+              >This idea will be posted to the idea feed,<br />
+              and can be viewed by others.</span
+            >
+          </v-tooltip>
           <v-btn
             rounded
             dark
@@ -220,7 +233,12 @@ export default {
   position: absolute;
   bottom: -5px;
   right: 12px;
-  width: 160px;
+  width: 13rem;
+  ::v-deep {
+    .v-label {
+      font-size: 0.9rem;
+    }
+  }
 }
 
 .idea-name-field {
