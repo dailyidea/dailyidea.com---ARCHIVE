@@ -41,7 +41,7 @@
           </client-only>
         </div>
 
-        <div class="submit-btn d-flex align-center">
+        <div class="submit-btn d-flex align-center justify-space-between">
           <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
               <div v-bind="attrs" class="mr-3" v-on="on">
@@ -233,7 +233,16 @@ export default {
   position: absolute;
   bottom: -5px;
   right: 12px;
-  width: 13rem;
+
+  @media (min-width: $screen-sm-min) {
+    width: 13rem;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    bottom: -15px;
+    left: 20px;
+  }
+
   ::v-deep {
     .v-label {
       font-size: 0.9rem;
@@ -269,6 +278,10 @@ export default {
     .editor {
       height: 100%;
       padding-bottom: 60px;
+
+      @media (max-width: $screen-xs-max) {
+        padding-bottom: 70px;
+      }
 
       .trix-content {
         height: 100% !important;
@@ -316,11 +329,10 @@ export default {
     left: 12px;
 
     @media (max-width: $screen-xs-max) {
-      bottom: 0;
       display: flex;
-      flex-wrap: wrap;
-      width: 200px;
-      justify-content: flex-start;
+      justify-content: space-between;
+      right: 12px;
+      bottom: 2.5rem;
     }
   }
   .trix-button-group {
@@ -329,7 +341,7 @@ export default {
   .trix-button {
     margin: 0 5px !important;
     @media (max-width: $screen-xs-max) {
-      margin: 0 !important;
+      margin: 0 2px !important;
     }
   }
 
