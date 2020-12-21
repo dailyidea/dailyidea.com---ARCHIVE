@@ -6,6 +6,7 @@
       alt="Loading"
       width="197"
     />
+    <div class="caption">loading...</div>
   </div>
 </template>
 
@@ -36,8 +37,16 @@ export default {
   bottom: 0;
   left: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background: white;
+}
+.caption {
+  margin-top: 2rem;
+  padding-left: 1rem;
+  font-size: 1.5rem;
+  color: #4a4759;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 </style>
