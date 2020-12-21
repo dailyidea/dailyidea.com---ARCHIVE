@@ -19,7 +19,7 @@
         ref="page"
         :style="rotationStyle"
         top-padding-desktop="11rem"
-        top-padding-mobile="11rem"
+        top-padding-mobile="10.5rem"
         class="overflow-y-auto"
       >
         <div class="fill-height d-flex justify-center align-center">
