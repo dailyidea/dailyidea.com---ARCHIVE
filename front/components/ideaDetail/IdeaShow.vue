@@ -184,7 +184,8 @@ export default {
         const ideaId = this.idea.ideaId
         await this.$amplifyApi.graphql(graphqlOperation(deleteIdea, { ideaId }))
         this.$notifier.success('Idea deleted')
-        this.$router.push('/ideas/me')
+        // this.$router.push('/ideas/me')
+        this.$emit('deleted', ideaId)
       } catch (err) {
         this.$notifier.error('Something went wrong!!')
       }

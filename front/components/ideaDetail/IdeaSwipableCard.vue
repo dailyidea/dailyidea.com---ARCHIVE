@@ -6,6 +6,7 @@
       :expanded="$vuetify.breakpoint.lgAndUp"
       @expand="$emit('expand')"
       @updated="i => $emit('updated', i)"
+      @deleted="id => $emit('deleted', id)"
     />
   </swipable-card>
 </template>

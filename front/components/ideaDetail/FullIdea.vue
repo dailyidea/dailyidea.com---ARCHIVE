@@ -18,6 +18,7 @@
       @close="$emit('close')"
       @view-preview="$emit('view-preview')"
       @updated="onUpdate"
+      @deleted="id => $emit('deleted', id)"
       @expand="$emit('expand')"
     />
   </div>

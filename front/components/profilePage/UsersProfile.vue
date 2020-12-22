@@ -20,6 +20,7 @@
           :key="index"
           :idea="idea"
           @updated="ideaUpdated"
+          @deleted="i => $emit('idea-deleted', i)"
           @view-preview="i => (selectedIdea = i)"
         ></idea-short-card>
         <div v-if="loading" class="text-center mt-5">

@@ -44,6 +44,7 @@
             :style="rotationStyle"
             close-btn
             @updated="updateIdea"
+            @deleted="deleteIdea"
             @expand="expandedIdea = idea"
           ></idea-swipable-card>
         </template>
@@ -175,6 +176,7 @@ export default {
     ...mapMutations({
       updateCurrCategory: 'ideas/UPDATE_CURR_CATEGORY',
       updateIdea: 'ideas/UPDATE_IDEA',
+      deleteIdea: 'ideas/DELETE_IDEA',
       updateCreatedIdea: 'ideas/UPDATE_CREATED'
     }),
 
