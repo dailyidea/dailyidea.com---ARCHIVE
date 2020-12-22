@@ -97,7 +97,7 @@
           action="save"
           @saved-state-changed="onIdeaSaveStateChanged"
         ></act-on-idea>
-        <v-btn x-small icon text class="img-count" @click="commentClicked">
+        <v-btn icon text class="img-count" @click="commentClicked">
           <img src="~/assets/images/idea-card/comment.png" />
           <span class="count">{{ idea.commentsCount }}</span>
         </v-btn>
@@ -115,7 +115,6 @@
         </v-tooltip>
         <v-btn
           v-else
-          x-small
           icon
           text
           class="shareButton"
@@ -352,8 +351,6 @@ export default {
 
 .idea-part__header__buttons-panel {
   width: 100%;
-  padding-top: 4px; /* this is just to offset the buttons to match the baseline of the title, because the title font is a different height than the button icon height */
-  padding-bottom: 4px;
   border-top: 2px solid $color-off-white;
   border-bottom: 2px solid $color-off-white;
   .privacyButton {
