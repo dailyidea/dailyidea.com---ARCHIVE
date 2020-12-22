@@ -144,6 +144,18 @@ export const mutations = {
       return
     }
     Object.assign(state.ideasQueues[state.currCategory].ideas[idx], idea)
+  },
+
+  DELETE_IDEA(state, ideaId) {
+    let idx
+    Object.keys(state.ideasQueues).find(k => {
+      idx = state.ideasQueues[k].ideas.findIndex(i => i.ideaId === ideaId)
+      return idx !== -1
+    })
+    if (idx === -1) {
+      return
+    }
+    state.ideasQueues[state.currCategory].ideas.splice(idx, 1)
   }
 }
 

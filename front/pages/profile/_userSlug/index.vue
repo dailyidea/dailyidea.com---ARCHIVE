@@ -4,6 +4,7 @@
     :ideas="userIdeas"
     :loading="loading"
     @idea-updated="updateIdeaLocal"
+    @idea-deleted="deleteIdeaLocal"
   >
     <template v-slot:no-ideas>
       <no-ideas-placeholder
@@ -93,6 +94,13 @@ export default {
         this.$set(this.userIdeas, idx, updatedIdea)
       }
       this.updateIdea(updatedIdea)
+    },
+
+    deleteIdeaLocal(ideaId) {
+      const idx = this.userIdeas.findIndex(i => i.ideaId === ideaId)
+      if (idx !== -1) {
+        this.userIdeas.splice(idx, 1)
+      }
     },
 
     async loadNextIdeas() {
