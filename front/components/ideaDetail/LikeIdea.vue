@@ -1,6 +1,6 @@
 <template>
   <span>
-    <v-btn small icon @click="toggleIsLiked">
+    <v-btn icon @click="toggleIsLiked">
       <v-icon v-if="isLoading">fas fa-circle-notch fa-spin</v-icon>
       <div v-else class="d-flex align-center">
         <img
