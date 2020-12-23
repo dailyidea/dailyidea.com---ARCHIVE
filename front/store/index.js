@@ -11,6 +11,17 @@ export const actions = {
   }
 }
 
-export const state = () => {}
+export const state = () => ({
+  routerLoading: false,
+  routerLoadingEnabled: true
+})
 
-export const mutations = {}
+export const mutations = {
+  SET_ROUTER_LOADING(state, enabled) {
+    state.routerLoading = enabled
+  },
+
+  SET_ROUTER_LOADING_ENABLED(state, enabled) {
+    state.routerLoadingEnabled = enabled
+  }
+}

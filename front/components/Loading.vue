@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loading" class="loading-page">
+  <div v-if="enabled && loading" class="loading-page">
     <img
       class="loading-image"
       src="~assets/images/general/loading.gif"
@@ -11,18 +11,29 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex'
+
 export default {
-  data: () => ({
-    loading: false
-  }),
+  computed: {
+    ...mapState({
+      loading: s => s.routerLoading,
+      enabled: s => s.routerLoadingEnabled
+    })
+  },
 
   methods: {
+    ...mapMutations({
+      setRouterLoading: 'SET_ROUTER_LOADING',
+      setRouterLoadingEnabled: 'SET_ROUTER_LOADING_ENABLED'
+    }),
+
     start() {
-      this.loading = true
+      this.setRouterLoading(true)
     },
 
     finish() {
-      this.loading = false
+      this.setRouterLoading(false)
+      this.setRouterLoadingEnabled(true)
     }
   }
 }

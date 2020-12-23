@@ -142,8 +142,8 @@ import UserProfile from '@/components/profilePage/UsersProfile'
 import Card from '@/components/shared/Card'
 
 export default {
-  name: 'Settings',
   middleware: 'authenticated',
+
   components: {
     UserProfile,
     Card

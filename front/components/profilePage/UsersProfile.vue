@@ -14,39 +14,54 @@
       ></user-profile-header-section>
     </template>
     <template>
-      <div v-if="ideas.length" class="cards-container">
-        <idea-short-card
-          v-for="(idea, index) in ideas"
-          :key="index"
-          :idea="idea"
-          @updated="ideaUpdated"
-          @deleted="i => $emit('idea-deleted', i)"
-          @view-preview="i => (selectedIdea = i)"
-        ></idea-short-card>
-        <div v-if="loading" class="text-center mt-5">
-          <v-progress-circular
-            indeterminate
-            color="primary"
-          ></v-progress-circular>
-        </div>
+      <div
+        v-if="routerLoading"
+        class="mt-6 d-flex flex-column justify-center align-center"
+      >
+        <img
+          class="loading-image"
+          src="~assets/images/general/loading.gif"
+          alt="Loading"
+          width="197"
+        />
+        <div class="loading-caption">loading...</div>
       </div>
-      <slot v-if="!ideas.length" name="no-ideas" />
-      <slot />
-      <input
-        ref="file"
-        style="display: none"
-        type="file"
-        accept="image/*"
-        @change="uploadImage($event)"
-      />
-      <user-profile-avatar-crop-dialog
-        ref="UserProfileAvatarCropDialog"
-      ></user-profile-avatar-crop-dialog>
+      <div v-else>
+        <div v-if="ideas.length" class="cards-container">
+          <idea-short-card
+            v-for="(idea, index) in ideas"
+            :key="index"
+            :idea="idea"
+            @updated="ideaUpdated"
+            @deleted="i => $emit('idea-deleted', i)"
+            @view-preview="i => (selectedIdea = i)"
+          ></idea-short-card>
+          <div v-if="loading" class="text-center mt-5">
+            <v-progress-circular
+              indeterminate
+              color="primary"
+            ></v-progress-circular>
+          </div>
+        </div>
+        <slot v-if="!ideas.length" name="no-ideas" />
+        <slot />
+        <input
+          ref="file"
+          style="display: none"
+          type="file"
+          accept="image/*"
+          @change="uploadImage($event)"
+        />
+        <user-profile-avatar-crop-dialog
+          ref="UserProfileAvatarCropDialog"
+        ></user-profile-avatar-crop-dialog>
+      </div>
     </template>
   </layout>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import UserProfileHeaderSection from './UserProfileHeaderSection'
 import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
 import Layout from '@/components/layout/Layout'
@@ -92,6 +107,10 @@ export default {
   },
 
   computed: {
+    ...mapState({
+      routerLoading: s => s.routerLoading
+    }),
+
     isMyProfile() {
       return this.$store.getters['userData/userId'] === this.profileData.userId
     }
@@ -139,5 +158,13 @@ export default {
   .card {
     margin-top: 1rem !important;
   }
+}
+
+.loading-caption {
+  margin-top: 2rem;
+  padding-left: 1rem;
+  font-size: 1.5rem;
+  color: #4a4759;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 </style>
