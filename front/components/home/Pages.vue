@@ -7,7 +7,11 @@
       <div
         class="absolute inset-0 d-none d-sm-flex justify-center align-center"
       >
-        <img src="~assets/images/home/page1.gif" style="max-width: 100%;" alt="Lamp" />
+        <img
+          src="~assets/images/home/page1.gif"
+          style="max-width: 100%;"
+          alt="Lamp"
+        />
       </div>
 
       <div class="left-col text-center text-sm-left">
@@ -54,7 +58,11 @@
       <div
         class="absolute inset-0 d-none d-sm-flex justify-center align-center"
       >
-        <img src="~assets/images/home/page2.gif" style="max-width: 100%;" alt="Lamp" />
+        <img
+          src="~assets/images/home/page2.gif"
+          style="max-width: 100%;"
+          alt="Lamp"
+        />
       </div>
 
       <div class="left-col text-center text-sm-left">
@@ -100,7 +108,11 @@
       <div
         class="absolute inset-0 d-none d-sm-flex justify-center align-center"
       >
-        <img src="~assets/images/home/page3.gif" style="max-width: 100%;" alt="Lamp" />
+        <img
+          src="~assets/images/home/page3.gif"
+          style="max-width: 100%;"
+          alt="Lamp"
+        />
       </div>
 
       <div class="left-col text-center text-sm-left">
