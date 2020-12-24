@@ -176,7 +176,6 @@ export default {
     max-width: calc(50% - 100px);
   }
   .heading {
-    font-size: 3rem;
   }
 }
 </style>
