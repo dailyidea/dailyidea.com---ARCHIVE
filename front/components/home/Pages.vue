@@ -12,7 +12,7 @@
 
       <div class="left-col text-center text-sm-left">
         <h1 class="heading text-h5 text-sm-h4 mb-2 mb-sm-4">
-          Become an<br />
+          Become An<br />
           Idea Machine
         </h1>
         <p class="mb-0 mb-sm-8">
@@ -32,7 +32,7 @@
           dark
           large
           to="/ideas-cards"
-          >Get started</v-btn
+          >Get Started</v-btn
         >
       </div>
       <div
@@ -60,12 +60,11 @@
 
       <div class="left-col text-center text-sm-left">
         <h1 class="heading text-h5 text-sm-h4 mb-2 mb-sm-4">
-          Explore<br />
-          Other's Ideas
+          Explore Ideas
         </h1>
         <p class="mb-0 mb-sm-8">
-          Be inspired,<br />
-          and boost your creativity.
+          Get inspired.<br />
+          Boost your creativity.
         </p>
         <div class="d-sm-none" style="margin: 0 -2rem;">
           <img
@@ -80,7 +79,7 @@
           dark
           large
           to="/ideas-cards"
-          >Get started</v-btn
+          >Get Started</v-btn
         >
       </div>
       <div
@@ -109,7 +108,7 @@
       <div class="left-col text-center text-sm-left">
         <h1 class="heading text-h5 text-sm-h4 mb-2 mb-sm-4">
           Every Day,<br />
-          Log an Idea
+          Log An Idea
         </h1>
         <p class="mb-0 mb-sm-8">
           A project idea,<br />
@@ -128,7 +127,7 @@
           dark
           large
           to="/ideas-cards"
-          >Get started</v-btn
+          >Get Started</v-btn
         >
       </div>
       <div
