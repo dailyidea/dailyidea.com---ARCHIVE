@@ -47,9 +47,9 @@
 </template>
 
 <script>
+import { ORDER, orderOptions } from '@/helpers/ideas-ordering'
 import ideasListIdea from './ideasListIdea'
 import ideasListEmptyMessage from './ideasListEmptyMessage'
-import { ORDER, orderOptions } from '@/helpers/ideas-ordering'
 
 export default {
   name: 'IdeasList',

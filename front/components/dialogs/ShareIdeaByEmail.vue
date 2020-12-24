@@ -76,8 +76,8 @@
 import { ValidationObserver } from 'vee-validate'
 import { mapGetters } from 'vuex'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
-import shareIdea from '~/graphql/mutations/shareIdea'
 import VTextFieldWithValidation from '@/components/validation/VTextFieldWithValidation'
+import shareIdea from '~/graphql/mutations/shareIdea'
 
 export default {
   components: {
