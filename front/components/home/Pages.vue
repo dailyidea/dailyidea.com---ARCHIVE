@@ -39,7 +39,6 @@
         class="d-none d-sm-block align-self-end text-body-2"
         style="color: #9794A4;"
       >
-        <span>Use arrow keys to see next idea</span>
         <img
           src="~assets/images/home/press-right-arrow.gif"
           alt="Swipe right"
@@ -86,7 +85,6 @@
         class="d-none d-sm-block align-self-end text-body-2"
         style="color: #9794A4;"
       >
-        <span>Use arrow keys to see next idea</span>
         <img
           src="~assets/images/home/press-right-arrow.gif"
           alt="Swipe right"
@@ -134,7 +132,6 @@
         class="d-none d-sm-block align-self-end text-body-2"
         style="color: #9794A4;"
       >
-        <span>Use arrow keys to see next idea</span>
         <img
           src="~assets/images/home/press-right-arrow.gif"
           alt="Swipe right"
