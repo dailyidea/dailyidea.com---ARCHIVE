@@ -11,7 +11,7 @@
       </div>
 
       <div class="left-col text-center text-sm-left">
-        <h1 class="heading text-h4 mb-2 mb-sm-4">
+        <h1 class="heading text-h5 text-sm-h4 mb-2 mb-sm-4">
           Become an<br />
           Idea Machine
         </h1>
@@ -50,7 +50,7 @@
     </div>
     <div
       v-if="page === 1"
-      class="d-flex py-3 py-sm-6 justify-space-between fill-height fill-width"
+      class="d-flex py-1 py-sm-6 justify-space-between fill-height fill-width"
     >
       <div
         class="absolute inset-0 d-none d-sm-flex justify-center align-center"
@@ -59,7 +59,7 @@
       </div>
 
       <div class="left-col text-center text-sm-left">
-        <h1 class="heading text-h4 mb-4 font-weight-regular">
+        <h1 class="heading text-h5 text-sm-h4 mb-2 mb-sm-4">
           Explore<br />
           Other's Ideas
         </h1>
@@ -67,7 +67,7 @@
           Be inspired,<br />
           and boost your creativity.
         </p>
-        <div class="d-sm-none" style="margin: 0 -4rem;">
+        <div class="d-sm-none" style="margin: 0 -2rem;">
           <img
             src="~assets/images/home/page2.gif"
             style="max-width: 100%;"
@@ -75,7 +75,7 @@
           />
         </div>
         <v-btn
-          class="button text-decoration-none d-block d-sm-inline-block"
+          class="button text-decoration-none d-block d-sm-inline-block mb-3"
           color="primary"
           dark
           large
@@ -98,7 +98,7 @@
     </div>
     <div
       v-if="page === 2"
-      class="d-flex py-3 py-sm-6 justify-space-between fill-height fill-width"
+      class="d-flex py-1 py-sm-6 justify-space-between fill-height fill-width"
     >
       <div
         class="absolute inset-0 d-none d-sm-flex justify-center align-center"
@@ -107,7 +107,7 @@
       </div>
 
       <div class="left-col text-center text-sm-left">
-        <h1 class="heading text-h4 mb-4 font-weight-regular">
+        <h1 class="heading text-h5 text-sm-h4 mb-2 mb-sm-4">
           Every Day,<br />
           Log an Idea
         </h1>
@@ -115,7 +115,7 @@
           A project idea,<br />
           a startup idea, a work idea.
         </p>
-        <div class="d-sm-none" style="margin: 0 -4rem;">
+        <div class="d-sm-none" style="margin: 0 -2rem;">
           <img
             src="~assets/images/home/page3.gif"
             style="max-width: 100%;"
@@ -123,7 +123,7 @@
           />
         </div>
         <v-btn
-          class="button text-decoration-none d-block d-sm-inline-block"
+          class="button text-decoration-none d-block d-sm-inline-block mb-3"
           color="primary"
           dark
           large
