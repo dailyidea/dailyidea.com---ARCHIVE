@@ -3,12 +3,17 @@
     <v-card
       class="d-flex justify-center align-center pa-2 col-md-6 col-sm-12 swipe-header-card"
     >
-      <div class="pt-2 pb-1 pl-2 flex-grow-1 text-no-wrap">
+      <div
+        class="pt-2 pb-1 pl-2 flex-grow-1 text-no-wrap text-center text-light-grey"
+        style="margin-left:72px;"
+      >
+        <!-- 72px offset against the swipe icon on the right-->
         <span v-if="ideaIndex === 0">
-          <span v-if="$vuetify.breakpoint.smAndDown"
-            >Swipe left to see the next idea</span
+          <span v-if="$vuetify.breakpoint.smAndDown" class="align-center"
+            >Swipe left</span
           >
           <span v-else>Use arrow keys to see the next idea</span>
+          <!-- TODO: probably not used anymore -->
         </span>
         <span v-if="ideaIndex > 0">{{ ideaIndex + 1 }} of 3</span>
       </div>
@@ -65,3 +70,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.text-light-grey {
+  color: #acabb2;
+}
+</style>

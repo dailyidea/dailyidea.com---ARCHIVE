@@ -7,12 +7,16 @@
       <div
         class="absolute inset-0 d-none d-sm-flex justify-center align-center"
       >
-        <img src="~assets/images/home/page1.gif" alt="Lamp" />
+        <img
+          src="~assets/images/home/page1.gif"
+          style="max-width: 100%;"
+          alt="Lamp"
+        />
       </div>
 
       <div class="left-col text-center text-sm-left">
         <h1 class="heading text-h5 text-sm-h4 mb-2 mb-sm-4">
-          Become an<br />
+          Become An<br />
           Idea Machine
         </h1>
         <p class="mb-0 mb-sm-8">
@@ -32,14 +36,13 @@
           dark
           large
           to="/ideas-cards"
-          >Get started</v-btn
+          >Get Started</v-btn
         >
       </div>
       <div
         class="d-none d-sm-block align-self-end text-body-2"
         style="color: #9794A4;"
       >
-        <span>Use arrow keys to see next idea</span>
         <img
           src="~assets/images/home/press-right-arrow.gif"
           alt="Swipe right"
@@ -55,17 +58,20 @@
       <div
         class="absolute inset-0 d-none d-sm-flex justify-center align-center"
       >
-        <img src="~assets/images/home/page2.gif" alt="Lamp" />
+        <img
+          src="~assets/images/home/page2.gif"
+          style="max-width: 100%;"
+          alt="Lamp"
+        />
       </div>
 
       <div class="left-col text-center text-sm-left">
         <h1 class="heading text-h5 text-sm-h4 mb-2 mb-sm-4">
-          Explore<br />
-          Other's Ideas
+          Explore Ideas
         </h1>
         <p class="mb-0 mb-sm-8">
-          Be inspired,<br />
-          and boost your creativity.
+          Get inspired.<br />
+          Boost your creativity.
         </p>
         <div class="d-sm-none" style="margin: 0 -2rem;">
           <img
@@ -80,14 +86,13 @@
           dark
           large
           to="/ideas-cards"
-          >Get started</v-btn
+          >Get Started</v-btn
         >
       </div>
       <div
         class="d-none d-sm-block align-self-end text-body-2"
         style="color: #9794A4;"
       >
-        <span>Use arrow keys to see next idea</span>
         <img
           src="~assets/images/home/press-right-arrow.gif"
           alt="Swipe right"
@@ -103,13 +108,17 @@
       <div
         class="absolute inset-0 d-none d-sm-flex justify-center align-center"
       >
-        <img src="~assets/images/home/page3.gif" alt="Lamp" />
+        <img
+          src="~assets/images/home/page3.gif"
+          style="max-width: 100%;"
+          alt="Lamp"
+        />
       </div>
 
       <div class="left-col text-center text-sm-left">
         <h1 class="heading text-h5 text-sm-h4 mb-2 mb-sm-4">
           Every Day,<br />
-          Log an Idea
+          Log An Idea
         </h1>
         <p class="mb-0 mb-sm-8">
           A project idea,<br />
@@ -128,14 +137,13 @@
           dark
           large
           to="/ideas-cards"
-          >Get started</v-btn
+          >Get Started</v-btn
         >
       </div>
       <div
         class="d-none d-sm-block align-self-end text-body-2"
         style="color: #9794A4;"
       >
-        <span>Use arrow keys to see next idea</span>
         <img
           src="~assets/images/home/press-right-arrow.gif"
           alt="Swipe right"
