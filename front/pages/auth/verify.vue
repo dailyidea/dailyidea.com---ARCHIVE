@@ -17,16 +17,21 @@
     <v-container v-else class="fill-height">
       <v-row align="center" justify="center" class="text-center">
         <v-col cols="12" sm="8" md="4">
-          <section id="lightBulb" class="mb-6">
+          <section class="mb-6">
             <img
-              v-if="authCompleted"
-              class="active"
-              src="~/assets/images/verify/lamp-active-large.png"
+              v-if="progressBarActive && !authCompleted"
+              class="loading-img"
+              src="~assets/images/general/loading.gif"
             />
             <img
               v-else
-              class="inactive"
-              src="~/assets/images/verify/lamp-inactive-large.png"
+              class="loading-img"
+              src="~assets/images/verify/success.svg"
+            />
+            <img
+              v-if="expired"
+              class="loading-img"
+              src="~assets/images/verify/error.svg"
             />
           </section>
         </v-col>
@@ -108,10 +113,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-img.active {
-  width: 150px;
-}
-img.inactive {
-  width: 147px;
+.loading-img {
+  width: 200px;
 }
 </style>

@@ -25,13 +25,13 @@
             <img
               v-if="lampOn"
               class="auth-page__content__header__lamp-image-container__image-wrapper__image"
-              src="~/assets/images/verify/lamp-active-large.png"
+              src="~assets/images/verify/lamp-active-large.png"
               alt=""
             />
             <img
               v-else
               class="auth-page__content__header__lamp-image-container__image-wrapper__image"
-              src="~/assets/images/verify/lamp-inactive-large.png"
+              src="~assets/images/verify/lamp-inactive-large.png"
               alt=""
             />
           </div>
