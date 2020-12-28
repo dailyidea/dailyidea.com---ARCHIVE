@@ -64,9 +64,9 @@
 import { mapState } from 'vuex'
 import UserProfileHeaderSection from './UserProfileHeaderSection'
 import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
+import IdeaShortCard from '@/components/ideaDetail/IdeaShortCard'
 import Layout from '@/components/layout/Layout'
 import IdeaLightbox from '@/components/ideaDetail/IdeaLightbox'
-import IdeaShortCard from '@/components/ideaDetail/IdeaShortCard'
 
 export default {
   components: {

@@ -67,9 +67,9 @@ import { graphqlOperation } from '@aws-amplify/api'
 import Layout from '@/components/layout/Layout'
 import Card from '@/components/shared/Card'
 import UserProfileAvatarCropDialog from '@/components/profilePage/UserProfileAvatarCropDialog'
-import uploadAvatar from '~/graphql/mutations/uploadAvatar'
-import userInfoBySlug from '@/graphql/query/userInfoBySlug'
 import updateProfileInfo from '@/graphql/mutations/updateProfileInfo'
+import userInfoBySlug from '@/graphql/query/userInfoBySlug'
+import uploadAvatar from '~/graphql/mutations/uploadAvatar'
 
 export default {
   name: 'Edit',

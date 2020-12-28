@@ -162,9 +162,9 @@ import SaveIdea from './SaveIdea'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
-import AskNameDialog from '@/components/ideaDetail/AskNameDialog'
 import likeIdeaMutation from '@/graphql/mutations/likeIdea'
 import saveIdeaMutation from '@/graphql/mutations/saveIdea'
+import AskNameDialog from '@/components/ideaDetail/AskNameDialog'
 
 export default {
   name: 'ActOnIdea',
