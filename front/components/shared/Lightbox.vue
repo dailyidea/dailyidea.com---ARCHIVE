@@ -39,7 +39,7 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 500;
+  z-index: 200;
   overflow-y: auto;
 }
 
