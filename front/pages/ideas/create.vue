@@ -42,15 +42,21 @@
         </div>
 
         <div class="submit-btn d-flex align-center justify-space-between">
+          <v-switch
+            v-model="isPrivate"
+            inset
+            :label="isPrivate ? 'Private' : 'Public'"
+          ></v-switch>
           <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-              <div v-bind="attrs" class="mr-3" v-on="on">
-                <v-switch
-                  v-model="isPrivate"
-                  inset
-                  :label="isPrivate ? 'Private' : 'Public'"
-                ></v-switch>
-              </div>
+              <img
+                src="~assets/images/icons/info.svg"
+                alt=""
+                v-bind="attrs"
+                class="ml-2 align-middle mr-auto"
+                style="margin-top: -4px;"
+                v-on="on"
+              />
             </template>
             <span v-if="isPrivate"
               >This idea can only by seen by you.<br />
@@ -235,7 +241,7 @@ export default {
   right: 12px;
 
   @media (min-width: $screen-sm-min) {
-    width: 13rem;
+    width: 14rem;
   }
 
   @media (max-width: $screen-xs-max) {
@@ -339,7 +345,7 @@ export default {
     justify-content: space-between;
   }
   .trix-button {
-    margin: 0 5px !important;
+    margin: 0 4px !important;
     @media (max-width: $screen-xs-max) {
       margin: 0 2px !important;
     }
