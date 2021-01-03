@@ -10,10 +10,7 @@
             <span class="d-inline-block align-middle">
               <router-link
                 class="author-link d-flex align-center"
-                :to="{
-                  name: 'profile-userSlug',
-                  params: { userSlug: idea.authorSlug }
-                }"
+                :to="`/profile/${idea.authorName}`"
               >
                 <img class="author-avatar" :src="idea.authorAvatar" />
                 <span class="ml-2">{{ idea.authorName }}</span>

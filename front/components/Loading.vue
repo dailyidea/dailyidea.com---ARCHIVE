@@ -32,8 +32,10 @@ export default {
     },
 
     finish() {
-      this.setRouterLoading(false)
-      this.setRouterLoadingEnabled(true)
+      setTimeout(() => {
+        this.setRouterLoading(false)
+        this.setRouterLoadingEnabled(true)
+      }, 1000)
     }
   }
 }
