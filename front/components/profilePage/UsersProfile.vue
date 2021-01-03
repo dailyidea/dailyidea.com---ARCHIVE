@@ -5,6 +5,12 @@
       :value="!!selectedIdea"
       @input="selectedIdea = null"
       @updated="ideaUpdated"
+      @deleted="
+        i => {
+          $emit('idea-deleted', i)
+          selectedIdea = null
+        }
+      "
     />
     <template v-slot:header>
       <user-profile-header-section

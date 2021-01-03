@@ -10,6 +10,7 @@
       :expanded="true"
       class="idea-lightbox"
       @updated="i => $emit('updated', i)"
+      @deleted="id => $emit('deleted', id)"
       @click.native="$vuetify.breakpoint.mdAndDown && $emit('input', false)"
     />
   </lightbox>
