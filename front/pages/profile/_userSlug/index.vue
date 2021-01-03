@@ -34,7 +34,7 @@ export default {
     const isMyProfile = store.getters['userData/slug'] === route.params.userSlug
     const userInfoRequest = await app.$amplifyApi.graphql({
       query: userInfoBySlug,
-      variables: { slug: userSlug },
+      variables: { slug: userSlug.toLowerCase() },
       authMode: isMyProfile ? undefined : 'API_KEY'
     })
 

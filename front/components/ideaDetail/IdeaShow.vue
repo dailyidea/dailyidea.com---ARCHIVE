@@ -10,7 +10,7 @@
             <span class="d-inline-block align-middle">
               <router-link
                 class="author-link d-flex align-center"
-                :to="`/profile/${idea.authorName}`"
+                :to="`/profile/${idea.authorSlug}`"
               >
                 <img class="author-avatar" :src="idea.authorAvatar" />
                 <span class="ml-2">{{ idea.authorName }}</span>
