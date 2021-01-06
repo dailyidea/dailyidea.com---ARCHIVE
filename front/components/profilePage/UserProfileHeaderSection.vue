@@ -53,7 +53,7 @@
                     <span>{{ profileData.ideasCreated }}</span>
                     <span>Ideas</span>
                   </div>
-                  <div class="pipe"></div>
+                  <!--<div class="pipe"></div>
                   <div class="info-section__stats__stat">
                     <span>{{ profileData.followersCount }}</span>
                     <span>Followers</span>
@@ -62,7 +62,7 @@
                   <div class="info-section__stats__stat">
                     <span>{{ profileData.followeesCount }}</span>
                     <span>Following</span>
-                  </div>
+                  </div>-->
                 </div>
                 <div class="info-section__bio mt-3 hidden-mobile-portrait">
                   {{ profileData.bio }}
