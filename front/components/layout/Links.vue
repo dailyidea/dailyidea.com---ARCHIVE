@@ -112,8 +112,6 @@ export default {
       const left = el.getBoundingClientRect().left + window.pageXOffset
       const top = el.getBoundingClientRect().top + window.pageYOffset
 
-      console.log({ width, height, left, top })
-
       slider.style.width = `${width - 30}px`
       slider.style.left = `${left + 20}px`
       slider.style.top = `${top + height}px`
@@ -126,7 +124,6 @@ export default {
       this.$nextTick(() => this.setSliderToActive(slider))
 
       function handleMouseenter() {
-        console.log('mouseenter')
         for (let i = 0; i < links.length; i++) {
           if (links[i].classList.contains('highlight')) {
             links[i].classList.remove('highlight')
@@ -139,7 +136,6 @@ export default {
       for (let i = 0; i < links.length; i++) {
         links[i].addEventListener('mouseenter', handleMouseenter)
         links[i].addEventListener('mouseleave', () => {
-          console.log('mouseleave')
           this.setSliderToActive(slider)
         })
       }
@@ -202,9 +198,7 @@ export default {
 
 .slider {
   position: absolute;
-  border-bottom: 4px solid transparent;
   z-index: -1;
-  //transform: translateX(-60px);
   transition: all 0.35s ease-in-out;
   border-bottom: 3px solid $secondary-color;
 }
