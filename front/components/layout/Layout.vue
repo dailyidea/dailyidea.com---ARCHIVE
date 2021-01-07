@@ -121,7 +121,6 @@ export default {
     bottom: 0;
     z-index: 101;
     width: 100%;
-    margin-top: 5em;
 
     .mobile {
       height: 75px !important;
@@ -134,10 +133,6 @@ export default {
 }
 
 #commonHeader {
-  @media (max-width: $screen-sm-max) {
-    padding-bottom: 5em;
-  }
-
   height: 100%;
 
   position: relative;

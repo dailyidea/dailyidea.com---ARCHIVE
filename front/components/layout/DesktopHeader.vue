@@ -1,5 +1,9 @@
 <template>
-  <v-toolbar class="desktop hidden-sm-and-down" flat color="white">
+  <v-toolbar
+    class="desktop desktop-header hidden-sm-and-down"
+    flat
+    color="white"
+  >
     <v-container>
       <v-row>
         <v-col cols="auto">

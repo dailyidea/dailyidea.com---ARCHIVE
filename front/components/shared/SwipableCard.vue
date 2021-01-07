@@ -1,9 +1,5 @@
 <template>
-  <card
-    ref="card"
-    class="swipable-card"
-    :style="{ height: `calc(100vh - ${topPadding})` }"
-  >
+  <card ref="card" class="swipable-card" :style="{ height: `${height}px` }">
     <slot />
   </card>
 </template>
@@ -17,18 +13,14 @@ export default {
   },
 
   props: {
-    topPaddingDesktop: { type: String, default: '12rem' },
-    topPaddingMobile: { type: String, default: '12rem' },
-    preventMobileScroll: { type: Boolean, default: true }
+    paddingBottom: { type: Number, default: 0 },
+    preventMobileScroll: { type: Boolean, default: true },
+    autoHeight: { type: Boolean, default: true }
   },
 
-  computed: {
-    topPadding() {
-      return this.$vuetify.breakpoint.mdAndDown
-        ? this.topPaddingMobile
-        : this.topPaddingDesktop
-    }
-  },
+  data: () => ({
+    height: '100%'
+  }),
 
   mounted() {
     if (this.preventMobileScroll) {
@@ -37,9 +29,42 @@ export default {
         this.preventScrollOnMobile
       )
     }
+    if (this.autoHeight) {
+      this.$nextTick(() => this.calcHeight())
+      setTimeout(() => this.calcHeight(), 200)
+      window.addEventListener('resize', this.calcHeight)
+    }
+  },
+
+  destroyed() {
+    if (this.autoHeight) {
+      window.removeEventListener('resize', this.calcHeight)
+    }
   },
 
   methods: {
+    getHeight(selector) {
+      const el = window.document.querySelector(selector)
+      if (el) {
+        return el.clientHeight
+      }
+      return 0
+    },
+
+    calcHeight() {
+      let reduceby = 0
+      reduceby += this.getHeight('.swipe-header')
+      reduceby += this.getHeight('.desktop-header')
+      reduceby += this.getHeight('.header-sub-container')
+      reduceby += this.getHeight('.sticky-footer')
+
+      this.height =
+        window.innerHeight -
+        reduceby -
+        window.innerWidth / 20 -
+        this.paddingBottom
+    },
+
     preventScrollOnMobile(event) {
       if (this.preventMobileScroll) {
         event.preventDefault()
