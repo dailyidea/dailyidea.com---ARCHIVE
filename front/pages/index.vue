@@ -18,9 +18,8 @@
       <swipable-card
         ref="page"
         :style="rotationStyle"
-        top-padding-desktop="11rem"
-        top-padding-mobile="10.5rem"
         class="overflow-y-auto"
+        :padding-bottom="$vuetify.breakpoint.mdAndUp ? 40 : 0"
       >
         <div class="fill-height d-flex justify-center align-center">
           <pages :page="page" />
