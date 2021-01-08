@@ -183,6 +183,7 @@ export default {
 
   .active-bulb {
     height: 30px;
+    margin: -2px 0;
 
     @media (min-width: $screen-md-min) {
       padding-right: 9px;
