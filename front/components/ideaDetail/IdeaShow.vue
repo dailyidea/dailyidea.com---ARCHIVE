@@ -19,6 +19,17 @@
             <span class="d-inline-block align-middle muted ml-2">{{
               idea.createdDate | toRelativeDate
             }}</span>
+            <span
+              v-if="idea.visibility === 'PRIVATE'"
+              class="d-inline-block ml-2 private-label"
+            >
+              <img
+                src="~assets/images/icons/private.svg"
+                class="align-middle"
+                alt="Private"
+              />
+              private
+            </span>
           </div>
           <v-row cols="auto" offset="1">
             <menu-panel
@@ -254,5 +265,15 @@ export default {
   @media (min-width: $screen-md-min) {
     padding: 8px 16px;
   }
+}
+
+.private-label {
+  margin-top: -2px;
+  padding: 1px 5px;
+  border: 1px solid $primary-color;
+  border-radius: 20px;
+  vertical-align: middle;
+  color: $primary-color;
+  font-size: 0.75rem;
 }
 </style>
