@@ -1,7 +1,10 @@
 <template>
   <Layout>
     <validation-observer v-slot="{ valid, validated, handleSubmit }">
-      <v-container class="m-auto d-flex flex-column form-container">
+      <v-container
+        class="m-auto d-flex flex-column form-container"
+        :style="{ height: `${height}px` }"
+      >
         <validation-provider
           v-slot="{ errors }"
           name="title"
@@ -126,6 +129,12 @@ export default {
     contents() {
       this.checkScroll()
     }
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      this.height = window.innerHeight - 100
+    })
   },
 
   beforeDestroy() {
@@ -261,6 +270,9 @@ export default {
   font-weight: 900;
 
   ::v-deep {
+    input {
+      padding: 0;
+    }
     .v-input__slot {
       margin: 0 !important;
       padding: 0 !important;
