@@ -9,6 +9,7 @@ box:
   registry: quay.io
 
 command-timeout: 600
+no-response-timeout: 600
 
 # This is the build pipeline. Pipelines are the core of wercker
 # Read more about pipelines on our dev center
