@@ -8,6 +8,8 @@ box:
   tag: latest
   registry: quay.io
 
+command-timeout: 600
+
 # This is the build pipeline. Pipelines are the core of wercker
 # Read more about pipelines on our dev center
 # http://devcenter.wercker.com/docs/pipelines/index.html
