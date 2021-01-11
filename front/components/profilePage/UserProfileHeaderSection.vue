@@ -80,47 +80,49 @@
           </div>
         </v-col>
       </v-row>
-      <div class="profile-links">
-        <nuxt-link
-          :to="ideasLink"
-          class="link pb-3"
-          :class="{ active: page === 'profile' }"
-        >
-          <span
+      <sliding-underline>
+        <div class="profile-links">
+          <nuxt-link
+            :to="ideasLink"
+            class="link pb-3"
+            :class="{ active: page === 'profile' }"
+          >
+            <span
+              v-if="isMyProfile"
+              :class="{ 'link-highlight': page === 'profile' }"
+              >{{
+                linkText('My Ideas', 'profile', profileData.ideasCreated)
+              }}</span
+            >
+            <span v-else :class="{ 'link-highlight': page === 'profile' }">{{
+              linkText(
+                `${profileData.name}'s Ideas`,
+                'profile',
+                profileData.ideasCreated
+              )
+            }}</span>
+          </nuxt-link>
+          <nuxt-link
+            :to="savedLink"
+            class="link pb-3"
+            :class="{ active: page === 'saved-ideas' }"
+          >
+            <span :class="{ 'link-highlight': page === 'saved-ideas' }">{{
+              linkText('Saved Ideas', 'saved-ideas')
+            }}</span>
+          </nuxt-link>
+          <nuxt-link
             v-if="isMyProfile"
-            :class="{ 'link-highlight': page === 'profile' }"
-            >{{
-              linkText('My Ideas', 'profile', profileData.ideasCreated)
-            }}</span
+            :to="settingsLink"
+            class="link pb-3"
+            :class="{ active: page === 'settings' }"
           >
-          <span v-else :class="{ 'link-highlight': page === 'profile' }">{{
-            linkText(
-              `${profileData.name}'s Ideas`,
-              'profile',
-              profileData.ideasCreated
-            )
-          }}</span>
-        </nuxt-link>
-        <nuxt-link
-          :to="savedLink"
-          class="link pb-3"
-          :class="{ active: page === 'saved-ideas' }"
-        >
-          <span :class="{ 'link-highlight': page === 'saved-ideas' }">{{
-            linkText('Saved Ideas', 'saved-ideas')
-          }}</span>
-        </nuxt-link>
-        <nuxt-link
-          v-if="isMyProfile"
-          :to="settingsLink"
-          class="link pb-3"
-          :class="{ active: page === 'settings' }"
-        >
-          <span :class="{ 'link-highlight': page === 'settings' }"
-            >Settings</span
-          >
-        </nuxt-link>
-      </div>
+            <span :class="{ 'link-highlight': page === 'settings' }"
+              >Settings</span
+            >
+          </nuxt-link>
+        </div>
+      </sliding-underline>
     </div>
   </div>
 </template>
@@ -132,9 +134,10 @@ import UserProfileAvatar from './UserProfileAvatar'
 import followUser from '~/graphql/mutations/followUser.js'
 import userInfo from '~/graphql/query/userInfo.js'
 import unfollowUser from '~/graphql/mutations/unfollowUser.js'
+import SlidingUnderline from '@/components/layout/SlidingUnderline'
 
 export default {
-  components: { UserProfileAvatar },
+  components: { SlidingUnderline, UserProfileAvatar },
 
   props: {
     profileData: { type: Object, required: true },
@@ -269,11 +272,6 @@ export default {
 .link {
   color: black;
   text-decoration: none;
-}
-
-.active {
-  text-decoration: none;
-  border-bottom: 2px solid $secondary-color;
 }
 
 .header-container {

@@ -1,53 +1,58 @@
 <template>
-  <span class="links d-flex flex-row align-center justify-space-between">
-    <nuxt-link
-      class="link"
-      :class="{ active: page === 'explore' }"
-      to="/ideas-cards"
-    >
-      <bulb-icon v-if="page !== 'explore'" :fill="inactiveColor" class="img" />
-      <bulb-on-icon v-else :fill="activeColor" class="active-bulb" />
-      <span :class="{ 'link-highlight': page === 'explore' }">Explore</span>
-    </nuxt-link>
-    <nuxt-link
-      class="link"
-      :class="{ active: page === 'post', disabled: !slug }"
-      :to="{ name: 'ideas-create' }"
-    >
-      <post-icon
-        :stroke="iconColor('post')"
-        :fill="iconColor('post')"
-        class="img"
-      />
-      <span :class="{ 'link-highlight': page === 'post' }">Post</span>
-    </nuxt-link>
-    <nuxt-link
-      class="link"
-      :class="{ active: page === 'profile', disabled: !slug }"
-      :to="slug ? `/profile/${slug}` : '/auth/unathorized'"
-    >
-      <profile-icon :fill="iconColor('profile')" class="img" />
-      <span :class="{ 'link-highlight': page === 'profile' }">My Ideas</span>
-    </nuxt-link>
-    <span class="slider"></span>
-  </span>
+  <sliding-underline :padding-left="20" :padding-right="30">
+    <span class="links d-flex flex-row align-center justify-space-between">
+      <nuxt-link
+        class="link"
+        :class="{ active: page === 'explore' }"
+        to="/ideas-cards"
+      >
+        <bulb-icon
+          v-if="page !== 'explore'"
+          :fill="inactiveColor"
+          class="img"
+        />
+        <bulb-on-icon v-else :fill="activeColor" class="active-bulb" />
+        <span :class="{ 'link-highlight': page === 'explore' }">Explore</span>
+      </nuxt-link>
+      <nuxt-link
+        class="link"
+        :class="{ active: page === 'post', disabled: !slug }"
+        :to="{ name: 'ideas-create' }"
+      >
+        <post-icon
+          :stroke="iconColor('post')"
+          :fill="iconColor('post')"
+          class="img"
+        />
+        <span :class="{ 'link-highlight': page === 'post' }">Post</span>
+      </nuxt-link>
+      <nuxt-link
+        class="link"
+        :class="{ active: page === 'profile', disabled: !slug }"
+        :to="slug ? `/profile/${slug}` : '/auth/unathorized'"
+      >
+        <profile-icon :fill="iconColor('profile')" class="img" />
+        <span :class="{ 'link-highlight': page === 'profile' }">My Ideas</span>
+      </nuxt-link>
+    </span>
+  </sliding-underline>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import SlidingUnderline from '../layout/SlidingUnderline'
 import ProfileIcon from './svgIcons/ProfileIcon.vue'
 import PostIcon from './svgIcons/PostIcon.vue'
 import BulbIcon from './svgIcons/BulbIcon.vue'
 import BulbOnIcon from './svgIcons/BulbOnIcon.vue'
 
 export default {
-  name: 'Links',
-
   components: {
     ProfileIcon,
     PostIcon,
     BulbIcon,
-    BulbOnIcon
+    BulbOnIcon,
+    SlidingUnderline
   },
 
   data() {
@@ -85,10 +90,6 @@ export default {
     }
   },
 
-  mounted() {
-    this.initSlider()
-  },
-
   methods: {
     iconColor(page) {
       return this.slug
@@ -96,56 +97,6 @@ export default {
           ? this.inactiveColor
           : this.activeColor
         : this.disabledColor
-    },
-
-    setSliderToActive(slider) {
-      const active = document.querySelector('.links a.active')
-      if (active) {
-        this.setSliderToEl(slider, active)
-        active.classList.add('highlight')
-      }
-    },
-
-    setSliderToEl(slider, el) {
-      const width = el.getBoundingClientRect().width
-      const height = el.getBoundingClientRect().height
-      const left = el.getBoundingClientRect().left + window.pageXOffset
-      const top = el.getBoundingClientRect().top + window.pageYOffset
-
-      slider.style.width = `${width - 30}px`
-      slider.style.left = `${left + 20}px`
-      slider.style.top = `${top + height}px`
-    },
-
-    initSlider() {
-      const that = this
-      const slider = document.querySelector('.slider')
-      const links = document.querySelectorAll('.links a')
-      this.$nextTick(() => this.setSliderToActive(slider))
-
-      function handleMouseenter() {
-        for (let i = 0; i < links.length; i++) {
-          if (links[i].classList.contains('highlight')) {
-            links[i].classList.remove('highlight')
-          }
-        }
-        this.classList.add('highlight')
-        that.setSliderToEl(slider, this)
-      }
-
-      for (let i = 0; i < links.length; i++) {
-        links[i].addEventListener('mouseenter', handleMouseenter)
-        links[i].addEventListener('mouseleave', () => {
-          this.setSliderToActive(slider)
-        })
-      }
-
-      window.addEventListener('resize', () => {
-        const active = document.querySelector('.links a.highlight')
-        if (active) {
-          this.setSliderToEl(slider, active)
-        }
-      })
     }
   }
 }
@@ -195,12 +146,5 @@ export default {
       margin-top: -10px;
     }
   }
-}
-
-.slider {
-  position: absolute;
-  z-index: -1;
-  transition: all 0.35s ease-in-out;
-  border-bottom: 3px solid $secondary-color;
 }
 </style>

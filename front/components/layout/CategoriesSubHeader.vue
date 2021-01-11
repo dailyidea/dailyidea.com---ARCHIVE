@@ -1,27 +1,30 @@
 <template>
   <div class="header-container d-flex flex-row align-center">
-    <div class="header-sub-container d-flex flex-row">
+    <sliding-underline class="d-block header-sub-container d-flex flex-row">
       <span
         class="link"
         :class="{ active: category === 'new' }"
         @click="emitCategoryClicked('new')"
       >
-        <span :class="{ 'link-highlight mt-1': category === 'new' }">New</span>
+        <span :class="{ 'link-highlight': category === 'new' }">New</span>
       </span>
       <span
         class="link"
         :class="{ active: category === 'top' }"
         @click="emitCategoryClicked('top')"
       >
-        <span :class="{ 'link-highlight mt-1': category === 'top' }">Top</span>
+        <span :class="{ 'link-highlight': category === 'top' }">Top</span>
       </span>
-    </div>
+    </sliding-underline>
   </div>
 </template>
 
 <script>
+import SlidingUnderline from '@/components/layout/SlidingUnderline'
+
 export default {
   name: 'CategoriesSubHeader',
+  components: { SlidingUnderline },
   props: {
     categorySelected: { type: String, required: true }
   },
@@ -48,7 +51,6 @@ export default {
 <style scoped lang="scss">
 .header-container {
   width: 100%;
-  height: 100%;
   background-color: white;
   height: 60px;
 
@@ -68,12 +70,7 @@ export default {
       cursor: pointer;
       height: 100%;
       display: flex;
-      flex-direciton: row;
       align-items: center;
-    }
-
-    .active {
-      border-bottom: 3px solid $secondary-color;
     }
   }
 }
