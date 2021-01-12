@@ -214,6 +214,7 @@ export default {
 
     commentsBtnClick() {
       this.$emit('expand')
+      this.$emit('comments-btn-clicked')
       setTimeout(() => {
         this.$refs.ideaComments &&
           this.$refs.ideaComments.$refs.commentInput.focus()

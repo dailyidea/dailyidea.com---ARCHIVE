@@ -199,9 +199,6 @@ export default {
 
     commentClicked() {
       this.$emit('comments-btn-click')
-      if (this.preview) {
-        this.$router.push({ path: this.ideaLink, query: { comment: 1 } })
-      }
     },
 
     deleteIdea() {

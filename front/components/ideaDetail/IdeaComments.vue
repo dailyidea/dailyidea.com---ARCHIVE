@@ -34,6 +34,7 @@
         <v-text-field
           ref="commentInput"
           v-model="newCommentText"
+          class="comment-input"
           label="Join the conversation..."
           single-line
           flat
