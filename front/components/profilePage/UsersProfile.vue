@@ -1,6 +1,7 @@
 <template>
   <layout grey-bg>
     <idea-lightbox
+      ref="ideaLightbox"
       :idea="selectedIdea"
       :value="!!selectedIdea"
       @input="selectedIdea = null"
@@ -41,6 +42,7 @@
             @updated="ideaUpdated"
             @deleted="i => $emit('idea-deleted', i)"
             @view-preview="i => (selectedIdea = i)"
+            @comments-btn-clicked="() => commentsBtnClicked(idea)"
           ></idea-short-card>
           <div v-if="loading" class="text-center mt-5">
             <v-progress-circular
@@ -132,6 +134,19 @@ export default {
       if (this.selectedIdea) {
         this.selectedIdea = idea
       }
+    },
+
+    commentsBtnClicked(idea) {
+      this.selectedIdea = idea
+
+      setTimeout(() => {
+        const input =
+          this.$refs.ideaLightbox &&
+          this.$refs.ideaLightbox.$el.querySelector('.comment-input input')
+        if (input) {
+          input.focus()
+        }
+      }, 100)
     }
   }
 }
