@@ -31,13 +31,8 @@
         @swipe-parent-click="$refs.page.expandToggle()"
       >
         <template v-slot="{ rotationStyle }">
-          <swipe-explainer
-            v-if="showExplainer"
-            class="card"
-            :style="rotationStyle"
-          ></swipe-explainer>
           <idea-swipable-card
-            v-else-if="idea"
+            v-if="idea"
             ref="page"
             class="card"
             :idea="idea"
@@ -60,13 +55,11 @@
 
 <script>
 import clip from 'text-clipper'
-import Cookies from 'js-cookie'
 import { mapGetters, mapState, mapActions, mapMutations } from 'vuex'
 import Layout from '@/components/layout/Layout'
 import Swiper from '@/components/ideaDetail/Swiper'
 import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 import IdeaCardSkeleton from '@/components/ideaDetail/IdeaCardSkeleton'
-import SwipeExplainer from '@/components/ideaDetail/SwipeExplainer'
 import CategoriesSubHeader from '@/components/layout/CategoriesSubHeader'
 import IdeaLightbox from '@/components/ideaDetail/IdeaLightbox'
 import IdeaSwipableCard from '@/components/ideaDetail/IdeaSwipableCard'
@@ -82,8 +75,7 @@ export default {
     Layout,
     Swiper,
     IdeaCardSkeleton,
-    CategoriesSubHeader,
-    SwipeExplainer
+    CategoriesSubHeader
   },
 
   async fetch({ app, route, store, redirect, error }) {
@@ -111,7 +103,6 @@ export default {
   data() {
     return {
       hideSlideMenu: false,
-      showExplainer: false,
       expandedIdea: null,
       expandWithEdit: false,
       firstInStack: true,
@@ -160,7 +151,6 @@ export default {
       this.showIdeaPostedDialog = true
       this.updateCreatedIdea(null)
     }
-    this.showExplainer = !Cookies.get('hasSeenExplainer')
     this.incrementViews()
     this.getQueue({ app: this })
     this.firstInStack = this.currIndex === 0
@@ -186,9 +176,6 @@ export default {
     },
 
     async nextIdea() {
-      if (this.showExplainer) {
-        return
-      }
       if (this.lastInStack) {
         this.$notifier.error(
           "Oops, you've reached the end! Please swipe the other way!"
@@ -198,9 +185,6 @@ export default {
     },
 
     async previousIdea() {
-      if (this.showExplainer) {
-        return
-      }
       if (this.firstInStack) {
         this.$notifier.error(
           "Oops, you're already at the beginning -- Please swipe the other way! :)"
@@ -221,13 +205,6 @@ export default {
         })
       } catch (e) {
         this.$sentry.captureException(e)
-      }
-    },
-
-    animationOutEnd() {
-      if (this.showExplainer) {
-        Cookies.set('hasSeenExplainer', 1, { expires: 365 })
-        this.showExplainer = false
       }
     },
 

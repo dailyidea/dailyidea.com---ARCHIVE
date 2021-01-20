@@ -1,22 +1,33 @@
 <template>
   <svg
-    width="60"
+    :width="12 + 24 * (total - 1)"
     height="12"
-    viewBox="0 0 60 12"
+    :viewBox="`0 0 ${12 + 24 * (total - 1)} 12`"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <circle cx="6" cy="6" r="6" :fill="step == 0 ? '#5B41BB' : '#C2C2D0'" />
-    <circle cx="30" cy="6" r="6" :fill="step == 1 ? '#5B41BB' : '#C2C2D0'" />
-    <circle cx="54" cy="6" r="6" :fill="step == 2 ? '#5B41BB' : '#C2C2D0'" />
+    <circle
+      v-for="n in range(total)"
+      :key="n"
+      :cx="6 + 24 * n"
+      cy="6"
+      r="6"
+      :fill="step === n ? '#5B41BB' : '#C2C2D0'"
+    />
   </svg>
 </template>
 
 <script>
+import range from 'lodash/range'
+
 export default {
-  name: 'SliderDots',
   props: {
-    step: { type: Number, default: 0 }
+    step: { type: Number, required: true },
+    total: { type: Number, required: true }
+  },
+
+  methods: {
+    range
   }
 }
 </script>

@@ -15,7 +15,7 @@
           <span v-else>Use arrow keys to see the next idea</span>
           <!-- TODO: probably not used anymore -->
         </span>
-        <span v-if="ideaIndex > 0">{{ ideaIndex + 1 }} of 3</span>
+        <span v-if="ideaIndex > 0">{{ ideaIndex + 1 }} of {{ total }}</span>
       </div>
 
       <div
@@ -66,7 +66,8 @@
 <script>
 export default {
   props: {
-    ideaIndex: { type: Number, required: true }
+    ideaIndex: { type: Number, required: true },
+    total: { type: Number, required: true }
   }
 }
 </script>
