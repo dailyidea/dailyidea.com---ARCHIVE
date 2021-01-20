@@ -152,6 +152,40 @@
         />
       </div>
     </div>
+    <div
+      v-if="page === 3"
+      class="d-flex py-1 py-sm-6 justify-space-between fill-height fill-width"
+    >
+      <div
+        class="d-flex fill-width fill-height align-center justify-center overflow-y-auto"
+      >
+        <div class="m-auto text-center">
+          <h1 class="text-h5 text-sm-h4 mb-2 mb-sm-4">
+            Welcome to Daily Idea!
+          </h1>
+          <div class="my-6">
+            <img
+              v-if="$vuetify.breakpoint.mdAndUp"
+              width="175"
+              src="~assets/images/home/press-both-arrows-big.gif"
+              alt="Arrows"
+            />
+            <img
+              v-else
+              width="125"
+              src="~assets/images/home/swipeicon-both-big.gif"
+              alt="Arrows"
+            />
+          </div>
+          <div v-if="$vuetify.breakpoint.mdAndUp">
+            Use your arrow keys to start exploring ideas!
+          </div>
+          <div v-else>
+            Swipe to start exploring ideas!
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

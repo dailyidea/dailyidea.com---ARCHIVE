@@ -1,11 +1,15 @@
 <template>
   <Layout>
-    <swipe-explainer-bar v-if="page < 3" :idea-index="page" />
+    <swipe-explainer-bar
+      v-if="page < slidesCount"
+      :idea-index="page"
+      :total="slidesCount"
+    />
     <swiper
       v-slot="{ rotationStyle }"
       :allow-left="page > 0"
       :reverse-in-right="firstInStack"
-      :animate-in="page < 3"
+      :animate-in="page < slidesCount"
       @swipe-start="setHideSlideMenuTrue"
       @swipe-end="setHideSlideMenuFalse"
       @swipe-left="nextIdea"
@@ -28,7 +32,11 @@
     </swiper>
 
     <div class="swipe-footer text-center pt-5 hidden-md-and-down">
-      <slider-dots v-if="page < 3" :step="page" />
+      <slider-dots
+        v-if="page < slidesCount"
+        :step="page"
+        :total="slidesCount"
+      />
     </div>
   </Layout>
 </template>
@@ -59,7 +67,8 @@ export default {
     ideas: null,
     page: 0,
     hideSlideMenu: true,
-    firstInStack: true
+    firstInStack: true,
+    slidesCount: 4
   }),
 
   methods: {
@@ -74,7 +83,7 @@ export default {
 
     loadNewIdea(direction) {
       const index = Math.max(this.page + direction, 0)
-      if (index > 2) {
+      if (index > this.slidesCount - 1) {
         this.$router.push('/ideas-cards')
       }
       this.page = index
