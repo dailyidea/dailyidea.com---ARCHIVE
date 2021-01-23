@@ -1,22 +1,23 @@
 <template>
   <validation-observer v-slot="{ valid, validated, handleSubmit }">
     <default-dialog
+      button-ok-text="Submit"
       :value="value"
       :button-ok-disabled="!validated || !valid"
       :button-cancel-text="buttonCancelText"
       :header="header"
-      :image-path="require('~/assets/images/dialogs/undraw_emails_6uqr.svg')"
+      :subheader="message"
+      :image-path="require('assets/images/dialogs/dialog_email.svg')"
       @input="v => $emit('input', v)"
       @cancel="$emit('cancel')"
       @ok="handleSubmit(onOk)"
     >
-      <p>{{ message }}</p>
       <v-text-field-with-validation
         v-model="email"
         name="Email"
         rules="required|email|max:100"
-        prepend-inner-icon="email"
-        label="Your Email"
+        prepend-inner-icon="mdi-email-outline"
+        label="Your email address"
         @keydown.enter="handleSubmit(onOk)"
       ></v-text-field-with-validation>
     </default-dialog>
@@ -37,7 +38,7 @@ export default {
 
   props: {
     value: Boolean,
-    header: { type: String, default: 'Introduce yourself?' },
+    header: { type: String, default: 'What’s your email?' },
     message: { type: String, default: 'Your Email?' },
     buttonCancelText: { type: String, default: 'Cancel' }
   },

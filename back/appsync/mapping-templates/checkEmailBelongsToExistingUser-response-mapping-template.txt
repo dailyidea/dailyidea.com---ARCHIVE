@@ -1,5 +1,5 @@
 #if($context.result.items.size() > 0)
-    #return({"result": {"ok": true}, "belongsToExistingUser": true, "userId": $context.result.items[0].userId})
+    #return({"result": {"ok": true}, "belongsToExistingUser": true, "userId": $context.result.items[0].userId, "name": $context.result.items[0].name})
 #else
     #return({"result": {"ok": true}, "belongsToExistingUser": false})
 #end

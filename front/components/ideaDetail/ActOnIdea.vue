@@ -11,6 +11,7 @@
       @like-idea="likeIdea"
       @unlike-idea="unlikeIdea"
     ></like-idea>
+
     <save-idea
       v-else
       :is-loading="isLoading"
@@ -25,17 +26,13 @@
 
     <ask-email-dialog
       v-model="showAskEmailSave"
-      header="Introduce yourself?"
-      message="What's your email address so you can find your saved ideas later?
-                      (Just so I know how to find this for you in the future.)"
+      message=""
       @data="onNoAuthEmail"
     ></ask-email-dialog>
 
     <ask-email-dialog
       v-model="showAskEmailLike"
-      header="Introduce yourself?"
-      message="What's your email address so you can finish liking this idea?
-                      (Just so I know how to find this for you in the future.)"
+      message='Enter your email address to finish <span class="link-highlight">liking</span> this idea.'
       @data="onNoAuthEmail"
     ></ask-email-dialog>
 
@@ -95,7 +92,6 @@
       v-model="showSavedByLoginLink"
       header="Yay!"
       :show-cancel-button="false"
-      :image-path="require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')"
       button-ok-text="Nice!"
       @ok="showSavedByLoginLink = false"
     >
@@ -110,7 +106,6 @@
       v-model="showLikedByLoginLink"
       header="Yay!"
       :show-cancel-button="false"
-      :image-path="require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')"
       button-ok-text="Nice!"
       @ok="showLikedByLoginLink = false"
     >
@@ -120,35 +115,21 @@
       </p>
     </default-dialog>
 
-    <default-dialog
+    <welcome-dialog
       v-model="showWelcomeBackSave"
-      :header="`Welcome back ${name}!`"
-      :show-cancel-button="false"
-      :image-path="require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')"
-      button-ok-text="Nice!"
-      @ok="showWelcomeBackSave = false"
-    >
-      <p>We sent you a confirmation email.</p>
-      <p>
-        Please check your inbox and click the verification link in the message
-        so we can make sure we're saving this idea to the right account.
-      </p>
-    </default-dialog>
+      :name="name"
+      :email="email"
+      message='Click the verification link in your inbox to finish <span class="link-hightlight">saving</span> this idea.'
+      @resend="() => onNoAuthEmail(email)"
+    />
 
-    <default-dialog
+    <welcome-dialog
       v-model="showWelcomeBackLike"
-      :header="`Welcome back ${name}!`"
-      :show-cancel-button="false"
-      :image-path="require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')"
-      button-ok-text="Nice!"
-      @ok="showWelcomeBackLike = false"
-    >
-      <p>We sent you a confirmation email.</p>
-      <p>
-        Please check your inbox and click the verification link in the message
-        so we can make sure we're liking the idea with the correct account.
-      </p>
-    </default-dialog>
+      :name="name"
+      :email="email"
+      message='Click the verification link in your inbox to finish <span class="link-hightlight">liking</span> this idea.'
+      @resend="() => onNoAuthEmail(email)"
+    />
   </span>
 </template>
 
@@ -156,7 +137,7 @@
 import nanoid from 'nanoid'
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 import { graphqlOperation } from '@aws-amplify/api'
-import AskEmailDialog from './AskEmailDialog'
+import AskEmailDialog from '../dialogs/AskEmailDialog'
 import LikeIdea from './LikeIdea'
 import SaveIdea from './SaveIdea'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
@@ -164,12 +145,14 @@ import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsTo
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
 import likeIdeaMutation from '@/graphql/mutations/likeIdea'
 import saveIdeaMutation from '@/graphql/mutations/saveIdea'
-import AskNameDialog from '@/components/ideaDetail/AskNameDialog'
+import AskNameDialog from '@/components/dialogs/AskNameDialog'
+import WelcomeDialog from '@/components/dialogs/WelcomeDialog'
 
 export default {
   name: 'ActOnIdea',
 
   components: {
+    WelcomeDialog,
     DefaultDialog,
     AskEmailDialog,
     AskNameDialog,
@@ -376,7 +359,9 @@ export default {
         this.showWelcomeBackLike = true
       }
 
-      await this.$amplifyApi.post('RequestLogin', '', { body: data })
+      await this.$amplifyApi.post('RequestLogin', '', {
+        body: data
+      })
       this.hideProgressBar()
     },
 
@@ -388,11 +373,13 @@ export default {
       try {
         const result = await this.checkEmailBelongsToExistingUser(this.email)
         const {
-          belongsToExistingUser
+          belongsToExistingUser,
+          name
         } = result.data.checkEmailBelongsToExistingUser
         this.hideProgressBar()
 
         if (belongsToExistingUser) {
+          this.name = name
           this.requestAuthAndProcessIdeaAction(this.email, this.idea.ideaId)
         } else {
           this.showAskName = true

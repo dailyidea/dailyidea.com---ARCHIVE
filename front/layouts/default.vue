@@ -23,4 +23,5 @@ export default {
 
 <style lang="scss">
 @import '~assets/style/base';
+@import '~assets/style/modals';
 </style>

@@ -102,8 +102,8 @@
 import nanoid from 'nanoid'
 import { graphqlOperation } from '@aws-amplify/api'
 import { mapMutations, mapGetters } from 'vuex'
-import AskNameDialog from './AskNameDialog'
-import AskEmailDialog from './AskEmailDialog'
+import AskNameDialog from '../dialogs/AskNameDialog'
+import AskEmailDialog from '../dialogs/AskEmailDialog'
 import IdeaCommentsComment from './IdeaCommentsComment'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import deleteIdeaTemporaryComment from '@/graphql/mutations/deleteIdeaTemporaryComment'
@@ -331,8 +331,8 @@ export default {
       if (wasWelcomed) {
         this.$dialog.show({
           header: 'Welcome back!',
-          message: 'Thanks for posting that comment!',
-          imagePath: require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')
+          message: 'Thanks for posting that comment!'
+          // imagePath: require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')
         })
       } else {
         this.showFirstCommentInstantiated = true
@@ -369,8 +369,8 @@ export default {
       this.hideProgressBar()
       this.$dialog.show({
         header: 'Welcome back!',
-        message: `It looks like you weren't signed in. We just sent you a verification email. Please check your inbox and click on the link and we'll post your comment ASAP.`,
-        imagePath: require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')
+        message: `It looks like you weren't signed in. We just sent you a verification email. Please check your inbox and click on the link and we'll post your comment ASAP.`
+        // imagePath: require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')
       })
     },
 

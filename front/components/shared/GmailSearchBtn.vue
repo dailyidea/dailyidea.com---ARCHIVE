@@ -2,10 +2,12 @@
   <v-btn
     v-if="isGmail"
     rounded
+    color="primary"
     :href="
       `https://mail.google.com/mail/u/0/#search/in%3Aanywhere+subject%3A%22${search}%22+${dates}`
     "
     target="_blank"
+    rel="noopener"
     >Check your Gmail inbox
   </v-btn>
 </template>
@@ -23,6 +25,7 @@ export default {
     isGmail() {
       return this.email && this.email.match(/gmail.com$/i)
     },
+
     dates() {
       return encodeURIComponent(
         'after:' +

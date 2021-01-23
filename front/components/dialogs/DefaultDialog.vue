@@ -13,7 +13,8 @@
     <slot name="header">
       <!-- Header -->
       <section class="modalHeader">
-        <h3>{{ header }}</h3>
+        <h3 v-if="header">{{ header }}</h3>
+        <p v-if="subheader" v-html="subheader"></p>
         <v-img
           v-if="imagePath"
           max-height="180"
@@ -46,7 +47,9 @@
           >
           <span v-if="showCancelButton" class="grey-bar"></span>
           <v-btn
+            v-if="showOkButton"
             rounded
+            color="primary"
             :disabled="buttonOkDisabled"
             :loading="buttonOkLoading"
             :class="{ error: error }"
@@ -64,6 +67,7 @@
 export default {
   props: {
     header: { type: String, default: '' },
+    subheader: { type: String, default: '' },
     error: { type: Boolean, default: false },
     imagePath: { type: String, default: '' },
     value: Boolean,
@@ -71,7 +75,8 @@ export default {
     buttonCancelText: { type: String, default: 'Cancel' },
     buttonOkDisabled: { type: Boolean, default: false },
     buttonOkLoading: { type: Boolean, default: false },
-    showCancelButton: { type: Boolean, default: true }
+    showCancelButton: { type: Boolean, default: true },
+    showOkButton: { type: Boolean, default: true }
   },
 
   methods: {
@@ -87,7 +92,10 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import '~assets/style/common';
-@import '~assets/style/modals';
+<style lang="scss" scoped>
+::v-deep {
+  .v-dialog {
+    border-radius: 10px;
+  }
+}
 </style>
