@@ -7,7 +7,7 @@
       :is-logged-in="isLoggedIn"
       :idea="idea"
       @is-liked-by-me="handleIsIdeaLikedByMe"
-      @show-ask-email="handleShowAskEmail"
+      @show-ask-email="showAskEmail = true"
       @like-idea="likeIdea"
       @unlike-idea="unlikeIdea"
     ></like-idea>
@@ -19,20 +19,16 @@
       :is-logged-in="isLoggedIn"
       :idea="idea"
       @is-saved-by-me="handleIsIdeaSavedByMe"
-      @show-ask-email="handleShowAskEmail"
+      @show-ask-email="showAskEmail = true"
       @save-idea="saveIdea"
       @unsave-idea="unsaveIdea"
     ></save-idea>
 
     <ask-email-dialog
-      v-model="showAskEmailSave"
-      message=""
-      @data="onNoAuthEmail"
-    ></ask-email-dialog>
-
-    <ask-email-dialog
-      v-model="showAskEmailLike"
-      message='Enter your email address to finish <span class="link-highlight">liking</span> this idea.'
+      v-model="showAskEmail"
+      :message="
+        `Enter your email address to finish <span class='link-highlight'>${actionGerund}</span> this idea.`
+      "
       @data="onNoAuthEmail"
     ></ask-email-dialog>
 
@@ -116,18 +112,18 @@
     </default-dialog>
 
     <welcome-dialog
-      v-model="showWelcomeBack"
+      v-model="showWelcome"
       :name="name"
       :email="email"
       :message="
         isGmail
-          ? `Click the verification link in your inbox to finish <span class='link-highlight'>saving</span> this idea.`
-          : `We’ve sent you an authentication email, please click the button inside to log in and finish <span class='link-highlight'>saving</span> this idea.`
+          ? `Click the verification link in your inbox to finish <span class='link-highlight'>${actionGerund}</span> this idea.`
+          : `We’ve sent you an authentication email, please click the button inside to log in and finish <span class='link-highlight'>${actionGerund}</span> this idea.`
       "
       @resend="
         () => {
           showResend = true
-          showWelcomeBack = false
+          showWelcome = false
           onNoAuthEmail(email)
         }
       "
@@ -184,8 +180,7 @@ export default {
       isActedOn: false,
       isLoading: false,
 
-      showAskEmailLike: false,
-      showAskEmailSave: false,
+      showAskEmail: false,
       email: '',
 
       showAskName: false,
@@ -195,7 +190,7 @@ export default {
       showFirstIdeaLiked: false,
       showSavedByLoginLink: false,
       showLikedByLoginLink: false,
-      showWelcomeBack: false,
+      showWelcome: false,
       newUser: false,
       showResend: false
     }
@@ -209,9 +204,16 @@ export default {
       userId: 'userData/userId'
     }),
 
-    computed: {
-      isGmail() {
-        return this.email && this.email.match(/gmail.com$/i)
+    isGmail() {
+      return this.email && this.email.match(/gmail.com$/i)
+    },
+
+    actionGerund() {
+      switch (this.action) {
+        case 'like':
+          return 'liking'
+        default:
+          return 'saving'
       }
     }
   },
@@ -329,53 +331,24 @@ export default {
       await this.registerUser({
         username: this.email,
         password: nanoid(),
-        attributes: { name: this.name }
+        attributes: { name: '' }
       })
 
-      const data = { email: this.email }
-
-      if (this.action === 'save') {
-        data.ideaToSaveId = this.idea.ideaId
-      } else {
-        data.ideaToLikeId = this.idea.ideaId
-      }
+      const ideaIdKey = this.action === 'save' ? 'ideaToSaveId' : 'ideaToLikeId'
+      const data = { email: this.email, [ideaIdKey]: this.idea.ideaId }
 
       await this.$amplifyApi.post('RequestLogin', '', { body: data })
-
-      let message = `We just sent you an email, which we'll just use to make sure we can find your saved
-                    ideas later. Please check your inbox and click the confirmation link to finish saving this idea.`
-
-      if (this.action === 'like') {
-        message = `We just sent an email, which we'll use to make sure we can finish liking your idea.
-                   Please check your inbox and click the confirmation link to finish liking this idea.`
-      }
-
-      if (
-        await this.$dialog.show({
-          header: `Awesome, ${this.name}!`,
-          imagePath: require('~/assets/images/dialogs/undraw_arrived.svg'),
-          message
-        })
-      ) {
-        if (this.email.endsWith('gmail.com')) {
-          window.open('https://gmail.com')
-        }
-      }
+      this.showWelcome = true
     },
 
     async requestAuthAndProcessIdeaAction(email, ideaToActOnId) {
       this.showProgressBar()
 
-      const data = { email }
-
-      if (this.action === 'save') {
-        data.ideaToSaveId = ideaToActOnId
-      } else {
-        data.ideaToLikeId = ideaToActOnId
-      }
+      const ideaIdKey = this.action === 'save' ? 'ideaToSaveId' : 'ideaToLikeId'
+      const data = { email, [ideaIdKey]: ideaToActOnId }
 
       if (!this.showResend) {
-        this.showWelcomeBack = true
+        this.showWelcome = true
       }
 
       await this.$amplifyApi.post('RequestLogin', '', {
@@ -386,8 +359,7 @@ export default {
 
     async onNoAuthEmail(email) {
       this.email = email.toLowerCase()
-      this.showAskEmailSave = false
-      this.showAskEmailLike = false
+      this.showAskEmail = false
       this.showProgressBar()
       try {
         const result = await this.checkEmailBelongsToExistingUser(this.email)
@@ -395,26 +367,21 @@ export default {
           belongsToExistingUser,
           name
         } = result.data.checkEmailBelongsToExistingUser
-        this.hideProgressBar()
 
         if (belongsToExistingUser) {
           this.name = name
-          this.requestAuthAndProcessIdeaAction(this.email, this.idea.ideaId)
+          await this.requestAuthAndProcessIdeaAction(
+            this.email,
+            this.idea.ideaId
+          )
         } else {
           this.newUser = true
-          this.showAskName = true
+          await this.registerUserAndProcessIdeaAction()
         }
       } catch (e) {
-        this.hideProgressBar()
+        this.$sentry.captureException(e)
       }
-    },
-
-    handleShowAskEmail() {
-      if (this.action === 'save') {
-        this.showAskEmailSave = true
-      } else {
-        this.showAskEmailLike = true
-      }
+      this.hideProgressBar()
     },
 
     async handleIsIdeaSavedByMe(query) {
@@ -445,15 +412,15 @@ export default {
 
         return res
       }
-    },
-
-    async onNoAuthName(name) {
-      this.name = name
-      this.showAskName = false
-      this.showProgressBar()
-      await this.registerUserAndProcessIdeaAction()
-      this.hideProgressBar()
     }
+
+    // async onNoAuthName(name) {
+    //   this.name = name
+    //   this.showAskName = false
+    //   this.showProgressBar()
+    //   await this.registerUserAndProcessIdeaAction()
+    //   this.hideProgressBar()
+    // }
   }
 }
 </script>

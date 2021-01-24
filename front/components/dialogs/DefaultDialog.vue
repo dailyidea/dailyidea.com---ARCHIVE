@@ -49,6 +49,7 @@
           <v-btn
             v-if="showOkButton"
             rounded
+            dark
             color="primary"
             :disabled="buttonOkDisabled"
             :loading="buttonOkLoading"
