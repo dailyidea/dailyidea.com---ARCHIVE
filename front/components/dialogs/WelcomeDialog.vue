@@ -4,7 +4,6 @@
     :header="name ? `Welcome Back ${name}!` : 'Welcome to Daily Idea!'"
     :subheader="message"
     :image-path="require('assets/images/dialogs/dialog_welcome_back.svg')"
-    :button-ok-text="`Send again in ${countDown}`"
     @input="v => $emit('input', v)"
   >
     <div class="text-center">
@@ -15,8 +14,8 @@
       />
     </div>
     <template v-slot:footer>
-      <p v-if="showResend" class="text-center">
-        <a href="#" class="link-highlight" @click.prevent="resend"
+      <p class="text-center">
+        <a href="#" class="link-highlight" @click.prevent="$emit('resend')"
           >Request a new link to wbarryux@gmail.com</a
         >
       </p>
@@ -39,39 +38,6 @@ export default {
     message: { type: String, default: 'Your Email?' },
     name: { type: String, default: '' },
     email: { type: String, required: true }
-  },
-
-  data: () => ({
-    resendTimeout: 20000,
-    countDown: 20,
-    showResend: false
-  }),
-
-  watch: {
-    value(val) {
-      if (val) {
-        setTimeout(() => (this.showResend = true), this.resendTimeout)
-        this.countDownTimer()
-      }
-    }
-  },
-
-  methods: {
-    resend() {
-      this.showResend = false
-      setTimeout(() => (this.showResend = true), this.resendTimeout)
-      this.$emit('resend')
-      this.countDownTimer()
-    },
-
-    countDownTimer() {
-      if (this.countDown > 0) {
-        setTimeout(() => {
-          this.countDown -= 1
-          this.countDownTimer()
-        }, 1000)
-      }
-    }
   }
 }
 </script>

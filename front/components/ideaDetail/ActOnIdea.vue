@@ -116,18 +116,26 @@
     </default-dialog>
 
     <welcome-dialog
-      v-model="showWelcomeBackSave"
+      v-model="showWelcomeBack"
       :name="name"
       :email="email"
-      message='Click the verification link in your inbox to finish <span class="link-hightlight">saving</span> this idea.'
-      @resend="() => onNoAuthEmail(email)"
+      :message="
+        isGmail
+          ? `Click the verification link in your inbox to finish <span class='link-highlight'>saving</span> this idea.`
+          : `We’ve sent you an authentication email, please click the button inside to log in and finish <span class='link-highlight'>saving</span> this idea.`
+      "
+      @resend="
+        () => {
+          showResend = true
+          showWelcomeBack = false
+          onNoAuthEmail(email)
+        }
+      "
     />
 
-    <welcome-dialog
-      v-model="showWelcomeBackLike"
-      :name="name"
+    <resend-email-dialog
+      v-model="showResend"
       :email="email"
-      message='Click the verification link in your inbox to finish <span class="link-hightlight">liking</span> this idea.'
       @resend="() => onNoAuthEmail(email)"
     />
   </span>
@@ -147,11 +155,13 @@ import likeIdeaMutation from '@/graphql/mutations/likeIdea'
 import saveIdeaMutation from '@/graphql/mutations/saveIdea'
 import AskNameDialog from '@/components/dialogs/AskNameDialog'
 import WelcomeDialog from '@/components/dialogs/WelcomeDialog'
+import ResendEmailDialog from '@/components/dialogs/ResendEmailDialog'
 
 export default {
   name: 'ActOnIdea',
 
   components: {
+    ResendEmailDialog,
     WelcomeDialog,
     DefaultDialog,
     AskEmailDialog,
@@ -185,8 +195,9 @@ export default {
       showFirstIdeaLiked: false,
       showSavedByLoginLink: false,
       showLikedByLoginLink: false,
-      showWelcomeBackSave: false,
-      showWelcomeBackLike: false
+      showWelcomeBack: false,
+      newUser: false,
+      showResend: false
     }
   },
 
@@ -196,7 +207,13 @@ export default {
       userWasWelcomed: 'userData/wasWelcomed',
       userName: 'userData/userName',
       userId: 'userData/userId'
-    })
+    }),
+
+    computed: {
+      isGmail() {
+        return this.email && this.email.match(/gmail.com$/i)
+      }
+    }
   },
 
   mounted() {
@@ -353,10 +370,12 @@ export default {
 
       if (this.action === 'save') {
         data.ideaToSaveId = ideaToActOnId
-        this.showWelcomeBackSave = true
       } else {
         data.ideaToLikeId = ideaToActOnId
-        this.showWelcomeBackLike = true
+      }
+
+      if (!this.showResend) {
+        this.showWelcomeBack = true
       }
 
       await this.$amplifyApi.post('RequestLogin', '', {
@@ -382,6 +401,7 @@ export default {
           this.name = name
           this.requestAuthAndProcessIdeaAction(this.email, this.idea.ideaId)
         } else {
+          this.newUser = true
           this.showAskName = true
         }
       } catch (e) {
