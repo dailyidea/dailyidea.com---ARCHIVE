@@ -8,6 +8,7 @@
       :header="header"
       :subheader="message"
       :image-path="require('assets/images/dialogs/dialog_email.svg')"
+      :button-ok-loading="loading"
       @input="v => $emit('input', v)"
       @cancel="$emit('cancel')"
       @ok="handleSubmit(onOk)"
@@ -38,6 +39,7 @@ export default {
 
   props: {
     value: Boolean,
+    loading: Boolean,
     header: { type: String, default: 'What’s your email?' },
     message: { type: String, default: 'Your Email?' },
     buttonCancelText: { type: String, default: 'Cancel' }

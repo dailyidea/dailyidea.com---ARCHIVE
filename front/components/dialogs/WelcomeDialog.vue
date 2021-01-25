@@ -16,7 +16,7 @@
     <template v-slot:footer>
       <p class="text-center">
         <a href="#" class="link-highlight" @click.prevent="$emit('resend')"
-          >Request a new link to wbarryux@gmail.com</a
+          >Request a new link to {{ email }}</a
         >
       </p>
     </template>

@@ -26,7 +26,6 @@
         @swipe-right="previousIdea"
         @left-arrow-clicked="previousIdea"
         @right-arrow-clicked="nextIdea"
-        @animation-out-end="animationOutEnd"
         @animation-in-end="animationInEnd"
         @swipe-parent-click="$refs.page.expandToggle()"
       >

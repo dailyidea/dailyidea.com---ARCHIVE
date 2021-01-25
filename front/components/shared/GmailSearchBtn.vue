@@ -2,6 +2,7 @@
   <v-btn
     v-if="isGmail"
     rounded
+    dark
     color="primary"
     :href="
       `https://mail.google.com/mail/u/0/#search/in%3Aanywhere+subject%3A%22${search}%22+${dates}`

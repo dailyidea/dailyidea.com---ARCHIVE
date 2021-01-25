@@ -1,5 +1,7 @@
 <template>
   <span>
+    <auth-flow v-model="showAuth" :idea="idea" :action="action" />
+
     <like-idea
       v-if="action === 'like'"
       :is-liked="isActedOn"
@@ -7,7 +9,7 @@
       :is-logged-in="isLoggedIn"
       :idea="idea"
       @is-liked-by-me="handleIsIdeaLikedByMe"
-      @show-ask-email="showAskEmail = true"
+      @show-auth="showAuth = true"
       @like-idea="likeIdea"
       @unlike-idea="unlikeIdea"
     ></like-idea>
@@ -19,25 +21,10 @@
       :is-logged-in="isLoggedIn"
       :idea="idea"
       @is-saved-by-me="handleIsIdeaSavedByMe"
-      @show-ask-email="showAskEmail = true"
+      @show-auth="showAuth = true"
       @save-idea="saveIdea"
       @unsave-idea="unsaveIdea"
     ></save-idea>
-
-    <ask-email-dialog
-      v-model="showAskEmail"
-      :message="
-        `Enter your email address to finish <span class='link-highlight'>${actionGerund}</span> this idea.`
-      "
-      @data="onNoAuthEmail"
-    ></ask-email-dialog>
-
-    <ask-name-dialog
-      v-model="showAskName"
-      header="Almost there"
-      message="Anonymous user just doesn't feel so personal... :)"
-      @data="onNoAuthName"
-    ></ask-name-dialog>
 
     <default-dialog
       v-model="showFirstIdeaSaved"
@@ -110,58 +97,24 @@
         out more ideas <a href="/ideas-cards">here</a>.
       </p>
     </default-dialog>
-
-    <welcome-dialog
-      v-model="showWelcome"
-      :name="name"
-      :email="email"
-      :message="
-        isGmail
-          ? `Click the verification link in your inbox to finish <span class='link-highlight'>${actionGerund}</span> this idea.`
-          : `We’ve sent you an authentication email, please click the button inside to log in and finish <span class='link-highlight'>${actionGerund}</span> this idea.`
-      "
-      @resend="
-        () => {
-          showResend = true
-          showWelcome = false
-          onNoAuthEmail(email)
-        }
-      "
-    />
-
-    <resend-email-dialog
-      v-model="showResend"
-      :email="email"
-      @resend="() => onNoAuthEmail(email)"
-    />
   </span>
 </template>
 
 <script>
-import nanoid from 'nanoid'
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 import { graphqlOperation } from '@aws-amplify/api'
-import AskEmailDialog from '../dialogs/AskEmailDialog'
 import LikeIdea from './LikeIdea'
 import SaveIdea from './SaveIdea'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
-import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
 import likeIdeaMutation from '@/graphql/mutations/likeIdea'
 import saveIdeaMutation from '@/graphql/mutations/saveIdea'
-import AskNameDialog from '@/components/dialogs/AskNameDialog'
-import WelcomeDialog from '@/components/dialogs/WelcomeDialog'
-import ResendEmailDialog from '@/components/dialogs/ResendEmailDialog'
+import AuthFlow from '@/components/auth/AuthFlow'
 
 export default {
-  name: 'ActOnIdea',
-
   components: {
-    ResendEmailDialog,
-    WelcomeDialog,
+    AuthFlow,
     DefaultDialog,
-    AskEmailDialog,
-    AskNameDialog,
     LikeIdea,
     SaveIdea
   },
@@ -179,20 +132,12 @@ export default {
     return {
       isActedOn: false,
       isLoading: false,
-
-      showAskEmail: false,
-      email: '',
-
-      showAskName: false,
-      name: '',
+      showAuth: false,
 
       showFirstIdeaSaved: false,
       showFirstIdeaLiked: false,
       showSavedByLoginLink: false,
-      showLikedByLoginLink: false,
-      showWelcome: false,
-      newUser: false,
-      showResend: false
+      showLikedByLoginLink: false
     }
   },
 
@@ -202,20 +147,7 @@ export default {
       userWasWelcomed: 'userData/wasWelcomed',
       userName: 'userData/userName',
       userId: 'userData/userId'
-    }),
-
-    isGmail() {
-      return this.email && this.email.match(/gmail.com$/i)
-    },
-
-    actionGerund() {
-      switch (this.action) {
-        case 'like':
-          return 'liking'
-        default:
-          return 'saving'
-      }
-    }
+    })
   },
 
   mounted() {
@@ -317,71 +249,6 @@ export default {
       this.isActedOn = false
       this.isLoading = false
       return res
-    },
-
-    checkEmailBelongsToExistingUser(email) {
-      return this.$amplifyApi.graphql({
-        query: checkEmailBelongsToExistingUser,
-        variables: { email },
-        authMode: 'API_KEY'
-      })
-    },
-
-    async registerUserAndProcessIdeaAction() {
-      await this.registerUser({
-        username: this.email,
-        password: nanoid(),
-        attributes: { name: '' }
-      })
-
-      const ideaIdKey = this.action === 'save' ? 'ideaToSaveId' : 'ideaToLikeId'
-      const data = { email: this.email, [ideaIdKey]: this.idea.ideaId }
-
-      await this.$amplifyApi.post('RequestLogin', '', { body: data })
-      this.showWelcome = true
-    },
-
-    async requestAuthAndProcessIdeaAction(email, ideaToActOnId) {
-      this.showProgressBar()
-
-      const ideaIdKey = this.action === 'save' ? 'ideaToSaveId' : 'ideaToLikeId'
-      const data = { email, [ideaIdKey]: ideaToActOnId }
-
-      if (!this.showResend) {
-        this.showWelcome = true
-      }
-
-      await this.$amplifyApi.post('RequestLogin', '', {
-        body: data
-      })
-      this.hideProgressBar()
-    },
-
-    async onNoAuthEmail(email) {
-      this.email = email.toLowerCase()
-      this.showAskEmail = false
-      this.showProgressBar()
-      try {
-        const result = await this.checkEmailBelongsToExistingUser(this.email)
-        const {
-          belongsToExistingUser,
-          name
-        } = result.data.checkEmailBelongsToExistingUser
-
-        if (belongsToExistingUser) {
-          this.name = name
-          await this.requestAuthAndProcessIdeaAction(
-            this.email,
-            this.idea.ideaId
-          )
-        } else {
-          this.newUser = true
-          await this.registerUserAndProcessIdeaAction()
-        }
-      } catch (e) {
-        this.$sentry.captureException(e)
-      }
-      this.hideProgressBar()
     },
 
     async handleIsIdeaSavedByMe(query) {

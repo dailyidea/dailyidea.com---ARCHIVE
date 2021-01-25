@@ -23,9 +23,7 @@ export default {
   name: 'SaveIdea',
   props: {
     isSaved: { type: Boolean, required: true },
-
     idea: { type: Object, required: true },
-
     isLoading: Boolean,
     isLoggedIn: Boolean
   },
@@ -43,7 +41,7 @@ export default {
   methods: {
     initIdeaState() {
       if (!this.$route.query.aa && this.isLoggedIn) {
-        this.isSavedByMe()
+        this.$emit('is-saved-by-me', getIsIdeaSavedByMe)
       }
     },
 
@@ -54,29 +52,13 @@ export default {
 
       if (this.isLoggedIn) {
         if (!this.isSaved) {
-          this.saveIdea()
+          this.$emit('save-idea', saveIdea)
         } else {
-          this.unsaveIdea()
+          this.$emit('unsave-idea', unsaveIdea)
         }
       } else {
-        this.showAskEmail()
+        this.$emit('show-auth')
       }
-    },
-
-    unsaveIdea() {
-      this.$emit('unsave-idea', unsaveIdea)
-    },
-
-    saveIdea() {
-      this.$emit('save-idea', saveIdea)
-    },
-
-    showAskEmail() {
-      this.$emit('show-ask-email')
-    },
-
-    isSavedByMe() {
-      this.$emit('is-saved-by-me', getIsIdeaSavedByMe)
     }
   }
 }
