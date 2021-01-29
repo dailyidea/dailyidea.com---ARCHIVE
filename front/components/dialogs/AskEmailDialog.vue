@@ -17,7 +17,7 @@
         v-model="email"
         name="Email"
         rules="required|email|max:100"
-        prepend-inner-icon="mdi-email-outline"
+        prepend-inner-icon="$vuetify.icons.mail"
         label="Your email address"
         @keydown.enter="handleSubmit(onOk)"
       ></v-text-field-with-validation>

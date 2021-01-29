@@ -15,7 +15,7 @@
     >
       <v-text-field-with-validation
         v-model="name"
-        prepend-inner-icon="fas fa-user"
+        prepend-inner-icon="$vuetify.icons.user"
         rules="required|max:100"
         name="Name"
         label="Your Name"
