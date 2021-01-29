@@ -2,7 +2,7 @@
   <div>
     <ask-email-dialog
       :loading="loading"
-      :value="value"
+      :value="showAskEmail"
       :message="
         `Enter your email address to finish <span class='link-highlight'>${actionGerund}</span> this idea.`
       "
@@ -11,12 +11,15 @@
       @data="onEmailEntered"
     ></ask-email-dialog>
 
-    <!--<ask-name-dialog
+    <ask-name-dialog
       v-model="showAskName"
-      header="Almost there"
-      message="Anonymous user just doesn't feel so personal... :)"
-      @data="onNoAuthName"
-    ></ask-name-dialog>-->
+      :loading="loading"
+      header="Welcome to Daily Idea!"
+      :message="
+        `“Anonymous user” just doesn’t feel so personal... Enter your name to finish ${actionGerund} this idea.`
+      "
+      @data="onNameEntered"
+    ></ask-name-dialog>
 
     <welcome-dialog
       v-model="showWelcome"
@@ -48,6 +51,7 @@
 import nanoid from 'nanoid'
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 import AskEmailDialog from '../dialogs/AskEmailDialog'
+import AskNameDialog from '../dialogs/AskNameDialog'
 import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
 import WelcomeDialog from '@/components/dialogs/WelcomeDialog'
 import ResendEmailDialog from '@/components/dialogs/ResendEmailDialog'
@@ -56,7 +60,8 @@ export default {
   components: {
     ResendEmailDialog,
     WelcomeDialog,
-    AskEmailDialog
+    AskEmailDialog,
+    AskNameDialog
   },
 
   props: {
@@ -77,7 +82,7 @@ export default {
       loading: false,
       name: '',
       showAskEmail: false,
-      // showAskName: false,
+      showAskName: false,
       showWelcome: false,
       newUser: false,
       showResend: false
@@ -104,6 +109,14 @@ export default {
           return 'saving'
         default:
           return 'commenting'
+      }
+    }
+  },
+
+  watch: {
+    value(val) {
+      if (val) {
+        this.showAskEmail = true
       }
     }
   },
@@ -147,9 +160,33 @@ export default {
       })
     },
 
+    async onNameEntered(name) {
+      this.loading = true
+      try {
+        const user = await this.registerUser({
+          username: this.email,
+          password: nanoid(),
+          attributes: { name }
+        })
+        const userId = user.userSub
+
+        // This is an edge case when some action has to be done after
+        // userId is aquired but before login link request
+        if (this.userIdCallback && !this.showResend) {
+          await this.userIdCallback(userId)
+        }
+        await this.requestAuth()
+        this.showAskName = false
+        this.$emit('email-sent')
+      } catch (e) {
+        console.error(e) // eslint-disable-line
+        this.$sentry.captureException(e)
+      }
+      this.loading = false
+    },
+
     async onEmailEntered(email) {
       this.email = email.toLowerCase()
-      this.showAskEmail = false
       this.loading = true
 
       try {
@@ -159,27 +196,24 @@ export default {
         if (exists.belongsToExistingUser) {
           this.name = exists.name
           userId = exists.userId
+
+          // This is an edge case when some action has to be done after
+          // userId is aquired but before login link request
+          if (this.userIdCallback && !this.showResend) {
+            await this.userIdCallback(userId)
+          }
+          await this.requestAuth()
+          this.$emit('email-sent')
         } else {
           this.newUser = true
-          const user = await this.registerUser({
-            username: this.email,
-            password: nanoid(),
-            attributes: { name: '' }
-          })
-          userId = user.userSub
+          this.showAskName = true
         }
-        // This is an edge case when some action has to be done after
-        // userId is aquired but before login link request
-        if (this.userIdCallback && !this.showResend) {
-          await this.userIdCallback(userId)
-        }
-        await this.requestAuth()
+        this.showAskEmail = false
       } catch (e) {
         console.error(e) // eslint-disable-line
         this.$sentry.captureException(e)
       }
       this.loading = false
-      this.$emit('email-sent')
     }
   }
 }

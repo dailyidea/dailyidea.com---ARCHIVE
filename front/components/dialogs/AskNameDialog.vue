@@ -4,13 +4,15 @@
       :value="value"
       :button-ok-disabled="!valid || !validated"
       :button-cancel-text="buttonCancelText"
+      button-ok-text="Submit"
       :header="header"
-      :image-path="require('~/assets/images/dialogs/undraw_inbox_oppv.svg')"
+      :subheader="message"
+      :image-path="require('~/assets/images/dialogs/dialog_name.svg')"
+      :button-ok-loading="loading"
       @input="v => $emit('input', v)"
       @cancel="() => $emit('cancel')"
       @ok="handleSubmit(onOk)"
     >
-      <p>{{ message }}</p>
       <v-text-field-with-validation
         v-model="name"
         prepend-inner-icon="fas fa-user"
@@ -37,9 +39,10 @@ export default {
 
   props: {
     value: Boolean,
+    loading: Boolean,
     header: { type: String, default: 'Almost there' },
     message: { type: String, default: 'Your Name?' },
-    buttonCancelText: { type: String, default: 'Cancel' }
+    buttonCancelText: { type: String, default: '' }
   },
 
   data: () => ({ name: '' }),
