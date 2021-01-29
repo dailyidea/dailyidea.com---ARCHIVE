@@ -280,14 +280,6 @@ export default {
         return res
       }
     }
-
-    // async onNoAuthName(name) {
-    //   this.name = name
-    //   this.showAskName = false
-    //   this.showProgressBar()
-    //   await this.registerUserAndProcessIdeaAction()
-    //   this.hideProgressBar()
-    // }
   }
 }
 </script>
