@@ -30,19 +30,14 @@
           ? `Click the verification link in your inbox to finish <span class='link-highlight'>${actionGerund}</span> this idea.`
           : `We’ve sent you an authentication email, please click the button inside to log in and finish <span class='link-highlight'>${actionGerund}</span> this idea.`
       "
-      @resend="
-        () => {
-          showResend = true
-          showWelcome = false
-          onEmailEntered(email)
-        }
-      "
+      @resend="onResend"
     />
 
     <resend-email-dialog
       v-model="showResend"
+      :loading="loading"
       :email="email"
-      @resend="() => onEmailEntered(email)"
+      @resend="onResend"
     />
   </div>
 </template>
@@ -85,7 +80,8 @@ export default {
       showAskName: false,
       showWelcome: false,
       newUser: false,
-      showResend: false
+      showResend: false,
+      tmpUserId: null
     }
   },
 
@@ -168,12 +164,12 @@ export default {
           password: nanoid(),
           attributes: { name }
         })
-        const userId = user.userSub
+        this.tmpUserId = user.userSub
 
         // This is an edge case when some action has to be done after
         // userId is aquired but before login link request
-        if (this.userIdCallback && !this.showResend) {
-          await this.userIdCallback(userId)
+        if (this.userIdCallback) {
+          await this.userIdCallback(this.tmpUserId)
         }
         await this.requestAuth()
         this.showAskName = false
@@ -190,17 +186,16 @@ export default {
       this.loading = true
 
       try {
-        let userId
         const exists = await this.checkEmailExists()
 
         if (exists.belongsToExistingUser) {
           this.name = exists.name
-          userId = exists.userId
+          this.tmpUserId = exists.userId
 
           // This is an edge case when some action has to be done after
           // userId is aquired but before login link request
-          if (this.userIdCallback && !this.showResend) {
-            await this.userIdCallback(userId)
+          if (this.userIdCallback) {
+            await this.userIdCallback(this.tmpUserId)
           }
           await this.requestAuth()
           this.$emit('email-sent')
@@ -209,6 +204,19 @@ export default {
           this.showAskName = true
         }
         this.showAskEmail = false
+      } catch (e) {
+        console.error(e) // eslint-disable-line
+        this.$sentry.captureException(e)
+      }
+      this.loading = false
+    },
+
+    async onResend() {
+      this.showResend = true
+      this.showWelcome = false
+      this.loading = true
+      try {
+        await this.requestAuth()
       } catch (e) {
         console.error(e) // eslint-disable-line
         this.$sentry.captureException(e)

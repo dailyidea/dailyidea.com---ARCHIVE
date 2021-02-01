@@ -6,7 +6,8 @@
     :image-path="require('assets/images/dialogs/dialog_resend.svg')"
     :button-ok-text="countDown ? `Send again in ${countDown}` : 'Send again'"
     :button-ok-disabled="!!countDown"
-    button-cancel-text="Back to log in"
+    :button-ok-loading="loading"
+    button-cancel-text="Close"
     @ok="resend"
     @input="v => $emit('input', v)"
   >
@@ -20,6 +21,8 @@
 <script>
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 
+const countDownFrom = 30
+
 export default {
   components: {
     DefaultDialog
@@ -27,13 +30,14 @@ export default {
 
   props: {
     value: Boolean,
+    loading: Boolean,
     message: { type: String, default: 'Your Email?' },
     name: { type: String, default: '' },
     email: { type: String, required: true }
   },
 
   data: () => ({
-    countDown: 30
+    countDown: countDownFrom
   }),
 
   watch: {
@@ -47,6 +51,7 @@ export default {
   methods: {
     resend() {
       this.$emit('resend')
+      this.countDown = countDownFrom
       this.countDownTimer()
     },
 
