@@ -186,6 +186,7 @@ type EmailBelongsToExistingUserResult @aws_api_key @aws_cognito_user_pools{
     result: Result!
     belongsToExistingUser: Boolean
     userId: String
+    name: String
 }
 
 type StatsResult @aws_api_key @aws_cognito_user_pools{

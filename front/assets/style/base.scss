@@ -81,8 +81,17 @@
 }
 
 
+.v-btn {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
 .v-btn__content {
   margin-bottom: -1px; // Small fix to align button text
+}
+
+.v-input__prepend-inner i.v-icon {
+  font-size: 20px;
 }
 
 /* light theme styles */

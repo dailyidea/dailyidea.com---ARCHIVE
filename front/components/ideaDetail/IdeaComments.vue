@@ -78,23 +78,14 @@
       </p>
     </default-dialog>
 
-    <ask-email-dialog
-      v-model="showAskEmail"
-      header="Introduce yourself?"
-      message="Before we post this for everyone to see, can you please confirm your email address?"
-      button-cancel-text="Delete comment"
+    <auth-flow
+      v-model="showAuth"
+      :idea="idea"
+      action="comment"
+      :comment="tmpDbComment"
+      :user-id-callback="userIdCallback"
       @cancel="cancelNewComment"
-      @data="onNoAuthEmail"
-    ></ask-email-dialog>
-
-    <ask-name-dialog
-      v-model="showAskName"
-      header="Almost there"
-      message="What can we call you?"
-      button-cancel-text="Delete comment"
-      @cancel="cancelNewComment"
-      @data="onNoAuthName"
-    ></ask-name-dialog>
+    />
   </div>
 </template>
 
@@ -102,8 +93,6 @@
 import nanoid from 'nanoid'
 import { graphqlOperation } from '@aws-amplify/api'
 import { mapMutations, mapGetters } from 'vuex'
-import AskNameDialog from './AskNameDialog'
-import AskEmailDialog from './AskEmailDialog'
 import IdeaCommentsComment from './IdeaCommentsComment'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import deleteIdeaTemporaryComment from '@/graphql/mutations/deleteIdeaTemporaryComment'
@@ -114,15 +103,15 @@ import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
 import addComment from '~/graphql/mutations/addComment'
 import getComments from '~/graphql/query/getComments'
 import deleteComment from '~/graphql/mutations/deleteComment'
+import AuthFlow from '@/components/auth/AuthFlow'
 
 const COMMENTS_COUNT = 25
 
 export default {
   components: {
+    AuthFlow,
     IdeaCommentsComment,
-    DefaultDialog,
-    AskEmailDialog,
-    AskNameDialog
+    DefaultDialog
   },
 
   props: {
@@ -134,19 +123,16 @@ export default {
       tmpComment: {},
       newCommentText: '',
       tmpCommentText: '',
+      tmpDbComment: null,
       showAddCommentLoader: false,
       commentList: [],
       nextToken: null,
       loadingMore: false,
       deletingComment: false,
       temporaryCommentId: undefined,
-
-      showAskEmail: false,
-      email: '',
-      showAskName: false,
-      name: '',
-
-      showFirstCommentInstantiated: false
+      showAuth: false,
+      showFirstCommentInstantiated: false,
+      userId: null
     }
   },
 
@@ -154,11 +140,7 @@ export default {
     ...mapGetters({
       isAuthenticated: 'userData/isAuthenticated',
       avatar: 'userData/avatar'
-    }),
-
-    readyForSend() {
-      return this.newCommentText.length > 0
-    }
+    })
   },
 
   watch: {
@@ -167,7 +149,6 @@ export default {
       // Otherwise an invalid next token error is thrown.
 
       this.nextToken = null
-
       this.doInitialCommentsLoading()
     }
   },
@@ -300,7 +281,7 @@ export default {
       if (isAuthenticated) {
         this.sendComment(commentText)
       } else {
-        this.appendFakeCommentAndEncourageToRegisterOrSignUp()
+        this.appendFakeCommentAndStartAuth()
       }
     },
 
@@ -322,17 +303,13 @@ export default {
       this.scrollToBottom()
     },
 
-    removeTemporaryFakeComment() {
-      this.commentList.splice(this.commentList.indexOf(this.tmpComment), 1)
-    },
-
     processCommentInstantiation() {
       const wasWelcomed = this.$store.getters['userData/wasWelcomed']
       if (wasWelcomed) {
         this.$dialog.show({
           header: 'Welcome back!',
-          message: 'Thanks for posting that comment!',
-          imagePath: require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')
+          message: 'Thanks for posting that comment!'
+          // imagePath: require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')
         })
       } else {
         this.showFirstCommentInstantiated = true
@@ -345,96 +322,29 @@ export default {
       this.$router.replace({ query: null })
     },
 
-    async createTemporaryCommentInDB(userId, commentText) {
+    async createTmpDbComment(userId) {
       const res = await this.$amplifyApi.graphql({
         query: addIdeaTemporaryComment,
         variables: {
           userId,
-          body: commentText,
+          body: this.tmpCommentText,
           ideaId: this.idea.ideaId,
           ideaName: this.idea.title,
           ideaOwnerId: this.idea.userId
         },
         authMode: 'API_KEY'
       })
-      return res.data.addIdeaTemporaryComment.comment
+      this.tmpDbComment = res.data.addIdeaTemporaryComment.comment
     },
 
-    async requestAuthAndProcessComment(userId, email, commentText) {
-      this.showProgressBar()
-      const comment = await this.createTemporaryCommentInDB(userId, commentText)
-      await this.$amplifyApi.post('RequestLogin', '', {
-        body: { email, commentId: comment.commentId }
-      })
-      this.hideProgressBar()
-      this.$dialog.show({
-        header: 'Welcome back!',
-        message: `It looks like you weren't signed in. We just sent you a verification email. Please check your inbox and click on the link and we'll post your comment ASAP.`,
-        imagePath: require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')
-      })
+    async userIdCallback(userId) {
+      await this.createTmpDbComment(userId)
     },
 
-    async registerUserAndProcessComment(commentText) {
-      this.showProgressBar()
-      const res = await this.$store.dispatch('cognito/registerUser', {
-        username: this.email,
-        password: nanoid(),
-        attributes: { name: this.name }
-      })
-      const userId = res.userSub
-      const comment = await this.createTemporaryCommentInDB(userId, commentText)
-      await this.$amplifyApi.post('RequestLogin', '', {
-        body: { email: this.email, commentId: comment.commentId }
-      })
-      this.hideProgressBar()
-      this.$dialog.show({
-        header: 'Thanks!',
-        message: `We just sent you an email to confirm that you're a real person :) Please check your inbox then click on the link and we'll post your comment ASAP.`,
-        imagePath: require('~/assets/images/dialogs/undraw_super_thank_you_obwk.svg')
-      })
-      this.hideProgressBar()
-    },
-
-    appendFakeCommentAndEncourageToRegisterOrSignUp() {
+    appendFakeCommentAndStartAuth() {
       this.showAddCommentLoader = false
       this.addTemporaryFakeComment(this.tmpCommentText)
-      this.showAskEmail = true
-    },
-
-    async onNoAuthEmail(email) {
-      this.showAskEmail = false
-      this.email = email.toLowerCase()
-      this.showProgressBar()
-
-      try {
-        const result = await this.checkEmailBelongsToExistingUser(email)
-        const belongsToExistingUser =
-          result.data.checkEmailBelongsToExistingUser.belongsToExistingUser
-        this.hideProgressBar()
-        if (belongsToExistingUser) {
-          const userId = result.data.checkEmailBelongsToExistingUser.userId
-          await this.requestAuthAndProcessComment(
-            userId,
-            email,
-            this.tmpCommentText
-          )
-          this.tmpCommentText = ''
-        } else {
-          this.showAskName = true
-        }
-      } catch (e) {
-        this.removeTemporaryFakeComment()
-        this.hideProgressBar()
-      }
-    },
-
-    async onNoAuthName(name) {
-      this.showAskName = false
-      this.name = name
-      this.showProgressBar()
-      await this.registerUserAndProcessComment(this.tmpCommentText)
-      this.tmpCommentText = ''
-      this.hideProgressBar()
+      this.showAuth = true
     },
 
     async sendComment(commentText, instantiation = false) {

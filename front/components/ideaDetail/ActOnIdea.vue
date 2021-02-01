@@ -1,5 +1,7 @@
 <template>
   <span>
+    <auth-flow v-model="showAuth" :idea="idea" :action="action" />
+
     <like-idea
       v-if="action === 'like'"
       :is-liked="isActedOn"
@@ -7,10 +9,11 @@
       :is-logged-in="isLoggedIn"
       :idea="idea"
       @is-liked-by-me="handleIsIdeaLikedByMe"
-      @show-ask-email="handleShowAskEmail"
+      @show-auth="showAuth = true"
       @like-idea="likeIdea"
       @unlike-idea="unlikeIdea"
     ></like-idea>
+
     <save-idea
       v-else
       :is-loading="isLoading"
@@ -18,33 +21,10 @@
       :is-logged-in="isLoggedIn"
       :idea="idea"
       @is-saved-by-me="handleIsIdeaSavedByMe"
-      @show-ask-email="handleShowAskEmail"
+      @show-auth="showAuth = true"
       @save-idea="saveIdea"
       @unsave-idea="unsaveIdea"
     ></save-idea>
-
-    <ask-email-dialog
-      v-model="showAskEmailSave"
-      header="Introduce yourself?"
-      message="What's your email address so you can find your saved ideas later?
-                      (Just so I know how to find this for you in the future.)"
-      @data="onNoAuthEmail"
-    ></ask-email-dialog>
-
-    <ask-email-dialog
-      v-model="showAskEmailLike"
-      header="Introduce yourself?"
-      message="What's your email address so you can finish liking this idea?
-                      (Just so I know how to find this for you in the future.)"
-      @data="onNoAuthEmail"
-    ></ask-email-dialog>
-
-    <ask-name-dialog
-      v-model="showAskName"
-      header="Almost there"
-      message="Anonymous user just doesn't feel so personal... :)"
-      @data="onNoAuthName"
-    ></ask-name-dialog>
 
     <default-dialog
       v-model="showFirstIdeaSaved"
@@ -95,7 +75,6 @@
       v-model="showSavedByLoginLink"
       header="Yay!"
       :show-cancel-button="false"
-      :image-path="require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')"
       button-ok-text="Nice!"
       @ok="showSavedByLoginLink = false"
     >
@@ -110,7 +89,6 @@
       v-model="showLikedByLoginLink"
       header="Yay!"
       :show-cancel-button="false"
-      :image-path="require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')"
       button-ok-text="Nice!"
       @ok="showLikedByLoginLink = false"
     >
@@ -119,60 +97,24 @@
         out more ideas <a href="/ideas-cards">here</a>.
       </p>
     </default-dialog>
-
-    <default-dialog
-      v-model="showWelcomeBackSave"
-      :header="`Welcome back ${name}!`"
-      :show-cancel-button="false"
-      :image-path="require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')"
-      button-ok-text="Nice!"
-      @ok="showWelcomeBackSave = false"
-    >
-      <p>We sent you a confirmation email.</p>
-      <p>
-        Please check your inbox and click the verification link in the message
-        so we can make sure we're saving this idea to the right account.
-      </p>
-    </default-dialog>
-
-    <default-dialog
-      v-model="showWelcomeBackLike"
-      :header="`Welcome back ${name}!`"
-      :show-cancel-button="false"
-      :image-path="require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')"
-      button-ok-text="Nice!"
-      @ok="showWelcomeBackLike = false"
-    >
-      <p>We sent you a confirmation email.</p>
-      <p>
-        Please check your inbox and click the verification link in the message
-        so we can make sure we're liking the idea with the correct account.
-      </p>
-    </default-dialog>
   </span>
 </template>
 
 <script>
-import nanoid from 'nanoid'
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 import { graphqlOperation } from '@aws-amplify/api'
-import AskEmailDialog from './AskEmailDialog'
 import LikeIdea from './LikeIdea'
 import SaveIdea from './SaveIdea'
 import DefaultDialog from '@/components/dialogs/DefaultDialog'
-import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
 import likeIdeaMutation from '@/graphql/mutations/likeIdea'
 import saveIdeaMutation from '@/graphql/mutations/saveIdea'
-import AskNameDialog from '@/components/ideaDetail/AskNameDialog'
+import AuthFlow from '@/components/auth/AuthFlow'
 
 export default {
-  name: 'ActOnIdea',
-
   components: {
+    AuthFlow,
     DefaultDialog,
-    AskEmailDialog,
-    AskNameDialog,
     LikeIdea,
     SaveIdea
   },
@@ -190,20 +132,12 @@ export default {
     return {
       isActedOn: false,
       isLoading: false,
-
-      showAskEmailLike: false,
-      showAskEmailSave: false,
-      email: '',
-
-      showAskName: false,
-      name: '',
+      showAuth: false,
 
       showFirstIdeaSaved: false,
       showFirstIdeaLiked: false,
       showSavedByLoginLink: false,
-      showLikedByLoginLink: false,
-      showWelcomeBackSave: false,
-      showWelcomeBackLike: false
+      showLikedByLoginLink: false
     }
   },
 
@@ -317,99 +251,6 @@ export default {
       return res
     },
 
-    checkEmailBelongsToExistingUser(email) {
-      return this.$amplifyApi.graphql({
-        query: checkEmailBelongsToExistingUser,
-        variables: { email },
-        authMode: 'API_KEY'
-      })
-    },
-
-    async registerUserAndProcessIdeaAction() {
-      await this.registerUser({
-        username: this.email,
-        password: nanoid(),
-        attributes: { name: this.name }
-      })
-
-      const data = { email: this.email }
-
-      if (this.action === 'save') {
-        data.ideaToSaveId = this.idea.ideaId
-      } else {
-        data.ideaToLikeId = this.idea.ideaId
-      }
-
-      await this.$amplifyApi.post('RequestLogin', '', { body: data })
-
-      let message = `We just sent you an email, which we'll just use to make sure we can find your saved
-                    ideas later. Please check your inbox and click the confirmation link to finish saving this idea.`
-
-      if (this.action === 'like') {
-        message = `We just sent an email, which we'll use to make sure we can finish liking your idea.
-                   Please check your inbox and click the confirmation link to finish liking this idea.`
-      }
-
-      if (
-        await this.$dialog.show({
-          header: `Awesome, ${this.name}!`,
-          imagePath: require('~/assets/images/dialogs/undraw_arrived.svg'),
-          message
-        })
-      ) {
-        if (this.email.endsWith('gmail.com')) {
-          window.open('https://gmail.com')
-        }
-      }
-    },
-
-    async requestAuthAndProcessIdeaAction(email, ideaToActOnId) {
-      this.showProgressBar()
-
-      const data = { email }
-
-      if (this.action === 'save') {
-        data.ideaToSaveId = ideaToActOnId
-        this.showWelcomeBackSave = true
-      } else {
-        data.ideaToLikeId = ideaToActOnId
-        this.showWelcomeBackLike = true
-      }
-
-      await this.$amplifyApi.post('RequestLogin', '', { body: data })
-      this.hideProgressBar()
-    },
-
-    async onNoAuthEmail(email) {
-      this.email = email.toLowerCase()
-      this.showAskEmailSave = false
-      this.showAskEmailLike = false
-      this.showProgressBar()
-      try {
-        const result = await this.checkEmailBelongsToExistingUser(this.email)
-        const {
-          belongsToExistingUser
-        } = result.data.checkEmailBelongsToExistingUser
-        this.hideProgressBar()
-
-        if (belongsToExistingUser) {
-          this.requestAuthAndProcessIdeaAction(this.email, this.idea.ideaId)
-        } else {
-          this.showAskName = true
-        }
-      } catch (e) {
-        this.hideProgressBar()
-      }
-    },
-
-    handleShowAskEmail() {
-      if (this.action === 'save') {
-        this.showAskEmailSave = true
-      } else {
-        this.showAskEmailLike = true
-      }
-    },
-
     async handleIsIdeaSavedByMe(query) {
       const res = await this.getIsIdeaActedOnByMe(query)
       const result = res.data.getIsIdeaSavedByMe
@@ -438,14 +279,6 @@ export default {
 
         return res
       }
-    },
-
-    async onNoAuthName(name) {
-      this.name = name
-      this.showAskName = false
-      this.showProgressBar()
-      await this.registerUserAndProcessIdeaAction()
-      this.hideProgressBar()
     }
   }
 }

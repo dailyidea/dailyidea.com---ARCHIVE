@@ -20,12 +20,9 @@ import unlikeIdea from '@/graphql/mutations/unlikeIdea'
 import getIsIdeaLikedByMe from '@/graphql/query/getIsIdeaLikedByMe'
 
 export default {
-  name: 'LikeIdea',
   props: {
     isLiked: { type: Boolean, required: true },
-
     idea: { type: Object, required: true },
-
     isLoading: Boolean,
     isLoggedIn: Boolean
   },
@@ -43,7 +40,7 @@ export default {
   methods: {
     initIdeaState() {
       if (!this.$route.query.aa && this.isLoggedIn) {
-        this.isLikedByMe()
+        this.$emit('is-liked-by-me', getIsIdeaLikedByMe)
       }
     },
 
@@ -54,29 +51,13 @@ export default {
 
       if (this.isLoggedIn) {
         if (!this.isLiked) {
-          this.likeIdea()
+          this.$emit('like-idea', likeIdea)
         } else {
-          this.unlikeIdea()
+          this.$emit('unlike-idea', unlikeIdea)
         }
       } else {
-        this.showAskEmail()
+        this.$emit('show-auth')
       }
-    },
-
-    unlikeIdea() {
-      this.$emit('unlike-idea', unlikeIdea)
-    },
-
-    likeIdea() {
-      this.$emit('like-idea', likeIdea)
-    },
-
-    showAskEmail() {
-      this.$emit('show-ask-email')
-    },
-
-    isLikedByMe() {
-      this.$emit('is-liked-by-me', getIsIdeaLikedByMe)
     }
   }
 }

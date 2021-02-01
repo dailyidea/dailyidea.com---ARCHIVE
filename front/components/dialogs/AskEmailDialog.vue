@@ -1,22 +1,24 @@
 <template>
   <validation-observer v-slot="{ valid, validated, handleSubmit }">
     <default-dialog
+      button-ok-text="Submit"
       :value="value"
-      :button-ok-disabled="!valid || !validated"
+      :button-ok-disabled="!validated || !valid"
       :button-cancel-text="buttonCancelText"
       :header="header"
-      :image-path="require('~/assets/images/dialogs/undraw_inbox_oppv.svg')"
+      :subheader="message"
+      :image-path="require('assets/images/dialogs/dialog_email.svg')"
+      :button-ok-loading="loading"
       @input="v => $emit('input', v)"
-      @cancel="() => $emit('cancel')"
+      @cancel="$emit('cancel')"
       @ok="handleSubmit(onOk)"
     >
-      <p>{{ message }}</p>
       <v-text-field-with-validation
-        v-model="name"
-        prepend-inner-icon="fas fa-user"
-        rules="required|max:100"
-        name="Name"
-        label="Your Name"
+        v-model="email"
+        name="Email"
+        rules="required|email|max:100"
+        prepend-inner-icon="$vuetify.icons.mail"
+        label="Your email address"
         @keydown.enter="handleSubmit(onOk)"
       ></v-text-field-with-validation>
     </default-dialog>
@@ -37,16 +39,17 @@ export default {
 
   props: {
     value: Boolean,
-    header: { type: String, default: 'Almost there' },
-    message: { type: String, default: 'Your Name?' },
+    loading: Boolean,
+    header: { type: String, default: 'What’s your email?' },
+    message: { type: String, default: 'Your Email?' },
     buttonCancelText: { type: String, default: 'Cancel' }
   },
 
-  data: () => ({ name: '' }),
+  data: () => ({ email: '' }),
 
   methods: {
     onOk() {
-      this.$emit('data', this.name)
+      this.$emit('data', this.email)
     }
   }
 }

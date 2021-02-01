@@ -13,14 +13,16 @@
 import { ValidationProvider } from 'vee-validate'
 
 export default {
-  name: 'VTextFieldWithValidation',
   components: { ValidationProvider },
+
   props: {
     rules: { type: [Object, String], default: '' },
     // must be included in props
     value: { type: null, default: '' }
   },
+
   data: () => ({ innerValue: '' }),
+
   watch: {
     // Handles internal model changes.
     innerValue(newVal) {
@@ -38,3 +40,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+::v-deep {
+  .v-input__prepend-inner {
+    padding-right: 14px !important;
+  }
+}
+</style>
