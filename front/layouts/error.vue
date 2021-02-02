@@ -20,3 +20,8 @@ export default {
   layout: 'blog' // you can set a custom layout for the error page
 }
 </script>
+
+<style lang="scss">
+@import '~assets/style/base';
+@import '~assets/style/modals';
+</style>

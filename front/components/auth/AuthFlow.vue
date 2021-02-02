@@ -3,9 +3,8 @@
     <ask-email-dialog
       :loading="loading"
       :value="showAskEmail"
-      :message="
-        `Enter your email address to finish <span class='link-highlight'>${actionGerund}</span> this idea.`
-      "
+      :header="askEmailHeader"
+      :message="askEmailMessage"
       @input="$emit('input', false)"
       @cancel="$emit('cancel')"
       @data="onEmailEntered"
@@ -26,7 +25,9 @@
       :name="name"
       :email="email"
       :message="
-        isGmail
+        action === 'post'
+          ? 'Click the verification link in your inbox to start writing your post.'
+          : isGmail
           ? `Click the verification link in your inbox to finish <span class='link-highlight'>${actionGerund}</span> this idea.`
           : `We’ve sent you an authentication email, please click the button inside to log in and finish <span class='link-highlight'>${actionGerund}</span> this idea.`
       "
@@ -64,11 +65,13 @@ export default {
     action: {
       type: String,
       required: true,
-      validator: val => ['like', 'save', 'comment'].includes(val)
+      validator: val =>
+        ['like', 'save', 'comment', 'share', 'post'].includes(val)
     },
-    idea: { type: Object, required: true },
+    idea: { type: Object, default: null },
     comment: { type: Object, default: null },
-    userIdCallback: { type: Function, default: null }
+    userIdCallback: { type: Function, default: null },
+    next: { type: String, default: '' }
   },
 
   data() {
@@ -105,6 +108,27 @@ export default {
           return 'saving'
         default:
           return 'commenting'
+      }
+    },
+
+    askEmailHeader() {
+      if (this.action === 'post') {
+        return 'We can’t wait to see your idea!'
+      }
+
+      return 'What’s your email?'
+    },
+
+    askEmailMessage() {
+      switch (this.action) {
+        case 'like':
+        case 'save':
+        case 'comment':
+          return `Enter your email address to finish <span class='link-highlight'>${this.actionGerund}</span> this idea.`
+        case 'post':
+          return 'Enter your email address to get started!'
+        default:
+          return 'Enter your email address.'
       }
     }
   },
@@ -149,6 +173,10 @@ export default {
       if (!this.showResend) {
         this.showWelcome = true
         this.$emit('input', false)
+      }
+
+      if (this.next) {
+        data.next = this.next
       }
 
       await this.$amplifyApi.post('RequestLogin', '', {
