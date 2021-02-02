@@ -1,6 +1,11 @@
 <template>
   <Layout>
-    <validation-observer v-slot="{ valid, validated, handleSubmit }">
+    <auth-flow v-model="showAuth" action="post" next="/ideas/create" />
+
+    <validation-observer
+      v-if="userSlug"
+      v-slot="{ valid, validated, handleSubmit }"
+    >
       <v-container
         class="m-auto d-flex flex-column form-container"
         :style="{ height: `${height}px` }"
@@ -91,16 +96,16 @@ import { graphqlOperation } from '@aws-amplify/api'
 import TrixWrapper from '@/components/TrixWrapper'
 import Layout from '@/components/layout/Layout'
 import createIdea from '~/graphql/mutations/createIdea'
+import AuthFlow from '@/components/auth/AuthFlow'
 
 export default {
   components: {
+    AuthFlow,
     Layout,
     TrixWrapper,
     ValidationObserver,
     ValidationProvider
   },
-
-  middleware: 'authenticated',
 
   data: () => ({
     contents: '',
@@ -112,7 +117,8 @@ export default {
     uploadingAttachment: false,
     atScrollEnd: true,
     atScrollStart: true,
-    scrollContainer: null
+    scrollContainer: null,
+    showAuth: false
   }),
 
   computed: {
@@ -128,6 +134,12 @@ export default {
   watch: {
     contents() {
       this.checkScroll()
+    },
+
+    userSlug(val) {
+      if (val) {
+        this.height = window.innerHeight - 100
+      }
     }
   },
 
@@ -135,6 +147,10 @@ export default {
     this.$nextTick(() => {
       this.height = window.innerHeight - 100
     })
+
+    if (!this.userSlug) {
+      this.showAuth = true
+    }
   },
 
   beforeDestroy() {
