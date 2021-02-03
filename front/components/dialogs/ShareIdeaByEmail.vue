@@ -260,11 +260,16 @@ export default {
 .dialog-inner {
   width: 600px;
   height: 340px;
+  max-width: 100%;
   position: relative;
   transition: transform 0.8s;
   transform-style: preserve-3d;
   box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 20%),
     0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%);
+
+  @media (max-width: $screen-xs-max) {
+    height: 380px;
+  }
 }
 
 .flipped .dialog-inner {
