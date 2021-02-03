@@ -22,15 +22,10 @@
 
     <welcome-dialog
       v-model="showWelcome"
+      :action="action"
       :name="name"
       :email="email"
-      :message="
-        action === 'post'
-          ? 'Click the verification link in your inbox to start writing your post.'
-          : isGmail
-          ? `Click the verification link in your inbox to finish <span class='link-highlight'>${actionGerund}</span> this idea.`
-          : `We’ve sent you an authentication email, please click the button inside to log in and finish <span class='link-highlight'>${actionGerund}</span> this idea.`
-      "
+      :message="welcomeMessage"
       @resend="onResend"
     />
 
@@ -116,6 +111,10 @@ export default {
         return 'We can’t wait to see your idea!'
       }
 
+      if (this.action === 'share') {
+        return 'Become an Idea Machine'
+      }
+
       return 'What’s your email?'
     },
 
@@ -127,9 +126,26 @@ export default {
           return `Enter your email address to finish <span class='link-highlight'>${this.actionGerund}</span> this idea.`
         case 'post':
           return 'Enter your email address to get started!'
+        case 'share':
+          return 'Subscribe to the best ideas on the internet, delivered weekly.<br> Enter your email below to get sign up or log in.'
         default:
           return 'Enter your email address.'
       }
+    },
+
+    welcomeMessage() {
+      if (this.action === 'post') {
+        return 'Click the verification link in your inbox to start writing your post.'
+      }
+      if (this.action === 'share') {
+        return this.isGmail
+          ? `We’ve sent you an authentication email, please click the button inside to log in.`
+          : `Click the verification link in your inbox to log in.`
+      }
+
+      return this.isGmail
+        ? `Click the verification link in your inbox to finish <span class='link-highlight'>${this.actionGerund}</span> this idea.`
+        : `We’ve sent you an authentication email, please click the button inside to log in and finish <span class='link-highlight'>${this.actionGerund}</span> this idea.`
     }
   },
 

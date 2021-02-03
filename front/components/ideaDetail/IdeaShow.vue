@@ -88,7 +88,8 @@
         @click.native.stop
       ></idea-comments>
     </v-col>
-    <register-encourage-dialog v-model="showRegisterEncourageDialog" />
+
+    <auth-flow v-model="showAuth" action="share" />
   </v-row>
 </template>
 
@@ -99,11 +100,11 @@ import IdeaComments from '@/components/ideaDetail/IdeaComments'
 import MenuPanel from '@/components/ideaDetail/MenuPanel'
 import deleteIdea from '@/graphql/mutations/deleteIdea'
 import IdeaContent from '@/components/ideaDetail/IdeaContent'
-import RegisterEncourageDialog from '@/components/dialogs/RegisterEncourageDialog'
+import AuthFlow from '@/components/auth/AuthFlow'
 
 export default {
   components: {
-    RegisterEncourageDialog,
+    AuthFlow,
     IdeaComments,
     MenuPanel,
     IdeaContent
@@ -116,7 +117,7 @@ export default {
     expanded: { type: Boolean, default: false }
   },
 
-  data: () => ({ showRegisterEncourageDialog: false }),
+  data: () => ({ showAuth: false }),
 
   computed: {
     ...mapGetters({ userId: 'userData/userId' }),
@@ -147,7 +148,7 @@ export default {
     onIdeaShared() {
       if (!this.$store.getters['cognito/isLoggedIn']) {
         setTimeout(() => {
-          this.showRegisterEncourageDialog = true
+          this.showAuth = true
         }, 1000)
       }
     },

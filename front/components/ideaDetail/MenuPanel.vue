@@ -5,7 +5,6 @@
       :idea="idea"
       @success="onSharedIdeaOverEmail"
       @error="onSharedIdeaOverEmailError"
-      @onCopyShareLink="onCopyShareLink"
     ></share-idea-by-email-dialog>
 
     <default-dialog
@@ -170,10 +169,6 @@ export default {
   computed: {
     isPrivate() {
       return this.idea.visibility === 'PRIVATE'
-    },
-
-    ideaLink() {
-      return `/i/${this.idea.shortId}/${this.idea.slug}`
     }
   },
 
@@ -285,14 +280,6 @@ export default {
 
     onSharedIdeaOverEmailError() {
       this.$notifier.error("Can't share Idea")
-    },
-
-    onCopyShareLink() {
-      this.$notifier.show({
-        color: 'green',
-        message: 'Link copied',
-        iconName: 'copied'
-      })
     }
   }
 }

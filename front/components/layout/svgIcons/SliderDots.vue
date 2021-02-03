@@ -13,6 +13,7 @@
       cy="6"
       r="6"
       :fill="step === n ? '#5B41BB' : '#C2C2D0'"
+      @click="$emit('click', n)"
     />
   </svg>
 </template>
