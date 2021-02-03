@@ -1,5 +1,7 @@
 import UserIcon from '@/components/icons/UserIcon'
 import MailIcon from '@/components/icons/MailIcon'
+import LinkIcon from '@/components/icons/LinkIcon'
+import CheckIcon from '@/components/icons/CheckIcon'
 
 export default {
   icons: {
@@ -10,6 +12,12 @@ export default {
       },
       mail: {
         component: MailIcon
+      },
+      link: {
+        component: LinkIcon
+      },
+      check: {
+        component: CheckIcon
       }
     }
   },

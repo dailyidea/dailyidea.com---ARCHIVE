@@ -1,5 +1,10 @@
 <template>
-  <validation-provider v-slot="{ errors }" :name="$attrs.name" :rules="rules">
+  <validation-provider
+    v-slot="{ errors }"
+    ref="provider"
+    :name="$attrs.name"
+    :rules="rules"
+  >
     <v-text-field
       v-model="innerValue"
       :error-messages="errors"
@@ -18,21 +23,26 @@ export default {
   props: {
     rules: { type: [Object, String], default: '' },
     // must be included in props
-    value: { type: null, default: '' }
+    value: { type: null, default: '' },
+    valid: Boolean
   },
 
   data: () => ({ innerValue: '' }),
 
   watch: {
     // Handles internal model changes.
-    innerValue(newVal) {
+    async innerValue(newVal) {
       this.$emit('input', newVal)
+      const res = await this.$refs.provider.validate()
+      this.$emit('update:valid', res.valid)
     },
+
     // Handles external model changes.
     value(newVal) {
       this.innerValue = newVal
     }
   },
+
   created() {
     if (this.value) {
       this.innerValue = this.value

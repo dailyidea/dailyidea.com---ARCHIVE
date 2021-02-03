@@ -2,7 +2,7 @@
 <template>
   <v-dialog
     :value="value"
-    content-class="modal"
+    :content-class="contentClass"
     max-width="600"
     @input="v => $emit('input', v)"
   >
@@ -77,7 +77,8 @@ export default {
     buttonOkDisabled: { type: Boolean, default: false },
     buttonOkLoading: { type: Boolean, default: false },
     showCancelButton: { type: Boolean, default: true },
-    showOkButton: { type: Boolean, default: true }
+    showOkButton: { type: Boolean, default: true },
+    contentClass: { type: String, default: 'modal' }
   },
 
   methods: {

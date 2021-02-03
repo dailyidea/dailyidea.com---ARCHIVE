@@ -76,7 +76,6 @@ module.exports = {
     '@/plugins/vuex-cognito',
     '@/plugins/notifications',
     '@/plugins/dayjs',
-    '@/plugins/clipboard',
     '@/plugins/vee-validate',
     '@/plugins/toRelativeDate',
     '@/plugins/mixins',
