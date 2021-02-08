@@ -12,6 +12,7 @@
           selectedIdea = null
         }
       "
+      @unsaved="$emit('unsaved', selectedIdea)"
     />
     <template v-slot:header>
       <user-profile-header-section
@@ -43,6 +44,7 @@
             @deleted="i => $emit('idea-deleted', i)"
             @view-preview="i => (selectedIdea = i)"
             @comments-btn-clicked="() => commentsBtnClicked(idea)"
+            @unsaved="$emit('unsaved', idea)"
           ></idea-short-card>
           <div v-if="loading" class="text-center mt-5">
             <v-progress-circular

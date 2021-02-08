@@ -1,5 +1,9 @@
 <template>
-  <user-profile :initial-profile-data="initialProfileData" :ideas="ideas">
+  <user-profile
+    :initial-profile-data="initialProfileData"
+    :ideas="ideas"
+    @unsaved="onUnsaved"
+  >
     <template v-slot:no-ideas>
       <no-ideas-placeholder
         title="Start saving inspiration"
@@ -34,7 +38,8 @@ export default {
     const ideas = await loadIdeas(
       app.$amplifyApi,
       'getSavedIdeas',
-      getSavedIdeas
+      getSavedIdeas,
+      { limit: 20 }
     )
     const initialProfileData = userInfoRequest.data.userInfoBySlug.userInfo
 
@@ -48,6 +53,15 @@ export default {
     return {
       endPoint: getSavedIdeas,
       endPointName: 'getSavedIdeas'
+    }
+  },
+
+  methods: {
+    onUnsaved(idea) {
+      const idx = this.ideas.findIndex(i => i.ideaId === idea.ideaId)
+      if (idx !== -1) {
+        this.ideas.splice(idx, 1)
+      }
     }
   }
 }

@@ -115,7 +115,7 @@
         </section>
 
         <v-text-field
-          value="https://www.dailyidea.com/"
+          :value="getShareUrl()"
           single-line
           flat
           prepend-inner-icon="$vuetify.icons.link"
@@ -199,6 +199,9 @@ export default {
     },
 
     getShareUrl() {
+      if (typeof location === 'undefined') {
+        return ''
+      }
       return `${location.origin}/i/${this.idea.shortId}/${this.idea.slug}`
     },
 

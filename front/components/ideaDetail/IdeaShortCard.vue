@@ -8,6 +8,7 @@
       @edit="editMode = true"
       @close="$emit('close')"
       @view-preview="$emit('view-preview', idea)"
+      @unsaved="$emit('unsaved')"
       @updated="i => $emit('updated', i)"
       @deleted="id => $emit('deleted', id)"
       @expand="$emit('expand')"
