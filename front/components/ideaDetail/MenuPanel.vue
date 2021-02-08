@@ -40,7 +40,7 @@
       v-if="editable"
       transition="slide-y-transition"
       nudge-bottom="10"
-      min-width="400"
+      min-width="300"
       max-width="400"
       left
       offset-y
