@@ -19,6 +19,7 @@
       @view-preview="$emit('view-preview')"
       @updated="onUpdate"
       @deleted="id => $emit('deleted', id)"
+      @unsaved="$emit('unsaved')"
       @expand="$emit('expand')"
     />
   </div>

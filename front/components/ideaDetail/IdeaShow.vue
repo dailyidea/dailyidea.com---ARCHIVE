@@ -155,6 +155,7 @@ export default {
 
     onIdeaSaveStateChanged({ saved, savesCount }) {
       this.$emit('updated', { ...this.idea, savesCount })
+      this.$emit(saved ? 'saved' : 'unsaved')
       this.$notifier.show({
         color: 'green',
         message: saved ? 'Idea Saved!' : 'Idea Unsaved!',
@@ -164,7 +165,7 @@ export default {
 
     onIdeaLikeStateChanged({ liked, likesCount }) {
       this.$emit('updated', { ...this.idea, likesCount })
-      this.$notifier.success(liked ? 'Idea Liked!' : 'Idea Unliked')
+      this.$emit(liked ? 'liked' : 'unliked')
 
       this.$notifier.show({
         color: 'green',
