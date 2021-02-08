@@ -324,5 +324,8 @@ export default {
   /*.trix-button-group--history-tools {*/
   /*  display: none;*/
   /*}*/
+  .attachment__caption {
+    display: none;
+  }
 }
 </style>

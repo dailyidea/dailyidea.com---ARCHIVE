@@ -137,5 +137,9 @@ export default {
       max-width: 100%;
     }
   }
+
+  .attachment__caption {
+    display: none;
+  }
 }
 </style>
