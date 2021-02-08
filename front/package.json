@@ -27,6 +27,7 @@
     "@aws-amplify/core": "1.2.2",
     "@aws-amplify/storage": "1.2.2",
     "@fortawesome/fontawesome-free": "^5.9.0",
+    "@nuxt/ufo": "^0.5.4",
     "@nuxtjs/gtm": "^2.2.3",
     "@nuxtjs/sentry": "3.2.4",
     "@nuxtjs/vuetify": "^1.11.2",
