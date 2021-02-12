@@ -25,78 +25,6 @@
       @save-idea="saveIdea"
       @unsave-idea="unsaveIdea"
     ></save-idea>
-
-    <default-dialog
-      v-model="showFirstIdeaSaved"
-      header="Hooray!"
-      :show-cancel-button="false"
-      button-ok-text="I'm in!"
-      @ok="showFirstIdeaSaved = false"
-    >
-      <p>
-        You saved your first idea! All your saved ideas will be available in
-        your account from now on.
-      </p>
-      <p>
-        Do you want to:<br />
-        <a href="#" @click.prevent="showFirstIdeaSaved = false"
-          >go back to the idea you saved</a
-        >,<br />
-        <router-link to="/ideas-cards">browse other ideas</router-link>,<br />
-        <router-link to="/ideas/create"
-          >start entering your own great ideas</router-link
-        >?
-      </p>
-    </default-dialog>
-
-    <default-dialog
-      v-model="showFirstIdeaLiked"
-      header="Hooray!"
-      :show-cancel-button="false"
-      button-ok-text="I'm in!"
-      @ok="showFirstIdeaLiked = false"
-    >
-      <p>
-        You liked your first idea!
-      </p>
-      <p>
-        Do you want to:<br />
-        <a href="#" @click.prevent="showFirstIdeaLiked = false"
-          >go back to the idea you liked</a
-        >,<br />
-        <router-link to="/ideas-cards">browse other ideas</router-link>,<br />
-        <router-link to="/ideas/create"
-          >start entering your own great ideas</router-link
-        >?
-      </p>
-    </default-dialog>
-
-    <default-dialog
-      v-model="showSavedByLoginLink"
-      header="Yay!"
-      :show-cancel-button="false"
-      button-ok-text="Nice!"
-      @ok="showSavedByLoginLink = false"
-    >
-      <p>
-        Welcome back {{ userName }}. We saved that idea for you! You can check
-        all your saved ideas on your
-        <router-link to="/ideas/liked">Saved Ideas page</router-link>.
-      </p>
-    </default-dialog>
-
-    <default-dialog
-      v-model="showLikedByLoginLink"
-      header="Yay!"
-      :show-cancel-button="false"
-      button-ok-text="Nice!"
-      @ok="showLikedByLoginLink = false"
-    >
-      <p>
-        Welcome back {{ userName }}. We liked that idea for you! You can check
-        out more ideas <a href="/ideas-cards">here</a>.
-      </p>
-    </default-dialog>
   </span>
 </template>
 
@@ -105,7 +33,6 @@ import { mapMutations, mapGetters, mapActions } from 'vuex'
 import { graphqlOperation } from '@aws-amplify/api'
 import LikeIdea from './LikeIdea'
 import SaveIdea from './SaveIdea'
-import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import setWasWelcomed from '@/graphql/mutations/setWasWelcomed'
 import likeIdeaMutation from '@/graphql/mutations/likeIdea'
 import saveIdeaMutation from '@/graphql/mutations/saveIdea'
@@ -114,7 +41,6 @@ import AuthFlow from '@/components/auth/AuthFlow'
 export default {
   components: {
     AuthFlow,
-    DefaultDialog,
     LikeIdea,
     SaveIdea
   },
@@ -132,12 +58,7 @@ export default {
     return {
       isActedOn: false,
       isLoading: false,
-      showAuth: false,
-
-      showFirstIdeaSaved: false,
-      showFirstIdeaLiked: false,
-      showSavedByLoginLink: false,
-      showLikedByLoginLink: false
+      showAuth: false
     }
   },
 
@@ -176,15 +97,25 @@ export default {
           }
           if (this.userWasWelcomed) {
             if (this.action === 'save' && additionalAction === 'si') {
-              this.showSavedByLoginLink = true
+              this.$notifier.success('Idea Saved!')
             } else if (this.action === 'like' && additionalAction === 'li') {
-              this.showLikedByLoginLink = true
+              this.$notifier.success('Idea Liked!')
             }
           } else {
             if (this.action === 'save' && additionalAction === 'si') {
-              this.showFirstIdeaSaved = true
+              this.$notifier.show({
+                message: 'First Idea Saved!',
+                color: 'green',
+                iconPosition: 'before',
+                iconName: 'hooray'
+              })
             } else if (this.action === 'like' && additionalAction === 'li') {
-              this.showFirstIdeaLiked = true
+              this.$notifier.show({
+                message: 'First Idea Liked!',
+                color: 'green',
+                iconPosition: 'before',
+                iconName: 'hooray'
+              })
             }
             this.$amplifyApi.graphql(
               graphqlOperation(setWasWelcomed, { userId: this.userId })

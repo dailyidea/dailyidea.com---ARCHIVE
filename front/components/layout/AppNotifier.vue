@@ -7,14 +7,25 @@
     top
     @click.native="visible = false"
   >
-    {{ message }}
-    <img
-      v-if="icon"
-      :src="icon"
-      alt="Icon"
-      class="ml-4"
-      style="margin-bottom: -4px;"
-    />
+    <div class="d-flex justify-center align-center">
+      <img
+        v-if="icon && iconPosition === 'before'"
+        :src="icon"
+        alt="Icon"
+        class="icon mr-4"
+        :class="`icon-${iconName}`"
+      />
+      <div>
+        {{ message }}
+      </div>
+      <img
+        v-if="icon && iconPosition === 'after'"
+        :src="icon"
+        alt="Icon"
+        class="icon ml-4"
+        :class="`icon-${iconName}`"
+      />
+    </div>
   </v-snackbar>
 </template>
 
@@ -27,7 +38,8 @@ const initialData = {
   color: '',
   timeout: 2000,
   icon: null,
-  iconName: null
+  iconName: null,
+  iconPosition: 'after'
 }
 
 export default {
@@ -77,6 +89,13 @@ export default {
 
 <style lang="scss" scoped>
 ::v-deep {
+  .icon-hooray {
+    margin-top: -3px;
+  }
+  .icon {
+    margin-top: -4px;
+  }
+
   .v-sheet.v-snack__wrapper {
     border-radius: 0;
   }

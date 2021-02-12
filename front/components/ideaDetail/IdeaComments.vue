@@ -64,20 +64,6 @@
       </v-btn>
     </div>
 
-    <default-dialog
-      v-model="showFirstCommentInstantiated"
-      header="Welcome!"
-      :show-cancel-button="false"
-      @ok="() => (showFirstCommentInstantiated = false)"
-    >
-      <p>
-        Thanks for posting that comment! Feel free to
-        <router-link to="/ideas-cards">browse for other ideas</router-link> or
-        <router-link to="/ideas/create">add your own ideas</router-link>
-        .
-      </p>
-    </default-dialog>
-
     <auth-flow
       v-model="showAuth"
       :idea="idea"
@@ -94,7 +80,6 @@ import nanoid from 'nanoid'
 import { graphqlOperation } from '@aws-amplify/api'
 import { mapMutations, mapGetters } from 'vuex'
 import IdeaCommentsComment from './IdeaCommentsComment'
-import DefaultDialog from '@/components/dialogs/DefaultDialog'
 import deleteIdeaTemporaryComment from '@/graphql/mutations/deleteIdeaTemporaryComment'
 import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
 import addIdeaTemporaryComment from '@/graphql/mutations/addIdeaTemporaryComment'
@@ -110,8 +95,7 @@ const COMMENTS_COUNT = 25
 export default {
   components: {
     AuthFlow,
-    IdeaCommentsComment,
-    DefaultDialog
+    IdeaCommentsComment
   },
 
   props: {
@@ -131,7 +115,6 @@ export default {
       deletingComment: false,
       temporaryCommentId: undefined,
       showAuth: false,
-      showFirstCommentInstantiated: false,
       userId: null
     }
   },
@@ -306,13 +289,14 @@ export default {
     processCommentInstantiation() {
       const wasWelcomed = this.$store.getters['userData/wasWelcomed']
       if (wasWelcomed) {
-        this.$dialog.show({
-          header: 'Welcome back!',
-          message: 'Thanks for posting that comment!'
-          // imagePath: require('~/assets/images/dialogs/undraw_welcome_3gvl.svg')
-        })
+        this.$notifier.success('Comment Posted!')
       } else {
-        this.showFirstCommentInstantiated = true
+        this.$notifier.show({
+          message: 'First Comment Posted!',
+          color: 'green',
+          iconPosition: 'before',
+          iconName: 'hooray'
+        })
         this.$amplifyApi.graphql(
           graphqlOperation(setWasWelcomed, {
             userId: this.$store.getters['userData/userId']
