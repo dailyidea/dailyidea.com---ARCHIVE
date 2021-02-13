@@ -20,6 +20,9 @@ export default {
 
   methods: {
     setSliderToActive(slider) {
+      if (!this.$refs.container) {
+        return
+      }
       const active = this.$refs.container.querySelector('.link.active')
       if (active) {
         this.setSliderToEl(slider, active)
@@ -62,6 +65,9 @@ export default {
       }
 
       window.addEventListener('resize', () => {
+        if (!this.$refs.container) {
+          return
+        }
         const active = this.$refs.container.querySelector('.link.highlight')
         if (active) {
           this.setSliderToEl(slider, active)
