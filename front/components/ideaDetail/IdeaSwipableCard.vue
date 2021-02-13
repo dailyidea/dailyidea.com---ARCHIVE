@@ -1,5 +1,5 @@
 <template>
-  <swipable-card class="absolute" @click.native="$emit('expand')">
+  <swipable-card class="" @click.native="$emit('expand')">
     <full-idea
       :idea="idea"
       :preview="preview"
