@@ -134,11 +134,14 @@ export default {
 
 #commonHeader {
   height: 100%;
-
   position: relative;
+
   .loggedInHeader {
+    position: relative;
+    z-index: 1;
     width: 100%;
     background: white !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   }
 }
 </style>
