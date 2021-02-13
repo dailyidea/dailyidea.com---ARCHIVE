@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="swiper-wrap relative">
     <slot :is-swiping="swipeInProgress || !!xVal" name="background"></slot>
     <div
       v-if="allowLeft"
@@ -285,10 +285,11 @@ export default {
   }
 }
 
-.left-arrow {
+.left-arrow,
+.right-arrow {
   position: absolute;
-  top: 30vh;
-  left: 2vw;
+  top: 50%;
+  margin-top: -25px;
   z-index: 1000;
   cursor: pointer;
   img {
@@ -296,15 +297,12 @@ export default {
   }
 }
 
+.left-arrow {
+  left: 2vw;
+}
+
 .right-arrow {
-  position: absolute;
-  top: 30vh;
   right: 2vw;
-  z-index: 1000;
-  cursor: pointer;
   transform: rotate(180deg);
-  img {
-    width: 50px;
-  }
 }
 </style>

@@ -5,11 +5,11 @@
       class="d-flex py-1 py-sm-6 justify-space-between fill-height fill-width"
     >
       <div
-        class="absolute inset-0 d-none d-sm-flex justify-center align-center"
+        class="absolute inset-0 d-none d-sm-flex justify-center align-center overflow-hidden"
       >
         <img
           src="~assets/images/home/page1.gif"
-          style="max-width: 100%;"
+          style="width: 100%;"
           alt="Lamp"
         />
       </div>
@@ -26,7 +26,7 @@
         <div class="d-sm-none" style="margin: 0 -2rem;">
           <img
             src="~assets/images/home/page1.gif"
-            style="max-width: 100%;"
+            style="width: 100%;"
             alt="Lamp"
           />
         </div>
@@ -60,7 +60,7 @@
       >
         <img
           src="~assets/images/home/page2.gif"
-          style="max-width: 100%;"
+          style="width: 100%;"
           alt="Lamp"
         />
       </div>
@@ -76,7 +76,7 @@
         <div class="d-sm-none" style="margin: 0 -2rem;">
           <img
             src="~assets/images/home/page2.gif"
-            style="max-width: 100%;"
+            style="width: 100%;"
             alt="Lamp"
           />
         </div>
@@ -110,7 +110,7 @@
       >
         <img
           src="~assets/images/home/page3.gif"
-          style="max-width: 100%;"
+          style="width: 100%;"
           alt="Lamp"
         />
       </div>
@@ -127,7 +127,7 @@
         <div class="d-sm-none" style="margin: 0 -2rem;">
           <img
             src="~assets/images/home/page3.gif"
-            style="max-width: 100%;"
+            style="width: 100%;"
             alt="Lamp"
           />
         </div>
@@ -199,9 +199,7 @@ export default {
 
 <style lang="scss" scoped>
 .page-inner {
-  max-width: 60rem;
-  padding: 0 2rem;
-  max-height: 550px;
+  padding: 2rem;
 }
 
 .button {
@@ -210,8 +208,7 @@ export default {
 
 @media (min-width: $screen-md-min) {
   .page-inner {
-    padding: 0 1rem;
-    max-height: 700px;
+    padding: 2rem 4rem;
     font-size: 1.25rem;
   }
   .col-left {

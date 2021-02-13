@@ -111,7 +111,9 @@
 
         <section class="modalHeader">
           <h3>Share this Idea</h3>
-          <p>This is the direct link to the idea: “{{ idea.title }}”</p>
+          <p v-if="idea">
+            This is the direct link to the idea: “{{ idea.title }}”
+          </p>
         </section>
 
         <v-text-field
@@ -199,7 +201,7 @@ export default {
     },
 
     getShareUrl() {
-      if (typeof location === 'undefined') {
+      if (typeof location === 'undefined' || !this.idea) {
         return ''
       }
       return `${location.origin}/i/${this.idea.shortId}/${this.idea.slug}`

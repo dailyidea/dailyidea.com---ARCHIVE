@@ -72,6 +72,8 @@
 .align-middle { vertical-align: middle; }
 .absolute { position: absolute; }
 .fill-width { width: 100%; }
+.overflow-hidden { overflow: hidden; }
+.relative { position: relative; }
 
 .disabled {
   &.link { color: $dark-grey !important; }
