@@ -9,7 +9,7 @@
     <div class="text-center">
       <gmail-search-btn
         :email="email"
-        search="[Daily+Idea]+Log+in+link"
+        :search="`[Daily+Idea]+${name ? 'Log+in+link' : 'Magic+link'}`"
         class="mb-6"
       />
     </div>
