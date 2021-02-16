@@ -6,7 +6,7 @@
       alt="Loading"
       width="197"
     />
-    <div class="caption">loading...</div>
+    <div class="caption">{{ message || 'loading...' }}</div>
   </div>
 </template>
 
@@ -17,14 +17,16 @@ export default {
   computed: {
     ...mapState({
       loading: s => s.routerLoading,
-      enabled: s => s.routerLoadingEnabled
+      enabled: s => s.routerLoadingEnabled,
+      message: s => s.loadingMessage
     })
   },
 
   methods: {
     ...mapMutations({
       setRouterLoading: 'SET_ROUTER_LOADING',
-      setRouterLoadingEnabled: 'SET_ROUTER_LOADING_ENABLED'
+      setRouterLoadingEnabled: 'SET_ROUTER_LOADING_ENABLED',
+      setLoadingMessage: 'SET_LOADING_MESSAGE'
     }),
 
     start() {
@@ -35,6 +37,7 @@ export default {
       setTimeout(() => {
         this.setRouterLoading(false)
         this.setRouterLoadingEnabled(true)
+        this.setLoadingMessage(null)
       }, 1000)
     }
   }

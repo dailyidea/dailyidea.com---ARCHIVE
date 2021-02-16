@@ -1,13 +1,5 @@
 <template>
   <v-app>
-    <v-progress-linear
-      :value="progressBarValue"
-      :indeterminate="progressBarUndetermined"
-      :active="progressBarActive"
-      :height="2"
-      absolute
-    ></v-progress-linear>
-
     <link-expired
       v-if="expired"
       :email="$route.query.email"
@@ -19,7 +11,7 @@
         <v-col cols="12" sm="8" md="4">
           <section class="mb-6">
             <img
-              v-if="progressBarActive && !authCompleted"
+              v-if="loadingAuth && !authCompleted"
               class="loading-img"
               src="~assets/images/general/loading.gif"
             />
@@ -33,6 +25,9 @@
               class="loading-img"
               src="~assets/images/verify/error.svg"
             />
+            <div class="loading-message">
+              {{ loadingMessage || 'loading...' }}
+            </div>
           </section>
         </v-col>
       </v-row>
@@ -41,17 +36,16 @@
 </template>
 
 <script>
+import { parse } from 'querystring'
+import { mapMutations } from 'vuex'
 import LinkExpired from '@/components/authPage/LinkExpired'
 
 export default {
   components: { LinkExpired },
 
   data: () => ({
-    message:
-      'Hang on tight! Just checking to make sure you are who you say you are...',
-    progressBarValue: 0,
-    progressBarUndetermined: false,
-    progressBarActive: true,
+    loadingMessage: '',
+    loadingAuth: true,
     authCompleted: false,
     expired: false
   }),
@@ -61,10 +55,18 @@ export default {
   },
 
   methods: {
+    ...mapMutations({
+      setLoadingMessage: 'SET_LOADING_MESSAGE'
+    }),
+
     async login() {
       try {
-        this.progressBarActive = true
-        this.progressBarUndetermined = true
+        this.loadingAuth = true
+        const next = this.$route.query.next
+          ? decodeURIComponent(this.$route.query.next)
+          : undefined
+        this.setupLoadingMessage(next)
+
         if (this.$store.getters['cognito/isLoggedIn']) {
           await this.$store.dispatch('cognito/signOut')
         }
@@ -76,38 +78,43 @@ export default {
           answer: this.$route.query.code
         })
         await this.$store.commit('userData/setUserIsAuthenticated')
-        const userData = await this.$store.dispatch(
-          'userData/fetchUserData',
-          {}
-        )
-        const next = this.$route.query.next
-          ? decodeURIComponent(this.$route.query.next)
-          : undefined
-        const fromComment = !!this.$route.query.fc
-        const fromIdeaStory = !!this.$route.query.fss
-        const redirectToIdeaPage = fromComment || fromIdeaStory
-        this.progressBarActive = false
-        this.progressBarUndetermined = false
+        await this.$store.dispatch('userData/fetchUserData')
+        this.loadingAuth = false
         this.authCompleted = true
-        if (!userData.wasWelcomed) {
-          this.message = redirectToIdeaPage
-            ? "Hooray! You're officially signed up! Now we'll give you a quick tour..."
-            : "Hooray! You're officially signed up!"
-        } else {
-          this.message = redirectToIdeaPage
-            ? "Hooray! We'll direct you to your home page next..."
-            : "Hooray! We'll direct you to your dashboard next..."
-        }
 
         this.$router.replace(next || '/ideas-cards')
       } catch (e) {
-        this.progressBarActive = false
+        this.loadingAuth = false
         this.expired = true
       }
     },
 
-    goToLogin() {
-      this.$router.replace('/auth/login')
+    updateLoadingMessage(message) {
+      this.loadingMessage = message
+      this.setLoadingMessage('going to Post...')
+    },
+
+    setupLoadingMessage(next) {
+      if (next === '/ideas/create') {
+        return this.updateLoadingMessage('going to Post...')
+      }
+
+      if (!next || !next.includes('?')) {
+        return
+      }
+
+      const params = parse(next.split('?')[1])
+      switch (params.aa) {
+        case 'itc':
+          this.updateLoadingMessage('posting your comment...')
+          break
+        case 'si':
+          this.updateLoadingMessage('saving idea...')
+          break
+        case 'li':
+          this.updateLoadingMessage('liking the idea...')
+          break
+      }
     }
   }
 }
@@ -115,5 +122,12 @@ export default {
 <style lang="scss" scoped>
 .loading-img {
   width: 200px;
+}
+.loading-message {
+  margin-top: 2rem;
+  padding-left: 1rem;
+  font-size: 1.5rem;
+  color: #4a4759;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 </style>
