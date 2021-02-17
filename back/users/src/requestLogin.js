@@ -21,7 +21,8 @@ const getLoginTemplate = (
   firstLogin,
   withComment = false,
   ideaToSave = false,
-  isMobile = false
+  isMobile = false,
+  createIdea = false
 ) => {
   let activePath;
   if (firstLogin) {
@@ -38,6 +39,8 @@ const getLoginTemplate = (
     activePath = "../mail-templates/require_login_template_with_idea_save.html";
   } else if (isMobile) {
     activePath = "../mail-templates/require_login_template_mobile.html";
+  } else if (createIdea) {
+    activePath = "../mail-templates/require_login_template_create_idea.html";
   } else {
     activePath = "../mail-templates/require_login_template.html";
   }
@@ -228,7 +231,7 @@ const sendEmail = async function(
     templateParams.verifyAdditionalUrlParams = `&next=${encodeURIComponent(next)}`;
   }
 
-  const htmlTemplate = getLoginTemplate(firstLogin, !!comment, !!(ideaToSave || ideaToLike), isMobile);
+  const htmlTemplate = getLoginTemplate(firstLogin, !!comment, !!(ideaToSave || ideaToLike), isMobile, next === '/ideas/create');
 
   const eParams = {
     Destination: {
