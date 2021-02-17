@@ -1,0 +1,66 @@
+<mjml>
+  <mj-head>
+    <mj-raw>
+      <meta name="color-scheme" content="light dark">
+      <meta name="supported-color-schemes" content="light dark">
+    </mj-raw>
+    <mj-style>
+      .logo-dark { display: none; }
+      .link { color: #5B41BB; }
+      @media (prefers-color-scheme: dark) {
+        .body { background-color: black !important; }
+        .section > table > tbody > tr > td { background-color: #161025 !important; }
+        .heading div { color: #FBFBFD !important; }
+        .quote div { color: #FBFBFD !important; }
+        .text div { color: #FBFBFD !important; }
+        
+        .logo { display: none; }
+        .logo-dark { display: block; }
+        .link { color: #FFC61E; }
+      }
+    </mj-style>
+  </mj-head>
+  <mj-body css-class="body" background-color="#FCFCFC">
+    <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">
+      <mj-column>
+        <mj-image width="150px" align="left" padding-left="5px" src="https://dailyidea-serverless-email-static-prod.s3.amazonaws.com/email/images/common/logo_full_dark.png"></mj-image>
+      </mj-column>
+    </mj-section>
+    <mj-section css-class="section" background-color="white" padding-bottom="0">
+      <mj-column>
+        <mj-text css-class="text" align="center" padding-top="0" padding-bottom="0" font-family="helvetica" color="#2d2d2d">
+          <h1>Start writing an Idea</h1>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">
+      <mj-column>
+        <mj-text css-class="text" align="center" padding-top="10px" padding-right="0" font-family="helvetica" color="#2d2d2d" font-size="18px" line-height="22px">
+          <p>Looks like you want to post an idea<br> Click the button below to log in and start your post.<p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section css-class="section" background-color="white" padding-top="0">
+      <mj-column>
+        <mj-button inner-padding="10px 65px" border-radius="30px" font-family="helvetica" font-size="20px" background-color="#5B41BB" color="white" href="https://{{ DOMAIN_NAME }}/auth/verify?code={{ token }}&email={{ emailEncoded }}{{verifyAdditionalUrlParams}}">
+          Go to Post
+        </mj-button>
+      </mj-column>
+    </mj-section>
+    <mj-section css-class="section" background-color="white" padding-top="0" padding-bottom="0">
+      <mj-column>
+        <mj-text css-class="text" padding-top="10px" padding-right="0" font-family="helvetica" color="#2d2d2d" line-height="22px">
+          <p>If you did not request this, you can ignore this email! The only way anybody can log in to your account is via links sent to your email.<p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="#5B41BB">
+      <mj-column>
+        <mj-text font-size="12px" align="center" font-family="helvetica" color="#FFFFFF">
+          <p>Made with <span style="color:red; font-size: 18px">♥</span> in Chicago</p>
+          <p><a href="https://{{ DOMAIN_NAME }}/" style="text-decoration:none; font-weight:bold; color:#FFFFFF">{{ DOMAIN_NAME }}</a></p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
