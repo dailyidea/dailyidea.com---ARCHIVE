@@ -18,7 +18,7 @@
         <v-img
           v-if="imagePath"
           max-height="180"
-          max-width="180"
+          :max-width="maxImageWidth"
           class="mx-auto modalTopImage mb-8"
           contain
           :src="imagePath"
@@ -78,7 +78,8 @@ export default {
     buttonOkLoading: { type: Boolean, default: false },
     showCancelButton: { type: Boolean, default: true },
     showOkButton: { type: Boolean, default: true },
-    contentClass: { type: String, default: 'modal' }
+    contentClass: { type: String, default: 'modal' },
+    maxImageWidth: { type: Number, default: 180 }
   },
 
   methods: {

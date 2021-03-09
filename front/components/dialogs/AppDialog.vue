@@ -3,7 +3,9 @@
   <default-dialog
     v-model="visible"
     :header="header"
+    :subheader="subheader"
     :show-cancel-button="showCancelButton"
+    :max-image-width="maxImageWidth"
     :button-ok-text="buttonOkText"
     :image-path="imagePath"
     :error="error"
@@ -21,12 +23,14 @@ import DefaultDialog from '@/components/dialogs/DefaultDialog'
 const initialData = {
   visible: false,
   header: '',
+  subheader: '',
   message: '',
   error: false,
   showCancelButton: false,
   buttonOkText: 'Ok',
   imagePath: '',
-  resolve: null
+  resolve: null,
+  maxImageWidth: 180
 }
 
 export default {
