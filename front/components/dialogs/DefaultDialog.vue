@@ -3,10 +3,11 @@
   <v-dialog
     :value="value"
     :content-class="contentClass"
+    :persistent="persistent"
     max-width="600"
     @input="v => $emit('input', v)"
   >
-    <div class="closeBtn">
+    <div v-if="showCloseButton" class="closeBtn">
       <v-icon text class="cancelIcon" @click="hide">mdi-close</v-icon>
     </div>
 
@@ -79,7 +80,9 @@ export default {
     showCancelButton: { type: Boolean, default: true },
     showOkButton: { type: Boolean, default: true },
     contentClass: { type: String, default: 'modal' },
-    maxImageWidth: { type: Number, default: 180 }
+    maxImageWidth: { type: Number, default: 180 },
+    showCloseButton: { type: Boolean, default: true },
+    persistent: { type: Boolean, default: false }
   },
 
   methods: {

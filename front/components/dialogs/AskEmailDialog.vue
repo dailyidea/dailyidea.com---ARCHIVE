@@ -5,6 +5,8 @@
       :value="value"
       :button-ok-disabled="!validated || !valid"
       :button-cancel-text="buttonCancelText"
+      :show-close-button="showCloseButton"
+      :persistent="persistent"
       :header="header"
       :subheader="message"
       :image-path="require('assets/images/dialogs/dialog_email.svg')"
@@ -42,7 +44,9 @@ export default {
     loading: Boolean,
     header: { type: String, default: 'What’s your email?' },
     message: { type: String, default: 'Your Email?' },
-    buttonCancelText: { type: String, default: 'Cancel' }
+    buttonCancelText: { type: String, default: 'Cancel' },
+    showCloseButton: { type: Boolean, default: true },
+    persistent: { type: Boolean, default: false }
   },
 
   data: () => ({ email: '' }),

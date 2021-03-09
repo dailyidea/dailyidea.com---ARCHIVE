@@ -1,6 +1,14 @@
 <template>
   <Layout>
-    <auth-flow v-model="showAuth" action="post" next="/ideas/create" />
+    <auth-flow
+      v-model="showAuth"
+      action="post"
+      next="/ideas/create"
+      :show-close-button="false"
+      persistent
+      button-cancel-text="Go Back"
+      @cancel="$router.go(-1)"
+    />
 
     <validation-observer
       v-if="userSlug"
