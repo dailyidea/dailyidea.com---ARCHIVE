@@ -180,11 +180,13 @@ export default {
 
     async onDeleteIdea() {
       const confirmed = await this.$dialog.show({
-        header: 'Delete Idea',
-        message: 'Are you sure you want to delete this Idea?',
-        imagePath: require('~/assets/images/dialogs/undraw_throw_away_ldjd.svg'),
+        header: 'Delete Idea?',
+        subheader:
+          'Are you sure you want to delete this idea, this action cannot be undone.',
+        imagePath: require('~/assets/images/dialogs/dialog_delete.svg'),
         buttonOkText: 'Delete',
-        showCancelButton: true
+        showCancelButton: true,
+        maxImageWidth: 260
       })
       if (!confirmed) {
         return
