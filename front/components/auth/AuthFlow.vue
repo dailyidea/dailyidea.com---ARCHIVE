@@ -5,6 +5,9 @@
       :value="showAskEmail"
       :header="askEmailHeader"
       :message="askEmailMessage"
+      :show-close-button="showCloseButton"
+      :persistent="persistent"
+      :button-cancel-text="buttonCancelText"
       @input="$emit('input', false)"
       @cancel="$emit('cancel')"
       @data="onEmailEntered"
@@ -13,6 +16,8 @@
     <ask-name-dialog
       v-model="showAskName"
       :loading="loading"
+      :show-close-button="showCloseButton"
+      :persistent="persistent"
       header="Welcome to Daily Idea!"
       :message="
         `“Anonymous user” just doesn’t feel so personal... Enter your name to finish ${actionGerund} this idea.`
@@ -26,6 +31,8 @@
       :name="name"
       :email="email"
       :message="welcomeMessage"
+      :show-close-button="showCloseButton"
+      :persistent="persistent"
       @resend="onResend"
     />
 
@@ -33,6 +40,8 @@
       v-model="showResend"
       :loading="loading"
       :email="email"
+      :show-close-button="showCloseButton"
+      :persistent="persistent"
       @resend="onResend"
     />
   </div>
@@ -66,7 +75,10 @@ export default {
     idea: { type: Object, default: null },
     comment: { type: Object, default: null },
     userIdCallback: { type: Function, default: null },
-    next: { type: String, default: '' }
+    next: { type: String, default: '' },
+    showCloseButton: { type: Boolean, default: true },
+    persistent: { type: Boolean, default: false },
+    buttonCancelText: { type: String, default: 'Cancel' }
   },
 
   data() {
@@ -153,6 +165,10 @@ export default {
     value(val) {
       if (val) {
         this.showAskEmail = true
+      } else {
+        this.showAskEmail = false
+        this.showAskName = false
+        this.showWelcome = false
       }
     }
   },

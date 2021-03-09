@@ -7,6 +7,9 @@
     :button-ok-text="countDown ? `Send again in ${countDown}` : 'Send again'"
     :button-ok-disabled="!!countDown"
     :button-ok-loading="loading"
+    :show-close-button="showCloseButton"
+    :persistent="persistent"
+    :show-cancel-button="showCloseButton"
     button-cancel-text="Close"
     @ok="resend"
     @input="v => $emit('input', v)"
@@ -33,7 +36,9 @@ export default {
     loading: Boolean,
     message: { type: String, default: 'Your Email?' },
     name: { type: String, default: '' },
-    email: { type: String, required: true }
+    email: { type: String, required: true },
+    showCloseButton: { type: Boolean, default: true },
+    persistent: { type: Boolean, default: false }
   },
 
   data: () => ({

@@ -4,6 +4,8 @@
     :header="name ? `Welcome Back ${name}!` : 'Welcome to Daily Idea!'"
     :subheader="message"
     :image-path="require('assets/images/dialogs/dialog_welcome_back.svg')"
+    :show-close-button="showCloseButton"
+    :persistent="persistent"
     @input="v => $emit('input', v)"
   >
     <div class="text-center">
@@ -37,7 +39,9 @@ export default {
     value: Boolean,
     message: { type: String, default: 'Your Email?' },
     name: { type: String, default: '' },
-    email: { type: String, required: true }
+    email: { type: String, required: true },
+    showCloseButton: { type: Boolean, default: true },
+    persistent: { type: Boolean, default: false }
   }
 }
 </script>

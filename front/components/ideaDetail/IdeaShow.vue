@@ -89,7 +89,7 @@
       ></idea-comments>
     </v-col>
 
-    <auth-flow v-model="showAuth" action="share" />
+    <auth-flow v-model="showAuth" action="share" @cancel="showAuth = false" />
   </v-row>
 </template>
 

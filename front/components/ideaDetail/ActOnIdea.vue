@@ -1,6 +1,11 @@
 <template>
   <span>
-    <auth-flow v-model="showAuth" :idea="idea" :action="action" />
+    <auth-flow
+      v-model="showAuth"
+      :idea="idea"
+      :action="action"
+      @cancel="showAuth = false"
+    />
 
     <like-idea
       v-if="action === 'like'"
