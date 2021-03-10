@@ -5,7 +5,7 @@
     max-width="600"
     @input="v => $emit('input', v)"
   >
-    <div class="dialog-inner">
+    <div class="dialog-inner" :style="{ height: dialogHeight }">
       <div v-if="!askName" class="dialog-front">
         <div class="closeBtn">
           <v-icon text class="cancelIcon" @click="$emit('input', false)"
@@ -14,8 +14,15 @@
         </div>
 
         <section class="modalHeader">
-          <h3>Share this Idea</h3>
-          <p>Enter your your friend’s email address or copy the link below.</p>
+          <h3>{{ title }}</h3>
+          <p>{{ subtitle }}</p>
+          <v-img
+            v-if="imagePath"
+            :max-width="maxImageWidth"
+            class="mx-auto modalTopImage mb-8 mt-8"
+            contain
+            :src="imagePath"
+          ></v-img>
         </section>
 
         <v-text-field-with-validation
@@ -66,6 +73,13 @@
         <section class="modalHeader">
           <h3>Who should we say it’s from?</h3>
           <p>Enter your your friend’s email address or copy the link below.</p>
+          <v-img
+            v-if="imagePath"
+            :max-width="maxImageWidth"
+            class="mx-auto modalTopImage mb-8 mt-8"
+            contain
+            :src="imagePath"
+          ></v-img>
         </section>
 
         <v-text-field-with-validation
@@ -162,7 +176,15 @@ export default {
 
   props: {
     value: Boolean,
-    idea: { type: Object, required: true }
+    idea: { type: Object, required: true },
+    title: { type: String, default: 'Share this Idea' },
+    subtitle: {
+      type: String,
+      default: 'Enter your your friend’s email address or copy the link below.'
+    },
+    imagePath: { type: String, default: '' },
+    maxImageWidth: { type: Number, default: 180 },
+    dialogHeight: { type: String, default: '340px' }
   },
 
   data: () => ({
@@ -264,7 +286,6 @@ export default {
 
 .dialog-inner {
   width: 600px;
-  height: 340px;
   max-width: 100%;
   position: relative;
   transition: transform 0.8s;
