@@ -44,9 +44,13 @@
         </template>
       </swiper>
     </layout>
-    <idea-posted-dialog
+    <share-idea-by-email
       v-model="showIdeaPostedDialog"
-      @share="showShareDialog = true"
+      :idea="idea"
+      title="Idea Posted!"
+      subtitle="Want to spark conversation and inspire others? Enter a friend’s email below."
+      :image-path="require('~/assets/images/dialogs/dialog_idea_posted.svg')"
+      dialog-height="480px"
     />
     <share-idea-by-email v-model="showShareDialog" :idea="idea" />
   </div>
@@ -62,13 +66,11 @@ import IdeaCardSkeleton from '@/components/ideaDetail/IdeaCardSkeleton'
 import CategoriesSubHeader from '@/components/layout/CategoriesSubHeader'
 import IdeaLightbox from '@/components/ideaDetail/IdeaLightbox'
 import IdeaSwipableCard from '@/components/ideaDetail/IdeaSwipableCard'
-import IdeaPostedDialog from '@/components/dialogs/IdeaPostedDialog'
 import ShareIdeaByEmail from '@/components/dialogs/ShareIdeaByEmail'
 
 export default {
   components: {
     ShareIdeaByEmail,
-    IdeaPostedDialog,
     IdeaSwipableCard,
     IdeaLightbox,
     Layout,
