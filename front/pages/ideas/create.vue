@@ -10,160 +10,45 @@
       @cancel="$router.go(-1)"
     />
 
-    <validation-observer
-      v-if="userSlug"
-      v-slot="{ valid, validated, handleSubmit }"
-    >
-      <v-container
-        class="m-auto d-flex flex-column form-container"
-        :style="{ height: `${height}px` }"
-      >
-        <validation-provider
-          v-slot="{ errors }"
-          name="title"
-          rules="required|max:100"
-        >
-          <v-text-field
-            v-model="title"
-            :error-messages="errors"
-            flat
-            label="Add A Title"
-            data-vv-name="title"
-            name="idea_title"
-            class="idea-name-field"
-            :single-line="true"
-            :solo="true"
-            @keyup.13="focusIdeaText"
-          ></v-text-field>
-        </validation-provider>
-
-        <div class="idea-editor flex-grow-1 fill-height">
-          <client-only>
-            <trix-wrapper
-              v-model="contents"
-              class="editor"
-              :class="{
-                'fade-bottom': !atScrollEnd,
-                'fade-top': !atScrollStart
-              }"
-              placeholder="Just start typing your idea here! You can add formatting with the toolbar below."
-              :auto-delete-attachments="true"
-              @attachmentsUploadStarted="onAttachmentsUploadStarted"
-              @attachmentsUploadCompleted="onAttachmentsUploadCompleted"
-              @fileAttached="onFileAttached"
-              @fileRemoved="onFileRemoved"
-              @ready="onTrixReady"
-            />
-          </client-only>
-        </div>
-
-        <div class="submit-btn d-flex align-center justify-space-between">
-          <v-switch
-            v-model="isPrivate"
-            inset
-            :label="isPrivate ? 'Private' : 'Public'"
-          ></v-switch>
-          <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
-              <img
-                src="~assets/images/icons/info.svg"
-                alt=""
-                v-bind="attrs"
-                class="ml-2 align-middle mr-auto"
-                style="margin-top: -4px;"
-                v-on="on"
-              />
-            </template>
-            <span v-if="isPrivate"
-              >This idea can only by seen by you.<br />
-              To view it visit My Ideas.</span
-            >
-            <span v-else
-              >This idea will be posted to the idea feed,<br />
-              and can be viewed by others.</span
-            >
-          </v-tooltip>
-          <v-btn
-            rounded
-            dark
-            color="primary"
-            :loading="creatingIdea"
-            :disabled="!valid || !validated"
-            @click="handleSubmit(onCreateIdea)"
-            >Post</v-btn
-          >
-        </div>
-      </v-container>
-    </validation-observer>
+    <idea-form v-model="form" :loading="creatingIdea" @submit="onCreateIdea" />
   </Layout>
 </template>
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { graphqlOperation } from '@aws-amplify/api'
-import TrixWrapper from '@/components/TrixWrapper'
 import Layout from '@/components/layout/Layout'
 import createIdea from '~/graphql/mutations/createIdea'
 import AuthFlow from '@/components/auth/AuthFlow'
+import IdeaForm from '@/components/ideas/IdeaForm'
 
 export default {
   components: {
     AuthFlow,
     Layout,
-    TrixWrapper,
-    ValidationObserver,
-    ValidationProvider
+    IdeaForm
   },
 
   data: () => ({
-    contents: '',
-    title: '',
-    isPrivate: false,
-    imageAttachments: [],
-    fileAttachments: [],
+    form: {
+      title: '',
+      content: '',
+      isPrivate: false,
+      imageAttachments: [],
+      fileAttachments: []
+    },
     creatingIdea: false,
-    uploadingAttachment: false,
-    atScrollEnd: true,
-    atScrollStart: true,
-    scrollContainer: null,
     showAuth: false
   }),
 
   computed: {
     ...mapGetters({
       userSlug: 'userData/slug'
-    }),
-
-    allowCreateIdea() {
-      return this.title && !this.uploadingAttachment
-    }
-  },
-
-  watch: {
-    contents() {
-      this.checkScroll()
-    },
-
-    userSlug(val) {
-      if (val) {
-        this.height = window.innerHeight - 100
-      }
-    }
+    })
   },
 
   mounted() {
-    this.$nextTick(() => {
-      this.height = window.innerHeight - 100
-    })
-
     if (!this.userSlug) {
       this.showAuth = true
-    }
-  },
-
-  beforeDestroy() {
-    if (this.scrollContainer) {
-      this.scrollContainer.removeEventListener('scroll')
     }
   },
 
@@ -172,54 +57,21 @@ export default {
       updateCreatedIdea: 'ideas/UPDATE_CREATED'
     }),
 
-    onTrixReady() {
-      this.scrollContainer = document.querySelector('.trix-content')
-      this.checkScroll()
-      this.scrollContainer.addEventListener('scroll', this.checkScroll)
-    },
-
-    focusIdeaText() {
-      document.querySelector('trix-editor').focus()
-    },
-
-    onAttachmentsUploadStarted() {
-      this.uploadingAttachment = true
-    },
-
-    onAttachmentsUploadCompleted() {
-      this.uploadingAttachment = false
-    },
-
-    onFileAttached({ type, key }) {
-      if (type.substr(0, 5) === 'image') {
-        this.imageAttachments.push(key)
-      }
-      this.fileAttachments.push(key)
-    },
-
-    onFileRemoved({ type, key }) {
-      if (type.substr(0, 5) === 'image') {
-        this.imageAttachments.splice(this.imageAttachments.indexOf(key), 1)
-      }
-      this.fileAttachments.splice(this.fileAttachments.indexOf(key), 1)
-    },
-
     async onCreateIdea() {
       this.creatingIdea = true
 
       try {
         const result = await this.$amplifyApi.graphql(
           graphqlOperation(createIdea, {
-            content: this.contents,
-            title: this.title,
+            content: this.form.content,
+            title: this.form.title,
             tags: [],
-            fileAttachments: this.fileAttachments,
-            imageAttachments: this.imageAttachments,
-            isPrivate: this.isPrivate
+            fileAttachments: this.form.fileAttachments,
+            imageAttachments: this.form.imageAttachments,
+            isPrivate: this.form.isPrivate
           })
         )
 
-        this.creatingIdea = false
         this.$notifier.success('Idea Created')
 
         // Redirect to idea deail page
@@ -237,170 +89,9 @@ export default {
         }
       } catch (err) {
         this.$notifier.error('Something went wrong!')
-        this.creatingIdea = false
       }
-    },
-
-    checkScroll() {
-      if (!this.scrollContainer) {
-        return
-      }
-      const $el = this.scrollContainer
-      const currentScrollLocation = $el.scrollTop
-      const scrollMax = $el.scrollHeight - $el.clientHeight
-
-      this.atScrollEnd = currentScrollLocation >= scrollMax - 5
-      this.atScrollStart = currentScrollLocation === 0
+      this.creatingIdea = false
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.form-container {
-  position: relative;
-  height: calc(100vh - 126px);
-  max-width: 600px;
-  overflow-y: hidden;
-
-  @media (max-width: $screen-md-min) {
-    height: calc(100vh - 100px);
-  }
-}
-
-.submit-btn {
-  position: absolute;
-  bottom: -5px;
-  right: 12px;
-
-  @media (min-width: $screen-sm-min) {
-    width: 14rem;
-  }
-
-  @media (max-width: $screen-xs-max) {
-    bottom: -15px;
-    left: 20px;
-  }
-
-  ::v-deep {
-    .v-label {
-      font-size: 0.9rem;
-    }
-  }
-}
-
-.idea-name-field {
-  font-size: 24px;
-  font-weight: 900;
-
-  ::v-deep {
-    input {
-      padding: 0;
-    }
-    .v-input__slot {
-      margin: 0 !important;
-      padding: 0 !important;
-      label {
-        color: #c1b8c6;
-        font-size: 24px;
-      }
-    }
-    .v-label {
-      height: 24px;
-      line-height: 24px;
-    }
-    .v-text-field__details {
-      padding-left: 0 !important;
-    }
-  }
-}
-
-::v-deep {
-  .idea-editor {
-    .editor {
-      height: 100%;
-      padding-bottom: 60px;
-
-      @media (max-width: $screen-xs-max) {
-        padding-bottom: 70px;
-      }
-
-      .trix-content {
-        height: 100% !important;
-        padding: 0;
-        border: none;
-        overflow-y: auto;
-
-        &:active,
-        &:focus {
-          border: none;
-        }
-        &:empty::before {
-          font-size: 18px;
-          color: #c1b8c6;
-          content: attr(placeholder);
-          position: relative;
-          top: -2px;
-        }
-        .attachment--preview {
-          width: auto;
-          max-width: calc(100% - 5px);
-        }
-      }
-    }
-    .fade-top .trix-content {
-      mask-image: linear-gradient(to top, black 90%, transparent 100%);
-    }
-    .fade-bottom .trix-content {
-      mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
-    }
-    .fade-top.fade-bottom .trix-content {
-      mask-image: linear-gradient(
-        to bottom,
-        transparent 0%,
-        black 10%,
-        black 90%,
-        transparent 100%
-      );
-    }
-  }
-
-  .trix-button-row {
-    position: absolute;
-    bottom: 12px;
-    left: 12px;
-
-    @media (max-width: $screen-xs-max) {
-      right: 12px;
-      bottom: 2.5rem;
-    }
-  }
-  .trix-button-group {
-    margin: 0 0 5px 0 !important;
-    flex-grow: 1;
-    justify-content: space-between;
-  }
-  .trix-button {
-    margin: 0 4px !important;
-    @media (max-width: $screen-xs-max) {
-      margin: 0 2px !important;
-    }
-  }
-
-  .trix-button-group--file-tools {
-    flex-grow: 0;
-  }
-
-  .trix-button-group-spacer {
-    display: none;
-  }
-
-  .trix-button-group--history-tools {
-    display: none;
-  }
-
-  #toggle-trix-panel {
-    margin-bottom: 4px;
-  }
-}
-</style>
