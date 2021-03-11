@@ -23,6 +23,7 @@ type Mutation {
         ideaOwnerId: String!,
         title: String!
         content: String,
+        isPrivate: Boolean,
         tags: [String],
         imageAttachments: [String],
         fileAttachments: [String],

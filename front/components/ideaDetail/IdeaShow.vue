@@ -36,7 +36,6 @@
               :editable="idea.userId === userId"
               :preview="preview"
               :idea="idea"
-              @enable-edit-mode="$emit('edit')"
               @saved-state-changed="onIdeaSaveStateChanged"
               @liked-state-changed="onIdeaLikeStateChanged"
               @on-idea-shared="onIdeaShared"

@@ -57,7 +57,7 @@
         Post Settings
       </div>
       <v-list>
-        <v-list-item @click="enableEditMode">
+        <v-list-item :to="`/ideas/edit/${idea.shortId}`">
           <v-list-item-title>
             <pencil-icon fill="none" :stroke="iconColor"></pencil-icon>
             <span class="item-text ml-7">Edit Idea</span>
@@ -263,10 +263,6 @@ export default {
       } else {
         this.showEmailShareDialog = true
       }
-    },
-
-    enableEditMode() {
-      this.$emit('enable-edit-mode')
     },
 
     onSharedIdeaOverEmail() {

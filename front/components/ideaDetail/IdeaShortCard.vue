@@ -5,7 +5,6 @@
       :expanded="false"
       :preview="true"
       :idea-tags="[]"
-      @edit="editMode = true"
       @close="$emit('close')"
       @view-preview="$emit('view-preview', idea)"
       @unsaved="$emit('unsaved')"
