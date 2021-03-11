@@ -88,7 +88,11 @@ export default {
           })
         }
       } catch (err) {
-        this.$notifier.error('Something went wrong!')
+        this.$notifier.error(
+          err === 'No current user'
+            ? 'Please login first'
+            : 'Something went wrong!'
+        )
       }
       this.creatingIdea = false
     }
