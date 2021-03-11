@@ -6,14 +6,47 @@
       class="left-arrow hidden-sm-and-down pointer-events-auto"
       @click="leftArrowClick"
     >
-      <img src="~/assets/images/idea-card/left-arrow.png" />
+      <svg
+        width="64"
+        height="64"
+        viewBox="0 0 64 64"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="32" cy="32" r="31" stroke="#A7A7E7" stroke-width="2" />
+        <path
+          d="M36.5 19L23 32.5L36.5 46"
+          stroke="#A7A7E7"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
     </div>
     <div
       v-if="allowRight"
       class="right-arrow hidden-sm-and-down pointer-events-auto"
       @click="rightArrowClick"
     >
-      <img src="~/assets/images/idea-card/left-arrow.png" />
+      <svg
+        width="64"
+        height="64"
+        viewBox="0 0 64 64"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          r="31"
+          transform="matrix(-1 0 0 1 32 32)"
+          stroke="#A7A7E7"
+          stroke-width="2"
+        />
+        <path
+          d="M27.5 19L41 32.5L27.5 46"
+          stroke="#A7A7E7"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
     </div>
     <div class="swipe-parent pointer-events-none">
       <div
@@ -295,6 +328,19 @@ export default {
   img {
     width: 50px;
   }
+  circle,
+  path {
+    transition: all 0.3s ease;
+  }
+  &:hover {
+    circle {
+      stroke: #5a41ba;
+      fill: #e8e8f4;
+    }
+    path {
+      stroke: #5a41ba;
+    }
+  }
 }
 
 .left-arrow {
@@ -303,6 +349,5 @@ export default {
 
 .right-arrow {
   right: 2vw;
-  transform: rotate(180deg);
 }
 </style>
