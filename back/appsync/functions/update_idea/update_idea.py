@@ -32,6 +32,7 @@ def endpoint(event, lambda_context):
     tags = arguments.get('tags', list())
     new_image_attachments = arguments.get('imageAttachments', list())
     new_file_attachments = arguments.get('fileAttachments', list())
+    is_private = arguments.get('isPrivate', False)
     editor_id = ctx.get('identity').get('username')
     if editor_id != idea_owner_id:
         return {'result': {'ok': False, 'error': 'You do not have permission to edit this idea'}}
@@ -53,7 +54,7 @@ def endpoint(event, lambda_context):
             'ideaId': {"S": idea_id},
             'userId': {"S": idea_owner_id}
         },
-        UpdateExpression='SET title = :title, slug = :slug, strippedContent = :strippedContent, content = :content, updatedDate = :updatedDate, fileAttachments=:fileAttachments, imageAttachments=:imageAttachments, previewImage=:previewImage',
+        UpdateExpression='SET title = :title, slug = :slug, strippedContent = :strippedContent, content = :content, updatedDate = :updatedDate, fileAttachments=:fileAttachments, imageAttachments=:imageAttachments, previewImage=:previewImage, visibility=:visibility',
         ExpressionAttributeValues={
             ":title": {"S": title},
             ":slug": {"S": slug},
@@ -63,6 +64,7 @@ def endpoint(event, lambda_context):
             ":fileAttachments": {"SS": new_file_attachments} if len(new_file_attachments) else {"NULL": True},
             ":imageAttachments": {"SS": new_image_attachments} if len(new_image_attachments) else {"NULL": True},
             ":previewImage": {"S": new_image_attachments[0]} if len(new_image_attachments) else {"NULL": True},
+            ":visibility": {"S": "PRIVATE" if is_private else "PUBLIC"},
         }
     )
     current_file_attachments = idea['fileAttachments'].get('SS', [])

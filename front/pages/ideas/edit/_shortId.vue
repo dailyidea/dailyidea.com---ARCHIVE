@@ -9,12 +9,12 @@
   </Layout>
 </template>
 <script>
-import { mapMutations } from 'vuex'
 import { graphqlOperation } from '@aws-amplify/api'
+import { mapGetters } from 'vuex'
 import Layout from '@/components/layout/Layout'
-import createIdea from '~/graphql/mutations/createIdea'
 import IdeaForm from '@/components/ideas/IdeaForm'
 import getIdea from '@/graphql/query/getIdea'
+import updateIdea from '@/graphql/mutations/updateIdea'
 
 export default {
   components: {
@@ -47,7 +47,9 @@ export default {
         form: {
           title: data.getIdea.title,
           content: data.getIdea.content,
-          isPrivate: data.getIdea.visibility === 'PRIVATE'
+          isPrivate: data.getIdea.visibility === 'PRIVATE',
+          imageAttachments: data.getIdea.imageAttachments || [],
+          fileAttachments: data.getIdea.fileAttachments || []
         }
       }
     } catch (e) {
@@ -67,22 +69,26 @@ export default {
     updatingIdea: false
   }),
 
-  methods: {
-    ...mapMutations({
-      updateCreatedIdea: 'ideas/UPDATE_CREATED'
-    }),
+  computed: {
+    ...mapGetters({
+      userSlug: 'userData/slug'
+    })
+  },
 
+  methods: {
     async onUpdateIdea() {
       this.updatingIdea = true
 
       try {
         const result = await this.$amplifyApi.graphql(
-          graphqlOperation(createIdea, {
-            content: this.form.contents,
+          graphqlOperation(updateIdea, {
+            ideaId: this.idea.ideaId,
+            ideaOwnerId: this.idea.userId,
+            content: this.form.content,
             title: this.form.title,
             tags: [],
-            fileAttachments: this.form.fileAttachments,
-            imageAttachments: this.form.imageAttachments,
+            imageAttachments: this.form.imageAttachments || [],
+            fileAttachments: this.form.fileAttachments || [],
             isPrivate: this.form.isPrivate
           })
         )
@@ -90,14 +96,14 @@ export default {
         this.$notifier.success('Idea Updated')
 
         // Redirect to idea deail page
-        const { shortId, slug } = result.data.createIdea
+        const { slug } = result.data.updateIdea.idea
 
         if (this.form.isPrivate) {
           this.$router.push(`/profile/${this.userSlug}`)
         } else {
           this.$router.push({
             name: 'i-shortId-slug',
-            params: { shortId, slug },
+            params: { shortId: this.idea.shortId, slug },
             force: true
           })
         }
