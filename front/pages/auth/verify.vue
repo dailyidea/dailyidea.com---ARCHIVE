@@ -11,14 +11,9 @@
         <v-col cols="12" sm="8" md="4">
           <section class="mb-6">
             <img
-              v-if="loadingAuth && !authCompleted"
+              v-if="loadingAuth"
               class="loading-img"
               src="~assets/images/general/loading.gif"
-            />
-            <img
-              v-else
-              class="loading-img"
-              src="~assets/images/verify/success.svg"
             />
             <img
               v-if="expired"
@@ -56,7 +51,8 @@ export default {
 
   methods: {
     ...mapMutations({
-      setLoadingMessage: 'SET_LOADING_MESSAGE'
+      setLoadingMessage: 'SET_LOADING_MESSAGE',
+      setLoadingImage: 'SET_LOADING_IMAGE'
     }),
 
     async login() {
@@ -81,6 +77,7 @@ export default {
         await this.$store.dispatch('userData/fetchUserData')
         this.loadingAuth = false
         this.authCompleted = true
+        this.setLoadingImage(require('~/assets/images/verify/success.svg'))
 
         this.$router.replace(next || '/ideas-cards')
       } catch (e) {

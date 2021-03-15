@@ -2,7 +2,7 @@
   <div v-if="enabled && loading" class="loading-page">
     <img
       class="loading-image"
-      src="~assets/images/general/loading.gif"
+      :src="image || '~assets/images/general/loading.gif'"
       alt="Loading"
       width="197"
     />
@@ -18,7 +18,8 @@ export default {
     ...mapState({
       loading: s => s.routerLoading,
       enabled: s => s.routerLoadingEnabled,
-      message: s => s.loadingMessage
+      message: s => s.loadingMessage,
+      image: s => s.loadingImage
     })
   },
 
@@ -26,7 +27,8 @@ export default {
     ...mapMutations({
       setRouterLoading: 'SET_ROUTER_LOADING',
       setRouterLoadingEnabled: 'SET_ROUTER_LOADING_ENABLED',
-      setLoadingMessage: 'SET_LOADING_MESSAGE'
+      setLoadingMessage: 'SET_LOADING_MESSAGE',
+      setLoadingImage: 'SET_LOADING_IMAGE'
     }),
 
     start() {
@@ -38,6 +40,7 @@ export default {
         this.setRouterLoading(false)
         this.setRouterLoadingEnabled(true)
         this.setLoadingMessage(null)
+        this.setLoadingImage(null)
       }, 1000)
     }
   }
