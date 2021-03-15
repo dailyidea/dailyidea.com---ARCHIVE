@@ -2,7 +2,7 @@
   <div v-if="enabled && loading" class="loading-page">
     <img
       class="loading-image"
-      :src="image || '~assets/images/general/loading.gif'"
+      :src="image || require('~/assets/images/general/loading.gif')"
       alt="Loading"
       width="197"
     />
