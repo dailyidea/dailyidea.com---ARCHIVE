@@ -149,7 +149,8 @@ module.exports = {
           include: path.join(__dirname)
         })
       }
-    }
+    },
+    extractCSS: true
   },
   sentry: {
     release: process.env.STAGE === 'prod',
