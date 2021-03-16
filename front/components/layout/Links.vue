@@ -29,7 +29,7 @@
       <nuxt-link
         class="link"
         :class="{ active: page === 'profile', disabled: !slug }"
-        :to="slug ? `/profile/${slug}` : '/auth/unathorized'"
+        :to="slug ? `/profile/${slug}` : '/auth/unathorized-my-ideas'"
       >
         <profile-icon :fill="iconColor('profile')" class="img" />
         <span :class="{ 'link-highlight': page === 'profile' }">My Ideas</span>
