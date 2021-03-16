@@ -126,6 +126,18 @@ export default {
     }
   },
 
+  watch: {
+    selectedIdea(idea, prevIdea) {
+      if (prevIdea) {
+        window.history.back()
+      }
+
+      if (idea) {
+        window.history.pushState('', '', `/i/${idea.shortId}/${idea.slug}`)
+      }
+    }
+  },
+
   mounted() {
     this.profileData = this.initialProfileData
   },
