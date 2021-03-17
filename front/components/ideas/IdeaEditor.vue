@@ -1,16 +1,14 @@
 <template>
-  <div
-    class="idea-tiptap flex-grow-1 fill-height"
-    :class="{
-      'fade-bottom': !atScrollEnd,
-      'fade-top': !atScrollStart
-    }"
-  >
+  <div class="idea-tiptap flex-grow-1 fill-height">
     <editor-content
       ref="editorContent"
       :editor="editor"
       class="editor-content"
       style="height: calc(100% - 50px)"
+      :class="{
+        'fade-bottom': !atScrollEnd,
+        'fade-top': !atScrollStart
+      }"
       @keydown.native.left.stop
       @keydown.native.right.stop
     />
@@ -142,6 +140,7 @@ import {
 } from 'tiptap-extensions'
 import { Credentials } from '@aws-amplify/core'
 import Image from '~/helpers/tiptap/image'
+import File from '~/helpers/tiptap/File'
 
 const MAX_ATTACHMENT_SIZE_BYTES = 1024 * 1024 * 5
 const BUCKET_URL = `https://${process.env.USER_UPLOADS_S3_DOMAIN}.s3.amazonaws.com/`
@@ -178,7 +177,7 @@ export default {
 
   watch: {
     value(val) {
-      if (val === this.text) {
+      if (val === this.content) {
         return
       }
       this.content = val
@@ -207,7 +206,8 @@ export default {
         new Underline(),
         new History(),
         // new Placeholder({ emptyNodeText: this.placeholder }),
-        new Image(null, null, this.uploadFile)
+        new Image(null, null, this.uploadFile),
+        new File(null, null, this.uploadFile)
       ],
       onUpdate: ({ getHTML }) => {
         this.content = getHTML()
@@ -308,7 +308,7 @@ export default {
       const prefix = `${BUCKET_URL}${BUCKET_FOLDER}`
       attachment.source = prefix + encodeURIComponent(attachment.key) // eslint-disable-line
 
-      if (attachment.file.type.substr(0, 5) === 'image') {
+      if (attachment.file.type.startsWith('image')) {
         this.imageAttachments.push(`${BUCKET_FOLDER}${attachment.key}`)
       } else {
         this.fileAttachments.push(`${BUCKET_FOLDER}${attachment.key}`)
@@ -358,14 +358,23 @@ export default {
     display: inline-block;
     img {
       display: block;
+      max-width: 100%;
     }
     &.ProseMirror-selectednode {
       outline: 2px solid #ccc;
     }
+
+    &.file {
+      padding: 0 5px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+    }
   }
 
-  .image-upload-placeholder {
+  .image-upload-placeholder,
+  .file-upload-placeholder {
     position: relative;
+    overflow: hidden;
     &:after {
       display: flex;
       content: 'Uploading...';
@@ -378,6 +387,9 @@ export default {
       align-items: center;
       justify-content: center;
     }
+  }
+  .file-upload-placeholder:after {
+    background-color: rgba(255, 255, 255, 0.9);
   }
 }
 
