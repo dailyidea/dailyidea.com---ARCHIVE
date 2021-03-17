@@ -44,6 +44,7 @@
         >
           <img src="~assets/images/editor/U.svg" alt="Underline" />
         </button>
+        <div class="vr"></div>
         <button
           title="Heading 1"
           class="menu-btn"
@@ -60,14 +61,20 @@
         >
           <img src="~assets/images/editor/H2.svg" alt="H2" />
         </button>
+        <div class="vr"></div>
         <button
           :title="isActive.link() ? 'Update Link' : 'Add Link'"
           class="menu-btn"
           :class="{ active: isActive.link() }"
           @click="showLinkMenu(getMarkAttrs('link'))"
         >
-          <img src="~assets/images/editor/link.svg" alt="Link" />
+          <img
+            src="~assets/images/editor/link.svg"
+            alt="Link"
+            style="margin-bottom: -2px;"
+          />
         </button>
+        <div class="vr"></div>
         <button
           title="Ordered List"
           :class="{ active: isActive.ordered_list() }"
@@ -84,11 +91,35 @@
         >
           <img src="~assets/images/editor/ul.svg" alt="Bullet List" />
         </button>
+        <div class="vr"></div>
         <button title="Attachment" @click="showImagePrompt(commands.image)">
-          <img src="~assets/images/editor/attach.svg" alt="Attachment" />
+          <img
+            src="~assets/images/editor/attach.svg"
+            alt="Attachment"
+            style="margin-bottom: -2px;"
+          />
         </button>
 
         <slot name="menu-bar-after"></slot>
+
+        <v-dialog v-model="linkMenuIsActive" max-width="400">
+          <v-card>
+            <v-card-title>Link URL</v-card-title>
+            <v-card-text>
+              <v-text-field v-model="linkUrl" label="Link URL"></v-text-field>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="green darken-1"
+                text
+                @click="setLinkUrl(commands.link, linkUrl)"
+              >
+                Ok
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </div>
     </editor-menu-bar>
   </div>
@@ -106,9 +137,19 @@ import {
   Link,
   Strike,
   Underline,
-  History,
-  Placeholder
+  History
+  // Placeholder
 } from 'tiptap-extensions'
+import { Credentials } from '@aws-amplify/core'
+import Image from '~/helpers/tiptap/image'
+
+const MAX_ATTACHMENT_SIZE_BYTES = 1024 * 1024 * 5
+const BUCKET_URL = `https://${process.env.USER_UPLOADS_S3_DOMAIN}.s3.amazonaws.com/`
+
+function createStorageKey(file) {
+  const date = new Date()
+  return date.getTime() + '-' + file.name
+}
 
 export default {
   components: {
@@ -129,7 +170,10 @@ export default {
     linkMenuIsActive: false,
     atScrollEnd: true,
     atScrollStart: true,
-    uploadingAttachment: false
+
+    attachments: [],
+    imageAttachments: [],
+    fileAttachments: []
   }),
 
   watch: {
@@ -139,6 +183,9 @@ export default {
       }
       this.content = val
       this.editor.setContent(this.content)
+    },
+
+    content() {
       this.checkScroll()
     }
   },
@@ -159,18 +206,21 @@ export default {
         new Strike(),
         new Underline(),
         new History(),
-        new Placeholder({ emptyNodeText: this.placeholder })
+        // new Placeholder({ emptyNodeText: this.placeholder }),
+        new Image(null, null, this.uploadFile)
       ],
       onUpdate: ({ getHTML }) => {
         this.content = getHTML()
       },
       onBlur: () => this.updateValue()
     })
+
+    this.$refs.editorContent.$el.addEventListener('scroll', this.checkScroll)
   },
 
   beforeDestroy() {
     this.editor.destroy()
-    this.$refs.editorContent.removeEventListener('scroll')
+    this.$refs.editorContent.$el.removeEventListener('scroll', this.checkScroll)
   },
 
   methods: {
@@ -181,9 +231,6 @@ export default {
     showLinkMenu(attrs) {
       this.linkUrl = attrs.href
       this.linkMenuIsActive = true
-      this.$nextTick(() => {
-        this.$refs.linkInput.focus()
-      })
     },
 
     hideLinkMenu() {
@@ -191,8 +238,8 @@ export default {
       this.linkMenuIsActive = false
     },
 
-    setLinkUrl(command, url) {
-      command({ href: url })
+    setLinkUrl(command, href) {
+      command({ href })
       this.hideLinkMenu()
     },
 
@@ -204,12 +251,85 @@ export default {
     },
 
     checkScroll() {
-      const $el = this.$refs.editorContent
+      const $el = this.$refs.editorContent.$el
       const currentScrollLocation = $el.scrollTop
       const scrollMax = $el.scrollHeight - $el.clientHeight
-
       this.atScrollEnd = currentScrollLocation >= scrollMax - 5
       this.atScrollStart = currentScrollLocation === 0
+    },
+
+    validateFile(file) {
+      if (file.size > MAX_ATTACHMENT_SIZE_BYTES) {
+        this.$dialog.show({
+          header: 'File too large',
+          message: 'Max acceptable file size is 5Mb'
+        })
+        return false
+      }
+      return true
+    },
+
+    async uploadFile(file) {
+      if (!this.validateFile(file)) {
+        return
+      }
+      const attachment = {
+        key: createStorageKey(file),
+        file,
+        progress: 0,
+        uploading: false,
+        source: null
+      }
+      this.attachments.push(attachment)
+
+      // this.form.imageAttachments.push(attachment)
+
+      attachment.uploading = true
+      await new Promise(resolve => {
+        this.$amplifyS3Storage
+          .put(attachment.key, file, {
+            contentType: file.type,
+            level: 'protected',
+            progressCallback: progressEvent => {
+              attachment.progress = Math.round(
+                (progressEvent.loaded * 100) / progressEvent.total
+              )
+            }
+          })
+          .then(resolve)
+      })
+
+      // await new Promise(resolve => setTimeout(resolve, 1000000))
+      attachment.uploading = false // eslint-disable-line
+
+      const cr = await Credentials.get()
+
+      const BUCKET_FOLDER = `protected/${cr.data.IdentityId}/`
+      const prefix = `${BUCKET_URL}${BUCKET_FOLDER}`
+      attachment.source = prefix + encodeURIComponent(attachment.key) // eslint-disable-line
+
+      if (attachment.file.type.substr(0, 5) === 'image') {
+        this.imageAttachments.push(`${BUCKET_FOLDER}${attachment.key}`)
+      } else {
+        this.fileAttachments.push(`${BUCKET_FOLDER}${attachment.key}`)
+      }
+
+      console.log({ attachment })
+
+      return attachment.source
+    },
+
+    onFileRemoved({ type, key }) {
+      if (type.substr(0, 5) === 'image') {
+        this.form.imageAttachments.splice(
+          this.form.imageAttachments.indexOf(key),
+          1
+        )
+      }
+      this.form.fileAttachments.splice(
+        this.form.fileAttachments.indexOf(key),
+        1
+      )
     }
   }
 }
@@ -222,12 +342,42 @@ export default {
     outline: none;
   }
 
+  .is-editor-empty {
+    margin-bottom: 0;
+  }
+
   p.is-editor-empty:first-child::before {
     content: attr(data-empty-text);
     float: left;
     color: #aaa;
     pointer-events: none;
     height: 0;
+  }
+
+  figure {
+    display: inline-block;
+    img {
+      display: block;
+    }
+    &.ProseMirror-selectednode {
+      outline: 2px solid #ccc;
+    }
+  }
+
+  .image-upload-placeholder {
+    position: relative;
+    &:after {
+      display: flex;
+      content: 'Uploading...';
+      background-color: rgba(255, 255, 255, 0.5);
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 
@@ -258,5 +408,12 @@ export default {
   &.active {
     background: #ccc;
   }
+}
+
+.vr {
+  height: 12px;
+  width: 1px;
+  margin-top: -2px;
+  background-color: #e2e1e5;
 }
 </style>

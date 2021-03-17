@@ -34,8 +34,8 @@
                 v-model="form.isPrivate"
                 inset
                 :label="form.isPrivate ? 'Private' : 'Public'"
-                style="width: 80px; height: 33px;"
-                class="ml-2 mt-0 align-middle"
+                style="width: 105px; height: 33px;"
+                class="ml-4 mr-1 mt-0 align-middle"
               ></v-switch>
               <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
@@ -43,7 +43,7 @@
                     src="~assets/images/icons/info.svg"
                     alt=""
                     v-bind="attrs"
-                    class="ml-2 align-middle"
+                    class="align-middle"
                     style="margin-top: -4px;"
                     v-on="on"
                   />
