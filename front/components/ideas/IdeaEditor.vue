@@ -159,7 +159,9 @@ export default {
   props: {
     value: { type: String, required: true },
     placeholder: { type: String, default: '' },
-    disabled: Boolean
+    disabled: Boolean,
+    imageAttachments: { type: Array, required: true },
+    fileAttachments: { type: Array, required: true }
   },
 
   data: () => ({
@@ -170,9 +172,7 @@ export default {
     atScrollEnd: true,
     atScrollStart: true,
 
-    attachments: [],
-    imageAttachments: [],
-    fileAttachments: []
+    attachments: []
   }),
 
   watch: {
@@ -282,8 +282,6 @@ export default {
       }
       this.attachments.push(attachment)
 
-      // this.form.imageAttachments.push(attachment)
-
       attachment.uploading = true
       await new Promise(resolve => {
         this.$amplifyS3Storage
@@ -308,10 +306,16 @@ export default {
       const prefix = `${BUCKET_URL}${BUCKET_FOLDER}`
       attachment.source = prefix + encodeURIComponent(attachment.key) // eslint-disable-line
 
+      this.$emit('update:file-attachments', [
+        ...this.fileAttachments,
+        `${BUCKET_FOLDER}${attachment.key}`
+      ])
+
       if (attachment.file.type.startsWith('image')) {
-        this.imageAttachments.push(`${BUCKET_FOLDER}${attachment.key}`)
-      } else {
-        this.fileAttachments.push(`${BUCKET_FOLDER}${attachment.key}`)
+        this.$emit('update:image-attachments', [
+          ...this.imageAttachments,
+          `${BUCKET_FOLDER}${attachment.key}`
+        ])
       }
 
       console.log({ attachment })
@@ -320,16 +324,7 @@ export default {
     },
 
     onFileRemoved({ type, key }) {
-      if (type.substr(0, 5) === 'image') {
-        this.form.imageAttachments.splice(
-          this.form.imageAttachments.indexOf(key),
-          1
-        )
-      }
-      this.form.fileAttachments.splice(
-        this.form.fileAttachments.indexOf(key),
-        1
-      )
+      // TODO
     }
   }
 }

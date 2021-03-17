@@ -27,6 +27,8 @@
         <client-only>
           <idea-editor
             v-model="form.content"
+            :image-attachments.sync="form.imageAttachments"
+            :file-attachments.sync="form.fileAttachments"
             placeholder="Just start typing your idea here! You can add formatting with the toolbar below."
           >
             <template v-slot:menu-bar-after>
@@ -68,21 +70,6 @@
               >
             </template>
           </idea-editor>
-          <!--          <trix-wrapper-->
-          <!--            v-model="form.content"-->
-          <!--            class="editor"-->
-          <!--            :class="{-->
-          <!--              'fade-bottom': !atScrollEnd,-->
-          <!--              'fade-top': !atScrollStart-->
-          <!--            }"-->
-          <!--            placeholder="Just start typing your idea here! You can add formatting with the toolbar below."-->
-          <!--            :auto-delete-attachments="true"-->
-          <!--            @attachmentsUploadStarted="onAttachmentsUploadStarted"-->
-          <!--            @attachmentsUploadCompleted="onAttachmentsUploadCompleted"-->
-          <!--            @fileAttached="onFileAttached"-->
-          <!--            @fileRemoved="onFileRemoved"-->
-          <!--            @ready="onTrixReady"-->
-          <!--          />-->
         </client-only>
       </div>
     </v-container>
@@ -149,34 +136,6 @@ export default {
 
     focusIdeaText() {
       // TODO
-    },
-
-    onAttachmentsUploadStarted() {
-      this.uploadingAttachment = true
-    },
-
-    onAttachmentsUploadCompleted() {
-      this.uploadingAttachment = false
-    },
-
-    onFileAttached({ type, key }) {
-      if (type.substr(0, 5) === 'image') {
-        this.form.imageAttachments.push(key)
-      }
-      this.form.fileAttachments.push(key)
-    },
-
-    onFileRemoved({ type, key }) {
-      if (type.substr(0, 5) === 'image') {
-        this.form.imageAttachments.splice(
-          this.form.imageAttachments.indexOf(key),
-          1
-        )
-      }
-      this.form.fileAttachments.splice(
-        this.form.fileAttachments.indexOf(key),
-        1
-      )
     }
   }
 }
@@ -250,68 +209,7 @@ export default {
       @media (max-width: $screen-xs-max) {
         padding-bottom: 70px;
       }
-
-      .trix-content {
-        height: 100% !important;
-        padding: 0;
-        border: none;
-        overflow-y: auto;
-
-        &:active,
-        &:focus {
-          border: none;
-        }
-        &:empty::before {
-          font-size: 18px;
-          color: #c1b8c6;
-          content: attr(placeholder);
-          position: relative;
-          top: -2px;
-        }
-        .attachment--preview {
-          width: auto;
-          max-width: calc(100% - 5px);
-        }
-      }
     }
-  }
-
-  .trix-button-row {
-    position: absolute;
-    bottom: 12px;
-    left: 12px;
-
-    @media (max-width: $screen-xs-max) {
-      right: 12px;
-      bottom: 2.5rem;
-    }
-  }
-  .trix-button-group {
-    margin: 0 0 5px 0 !important;
-    flex-grow: 1;
-    justify-content: space-between;
-  }
-  .trix-button {
-    margin: 0 4px !important;
-    @media (max-width: $screen-xs-max) {
-      margin: 0 2px !important;
-    }
-  }
-
-  .trix-button-group--file-tools {
-    flex-grow: 0;
-  }
-
-  .trix-button-group-spacer {
-    display: none;
-  }
-
-  .trix-button-group--history-tools {
-    display: none;
-  }
-
-  #toggle-trix-panel {
-    margin-bottom: 4px;
   }
 }
 </style>
