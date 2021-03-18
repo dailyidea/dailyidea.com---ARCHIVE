@@ -120,6 +120,20 @@ export default {
       max-width: 80%;
     }
   }
+
+  figure {
+    display: inline-block;
+    img {
+      display: block;
+      min-width: 10px;
+      max-width: 100%;
+    }
+    &.file {
+      padding: 0 5px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+    }
+  }
 }
 
 ::v-deep {

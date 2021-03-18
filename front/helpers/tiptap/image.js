@@ -1,5 +1,7 @@
 import { Node, Plugin } from 'tiptap'
 import { Decoration, DecorationSet } from 'prosemirror-view'
+import differenceWith from 'lodash/differenceWith'
+import isEqual from 'lodash/isEqual'
 
 function findPlaceholder(state, id) {
   const decos = placeholderPlugin.getState(state)
@@ -7,6 +9,19 @@ function findPlaceholder(state, id) {
   return found.length ? found[0].from : null
 }
 
+function imageNodes(node) {
+  const requiredNodes = []
+  node.descendants(child => {
+    if (child.type.name === 'image') {
+      requiredNodes.push(child.attrs.src)
+    }
+  })
+  return requiredNodes
+}
+
+/**
+ * Placeholder plugin
+ */
 const placeholderPlugin = new Plugin({
   state: {
     init() {
@@ -45,7 +60,53 @@ const placeholderPlugin = new Plugin({
   }
 })
 
-const imageUpoadPlugin = upload => {
+/**
+ * Upload images function
+ */
+export const uploadImages = (view, pos, images, uploadFunc) => {
+  const { schema } = view.state
+
+  images.forEach(async image => {
+    // A fresh object to act as the ID for this upload
+    const id = {}
+    const reader = new FileReader()
+    reader.onload = readerEvent => {
+      // Replace the selection with a placeholder
+      const tr = view.state.tr
+      if (!tr.selection.empty) {
+        tr.deleteSelection()
+      }
+      tr.setMeta(placeholderPlugin, {
+        add: {
+          id,
+          pos,
+          src: readerEvent.target.result
+        }
+      })
+      view.dispatch(tr)
+    }
+    reader.readAsDataURL(image)
+
+    const src = await uploadFunc(image)
+    if (src) {
+      const plpos = findPlaceholder(view.state, id)
+      if (plpos == null) {
+        return
+      }
+
+      view.dispatch(
+        view.state.tr
+          .replaceWith(plpos, plpos, schema.nodes.image.create({ src }))
+          .setMeta(placeholderPlugin, { remove: { id } })
+      )
+    }
+  })
+}
+
+/**
+ * Upload images plugin
+ */
+const imageUpoadPlugin = node => {
   return new Plugin({
     props: {
       decorations(state) {
@@ -75,84 +136,46 @@ const imageUpoadPlugin = upload => {
           }
 
           event.preventDefault()
-
-          const { schema } = view.state
           const coordinates = view.posAtCoords({
             left: event.clientX,
             top: event.clientY
           })
 
-          images.forEach(async image => {
-            // A fresh object to act as the ID for this upload
-            const id = {}
-            const reader = new FileReader()
-            reader.onload = readerEvent => {
-              // Replace the selection with a placeholder
-              const tr = view.state.tr
-              if (!tr.selection.empty) {
-                tr.deleteSelection()
-              }
-              tr.setMeta(placeholderPlugin, {
-                add: {
-                  id,
-                  pos: coordinates.pos,
-                  src: readerEvent.target.result
-                }
-              })
-              view.dispatch(tr)
-            }
-            reader.readAsDataURL(image)
-
-            const src = await upload(image)
-            if (src) {
-              const pos = findPlaceholder(view.state, id)
-              if (pos == null) {
-                return
-              }
-
-              view.dispatch(
-                view.state.tr
-                  .replaceWith(pos, pos, schema.nodes.image.create({ src }))
-                  .setMeta(placeholderPlugin, { remove: { id } })
-              )
-
-              // const node = schema.nodes.image.create({ src })
-              // const transaction = view.state.tr.insert(
-              //   coordinates.pos,
-              //   node
-              // )
-              // view.dispatch(transaction)
-            }
-          })
+          uploadImages(view, coordinates.pos, images, node.uploadFunc)
         }
       }
     },
 
     filterTransaction: (transaction, state) => {
-      transaction.mapping.maps.forEach(map => {
-        map.forEach((oldStart, oldEnd, newStart, newEnd) => {
-          state.doc.nodesBetween(
-            oldStart,
-            oldEnd,
-            (node, number, pos, parent, index) => {
-              if (node.type.name === 'image') {
-                console.log(node)
-                // result = false
-              }
-            }
-          )
-        })
-      })
+      // Avoid endless recursion when simulating the effects of the transaction
+      if (transaction.getMeta('filteringRequiredNodeDeletion') === true) {
+        return true
+      }
+      transaction.setMeta('filteringRequiredNodeDeletion', true)
+      // Simulate the transaction
+      const newState = state.apply(transaction)
+      // Diff nodes
+      const oldNodes = imageNodes(state.doc.content)
+      const newNodes = imageNodes(newState.doc.content)
+      const removed = differenceWith(oldNodes, newNodes, isEqual)
+      const added = differenceWith(newNodes, oldNodes, isEqual)
+      node.imagesRemoved(removed)
+      node.imagesAdded(added)
 
       return true
     }
   })
 }
 
+/**
+ * Image Node
+ */
 export default class Image extends Node {
-  constructor(name, parent, uploadFunc = null) {
+  constructor(name, parent, uploadFunc, imagesRemoved, imagesAdded) {
     super(name, parent)
     this.uploadFunc = uploadFunc
+    this.imagesRemoved = imagesRemoved
+    this.imagesAdded = imagesAdded
   }
 
   get name() {
@@ -186,11 +209,7 @@ export default class Image extends Node {
         }
       ],
       toDOM(node) {
-        return [
-          'figure',
-          { class: 'image' },
-          ['img', { src: node.attrs.src }] /* ['figcaption', 0] */
-        ]
+        return ['figure', { class: 'image' }, ['img', { src: node.attrs.src }]]
       }
     }
   }
@@ -208,6 +227,6 @@ export default class Image extends Node {
   }
 
   get plugins() {
-    return [placeholderPlugin, imageUpoadPlugin(this.uploadFunc)]
+    return [placeholderPlugin, imageUpoadPlugin(this)]
   }
 }

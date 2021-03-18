@@ -90,11 +90,17 @@
           <img src="~assets/images/editor/ul.svg" alt="Bullet List" />
         </button>
         <div class="vr"></div>
-        <button title="Attachment" @click="showImagePrompt(commands.image)">
+        <button title="Attachment" @click="$refs.file_input.click()">
           <img
             src="~assets/images/editor/attach.svg"
             alt="Attachment"
             style="margin-bottom: -2px;"
+          />
+          <input
+            ref="file_input"
+            type="file"
+            style="display: none;"
+            @change="e => addAttachments(e.target.files)"
           />
         </button>
 
@@ -135,12 +141,12 @@ import {
   Link,
   Strike,
   Underline,
-  History
-  // Placeholder
+  History,
+  Placeholder
 } from 'tiptap-extensions'
 import { Credentials } from '@aws-amplify/core'
-import Image from '~/helpers/tiptap/image'
-import File from '~/helpers/tiptap/File'
+import Image, { uploadImages } from '~/helpers/tiptap/image'
+import File, { uploadFiles } from '~/helpers/tiptap/File'
 
 const MAX_ATTACHMENT_SIZE_BYTES = 1024 * 1024 * 5
 const BUCKET_URL = `https://${process.env.USER_UPLOADS_S3_DOMAIN}.s3.amazonaws.com/`
@@ -205,8 +211,14 @@ export default {
         new Strike(),
         new Underline(),
         new History(),
-        // new Placeholder({ emptyNodeText: this.placeholder }),
-        new Image(null, null, this.uploadFile),
+        new Placeholder({ emptyNodeText: this.placeholder }),
+        new Image(
+          null,
+          null,
+          this.uploadFile,
+          this.imagesRemoved,
+          this.imagesAdded
+        ),
         new File(null, null, this.uploadFile)
       ],
       onUpdate: ({ getHTML }) => {
@@ -216,6 +228,8 @@ export default {
     })
 
     this.$refs.editorContent.$el.addEventListener('scroll', this.checkScroll)
+
+    console.log(this.editor)
   },
 
   beforeDestroy() {
@@ -243,10 +257,26 @@ export default {
       this.hideLinkMenu()
     },
 
-    showImagePrompt(command) {
-      const src = prompt('Enter the url of your image here')
-      if (src !== null) {
-        command({ src })
+    addAttachments(files) {
+      files = Array.from(files)
+      const images = files.filter(file => /image/i.test(file.type))
+      if (images.length) {
+        uploadImages(
+          this.editor.view,
+          this.editor.selection.from,
+          images,
+          this.uploadFile
+        )
+      }
+
+      const otherFiles = files.filter(file => !/image/i.test(file.type))
+      if (otherFiles.length) {
+        uploadFiles(
+          this.editor.view,
+          this.editor.selection.from,
+          otherFiles,
+          this.uploadFile
+        )
       }
     },
 
@@ -323,6 +353,14 @@ export default {
       return attachment.source
     },
 
+    imagesRemoved(srcs) {
+      console.log('imagesRemoved', srcs)
+    },
+
+    imagesAdded(srcs) {
+      console.log('imagesAdded', srcs)
+    },
+
     onFileRemoved({ type, key }) {
       // TODO
     }
@@ -353,6 +391,7 @@ export default {
     display: inline-block;
     img {
       display: block;
+      min-width: 10px;
       max-width: 100%;
     }
     &.ProseMirror-selectednode {

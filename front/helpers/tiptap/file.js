@@ -45,6 +45,111 @@ const placeholderPlugin = new Plugin({
   }
 })
 
+export const uploadFiles = (view, pos, files, uploadFunc) => {
+  const { schema } = view.state
+
+  files.forEach(async file => {
+    // A fresh object to act as the ID for this upload
+    const id = {}
+    // Replace the selection with a placeholder
+    const tr = view.state.tr
+    if (!tr.selection.empty) {
+      tr.deleteSelection()
+    }
+    tr.setMeta(placeholderPlugin, {
+      add: {
+        id,
+        pos,
+        name: file.name
+      }
+    })
+    view.dispatch(tr)
+
+    const path = await uploadFunc(file)
+    if (path) {
+      const pos = findPlaceholder(view.state, id)
+      if (pos == null) {
+        return
+      }
+
+      view.dispatch(
+        view.state.tr
+          .replaceWith(
+            pos,
+            pos,
+            schema.nodes.file.create({
+              href: path,
+              name: file.name
+            })
+          )
+          .setMeta(placeholderPlugin, { remove: { id } })
+      )
+    }
+  })
+}
+
+const fileUpoadPlugin = uploadFunc => {
+  return new Plugin({
+    props: {
+      decorations(state) {
+        return this.getState(state)
+      },
+
+      handleDOMEvents: {
+        /*
+         * Handle drop
+         */
+        drop(view, event) {
+          const hasFiles =
+            event.dataTransfer &&
+            event.dataTransfer.files &&
+            event.dataTransfer.files.length
+
+          if (!hasFiles) {
+            return
+          }
+
+          const files = Array.from(event.dataTransfer.files).filter(
+            file => !/image/i.test(file.type)
+          )
+
+          if (files.length === 0) {
+            return
+          }
+
+          event.preventDefault()
+
+          const coordinates = view.posAtCoords({
+            left: event.clientX,
+            top: event.clientY
+          })
+
+          uploadFiles(view, coordinates.pos, files, uploadFunc)
+        }
+      }
+    },
+
+    filterTransaction: (transaction, state) => {
+      transaction.mapping.maps.forEach(map => {
+        map.forEach((oldStart, oldEnd, newStart, newEnd) => {
+          state.doc.nodesBetween(
+            oldStart,
+            oldEnd,
+            (node, number, pos, parent, index) => {
+              if (node.type.name === 'image') {
+                console.log(node)
+                // result = false
+              }
+            }
+          )
+        })
+      })
+
+      return true
+    }
+  })
+}
+
 export default class Image extends Node {
   constructor(name, parent, uploadFunc = null) {
     super(name, parent)
@@ -101,108 +206,6 @@ export default class Image extends Node {
   }
 
   get plugins() {
-    const upload = this.uploadFunc
-
-    return [
-      placeholderPlugin,
-
-      new Plugin({
-        props: {
-          decorations(state) {
-            return this.getState(state)
-          },
-
-          handleDOMEvents: {
-            /*
-             * Handle drop
-             */
-            drop(view, event) {
-              const hasFiles =
-                event.dataTransfer &&
-                event.dataTransfer.files &&
-                event.dataTransfer.files.length
-
-              if (!hasFiles) {
-                return
-              }
-
-              const files = Array.from(event.dataTransfer.files).filter(
-                file => !/image/i.test(file.type)
-              )
-
-              if (files.length === 0) {
-                return
-              }
-
-              event.preventDefault()
-
-              const { schema } = view.state
-              const coordinates = view.posAtCoords({
-                left: event.clientX,
-                top: event.clientY
-              })
-
-              files.forEach(async file => {
-                // A fresh object to act as the ID for this upload
-                const id = {}
-                // Replace the selection with a placeholder
-                const tr = view.state.tr
-                if (!tr.selection.empty) {
-                  tr.deleteSelection()
-                }
-                tr.setMeta(placeholderPlugin, {
-                  add: {
-                    id,
-                    pos: coordinates.pos,
-                    name: file.name
-                  }
-                })
-                view.dispatch(tr)
-
-                const path = await upload(file)
-                if (path) {
-                  const pos = findPlaceholder(view.state, id)
-                  if (pos == null) {
-                    return
-                  }
-
-                  view.dispatch(
-                    view.state.tr
-                      .replaceWith(
-                        pos,
-                        pos,
-                        schema.nodes.file.create({
-                          href: path,
-                          name: file.name
-                        })
-                      )
-                      .setMeta(placeholderPlugin, { remove: { id } })
-                  )
-                }
-              })
-            }
-          }
-        },
-
-        filterTransaction: (transaction, state) => {
-          transaction.mapping.maps.forEach(map => {
-            map.forEach((oldStart, oldEnd, newStart, newEnd) => {
-              state.doc.nodesBetween(
-                oldStart,
-                oldEnd,
-                (node, number, pos, parent, index) => {
-                  if (node.type.name === 'image') {
-                    console.log(node)
-                    // result = false
-                  }
-                }
-              )
-            })
-          })
-
-          return true
-        }
-      })
-    ]
+    return [placeholderPlugin, fileUpoadPlugin(this.uploadFunc)]
   }
 }
