@@ -370,6 +370,7 @@ export default {
 <style lang="scss" scoped>
 ::v-deep {
   .ProseMirror {
+    padding: 2px;
     min-height: 100%;
     outline: none;
   }
@@ -447,6 +448,7 @@ export default {
 }
 
 .toolbar {
+  margin-top: 10px;
   @media (max-width: $screen-xs-max) {
     flex-wrap: wrap;
   }

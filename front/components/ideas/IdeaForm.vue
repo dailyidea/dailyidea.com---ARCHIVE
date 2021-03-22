@@ -23,7 +23,7 @@
         ></v-text-field>
       </validation-provider>
 
-      <div class="idea-editor fill-height">
+      <div class="idea-editor fill-height" style="height: calc(100% - 70px);">
         <client-only>
           <idea-editor
             v-model="form.content"
