@@ -10,7 +10,7 @@
 </template>
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import Layout from '@/components/layout/Layout'
 import IdeaForm from '@/components/ideas/IdeaForm'
 import getIdea from '@/graphql/query/getIdea'
@@ -76,6 +76,10 @@ export default {
   },
 
   methods: {
+    ...mapMutations({
+      cleanIdeas: 'ideas/CLEAN_IDEAS'
+    }),
+
     async onUpdateIdea() {
       this.updatingIdea = true
 
@@ -94,6 +98,7 @@ export default {
         )
 
         this.$notifier.success('Idea Updated')
+        this.cleanIdeas()
 
         // Redirect to idea deail page
         const { slug } = result.data.updateIdea.idea

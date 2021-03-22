@@ -229,8 +229,6 @@ export default {
     })
 
     this.$refs.editorContent.$el.addEventListener('scroll', this.checkScroll)
-
-    console.log(this.editor)
   },
 
   beforeDestroy() {
