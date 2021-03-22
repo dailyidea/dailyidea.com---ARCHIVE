@@ -29,40 +29,48 @@
             v-model="form.content"
             :image-attachments.sync="form.imageAttachments"
             :file-attachments.sync="form.fileAttachments"
+            :content-style="{
+              height: $vuetify.breakpoint.xsOnly
+                ? 'calc(100% - 72px)'
+                : 'calc(100% - 50px)'
+            }"
             placeholder="Just start typing your idea here! You can add formatting with the toolbar below."
           >
             <template v-slot:menu-bar-after>
-              <v-switch
-                v-model="form.isPrivate"
-                inset
-                :label="form.isPrivate ? 'Private' : 'Public'"
-                style="width: 105px; height: 33px;"
-                class="ml-4 mr-1 mt-0 align-middle"
-              ></v-switch>
-              <v-tooltip top>
-                <template v-slot:activator="{ on, attrs }">
-                  <img
-                    src="~assets/images/icons/info.svg"
-                    alt=""
-                    v-bind="attrs"
-                    class="align-middle"
-                    style="margin-top: -4px;"
-                    v-on="on"
-                  />
-                </template>
-                <span v-if="form.isPrivate"
-                  >This idea can only by seen by you.<br />
-                  To view it visit My Ideas.</span
-                >
-                <span v-else
-                  >This idea will be posted to the idea feed,<br />
-                  and can be viewed by others.</span
-                >
-              </v-tooltip>
+              <div class="d-flex private-switch">
+                <v-switch
+                  v-model="form.isPrivate"
+                  inset
+                  :label="form.isPrivate ? 'Private' : 'Public'"
+                  style="width: 105px; height: 33px;"
+                  class="ml-4 mr-1 mt-0 align-middle"
+                ></v-switch>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <img
+                      src="~assets/images/icons/info.svg"
+                      alt=""
+                      v-bind="attrs"
+                      class="align-middle"
+                      style="margin-top: -4px;"
+                      v-on="on"
+                    />
+                  </template>
+                  <span v-if="form.isPrivate"
+                    >This idea can only by seen by you.<br />
+                    To view it visit My Ideas.</span
+                  >
+                  <span v-else
+                    >This idea will be posted to the idea feed,<br />
+                    and can be viewed by others.</span
+                  >
+                </v-tooltip>
+              </div>
               <v-btn
                 rounded
                 dark
                 color="primary"
+                class="submit-btn"
                 :loading="loading"
                 :disabled="!valid || !validated || uploadingAttachment"
                 @click="handleSubmit(onSubmit)"
@@ -153,24 +161,11 @@ export default {
   }
 }
 
-.submit-btn {
-  position: absolute;
-  bottom: -5px;
-  right: 12px;
-
-  @media (min-width: $screen-sm-min) {
-    width: 14rem;
-  }
-
+.submit-btn,
+.private-switch {
   @media (max-width: $screen-xs-max) {
-    bottom: -15px;
-    left: 20px;
-  }
-
-  ::v-deep {
-    .v-label {
-      font-size: 0.9rem;
-    }
+    width: 50%;
+    margin-top: 10px;
   }
 }
 

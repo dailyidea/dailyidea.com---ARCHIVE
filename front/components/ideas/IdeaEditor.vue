@@ -4,7 +4,7 @@
       ref="editorContent"
       :editor="editor"
       class="editor-content"
-      style="height: calc(100% - 50px)"
+      :style="contentStyle"
       :class="{
         'fade-bottom': !atScrollEnd,
         'fade-top': !atScrollStart
@@ -17,7 +17,7 @@
       v-slot="{ commands, isActive, getMarkAttrs }"
       :editor="editor"
     >
-      <div class="d-flex align-center justify-space-between">
+      <div class="toolbar d-flex align-center justify-space-between">
         <button
           title="Bold"
           class="menu-btn"
@@ -166,6 +166,7 @@ export default {
     value: { type: String, required: true },
     placeholder: { type: String, default: '' },
     disabled: Boolean,
+    contentStyle: { type: Object, default: () => {} },
     imageAttachments: { type: Array, required: true },
     fileAttachments: { type: Array, required: true }
   },
@@ -348,17 +349,15 @@ export default {
         ])
       }
 
-      console.log({ attachment })
-
       return attachment.source
     },
 
     imagesRemoved(srcs) {
-      console.log('imagesRemoved', srcs)
+      // console.log('imagesRemoved', srcs)
     },
 
     imagesAdded(srcs) {
-      console.log('imagesAdded', srcs)
+      // console.log('imagesAdded', srcs)
     },
 
     onFileRemoved({ type, key }) {
@@ -447,7 +446,14 @@ export default {
   );
 }
 
+.toolbar {
+  @media (max-width: $screen-xs-max) {
+    flex-wrap: wrap;
+  }
+}
+
 .menu-btn {
+  min-width: 32px;
   padding: 2px 7px 0 7px;
   border-radius: 3px;
 
