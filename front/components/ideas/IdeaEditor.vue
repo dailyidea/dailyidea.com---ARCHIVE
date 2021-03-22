@@ -146,7 +146,7 @@ import {
 } from 'tiptap-extensions'
 import { Credentials } from '@aws-amplify/core'
 import Image, { uploadImages } from '~/helpers/tiptap/image'
-import File, { uploadFiles } from '~/helpers/tiptap/File'
+import File, { uploadFiles } from '~/helpers/tiptap/file'
 
 const MAX_ATTACHMENT_SIZE_BYTES = 1024 * 1024 * 5
 const BUCKET_URL = `https://${process.env.USER_UPLOADS_S3_DOMAIN}.s3.amazonaws.com/`
