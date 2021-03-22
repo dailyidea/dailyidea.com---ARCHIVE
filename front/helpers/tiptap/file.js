@@ -127,25 +127,6 @@ const fileUpoadPlugin = uploadFunc => {
           uploadFiles(view, coordinates.pos, files, uploadFunc)
         }
       }
-    },
-
-    filterTransaction: (transaction, state) => {
-      transaction.mapping.maps.forEach(map => {
-        map.forEach((oldStart, oldEnd, newStart, newEnd) => {
-          state.doc.nodesBetween(
-            oldStart,
-            oldEnd,
-            (node, number, pos, parent, index) => {
-              if (node.type.name === 'image') {
-                console.log(node)
-                // result = false
-              }
-            }
-          )
-        })
-      })
-
-      return true
     }
   })
 }
