@@ -35,6 +35,7 @@
                 : 'calc(100% - 50px)'
             }"
             placeholder="Just start typing your idea here! You can add formatting with the toolbar below."
+            :uploading-attachments.sync="uploadingAttachments"
           >
             <template v-slot:menu-bar-after>
               <div class="d-flex private-switch">
@@ -72,7 +73,7 @@
                 color="primary"
                 class="submit-btn"
                 :loading="loading"
-                :disabled="!valid || !validated || uploadingAttachment"
+                :disabled="!valid || !validated || uploadingAttachments"
                 @click="handleSubmit(onSubmit)"
                 >{{ buttonText }}</v-btn
               >
@@ -111,7 +112,7 @@ export default {
       imageAttachments: [],
       fileAttachments: []
     },
-    uploadingAttachment: false
+    uploadingAttachments: false
   }),
 
   computed: {

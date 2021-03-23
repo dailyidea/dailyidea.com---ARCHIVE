@@ -1,17 +1,20 @@
 <template>
   <div class="idea-tiptap flex-grow-1 fill-height">
-    <editor-content
-      ref="editorContent"
-      :editor="editor"
-      class="editor-content"
-      :style="contentStyle"
-      :class="{
-        'fade-bottom': !atScrollEnd,
-        'fade-top': !atScrollStart
-      }"
-      @keydown.native.left.stop
-      @keydown.native.right.stop
-    />
+    <div :style="contentStyle" class="relative">
+      <div v-if="showPlaceholder" class="placeholder">{{ placeholder }}</div>
+      <editor-content
+        ref="editorContent"
+        class="editor-content"
+        :editor="editor"
+        :class="{
+          'fade-bottom': !atScrollEnd,
+          'fade-top': !atScrollStart
+        }"
+        style="min-height: 100%;"
+        @keydown.native.left.stop
+        @keydown.native.right.stop
+      />
+    </div>
 
     <editor-menu-bar
       v-slot="{ commands, isActive, getMarkAttrs }"
@@ -164,10 +167,10 @@ export default {
   props: {
     value: { type: String, required: true },
     placeholder: { type: String, default: '' },
-    disabled: Boolean,
     contentStyle: { type: Object, default: () => {} },
     imageAttachments: { type: Array, required: true },
-    fileAttachments: { type: Array, required: true }
+    fileAttachments: { type: Array, required: true },
+    uploadingAttachments: Boolean
   },
 
   data: () => ({
@@ -177,8 +180,8 @@ export default {
     linkMenuIsActive: false,
     atScrollEnd: true,
     atScrollStart: true,
-
-    attachments: []
+    attachments: [],
+    showPlaceholder: true
   }),
 
   watch: {
@@ -192,11 +195,22 @@ export default {
 
     content() {
       this.checkScroll()
+    },
+
+    attachments: {
+      deep: true,
+      handler() {
+        this.$emit(
+          'update:uploading-attachments',
+          !!this.attachments.find(a => a.uploading)
+        )
+      }
     }
   },
 
   mounted() {
     this.content = this.value
+    this.updatePlaceholder()
 
     this.editor = new Editor({
       content: this.content,
@@ -222,6 +236,7 @@ export default {
       ],
       onUpdate: ({ getHTML }) => {
         this.content = getHTML()
+        this.updatePlaceholder()
       },
       onBlur: () => this.updateValue()
     })
@@ -235,6 +250,10 @@ export default {
   },
 
   methods: {
+    updatePlaceholder() {
+      this.showPlaceholder = this.content === '' || this.content === '<p></p>'
+    },
+
     updateValue() {
       this.$emit('input', this.content)
     },
@@ -428,6 +447,15 @@ export default {
 
 .editor-content {
   overflow-y: auto;
+  height: 100%;
+}
+
+.placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  color: #c1b7c6;
 }
 
 .fade-top .editor-content {
