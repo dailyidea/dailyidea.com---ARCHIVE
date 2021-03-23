@@ -121,18 +121,20 @@ export default {
     }
   }
 
-  figure {
+  span.file,
+  span.image {
     display: inline-block;
     img {
       display: block;
       min-width: 10px;
       max-width: 100%;
     }
-    &.file {
-      padding: 0 5px;
-      border: 1px solid #bbb;
-      border-radius: 5px;
-    }
+  }
+
+  span.file {
+    padding: 0 5px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
   }
 }
 

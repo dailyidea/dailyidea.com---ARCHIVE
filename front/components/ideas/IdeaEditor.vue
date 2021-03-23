@@ -141,8 +141,7 @@ import {
   Link,
   Strike,
   Underline,
-  History,
-  Placeholder
+  History
 } from 'tiptap-extensions'
 import { Credentials } from '@aws-amplify/core'
 import Image, { uploadImages } from '~/helpers/tiptap/image'
@@ -212,7 +211,6 @@ export default {
         new Strike(),
         new Underline(),
         new History(),
-        new Placeholder({ emptyNodeText: this.placeholder }),
         new Image(
           null,
           null,
@@ -385,22 +383,25 @@ export default {
     height: 0;
   }
 
-  figure {
+  span.image,
+  span.file {
     display: inline-block;
+
     img {
       display: block;
       min-width: 10px;
       max-width: 100%;
     }
+
     &.ProseMirror-selectednode {
       outline: 2px solid #ccc;
     }
+  }
 
-    &.file {
-      padding: 0 5px;
-      border: 1px solid #bbb;
-      border-radius: 5px;
-    }
+  span.file {
+    padding: 0 5px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
   }
 
   .image-upload-placeholder,
