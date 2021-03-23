@@ -19,11 +19,11 @@ const placeholderPlugin = new Plugin({
       // See if the transaction adds or removes any placeholders
       const action = tr.getMeta(this)
       if (action && action.add) {
-        const widget = document.createElement('figure')
+        const widget = document.createElement('span')
         widget.setAttribute('class', 'file file-upload-placeholder')
-        const figcaption = document.createElement('figcaption')
-        figcaption.textContent = action.add.name
-        widget.appendChild(figcaption)
+        const caption = document.createElement('span')
+        caption.textContent = action.add.name
+        widget.appendChild(caption)
 
         const deco = Decoration.widget(action.add.pos, widget, {
           id: action.add.id
@@ -154,9 +154,9 @@ export default class Image extends Node {
       draggable: true,
       parseDOM: [
         {
-          tag: 'figure.file',
+          tag: 'span.file',
           getAttrs(dom) {
-            const link = dom.querySelector('figcaption a')
+            const link = dom.querySelector('a')
             return {
               name: link.textContent,
               href: link.getAttribute('href')
@@ -166,9 +166,9 @@ export default class Image extends Node {
       ],
       toDOM(node) {
         return [
-          'figure',
+          'span',
           { class: 'file' },
-          ['figcaption', ['a', { href: node.attrs.href }, node.attrs.name]]
+          ['a', { href: node.attrs.href }, node.attrs.name]
         ]
       }
     }

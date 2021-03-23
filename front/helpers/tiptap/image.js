@@ -34,7 +34,7 @@ const placeholderPlugin = new Plugin({
       // See if the transaction adds or removes any placeholders
       const action = tr.getMeta(this)
       if (action && action.add) {
-        const widget = document.createElement('figure')
+        const widget = document.createElement('span')
         widget.setAttribute('class', 'image image-upload-placeholder')
         const img = document.createElement('img')
         img.setAttribute('src', action.add.src)
@@ -198,7 +198,7 @@ export default class Image extends Node {
       draggable: true,
       parseDOM: [
         {
-          tag: 'figure.image',
+          tag: 'span.image',
           // contentElement: 'figcaption', // Helps the parser figure out where the child nodes are
           getAttrs(dom) {
             const img = dom.querySelector('img')
@@ -209,7 +209,7 @@ export default class Image extends Node {
         }
       ],
       toDOM(node) {
-        return ['figure', { class: 'image' }, ['img', { src: node.attrs.src }]]
+        return ['span', { class: 'image' }, ['img', { src: node.attrs.src }]]
       }
     }
   }
