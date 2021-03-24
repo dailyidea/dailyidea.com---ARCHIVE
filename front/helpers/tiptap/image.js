@@ -202,7 +202,7 @@ export default class Image extends Node {
             const img = dom.querySelector('img')
             return {
               src: img.getAttribute('src'),
-              width: img.getAttribute('width')
+              width: img.style.width
             }
           }
         }
