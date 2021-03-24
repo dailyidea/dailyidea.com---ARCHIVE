@@ -124,6 +124,9 @@ export default {
   span.file,
   span.image {
     display: inline-block;
+    vertical-align: middle;
+    line-height: 0;
+
     img {
       display: block;
       min-width: 10px;
