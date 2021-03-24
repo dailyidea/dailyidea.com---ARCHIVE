@@ -405,6 +405,8 @@ export default {
   span.image,
   span.file {
     display: inline-block;
+    vertical-align: middle;
+    line-height: 0;
 
     img {
       display: block;

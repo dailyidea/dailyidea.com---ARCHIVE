@@ -2,6 +2,7 @@ import { Node, Plugin } from 'tiptap'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import differenceWith from 'lodash/differenceWith'
 import isEqual from 'lodash/isEqual'
+import ImageView from '@/components/tiptap/ImageView'
 
 function findPlaceholder(state, id) {
   const decos = placeholderPlugin.getState(state)
@@ -187,12 +188,9 @@ export default class Image extends Node {
       inline: true,
       attrs: {
         src: {},
-        alt: {
-          default: null
-        },
-        title: {
-          default: null
-        }
+        alt: { default: null },
+        title: { default: null },
+        width: { default: null }
       },
       group: 'inline',
       draggable: true,
@@ -203,13 +201,23 @@ export default class Image extends Node {
           getAttrs(dom) {
             const img = dom.querySelector('img')
             return {
-              src: img.getAttribute('src')
+              src: img.getAttribute('src'),
+              width: img.getAttribute('width')
             }
           }
         }
       ],
       toDOM(node) {
-        return ['span', { class: 'image' }, ['img', { src: node.attrs.src }]]
+        let style = ''
+        if (node.attrs.width) {
+          style = `width: ${node.attrs.width}`
+        }
+
+        return [
+          'span',
+          { class: 'image' },
+          ['img', { src: node.attrs.src, style }]
+        ]
       }
     }
   }
@@ -228,5 +236,9 @@ export default class Image extends Node {
 
   get plugins() {
     return [placeholderPlugin, imageUpoadPlugin(this)]
+  }
+
+  get view() {
+    return ImageView
   }
 }
