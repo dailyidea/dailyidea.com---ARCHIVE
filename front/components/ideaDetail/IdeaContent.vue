@@ -110,10 +110,6 @@ export default {
   .trix-button {
     display: none;
   }
-  img {
-    height: auto !important;
-    width: auto !important;
-  }
   @media (min-width: $screen-md-min) {
     img {
       max-height: 500px;
