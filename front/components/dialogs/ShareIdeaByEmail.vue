@@ -13,9 +13,15 @@
           >
         </div>
 
-        <section class="modalHeader">
+        <section class="modalHeader mb-6">
           <h3>{{ title }}</h3>
-          <p>{{ subtitle }}</p>
+          <p>
+            {{
+              showEmailForm
+                ? 'Enter your your friend’s email address or copy the link below.'
+                : subtitle
+            }}
+          </p>
           <v-img
             v-if="imagePath"
             :max-width="maxImageWidth"
@@ -25,28 +31,57 @@
           ></v-img>
         </section>
 
-        <v-text-field-with-validation
-          v-model="form.friendEmail"
-          rules="required|email|max:100"
-          name="email"
-          single-line
-          flat
-          placeholder="Your friend’s email address"
-          prepend-inner-icon="$vuetify.icons.mail"
-          :valid.sync="emailValid"
-          @keyup.enter="emailValid && (askName = true)"
-        ></v-text-field-with-validation>
-        <div class="mt-3 text-center">
-          <v-btn
-            :disabled="!emailValid"
-            dark
-            color="primary"
-            :loading="sendingEmail"
-            @click="emailValid && (askName = true)"
-            >Next</v-btn
-          >
+        <div v-if="showEmailForm">
+          <v-text-field-with-validation
+            v-model="form.friendEmail"
+            rules="required|email|max:100"
+            name="email"
+            single-line
+            flat
+            placeholder="Your friend’s email address"
+            prepend-inner-icon="$vuetify.icons.mail"
+            :valid.sync="emailValid"
+            @keyup.enter="emailValid && (askName = true)"
+          ></v-text-field-with-validation>
+          <div class="mt-3 text-center">
+            <v-btn
+              :disabled="!emailValid"
+              dark
+              color="primary"
+              :loading="sendingEmail"
+              @click="emailValid && (askName = true)"
+              >Next</v-btn
+            >
+          </div>
+          <div class="text-center mt-4">
+            <slider-dots :total="2" :step="0" />
+          </div>
         </div>
-        <div class="mt-6 text-center">
+        <div v-else>
+          <div class="d-flex justify-space-around px-8 text-center">
+            <a role="button" class="share-option-btn" @click="facebookShare">
+              <img src="~assets/images/dialogs/share_facebook.svg" alt="" />
+              <span class="d-block">Facebook</span>
+            </a>
+            <a role="button" class="share-option-btn" @click="twitterShare">
+              <img src="~assets/images/dialogs/share_twitter.svg" alt="" />
+              <span class="d-block">Twitter</span>
+            </a>
+            <a
+              role="button"
+              class="share-option-btn"
+              @click="showEmailForm = true"
+            >
+              <img src="~assets/images/dialogs/share_email.svg" alt="" />
+              <span class="d-block">Email</span>
+            </a>
+          </div>
+          <div class="hr-or">
+            <span>or</span>
+          </div>
+        </div>
+
+        <div class="mt-4 text-center">
           <client-only>
             <a
               class="link-highlight"
@@ -57,9 +92,6 @@
               >Copy link to clipboard instead</a
             >
           </client-only>
-        </div>
-        <div class="text-center mt-4">
-          <slider-dots :total="2" :step="0" />
         </div>
       </div>
 
@@ -180,7 +212,7 @@ export default {
     title: { type: String, default: 'Share this Idea' },
     subtitle: {
       type: String,
-      default: 'Enter your your friend’s email address or copy the link below.'
+      default: 'Select how you’d like to share this idea.'
     },
     imagePath: { type: String, default: '' },
     maxImageWidth: { type: Number, default: 180 },
@@ -197,7 +229,8 @@ export default {
     nameValid: false,
     sendingEmail: false,
     askName: false,
-    copyToClipboard: false
+    copyToClipboard: false,
+    showEmailForm: false
   }),
 
   computed: {
@@ -205,6 +238,15 @@ export default {
       initialName: 'userData/userName',
       isAuthenticated: 'userData/isAuthenticated'
     })
+  },
+
+  watch: {
+    value(val) {
+      if (!val) {
+        this.showEmailForm = false
+        this.copyToClipboard = false
+      }
+    }
   },
 
   mounted() {
@@ -264,6 +306,40 @@ export default {
       el.select()
       document.execCommand('copy')
       document.body.removeChild(el)
+    },
+
+    facebookShare() {
+      const href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        this.getShareUrl()
+      )}`
+      this.windowPopup(href, 600, 400)
+    },
+
+    twitterShare() {
+      const href = `https://twitter.com/intent/tweet/?text=${
+        this.idea.title
+      }&url=${encodeURIComponent(this.getShareUrl())}&via=dailyidea`
+      this.windowPopup(href, 500, 300)
+    },
+
+    windowPopup(url, width, height) {
+      // Calculate the position of the popup so
+      // it’s centered on the screen.
+      const left = screen.width / 2 - width / 2
+      const top = screen.height / 2 - height / 2
+
+      window.open(
+        url,
+        '',
+        'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,width=' +
+          width +
+          ',height=' +
+          height +
+          ',top=' +
+          top +
+          ',left=' +
+          left
+      )
     }
   }
 }
@@ -319,5 +395,28 @@ export default {
 }
 .closeBtn {
   backface-visibility: hidden;
+}
+
+.share-option-btn {
+  color: #4c4763;
+}
+
+.hr-or {
+  position: relative;
+  margin-top: 35px;
+  margin-bottom: 30px;
+  border-top: 1px solid rgba(76, 71, 99, 0.2);
+  text-align: center;
+  span {
+    display: inline-block;
+    left: 50%;
+    margin-left: -22px;
+    margin-top: -11px;
+    position: absolute;
+    background-color: white;
+    padding: 0 15px;
+    color: #4c4763;
+    font-size: 14px;
+  }
 }
 </style>
