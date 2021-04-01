@@ -10,6 +10,7 @@ const withSentry = require("serverless-sentry-lib"); // This helper library
 const Sentry = require("@sentry/node");
 const uuid = require('uuid')
 const fetch = require('node-fetch')
+const quotes = require('../common/qoutes.json') // common folder was inluded to project folder by serverless: serverless.yml package.include
 
 const getCompiledTemplateFromPath = templatePath => {
   const fullTemplatePath = path.join(__dirname, templatePath);
@@ -189,6 +190,9 @@ const sendEmail = async function(
     }
   }
 
+  const quoteFiltered = quotes.filter(q => q.include)
+  const quote = quoteFiltered[Math.floor(Math.random() * quoteFiltered.length)]
+
   const templateParams = {
     BUCKET_URL_PREFIX: process.env.BUCKET_URL_PREFIX,
     DOMAIN_NAME: process.env.DOMAIN_NAME,
@@ -198,6 +202,8 @@ const sendEmail = async function(
     name,
     verifyAdditionalUrlParams: "",
     code,
+    quoteText: quote.quote,
+    quoteAuthor: quote.author,
   };
 
   if (comment && commentIdea) {

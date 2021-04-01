@@ -1,0 +1,642 @@
+[
+  {
+    "include":false,
+    "quote": "Every idea I get I have to deny, that's my way of testing it.",
+    "author": "Alain, Histoire de mes pensées"
+  },
+  {
+    "include": false,
+    "quote": "The creative is the place where no one else has ever been. You have to leave the city of your comfort and go into the wilderness of your intuition.",
+    "author": "Alan Alda"
+  },
+  {
+    "include": false,
+    "quote": "All great deeds and all great thoughts have a ridiculous beginning. Great works are often born on a street corner or in a restaurant’s revolving door.",
+    "author": "Albert Camus"
+  },
+  {
+    "include": false,
+    "quote": "I know quite certainly that I myself have no special talent; curiosity, obsession and dogged endurance, combined with self-criticism, have brought me to my ideas.",
+    "author": "Albert Einstein"
+  },
+  {
+    "include": true,
+    "quote": "If at first, the idea is not absurd, then there is no hope for it.",
+    "author": "Albert Einstein"
+  },
+  {
+    "include": true,
+    "quote": "Why is it I always get my best ideas while shaving?",
+    "author": "Albert Einstein"
+  },
+  {
+    "include": false,
+    "quote": "I know quite certainly that I myself have no special talent. Curiosity, obsession and dogged endurance, combined with self-criticism, have brought me to my ideas.",
+    "author": "Albert Einstein"
+  },
+  {
+    "include": true,
+    "quote": "If I have a thousand ideas and only one turns out to be good, I am satisfied.",
+    "author": "Alfred Bernhard Nobel"
+  },
+  {
+    "include": false,
+    "quote": "Ideas Won't Keep. Something Must Be Done About Them.",
+    "author": "Alfred North Whitehead"
+  },
+  {
+    "include": true,
+    "quote": "Every really new idea looks crazy at first.",
+    "author": "Alfred North Whitehead"
+  },
+  {
+    "include": false,
+    "quote": "Almost all really new ideas have a certain aspect of foolishness when they are just produced.",
+    "author": "Alfred North Whitehead"
+  },
+  {
+    "include": false,
+    "quote": "Some people use things; they destroy. You’re a creator, a builder.",
+    "author": "Amelia Atwater-Rhodes"
+  },
+  {
+    "include": true,
+    "quote": "My ideas usually come not at my desk writing but in the midst of living.",
+    "author": "Anais Nin"
+  },
+  {
+    "include": false,
+    "quote": "Often the difference between a successful person and a failure is not one has better abilities or ideas, but the courage that one has to bet on one’s ideas, to take a calculated risk – and to act.",
+    "author": "Andre Malraux"
+  },
+  {
+    "include": false,
+    "quote": "Don’t be afraid of new ideas. Be afraid of old ideas. They keep you where you are and stop you from growing and moving forward. Concentrate on where you want to go, not on what you fear.",
+    "author": "Anthony Robbins"
+  },
+  {
+    "include": true,
+    "quote": "A pile of rocks ceases to be a rock pile the moment someone contemplates it with the idea of a cathedral in mind.",
+    "author": "Antoine De St-Exupery"
+  },
+  {
+    "include": false,
+    "quote": "An idea not coupled with action will never get any bigger than the brain cell it occupied.",
+    "author": "Arnold H. Glasgow"
+  },
+  {
+    "include": false,
+    "quote": "New ideas pass through three periods: 1) It can’t be done. 2) It probably can be done, but it’s not worth doing. 3) I knew it was a good idea all along!",
+    "author": "Arthur C. Clarke"
+  },
+  {
+    "include": false,
+    "quote": "New ideas pass through three periods: 1) It can't be done; 2) It probably can be done, but it's not worth doing; 3) I knew it was a good idea all along!",
+    "author": "Arthur C. Clarke"
+  },
+  {
+    "include": false,
+    "quote": "Good ideas are common – what’s uncommon are people who’ll work hard enough to bring them about.",
+    "author": "Ashleigh Brilliant"
+  },
+  {
+    "include": true,
+    "quote": "My mind contains many good ideas, but it's not always easy to squeeze one out.",
+    "author": "Ashleigh Brilliant"
+  },
+  {
+    "include": true,
+    "quote": "A half-baked idea is okay as long as it's in the oven.",
+    "author": "Author Unknown"
+  },
+  {
+    "include": false,
+    "quote": "No matter who you are, some scholar can show you the great idea you had was had by someone before you.",
+    "author": "Author Unknown"
+  },
+  {
+    "include": false,
+    "quote": "Believe in something larger than yourself. . . . Get involved in the big ideas of your time.",
+    "author": "Barbara Bush"
+  },
+  {
+    "include": false,
+    "quote": "You can imprison a man, but not an idea. You can exile a man, but not an idea. You can kill a man, but not an idea.",
+    "author": "Benazir Bhutto"
+  },
+  {
+    "include": true,
+    "quote": "Ideas are like wandering sons. They show up when you least expect them.",
+    "author": "Bern Williams"
+  },
+  {
+    "include": false,
+    "quote": "The ability to express an idea is well nigh as important as the idea itself.",
+    "author": "Bernard Baruch"
+  },
+  {
+    "include": false,
+    "quote": "We think good ideas to death, when we should be acting them to life.",
+    "author": "Brian G. Jett"
+  },
+  {
+    "include": false,
+    "quote": "An idea that is developed and put into action is more important than an idea that exists only as an idea.",
+    "author": "Buddha"
+  },
+  {
+    "include": false,
+    "quote": "Everyone is in love with their own ideas.",
+    "author": "Carl Jung"
+  },
+  {
+    "include": false,
+    "quote": "Night time is really the best time to work. All the ideas are there to be yours because everyone else is asleep.",
+    "author": "Catherine O'Hara"
+  },
+  {
+    "include": false,
+    "quote": "An idea, like a ghost, must be spoken to a little before it will explain itself.",
+    "author": "Charles Dickens"
+  },
+  {
+    "include": true,
+    "quote": "If you want to kill any idea in the world, get a committee working on it.",
+    "author": "Charles Kettering"
+  },
+  {
+    "include": false,
+    "quote": "It is the essence of genius to make use of the simplest ideas.",
+    "author": "Charles Peguy"
+  },
+  {
+    "include": false,
+    "quote": "The ideas I stand for are not mine. I borrowed them from Socrates. I swiped them from Chesterfield. I stole them from Jesus. And I put them in a book. If you don't like their rules, whose would you use?",
+    "author": "Dale Carnegie"
+  },
+  {
+    "include": false,
+    "quote": "The problem is never how to get new, innovative thoughts into your mind, but how to get old ones out.",
+    "author": "Dee Hock"
+  },
+  {
+    "include": false,
+    "quote": "An idea is not responsible for the people who believe in it.",
+    "author": "Don Marquis"
+  },
+  {
+    "include": true,
+    "quote": "Everything Begins With An Idea.",
+    "author": "Earl Nightengale"
+  },
+  {
+    "include": false,
+    "quote": "Exploration is the engine that drives innovation. Innovation drives economic growth. So let’s all go exploring.",
+    "author": "Edith Widder"
+  },
+  {
+    "include": false,
+    "quote": "The brain is a commodity used to fertilize ideas.",
+    "author": "Elbert Hubbard"
+  },
+  {
+    "include": true,
+    "quote": "An idea that is not dangerous is unworthy to be called an idea at all.",
+    "author": "Elbert Hubbard"
+  },
+  {
+    "include": true,
+    "quote": "Great minds discuss ideas. Average minds discuss events. Small minds discuss people.",
+    "author": "Eleanor Roosevelt"
+  },
+  {
+    "include": false,
+    "quote": "Nothing is more dangerous than an idea when it is the only one you have.",
+    "author": "Emile Chartier"
+  },
+  {
+    "include": true,
+    "quote": "Conditions for creativity are to be puzzled; to concentrate; to accept conflict and tension; to be born every day; to feel a sense of self.",
+    "author": "Erich Fromm"
+  },
+  {
+    "include": false,
+    "quote": "No grand idea was ever born in a conference, but a lot of foolish ideas have died there.",
+    "author": "F. Scott Fitzgerald"
+  },
+  {
+    "include": false,
+    "quote": "There is only one way in which a person acquires a new idea: by the combination or association of two or more ideas he already has into a new juxtaposition in such a manner as to discover a relationship among them of which he was not previously aware.",
+    "author": "Francis A. Cartier"
+  },
+  {
+    "include": true,
+    "quote": "An Idea Is Salvation By Imagination.",
+    "author": "Frank Lloyd Wright"
+  },
+  {
+    "include": false,
+    "quote": "We often refuse to accept an idea merely because the tone of voice in which it has been expressed is unsympathetic to us.",
+    "author": "Friedrich Nietzche"
+  },
+  {
+    "include": false,
+    "quote": "Everyone is a genius at least once a year. The real geniuses simply have their bright ideas closer together.",
+    "author": "Georg Christoph Lichtenberg"
+  },
+  {
+    "include": true,
+    "quote": "If you have an apple and I have an apple and we exchange these apples then you and I will still each have one apple. But if you have an idea and I have an idea and we exchange these ideas, then each of us will have two ideas.",
+    "author": "George Bernard Shaw"
+  },
+  {
+    "include": true,
+    "quote": "Creativity can solve almost any problem. The creative act, the defeat of habit by originality, overcomes everything.",
+    "author": "George Lois"
+  },
+  {
+    "include": true,
+    "quote": "Human history is, in essence, a history of ideas.",
+    "author": "H.G. Wells"
+  },
+  {
+    "include": false,
+    "quote": "Capital isn’t that important in business. Experience isn’t that important. You can get both of these things. What is important is ideas.",
+    "author": "Harvey S. Firestone"
+  },
+  {
+    "include": false,
+    "quote": "Drawing is putting a line round an idea.",
+    "author": "Henri Matisse"
+  },
+  {
+    "include": false,
+    "quote": "The air is full of ideas. They are knocking you in the head all the time. You only have to know what you want, then forget it, and go about your business. Suddenly, the idea will come through. It was there all the time.",
+    "author": "Henry Ford"
+  },
+  {
+    "include": false,
+    "quote": "The ability to convert ideas to things is the secret of outward success.",
+    "author": "Henry Ward Beecher"
+  },
+  {
+    "include": true,
+    "quote": "Don’t worry about people stealing your ideas. If your ideas are any good, you’ll have to ram them down people’s throats.",
+    "author": "Howard Aiken"
+  },
+  {
+    "include": false,
+    "quote": "Good ideas are not adopted automatically. They must be driven into practice with courageous patience.",
+    "author": "Hyman Rickover"
+  },
+  {
+    "include": false,
+    "quote": "Ideas have become far more important to us than action - ideas so cleverly expressed in books by the intellectuals in every field. The more cunning, the more subtle, those ideas are the more we worship them and the books that contain them. We are those books, we are those ideas, so heavily conditioned are we by them. We are forever discussing ideas and ideals and dialectically offering opinions. Every religion has its dogma, its formula, its own scaffold to reach the gods, and when inquiring into the beginning of thought we are questioning the importance of this whole edifice of ideas. We have separated ideas from action because ideas are always of the past and action is always the present - that is, living is always the present. We are afraid of living and therefore the past, as ideas, has become so important to us.",
+    "author": "J. Krishnamurti"
+  },
+  {
+    "include": false,
+    "quote": "Crystal ideas are often broken by the grapple with words.",
+    "author": "James Lendall Basford"
+  },
+  {
+    "include": true,
+    "quote": "New ideas are but gathered fragments from the past.",
+    "author": "James Lendall Basford (1845–1915), Seven Seventy Seven Sensations, 1897"
+  },
+  {
+    "include": false,
+    "quote": "Good ideas often take wings and fly beyond our reach, while bad ones will cling to us like barnacles to a vessel.",
+    "author": "James Lendall Basford (1845–1915), Sparks from the Philosopher's Stone, 1882"
+  },
+  {
+    "include": true,
+    "quote": "Just because you're a musician doesn't mean all your ideas are about music. So every once in a while I get an idea about plumbing, I get an idea about city government, and they come the way they come.",
+    "author": "Jerry Garcia"
+  },
+  {
+    "include": true,
+    "quote": "Ideas can be life-changing. Sometimes all you need to open the door is just one more good idea.",
+    "author": "Jim Rohn"
+  },
+  {
+    "include": false,
+    "quote": "Labor gives birth to ideas.",
+    "author": "Jim Rohn"
+  },
+  {
+    "include": true,
+    "quote": "Daring ideas are like chessmen moved forward; they may be beaten, but they may start a winning game.",
+    "author": "Johann Wolfgang von Goethe"
+  },
+  {
+    "include": true,
+    "quote": "I can't understand why people are frightened of new ideas. I'm frightened of the old ones.",
+    "author": "John Cage"
+  },
+  {
+    "include": true,
+    "quote": "A man may die, nations may rise and fall, but an idea lives on. Ideas have endurance without death.",
+    "author": "John F. Kennedy"
+  },
+  {
+    "include": false,
+    "quote": "The Difficulty Lies Not So Much In Developing New Ideas As In Escaping From Old Ones.",
+    "author": "John Maynard Keynes"
+  },
+  {
+    "include": true,
+    "quote": "Ideas are like rabbits. You get a couple, learn how to handle them, and pretty soon you have a dozen.",
+    "author": "John Steinbeck"
+  },
+  {
+    "include": false,
+    "quote": "Others go to bed with their mistresses; I with my ideas.",
+    "author": "José Marti, letter, 1890"
+  },
+  {
+    "include": false,
+    "quote": "Ideas are more powerful than guns. We would not let our enemies have guns, why should we let them have ideas.",
+    "author": "Joseph Stalin"
+  },
+  {
+    "include": false,
+    "quote": "An artist paints, dances, draws, writes, designs, or acts at the expanding edge of consciousness. We press into the unknown rather than the known. This makes life lovely and lively.",
+    "author": "Julia Cameron"
+  },
+  {
+    "include": true,
+    "quote": "Lack of money is no obstacle. Lack of an idea is an obstacle.",
+    "author": "Ken Hakuta"
+  },
+  {
+    "include": false,
+    "quote": "The most important thing about creativity is that you honor your creativity, and you don’t ever ignore it or go against what that creative image is telling you.",
+    "author": "Lady Gaga"
+  },
+  {
+    "include": false,
+    "quote": "You can have brilliant ideas, but if you can't get them across, your ideas won't get you anywhere.",
+    "author": "Lee Iacocca"
+  },
+  {
+    "include": true,
+    "quote": "The best way to have good ideas is to have lots of ideas.",
+    "author": "Linus Pauling"
+  },
+  {
+    "include": false,
+    "quote": "The only people in the world who can change things are those who can sell ideas.",
+    "author": "Lois Wyse"
+  },
+  {
+    "include": false,
+    "quote": "Language is the means of getting an idea from my brain into yours without surgery.",
+    "author": "Mark Amidon"
+  },
+  {
+    "include": false,
+    "quote": "The man with a new idea is a crank -- until the idea succeeds.",
+    "author": "Mark Twain"
+  },
+  {
+    "include": true,
+    "quote": "Ideas corrode the international fences.",
+    "author": "Martin H. Fischer (1879–1962)"
+  },
+  {
+    "include": false,
+    "quote": "You can't beat ideas — political, social, economic or religious — with implements.",
+    "author": "Martin H. Fischer (1879–1962)"
+  },
+  {
+    "include": true,
+    "quote": "A mediocre idea that generates enthusiasm will go further than a great idea that inspires no one.",
+    "author": "Mary Kay Ash"
+  },
+  {
+    "include": true,
+    "quote": "Creativity is inventing, experimenting, growing, taking risks, breaking rules, making mistakes, and having fun.",
+    "author": "Mary Lou Cook"
+  },
+  {
+    "include": false,
+    "quote": "You can kill a man, but you can't kill an idea.",
+    "author": "Medgar Evers"
+  },
+  {
+    "include": false,
+    "quote": "When you write down your ideas you automatically focus your full attention on them. Few if any of us can write one thought and think another at the same time. Thus a pencil and paper make excellent concentration tools.",
+    "author": "Michael Leboeuf"
+  },
+  {
+    "include": false,
+    "quote": "No matter how brilliantly an idea is stated, we will not really be moved unless we have already half thought of it ourselves.",
+    "author": "Mignon McLaughlin"
+  },
+  {
+    "include": false,
+    "quote": "No matter how brilliantly an idea is stated, we will not really be moved unless we have already half-thought of it ourselves.",
+    "author": "Mignon McLaughlin, The Neurotic's Notebook, 1960"
+  },
+  {
+    "include": true,
+    "quote": "All achievements, all earned riches, have their beginning in an idea.",
+    "author": "Napoleon Hill"
+  },
+  {
+    "include": false,
+    "quote": "Everyone who’s ever taken a shower has an idea. It’s the person who gets out of the shower, dries off and does something about it who makes a difference.",
+    "author": "Nolan Bushnell"
+  },
+  {
+    "include": false,
+    "quote": "Everyone who's ever taken a shower has an idea. It's the person who gets out of the shower, dries off and does something about it who makes a difference.",
+    "author": "Nolan Bushnell"
+  },
+  {
+    "include": true,
+    "quote": "One's mind, once stretched by a new idea, never regains its original dimensions.",
+    "author": "Oliver Wendell Holmes, Sr."
+  },
+  {
+    "include": true,
+    "quote": "An idea that is not dangerous is unworthy of being called an idea at all.",
+    "author": "Oscar Wilde"
+  },
+  {
+    "include": true,
+    "quote": "A new idea is delicate. It can be killed by a sneer or a yawn; it can be stabbed to death by a quip and worried to death by a frown on the right man's brow.",
+    "author": "Ovid"
+  },
+  {
+    "include": false,
+    "quote": "Money never starts an idea. It is always the idea that starts the money.",
+    "author": "Owen Laughlin"
+  },
+  {
+    "include": false,
+    "quote": "You have to have an idea of what you are going to do, but it should be a vague idea.",
+    "author": "Pablo Picasso"
+  },
+  {
+    "include": true,
+    "quote": "I begin with an idea and then it becomes something else.",
+    "author": "Pablo Picasso"
+  },
+  {
+    "include": false,
+    "quote": "Adults Are Always Asking Little Kids What They Want To Be When They Grow Up Because They're Looking For Ideas.",
+    "author": "Paula Poundstone"
+  },
+  {
+    "include": true,
+    "quote": "It is a lesson which all history teaches wise men, to put trust in ideas, and not in circumstances.",
+    "author": "Ralph Waldo Emerson"
+  },
+  {
+    "include": false,
+    "quote": "A painter told me that nobody could draw a tree without in some sort becoming a tree; or draw a child by studying the outlines of its form merely… but by watching for a time his motions and plays, the painter enters into his nature and can then draw him at every attitude…",
+    "author": "Ralph Waldo Emerson"
+  },
+  {
+    "include": true,
+    "quote": "No Matter What People Tell You, Words And Ideas Can Change The World.",
+    "author": "Robin Williams"
+  },
+  {
+    "include": true,
+    "quote": "If you do not express your own original ideas, if you do not listen to your own being, you will have betrayed yourself.",
+    "author": "Rollo May"
+  },
+  {
+    "include": false,
+    "quote": "After years of telling corporate citizens to 'trust the system', many companies must relearn instead to trust their people and encourage them to use neglected creative capacities in order to tap the most potent economic stimulus of all: idea power.",
+    "author": "Rosabeth Moss Kanter"
+  },
+  {
+    "include": false,
+    "quote": "Our best ideas come from clerks and stockboys.",
+    "author": "Sam Walton"
+  },
+  {
+    "include": true,
+    "quote": "I had a monumental idea this morning, but I didn’t like it.",
+    "author": "Samuel Goldwyn"
+  },
+  {
+    "include": false,
+    "quote": "Big thoughts are fun to romanticize, but it’s many small insights coming together that bring big ideas into the world.",
+    "author": "Scott Berkun"
+  },
+  {
+    "include": false,
+    "quote": "You don't make progress by standing on the sidelines, whimpering and complaining. You make progress by implementing ideas.",
+    "author": "Shirley Chisholm"
+  },
+  {
+    "include": false,
+    "quote": "Men are strong only so long as they represent a strong idea. They become powerless when they oppose it.",
+    "author": "Sigmund Freud"
+  },
+  {
+    "include": false,
+    "quote": "An original idea. That can't be too hard. The library must be full of them.",
+    "author": "Stephen Fry"
+  },
+  {
+    "include": false,
+    "quote": "To turn really interesting ideas and fledgling technologies into a company that can continue to innovate for years, requires a lot of discipline.",
+    "author": "Steve Jobs"
+  },
+  {
+    "include": false,
+    "quote": "Take up one idea. Make that one idea your life – think of it, dream of it, live on that idea. Let the brain, muscles, nerves, every part of your body, be full of that idea, and just leave every other idea alone. This is the way to success, that is way great spiritual giants are produced.",
+    "author": "Swami Vivekananda"
+  },
+  {
+    "include": false,
+    "quote": "Take up one idea. Make that one idea your life. Think of it, dream of it, live on that idea. Let the brain, muscles, nerves, every part of your body, be full of that idea, and just leave every other idea alone. This is the way to success. That is way great spiritual giants are produced.",
+    "author": "Swami Vivekananda"
+  },
+  {
+    "include": true,
+    "quote": "Let your working ideas go for a picnic — sometimes the fresh air and ant bites are just what they need. Many great ideas were bitten a little at the beginning.",
+    "author": "Terri Guillemets"
+  },
+  {
+    "include": false,
+    "quote": "Nearly every man who develops an idea works it up to the point where it looks impossible, and then he gets discouraged. That's not the place to become discouraged.",
+    "author": "Thomas Edison"
+  },
+  {
+    "include": true,
+    "quote": "If you are possessed by an idea, you find it expressed everywhere, you even smell it.",
+    "author": "Thomas Mann"
+  },
+  {
+    "include": false,
+    "quote": "The great accomplishments of man have resulted from the \n transmission of ideas of enthusiasm.",
+    "author": "Thomas Watson"
+  },
+  {
+    "include": false,
+    "quote": "The new idea either finds a champion or it dies. No ordinary involvement with a new idea provides the energy required to cope with the indifference and resistance that change provokes.",
+    "author": "Tom Peters"
+  },
+  {
+    "include": true,
+    "quote": "There Is One Thing Stronger Than All The Armies In The World, And That Is An Idea Whose Time Has Come.",
+    "author": "Victor Hugo"
+  },
+  {
+    "include": false,
+    "quote": "An invasion of armies can be resisted, but not an idea whose time has come.",
+    "author": "Victor Hugo"
+  },
+  {
+    "include": false,
+    "quote": "Ideas can no more flow backward than can a river.",
+    "author": "Victor Hugo"
+  },
+  {
+    "include": true,
+    "quote": "The wings of change always flutter on the fire of ideas.",
+    "author": "Viswo Varenya Samal"
+  },
+  {
+    "include": false,
+    "quote": "Get a good idea and stay with it. Dog it, and work at it until it’s done right.",
+    "author": "Walt Disney"
+  },
+  {
+    "include": false,
+    "quote": "Around here, we don’t look backwards for very long. We keep moving forward, opening up new doors and doing new things, because we’re curious… and curiosity keeps leading us down new paths.",
+    "author": "Walt Disney"
+  },
+  {
+    "include": false,
+    "quote": "You do things when the opportunities come along. I've had periods in my life when I've had a bundle of ideas come along, and I've had long dry spells. If I get an idea next week, I'll do something. If not, I won't do a damn thing.",
+    "author": "Warren Buffet"
+  },
+  {
+    "include": false,
+    "quote": "Money never starts an idea; it is the idea that starts the money.",
+    "author": "William J. Cameron"
+  },
+  {
+    "include": false,
+    "quote": "No Idea Is So Outlandish That It Should Not Be Considered With A Searching But At The Same Time A Steady Eye.",
+    "author": "Winston Churchill"
+  },
+  {
+    "include": true,
+    "quote": "No idea is so outlandish that it should not be considered.",
+    "author": "Winston Churchill"
+  },
+  {
+    "include": false,
+    "quote": "Right now it's only a notion, but I think I can get the money to make it into a concept, and later turn it into an idea.",
+    "author": "Woody Allen"
+  }
+]
