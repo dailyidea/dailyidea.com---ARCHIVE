@@ -13,7 +13,7 @@
           Oops you’re not logged in.
         </h1>
         <p>
-          To see your ideas,
+          Save the best ideas on the internet to read later with an account.
         </p>
         <nuxt-link
           class="d-inline-block link-highlight text-center"
