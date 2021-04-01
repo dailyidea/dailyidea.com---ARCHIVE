@@ -170,6 +170,12 @@ export default {
         this.showAskName = false
         this.showWelcome = false
       }
+    },
+
+    showWelcome(val) {
+      if (!val) {
+        this.$emit('input', false)
+      }
     }
   },
 
@@ -203,8 +209,8 @@ export default {
       }
 
       if (!this.showResend) {
+        this.showAskEmail = false
         this.showWelcome = true
-        this.$emit('input', false)
       }
 
       if (this.next) {
@@ -263,7 +269,6 @@ export default {
           this.newUser = true
           this.showAskName = true
         }
-        this.showAskEmail = false
       } catch (e) {
         console.error(e) // eslint-disable-line
         this.$sentry.captureException(e)
