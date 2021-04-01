@@ -35,8 +35,8 @@
     <mj-section css-class="section" background-color="white" padding-top="0">
       <mj-column>
         <mj-text css-class="quote" padding-top="0" padding-bottom="0" font-family="Dancing Script" font-style="italic" color="#BBB9B9">
-          <p>"Daring ideas are like chessmen moved forward. They may be beaten, but they may start a winning game."</p>
-          <p>- Johann Wolfgang von Goethe</p>
+          <p>"{{ quoteText }}"</p>
+          <p>- {{ quoteAuthor }}</p>
         </mj-text>
       </mj-column>
     </mj-section>

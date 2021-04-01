@@ -5,7 +5,7 @@ import json
 import boto3
 import jwt
 import urllib.parse
-from utils.generate_quote import GenerateQuote
+from common.utils.get_quote import get_quote
 
 AWS_REGION = os.getenv('SES_AWS_REGION', 'us-east-1')
 MAILBOX_ADDR = os.getenv('MAILBOX_ADDR', 'ideas-dev@beta.dailyidea.com')
@@ -87,9 +87,7 @@ def send_weekly_stats_bulk(users_list):
     TODAY = date.today().strftime('%a %b %d %Y')
 
     destinations = []
-
-    quote_gen = GenerateQuote()
-    quote = quote_gen.get_todays_quote()
+    quote = get_quote()
 
     for user in users_list:
         ideas_count = get_ideas_count(user.userId)
@@ -109,7 +107,7 @@ def send_weekly_stats_bulk(users_list):
                     "USER_ID": user.userId,
                     "SNOOZE_TOKEN": user.emailToken,
                     "QUOTE":quote['quote'],
-                    "QUOTE_BY":quote['by'],
+                    "QUOTE_BY":quote['author'],
                     "AUTH_TOKEN": jwt.encode({'email': user.email, 'exp': (datetime.utcnow() + timedelta(days=7))}, SECRET_TOKEN).decode('utf-8'),
                     "EMAIL": urllib.parse.quote(user.email),
                     "IDEAS_COUNT": ideas_count,

@@ -5,7 +5,6 @@ import json
 import boto3
 import jwt
 import urllib.parse
-from utils.generate_quote import GenerateQuote
 from utils.models import IdeaModel, UserModel
 from dateutil.parser import parse
 

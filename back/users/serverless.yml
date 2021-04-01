@@ -1,5 +1,9 @@
 service: dailyidea-users-service
 
+package:
+  include:
+    - ./../common/*.json
+
 provider:
   name: aws
   runtime: nodejs10.x
