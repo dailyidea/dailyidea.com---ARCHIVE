@@ -18,6 +18,7 @@
       <swiper
         class="idea-card pointer-events-none"
         :swipe-disabled="!!expandedIdea"
+        :hide-arrows="!!expandedIdea"
         :reverse-in-right="firstInStack"
         :reverse-in-left="lastInStack"
         @swipe-start="hideSlideMenu = true"
@@ -37,9 +38,11 @@
             :idea="idea"
             :style="rotationStyle"
             close-btn
+            :expanded="expandedIdea === idea"
             @updated="updateIdea"
             @deleted="deleteIdea"
             @expand="expandedIdea = idea"
+            @collapse="expandedIdea = null"
           ></idea-swipable-card>
         </template>
       </swiper>
@@ -67,6 +70,7 @@ import CategoriesSubHeader from '@/components/layout/CategoriesSubHeader'
 import IdeaLightbox from '@/components/ideaDetail/IdeaLightbox'
 import IdeaSwipableCard from '@/components/ideaDetail/IdeaSwipableCard'
 import ShareIdeaByEmail from '@/components/dialogs/ShareIdeaByEmail'
+import { insertQueryParam, removeQueryParam } from '@/utils'
 
 export default {
   components: {
@@ -129,6 +133,14 @@ export default {
   },
 
   watch: {
+    expandedIdea(idea) {
+      if (idea) {
+        insertQueryParam('full')
+      } else {
+        removeQueryParam('full')
+      }
+    },
+
     idea(val) {
       if (val && window.history.state.prev !== this.ideaUrl()) {
         window.history.pushState({ prev: this.ideaUrl() }, '', this.ideaUrl())
@@ -155,6 +167,10 @@ export default {
     this.incrementViews()
     this.getQueue({ app: this })
     this.firstInStack = this.currIndex === 0
+    // Key only query string will be null, non existent is undefined, so null means key exists
+    if (this.$route.query.full === null) {
+      this.expandedIdea = this.idea
+    }
   },
 
   methods: {

@@ -1,10 +1,10 @@
 <template>
-  <div class="fill-width fill-height">
+  <div class="fill-width fill-height d-flex justify-center">
     <idea-show
       :idea="idea"
-      :expanded="expanded"
       :preview="preview"
       :idea-tags="ideaTags"
+      :expanded="expanded"
       @close="$emit('close')"
       @view-preview="$emit('view-preview')"
       @updated="onUpdate"
@@ -27,8 +27,8 @@ export default {
 
   props: {
     preview: Boolean,
-    idea: { type: Object, required: true },
-    expanded: { type: Boolean, default: false }
+    expanded: Boolean,
+    idea: { type: Object, required: true }
   },
 
   data() {
