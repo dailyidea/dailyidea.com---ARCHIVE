@@ -15,14 +15,6 @@
       }"
       v-html="content"
     ></div>
-    <div
-      v-if="!atScrollEnd"
-      class="hidden-sm-and-down cursor-pointer"
-      style="user-select: none;"
-      @click="$refs.scrollContainer.scrollTop += 20"
-    >
-      Read more...
-    </div>
   </div>
 </template>
 

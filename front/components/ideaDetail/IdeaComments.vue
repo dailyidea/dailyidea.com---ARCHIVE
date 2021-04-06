@@ -1,5 +1,5 @@
 <template>
-  <div class="comments-part d-flex flex-column fill-height" @click.stop>
+  <div class="comments-part d-flex flex-column fill-height">
     <div
       ref="scroller"
       class="comments-part__container overflow-y-auto hide-scrollbar fade-bottom flex-1"

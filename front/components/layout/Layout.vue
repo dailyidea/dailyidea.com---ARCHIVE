@@ -77,10 +77,6 @@ export default {
 </script>
 
 <style lang="scss">
-.content-container {
-  margin: 2vw;
-}
-
 .overlay {
   width: 100%;
   height: 100%;
@@ -138,7 +134,7 @@ export default {
 
   .loggedInHeader {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     width: 100%;
     background: white !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);

@@ -25,6 +25,7 @@ module.exports = {
   rules: {
     'no-console': 1,
     'no-debugger': 1,
+    'vue/no-unused-components': 1,
     curly: ['error', 'all'],
     'padding-line-between-statements': [
       'warn',

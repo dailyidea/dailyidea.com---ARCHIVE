@@ -1,12 +1,5 @@
 <template>
   <div>
-    <idea-lightbox
-      v-if="idea"
-      :value="!!expandedIdea && $vuetify.breakpoint.mdAndDown"
-      :idea="expandedIdea"
-      @input="expandedIdea = null"
-      @updated="i => (idea = i)"
-    />
     <layout :hide-mobile-nav="!!expandedIdea" :hide-slide-menu="hideSlideMenu">
       <template v-slot:header>
         <categories-sub-header
@@ -18,6 +11,7 @@
       <swiper
         class="idea-card pointer-events-none"
         :swipe-disabled="!!expandedIdea"
+        :hide-arrows="!!expandedIdea"
         :reverse-in-right="firstInStack"
         :reverse-in-left="lastInStack"
         @swipe-start="hideSlideMenu = true"
@@ -37,9 +31,12 @@
             :idea="idea"
             :style="rotationStyle"
             close-btn
+            :expanded="expandedIdea === idea"
             @updated="updateIdea"
             @deleted="deleteIdea"
             @expand="expandedIdea = idea"
+            @collapse="expandedIdea = null"
+            @comments-click="showCommnetsDialog = true"
           ></idea-swipable-card>
         </template>
       </swiper>
@@ -53,6 +50,7 @@
       dialog-height="480px"
     />
     <share-idea-by-email v-model="showShareDialog" :idea="idea" />
+    <idea-comments-dialog v-model="showCommnetsDialog" :idea="idea" />
   </div>
 </template>
 
@@ -64,15 +62,16 @@ import Swiper from '@/components/ideaDetail/Swiper'
 import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 import IdeaCardSkeleton from '@/components/ideaDetail/IdeaCardSkeleton'
 import CategoriesSubHeader from '@/components/layout/CategoriesSubHeader'
-import IdeaLightbox from '@/components/ideaDetail/IdeaLightbox'
 import IdeaSwipableCard from '@/components/ideaDetail/IdeaSwipableCard'
 import ShareIdeaByEmail from '@/components/dialogs/ShareIdeaByEmail'
+import { insertQueryParam, removeQueryParam } from '@/utils'
+import IdeaCommentsDialog from '@/components/dialogs/IdeaCommentsDialog'
 
 export default {
   components: {
+    IdeaCommentsDialog,
     ShareIdeaByEmail,
     IdeaSwipableCard,
-    IdeaLightbox,
     Layout,
     Swiper,
     IdeaCardSkeleton,
@@ -109,7 +108,8 @@ export default {
       firstInStack: true,
       lastInStack: false,
       showIdeaPostedDialog: false,
-      showShareDialog: false
+      showShareDialog: false,
+      showCommnetsDialog: false
     }
   },
 
@@ -129,6 +129,14 @@ export default {
   },
 
   watch: {
+    expandedIdea(idea) {
+      if (idea) {
+        insertQueryParam('full')
+      } else {
+        removeQueryParam('full')
+      }
+    },
+
     idea(val) {
       if (val && window.history.state.prev !== this.ideaUrl()) {
         window.history.pushState({ prev: this.ideaUrl() }, '', this.ideaUrl())
@@ -155,6 +163,10 @@ export default {
     this.incrementViews()
     this.getQueue({ app: this })
     this.firstInStack = this.currIndex === 0
+    // Key only query string will be null, non existent is undefined, so null means key exists
+    if (this.$route.query.full === null) {
+      this.expandedIdea = this.idea
+    }
   },
 
   methods: {

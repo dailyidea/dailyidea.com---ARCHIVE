@@ -2,7 +2,7 @@
   <div class="swiper-wrap relative">
     <slot :is-swiping="swipeInProgress || !!xVal" name="background"></slot>
     <div
-      v-if="allowLeft"
+      v-if="allowLeft && !hideArrows"
       class="left-arrow hidden-sm-and-down pointer-events-auto"
       @click="leftArrowClick"
     >
@@ -23,7 +23,7 @@
       </svg>
     </div>
     <div
-      v-if="allowRight"
+      v-if="allowRight && !hideArrows"
       class="right-arrow hidden-sm-and-down pointer-events-auto"
       @click="rightArrowClick"
     >
@@ -63,6 +63,7 @@
 export default {
   props: {
     swipeDisabled: Boolean,
+    hideArrows: Boolean,
     allowLeft: { type: Boolean, default: true },
     allowRight: { type: Boolean, default: true },
     reverseInRight: { type: Boolean, default: false },
@@ -311,6 +312,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.swiper-wrap {
+  z-index: 1;
+}
+
 @media (max-width: $screen-sm-max) {
   .swipe-parent,
   .swipe-container {
@@ -323,7 +328,7 @@ export default {
   position: absolute;
   top: 50%;
   margin-top: -25px;
-  z-index: 1000;
+  z-index: 10;
   cursor: pointer;
   img {
     width: 50px;
@@ -344,10 +349,10 @@ export default {
 }
 
 .left-arrow {
-  left: 2vw;
+  left: 4vw;
 }
 
 .right-arrow {
-  right: 2vw;
+  right: 4vw;
 }
 </style>

@@ -1,5 +1,23 @@
 <template>
-  <card ref="card" class="swipable-card" :style="{ height: `${height}px` }">
+  <card
+    ref="card"
+    class="swipable-card"
+    :class="{ expanded: finishExpand }"
+    :style="styles"
+  >
+    <a v-if="expanded" class="back-btn" role="button" @click="$emit('collapse')"
+      ><svg
+        style="margin-bottom: -3px;"
+        width="10"
+        height="18"
+        viewBox="0 0 10 18"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M9 1L1 9L9 17" stroke="#5B41BB" />
+      </svg>
+      back</a
+    >
     <slot />
   </card>
 </template>
@@ -13,14 +31,53 @@ export default {
   },
 
   props: {
+    width: { type: String, default: '669px' },
+    marginTop: { type: Number, default: 0 },
     paddingBottom: { type: Number, default: 0 },
     preventMobileScroll: { type: Boolean, default: true },
-    autoHeight: { type: Boolean, default: true }
+    autoHeight: { type: Boolean, default: true },
+    expanded: Boolean
   },
 
   data: () => ({
-    height: '100%'
+    height: '100%',
+    finishExpand: false
   }),
+
+  computed: {
+    styles() {
+      const styles = {
+        marginTop: `${this.marginTop}px`,
+        height: this.height,
+        width: this.width
+      }
+      if (!this.$refs.card) {
+        return styles
+      }
+      if (this.expanded) {
+        const bounds = this.$refs.card.$el.getBoundingClientRect()
+        Object.assign(styles, {
+          position: 'fixed',
+          top: '0',
+          right: bounds.right - bounds.width + 'px',
+          bottom: bounds.bottom + 'px',
+          left: bounds.left + 'px'
+        })
+      }
+
+      return styles
+    }
+  },
+
+  watch: {
+    expanded(val) {
+      if (val) {
+        setTimeout(() => (this.finishExpand = true), 10)
+      } else {
+        this.finishExpand = false
+      }
+    }
+  },
 
   mounted() {
     if (this.preventMobileScroll) {
@@ -62,7 +119,9 @@ export default {
         window.innerHeight -
         reduceby -
         window.innerWidth / 20 -
-        this.paddingBottom
+        this.paddingBottom -
+        this.marginTop +
+        'px'
     },
 
     preventScrollOnMobile(event) {
@@ -78,12 +137,40 @@ export default {
 .swipable-card {
   margin: 0 auto;
   overflow: hidden;
-  width: 100%;
+  width: auto;
+  transition: inset 0.5s ease 0s;
 
   @media (min-width: $screen-md-min) {
-    min-width: 70vw;
-    max-width: 70vw;
-    left: calc(50% - 35vw);
+    left: calc(50% - 334px);
+  }
+
+  @media (max-width: $screen-sm-max) {
+    width: auto !important;
+    margin: 0 10px;
+  }
+
+  &.expanded {
+    position: fixed;
+    z-index: 20;
+    inset: -61px 0 0 0 !important;
+    width: auto !important;
+    height: 100vh !important;
+    margin: 0;
+
+    @media (min-width: $screen-md-min) {
+      height: calc(100vh - 64px) !important;
+    }
+  }
+}
+
+.back-btn {
+  display: block;
+  margin-bottom: 10px;
+
+  @media (min-width: $screen-md-min) {
+    position: absolute;
+    left: 10%;
+    margin-top: 20px;
   }
 }
 </style>
