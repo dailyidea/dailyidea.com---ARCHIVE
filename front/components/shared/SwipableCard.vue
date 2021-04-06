@@ -31,6 +31,8 @@ export default {
   },
 
   props: {
+    width: { type: String, default: '669px' },
+    marginTop: { type: Number, default: 0 },
     paddingBottom: { type: Number, default: 0 },
     preventMobileScroll: { type: Boolean, default: true },
     autoHeight: { type: Boolean, default: true },
@@ -44,7 +46,11 @@ export default {
 
   computed: {
     styles() {
-      const styles = { height: `${this.height}px` }
+      const styles = {
+        marginTop: `${this.marginTop}px`,
+        height: this.height,
+        width: this.width
+      }
       if (!this.$refs.card) {
         return styles
       }
@@ -113,7 +119,9 @@ export default {
         window.innerHeight -
         reduceby -
         window.innerWidth / 20 -
-        this.paddingBottom
+        this.paddingBottom -
+        this.marginTop +
+        'px'
     },
 
     preventScrollOnMobile(event) {
@@ -130,27 +138,39 @@ export default {
   margin: 0 auto;
   overflow: hidden;
   width: auto;
+  transition: inset 0.5s ease 0s;
 
   @media (min-width: $screen-md-min) {
-    width: 669px;
     left: calc(50% - 334px);
   }
 
-  transition: inset 0.5s ease 0s;
+  @media (max-width: $screen-sm-max) {
+    width: auto !important;
+    margin: 0 10px;
+  }
 
   &.expanded {
     position: fixed;
     z-index: 20;
     inset: -61px 0 0 0 !important;
-    width: auto;
-    height: calc(100vh - 64px) !important;
+    width: auto !important;
+    height: 100vh !important;
+    margin: 0;
+
+    @media (min-width: $screen-md-min) {
+      height: calc(100vh - 64px) !important;
+    }
   }
 }
 
 .back-btn {
-  position: absolute;
   display: block;
-  left: 10%;
-  margin-top: 20px;
+  margin-bottom: 10px;
+
+  @media (min-width: $screen-md-min) {
+    position: absolute;
+    left: 10%;
+    margin-top: 20px;
+  }
 }
 </style>

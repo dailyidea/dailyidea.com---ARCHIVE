@@ -7,6 +7,7 @@
       @expand="$emit('expand')"
       @updated="i => $emit('updated', i)"
       @deleted="id => $emit('deleted', id)"
+      @comments-click="$emit('comments-click')"
     />
   </swipable-card>
 </template>

@@ -11,7 +11,7 @@
       @updated="i => $emit('updated', i)"
       @deleted="id => $emit('deleted', id)"
       @expand="$emit('expand')"
-      @comments-btn-clicked="$emit('comments-btn-clicked')"
+      @comments-click="$emit('comments-click')"
     />
   </card>
 </template>

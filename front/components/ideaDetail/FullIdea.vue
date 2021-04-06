@@ -11,6 +11,7 @@
       @deleted="id => $emit('deleted', id)"
       @unsaved="$emit('unsaved')"
       @expand="$emit('expand')"
+      @comments-click="$emit('comments-click')"
     />
   </div>
 </template>

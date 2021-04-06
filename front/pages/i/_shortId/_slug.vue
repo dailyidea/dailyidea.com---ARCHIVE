@@ -1,12 +1,5 @@
 <template>
   <div>
-    <idea-lightbox
-      v-if="idea"
-      :value="!!expandedIdea && $vuetify.breakpoint.mdAndDown"
-      :idea="expandedIdea"
-      @input="expandedIdea = null"
-      @updated="i => (idea = i)"
-    />
     <layout :hide-mobile-nav="!!expandedIdea" :hide-slide-menu="hideSlideMenu">
       <template v-slot:header>
         <categories-sub-header
@@ -43,6 +36,7 @@
             @deleted="deleteIdea"
             @expand="expandedIdea = idea"
             @collapse="expandedIdea = null"
+            @comments-click="showCommnetsDialog = true"
           ></idea-swipable-card>
         </template>
       </swiper>
@@ -56,6 +50,7 @@
       dialog-height="480px"
     />
     <share-idea-by-email v-model="showShareDialog" :idea="idea" />
+    <idea-comments-dialog v-model="showCommnetsDialog" :idea="idea" />
   </div>
 </template>
 
@@ -67,16 +62,16 @@ import Swiper from '@/components/ideaDetail/Swiper'
 import incrementIdeaViews from '@/graphql/mutations/incrementIdeaViews'
 import IdeaCardSkeleton from '@/components/ideaDetail/IdeaCardSkeleton'
 import CategoriesSubHeader from '@/components/layout/CategoriesSubHeader'
-import IdeaLightbox from '@/components/ideaDetail/IdeaLightbox'
 import IdeaSwipableCard from '@/components/ideaDetail/IdeaSwipableCard'
 import ShareIdeaByEmail from '@/components/dialogs/ShareIdeaByEmail'
 import { insertQueryParam, removeQueryParam } from '@/utils'
+import IdeaCommentsDialog from '@/components/dialogs/IdeaCommentsDialog'
 
 export default {
   components: {
+    IdeaCommentsDialog,
     ShareIdeaByEmail,
     IdeaSwipableCard,
-    IdeaLightbox,
     Layout,
     Swiper,
     IdeaCardSkeleton,
@@ -113,7 +108,8 @@ export default {
       firstInStack: true,
       lastInStack: false,
       showIdeaPostedDialog: false,
-      showShareDialog: false
+      showShareDialog: false,
+      showCommnetsDialog: false
     }
   },
 

@@ -13,6 +13,7 @@
       @deleted="id => $emit('deleted', id)"
       @unsaved="$emit('unsaved')"
       @click.native="$vuetify.breakpoint.mdAndDown && $emit('input', false)"
+      @comments-click="$emit('comments-click')"
     />
   </lightbox>
 </template>

@@ -41,7 +41,7 @@
             @on-delete-idea="onDeleteIdea"
             @on-idea-visibility-changed="onIdeaVisibilityChanged"
             @on-idea-visibility-change-error="onIdeaVisibilityChangeError"
-            @comments-btn-click="commentsBtnClick"
+            @comments-btn-click="$emit('comments-click')"
             @click.native.stop
           ></menu-panel>
         </v-row>
@@ -76,7 +76,7 @@
           v-if="expanded && !preview"
           role="button"
           class="d-inline-block muted view-all-comments-text"
-          @click="$emit('open-comments')"
+          @click="$emit('comments-click')"
         >
           View all {{ idea.commentsCount || '' }} comments
         </a>
@@ -207,14 +207,6 @@ export default {
         message: `Your Idea is ${isPrivate ? 'private' : 'public'} now!`,
         iconName: isPrivate ? 'private' : 'public'
       })
-    },
-
-    commentsBtnClick() {
-      this.$emit('comments-btn-clicked')
-      setTimeout(() => {
-        this.$refs.ideaComments &&
-          this.$refs.ideaComments.$refs.commentInput.focus()
-      }, 100)
     }
   }
 }

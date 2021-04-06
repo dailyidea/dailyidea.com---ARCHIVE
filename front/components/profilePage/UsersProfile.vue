@@ -13,6 +13,7 @@
         }
       "
       @unsaved="$emit('unsaved', selectedIdea)"
+      @comments-click="() => commentsBtnClicked(selectedIdea)"
     />
     <template v-slot:header>
       <user-profile-header-section
@@ -42,8 +43,8 @@
             :idea="idea"
             @updated="ideaUpdated"
             @deleted="i => $emit('idea-deleted', i)"
-            @view-preview="i => (selectedIdea = i)"
-            @comments-btn-clicked="() => commentsBtnClicked(idea)"
+            @expand="() => (selectedIdea = idea)"
+            @comments-click="() => commentsBtnClicked(idea)"
             @unsaved="$emit('unsaved', idea)"
           ></idea-short-card>
           <div v-if="loading" class="text-center mt-5">
@@ -67,6 +68,10 @@
         ></user-profile-avatar-crop-dialog>
       </div>
     </template>
+    <idea-comments-dialog
+      v-model="showCommnetsDialog"
+      :idea="ideaForComments"
+    />
   </layout>
 </template>
 
@@ -77,9 +82,11 @@ import UserProfileAvatarCropDialog from './UserProfileAvatarCropDialog'
 import IdeaShortCard from '@/components/ideaDetail/IdeaShortCard'
 import Layout from '@/components/layout/Layout'
 import IdeaLightbox from '@/components/ideaDetail/IdeaLightbox'
+import IdeaCommentsDialog from '@/components/dialogs/IdeaCommentsDialog'
 
 export default {
   components: {
+    IdeaCommentsDialog,
     IdeaLightbox,
     Layout,
     UserProfileHeaderSection,
@@ -111,8 +118,9 @@ export default {
       editData: { name: '', bio: '' },
       savingChanges: false,
       image: undefined,
-      showOverlay: false,
-      selectedIdea: null
+      showCommnetsDialog: false,
+      selectedIdea: null,
+      ideaForComments: {}
     }
   },
 
@@ -151,16 +159,8 @@ export default {
     },
 
     commentsBtnClicked(idea) {
-      this.selectedIdea = idea
-
-      setTimeout(() => {
-        const input =
-          this.$refs.ideaLightbox &&
-          this.$refs.ideaLightbox.$el.querySelector('.comment-input input')
-        if (input) {
-          input.focus()
-        }
-      }, 100)
+      this.ideaForComments = idea
+      this.showCommnetsDialog = true
     }
   }
 }

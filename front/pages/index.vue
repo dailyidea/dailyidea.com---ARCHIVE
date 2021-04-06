@@ -23,7 +23,8 @@
         ref="page"
         :style="rotationStyle"
         class="overflow-y-auto"
-        :padding-bottom="$vuetify.breakpoint.mdAndUp ? 40 : 0"
+        :margin-top="$vuetify.breakpoint.mdAndUp ? 40 : 0"
+        width="70vw"
       >
         <div class="fill-height d-flex justify-center align-center">
           <pages :page="page" />
