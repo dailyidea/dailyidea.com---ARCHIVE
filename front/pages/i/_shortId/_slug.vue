@@ -212,7 +212,7 @@ export default {
           query: incrementIdeaViews,
           variables: {
             ideaId: this.idea.ideaId,
-            ideaOwnerId: this.$route.params.userId
+            ideaOwnerId: this.idea.userId
           },
           authMode: 'API_KEY'
         })
