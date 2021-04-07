@@ -225,14 +225,8 @@ export default {
         new Strike(),
         new Underline(),
         new History(),
-        new Image(
-          null,
-          null,
-          this.uploadFile,
-          this.imagesRemoved,
-          this.imagesAdded
-        ),
-        new File(null, null, this.uploadFile)
+        new Image(this.uploadFile, this.imagesRemoved, this.imagesAdded),
+        new File(this.uploadFile)
       ],
       onUpdate: ({ getHTML }) => {
         this.content = getHTML()
@@ -315,7 +309,7 @@ export default {
       return true
     },
 
-    async uploadFile(file) {
+    async uploadFile(file, progressCallback) {
       if (!this.validateFile(file)) {
         return
       }
@@ -338,6 +332,9 @@ export default {
               attachment.progress = Math.round(
                 (progressEvent.loaded * 100) / progressEvent.total
               )
+              if (progressCallback) {
+                progressCallback(attachment.progress)
+              }
             }
           })
           .then(resolve)
@@ -406,7 +403,6 @@ export default {
   span.file {
     display: inline-block;
     vertical-align: middle;
-    line-height: 0;
 
     img {
       display: block;
@@ -418,11 +414,14 @@ export default {
       outline: 2px solid #ccc;
     }
   }
-
+  span.image {
+    line-height: 0;
+  }
   span.file {
     padding: 0 5px;
     border: 1px solid #bbb;
     border-radius: 5px;
+    line-height: 1.4;
   }
 
   .image-upload-placeholder,
@@ -431,19 +430,43 @@ export default {
     overflow: hidden;
     &:after {
       display: flex;
-      content: 'Uploading...';
-      background-color: rgba(255, 255, 255, 0.5);
+      content: '';
       position: absolute;
       top: 0;
       right: 0;
       bottom: 0;
       left: 0;
-      align-items: center;
-      justify-content: center;
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+  }
+  .file-upload-placeholder {
+    // A temporary fix for a weird bug with placeholder height (line-height)
+    line-height: 0.5 !important;
+    height: 25px;
+    > span:first-child {
+      margin-left: -43px;
     }
   }
   .file-upload-placeholder:after {
     background-color: rgba(255, 255, 255, 0.9);
+  }
+  .placeholder-progress-wrap {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 10px;
+    right: 10px;
+    margin-top: -3px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: white;
+    overflow: hidden;
+  }
+  .placeholder-progress {
+    display: block;
+    height: 100%;
+    background-color: blue;
   }
 }
 
