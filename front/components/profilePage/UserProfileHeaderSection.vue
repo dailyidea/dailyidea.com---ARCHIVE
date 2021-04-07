@@ -279,6 +279,7 @@ export default {
   align-items: center;
   background-color: white;
   overflow: hidden;
+  margin-bottom: 2rem;
 }
 
 .header-content {

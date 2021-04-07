@@ -168,25 +168,20 @@ export default {
         this.commentList = fakeComments
         this.scrollToBottom()
       }
-      let additionalAction
-
-      if (this.$route.query.aa) {
-        additionalAction = this.$route.query.aa
-        if (additionalAction === 'itc') {
-          // instantiate temporary comment
-          this.temporaryCommentId = this.$route.query.tci
-          this.commentList.push({
-            fake: true,
-            temporary: true,
-            commentId: this.temporaryCommentId
-          })
-          this.getTemporaryComment(this.temporaryCommentId)
-        }
+      if (this.$route.query.aa === 'itc') {
+        // instantiate temporary comment
+        this.temporaryCommentId = this.$route.query.tci
+        this.commentList.push({
+          fake: true,
+          temporary: true,
+          commentId: this.temporaryCommentId
+        })
+        this.createCommentFromTemporary(this.temporaryCommentId)
       }
       this.loadComments()
     },
 
-    async getTemporaryComment(commentId) {
+    async createCommentFromTemporary(commentId) {
       const result = await this.$amplifyApi.graphql({
         query: getIdeaTemporaryComment,
         variables: { commentId },
