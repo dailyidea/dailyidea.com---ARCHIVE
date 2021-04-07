@@ -63,6 +63,7 @@ def endpoint(event, lambda_context):
             "likesCount": {"N": "0"},
             "savesCount": {"N": "0"},
             "commentsCount": {"N": "0"},
+            "viewsCount": {"N": "0"},
             "authorName": {"S": creator_name},
             "authorSlug": {"S": creator_slug},
             "authorAvatar": {"S": creator_avatar} if creator_avatar else {"NULL": True},

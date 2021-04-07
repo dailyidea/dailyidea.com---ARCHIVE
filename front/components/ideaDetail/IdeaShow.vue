@@ -15,9 +15,13 @@
               <span class="ml-2">{{ idea.authorName }}</span>
             </router-link>
           </span>
-          <span class="d-inline-block align-middle muted ml-2">{{
+          <span class="d-inline-block align-middle muted ml-2 text-sm">{{
             idea.createdDate | toRelativeDate
           }}</span>
+          <span class="d-inline-block align-middle muted ml-2 text-sm">
+            <img src="~assets/images/icons/eye.svg" alt="Eye" />
+            {{ (idea.viewsCount || 1) | numberFormat(0) }}
+          </span>
           <span
             v-if="idea.visibility === 'PRIVATE'"
             class="d-inline-block ml-2 private-label"
