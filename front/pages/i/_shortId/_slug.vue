@@ -167,6 +167,10 @@ export default {
     if (this.$route.query.full === null) {
       this.expandedIdea = this.idea
     }
+    if (this.$route.query.aa === 'itc') {
+      this.expandedIdea = this.idea
+      this.showCommnetsDialog = true
+    }
   },
 
   methods: {
