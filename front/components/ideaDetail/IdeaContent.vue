@@ -113,7 +113,6 @@ export default {
   span.image {
     display: inline-block;
     vertical-align: middle;
-    line-height: 0;
 
     img {
       display: block;
@@ -126,6 +125,9 @@ export default {
     padding: 0 5px;
     border: 1px solid #bbb;
     border-radius: 5px;
+  }
+  span.image {
+    line-height: 0;
   }
 }
 

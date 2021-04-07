@@ -34,18 +34,28 @@ const placeholderPlugin = new Plugin({
       set = set.map(tr.mapping, tr.doc)
       // See if the transaction adds or removes any placeholders
       const action = tr.getMeta(this)
-      if (action && action.add) {
-        const widget = document.createElement('span')
-        widget.setAttribute('class', 'image image-upload-placeholder')
-        const img = document.createElement('img')
-        img.setAttribute('src', action.add.src)
-        widget.appendChild(img)
+      if (!action) {
+        return set
+      }
+
+      if (action.add) {
+        const template = document.createElement('template')
+        template.innerHTML = `<span class="image image-upload-placeholder">
+          <img src="${action.add.src}">
+          <span class="placeholder-progress-wrap"><span class="placeholder-progress" style="width: 0;"></span></span>
+        </span>`
+        const widget = template.content.firstChild
 
         const deco = Decoration.widget(action.add.pos, widget, {
           id: action.add.id
         })
         set = set.add(tr.doc, [deco])
-      } else if (action && action.remove) {
+      } else if (action.progress) {
+        const ds = set.find(null, null, spec => spec.id === action.progress.id)
+        const dec = ds[0]
+        const el = dec.type.toDOM.querySelector('.placeholder-progress')
+        el.style.width = action.progress.progress + '%'
+      } else if (action.remove) {
         set = set.remove(
           set.find(null, null, spec => spec.id === action.remove.id)
         )
@@ -88,7 +98,11 @@ export const uploadImages = (view, pos, images, uploadFunc) => {
     }
     reader.readAsDataURL(image)
 
-    const src = await uploadFunc(image)
+    const src = await uploadFunc(image, progress => {
+      view.dispatch(
+        view.state.tr.setMeta(placeholderPlugin, { progress: { id, progress } })
+      )
+    })
     if (src) {
       const plpos = findPlaceholder(view.state, id)
       if (plpos == null) {
@@ -172,8 +186,8 @@ const imageUpoadPlugin = node => {
  * Image Node
  */
 export default class Image extends Node {
-  constructor(name, parent, uploadFunc, imagesRemoved, imagesAdded) {
-    super(name, parent)
+  constructor(uploadFunc, imagesRemoved, imagesAdded) {
+    super(null, null)
     this.uploadFunc = uploadFunc
     this.imagesRemoved = imagesRemoved
     this.imagesAdded = imagesAdded
