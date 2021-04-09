@@ -11,7 +11,7 @@
       <swiper
         class="idea-card pointer-events-none"
         :swipe-disabled="!!expandedIdea"
-        :hide-arrows="!!expandedIdea"
+        :hide-arrows="!!expandedIdea || !expandedIdeaTransitionEnd"
         :reverse-in-right="firstInStack"
         :reverse-in-left="lastInStack"
         @swipe-start="hideSlideMenu = true"
@@ -37,6 +37,7 @@
             @expand="expandedIdea = idea"
             @collapse="expandedIdea = null"
             @comments-click="showCommnetsDialog = true"
+            @expanded-transition-end="expandedIdeaTransitionEnd = true"
           ></idea-swipable-card>
         </template>
       </swiper>
@@ -104,6 +105,7 @@ export default {
     return {
       hideSlideMenu: false,
       expandedIdea: null,
+      expandedIdeaTransitionEnd: true,
       expandWithEdit: false,
       firstInStack: true,
       lastInStack: false,
@@ -132,6 +134,7 @@ export default {
     expandedIdea(idea) {
       if (idea) {
         insertQueryParam('full')
+        this.expandedIdeaTransitionEnd = false
       } else {
         removeQueryParam('full')
       }
