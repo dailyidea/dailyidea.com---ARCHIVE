@@ -1,5 +1,9 @@
 <template>
-  <swipable-card :expanded="expanded" @collapse="$emit('collapse')">
+  <swipable-card
+    :expanded="expanded"
+    @collapse="$emit('collapse')"
+    @expanded-transition-end="$emit('expanded-transition-end')"
+  >
     <full-idea
       :idea="idea"
       :preview="preview"

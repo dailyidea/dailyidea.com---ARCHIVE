@@ -2,10 +2,10 @@
   <card
     ref="card"
     class="swipable-card"
-    :class="{ expanded: finishExpand }"
+    :class="{ expanded: expandIn, 'expand-out': expandOut }"
     :style="styles"
   >
-    <a v-if="expanded" class="back-btn" role="button" @click="$emit('collapse')"
+    <a v-if="expandIn" class="back-btn" role="button" @click="$emit('collapse')"
       ><svg
         style="margin-bottom: -3px;"
         width="10"
@@ -41,7 +41,9 @@ export default {
 
   data: () => ({
     height: '100%',
-    finishExpand: false
+    expandIn: false,
+    expandOut: false,
+    initialIset: ''
   }),
 
   computed: {
@@ -54,14 +56,10 @@ export default {
       if (!this.$refs.card) {
         return styles
       }
-      if (this.expanded) {
-        const bounds = this.$refs.card.$el.getBoundingClientRect()
+      if (this.expanded || this.expandOut) {
         Object.assign(styles, {
           position: 'fixed',
-          top: '0',
-          right: bounds.right - bounds.width + 'px',
-          bottom: bounds.bottom + 'px',
-          left: bounds.left + 'px'
+          inset: this.initialInset
         })
       }
 
@@ -71,10 +69,21 @@ export default {
 
   watch: {
     expanded(val) {
+      // Some delay to prerape animation initial position
       if (val) {
-        setTimeout(() => (this.finishExpand = true), 10)
+        const bounds = this.$refs.card.$el.getBoundingClientRect()
+        this.initialInset = `0 ${bounds.right - bounds.width}px ${
+          bounds.bottom
+        }px ${bounds.left}px`
+
+        setTimeout(() => (this.expandIn = true), 10)
       } else {
-        this.finishExpand = false
+        this.expandIn = false
+        this.expandOut = true
+        setTimeout(() => {
+          this.expandOut = false
+          this.$emit('expanded-transition-end')
+        }, 510)
       }
     }
   },
@@ -138,7 +147,7 @@ export default {
   margin: 0 auto;
   overflow: hidden;
   width: auto;
-  transition: inset 0.5s ease 0s;
+  transition: inset 0.5s ease, height 0.5s ease;
 
   @media (min-width: $screen-md-min) {
     left: calc(50% - 334px);
@@ -150,7 +159,6 @@ export default {
   }
 
   &.expanded {
-    position: fixed;
     z-index: 20;
     inset: -61px 0 0 0 !important;
     width: auto !important;
@@ -160,6 +168,12 @@ export default {
     @media (min-width: $screen-md-min) {
       height: calc(100vh - 64px) !important;
     }
+  }
+
+  &.expand-out {
+    z-index: 20;
+    width: auto !important;
+    margin: 0;
   }
 }
 
