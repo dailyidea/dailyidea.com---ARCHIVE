@@ -17,7 +17,7 @@ export default {
 
 <style lang="scss" scoped>
 .layout-card {
-  margin: 0 auto;
+  margin: 20px auto 0;
 
   @media (min-width: $screen-md-min) {
     min-width: 70vw;
