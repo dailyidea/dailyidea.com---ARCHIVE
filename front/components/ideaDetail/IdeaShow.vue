@@ -253,7 +253,7 @@ export default {
 
 .idea-container {
   position: relative;
-  max-width: 669px;
+  max-width: 635px;
   height: 100%;
 
   @media (min-width: $screen-md-min) {
