@@ -181,6 +181,7 @@ export default {
     atScrollEnd: true,
     atScrollStart: true,
     attachments: [],
+    removedAttachments: [],
     showPlaceholder: true
   }),
 
@@ -225,8 +226,8 @@ export default {
         new Strike(),
         new Underline(),
         new History(),
-        new Image(this.uploadFile, this.imagesRemoved, this.imagesAdded),
-        new File(this.uploadFile)
+        new Image(this.uploadFile, this.filesRemoved, this.filesAdded),
+        new File(this.uploadFile, this.filesRemoved, this.filesAdded)
       ],
       onUpdate: ({ getHTML }) => {
         this.content = getHTML()
@@ -340,7 +341,6 @@ export default {
           .then(resolve)
       })
 
-      // await new Promise(resolve => setTimeout(resolve, 1000000))
       attachment.uploading = false // eslint-disable-line
 
       const cr = await Credentials.get()
@@ -349,31 +349,39 @@ export default {
       const prefix = `${BUCKET_URL}${BUCKET_FOLDER}`
       attachment.source = prefix + encodeURIComponent(attachment.key) // eslint-disable-line
 
-      this.$emit('update:file-attachments', [
-        ...this.fileAttachments,
-        `${BUCKET_FOLDER}${attachment.key}`
-      ])
-
-      if (attachment.file.type.startsWith('image')) {
-        this.$emit('update:image-attachments', [
-          ...this.imageAttachments,
-          `${BUCKET_FOLDER}${attachment.key}`
-        ])
-      }
-
       return attachment.source
     },
 
-    imagesRemoved(srcs) {
-      // console.log('imagesRemoved', srcs)
+    filesRemoved(srcs) {
+      const attachments = [...this.removedAttachments, ...srcs]
+      // Unique
+      this.removedAttachments = attachments.filter(
+        (el, i, a) => i === a.indexOf(el)
+      )
     },
 
-    imagesAdded(srcs) {
-      // console.log('imagesAdded', srcs)
+    filesAdded(srcs) {
+      srcs.forEach(s => {
+        const idx = this.removedAttachments.indexOf(s)
+        if (idx !== -1) {
+          this.removedAttachments.splice(idx, 1)
+        }
+      })
     },
 
-    onFileRemoved({ type, key }) {
-      // TODO
+    async deleteRemovedAttachments() {
+      console.log('deleteRemovedAttachments')
+      const promises = []
+      while (this.removedAttachments.length > 0) {
+        const url = this.removedAttachments.pop()
+        const key = url.split('/').pop()
+        console.log(key)
+        promises.push(
+          this.$amplifyS3Storage.remove(key, { level: 'protected' })
+        )
+      }
+
+      await Promise.all(promises)
     }
   }
 }
