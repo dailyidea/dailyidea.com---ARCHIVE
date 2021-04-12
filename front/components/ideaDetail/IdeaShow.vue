@@ -18,7 +18,10 @@
           <span class="d-inline-block align-middle muted ml-2 text-sm">{{
             idea.createdDate | toRelativeDate
           }}</span>
-          <span class="d-inline-block align-middle muted ml-2 text-sm">
+          <span
+            v-if="userId === idea.userId"
+            class="d-inline-block align-middle muted ml-2 text-sm"
+          >
             <img src="~assets/images/icons/eye.svg" alt="Eye" />
             {{ (idea.viewsCount || 1) | numberFormat(0) }}
           </span>
