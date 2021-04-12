@@ -370,12 +370,10 @@ export default {
     },
 
     async deleteRemovedAttachments() {
-      console.log('deleteRemovedAttachments')
       const promises = []
       while (this.removedAttachments.length > 0) {
         const url = this.removedAttachments.pop()
         const key = url.split('/').pop()
-        console.log(key)
         promises.push(
           this.$amplifyS3Storage.remove(key, { level: 'protected' })
         )
