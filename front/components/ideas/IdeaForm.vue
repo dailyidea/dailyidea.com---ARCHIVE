@@ -26,6 +26,7 @@
       <div class="idea-editor fill-height" style="height: calc(100% - 70px);">
         <client-only>
           <idea-editor
+            ref="editor"
             v-model="form.content"
             :image-attachments.sync="form.imageAttachments"
             :file-attachments.sync="form.fileAttachments"
@@ -140,6 +141,7 @@ export default {
 
   methods: {
     onSubmit() {
+      this.$refs.editor.deleteRemovedAttachments()
       this.$emit('submit')
     },
 

@@ -163,10 +163,10 @@ const imageUpoadPlugin = node => {
 
     filterTransaction: (transaction, state) => {
       // Avoid endless recursion when simulating the effects of the transaction
-      if (transaction.getMeta('filteringRequiredNodeDeletion') === true) {
+      if (transaction.getMeta('filteringRequiredNodeDeletionImage') === true) {
         return true
       }
-      transaction.setMeta('filteringRequiredNodeDeletion', true)
+      transaction.setMeta('filteringRequiredNodeDeletionImage', true)
       // Simulate the transaction
       const newState = state.apply(transaction)
       // Diff nodes
@@ -174,8 +174,12 @@ const imageUpoadPlugin = node => {
       const newNodes = imageNodes(newState.doc.content)
       const removed = differenceWith(oldNodes, newNodes, isEqual)
       const added = differenceWith(newNodes, oldNodes, isEqual)
-      node.imagesRemoved(removed)
-      node.imagesAdded(added)
+      if (removed.length) {
+        node.imagesRemoved(removed)
+      }
+      if (added.length) {
+        node.imagesAdded(added)
+      }
 
       return true
     }

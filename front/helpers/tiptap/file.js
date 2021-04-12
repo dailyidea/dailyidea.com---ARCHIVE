@@ -1,10 +1,22 @@
 import { Node, Plugin } from 'tiptap'
 import { Decoration, DecorationSet } from 'prosemirror-view'
+import differenceWith from 'lodash/differenceWith'
+import isEqual from 'lodash/isEqual'
 
 function findPlaceholder(state, id) {
   const decos = placeholderPlugin.getState(state)
   const found = decos.find(null, null, spec => spec.id === id)
   return found.length ? found[0].from : null
+}
+
+function fileNodes(node) {
+  const requiredNodes = []
+  node.descendants(child => {
+    if (child.type.name === 'file') {
+      requiredNodes.push(child.attrs.href)
+    }
+  })
+  return requiredNodes
 }
 
 const placeholderPlugin = new Plugin({
@@ -102,7 +114,7 @@ export const uploadFiles = (view, pos, files, uploadFunc) => {
   })
 }
 
-const fileUpoadPlugin = uploadFunc => {
+const fileUpoadPlugin = node => {
   return new Plugin({
     props: {
       decorations(state) {
@@ -138,17 +150,42 @@ const fileUpoadPlugin = uploadFunc => {
             top: event.clientY
           })
 
-          uploadFiles(view, coordinates.pos, files, uploadFunc)
+          uploadFiles(view, coordinates.pos, files, node.uploadFunc)
         }
       }
+    },
+
+    filterTransaction: (transaction, state) => {
+      // Avoid endless recursion when simulating the effects of the transaction
+      if (transaction.getMeta('filteringRequiredNodeDeletionFile') === true) {
+        return true
+      }
+      transaction.setMeta('filteringRequiredNodeDeletionFile', true)
+      // Simulate the transaction
+      const newState = state.apply(transaction)
+      // Diff nodes
+      const oldNodes = fileNodes(state.doc.content)
+      const newNodes = fileNodes(newState.doc.content)
+      const removed = differenceWith(oldNodes, newNodes, isEqual)
+      const added = differenceWith(newNodes, oldNodes, isEqual)
+      if (removed.length) {
+        node.filesRemoved(removed)
+      }
+      if (added.length) {
+        node.filesAdded(added)
+      }
+
+      return true
     }
   })
 }
 
 export default class Image extends Node {
-  constructor(uploadFunc = null) {
+  constructor(uploadFunc, filesRemoved, filesAdded) {
     super(null, null)
     this.uploadFunc = uploadFunc
+    this.filesRemoved = filesRemoved
+    this.filesAdded = filesAdded
   }
 
   get name() {
@@ -201,6 +238,6 @@ export default class Image extends Node {
   }
 
   get plugins() {
-    return [placeholderPlugin, fileUpoadPlugin(this.uploadFunc)]
+    return [placeholderPlugin, fileUpoadPlugin(this)]
   }
 }
