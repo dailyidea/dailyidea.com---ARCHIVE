@@ -16,12 +16,13 @@
           Comments
         </div>
 
-        <idea-comments-comment
+        <idea-comment
           v-for="comment in commentList"
           :key="comment.commentId"
           :comment="comment"
           @onDeleteComment="onDeleteComment"
-        ></idea-comments-comment>
+          @comment-updated="onUpdateComment"
+        ></idea-comment>
       </div>
       <div v-else class="text-center muted">
         <p>No comments yet.</p>
@@ -79,7 +80,7 @@
 import nanoid from 'nanoid'
 import { graphqlOperation } from '@aws-amplify/api'
 import { mapMutations, mapGetters } from 'vuex'
-import IdeaCommentsComment from './IdeaCommentsComment'
+import IdeaComment from './IdeaComment'
 import deleteIdeaTemporaryComment from '@/graphql/mutations/deleteIdeaTemporaryComment'
 import checkEmailBelongsToExistingUser from '@/graphql/query/checkEmailBelongsToExistingUser'
 import addIdeaTemporaryComment from '@/graphql/mutations/addIdeaTemporaryComment'
@@ -95,7 +96,7 @@ const COMMENTS_COUNT = 25
 export default {
   components: {
     AuthFlow,
-    IdeaCommentsComment
+    IdeaComment
   },
 
   props: {
@@ -238,6 +239,16 @@ export default {
       }
       this.deletingComment = false
       this.hideProgressBar()
+    },
+
+    onUpdateComment(comment) {
+      const idx = this.commentList.findIndex(
+        c => c.commentId === comment.commentId
+      )
+      if (idx !== -1) {
+        this.commentList[idx] = comment
+        this.$forceUpdate()
+      }
     },
 
     async deleteIdeaTemporaryComment(commentId) {

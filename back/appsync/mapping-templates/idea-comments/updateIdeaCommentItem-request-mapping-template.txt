@@ -1,0 +1,20 @@
+{
+    "version": "2017-02-28",
+    "operation": "UpdateItem",
+    "key": {
+        "ideaId": {"S": "${ctx.arguments.ideaId}"},
+        "commentId": {"S": "${ctx.arguments.commentId}"}
+    },
+    "update" : {
+        "expression" : "SET body = :body",
+        "expressionValues": {
+           ":body" : $util.dynamodb.toStringJson($ctx.args.body)
+        }
+    },
+    "condition": {
+        "expression": "userId = :userId OR ideaOwnerId = :userId",
+        "expressionValues": {
+            ":userId": {"S": "${ctx.identity.username}"}
+        }
+    }
+}
