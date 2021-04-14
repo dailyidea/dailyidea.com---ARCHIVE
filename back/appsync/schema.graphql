@@ -37,6 +37,12 @@ type Mutation {
         userSlug: String!
     ): AddCommentResult!
 
+    updateComment(
+        ideaId: String!,
+        commentId: String!
+        body: String!,
+    ): UpdateCommentResult!
+
     addIdeaTemporaryComment(
         body: String!,
         ideaName: String!,
@@ -228,6 +234,11 @@ type AddCommentResult @aws_api_key @aws_cognito_user_pools{
     comment: Comment
 }
 
+type UpdateCommentResult @aws_api_key @aws_cognito_user_pools{
+    result: Result!
+    comment: Comment
+}
+
 type GetTemporaryCommentResult @aws_api_key @aws_cognito_user_pools{
     result: Result!
     comment: Comment
@@ -329,6 +340,7 @@ type MyInfo{
 type Comment @aws_api_key @aws_cognito_user_pools{
     body: String!
     userId: String!
+    ideaId: String!
     commentId: String!
     createdDate: String!
     userName: String
