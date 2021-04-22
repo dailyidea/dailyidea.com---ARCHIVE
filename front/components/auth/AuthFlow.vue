@@ -33,6 +33,7 @@
       :message="welcomeMessage"
       :show-close-button="showCloseButton"
       :persistent="persistent"
+      :show-back-button="showWeclomeBackButton"
       @resend="onResend"
     />
 
@@ -78,7 +79,8 @@ export default {
     next: { type: String, default: '' },
     showCloseButton: { type: Boolean, default: true },
     persistent: { type: Boolean, default: false },
-    buttonCancelText: { type: String, default: 'Cancel' }
+    buttonCancelText: { type: String, default: 'Cancel' },
+    showWeclomeBackButton: { type: Boolean, default: false }
   },
 
   data() {
