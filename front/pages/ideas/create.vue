@@ -5,6 +5,7 @@
       action="post"
       next="/ideas/create"
       :show-close-button="false"
+      show-weclome-back-button
       persistent
       button-cancel-text="Go Back"
       @cancel="$router.go(-1)"
