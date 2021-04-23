@@ -42,6 +42,9 @@ export default {
     },
 
     initSlider() {
+      if (!this.$refs.container) {
+        return
+      }
       const that = this
       const slider = this.$refs.container.querySelector('.slider')
       const links = this.$refs.container.querySelectorAll('.link')

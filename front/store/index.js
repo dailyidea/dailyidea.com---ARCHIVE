@@ -14,12 +14,17 @@ export const actions = {
 export const state = () => ({
   routerLoading: false,
   routerLoadingEnabled: true,
-  loadingMessage: null
+  loadingMessage: null,
+  loadingImage: null
 })
 
 export const mutations = {
   SET_LOADING_MESSAGE(state, message) {
     state.loadingMessage = message
+  },
+
+  SET_LOADING_IMAGE(state, image) {
+    state.loadingImage = image
   },
 
   SET_ROUTER_LOADING(state, enabled) {

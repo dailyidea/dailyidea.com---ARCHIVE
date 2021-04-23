@@ -1,102 +1,101 @@
 <template>
-  <v-row class="fill-height">
-    <v-col cols="12" :md="preview ? '' : 8" class="idea-part">
-      <div class="d-flex flex-column fill-height">
-        <div>
-          <h2 class="card-title">
-            {{ idea.title }}
-          </h2>
-          <div class="pt-2 pb-2">
-            <span class="d-inline-block align-middle">
-              <router-link
-                class="author-link d-flex align-center"
-                :to="`/profile/${idea.authorSlug}`"
-              >
-                <img class="author-avatar" :src="idea.authorAvatar" />
-                <span class="ml-2">{{ idea.authorName }}</span>
-              </router-link>
-            </span>
-            <span class="d-inline-block align-middle muted ml-2">{{
-              idea.createdDate | toRelativeDate
-            }}</span>
-            <span
-              v-if="idea.visibility === 'PRIVATE'"
-              class="d-inline-block ml-2 private-label"
+  <div class="idea-container fill-height fill-width">
+    <div class="d-flex flex-column fill-height">
+      <div>
+        <h2 class="card-title">
+          {{ idea.title }}
+        </h2>
+        <div class="pt-2 pb-2">
+          <span class="d-inline-block align-middle">
+            <router-link
+              class="author-link d-flex align-center"
+              :to="`/profile/${idea.authorSlug}`"
             >
-              <img
-                src="~assets/images/icons/private.svg"
-                class="align-middle"
-                alt="Private"
-              />
-              private
-            </span>
-          </div>
-          <v-row cols="auto" offset="1">
-            <menu-panel
-              :editable="idea.userId === userId"
-              :preview="preview"
-              :idea="idea"
-              @enable-edit-mode="$emit('edit')"
-              @saved-state-changed="onIdeaSaveStateChanged"
-              @liked-state-changed="onIdeaLikeStateChanged"
-              @on-idea-shared="onIdeaShared"
-              @on-delete-idea="onDeleteIdea"
-              @on-idea-visibility-changed="onIdeaVisibilityChanged"
-              @on-idea-visibility-change-error="onIdeaVisibilityChangeError"
-              @comments-btn-click="commentsBtnClick"
-              @click.native.stop
-            ></menu-panel>
-          </v-row>
+              <img class="author-avatar" :src="idea.authorAvatar" />
+              <span class="ml-2">{{ idea.authorName }}</span>
+            </router-link>
+          </span>
+          <span class="d-inline-block align-middle muted ml-2 text-sm">{{
+            idea.createdDate | toRelativeDate
+          }}</span>
+          <span
+            v-if="userId === idea.userId"
+            class="d-inline-block align-middle muted ml-2 text-sm"
+          >
+            <img src="~assets/images/icons/eye.svg" alt="Eye" />
+            {{ (idea.viewsCount || 1) | numberFormat(0) }}
+          </span>
+          <span
+            v-if="idea.visibility === 'PRIVATE'"
+            class="d-inline-block ml-2 private-label"
+          >
+            <img
+              src="~assets/images/icons/private.svg"
+              class="align-middle"
+              alt="Private"
+            />
+            private
+          </span>
         </div>
-        <div class="mt-4 overflow-hidden d-flex flex-column">
-          <idea-content
-            :collapsed="!expanded"
-            :content="ideaContent"
+        <v-row cols="auto" offset="1">
+          <menu-panel
+            :editable="idea.userId === userId"
             :preview="preview"
-          ></idea-content>
-        </div>
-        <div>
-          <div v-if="!preview" class="tags-panel">
-            <div class="tagsContainer">
-              <v-chip v-for="(item, index) in ideaTags" :key="index" class="tag"
-                >{{ item }}
-              </v-chip>
-            </div>
-          </div>
-
-          <div
-            v-if="preview"
-            class="text-center cursor-pointer flex-1"
-            @click.stop="$emit('view-preview', idea)"
-          >
-            <span class="link-highlight">View Idea</span>
-          </div>
-
-          <div
-            v-if="!expanded && !preview"
-            class="muted view-all-comments-text"
-          >
-            View all {{ idea.commentsCount || 0 }} comments
-          </div>
-        </div>
+            :idea="idea"
+            @saved-state-changed="onIdeaSaveStateChanged"
+            @liked-state-changed="onIdeaLikeStateChanged"
+            @on-idea-shared="onIdeaShared"
+            @on-delete-idea="onDeleteIdea"
+            @on-idea-visibility-changed="onIdeaVisibilityChanged"
+            @on-idea-visibility-change-error="onIdeaVisibilityChangeError"
+            @comments-btn-click="$emit('comments-click')"
+            @click.native.stop
+          ></menu-panel>
+        </v-row>
       </div>
-    </v-col>
-    <v-col v-if="!preview && expanded" cols="12" md="4" class="fill-height">
-      <idea-comments
-        ref="ideaComments"
-        :idea="idea"
-        @click.native.stop
-      ></idea-comments>
-    </v-col>
+      <div class="mt-4 overflow-hidden d-flex flex-column flex-grow-1">
+        <idea-content
+          :collapsed="!expanded"
+          :content="ideaContent"
+          :preview="preview"
+          @click.native="$emit('expand')"
+        ></idea-content>
+      </div>
+      <div>
+        <div v-if="!preview && ideaTags.length" class="tags-panel">
+          <div class="tagsContainer">
+            <v-chip v-for="(item, index) in ideaTags" :key="index" class="tag"
+              >{{ item }}
+            </v-chip>
+          </div>
+        </div>
 
-    <auth-flow v-model="showAuth" action="share" />
-  </v-row>
+        <a
+          v-if="!expanded"
+          role="button"
+          class="cursor-pointer d-inline-block flex-1"
+          @click.stop="$emit('expand')"
+        >
+          <span class="link-highlight">Read All</span>
+        </a>
+
+        <a
+          v-if="expanded && !preview"
+          role="button"
+          class="d-inline-block muted view-all-comments-text"
+          @click="$emit('comments-click')"
+        >
+          View all {{ idea.commentsCount || '' }} comments
+        </a>
+      </div>
+    </div>
+    <auth-flow v-model="showAuth" action="share" @cancel="showAuth = false" />
+  </div>
 </template>
 
 <script>
 import { graphqlOperation } from '@aws-amplify/api'
 import { mapGetters } from 'vuex'
-import IdeaComments from '@/components/ideaDetail/IdeaComments'
 import MenuPanel from '@/components/ideaDetail/MenuPanel'
 import deleteIdea from '@/graphql/mutations/deleteIdea'
 import IdeaContent from '@/components/ideaDetail/IdeaContent'
@@ -105,7 +104,6 @@ import AuthFlow from '@/components/auth/AuthFlow'
 export default {
   components: {
     AuthFlow,
-    IdeaComments,
     MenuPanel,
     IdeaContent
   },
@@ -113,11 +111,13 @@ export default {
   props: {
     idea: { type: Object, required: true },
     ideaTags: { type: Array, default: () => [] },
-    preview: { type: Boolean, default: false },
-    expanded: { type: Boolean, default: false }
+    preview: Boolean,
+    expanded: Boolean
   },
 
-  data: () => ({ showAuth: false }),
+  data: () => ({
+    showAuth: false
+  }),
 
   computed: {
     ...mapGetters({ userId: 'userData/userId' }),
@@ -180,11 +180,13 @@ export default {
 
     async onDeleteIdea() {
       const confirmed = await this.$dialog.show({
-        header: 'Delete Idea',
-        message: 'Are you sure you want to delete this Idea?',
-        imagePath: require('~/assets/images/dialogs/undraw_throw_away_ldjd.svg'),
+        header: 'Delete Idea?',
+        subheader:
+          'Are you sure you want to delete this idea, this action cannot be undone.',
+        imagePath: require('~/assets/images/dialogs/dialog_delete.svg'),
         buttonOkText: 'Delete',
-        showCancelButton: true
+        showCancelButton: true,
+        maxImageWidth: 260
       })
       if (!confirmed) {
         return
@@ -212,15 +214,6 @@ export default {
         message: `Your Idea is ${isPrivate ? 'private' : 'public'} now!`,
         iconName: isPrivate ? 'private' : 'public'
       })
-    },
-
-    commentsBtnClick() {
-      this.$emit('expand')
-      this.$emit('comments-btn-clicked')
-      setTimeout(() => {
-        this.$refs.ideaComments &&
-          this.$refs.ideaComments.$refs.commentInput.focus()
-      }, 100)
     }
   }
 }
@@ -261,8 +254,9 @@ export default {
   }
 }
 
-.idea-part {
+.idea-container {
   position: relative;
+  max-width: 635px;
   height: 100%;
 
   @media (min-width: $screen-md-min) {

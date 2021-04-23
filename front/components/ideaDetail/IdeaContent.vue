@@ -15,14 +15,6 @@
       }"
       v-html="content"
     ></div>
-    <div
-      v-if="!atScrollEnd"
-      class="hidden-sm-and-down cursor-pointer"
-      style="user-select: none;"
-      @click="$refs.scrollContainer.scrollTop += 20"
-    >
-      Read more...
-    </div>
   </div>
 </template>
 
@@ -110,15 +102,32 @@ export default {
   .trix-button {
     display: none;
   }
-  img {
-    height: auto !important;
-    width: auto !important;
-  }
   @media (min-width: $screen-md-min) {
     img {
       max-height: 500px;
       max-width: 80%;
     }
+  }
+
+  span.file,
+  span.image {
+    display: inline-block;
+    vertical-align: middle;
+
+    img {
+      display: block;
+      min-width: 10px;
+      max-width: 100%;
+    }
+  }
+
+  span.file {
+    padding: 0 5px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+  }
+  span.image {
+    line-height: 0;
   }
 }
 

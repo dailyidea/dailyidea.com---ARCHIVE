@@ -1,12 +1,17 @@
 <template>
-  <swipable-card class="" @click.native="$emit('expand')">
+  <swipable-card
+    :expanded="expanded"
+    @collapse="$emit('collapse')"
+    @expanded-transition-end="$emit('expanded-transition-end')"
+  >
     <full-idea
       :idea="idea"
       :preview="preview"
-      :expanded="$vuetify.breakpoint.lgAndUp"
+      :expanded="expanded"
       @expand="$emit('expand')"
       @updated="i => $emit('updated', i)"
       @deleted="id => $emit('deleted', id)"
+      @comments-click="$emit('comments-click')"
     />
   </swipable-card>
 </template>
@@ -23,6 +28,7 @@ export default {
 
   props: {
     preview: Boolean,
+    expanded: Boolean,
     idea: { type: Object, required: true }
   }
 }

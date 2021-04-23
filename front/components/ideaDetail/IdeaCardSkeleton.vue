@@ -17,3 +17,12 @@ export default {
   components: { SwipableCard }
 }
 </script>
+
+<style scoped lang="scss">
+.skeleton-card {
+  @media (max-width: $screen-sm-max) {
+    width: calc(100% - 20px) !important;
+    margin: 0 10px;
+  }
+}
+</style>

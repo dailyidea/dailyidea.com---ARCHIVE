@@ -55,9 +55,11 @@ def sanitize_idea_content(content):
                                        'data-trix-id', 'data-trix-attributes', 'data-trix-mutable'],
                             'figcaption': ['class', ],
                             'textarea': ['class', 'placeholder', 'data-trix-mutable', 'tabindex', ],
-                            'img': ['src', 'width', 'height', 'data-trix-store-key', 'data-trix-mutable'],
-                            'button': ['type', 'class', 'title', 'data-trix-action', ]
-                        }, strip_comments=False)
+                            'img': ['src', 'width', 'height', 'data-trix-store-key', 'data-trix-mutable', 'style'],
+                            'button': ['type', 'class', 'title', 'data-trix-action', ],
+                        },
+                        styles=['width'],
+                        strip_comments=False)
 
 
 def prepare_idea_tags_for_put_request(tags: list, idea_owner_id, idea_id):

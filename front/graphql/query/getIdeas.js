@@ -8,6 +8,7 @@ query ideas($order: IdeaSortingOrder, $nextToken: String, $limit: Int) {
       shortId
       slug
       authorName
+      authorSlug
       strippedContent
       content
       title

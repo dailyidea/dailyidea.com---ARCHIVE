@@ -156,6 +156,13 @@ export const mutations = {
       return
     }
     state.ideasQueues[state.currCategory].ideas.splice(idx, 1)
+  },
+
+  CLEAN_IDEAS(state) {
+    state.ideasQueues = {
+      top: merge({}, queueData),
+      new: merge({}, queueData)
+    }
   }
 }
 

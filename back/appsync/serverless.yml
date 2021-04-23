@@ -240,6 +240,7 @@ custom:
           - userInfo
           - isFollowingByMe
           - followsMe
+
       - dataSource: Users
         type: Query
         field: userInfoBySlug
@@ -257,6 +258,7 @@ custom:
         field: updateEmailNotificationsSettings
         request: "updateEmailNotificationsSettings-request-mapping-template.txt"
         response: "updateEmailNotificationsSettings-response-mapping-template.txt"
+
       - dataSource: IdeaComments
         type: Mutation
         field: deleteComment
@@ -266,6 +268,13 @@ custom:
         functions:
           - deleteIdeaCommentItem
           - decreaseIdeaCommentsCount
+
+      - dataSource: IdeaComments
+        type: Mutation
+        field: updateComment
+        request: "idea-comments/updateIdeaCommentItem-request-mapping-template.txt"
+        response: "idea-comments/updateIdeaCommentItem-response-mapping-template.txt"
+
       - dataSource: IdeaComments
         type: Mutation
         field: addComment
@@ -275,16 +284,19 @@ custom:
         functions:
           - createIdeaCommentItem
           - increaseIdeaCommentsCount
+
       - dataSource: IdeaCommentsTemporary
         type: Mutation
         field: addIdeaTemporaryComment
         request: "idea-comments/addIdeaTemporaryComment-request-mapping-template.txt"
         response: "idea-comments/addIdeaTemporaryComment-response-mapping-template.txt"
+
       - dataSource: IdeaCommentsTemporary
         type: Query
         field: getIdeaTemporaryComment
         request: "idea-comments/getIdeaTemporaryComment-request-mapping-template.txt"
         response: "idea-comments/getIdeaTemporaryComment-response-mapping-template.txt"
+
       - dataSource: IdeaCommentsTemporary
         type: Mutation
         field: deleteIdeaTemporaryComment

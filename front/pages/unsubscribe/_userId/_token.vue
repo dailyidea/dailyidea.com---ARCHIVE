@@ -18,7 +18,10 @@
       </ul>
       <p>
         If you'd like to reinclude any of these or update your
-        <router-link to="/settings">email preferences</router-link>.
+        <router-link
+          :to="userSlug ? `/profile/${userSlug}/settings` : '/auth/login'"
+          >email preferences</router-link
+        >.
       </p>
     </div>
     <div v-else class="text-center">
@@ -31,6 +34,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import AuthPage from '@/components/authPage/AuthPage'
 import unsubscribe from '@/graphql/mutations/unsubscribe'
 
@@ -50,7 +54,11 @@ export default {
     })
   },
 
-  data: () => ({})
+  computed: {
+    ...mapGetters({
+      userSlug: 'userData/slug'
+    })
+  }
 }
 </script>
 

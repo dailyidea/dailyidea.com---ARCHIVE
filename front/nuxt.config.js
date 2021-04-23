@@ -75,7 +75,7 @@ module.exports = {
     '@/plugins/notifications',
     '@/plugins/dayjs',
     '@/plugins/vee-validate',
-    '@/plugins/toRelativeDate',
+    '@/plugins/filters',
     '@/plugins/mixins',
     '@/plugins/app-dialog',
     '@/plugins/app-notifier',

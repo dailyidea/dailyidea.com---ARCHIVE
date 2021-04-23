@@ -4,6 +4,8 @@
       :value="value"
       :button-ok-disabled="!valid || !validated"
       :button-cancel-text="buttonCancelText"
+      :show-close-button="showCloseButton"
+      :persistent="persistent"
       button-ok-text="Submit"
       :header="header"
       :subheader="message"
@@ -42,7 +44,9 @@ export default {
     loading: Boolean,
     header: { type: String, default: 'Almost there' },
     message: { type: String, default: 'Your Name?' },
-    buttonCancelText: { type: String, default: '' }
+    buttonCancelText: { type: String, default: '' },
+    showCloseButton: { type: Boolean, default: true },
+    persistent: { type: Boolean, default: false }
   },
 
   data: () => ({ name: '' }),

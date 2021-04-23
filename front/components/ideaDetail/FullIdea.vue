@@ -1,26 +1,17 @@
 <template>
-  <div class="fill-width fill-height">
-    <idea-edit
-      v-if="editMode"
-      :idea="idea"
-      :idea-tags="ideaTags"
-      class="fill-height overflow-y-auto"
-      @updated="onUpdate"
-      @cancel="editMode = false"
-    />
+  <div class="fill-width fill-height d-flex justify-center">
     <idea-show
-      v-else
       :idea="idea"
-      :expanded="expanded"
       :preview="preview"
       :idea-tags="ideaTags"
-      @edit="editMode = true"
+      :expanded="expanded"
       @close="$emit('close')"
       @view-preview="$emit('view-preview')"
       @updated="onUpdate"
       @deleted="id => $emit('deleted', id)"
       @unsaved="$emit('unsaved')"
       @expand="$emit('expand')"
+      @comments-click="$emit('comments-click')"
     />
   </div>
 </template>
@@ -28,25 +19,22 @@
 <script>
 import merge from 'lodash/merge'
 import IdeaShow from '@/components/ideaDetail/IdeaShow'
-import IdeaEdit from '@/components/ideaDetail/IdeaEdit'
 import getIdeaTags from '@/graphql/query/getIdeaTags'
 
 export default {
   components: {
-    IdeaEdit,
     IdeaShow
   },
 
   props: {
     preview: Boolean,
-    idea: { type: Object, required: true },
-    expanded: { type: Boolean, default: false }
+    expanded: Boolean,
+    idea: { type: Object, required: true }
   },
 
   data() {
     return {
-      ideaTags: [],
-      editMode: false
+      ideaTags: []
     }
   },
 
@@ -83,7 +71,6 @@ export default {
 
     onUpdate(idea) {
       this.$emit('updated', merge({}, this.idea, idea))
-      this.editMode = false
     }
   }
 }
