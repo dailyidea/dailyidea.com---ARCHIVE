@@ -1,6 +1,8 @@
 <template>
   <swipable-card
     :expanded="expanded"
+    :prevent-mobile-scroll="!expanded"
+    class="d-flex flex-column"
     @collapse="$emit('collapse')"
     @expanded-transition-end="$emit('expanded-transition-end')"
   >
