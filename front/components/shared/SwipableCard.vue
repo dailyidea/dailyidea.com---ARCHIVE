@@ -34,7 +34,7 @@ export default {
     width: { type: String, default: '669px' },
     marginTop: { type: Number, default: 0 },
     paddingBottom: { type: Number, default: 0 },
-    preventMobileScroll: { type: Boolean, default: true },
+    preventMobileScroll: { type: Boolean, default: false },
     autoHeight: { type: Boolean, default: true },
     expanded: Boolean
   },
@@ -55,6 +55,9 @@ export default {
       }
       if (!this.$refs.card) {
         return styles
+      }
+      if (this.expanded) {
+        styles.height = document.documentElement.clientHeight + 'px'
       }
       if (this.expanded || this.expandOut) {
         Object.assign(styles, {
@@ -162,7 +165,7 @@ export default {
     z-index: 20;
     inset: -61px 0 0 0 !important;
     width: auto !important;
-    height: 100vh !important;
+    // height: 100vh !important;
     margin: 0;
 
     @media (min-width: $screen-md-min) {
