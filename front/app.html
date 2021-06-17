@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html {{ HTML_ATTRS }}>
+<head {{ HEAD_ATTRS }}>
+  <!-- Scripts -->
+  <script src="/cookieconsent.min.js"></script>
+  <script>
+  window.CookieConsent.init({
+    language: {
+      current: 'en',
+    },
+    categories: {
+      necessary: {
+        needed: true,
+        wanted: true,
+        checked: true,
+        language: {
+          locale: {
+            en: {
+              name: 'Strictly Necessary Cookies',
+              description: '',
+            },
+          },
+        },
+      },
+      various: {
+        needed: false,
+        wanted: false,
+        checked: false,
+        language: {
+          locale: {
+            en: {
+              name: 'Various Cookies',
+              description: '',
+            },
+          },
+        },
+      },
+    },
+    services: {
+      auth: {
+        category: 'necessary',
+        type: 'localcookie',
+        cookies: [
+          {
+            name: /^Cognito/,
+            domain: `www.${window.location.hostname}`,
+          },
+          {
+            name: /^amplify/,
+            domain: `www.${window.location.hostname}`,
+          },
+        ],
+        language: {
+          locale: {
+            en: {
+              name: 'User Login',
+            },
+          },
+        },
+      },
+      analytics: {
+        category: 'necessary',
+        type: 'dynamic-script',
+        search: 'analytics',
+        cookies: [
+          {
+            name: '_gid',
+            domain: `.${window.location.hostname}`,
+          },
+          {
+            name: /^_ga/,
+            domain: `.${window.location.hostname}`,
+          },
+        ],
+        language: {
+          locale: {
+            en: {
+              name: 'Google Analytics',
+            },
+          },
+        },
+      },
+      hotjar: {
+        category: 'various',
+        type: 'dynamic-script',
+        search: 'hotjar',
+        cookies: [
+          {
+            name: /^_hj/,
+            domain: `.${window.location.hostname}`,
+          },
+          {
+            name: /^_hj/,
+            domain: `www.${window.location.hostname}`,
+          },
+        ],
+        language: {
+          locale: {
+            en: {
+              name: 'Hotjar Analytics',
+            },
+          },
+        },
+      },
+      reddit: {
+        category: 'various',
+        type: 'dynamic-script',
+        search: 'reddit',
+        cookies: [
+          {
+            name: /^_rdt/,
+            domain: `.${window.location.hostname}`,
+          },
+        ],
+        language: {
+          locale: {
+            en: {
+              name: 'Reddit',
+            },
+          },
+        },
+      },
+    },
+  })
+  </script>
+
+  {{ HEAD }}
+</head>
+<body {{ BODY_ATTRS }}>
+{{ APP }}
+</body>
+</html>
