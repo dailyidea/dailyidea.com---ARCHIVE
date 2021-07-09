@@ -1,5 +1,5 @@
 <template>
-  <div class="fill-width fill-height d-flex justify-center">
+  <div class="fill-width fill-height d-flex justify-center overflow-hidden">
     <idea-show
       :idea="idea"
       :preview="preview"

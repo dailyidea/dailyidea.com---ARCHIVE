@@ -1,0 +1,5 @@
+static/cookieconsent.min.js
+node_modules
+.nuxt
+.serverless
+.vscode

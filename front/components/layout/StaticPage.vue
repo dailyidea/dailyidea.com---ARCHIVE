@@ -1,21 +1,43 @@
 <template>
   <layout>
-    <div class="min-vh100-fh">
+    <a
+      role="button"
+      class="d-inline-flex align-center mt-4 pl-4"
+      @click="back()"
+    >
+      <svg
+        width="8"
+        height="14"
+        viewBox="0 0 8 14"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="mr-1 mb-1"
+      >
+        <path d="M7 1L1 7L7 13" stroke="#4C4763" />
+      </svg>
+      <span>Back</span>
+    </a>
+    <div
+      class="static-page-content min-vh100-fh pa-4 m-auto"
+      style="max-width: 640px;"
+    >
       <slot />
     </div>
-
-    <main-footer />
   </layout>
 </template>
 
 <script>
 import Layout from '@/components/layout/Layout'
-import MainFooter from '@/components/layout/MainFooter'
 
 export default {
   components: {
-    Layout,
-    MainFooter
+    Layout
+  },
+
+  methods: {
+    back() {
+      window.history.back()
+    }
   }
 }
 </script>

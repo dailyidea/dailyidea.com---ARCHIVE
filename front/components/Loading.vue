@@ -97,6 +97,7 @@ export default {
 .quote {
   max-width: 640px;
   margin-top: 2rem;
+  padding: 0 1rem;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   color: rgba(76, 71, 99, 0.6);
 }
