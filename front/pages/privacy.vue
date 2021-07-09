@@ -1,6 +1,6 @@
 <template>
   <static-page>
-    <h1 class="page-title">Privacy Policy</h1>
+    <h1>Privacy Policy</h1>
 
     <p>
       At Daily Idea, accessible from

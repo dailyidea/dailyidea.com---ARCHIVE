@@ -1,6 +1,6 @@
 <template>
   <static-page>
-    <h1 class="page-title">Terms and Conditions of Use</h1>
+    <h1>Terms and Conditions of Use</h1>
 
     <h2>1. Terms</h2>
     <p>
