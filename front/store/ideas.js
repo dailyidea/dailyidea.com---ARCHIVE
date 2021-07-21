@@ -29,13 +29,15 @@ export const state = () => ({
 })
 
 export const actions = {
-  async getIdea({ commit, getters }, { app, shortId }) {
+  async getIdea({ commit, getters, rootGetters }, { app, shortId }) {
     try {
       commit('GET_IDEA')
       const { data } = await app.$amplifyApi.graphql({
         query: getIdea,
         variables: { shortId },
-        authMode: getters['userData/isAuthenticated'] ? undefined : 'API_KEY'
+        authMode: rootGetters['userData/isAuthenticated']
+          ? undefined
+          : 'API_KEY'
       })
       commit('GET_IDEA_OK', data.getIdea)
     } catch (e) {
