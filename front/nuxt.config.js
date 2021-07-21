@@ -38,6 +38,11 @@ module.exports = {
         hid: 'og:image',
         property: 'og:image',
         content: `https://${process.env.S3_STATIC_DOMAIN}.s3.amazonaws.com/og-default-image.png`
+      },
+      {
+        hid: 'facebook-domain-verification',
+        name: 'facebook-domain-verification',
+        content: '8081vtbrutquxkbvp533v5wq1wumar'
       }
     ],
     link: [
