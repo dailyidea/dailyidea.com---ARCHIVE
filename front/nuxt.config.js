@@ -90,7 +90,12 @@ module.exports = {
   /*
    ** Nuxt.js modules
    */
-  modules: ['@nuxtjs/vuetify', 'nuxt-universal-storage', '@nuxtjs/sentry', '@nuxtjs/gtm'],
+  modules: [
+    '@nuxtjs/vuetify',
+    'nuxt-universal-storage',
+    '@nuxtjs/sentry',
+    '@nuxtjs/gtm'
+  ],
 
   gtm: {
     id: process.env.GTM_ID
