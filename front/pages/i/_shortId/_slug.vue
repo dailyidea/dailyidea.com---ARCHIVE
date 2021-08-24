@@ -143,6 +143,7 @@ export default {
     idea(val) {
       if (val && window.history.state.prev !== this.ideaUrl()) {
         window.history.pushState({ prev: this.ideaUrl() }, '', this.ideaUrl())
+        this.$gtm.push({ event: 'pageview' })
       }
     },
 
