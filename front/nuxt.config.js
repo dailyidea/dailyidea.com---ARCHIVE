@@ -98,7 +98,9 @@ module.exports = {
   ],
 
   gtm: {
-    id: process.env.GTM_ID
+    id: process.env.GTM_ID,
+    pageTracking: true,
+    pageViewEventName: 'pageview'
   },
 
   vuetify: {
