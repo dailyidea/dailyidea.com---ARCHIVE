@@ -1,3 +1,5 @@
+@import "~vuetify/src/styles/settings/variables";
+
 $primary-color: #5B41BB;
 $secondary-color: #ffc61e;
 $secondary-gradient: linear-gradient(to left, #ffb92d, #ffdf01);
@@ -20,12 +22,13 @@ $hover-purple: rgba(91, 65, 187, 1);
 $default-purple: rgba(91, 65, 187, 1);
 $off-purple: #efecf8;
 
-$screen-xs-max: 599px;
-$screen-sm-min: 600px;
-$screen-sm-max: 960px;
-$screen-md-min: 961px;
-$screen-md-max: 1264px;
-$screen-lg-min: 1265px;
+$screen-xs-max: map-get($grid-breakpoints, 'sm') - 1px;
+$screen-sm-min: map-get($grid-breakpoints, 'sm');
+$screen-sm-max: map-get($grid-breakpoints, 'md') - 1px;
+$screen-md-min: map-get($grid-breakpoints, 'md');
+$screen-md-max: map-get($grid-breakpoints, 'lg') - 1px;
+$screen-lg-min: map-get($grid-breakpoints, 'lg');
+
 $screen-small-height: 640px;
 
 $card-shadow: 0px 4px 20px rgba(0, 0, 0, .1);
